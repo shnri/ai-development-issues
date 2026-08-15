@@ -25,6 +25,7 @@ RECORD_DIRS = [
     'catalog/events',
     'remedies',
     'work-items',
+    'decisions',
     'implementations',
     'evaluations',
     'promotions',
