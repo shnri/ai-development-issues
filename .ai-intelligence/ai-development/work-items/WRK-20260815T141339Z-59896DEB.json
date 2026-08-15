@@ -111,7 +111,7 @@
         "fit": "採用済み: 出所固定"
       }
     ],
-    "decision": null,
+    "decision": "no new mechanism; apply the recorded guidance: 外部Skill/Plugin/MCPは導入前に静的監査と内容審査を行い、出所をsubmodule確定SHA・publisher allowlistで固定し、更新（SHA bump）のたびに再監査する。静的監査のSAFEは安全保証ではなく、実行時はsandboxとtool call監視で残余riskを受ける。",
     "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
   }
 }

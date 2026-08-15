@@ -119,7 +119,7 @@
     "decision_required": 4,
     "blocked_items": 0,
     "rejected": 0,
-    "notes": "Remediation bootstrap over the full eligible remedy backlog (action caps overridden to 100 by explicit user request): 44 implementation-track + 4 decision-track work items created; 36 guidance/config/solution-adoption items completed with concrete generic guidance and consumer propagation events (techlog); 4 shared-asset items superseded by the pending agent-instruction-maintenance 0.1.1 release; 4 shared-asset items completed as already covered by existing assets after baseline probes (D03 prior evidence; F18, H01-002, D14 with 2/2 baseline trials each under evaluations/fixtures/); 4 new decision packages filled with options/proposed action/eval plan/owner; inventory/discovery/research not due. Plugin follow-ups observed in this run: maintenance_plan.py/complete_maintenance_run.py write absolute run_record/run_dir paths (rewritten to repo-relative for the public boundary); shared-agent-plugins v0.9.0 tracks a broken node_modules symlink (fix branch pushed).",
+    "notes": "Remediation bootstrap over the full eligible remedy backlog (action caps overridden to 100 by explicit user request): 44 implementation-track + 4 decision-track work items created; 36 guidance/config/solution-adoption items completed with concrete generic guidance and consumer propagation events (techlog); 4 shared-asset items superseded by the pending agent-instruction-maintenance 0.1.1 release; 4 shared-asset items completed as already covered by existing assets after baseline probes (D03 prior evidence; F18, H01-002, D14 with 2/2 baseline trials each under evaluations/fixtures/); 4 new decision packages filled with options/proposed action/eval plan/owner; inventory/discovery/research not due. Plugin follow-ups observed in this run: maintenance_plan.py/complete_maintenance_run.py write absolute run_record/run_dir paths (rewritten to repo-relative for the public boundary); shared-agent-plugins v0.9.0 tracks a broken node_modules symlink (fix branch pushed). 2026-08-15 reassessment with controller 0.6.0 (branch ed98728): decision packages 7 resolved-by-controller / 1 open; controller follow-ups WRK-20260815T124426Z-* implemented (candidate-ready, release pending owner merge).",
     "catalog_summary": {
       "catalog_id": "ai-development-problems",
       "revision": 51,
@@ -167,7 +167,7 @@
       "schema_version": "1.0",
       "kind": "remediation-status-ledger",
       "run_id": "MNT-20260815T141330Z",
-      "updated_at": "2026-08-15T17:30:00Z",
+      "updated_at": "2026-08-15T18:50:00Z",
       "vocabulary": {
         "authority_state": [
           "guidance-recorded",
@@ -186,21 +186,21 @@
           "unresolved"
         ]
       },
-      "note": "authority_state = what the authority produced (guidance, coverage evidence, release, decision package); consumers.<id> = what actually happened in that consumer. A completed work item is not an adoption.",
+      "note": "authority_state = what the authority produced (guidance, coverage evidence, release, decision package); consumers.<id> = what actually happened in that consumer. A completed work item is not an adoption. 2026-08-15 reassessment: 8 open decision packages re-run through the 0.6.0 decision ladder — 7 policy-decidable (resolved by controller, guidance recorded, TechLog adopted 5 / covered 2), 1 owner-preference (I14). Consumer-side decisions still open: K13 cleanupPeriodDays (retention window), K06 Codex project effort overriding the owner setting, and the I04 branch-ruleset part (policy conflict with routine direct push).",
       "summary": {
         "authority": {
-          "decision-required": 8,
-          "guidance-recorded": 43,
-          "covered-by-existing-asset": 8,
+          "guidance-recorded": 50,
           "released": 2,
-          "superseded-by-release": 4
+          "superseded-by-release": 4,
+          "covered-by-existing-asset": 8,
+          "decision-required": 1
         },
         "techlog": {
-          "adopted": 35,
-          "covered": 15,
+          "adopted": 40,
+          "covered": 17,
           "not-applicable": 3,
           "unresolved": 2,
-          "decision-required": 10
+          "decision-required": 3
         },
         "remedies": 65
       },
@@ -770,12 +770,14 @@
             "G17"
           ],
           "work_item_id": "WRK-20260815T120045Z-67E88A80",
-          "authority_state": "decision-required",
+          "authority_state": "guidance-recorded",
           "decision_package_id": "DEC-20260815T120045Z-2476DE58",
           "release_id": null,
           "consumers": {
-            "techlog": "decision-required"
-          }
+            "techlog": "adopted"
+          },
+          "decision_ladder": "policy-decidable (reassessed 2026-08-15 by controller 0.6.0)",
+          "adoption_id": "ADP-20260815-032"
         },
         {
           "remedy_id": "RMD-G22-001",
@@ -849,12 +851,14 @@
             "H08"
           ],
           "work_item_id": "WRK-20260815T141339Z-0F0F8729",
-          "authority_state": "decision-required",
+          "authority_state": "guidance-recorded",
           "decision_package_id": "DEC-20260815T141339Z-9AB3FEF1",
           "release_id": null,
           "consumers": {
-            "techlog": "decision-required"
-          }
+            "techlog": "adopted"
+          },
+          "decision_ladder": "policy-decidable (reassessed 2026-08-15 by controller 0.6.0)",
+          "adoption_id": "ADP-20260815-036"
         },
         {
           "remedy_id": "RMD-H12-001",
@@ -908,12 +912,13 @@
             "I11"
           ],
           "work_item_id": "WRK-20260815T120045Z-8D71C7EA",
-          "authority_state": "decision-required",
+          "authority_state": "guidance-recorded",
           "decision_package_id": "DEC-20260815T120045Z-1FCB7A9D",
           "release_id": null,
           "consumers": {
-            "techlog": "decision-required"
-          }
+            "techlog": "covered"
+          },
+          "decision_ladder": "policy-decidable (reassessed 2026-08-15 by controller 0.6.0)"
         },
         {
           "remedy_id": "RMD-I03-001",
@@ -924,12 +929,14 @@
             "I06"
           ],
           "work_item_id": "WRK-20260815T120046Z-4B339DFC",
-          "authority_state": "decision-required",
+          "authority_state": "guidance-recorded",
           "decision_package_id": "DEC-20260815T120046Z-E87E5C26",
           "release_id": null,
           "consumers": {
-            "techlog": "decision-required"
-          }
+            "techlog": "adopted"
+          },
+          "decision_ladder": "policy-decidable (reassessed 2026-08-15 by controller 0.6.0)",
+          "adoption_id": "ADP-20260815-034"
         },
         {
           "remedy_id": "RMD-I04-001",
@@ -940,12 +947,14 @@
             "I17"
           ],
           "work_item_id": "WRK-20260815T141339Z-9D8F661C",
-          "authority_state": "decision-required",
+          "authority_state": "guidance-recorded",
           "decision_package_id": "DEC-20260815T141339Z-0D3EE621",
           "release_id": null,
           "consumers": {
-            "techlog": "decision-required"
-          }
+            "techlog": "adopted"
+          },
+          "decision_ladder": "policy-decidable (reassessed 2026-08-15 by controller 0.6.0)",
+          "adoption_id": "ADP-20260815-033"
         },
         {
           "remedy_id": "RMD-I06-001",
@@ -1001,12 +1010,14 @@
             "I17"
           ],
           "work_item_id": "WRK-20260815T141339Z-77362059",
-          "authority_state": "decision-required",
+          "authority_state": "guidance-recorded",
           "decision_package_id": "DEC-20260815T141339Z-131012AE",
           "release_id": null,
           "consumers": {
-            "techlog": "decision-required"
-          }
+            "techlog": "adopted"
+          },
+          "decision_ladder": "policy-decidable (reassessed 2026-08-15 by controller 0.6.0)",
+          "adoption_id": "ADP-20260815-035"
         },
         {
           "remedy_id": "RMD-I14-001",
@@ -1020,7 +1031,9 @@
           "release_id": null,
           "consumers": {
             "techlog": "decision-required"
-          }
+          },
+          "decision_ladder": "owner-preference (plan/contract route)",
+          "owner_question": "keep the current personal-plan provider route (record it in docs) or move to Enterprise/API+ZDR — a contract choice"
         },
         {
           "remedy_id": "RMD-I16-001",
@@ -1146,12 +1159,13 @@
             "K08"
           ],
           "work_item_id": "WRK-20260815T141339Z-90CE5268",
-          "authority_state": "decision-required",
+          "authority_state": "guidance-recorded",
           "decision_package_id": "DEC-20260815T141339Z-2EFFCFC9",
           "release_id": null,
           "consumers": {
-            "techlog": "decision-required"
-          }
+            "techlog": "covered"
+          },
+          "decision_ladder": "policy-decidable (reassessed 2026-08-15 by controller 0.6.0)"
         },
         {
           "remedy_id": "RMD-K11-001",

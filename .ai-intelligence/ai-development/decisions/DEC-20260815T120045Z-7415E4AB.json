@@ -8,7 +8,7 @@
   ],
   "remedy_id": "RMD-I14-001",
   "created_at": "2026-08-15T12:00:45Z",
-  "updated_at": "2026-08-15T12:07:00Z",
+  "updated_at": "2026-08-15T15:41:18Z",
   "status": "open",
   "title": "利用planと経路（Consumer/Team/Enterprise/API/Bedrock/Vertex/Foundry）ごとの学習利用・保持期間・ZDR・所在地を確認し、要件に合う経路をproject文書に固定する。TechLogは個人開発のため契約層はprovider側で、選択は決定事項",
   "problem_titles": {
@@ -71,5 +71,33 @@
   "decided_by": null,
   "resolution_note": null,
   "revisit_after": null,
-  "next_state_on_accept": "scoped"
+  "next_state_on_accept": "scoped",
+  "decision_ladder": {
+    "disposition": "owner-preference",
+    "ladder": [
+      "existing policy / official guidance: not sufficient — the choice depends on owner preference (owner-preference markers: 利用plan, 契約, ZDR, 学習利用)"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R3",
+    "privileged_markers": [],
+    "owner_markers": [
+      "利用plan",
+      "契約",
+      "ZDR",
+      "学習利用"
+    ],
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "genuine owner preference (retention/irreversible deletion window, cost or plan, contract/legal consent, or a conflict between explicit project policies)",
+    "decided_by": null
+  },
+  "owner_question": {
+    "what_to_decide": "利用planと経路（Consumer/Team/Enterprise/API/Bedrock/Vertex/Foundry）ごとの学習利用・保持期間・ZDR・所在地を確認し、要件に合う経路をproject文書に固定する。TechLogは個人開発のため契約層はprovider側で、選択は決定事項",
+    "recommendation": "A for TechLog (already the case per remedy note); B only if requirements change",
+    "options": [
+      "A: record the chosen provider route and its retention/training terms in the project docs (TechLog: personal plan, provider-side contract layer, decision fixed)",
+      "B: switch route (Enterprise/API+ZDR) — organizational contract decision"
+    ],
+    "impact": "consumer docs (decision record)",
+    "why_owner": "genuine owner preference (retention/irreversible deletion window, cost or plan, contract/legal consent, or a conflict between explicit project policies)"
+  }
 }

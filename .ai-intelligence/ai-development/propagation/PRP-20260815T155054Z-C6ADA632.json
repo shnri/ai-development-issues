@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "PRP-20260815T155054Z-C6ADA632",
+  "work_item_id": "WRK-20260815T120045Z-67E88A80",
+  "release_id": null,
+  "created_at": "2026-08-15T15:50:54Z",
+  "problem_ids": [
+    "G17"
+  ],
+  "asset": {
+    "kind": "guidance",
+    "guidance_kind": "consumer-configuration",
+    "remedy_id": "RMD-G17-001",
+    "repository_id": null,
+    "version": null,
+    "distribution": "project-local",
+    "consumer_risk_tier": "R2",
+    "decision": {
+      "disposition": "policy-decidable",
+      "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+      "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part"
+    },
+    "note": "no shared asset was released; consumers apply the remedy guidance as a project change and audit the effect"
+  },
+  "consumer_actions": [
+    {
+      "consumer_id": "techlog",
+      "action": "apply-guidance-and-audit",
+      "status": "adopted",
+      "updated_at": "2026-08-15T18:50:00Z",
+      "adoption_id": "ADP-20260815-032"
+    }
+  ],
+  "auto_update_consumers": false,
+  "status": "applied",
+  "notes": [
+    "2026-08-15 techlog: adopted (ADP-20260815-032); decision ladder reassessment (policy-decidable), TechLog main 172b9b7"
+  ]
+}

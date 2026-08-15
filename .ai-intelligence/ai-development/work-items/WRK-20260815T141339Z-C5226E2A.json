@@ -120,7 +120,7 @@
         "fit": "設定不要で即適用できる運用面の対策。"
       }
     ],
-    "decision": null,
+    "decision": "no new mechanism; apply the recorded guidance: Context衛生: 着手時は変更点・入口・依存先だけを読み、大量log/test出力はhookで失敗行だけに絞るかfileへ落として要約だけ保持し、冗長操作はsubagentへ隔離、無関係task間は`/clear`、compact時の保持対象を指示する。",
     "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
   }
 }

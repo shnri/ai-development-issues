@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "id": "WRK-20260815T120045Z-8529904A",
   "created_at": "2026-08-15T12:00:45Z",
-  "updated_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T15:41:18Z",
   "problem_ids": [
     "I05",
     "I14"
@@ -50,5 +50,23 @@
       "reason": "high-risk operation or structural decision requires a human decision: R2 operation markers: 保持期間",
       "actor": "controller"
     }
-  ]
+  ],
+  "decision": {
+    "disposition": "owner-preference",
+    "ladder": [
+      "existing policy / official guidance: not sufficient — the choice depends on owner preference (owner-preference markers: 利用plan, 契約, ZDR, 学習利用)"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R3",
+    "privileged_markers": [],
+    "owner_markers": [
+      "利用plan",
+      "契約",
+      "ZDR",
+      "学習利用"
+    ],
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "genuine owner preference (retention/irreversible deletion window, cost or plan, contract/legal consent, or a conflict between explicit project policies)",
+    "decided_by": null
+  }
 }

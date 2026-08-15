@@ -2,30 +2,31 @@
   "schema_version": "1.0",
   "id": "WRK-20260815T141339Z-90CE5268",
   "created_at": "2026-08-15T14:13:39Z",
-  "updated_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T15:50:55Z",
   "problem_ids": [
     "K08"
   ],
   "remedy_id": "RMD-K08-001",
   "source_run_id": "MNT-20260815T141330Z",
-  "state": "decision-required",
-  "track": "decision",
+  "state": "completed",
+  "track": "implementation",
   "scope": "global",
   "target": {
-    "kind": "structural-decision",
+    "kind": "knowledge-only",
     "repository_id": null,
     "path": null,
     "asset_id": null,
-    "action_type": "create-implementation-project",
-    "risk_tier": "R3"
+    "action_type": "record-decision-and-guidance",
+    "risk_tier": "R0"
   },
-  "risk_tier": "R3",
+  "risk_tier": "R0",
   "risk_reasons": [],
   "routing": {
-    "reason": "source-of-truth / structural choice requires a human decision",
+    "reason": "structural choice decided by the controller from existing guidance/research; recorded as guidance for consumers and shared maintainers",
     "alternatives_considered": [
       "existing asset: none (role-owner-ignored)",
-      "structural decision → R3 decision package"
+      "structural decision → R3 decision package",
+      "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part"
     ],
     "new_asset_justification": null
   },
@@ -37,7 +38,7 @@
   "promotion_id": null,
   "release_id": null,
   "decision_package_id": "DEC-20260815T141339Z-2EFFCFC9",
-  "next_step": "human-decision",
+  "next_step": "none",
   "blockers": [],
   "history": [
     {
@@ -46,6 +47,65 @@
       "to": "decision-required",
       "reason": "high-risk operation or structural decision requires a human decision: source-of-truth / structural choice requires a human decision",
       "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:41:19Z",
+      "from": "decision-required",
+      "to": "scoped",
+      "reason": "decision package DEC-20260815T141339Z-2EFFCFC9 resolved by the controller (decision ladder: policy-decidable); routed to knowledge-only at effective tier R0",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:50:55Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
     }
-  ]
+  ],
+  "consumer_risk_tier": "R2",
+  "decision": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 4 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [],
+    "owner_markers": [],
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "guidance": {
+    "summary": "Skill/PluginはAgent Skills spec（SKILL.md）とAgent Plugins spec 1.0.0に準拠したportable folderを正本にし、製品別pathはsymlink/thin adapterにする。Sessionではなくgit成果物（commit・progress file・PR）を正本にする。公開specに基づく技術判断であり、shared repositoryは既にこの規約（plugin.json + product adapters、consumer symlink）で運用している。",
+    "steps": [
+      "shared repositoryのvalidatorでportable manifestとSKILL.mdの存在・整合を検査する（既存）。",
+      "consumerは製品path（.claude/skills、.agents/skills）をportable folderへのsymlinkだけにし、Skill本体をコピーしない。",
+      "Agent Skills spec validator（例: npm `skills-ref` 0.1.5）の採用はshared repositoryのR2 follow-up（dependency追加）としてsolution-adoptionで評価する。",
+      "sessionを正本にせず、commit/progress file/PRへ状態を残す。"
+    ],
+    "verification": [
+      "shared repositoryのvalidatorが全Skillで通る",
+      "製品追加時にsymlink追加だけで済む",
+      "sessionなしでtaskを再開できる（smoke）"
+    ],
+    "anti_patterns": [
+      "製品ごとにSkill本体をコピーする",
+      "validatorなしでspec準拠を仮定する"
+    ],
+    "applies_when": [
+      "複数製品でSkill/Pluginを共有する"
+    ],
+    "not_applicable_when": [
+      "単一製品でしか使わない"
+    ],
+    "official_references": [
+      "https://agentskills.io/specification",
+      "https://github.com/agentplugins/agent-plugins-spec/blob/main/spec/1.0.0.md"
+    ],
+    "recorded_at": "2026-08-15T18:40:00Z",
+    "recorded_by": "ai-development-improvement controller 0.6.0 (decision ladder reassessment; policy-decidable)"
+  }
 }

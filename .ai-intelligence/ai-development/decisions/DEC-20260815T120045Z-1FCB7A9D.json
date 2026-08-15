@@ -10,8 +10,8 @@
   ],
   "remedy_id": "RMD-I01-001",
   "created_at": "2026-08-15T12:00:45Z",
-  "updated_at": "2026-08-15T12:07:00Z",
-  "status": "open",
+  "updated_at": "2026-08-15T15:41:18Z",
+  "status": "resolved-by-controller",
   "title": "Prompt injectionは入力分類で完全防御せず、OS sandbox（filesystem/network deny既定）、fail-closed permission、Rule of Two（untrusted input・secret/tool・外部送信を同時に持たせない）で被害範囲を封じ込める",
   "problem_titles": {
     "I01": "README、Issue、Comment、Web、Log内の文を命令として実行する",
@@ -95,10 +95,36 @@
       "quality": "medium"
     }
   ],
-  "decision": null,
-  "decided_at": null,
-  "decided_by": null,
-  "resolution_note": null,
+  "decision": "resolved-by-controller",
+  "decided_at": "2026-08-15T15:41:18Z",
+  "decided_by": "controller (decision ladder)",
+  "resolution_note": "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
   "revisit_after": null,
-  "next_state_on_accept": "scoped"
+  "next_state_on_accept": "scoped",
+  "decision_ladder": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 6 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [],
+    "owner_markers": [],
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "controller_resolution": {
+    "disposition": "policy-decidable",
+    "effective_tier": "R0",
+    "consumer_risk_tier": "R2",
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 6 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "proposed_action": "A; permission/sandbox changes stay human-reviewed per consumer"
+  }
 }

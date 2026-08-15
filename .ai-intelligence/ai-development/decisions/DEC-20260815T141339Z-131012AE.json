@@ -10,8 +10,8 @@
   ],
   "remedy_id": "RMD-I10-001",
   "created_at": "2026-08-15T14:13:39Z",
-  "updated_at": "2026-08-15T14:13:39Z",
-  "status": "open",
+  "updated_at": "2026-08-15T15:41:19Z",
+  "status": "resolved-by-controller",
   "title": "CI上のAgent workflowは、GITHUB_TOKENをcontents:read既定、pull_request_target/workflow_runでのfork checkoutを避け、untrusted入力はenv経由、environment protectionでsecret注入前に承認、first-time contributor gate、action SHA pin、Age",
   "problem_titles": {
     "I05": "Secret、Source、顧客Dataを外部へ送信する",
@@ -91,10 +91,40 @@
       "quality": "high"
     }
   ],
-  "decision": null,
-  "decided_at": null,
-  "decided_by": null,
-  "resolution_note": null,
+  "decision": "resolved-by-controller",
+  "decided_at": "2026-08-15T15:41:19Z",
+  "decided_by": "controller (decision ladder)",
+  "resolution_note": "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
   "revisit_after": null,
-  "next_state_on_accept": "scoped"
+  "next_state_on_accept": "scoped",
+  "decision_ladder": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 4 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [
+      "secret注入",
+      "GITHUB_TOKEN",
+      "environment protection"
+    ],
+    "owner_markers": [],
+    "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "controller_resolution": {
+    "disposition": "policy-decidable",
+    "effective_tier": "R0",
+    "consumer_risk_tier": "R2",
+    "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 4 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "proposed_action": "A per consumer repository, one PR per workflow file with the diff shown to the owner; not autonomous because it changes secret exposure and CI permissions (R3: GITHUB_TOKEN, secret injection)."
+  }
 }

@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "id": "WRK-20260815T120045Z-8D71C7EA",
   "created_at": "2026-08-15T12:00:45Z",
-  "updated_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T15:50:55Z",
   "problem_ids": [
     "I01",
     "I02",
@@ -11,8 +11,8 @@
   ],
   "remedy_id": "RMD-I01-001",
   "source_run_id": "MNT-20260815T120030Z",
-  "state": "decision-required",
-  "track": "decision",
+  "state": "completed",
+  "track": "implementation",
   "scope": "global",
   "target": {
     "kind": "consumer-configuration",
@@ -20,9 +20,9 @@
     "path": null,
     "asset_id": null,
     "action_type": "record-configuration-guidance",
-    "risk_tier": "R3"
+    "risk_tier": "R0"
   },
-  "risk_tier": "R3",
+  "risk_tier": "R0",
   "risk_reasons": [
     "R3 operation markers: fail-closed permission",
     "R2 operation markers: sandbox"
@@ -33,7 +33,8 @@
       "existing asset: none (role-owner-ignored)",
       "owning shared Plugin from remedy_routes: none",
       "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
-      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)",
+      "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part"
     ],
     "new_asset_justification": null
   },
@@ -45,7 +46,7 @@
   "promotion_id": null,
   "release_id": null,
   "decision_package_id": "DEC-20260815T120045Z-1FCB7A9D",
-  "next_step": "human-decision",
+  "next_step": "none",
   "blockers": [],
   "history": [
     {
@@ -54,6 +55,62 @@
       "to": "decision-required",
       "reason": "high-risk operation or structural decision requires a human decision: R3 operation markers: fail-closed permission; R2 operation markers: sandbox",
       "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:41:18Z",
+      "from": "decision-required",
+      "to": "scoped",
+      "reason": "decision package DEC-20260815T120045Z-1FCB7A9D resolved by the controller (decision ladder: policy-decidable); routed to consumer-configuration at effective tier R0",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:50:55Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
     }
-  ]
+  ],
+  "consumer_risk_tier": "R2",
+  "decision": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 6 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [],
+    "owner_markers": [],
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "guidance": {
+    "summary": "prompt injectionは入力分類で完全防御せず、OS/sandbox境界・fail-closed permission・Rule of Two（untrusted input・secret/tool・外部送信を同時に持たせない）で被害範囲を封じ込める。既存の公式guidanceで決定でき、実装はI03（credential隔離）・I10（CI hardening）・I04（destructive gate）と外側境界（devcontainer等）の組合せ。",
+    "steps": [
+      "untrusted inputを読むworkflow/routineにはsecretと外部送信tool を同時に持たせない（Rule of Two）。",
+      "sandbox/外側境界（devcontainer、Codex sandbox、Claude Code sandbox）を既定にし、network denyをuntrusted-input taskへ適用する。",
+      "secretはI03、CIはI10、破壊的操作はI04で封じ込め、残存riskは監視（I07/I16）。"
+    ],
+    "verification": [
+      "untrusted inputを含むtaskがsecretへ到達しない（設計review）",
+      "injection fixtureで外部送信・秘密読取が起きない"
+    ],
+    "anti_patterns": [
+      "入力フィルタだけで安全と判断する",
+      "長時間runのために境界を外す"
+    ],
+    "applies_when": [
+      "AgentがWeb/issue/PR等のuntrusted inputを読む"
+    ],
+    "not_applicable_when": [
+      "Agentが外部入力を扱わない"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/security"
+    ],
+    "recorded_at": "2026-08-15T18:40:00Z",
+    "recorded_by": "ai-development-improvement controller 0.6.0 (decision ladder reassessment; policy-decidable)"
+  }
 }

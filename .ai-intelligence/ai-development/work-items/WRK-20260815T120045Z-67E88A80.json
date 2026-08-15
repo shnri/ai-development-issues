@@ -2,14 +2,14 @@
   "schema_version": "1.0",
   "id": "WRK-20260815T120045Z-67E88A80",
   "created_at": "2026-08-15T12:00:45Z",
-  "updated_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T15:50:54Z",
   "problem_ids": [
     "G17"
   ],
   "remedy_id": "RMD-G17-001",
   "source_run_id": "MNT-20260815T120030Z",
-  "state": "decision-required",
-  "track": "decision",
+  "state": "completed",
+  "track": "implementation",
   "scope": "global",
   "target": {
     "kind": "consumer-configuration",
@@ -17,9 +17,9 @@
     "path": null,
     "asset_id": null,
     "action_type": "record-configuration-guidance",
-    "risk_tier": "R3"
+    "risk_tier": "R0"
   },
-  "risk_tier": "R3",
+  "risk_tier": "R0",
   "risk_reasons": [
     "R3 operation markers: permissions?\\.(allow|deny), approval_policy, permission fatigue, 事前許可",
     "R2 operation markers: sandbox"
@@ -30,7 +30,8 @@
       "existing asset: none (role-owner-ignored)",
       "owning shared Plugin from remedy_routes: none",
       "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
-      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)",
+      "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part"
     ],
     "new_asset_justification": null
   },
@@ -42,7 +43,7 @@
   "promotion_id": null,
   "release_id": null,
   "decision_package_id": "DEC-20260815T120045Z-2476DE58",
-  "next_step": "human-decision",
+  "next_step": "none",
   "blockers": [],
   "history": [
     {
@@ -51,6 +52,64 @@
       "to": "decision-required",
       "reason": "high-risk operation or structural decision requires a human decision: R3 operation markers: permissions?\\.(allow|deny), approval_policy, permission fatigue, 事前許可; R2 operation markers: sandbox",
       "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:41:18Z",
+      "from": "decision-required",
+      "to": "scoped",
+      "reason": "decision package DEC-20260815T120045Z-2476DE58 resolved by the controller (decision ladder: policy-decidable); routed to consumer-configuration at effective tier R0",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:50:54Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
     }
-  ]
+  ],
+  "consumer_risk_tier": "R2",
+  "decision": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 6 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [],
+    "owner_markers": [],
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "guidance": {
+    "summary": "安全な読取・検証commandだけを狭いprefix ruleで事前許可し、write/network/destructiveはdeny/askに残す。permission fatigueを減らすための決定は公式security guidance（safe-command allowlist、sandboxで自律範囲を定義、/permissions定期監査）で確定しており、owner preferenceではない。",
+    "steps": [
+      "Claude Code: `permissions.allow` に lint/typecheck/test/build/validate の実行command、`rg`/`git status|diff|log|show`/`ls|cat|head|tail|wc` などの読取commandをprefix ruleで追加する（`Bash(npm run test:*)` 形式）。",
+      "write系（依存追加、deploy、push、rm -rf、force push）はallowせず deny/ask に置く。",
+      "Codex: `approval_policy=on-request` + `sandbox_mode=workspace-write` + `prefix_rule` が既定の推奨。devcontainer等の外側境界を根拠に full access を選んでいる場合は、その方針を明示記録して維持する（policy conflictはowner判断）。",
+      "`/permissions` を定期監査し、allowlistの肥大を防ぐ。"
+    ],
+    "verification": [
+      "固定の読取系replay taskで session あたりの承認prompt数が減る",
+      "新たに auto-allow された write/network/destructive prefix が 0"
+    ],
+    "anti_patterns": [
+      "`--dangerously-skip-permissions` や `bypassPermissions` を長時間runの解決策にする",
+      "allowlistに `Bash(*)` や `Bash(git *)` のような広いprefixを入れる"
+    ],
+    "applies_when": [
+      "承認promptが多く、Agentが読取・検証を頻繁に行う"
+    ],
+    "not_applicable_when": [
+      "組織のmanaged settingsがpermissionsを固定している"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/security",
+      "https://code.claude.com/docs/en/settings"
+    ],
+    "recorded_at": "2026-08-15T18:40:00Z",
+    "recorded_by": "ai-development-improvement controller 0.6.0 (decision ladder reassessment; policy-decidable)"
+  }
 }

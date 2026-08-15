@@ -10,8 +10,8 @@
   ],
   "remedy_id": "RMD-H07-001",
   "created_at": "2026-08-15T14:13:39Z",
-  "updated_at": "2026-08-15T14:13:39Z",
-  "status": "open",
+  "updated_at": "2026-08-15T15:41:19Z",
+  "status": "resolved-by-controller",
   "title": "並列Agentの分割は、file/module所有を重ねないcohesionの高い単位にし、team規模は3-5、taskは1 deliverable単位に揃え、同一file編集・逐次依存の強い作業は単一Sessionまたはsubagentで行う。",
   "problem_titles": {
     "H04": "Agentごとに仕様・Interfaceの解釈が異なる",
@@ -85,10 +85,36 @@
       "quality": "low"
     }
   ],
-  "decision": null,
-  "decided_at": null,
-  "decided_by": null,
-  "resolution_note": null,
+  "decision": "resolved-by-controller",
+  "decided_at": "2026-08-15T15:41:19Z",
+  "decided_by": "controller (decision ladder)",
+  "resolution_note": "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
   "revisit_after": null,
-  "next_state_on_accept": "scoped"
+  "next_state_on_accept": "scoped",
+  "decision_ladder": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 3 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [],
+    "owner_markers": [],
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "controller_resolution": {
+    "disposition": "policy-decidable",
+    "effective_tier": "R0",
+    "consumer_risk_tier": "R2",
+    "execution_boundary": "controller may implement on a reviewed branch; nothing is auto-merged",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 3 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "proposed_action": "A for consumers that already run parallel implementers (implement/review commands); C for consumers without ownership boundaries. Structural: it changes how work is decomposed across agents (team topology), a project decision rather than a controller edit."
+  }
 }

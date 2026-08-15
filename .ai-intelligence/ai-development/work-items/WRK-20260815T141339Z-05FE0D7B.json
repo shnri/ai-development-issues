@@ -116,7 +116,7 @@
         "fit": "agent数の段階基準として流用。"
       }
     ],
-    "decision": null,
+    "decision": "no new mechanism; apply the recorded guidance: Subagentへの委譲は「独立している・並列可能・要約で返せる」作業に限定し、query複雑度でagent数を段階化する。各subagent定義(agent file / Skill)に委譲条件・担当境界・出力contract・tool制限・turn上限を書き、常時読み込まれるrulesには置かない。",
     "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
   }
 }

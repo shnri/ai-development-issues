@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "id": "WRK-20260815T120046Z-4B339DFC",
   "created_at": "2026-08-15T12:00:46Z",
-  "updated_at": "2026-08-15T12:00:46Z",
+  "updated_at": "2026-08-15T15:50:55Z",
   "problem_ids": [
     "I03",
     "I04",
@@ -11,8 +11,8 @@
   ],
   "remedy_id": "RMD-I03-001",
   "source_run_id": "MNT-20260815T120030Z",
-  "state": "decision-required",
-  "track": "decision",
+  "state": "completed",
+  "track": "implementation",
   "scope": "global",
   "target": {
     "kind": "consumer-configuration",
@@ -20,9 +20,9 @@
     "path": null,
     "asset_id": null,
     "action_type": "record-configuration-guidance",
-    "risk_tier": "R3"
+    "risk_tier": "R0"
   },
-  "risk_tier": "R3",
+  "risk_tier": "R0",
   "risk_reasons": [
     "R3 operation markers: 本番権限, credential, 短期token",
     "R2 operation markers: \\bdeny\\b, sandbox, 権限"
@@ -33,7 +33,8 @@
       "existing asset: none (role-owner-ignored)",
       "owning shared Plugin from remedy_routes: none",
       "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
-      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)",
+      "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part"
     ],
     "new_asset_justification": null
   },
@@ -45,7 +46,7 @@
   "promotion_id": null,
   "release_id": null,
   "decision_package_id": "DEC-20260815T120046Z-E87E5C26",
-  "next_step": "human-decision",
+  "next_step": "none",
   "blockers": [],
   "history": [
     {
@@ -54,6 +55,70 @@
       "to": "decision-required",
       "reason": "high-risk operation or structural decision requires a human decision: R3 operation markers: 本番権限, credential, 短期token; R2 operation markers: \\bdeny\\b, sandbox, 権限",
       "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:41:19Z",
+      "from": "decision-required",
+      "to": "scoped",
+      "reason": "decision package DEC-20260815T120046Z-E87E5C26 resolved by the controller (decision ladder: policy-decidable); routed to consumer-configuration at effective tier R0",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T15:50:55Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
     }
-  ]
+  ],
+  "consumer_risk_tier": "R2",
+  "decision": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 5 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [
+      "credential",
+      "短期token",
+      "本番権限"
+    ],
+    "owner_markers": [],
+    "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "guidance": {
+    "summary": "credentialをAgent実行環境から物理的に外す。可逆な部分（`.env*` の Read deny、secretのCI secret manager化、本番権限をAgentに与えない方針）は公式guidanceで決定できる。rotation／移設／本番権限の変更そのものはprivileged stepとして人間が実行する。",
+    "steps": [
+      "`permissions.deny` に `Read(./.env)`, `Read(./.env.*)`, `Read(./secrets/**)` を追加する。",
+      "本番資格情報はCI/secret managerにだけ置き、ローカルはemulator/dry-run用か読取専用の別資格情報にする。",
+      "import/deployスクリプトにprojectId guard（本番projectはCIのみ）を入れる。",
+      "privileged step（key rotation、secret移設、本番権限の剥奪）はchecklistにして人間が実行し、完了をfindingへ記録する。"
+    ],
+    "verification": [
+      "Agent sessionから `.env*` を読めない（Read denyのblock）",
+      "transcript/rolloutにsecret値が出現しない",
+      "ローカルからの本番書込みがguardで拒否される"
+    ],
+    "anti_patterns": [
+      "`.gitignore` にあるから安全と見なす",
+      "Agent環境変数に長期tokenを渡す"
+    ],
+    "applies_when": [
+      "ローカルに本番資格情報がある",
+      "AgentがCI/deployを実行できる"
+    ],
+    "not_applicable_when": [
+      "Agentが資格情報に到達できない隔離環境"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/settings",
+      "https://code.claude.com/docs/en/security"
+    ],
+    "recorded_at": "2026-08-15T18:40:00Z",
+    "recorded_by": "ai-development-improvement controller 0.6.0 (decision ladder reassessment; policy-decidable)"
+  }
 }

@@ -10,8 +10,8 @@
   ],
   "remedy_id": "RMD-I04-001",
   "created_at": "2026-08-15T14:13:39Z",
-  "updated_at": "2026-08-15T14:13:39Z",
-  "status": "open",
+  "updated_at": "2026-08-15T15:41:19Z",
+  "status": "resolved-by-controller",
   "title": "不可逆・高影響操作だけを承認対象にし、それ以外はsandboxで自動化して承認疲れを減らす。PreToolUse hookとpermissions.denyで破壊的command（rm -rf、force push、prod deploy/migrate）を機械的に遮断し、branch rulesetsをAgentにも同一適用する",
   "problem_titles": {
     "I03": "Shell、GitHub、Cloud、DB、本番への権限が過大",
@@ -99,10 +99,42 @@
       "quality": "medium"
     }
   ],
-  "decision": null,
-  "decided_at": null,
-  "decided_by": null,
-  "resolution_note": null,
+  "decision": "resolved-by-controller",
+  "decided_at": "2026-08-15T15:41:19Z",
+  "decided_by": "controller (decision ladder)",
+  "resolution_note": "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
   "revisit_after": null,
-  "next_state_on_accept": "scoped"
+  "next_state_on_accept": "scoped",
+  "decision_ladder": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 5 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [
+      "\\bprod(?:uction)? (?:deploy|database|db|data|environment)",
+      "force push",
+      "rm -rf",
+      "破壊的",
+      "branch rulesets?"
+    ],
+    "owner_markers": [],
+    "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "controller_resolution": {
+    "disposition": "policy-decidable",
+    "effective_tier": "R0",
+    "consumer_risk_tier": "R2",
+    "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 5 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "proposed_action": "C, applied per consumer: (1) settings.json permissions.deny for destructive prefixes and permissions.ask for `git push`; (2) PreToolUse hook script (read-only pattern check, exit 2 on match, patterns tested with a fixture list); (3) branch ruleset on the default branch with an empty bypass list for agent apps; (4) then the low-risk allowlist (other decision package). Not autonomous because permissions.allow/deny and rulesets change the agent authority boundary (R3)."
+  }
 }
