@@ -24,10 +24,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "queued"
+      "status": "review-pending",
+      "updated_at": "2026-08-15T15:40:00Z"
     }
   ],
   "auto_update_consumers": false,
   "status": "queued",
-  "notes": []
+  "notes": [
+    "2026-08-15 techlog: implemented by consumer on a reviewed R2 branch (hook gates); not merged"
+  ]
 }

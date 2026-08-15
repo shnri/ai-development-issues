@@ -24,10 +24,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "queued"
+      "status": "proposed",
+      "updated_at": "2026-08-15T15:40:00Z"
     }
   ],
   "auto_update_consumers": false,
   "status": "queued",
-  "notes": []
+  "notes": [
+    "2026-08-15 techlog: consumer audit recorded a concrete change proposal outside the controller's allowed paths or at R2/R3; awaiting owner"
+  ]
 }
