@@ -45,6 +45,13 @@
       "observed_at": "2025-06",
       "summary": "R8: subagent結果の検証・orchestratorでの統合設計",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/justinramos101/agent-skill-kit",
+      "observed_at": "2026-08-15",
+      "summary": "harden-repo-for-coding-agents (public, reputation unknown): read references/playbooks/operations.md and context-surfaces.md: subagent and MCP output is treated as an injection vector guarded at the tool-response point, handoffs carry propagated trace identity, state changes are logged append-only with actor and timestamp, MCP token lifecycle is an audit surface, and writes to shared agent-facing artifacts require review.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -99,5 +106,82 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "harden-repo-for-coding-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/justinramos101/agent-skill-kit",
+    "url": "https://skills.sh/justinramos101/agent-skill-kit/harden-repo-for-coding-agents",
+    "path": "skills/harden-repo-for-coding-agents",
+    "confirmed_by": "read references/playbooks/operations.md and context-surfaces.md: subagent and MCP output is treated as an injection vector guarded at the tool-response point, handoffs carry propagated trace identity, state changes are logged append-only with actor and timestamp, MCP token lifecycle is an audit surface, and writes to shared agent-facing artifacts require review.",
+    "matched_on": [
+      "'injection enters through tool responses and retrieved context'",
+      "'propagate traceparent through every handoff'",
+      "'log every hook override append-only (tool, args, actor, timestamp, rationale)'",
+      "'MCP OAuth consent is per-server and refresh tokens can outlive IdP revocation'",
+      "instruction files and skills write-protected behind PR review; forbidden-tier actions hard-blocked at a PreToolUse hook"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+        "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+        "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "mcp-security-audit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/awesome-copilot",
+        "why_not_primary": "established via the GitHub-run awesome-copilot collection (37.9k stars, 986 installs) and safe to name, but it audits .mcp.json for secrets, shell injection, unpinned @latest and unapproved servers - no session authentication, nothing about subagent output or shared state. The collection itself warns its customisations are third-party sourced",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/awesome-copilot (37.9k stars, 4.8k forks, 2,224 commits, GitHub organisation, CODEOWNERS + SECURITY.md)",
+            "skills.sh: 986 installs (first pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "skill-scanner",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/getsentry/skills",
+        "why_not_primary": "established (Sentry); treats skill and reference text as potentially hostile and flags remote instruction loading and untrusted domains, but is aimed at skill packages rather than at runtime subagent/MCP output or shared memory",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation, 28 maintained skills)",
+            "read https://raw.githubusercontent.com/getsentry/skills/main/skills/skill-scanner/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "secure-ai",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/oakoss/agent-skills",
+        "why_not_primary": "emerging (14 stars); 'treat MCP servers as untrusted' at the application-integration layer",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/oakoss/agent-skills (14 stars, 5 forks, last commit March 2026, personal account)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

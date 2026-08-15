@@ -52,6 +52,13 @@
       "observed_at": "2026-08-12",
       "summary": "TechLog official-guidance ledger: guidance毎にrevision/observed_at/may_replaceを記録し、再確認triggerの入力源として使える。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/justinramos101/agent-skill-kit",
+      "observed_at": "2026-08-15",
+      "summary": "harden-repo-for-coding-agents (public, reputation unknown): read SKILL.md and references/playbooks/operations.md (Governance): a named owner in CODEOWNERS is required for every agent-facing artifact, writes are protected behind PR review, and 'Every gate/rule is a hypothesis with an expiry condition; the promote/demote rule is bidirectional ... A control that never fires is a removal candidate'.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -111,5 +118,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "harden-repo-for-coding-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/justinramos101/agent-skill-kit",
+    "url": "https://skills.sh/justinramos101/agent-skill-kit/harden-repo-for-coding-agents",
+    "path": "skills/harden-repo-for-coding-agents",
+    "confirmed_by": "read SKILL.md and references/playbooks/operations.md (Governance): a named owner in CODEOWNERS is required for every agent-facing artifact, writes are protected behind PR review, and 'Every gate/rule is a hypothesis with an expiry condition; the promote/demote rule is bidirectional ... A control that never fires is a removal candidate'.",
+    "matched_on": [
+      "every agent-facing artifact has a named owner in CODEOWNERS, as a resolvable handle",
+      "every gate/rule is treated as a hypothesis with an expiry condition, with a bidirectional promote/demote rule",
+      "revalidation trigger tied to model/harness change: 'prune the harness as models improve'"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+        "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+        "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "agents-md",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/getsentry/skills",
+        "why_not_primary": "established (Sentry) and the closest reputable asset for instruction-file upkeep, but reading its SKILL.md confirms it requires no per-rule introduction reason, owner, target versions, last-verified date, revalidation trigger or expiry queue - it deliberately relies on developers noticing stale instructions during use",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation)",
+            "read https://raw.githubusercontent.com/getsentry/skills/main/skills/agents-md/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "rules-check-drift",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/coleam00/skills",
+        "why_not_primary": "re-checks whether a rules file still matches the codebase after a diff - a revalidation trigger without metadata or an expiry queue; maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/coleam00/skills (alternate only; not researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "no per-rule metadata, no expiry queue",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

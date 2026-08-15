@@ -46,6 +46,13 @@
       "observed_at": "2026-02-15",
       "summary": "OpenAI: 短いAGENTS.md mapとdocs/知識ベースでAgentがrepository規約を発見できるようにし、逸脱は定期'garbage collection' taskで掃除。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/affaan-m/ecc",
+      "observed_at": "2026-08-15",
+      "summary": "search-first (public, reputation established): pass 1 read SKILL.md on skills.sh; reconfirmed on the skills.sh page: '/search-first - Research Before You Code. Systematizes the search for existing solutions before implementing workflow', firing when starting a feature that likely has existing solutions and before creating a new utility, helper or abstraction.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -95,5 +102,77 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "search-first",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/affaan-m/ecc",
+    "url": "https://skills.sh/affaan-m/ecc/search-first",
+    "path": "affaan-m/ecc@search-first",
+    "confirmed_by": "pass 1 read SKILL.md on skills.sh; reconfirmed on the skills.sh page: '/search-first - Research Before You Code. Systematizes the search for existing solutions before implementing workflow', firing when starting a feature that likely has existing solutions and before creating a new utility, helper or abstraction.",
+    "matched_on": [
+      "search for existing solutions before implementing",
+      "trigger before creating a new utility, helper, or abstraction",
+      "trigger when the user asks to add functionality and the agent is about to write code"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/affaan-m/ecc (240,290 stars, 36,463 forks, last commit 2026-08-15)",
+        "https://skills.sh/affaan-m/ecc/search-first (1.8K installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Warn)",
+        "listed on skills.sh since 2026-05-19 as part of a widely installed harness pack"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "add-feature",
+        "kind": "installed-command",
+        "availability": "consumer-local",
+        "why_not_primary": "TechLog-local full feature workflow rather than the reuse-search mechanism.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/add-feature.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "github-search-before-code",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/ruiwarn/skills",
+        "why_not_primary": "Searches GitHub for external prior art, not the repository's own mechanisms; 2-star repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/ruiwarn/skills (2 stars, last commit 2026-08-06)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "find-duplication",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/openshift/lightspeed-service",
+        "why_not_primary": "Detects duplication after the fact; also an incidental file inside a product repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/openshift/lightspeed-service (71 stars, 88 forks, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

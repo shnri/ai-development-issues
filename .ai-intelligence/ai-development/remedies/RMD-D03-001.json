@@ -45,6 +45,13 @@
       "observed_at": "2026-07-30",
       "summary": "Conflicting Instructions 28%（検出precision 57%と低く人手確認が必要）。Conflicting+Skill Leakage共起でContext Bloat確率83%増。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/getsentry/skills",
+      "observed_at": "2026-08-15",
+      "summary": "getsentry/agents-md (public, reputation established): read skills/agents-md/SKILL.md from a fresh clone of getsentry/skills@main: step 2 'Choose scope' assigns responsibility per layer (root AGENTS.md for repo-wide defaults, nested AGENTS.md only when a subtree has different commands or rules) and states the precedence rule 'closest instruction file wins; keep narrower files shorter than root files'; 'File Setup' requires CLAUDE.md to be a symlink of AGENTS.md and forbids divergent copies; Writing Rules and Anti-Patterns forbid restating linter/formatter/typechecker config, duplicating README/CONTRIBUTING/policy content, and nested files that repeat root instructions.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -105,10 +112,77 @@
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
   "existing_asset": {
-    "asset_id": "agent-instruction-maintenance",
-    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md",
-    "coverage": "baseline criteria (統合 for product copies, 陳腐化シグナル duplication, 決定論的な仕組みへ移す) already produce @AGENTS.md consolidation and cross-layer conflict findings in 3/3 and 4/4 blind trials (second pilot, WRK-20260815T120045Z-B4C7E5E5); an explicit resolution rule (safety boundaries win, owning layer wins) gave only a marginal, unconfirmed gain and was not promoted",
+    "asset_id": "getsentry/agents-md",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/getsentry/skills",
+    "url": "https://skills.sh/getsentry/skills/agents-md",
+    "path": "skills/agents-md",
+    "confirmed_by": "read skills/agents-md/SKILL.md from a fresh clone of getsentry/skills@main: step 2 'Choose scope' assigns responsibility per layer (root AGENTS.md for repo-wide defaults, nested AGENTS.md only when a subtree has different commands or rules) and states the precedence rule 'closest instruction file wins; keep narrower files shorter than root files'; 'File Setup' requires CLAUDE.md to be a symlink of AGENTS.md and forbids divergent copies; Writing Rules and Anti-Patterns forbid restating linter/formatter/typechecker config, duplicating README/CONTRIBUTING/policy content, and nested files that repeat root instructions.",
+    "matched_on": [
+      "responsibility assigned per instruction layer (root vs nested), with an explicit precedence rule",
+      "the same rule must not be written in more than one layer",
+      "AGENTS.md as the single source of truth with CLAUDE.md as a symlink, never a divergent copy",
+      "reference existing docs/specs/policies instead of copying them into instructions"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/getsentry/skills (915 stars, last commit 2026-08-15)",
+        "https://skills.sh/getsentry/skills/agents-md (4.8K installs; Trust Hub Pass, Socket Pass, Snyk Pass, listed since 2026-01-20)",
+        "maintainer: Sentry (known engineering company); repo is one of the reference skill collections"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
     "verified_at": "2026-08-15",
-    "verified_by": "ai-development-improvement maintain MNT-20260815T120030Z"
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "agents-md",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mblode/agent-skills",
+        "why_not_primary": "Pass-1 primary and still the most explicit on cross-layer contradiction ('the file must say who wins, so the agent is told precedence instead of arbitrating it'), but a 76-star personal repo (395 installs) and its progressive-disclosure advice is '@import', which this cluster documents as expanded at launch - do not adopt that part.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation)",
+            "read https://raw.githubusercontent.com/getsentry/skills/main/skills/agents-md/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "The consumer's verified implementation and at least as good on mechanism, but org-private.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "agent-config-audit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/shipshitdev/skills",
+        "why_not_primary": "Detects duplication across AGENTS.md/CLAUDE.md/hooks/settings but prescribes no per-layer ownership; 32-star repo.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/shipshitdev/skills (32 stars, 3 forks, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

@@ -40,6 +40,13 @@
       "observed_at": "2026-07",
       "summary": "LLM生成と検出されたcodeはrepository内cloneが多く、commentは文法的に正しい文の比率が低い（探索的研究）。comment不整合の直接測定ではない。",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/trailofbits/skills",
+      "observed_at": "2026-08-15",
+      "summary": "trailofbits/skills@spec-to-code-compliance (public, reputation established): read plugins/spec-to-code-compliance/skills/spec-to-code-compliance/SKILL.md at HEAD: 'The documentation says what the system does; the code decides what it actually does. Every gap between them is either a bug or a documentation fix, and which one it is is the finding.' It splits the document into individually checkable requirements, gives each requirement its own agent to hunt the code with, has independent agents try to refute every divergence before it is reported, and refuses to run without an authoritative document because 'a requirement inferred from the code is checked against itself'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -89,5 +96,50 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "trailofbits/skills@spec-to-code-compliance",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/trailofbits/skills",
+    "url": "https://www.skills.sh/trailofbits/skills/spec-to-code-compliance",
+    "path": "plugins/spec-to-code-compliance/skills/spec-to-code-compliance/SKILL.md",
+    "confirmed_by": "read plugins/spec-to-code-compliance/skills/spec-to-code-compliance/SKILL.md at HEAD: 'The documentation says what the system does; the code decides what it actually does. Every gap between them is either a bug or a documentation fix, and which one it is is the finding.' It splits the document into individually checkable requirements, gives each requirement its own agent to hunt the code with, has independent agents try to refute every divergence before it is reported, and refuses to run without an authoritative document because 'a requirement inferred from the code is checked against itself'.",
+    "matched_on": [
+      "prose is not treated as truth — the document is checked against what the code actually does",
+      "every divergence is adjudicated as either a code bug or a documentation fix",
+      "self-confirmation explicitly rejected: a requirement inferred from the code is checked against itself",
+      "independent refutation before a divergence is reported"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/trailofbits/skills (6,603 stars, last commit 2026-08-14)",
+        "https://www.skills.sh/trailofbits/skills/spec-to-code-compliance (4 installs, first seen Jan 19 2026; Trust Hub Pass, Socket Pass, Snyk Fail)",
+        "https://www.skills.sh/trailofbits/skills/spec-to-code-compliance/security/snyk (Fail = W007 HIGH: 'mandates quoting exact evidence and verbatim excerpts from code and docs (file + line numbers)')",
+        "read plugins/spec-to-code-compliance/skills/spec-to-code-compliance/SKILL.md at HEAD"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "petekp/claude-code-setup@code-comments",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/petekp/claude-code-setup",
+        "why_not_primary": "Previous primary, demoted on reputation (44-star personal setup repo). Its 'why test' rule — 'if it only restates what the code does, skip it' — is still the only asset covering the comment-restraint half.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/petekp/claude-code-setup (44 stars, 11 forks, last commit 2026-08-07)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

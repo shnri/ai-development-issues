@@ -53,6 +53,13 @@
       "observed_at": "2026-08-15",
       "summary": "Codex: `model`, `model_reasoning_effort`(minimal|low|medium|high|xhigh)をconfig.tomlで固定可。project `.codex/config.toml`で上書き不可のprotected keys（approval_policy, sandbox_mode, otel等）。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "<SAP>:plugins/ai-development-improvement/skills/ai-development-improvement",
+      "observed_at": "2026-08-15",
+      "summary": "ai-development-improvement (org-private, reputation unknown): read scripts/build_fingerprint.py: it emits repository_revision (git HEAD), runtime (python/platform/node), tooling (npm/git versions) and SHA-256 digests of every tracked CLAUDE.md/AGENTS.md/SKILL.md/plugin.json/package.json, merging explicit model/surface values from a base profile; references/mode-revalidate.md lists model ID/family, effort/defaults, system prompt, instruction/Skill/Plugin version or hash, tool schema, MCP, permission policy, sandbox and runtime as triggers and starts revalidation with \"Build the current fingerprint\" then compares against stored baseline/candidate evidence.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -113,5 +120,45 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "shared-plugin",
+    "asset_id": "ai-development-improvement",
+    "source": "<SAP>",
+    "path": "plugins/ai-development-improvement/skills/ai-development-improvement",
+    "availability": "org-private",
+    "matched_on": [
+      "single machine-generated manifest of the configuration a run depended on",
+      "instruction/Skill/Plugin revision recorded as content hashes (CLAUDE.md, AGENTS.md, SKILL.md, plugin.json, package.json)",
+      "repository commit SHA and toolchain versions in the same record",
+      "re-comparison against the stored manifest when model, effort, instructions, Skill version, tool schema, MCP, permissions or runtime change"
+    ],
+    "confirmed_by": "read scripts/build_fingerprint.py: it emits repository_revision (git HEAD), runtime (python/platform/node), tooling (npm/git versions) and SHA-256 digests of every tracked CLAUDE.md/AGENTS.md/SKILL.md/plugin.json/package.json, merging explicit model/surface values from a base profile; references/mode-revalidate.md lists model ID/family, effort/defaults, system prompt, instruction/Skill/Plugin version or hash, tool schema, MCP, permission policy, sandbox and runtime as triggers and starts revalidation with \"Build the current fingerprint\" then compares against stored baseline/candidate evidence.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "installed-skill",
+        "asset_id": "ai-development-improvement",
+        "availability": "consumer-local",
+        "why_not_primary": "same asset, already vendored into TechLog.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

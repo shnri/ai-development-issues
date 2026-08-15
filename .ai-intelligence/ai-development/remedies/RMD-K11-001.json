@@ -38,6 +38,13 @@
       "observed_at": "2026-08-11",
       "summary": "tool回数・cost・wall time・limit超過の監査とhard limit（operationally-supported）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "<SAP>:plugins/ai-development-improvement/skills/ai-development-improvement",
+      "observed_at": "2026-08-15",
+      "summary": "ai-development-improvement (org-private, reputation unknown): read references/evaluation-policy.md (\"Evaluation unit\" captures trajectory — commands, tool calls, skipped/required steps, time, tokens, retries — and efficiency), references/mode-audit.md (efficiency audits list repeated test/build runs, identical retries, repeated setup, redundant final verification, unnecessary subagents; \"Use audit_trace.py for initial signals, then verify meaning against repository commands before recording a finding\"), and scripts/audit_trace.py with references/audit-signals.json thresholds (repeated-full-test, identical-retry, repeated-read, subagent-fanout, context-compaction, token-volume).",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -93,5 +100,44 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "shared-plugin",
+    "asset_id": "ai-development-improvement",
+    "source": "<SAP>",
+    "path": "plugins/ai-development-improvement/skills/ai-development-improvement",
+    "availability": "org-private",
+    "matched_on": [
+      "per-run trajectory metrics beyond pass/fail: commands, tool calls, time, tokens, retries",
+      "threshold signals for repeated commands, repeated reads, subagent fan-out, compaction and token volume",
+      "a human must verify trace meaning against repository commands before a signal becomes a finding"
+    ],
+    "confirmed_by": "read references/evaluation-policy.md (\"Evaluation unit\" captures trajectory — commands, tool calls, skipped/required steps, time, tokens, retries — and efficiency), references/mode-audit.md (efficiency audits list repeated test/build runs, identical retries, repeated setup, redundant final verification, unnecessary subagents; \"Use audit_trace.py for initial signals, then verify meaning against repository commands before recording a finding\"), and scripts/audit_trace.py with references/audit-signals.json thresholds (repeated-full-test, identical-retry, repeated-read, subagent-fanout, context-compaction, token-volume).",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "installed-skill",
+        "asset_id": "ai-development-improvement",
+        "availability": "consumer-local",
+        "why_not_primary": "same asset, already vendored into TechLog.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

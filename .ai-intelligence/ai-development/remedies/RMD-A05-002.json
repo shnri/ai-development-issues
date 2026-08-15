@@ -32,6 +32,13 @@
       "observed_at": "2026-01-30",
       "summary": "spec-as-source: 仕様から生成/検証される二次artifactとしてcodeを扱う枠組み。API・enterprise・embeddedの事例。",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/affaan-m/ECC",
+      "observed_at": "2026-08-15",
+      "summary": "contract-first (public, reputation established): read skills/contract-first/SKILL.md in the repo: 'Coordinate frontend/backend or service-to-service work through one authoritative, machine-checkable contract ... both sides verify against the same artifact before integration', 'Choose one canonical, version-controlled artifact for each boundary' (OpenAPI / AsyncAPI / Protobuf / JSON Schema), 'Do not maintain the same payload shape independently in a wiki, prose document, mock file, and provider code.'",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -90,5 +97,83 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "contract-first",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/affaan-m/ECC",
+    "url": "https://skills.sh/affaan-m/ecc/contract-first",
+    "path": "skills/contract-first",
+    "confirmed_by": "read skills/contract-first/SKILL.md in the repo: 'Coordinate frontend/backend or service-to-service work through one authoritative, machine-checkable contract ... both sides verify against the same artifact before integration', 'Choose one canonical, version-controlled artifact for each boundary' (OpenAPI / AsyncAPI / Protobuf / JSON Schema), 'Do not maintain the same payload shape independently in a wiki, prose document, mock file, and provider code.'",
+    "matched_on": [
+      "one authoritative machine-checkable contract (API/event schema)",
+      "consumers and providers verify against the same artifact instead of restating it",
+      "prevents field/enum/nullability drift across derived artifacts"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/affaan-m/ECC (240,290 stars, 36,463 forks, last commit 2026-08-15)",
+        "https://skills.sh/affaan-m/ecc/contract-first (439 installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "skills/contract-first/SKILL.md read: 'Choose one canonical, version-controlled artifact for each boundary' (OpenAPI/AsyncAPI/Protobuf/JSON Schema), 'The filename is not important. Authority is.'",
+        "mention: https://skillsllm.com/skill/ecc and https://skillrepo.dev/skills/affaan-m/ecc-guide (third-party directories listing ECC; project site https://ecc.tools/)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "api-and-interface-design",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "established 'Contract First - the contract is the spec' guidance, but about designing the interface, not generating/verifying derived artifacts from a machine-readable schema",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, active)",
+            "SKILL.md read: 'Contract First - define the interface before implementing it. The contract is the spec - implementation follows', Hyrum's Law, validate at boundaries"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "spec-kit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/spec-kit",
+        "why_not_primary": "its Plan phase does generate data-model.md and contracts/ from the spec, but as one-shot design artifacts rather than a maintained machine-checkable contract",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "contract-testing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/petrkindlmann/qa-skills",
+        "why_not_primary": "verifies both sides against a contract but does not establish it as the generation source; emerging",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/petrkindlmann/qa-skills (75 stars, 14 forks, last commit 2026-06-10)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

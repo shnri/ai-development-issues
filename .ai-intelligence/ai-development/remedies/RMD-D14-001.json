@@ -61,6 +61,13 @@
       "observed_at": "2026-08-12",
       "summary": "effort guidance: 既定highから下げる場合はworkload固有評価で品質維持を確認（anthropic-fable-effort-guidance）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/edonadei/caliper",
+      "observed_at": "2026-08-15",
+      "summary": "evaluate-skill (public, reputation emerging): pass 1 read SKILL.md: the .eval.yaml spec excludes backend/model so the engine is selected per run via --model and --judge-model; the design steps require deciding whether the suite is a capability or a regression eval; the done-condition includes 'Run once with --ablate <skill-name> and caliper compare the two runs', with --k 1 for debugging and --k 3+ for reliability, and the spec committed beside the Skill.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -123,5 +130,79 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "evaluate-skill",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/edonadei/caliper",
+    "url": "https://skills.sh/edonadei/caliper/evaluate-skill",
+    "path": "skills/evaluate-skill",
+    "confirmed_by": "pass 1 read SKILL.md: the .eval.yaml spec excludes backend/model so the engine is selected per run via --model and --judge-model; the design steps require deciding whether the suite is a capability or a regression eval; the done-condition includes 'Run once with --ablate <skill-name> and caliper compare the two runs', with --k 1 for debugging and --k 3+ for reliability, and the spec committed beside the Skill.",
+    "matched_on": [
+      "a committed eval spec re-runnable after model or harness changes",
+      "the engine (model and judge model) is chosen at run time, not baked into the spec",
+      "run with and without the Skill (--ablate) and compare the two runs",
+      "capability suite versus regression suite decided explicitly",
+      "repeat runs (pass@k) so a difference is distinguished from noise"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/edonadei/caliper (39 stars, 5 forks, 7 open issues, last commit 2026-08-05)",
+        "https://skills.sh/edonadei/caliper/evaluate-skill (14 installs; Trust Hub Pass, Socket Pass, Snyk Warn)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "harness-stripping",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/archive228/loopkit",
+        "why_not_primary": "The ablation half done rigorously, but a removal campaign rather than a standing regression suite; emerging repo.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/archive228/loopkit (747 stars, 130 forks, last commit 2026-07-14)",
+            "https://skills.sh/archive228/loopkit/harness-stripping (16 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "agents-md-evals",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/vltansky/agents-md-evals",
+        "why_not_primary": "With/without ablation for instruction files only; 4-star stale repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/vltansky/agents-md-evals (4 stars, 0 forks, last commit 2026-03-09)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "optimize-skill",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Scoped to improving one Skill rather than re-validating a configuration after a provider-side change; org-private.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

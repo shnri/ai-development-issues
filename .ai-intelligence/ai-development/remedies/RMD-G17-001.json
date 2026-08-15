@@ -64,6 +64,13 @@
       "observed_at": "2026-08-15",
       "summary": "隔離devcontainerではnon-root前提で`--dangerously-skip-permissions`が選択肢だが、workspaceとnetworkの到達範囲は残る。安全性を保ちつつpromptを減らすには`auto` modeが代替",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/everyinc/compound-engineering-plugin",
+      "observed_at": "2026-08-15",
+      "summary": "everyinc/compound-engineering-plugin@claude-permissions-optimizer (public, reputation emerging): read the skills.sh SKILL.md page: it checks the environment, selects a session-history scope, derives which Bash commands are genuinely safe from actual observed usage, then writes allow rules into .claude/settings.json while refusing to allowlist destructive commands (rm -rf, git push --force) — the remedy's narrow prefix pre-allow with risky operations left on deny/ask.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -113,5 +120,80 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "everyinc/compound-engineering-plugin@claude-permissions-optimizer",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/everyinc/compound-engineering-plugin",
+    "url": "https://www.skills.sh/everyinc/compound-engineering-plugin/claude-permissions-optimizer",
+    "path": "claude-permissions-optimizer",
+    "confirmed_by": "read the skills.sh SKILL.md page: it checks the environment, selects a session-history scope, derives which Bash commands are genuinely safe from actual observed usage, then writes allow rules into .claude/settings.json while refusing to allowlist destructive commands (rm -rf, git push --force) — the remedy's narrow prefix pre-allow with risky operations left on deny/ask.",
+    "matched_on": [
+      "identify safe repeated Bash commands that trigger permission prompts",
+      "write narrow allow rules into .claude/settings.json",
+      "keep destructive commands on deny/ask",
+      "evidence-based from observed session usage rather than a prescriptive list"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/everyinc/compound-engineering-plugin (24,291 stars, 2,003 forks, last commit 2026-08-15) — publisher Every Inc, real standing",
+        "https://www.skills.sh/everyinc/compound-engineering-plugin/claude-permissions-optimizer (196 installs, first seen Mar 18 2026; Gen Agent Trust Hub Warn, Socket Pass, Snyk Fail)",
+        "https://www.skills.sh/everyinc/compound-engineering-plugin/claude-permissions-optimizer/security/snyk (Fail = W007 HIGH: extracts and prints session-transcript commands verbatim with no redaction; plus W013 MEDIUM: writes ~/.claude/settings.json and .claude/settings.json to suppress permission prompts and widen allowed command execution)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "lkshrk/useful-skills@project-tool-allowlist",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/lkshrk/useful-skills",
+        "why_not_primary": "The only asset covering both surfaces the remedy names (a project-trust block for ~/.codex/config.toml as well as .claude/settings.local.json), but the repo has 0 stars and 27 installs, and it derives the allowlist from detected tooling rather than observed prompts, with only coarse git scopes.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/lkshrk/useful-skills (0 stars, 0 forks, last commit 2026-07-10)",
+            "first pass reported 27 installs on skills.sh"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "laurigates/claude-plugins@claude-security-settings",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/laurigates/claude-plugins",
+        "why_not_primary": "Active 51-star repo but oriented at hardening rather than at reducing prompt fatigue for safe verify commands; never opened in either pass.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/laurigates/claude-plugins (51 stars, 7 forks, last commit 2026-08-15, 30 open issues)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "otrebu/agents@claude-permissions",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/otrebu/agents",
+        "why_not_primary": "4 stars, no commits since 2025-11-17, never opened.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/otrebu/agents (4 stars, 0 forks, last commit 2025-11-17)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

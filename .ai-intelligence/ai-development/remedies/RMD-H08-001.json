@@ -36,6 +36,13 @@
       "observed_at": "2025-06-13",
       "summary": "同期実行のsubagentが情報流のbottleneckとAnthropicが自認。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/neolabhq/context-engineering-kit",
+      "observed_at": "2026-08-15",
+      "summary": "multi-agent-patterns (public, reputation emerging): read SKILL.md: the 'Failure: Supervisor Bottleneck' section prescribes output constraints and file-based checkpointing, the peer-to-peer pattern has agents write findings to a shared state file and invoke peers directly, and the telephone-game passage tells subagents to write to shared files instead of letting the supervisor rewrite results — the remedy's shared-list plus direct-sharing mechanism.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -82,5 +89,51 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "multi-agent-patterns",
+    "source": "skills.sh",
+    "path": "plugins/sadd/skills/multi-agent-patterns/SKILL.md",
+    "url": "https://skills.sh/neolabhq/context-engineering-kit/multi-agent-patterns",
+    "availability": "public",
+    "public_url": "https://github.com/neolabhq/context-engineering-kit",
+    "matched_on": [
+      "names the supervisor/orchestrator bottleneck as a failure mode and gives mitigations",
+      "peer-to-peer handoff so agents transfer control directly instead of routing everything through the coordinator",
+      "shared task list / state file as the coordination mechanism instead of orchestrator-mediated context passing",
+      "let subagents return output verbatim or write directly to shared files rather than having the supervisor paraphrase"
+    ],
+    "confirmed_by": "read SKILL.md: the 'Failure: Supervisor Bottleneck' section prescribes output constraints and file-based checkpointing, the peer-to-peer pattern has agents write findings to a shared state file and invoke peers directly, and the telephone-game passage tells subagents to write to shared files instead of letting the supervisor rewrite results — the remedy's shared-list plus direct-sharing mechanism.",
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/neolabhq/context-engineering-kit (1,337 stars, 137 forks, last commit 2026-08-07)",
+        "https://skills.sh/neolabhq/context-engineering-kit/multi-agent-patterns (1.0K installs; all three audits Pass)",
+        "mention: skill-directory sites only (claudeskills.info, awesomeskills.dev, claudemarketplaces.com)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "dispatching-parallel-agents",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Covers issuing all dispatches in one response so they run concurrently (the 'don't serialize' half) but keeps a single coordinator and has no shared task list or teammate messaging.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272.5k stars, 24.4k forks; maintained by Jesse Vincent, a notable engineer)",
+            "one of the collections this pass is instructed to treat as well-known; widely redistributed (archieindian/openclaw-superpowers adapts its skills under MIT with attribution)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

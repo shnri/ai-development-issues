@@ -46,6 +46,13 @@
       "observed_at": "2026-01-30",
       "summary": "Spec-driven development(spec-first/spec-anchored/spec-as-source)は'specifications as the source of truth and code as a generated or verified secondary artifact'を提案。適用判断枠組みは示すが効果の定量はない。",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "writing-for-agents (public, reputation established): read SKILL.md: 'Keep each meaning in a single source of truth: one authoritative place ... Duplication - the same meaning in more than one place - costs maintenance and tokens, and inflates a meaning's prominence past its real rank', plus the context-pointer model where other documents reach material by pointer instead of copying it.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -107,5 +114,79 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "writing-for-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://skills.sh/mattpocock/skills/writing-for-agents",
+    "path": "skills/productivity/writing-for-agents",
+    "confirmed_by": "read SKILL.md: 'Keep each meaning in a single source of truth: one authoritative place ... Duplication - the same meaning in more than one place - costs maintenance and tokens, and inflates a meaning's prominence past its real rank', plus the context-pointer model where other documents reach material by pointer instead of copying it.",
+    "matched_on": [
+      "one declared authoritative place per meaning",
+      "other documents point/link rather than summarize",
+      "duplication treated as a defect to prune"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, 18,808 forks, last commit 2026-08-15; maintainer Matt Pocock, well-known TypeScript educator)",
+        "https://skills.sh/mattpocock/skills/writing-for-agents (74.7K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "SKILL.md read: information hierarchy ladder (in-file step / in-file reference / disclosed reference), progressive disclosure, Pruning section: 'Keep each meaning in a single source of truth ... Duplication - the same meaning in more than one place - costs maintenance and tokens'"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "source-of-truth-docs-skills",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/elvincth/source-of-truth-docs-skills",
+        "why_not_primary": "demoted former primary: 2 stars, dormant",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/elvincth/source-of-truth-docs-skills (2 stars, 0 forks, last commit 2026-05-21, 6 commits total)",
+            "https://skills.sh/elvincth/source-of-truth-docs-skills/source-of-truth-docs-skills"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "agent-rules",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mr-kelly/skills",
+        "why_not_primary": "enforces link-not-copy via symlinks but only for agent rules/skills; 5-star repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mr-kelly/skills (5 stars, 4 forks, last commit 2026-08-15)",
+            "https://skills.sh/mr-kelly/skills/agent-rules"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "one product-neutral body linked from each surface, but org-private and scoped to instructions",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

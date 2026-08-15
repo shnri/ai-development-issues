@@ -38,6 +38,13 @@
       "observed_at": "2026-08-15",
       "summary": "Spec Kit clarifyは'### Session YYYY-MM-DD'で日付付きに記録し、矛盾する旧記述は'replaced, not duplicated'。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/morochena/skills",
+      "observed_at": "2026-08-15",
+      "summary": "canonize-mark (public, reputation unknown): read SKILL.md on skills.sh: inventory-and-classify pass that normalizes durable intent, reconciles active constraints and marks planning sediment in place so its status is unmistakable.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -93,5 +100,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "canonize-mark",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/morochena/skills",
+    "url": "https://skills.sh/morochena/skills/canonize-mark",
+    "confirmed_by": "read SKILL.md on skills.sh: inventory-and-classify pass that normalizes durable intent, reconciles active constraints and marks planning sediment in place so its status is unmistakable.",
+    "matched_on": [
+      "inventory and classify every document as canonical or superseded",
+      "mark status in place so agents can tell trusted spec from stale planning material",
+      "let code/config/schemas/tests own mechanically discoverable truth"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/morochena/skills (0 stars, 0 forks, last commit 2026-08-07)",
+        "https://skills.sh/morochena/skills/canonize-mark"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "docs-frontmatter-audit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/elastic/elastic-docs-skills",
+        "why_not_primary": "established (Elastic org) and implements the frontmatter-audit mechanism across a docs directory, but its required field set is Elastic-specific, not status/version/target-version/owner/revalidation-trigger",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/elastic/elastic-docs-skills (71 stars, 10 forks, last commit 2026-08-13; maintained by the Elastic org)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "documentation-and-adrs",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "established status lifecycle, but for ADRs only and without version/date/owner metadata",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, active)",
+            "https://skills.sh/addyosmani/agent-skills/documentation-and-adrs (22.8K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+            "SKILL.md read: ADR Lifecycle PROPOSED -> ACCEPTED -> (SUPERSEDED or DEPRECATED), 'don't delete old ADRs', 'match the existing convention first / surface the conflict'"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "doc-sync",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/acedergren/agentic-tools",
+        "why_not_primary": "drift detection without lifecycle metadata; 24-star dormant repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/acedergren/agentic-tools (24 stars, 3 forks, last commit 2026-05-27)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

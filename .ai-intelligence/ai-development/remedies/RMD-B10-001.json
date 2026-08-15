@@ -38,6 +38,13 @@
       "observed_at": "2026-08-15",
       "summary": "fresh contextのreviewer subagentで『consistency with our existing middleware patterns』等を確認するWriter/Reviewer pattern。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/addyosmani/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "git-workflow-and-versioning (public, reputation established): read skills/git-workflow-and-versioning/SKILL.md from a fresh clone of addyosmani/agent-skills@main: 'Don't combine formatting changes with behavior changes. Don't combine refactors with features. Each type of change should be a separate commit - and ideally a separate PR', followed by the review-cost ladder 'Target ~100 lines per commit/PR ... ~300 acceptable for a single logical change ... ~1000 lines split into smaller changes' and a pointer to code-review-and-quality for splitting strategies.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -85,5 +92,77 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "git-workflow-and-versioning",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/addyosmani/agent-skills",
+    "url": "https://skills.sh/addyosmani/agent-skills/git-workflow-and-versioning",
+    "path": "skills/git-workflow-and-versioning",
+    "confirmed_by": "read skills/git-workflow-and-versioning/SKILL.md from a fresh clone of addyosmani/agent-skills@main: 'Don't combine formatting changes with behavior changes. Don't combine refactors with features. Each type of change should be a separate commit - and ideally a separate PR', followed by the review-cost ladder 'Target ~100 lines per commit/PR ... ~300 acceptable for a single logical change ... ~1000 lines split into smaller changes' and a pointer to code-review-and-quality for splitting strategies.",
+    "matched_on": [
+      "one purpose per commit/PR - never mix refactor, fix and feature in one review",
+      "explicit size thresholds that trigger a split",
+      "atomic small changes framed as what keeps agent-speed output reviewable and revertible"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14)",
+        "https://skills.sh/addyosmani/agent-skills/git-workflow-and-versioning (20.5K installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "small-pull-requests",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addzyyy/dora-skills",
+        "why_not_primary": "Pass-1 primary with the same rule and split triggers, plus the review-depth argument, but the repo has 0 stars and no commits since March.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/addzyyy/dora-skills (0 stars, 0 forks, last commit 2026-03-22)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "ci-cd-and-automation",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "Established, and it supplies the machine-precheck destination ('automate quality gates so that no change reaches production without passing tests, lint, type checking, and build', shift-left framing), but it does not order those gates before human review or triage review by risk.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/ci-cd-and-automation read from a fresh clone)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "code-review",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Reviews a diff on Standards and Spec axes in parallel sub-agents and explicitly skips what tooling already enforces, but it does not limit batch size and treats every hunk at the same depth.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

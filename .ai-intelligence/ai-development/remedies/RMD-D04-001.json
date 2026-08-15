@@ -61,6 +61,13 @@
       "observed_at": "2026-02-01",
       "summary": "OpenAI: 巨大AGENTS.mdから短いmap＋structured docs＋doc gardeningへ移行（単一組織事例）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/getsentry/skills",
+      "observed_at": "2026-08-15",
+      "summary": "getsentry/agents-md (public, reputation established): read skills/agents-md/SKILL.md from a fresh clone of getsentry/skills@main: 'Goal: concise, actionable agent instructions. Target under 60 lines; never exceed 100', step 3 'Write the smallest useful file', step 4 'Verify exact paths and commands exist', a Commands table and an 'External References' table mapping each need to the exact file to read, plus anti-patterns against prose, duplicated README/CONTRIBUTING content and nested files that repeat the root.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -127,11 +134,78 @@
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
   "existing_asset": {
-    "asset_id": "agent-instruction-maintenance",
-    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
-    "skill": "maintain-agent-instructions",
-    "coverage": "SKILL.md step 6 + audit-criteria「常時ルールとSkillの境界」: keep always-loaded files to project facts/constraints/verification commands, move conditional procedures to Skills/rules.",
+    "asset_id": "getsentry/agents-md",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/getsentry/skills",
+    "url": "https://skills.sh/getsentry/skills/agents-md",
+    "path": "skills/agents-md",
+    "confirmed_by": "read skills/agents-md/SKILL.md from a fresh clone of getsentry/skills@main: 'Goal: concise, actionable agent instructions. Target under 60 lines; never exceed 100', step 3 'Write the smallest useful file', step 4 'Verify exact paths and commands exist', a Commands table and an 'External References' table mapping each need to the exact file to read, plus anti-patterns against prose, duplicated README/CONTRIBUTING content and nested files that repeat the root.",
+    "matched_on": [
+      "hard line budget for the always-loaded instruction file",
+      "the file is a map of facts, commands and pointers, not procedures",
+      "references say what each pointer is for (Need -> File), instead of copied content",
+      "nested/path-scoped instruction files only where a subtree's rules actually differ"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/getsentry/skills (915 stars, last commit 2026-08-15)",
+        "https://skills.sh/getsentry/skills/agents-md (4.8K installs; Trust Hub Pass, Socket Pass, Snyk Pass, listed since 2026-01-20)",
+        "maintainer: Sentry (known engineering company); repo is one of the reference skill collections"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
     "verified_at": "2026-08-15",
-    "verified_by": "ai-development-improvement maintain MNT-20260815T111324Z"
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "context-doctor",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mark-life/agent-skills",
+        "why_not_primary": "Pass-1 primary and the only public asset found that measures always-on context and relocates conditional guidance rather than deleting it, but the repo has 1 star, the skill has 17 installs and its Gen Agent Trust Hub badge is Warn.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mark-life/agent-skills (1 star, 0 forks, last commit 2026-08-15)",
+            "https://skills.sh/mark-life/agent-skills/context-doctor (17 installs; Socket Pass, Snyk Pass, Gen Agent Trust Hub Warn)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "The consumer's verified implementation of the always-on-rule vs on-demand-Skill boundary, but org-private.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "claude-md-prune",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/othavi0/skills",
+        "why_not_primary": "Covers the size half (triggers past ~200 lines) but is subtractive-only and the repo has 0 stars, 8 installs.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/othavi0/skills (0 stars, 0 forks, last commit 2026-08-04)",
+            "https://skills.sh/othavi0/skills/claude-md-prune (8 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

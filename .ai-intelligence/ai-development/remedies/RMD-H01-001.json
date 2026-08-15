@@ -53,6 +53,13 @@
       "observed_at": "2026-08-15",
       "summary": "Claude Code checkpointは直近100 prompt分のfile編集をsessionと共に保存し--resume後も/rewind可能だが、bash変更・subagent編集・外部変更は追跡しない。恒久履歴はgitを使うよう明記。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/softaworks/agent-toolkit",
+      "observed_at": "2026-08-15",
+      "summary": "session-handoff (public, reputation emerging): read SKILL.md: CREATE workflow scaffolds .claude/handoffs/<date>-<slug>.md via scripts/create_handoff.py (pre-filling git branch, recent commits, modified files) and requires Current State / Important Context / Immediate Next Steps / Decisions Made sections; RESUME workflow loads that file to continue, which is the remedy's durable-state plus session-start read.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -105,5 +112,81 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "session-handoff",
+    "source": "skills.sh",
+    "path": "skills/session-handoff/SKILL.md",
+    "url": "https://skills.sh/softaworks/agent-toolkit/session-handoff",
+    "availability": "public",
+    "public_url": "https://github.com/softaworks/agent-toolkit",
+    "matched_on": [
+      "externalize goal, completed work, decisions and next actions to a durable file in the repository",
+      "handoff document pre-filled with git branch, recent commits and modified files",
+      "explicit RESUME workflow that reads the stored state before continuing",
+      "chained handoffs across multiple sessions"
+    ],
+    "confirmed_by": "read SKILL.md: CREATE workflow scaffolds .claude/handoffs/<date>-<slug>.md via scripts/create_handoff.py (pre-filling git branch, recent commits, modified files) and requires Current State / Important Context / Immediate Next Steps / Decisions Made sections; RESUME workflow loads that file to continue, which is the remedy's durable-state plus session-start read.",
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/softaworks/agent-toolkit (2,339 stars, 218 forks, last commit 2026-03-05 — no commits in five months)",
+        "https://skills.sh/softaworks/agent-toolkit/session-handoff (4.0K installs; all three audits Pass)",
+        "mention: only auto-generated registry listings (tessl.io registry, agentskills.me, explainx.ai), no independent write-up"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "agent-session-resume",
+        "availability": "public",
+        "public_url": "https://github.com/hacktivist123/agent-session-resume",
+        "why_not_primary": "Covers only the read side (reconstruct prior session from transcripts and git state, classify DONE/PARTIALLY DONE/NOT DONE); it does not create the durable in-repo progress artifact the remedy asks for.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/hacktivist123/agent-session-resume (234 stars, 13 forks, last commit 2026-06-24)",
+            "https://skills.sh/hacktivist123/agent-session-resume/agent-session-resume (96 installs; Trust Hub Warn / Socket Pass / Snyk Warn)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "steering",
+        "availability": "consumer-local",
+        "why_not_primary": "Records requirements/design/tasklist in .steering for multi-session work and forbids marking unfinished tasks done, but has no session-start checklist (git log / progress / basic behaviour check) and is not obtainable outside TechLog.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local Skill in TechLog (skills/steering); no public origin recorded in the batch"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "handoff",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Writes the handoff to the OS temp directory rather than the repository, so the state is not durable project state.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, 18,809 forks, last commit 2026-08-15)",
+            "https://skills.sh/mattpocock/skills/handoff (595.0K installs; all three audits Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

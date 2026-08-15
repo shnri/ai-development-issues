@@ -20,6 +20,13 @@
       "reference": "https://adr.github.io/",
       "observed_at": "2026-08-15",
       "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/addyosmani/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "context-engineering (public, reputation established): read SKILL.md: 'The Context Hierarchy - structure context from most persistent to most transient' (1. rules files CLAUDE.md/AGENTS.md, 2. spec/architecture docs, 3. source files, 4. error output, 5. conversation history), with a 'When Context Conflicts' protocol that forbids silently picking an interpretation and requires surfacing the conflict with options - the declared ordering plus conflict-resolution rule the remedy asks to put in the instruction file.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -45,5 +52,81 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "context-engineering",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/addyosmani/agent-skills",
+    "url": "https://skills.sh/addyosmani/agent-skills/context-engineering",
+    "path": "skills/context-engineering",
+    "confirmed_by": "read SKILL.md: 'The Context Hierarchy - structure context from most persistent to most transient' (1. rules files CLAUDE.md/AGENTS.md, 2. spec/architecture docs, 3. source files, 4. error output, 5. conversation history), with a 'When Context Conflicts' protocol that forbids silently picking an interpretation and requires surfacing the conflict with options - the declared ordering plus conflict-resolution rule the remedy asks to put in the instruction file.",
+    "matched_on": [
+      "a declared, ordered hierarchy of authoritative context written into the rules file",
+      "conflicts between sources handled by an explicit rule, not by guessing",
+      "the instruction file (CLAUDE.md/AGENTS.md/.cursorrules) is the top of the order"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/addyosmani/agent-skills (87,489 stars, active)",
+        "https://skills.sh/addyosmani/agent-skills/context-engineering (21.7K installs; Trust Hub Pass / Socket Pass / Snyk Warn)",
+        "SKILL.md read: five-level context hierarchy (rules file > spec/architecture > source > error output > conversation) and a 'When Context Conflicts' protocol"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "agent-rules",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mr-kelly/skills",
+        "why_not_primary": "demoted former primary: mechanically enforces one authority file via symlinks, but 5 stars and no ordering for conflict resolution",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mr-kelly/skills (5 stars, 4 forks, last commit 2026-08-15)",
+            "https://skills.sh/mr-kelly/skills/agent-rules"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "writing-for-agents",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established single-source-of-truth rule for agent documents, but no precedence order between spec/code/tests/issues",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, 18,808 forks, last commit 2026-08-15; maintainer Matt Pocock, well-known TypeScript educator)",
+            "https://skills.sh/mattpocock/skills/writing-for-agents (74.7K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+            "SKILL.md read: information hierarchy ladder (in-file step / in-file reference / disclosed reference), progressive disclosure, Pruning section: 'Keep each meaning in a single source of truth ... Duplication - the same meaning in more than one place - costs maintenance and tokens'"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "agentmd",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mryll/skills",
+        "why_not_primary": "generates one canonical AGENTS.md plus shims; about minimality, not conflict ordering; 3-star repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mryll/skills (3 stars, 0 forks, last commit 2026-08-10)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

@@ -45,6 +45,13 @@
       "observed_at": "2026-01-30",
       "summary": "曖昧promptはAIに多数の未言明の仮定を置かせる（『poor at mind reading』）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/addyosmani/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "planning-and-task-breakdown (public, reputation established): read skills/planning-and-task-breakdown/SKILL.md from a fresh clone of addyosmani/agent-skills@main: Step 4's task template mandates an 'Acceptance criteria' block of specific testable conditions and a separate 'Verification' block (focused test command, build command, manual check); Step 5 inserts checkpoints every 2-3 tasks whose items include 'Core user flow works end-to-end'; the Red Flags list names 'tasks that say implement the feature without acceptance criteria' and 'no verification steps in the plan'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -91,5 +98,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "planning-and-task-breakdown",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/addyosmani/agent-skills",
+    "url": "https://skills.sh/addyosmani/agent-skills/planning-and-task-breakdown",
+    "path": "skills/planning-and-task-breakdown",
+    "confirmed_by": "read skills/planning-and-task-breakdown/SKILL.md from a fresh clone of addyosmani/agent-skills@main: Step 4's task template mandates an 'Acceptance criteria' block of specific testable conditions and a separate 'Verification' block (focused test command, build command, manual check); Step 5 inserts checkpoints every 2-3 tasks whose items include 'Core user flow works end-to-end'; the Red Flags list names 'tasks that say implement the feature without acceptance criteria' and 'no verification steps in the plan'.",
+    "matched_on": [
+      "every task carries explicit, testable acceptance criteria derived from the requirement",
+      "every task carries a verification step (tests, build, manual check)",
+      "checkpoints require the core user flow to work end-to-end before proceeding",
+      "criteria are per-task and requirement-derived, not a generic checklist"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14)",
+        "https://skills.sh/addyosmani/agent-skills/planning-and-task-breakdown (23.9K installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "definition-of-done",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/validkeys/sherpy",
+        "why_not_primary": "Pass-1 primary: derives per-milestone acceptance criteria and exit checklists from recorded requirements, but it only runs inside its own sherpy artifact pipeline and the repo has 1 star.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/validkeys/sherpy (1 star, 0 forks, last commit 2026-06-17)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "interview-me",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "Covers the remedy's out-of-scope clause rather than the Definition of Done: its restate template makes an 'Out of scope' line non-negotiable ('half of misalignment is silent disagreement about what is not being built'), but it stops before task specs.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/interview-me read from a fresh clone)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "spec-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "Same established repo; its spec template carries Boundaries (always / ask first / never), Testing Strategy and Success Criteria, but it is a project-level spec pass rather than the per-task done-condition.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/spec-driven-development read from a fresh clone)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

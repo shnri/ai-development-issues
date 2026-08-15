@@ -45,6 +45,13 @@
       "observed_at": "2026-08-11",
       "summary": "auditは予防でなく事後追跡、operationally-supported/medium",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/justinramos101/agent-skill-kit",
+      "observed_at": "2026-08-15",
+      "summary": "harden-repo-for-coding-agents (public, reputation unknown): read references/playbooks/operations.md (Telemetry, Governance): authorship provenance, append-only override and rejection logs, CODEOWNERS ownership with review-gated writes, and run metadata on every trace.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -99,5 +106,65 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "harden-repo-for-coding-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/justinramos101/agent-skill-kit",
+    "url": "https://skills.sh/justinramos101/agent-skill-kit/harden-repo-for-coding-agents",
+    "path": "skills/harden-repo-for-coding-agents",
+    "confirmed_by": "read references/playbooks/operations.md (Telemetry, Governance): authorship provenance, append-only override and rejection logs, CODEOWNERS ownership with review-gated writes, and run metadata on every trace.",
+    "matched_on": [
+      "'record which model/agent/session wrote which lines (e.g. Git notes)'",
+      "'every agent-facing artifact has a named owner in CODEOWNERS ... write-protect instruction files and skills behind PR review'",
+      "approval matrix by action type x risk class with named approvers",
+      "'log every hook override append-only (tool, args, actor, timestamp, rationale); record human-rejection events'",
+      "trace resource attributes on every run"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+        "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+        "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "ai-assessment-scale",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mastepanoski/claude-skills",
+        "why_not_primary": "the disclosure leg at project level rather than per PR, and it states it is not a compliance standard; maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mastepanoski/claude-skills (alternate only; not researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "code-review",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established (218.3k stars); reviews changes against standards and spec, with no attribution, configuration-change record or required-review wiring",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

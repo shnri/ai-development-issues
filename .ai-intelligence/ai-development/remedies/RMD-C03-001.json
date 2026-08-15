@@ -58,6 +58,13 @@
       "observed_at": "2026-04-08",
       "summary": "Anthropic Managed Agents: sessionをcontext window外に置くappend-only event logとして扱い、harness失敗後もwake(sessionId)/getEventsで状態を復元",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": ":skills/steering",
+      "observed_at": "2026-08-15",
+      "summary": "steering (consumer-local, reputation unknown): pass 1 read SKILL.md: the usage section triggers on multi-session/hand-off work, creation writes requirements.md/design.md/tasklist.md under .steering/YYYYMMDD-<task>/, and the update rules forbid marking a task done before implementation and verification finish while requiring blockers to be recorded.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -115,5 +122,46 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "steering",
+    "kind": "installed-skill",
+    "availability": "consumer-local",
+    "path": "skills/steering",
+    "confirmed_by": "pass 1 read SKILL.md: the usage section triggers on multi-session/hand-off work, creation writes requirements.md/design.md/tasklist.md under .steering/YYYYMMDD-<task>/, and the update rules forbid marking a task done before implementation and verification finish while requiring blockers to be recorded.",
+    "matched_on": [
+      "record requirements, acceptance criteria, design decisions and task state outside the conversation",
+      "reuse the existing record when continuing the same work (re-read at session start)",
+      "keep unfinished items unfinished with the blocking reason recorded",
+      "explicitly scoped to multi-session and hand-off work"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "consumer-local Skill in TechLog (skills/steering); no public origin recorded in the batch"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "handoff",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Established and safe to name (595K installs), but it writes a one-shot handoff document to the OS temp directory for the next session rather than durable in-repo state re-read at each session start.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, 18,809 forks, last commit 2026-08-15)",
+            "https://skills.sh/mattpocock/skills/handoff (595.0K installs; all three audits Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

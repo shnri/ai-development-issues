@@ -62,6 +62,13 @@
       "observed_at": "2026-08-11",
       "summary": "flake・実行時間を複合監視するquality-metricsカード(operationally-supported)。flake率とruntime deltaを追跡指標として使える",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/laurigates/claude-plugins",
+      "observed_at": "2026-08-15",
+      "summary": "test-tier-selection (public, reputation emerging): read the skills.sh page (repository path not resolvable from raw.githubusercontent): three tiers with duration, scope and when-to-run columns - Unit <30s 'after every code change', Integration <5min 'after feature completion', E2E <30min 'before commit/PR' - so the expensive tier runs at the commit/PR gate rather than on every iteration. Its Decision Matrix section is collapsed on skills.sh and could not be read.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -115,5 +122,45 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "test-tier-selection",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/laurigates/claude-plugins",
+    "url": "https://skills.sh/laurigates/claude-plugins/test-tier-selection",
+    "confirmed_by": "read the skills.sh page (repository path not resolvable from raw.githubusercontent): three tiers with duration, scope and when-to-run columns - Unit <30s 'after every code change', Integration <5min 'after feature completion', E2E <30min 'before commit/PR' - so the expensive tier runs at the commit/PR gate rather than on every iteration. Its Decision Matrix section is collapsed on skills.sh and could not be read.",
+    "matched_on": [
+      "explicit tiers with a time budget and a trigger point each",
+      "selects the tier from change context and scope instead of running everything each time"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/laurigates/claude-plugins (51 stars, 7 forks, 2,115 commits, 30 open issues, last commit today, personal account)",
+        "skills.sh: 58 installs (first pass); the repo advertises '44 plugins providing 400+ skills and 21 agents', i.e. bulk breadth rather than a maintained flagship"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "analyze-selective-testing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/tuist/agent-skills",
+        "why_not_primary": "could not be substantiated: tuist/agent-skills (34 stars, 8 commits) lists only a 'Migrate to Tuist' skill and no analyze-selective-testing, so the first pass's citation is unverified; it would in any case be Tuist/Xcode-bound",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/tuist/agent-skills (34 stars, 3 forks, 8 commits, official Tuist organisation) - the README lists only one skill, 'Migrate to Tuist'; no analyze-selective-testing skill is present"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

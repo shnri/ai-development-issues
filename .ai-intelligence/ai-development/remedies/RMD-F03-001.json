@@ -54,6 +54,13 @@
       "observed_at": "2025-06",
       "summary": "LLM生成Pythonテストのerrorとtest smellを3 modelで分析(生成テストの品質問題の存在証拠)。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/trailofbits/skills",
+      "observed_at": "2026-08-15",
+      "summary": "trailofbits/skills@mutation-testing (public, reputation established): read plugins/mutation-testing/skills/mutation-testing/SKILL.md at HEAD: it configures mewt/muton campaigns (mewt covers TypeScript and JavaScript among others) through a five-phase init/scope/optimize/validate/run workflow, offers per-file targeting and two-phase campaigns for long runs, and defines the result classes Caught / Uncaught ('mutation survived — indicates untested logic') / Timeout / Skipped, so surviving mutants are the strength signal.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -114,5 +121,65 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "trailofbits/skills@mutation-testing",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/trailofbits/skills",
+    "url": "https://www.skills.sh/trailofbits/skills/mutation-testing",
+    "path": "plugins/mutation-testing/skills/mutation-testing/SKILL.md",
+    "confirmed_by": "read plugins/mutation-testing/skills/mutation-testing/SKILL.md at HEAD: it configures mewt/muton campaigns (mewt covers TypeScript and JavaScript among others) through a five-phase init/scope/optimize/validate/run workflow, offers per-file targeting and two-phase campaigns for long runs, and defines the result classes Caught / Uncaught ('mutation survived — indicates untested logic') / Timeout / Skipped, so surviving mutants are the strength signal.",
+    "matched_on": [
+      "mutation testing as the independent fault model that replaces coverage as the measure of test strength",
+      "surviving mutants read as untested logic rather than as a score to chase",
+      "campaign scoping and timeout tuning so mutation runs stay affordable on a real suite"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/trailofbits/skills (6,603 stars, last commit 2026-08-14)",
+        "https://www.skills.sh/trailofbits/skills/mutation-testing (2 installs, first seen Mar 31 2026; Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "read plugins/mutation-testing/skills/mutation-testing/SKILL.md at HEAD"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "citypaul/.dotfiles@mutation-testing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/citypaul/.dotfiles",
+        "why_not_primary": "Previous primary, demoted on reputation (personal dotfiles repo, 714 stars, 168 installs, clean audits). Technically the closer fit: StrykerJS + Vitest — the exact stack this remedy names — plus mutator rules for judging equivalent and surviving mutants, run as a full-project and diff-scoped end-of-phase gate.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/citypaul/.dotfiles (714 stars, last commit 2026-08-13)",
+            "https://www.skills.sh/citypaul/.dotfiles/mutation-testing (168 installs, first seen Apr 15 2026; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "trailofbits/skills@property-based-testing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/trailofbits/skills",
+        "why_not_primary": "Established and covers the fast-check half of the remedy at the mechanism level (automatic detection triggers for roundtrip/parser/normalizer/validator patterns, a property catalog, and explicit when-not-to-use rules), but it is about writing property tests, not about measuring suite strength.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/trailofbits/skills (6,603 stars, last commit 2026-08-14)",
+            "read plugins/property-based-testing/skills/property-based-testing/SKILL.md at HEAD (automatic-detection triggers, property catalog, when-not-to-use)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

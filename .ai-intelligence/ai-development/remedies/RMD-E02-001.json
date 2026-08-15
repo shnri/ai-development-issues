@@ -56,6 +56,13 @@
       "observed_at": "2026-01-30",
       "summary": "Code-to-Contract: 曖昧なpromptがAIに未明示の仮定を強いる。spec-anchored（testでspecと実装の整合を強制）を提案。人間精緻化specでerror最大50%削減という引用は nascent research。",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "code-review (public, reputation established): read skills/code-review/SKILL.md: it pins a fixed point, resolves the originating spec, then spawns a Spec sub-agent and a Standards sub-agent in parallel 'so they don't pollute each other's context' — the remedy's fresh-context reviewer oracle; the Spec brief demands findings for missing requirements, behaviour in the diff that was not asked for, and requirements implemented wrongly, each quoting the spec line.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -116,5 +123,61 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "code-review",
+    "kind": "installed-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://www.skills.sh/mattpocock/skills/code-review",
+    "path": "skills/code-review",
+    "confirmed_by": "read skills/code-review/SKILL.md: it pins a fixed point, resolves the originating spec, then spawns a Spec sub-agent and a Standards sub-agent in parallel 'so they don't pollute each other's context' — the remedy's fresh-context reviewer oracle; the Spec brief demands findings for missing requirements, behaviour in the diff that was not asked for, and requirements implemented wrongly, each quoting the spec line.",
+    "matched_on": [
+      "implementer-independent oracle over the diff",
+      "fresh-context reviewer checking the change against the originating spec",
+      "detection of semantic drift from requirements rather than style only"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "adversarial-diff-review",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/hburaktasyurek/agent-skills-and-commands",
+        "why_not_primary": "Same fresh-context reviewer idea, but the repo has 0 stars and 0 forks and nothing external references it, so it cannot be named; it also enumerates no concurrency/permission/compatibility checks.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/hburaktasyurek/agent-skills-and-commands (0 stars, 0 forks, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "acceptance-criteria-verification",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/troykelly/claude-skills",
+        "why_not_primary": "Covers the acceptance-criteria half but the repo is stale since 2026-01-13 with 11 stars, and the skill has no independent oracle.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/troykelly/claude-skills (11 stars, 0 forks, last commit 2026-01-13)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

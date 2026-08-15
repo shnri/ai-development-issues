@@ -38,6 +38,13 @@
       "observed_at": "2026-05-07",
       "summary": "GitHub: Agent PRの共通review checklist",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/getsentry/skills",
+      "observed_at": "2026-08-15",
+      "summary": "agents-md (public, reputation established): read the raw SKILL.md at getsentry/skills skills/agents-md: it inspects package manager, commands, CI workflows, policy docs and conventions, then writes a root AGENTS.md under 60 lines with a Commands table, External References table, Key Conventions and a Commit Attribution rule, symlinking CLAUDE.md instead of maintaining a divergent copy — the remedy's 'shared instructions such as AGENTS.md defined once for the team'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -93,5 +100,56 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "agents-md",
+    "source": "skills.sh",
+    "path": "skills/agents-md",
+    "url": "https://skills.sh/getsentry/skills/agents-md",
+    "availability": "public",
+    "public_url": "https://github.com/getsentry/skills",
+    "matched_on": [
+      "creates and maintains the team's shared agent instruction file (AGENTS.md, with CLAUDE.md symlinked rather than duplicated)",
+      "derives the instructions from the repository's real commands, CI workflows, conventions and existing policy documents",
+      "one root file plus nested files only where a subtree genuinely differs, so every contributor's agent reads the same baseline",
+      "requires AI commits to carry a Co-Authored-By attribution line",
+      "keeps the shared file short and reference-backed so it stays current"
+    ],
+    "confirmed_by": "read the raw SKILL.md at getsentry/skills skills/agents-md: it inspects package manager, commands, CI workflows, policy docs and conventions, then writes a root AGENTS.md under 60 lines with a Commands table, External References table, Key Conventions and a Commit Attribution rule, symlinking CLAUDE.md instead of maintaining a divergent copy — the remedy's 'shared instructions such as AGENTS.md defined once for the team'.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation)",
+        "read https://raw.githubusercontent.com/getsentry/skills/main/skills/agents-md/SKILL.md"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "shared-plugin",
+        "asset_id": "maintain-agent-instructions",
+        "availability": "org-private",
+        "why_not_primary": "In the shared checkout at plugins/agent-instruction-maintenance/skills/maintain-agent-instructions and already installed in TechLog; it audits AGENTS.md, CLAUDE.md, SKILL.md, rules and commands for staleness, duplication and contradiction, and requires a single product-neutral body linked from each product's search directory. That is the maintenance half of the same leg, but it improves instructions that already exist rather than establishing a team's minimum common practice, and being org-private it cannot be named to outside readers.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "development-guidelines",
+        "availability": "consumer-local",
+        "why_not_primary": "Templates a team-wide development process and coding convention document covering Git strategy, PR process, test strategy, review process and CI automation — the closest thing to the remedy's 'minimum common operating practice' — but it contains no AI stance and no AI-specific practice, and it is TechLog-local.",
+        "reader_facing": false
+      }
+    ]
   }
 }

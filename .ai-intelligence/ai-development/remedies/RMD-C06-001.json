@@ -37,6 +37,13 @@
       "observed_at": "2026-08-15",
       "summary": "Context7: version指定docs取得のMCP/CLI(60.8k stars、Claude Code/Cursor等30+ client)。ただし『community-contributedで正確性・完全性・安全性を保証しない』と明記",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/upstash/context7",
+      "observed_at": "2026-08-15",
+      "summary": "find-docs (public, reputation established): pass 1 read the skills.sh page: 'Retrieve current documentation and code examples for any library using the Context7 CLI', with `npx ctx7@latest library <name> \"<query>\"` then `npx ctx7@latest docs <libraryId> \"<query>\"` - the docs-grounding step before generation.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -97,5 +104,61 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "find-docs",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/upstash/context7",
+    "url": "https://skills.sh/upstash/context7/find-docs",
+    "confirmed_by": "pass 1 read the skills.sh page: 'Retrieve current documentation and code examples for any library using the Context7 CLI', with `npx ctx7@latest library <name> \"<query>\"` then `npx ctx7@latest docs <libraryId> \"<query>\"` - the docs-grounding step before generation.",
+    "matched_on": [
+      "retrieve current official library documentation before writing code instead of relying on memory",
+      "deterministic CLI lookup (npx ctx7 library / npx ctx7 docs) an agent can run mid-task"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/upstash/context7 (60,798 stars, 2,930 forks, last commit 2026-08-15)",
+        "https://skills.sh/upstash/context7/find-docs (5.9K installs; Socket Pass, Gen Agent Trust Hub Warn, Snyk Warn)",
+        "maintainer: Upstash (known company); Context7 is a widely referenced docs-retrieval service"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "source-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "Established and states the remedy's principle directly ('Every framework-specific code decision must be backed by official documentation. Don't implement from memory - verify, cite, and let the user see your sources'), but it is a citation discipline rather than a version-matched retrieval mechanism.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/source-driven-development read from a fresh clone)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "context7",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/pedronauck/skills",
+        "why_not_primary": "Third-party wrapper of the same service with far fewer installs than the upstream Upstash skill.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/pedronauck/skills (579 stars, 83 forks, last commit 2026-08-13)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

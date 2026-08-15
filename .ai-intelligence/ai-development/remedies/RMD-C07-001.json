@@ -29,6 +29,13 @@
       "observed_at": "2026-08-15",
       "summary": "TechLog既存policy: source order、観測日・version記録、repostは独立根拠でない、maturity区分",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": ":plugins/ai-development-improvement/skills/ai-development-improvement",
+      "observed_at": "2026-08-15",
+      "summary": "ai-development-improvement (org-private, reputation unknown): pass 1 read references/evidence-policy.md: the source order ranks official docs and primary papers above community anecdotes, requirements mandate recording the observation date and exact version/surface/runtime scope, reposts are declared not independent evidence, and evidence maturity plus the lifecycle table define when a record must be re-verified.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -81,5 +88,58 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "ai-development-improvement",
+    "kind": "shared-plugin",
+    "availability": "org-private",
+    "path": "plugins/ai-development-improvement/skills/ai-development-improvement",
+    "confirmed_by": "pass 1 read references/evidence-policy.md: the source order ranks official docs and primary papers above community anecdotes, requirements mandate recording the observation date and exact version/surface/runtime scope, reposts are declared not independent evidence, and evidence maturity plus the lifecycle table define when a record must be re-verified.",
+    "matched_on": [
+      "record publication/observation date and exact model, surface, version, runtime or repository scope on every record",
+      "ranked source order that separates official/primary sources from community reports",
+      "reposts are not independent evidence; separate facts, inference and project-specific decisions",
+      "maturity labels and revalidation/reopening triggers instead of open-ended validity"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "watch-official-guidance",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Provenance tracking for official documentation sources specifically, narrower than 'every long-lived record carries source, date and version'.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin (shnri/shared-agent-plugins)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "watch-official-guidance",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "TechLog-installed copy of the same shared Skill.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin (shnri/shared-agent-plugins)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

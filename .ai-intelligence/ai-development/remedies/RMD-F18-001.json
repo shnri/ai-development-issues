@@ -44,6 +44,13 @@
       "observed_at": "2026-05-07",
       "summary": "GitHub: Agentの主張ではなく証拠(失敗→成功するテスト、CI結果)を要求。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/yeachan-heo/oh-my-codex",
+      "observed_at": "2026-08-15",
+      "summary": "yeachan-heo/oh-my-codex@ultraqa (public, reputation established): read SKILL.md: the operating contract states that a build/lint/typecheck/test checklist is insufficient, the goal table ties each verification command to an end-to-end probe against the built artifact, and the required scenario matrix forces expected signal, actual result and evidence per row — including a hostile class for misleading success output (success phrases with non-zero exits, skipped tests, partial logs).",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -102,5 +109,81 @@
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
-  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)"
+  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)",
+  "existing_asset": {
+    "asset_id": "yeachan-heo/oh-my-codex@ultraqa",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/yeachan-heo/oh-my-codex",
+    "url": "https://www.skills.sh/yeachan-heo/oh-my-codex/ultraqa",
+    "path": "skills/ultraqa/SKILL.md",
+    "confirmed_by": "read SKILL.md: the operating contract states that a build/lint/typecheck/test checklist is insufficient, the goal table ties each verification command to an end-to-end probe against the built artifact, and the required scenario matrix forces expected signal, actual result and evidence per row — including a hostile class for misleading success output (success phrases with non-zero exits, skipped tests, partial logs).",
+    "matched_on": [
+      "refuses to be satisfied by a shallow build/lint/typecheck/test checklist",
+      "staged goal modes ending in smoke/e2e probes against the built artifact",
+      "per-row evidence in a scenario matrix instead of a completion claim"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/yeachan-heo/oh-my-codex (32,680 stars, 2,526 forks, last commit 2026-08-14, releasing 0.20.5)",
+        "https://www.skills.sh/yeachan-heo/oh-my-codex/ultraqa (152 installs, first seen Feb 17 2026; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "obra/superpowers@verification-before-completion",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Established and clean-audited; the strongest available statement of the claim-grounding half (identify the proving command, run it fresh this session, read the exit code, only then claim), which is why it is named here in place of the 1-star prove-it skill — but it has no staged build/typecheck/E2E gate.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272,491 stars, 24,362 forks, last commit 2026-08-12, releasing v6.3.0)",
+            "https://www.skills.sh/obra/superpowers/verification-before-completion (178 installs, first seen Jan 19 2026; Trust Hub Pass, Socket Pass, Snyk Pass)",
+            "read skills/verification-before-completion/SKILL.md at HEAD",
+            "mention: the loopkit, rileyhilliard, max4c and jimweller variants all restate this skill's 'Iron Law' wording, i.e. it is the upstream of the category"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "jimweller/clanker-skills@prove-it",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/jimweller/clanker-skills",
+        "why_not_primary": "Precise on the claim-grounding half — every factual claim quoted, classified empirical/researchable/unverifiable, tested with raw output shown, refuted claims retracted, and a claim may never be confirmed by the reasoning that produced it — but the repo has 1 star and 0 forks, so it cannot be named to readers.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/jimweller/clanker-skills (1 star, 0 forks, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "tldraw/tldraw@shepherd-pr",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/tldraw/tldraw",
+        "why_not_primary": "Established company and repo, and it drives a PR to green from real CI status rather than from the agent's claims, but it operates on an open PR and encodes tldraw-specific commands, so it is a pattern to describe, not a skill to recommend.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/tldraw/tldraw (49,790 stars, 3,455 forks, last commit 2026-08-15)",
+            "maintainer: tldraw, a known SDK company"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
+  }
 }

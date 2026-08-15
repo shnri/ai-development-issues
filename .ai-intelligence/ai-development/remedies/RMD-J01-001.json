@@ -39,6 +39,13 @@
       "observed_at": "2026-05-01",
       "summary": "縦断研究: AI多用で同僚のコード理解への信頼が低下、技術方向のhuman ownershipと検証責任を保持したいという報告",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "domain-modeling (public, reputation established): read skills/domain-modeling/SKILL.md and its ADR-FORMAT.md: 'Offer ADRs sparingly' gates ADR creation on the three criteria, ADR-FORMAT lists 'Rejected alternatives when the rejection is non-obvious', 'Constraints not visible in the code' and 'Deliberate deviations from the obvious path' as what qualifies, and files land in docs/adr/ inside the repository.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -95,5 +102,80 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "installed-skill",
+    "asset_id": "domain-modeling",
+    "source": "consumer:techlog",
+    "path": "skills/domain-modeling",
+    "url": "https://github.com/mattpocock/skills",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "matched_on": [
+      "writes decision records into docs/adr/ next to the code",
+      "records rejected alternatives when the rejection is non-obvious",
+      "records constraints and assumptions that are not visible in the code",
+      "explicit gate for which decisions deserve a record (hard to reverse / surprising without context / real trade-off)",
+      "capture the rationale at the moment it crystallises rather than reconstructing it later"
+    ],
+    "confirmed_by": "read skills/domain-modeling/SKILL.md and its ADR-FORMAT.md: 'Offer ADRs sparingly' gates ADR creation on the three criteria, ADR-FORMAT lists 'Rejected alternatives when the rejection is non-obvious', 'Constraints not visible in the code' and 'Deliberate deviations from the obvious path' as what qualifies, and files land in docs/adr/ inside the repository.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "architecture-decision-records",
+        "availability": "public",
+        "public_url": "https://github.com/wshobson/agents",
+        "why_not_primary": "Largest public ADR skill (13.9k installs) with five templates, lifecycle states and an ADR index, so it covers ADR management more fully — but it is not installed in TechLog and is unaudited, while domain-modeling is already present, public and states the rejected-alternatives/hidden-constraints rule the remedy needs.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/wshobson/agents (38,837 stars, 4,137 forks, last commit 2026-08-15)",
+            "https://skills.sh/wshobson/agents/architecture-decision-records (13.9K installs; all three audits Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "grill-with-docs",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Runs a grilling interview that produces ADRs and a glossary as a side effect; it captures rationale only during an interactive design session, not for changes an agent generated.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+            "listed at skills/engineering/grill-with-docs/SKILL.md in the repo tree at HEAD"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "steering",
+        "availability": "consumer-local",
+        "why_not_primary": "Persists requirements, design decisions and task state to .steering/ for multi-session work, which is the closest thing to attaching an implementation plan to the change, but it is a working record rather than a durable decision record kept with the code, and it is TechLog-local.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local Skill in TechLog (skills/steering); no public origin recorded in the batch"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

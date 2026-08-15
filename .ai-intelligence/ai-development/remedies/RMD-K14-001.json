@@ -50,6 +50,13 @@
       "observed_at": "2026-08-15",
       "summary": "Firebase Local Emulator Suite: Firestore等を'perform integration testing or QA without touching production data'。TechLogのFirestore upsert前検証（content:validate）と組み合わせ可能。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "<SAP>:plugins/ai-development-improvement/skills/ai-development-improvement",
+      "observed_at": "2026-08-15",
+      "summary": "ai-development-improvement (org-private, reputation unknown): read references/automation-model.md (production or destructive operations, permission boundaries, credentials → R3 decision package; \"Privileged steps (privileged_execution markers) are prepared, never executed\"; AI-decided items run at R2 = reviewed branch, never auto-merged), references/decision-ladder.md (high-risk markers and owner-preference items such as irreversible deletion windows) and references/mode-prioritize.md (irreversible production action or data loss → S0).",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -111,5 +118,45 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "shared-plugin",
+    "asset_id": "ai-development-improvement",
+    "source": "<SAP>",
+    "path": "plugins/ai-development-improvement/skills/ai-development-improvement",
+    "availability": "org-private",
+    "matched_on": [
+      "privileged steps are prepared by the agent but never executed",
+      "production/destructive operations (deploy, migration, force push, data deletion) and permission/credential changes require a human decision package",
+      "irreversible production action or data loss forces the highest severity and an explicit approval path",
+      "AI-decided work runs at a reviewed, never auto-merged tier"
+    ],
+    "confirmed_by": "read references/automation-model.md (production or destructive operations, permission boundaries, credentials → R3 decision package; \"Privileged steps (privileged_execution markers) are prepared, never executed\"; AI-decided items run at R2 = reviewed branch, never auto-merged), references/decision-ladder.md (high-risk markers and owner-preference items such as irreversible deletion windows) and references/mode-prioritize.md (irreversible production action or data loss → S0).",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "installed-skill",
+        "asset_id": "ai-development-improvement",
+        "availability": "consumer-local",
+        "why_not_primary": "same asset, already vendored into TechLog.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

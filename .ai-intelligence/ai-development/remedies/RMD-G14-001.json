@@ -53,6 +53,13 @@
       "observed_at": "2026-08-15",
       "summary": "'Claude treats them as context, not enforced configuration. To block an action regardless... use a PreToolUse hook'",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "mattpocock/skills@triage (public, reputation established): read skills/engineering/triage/SKILL.md and its AGENT-BRIEF.md reference at HEAD: an issue moving to `ready-for-agent` gets an agent brief that 'is the authoritative specification that an AFK agent will work from ... the agent brief is the contract'; the template mandates 'Complete acceptance criteria' as concrete, independently verifiable `- [ ]` items because 'the agent needs to know when it's done', and an 'Out of scope' section whose stated purpose is that it 'prevents the agent from gold-plating or making assumptions about adjacent features'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -102,5 +109,81 @@
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
-  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)"
+  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)",
+  "existing_asset": {
+    "asset_id": "mattpocock/skills@triage",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://www.skills.sh/mattpocock/skills/triage",
+    "path": "skills/engineering/triage/SKILL.md",
+    "confirmed_by": "read skills/engineering/triage/SKILL.md and its AGENT-BRIEF.md reference at HEAD: an issue moving to `ready-for-agent` gets an agent brief that 'is the authoritative specification that an AFK agent will work from ... the agent brief is the contract'; the template mandates 'Complete acceptance criteria' as concrete, independently verifiable `- [ ]` items because 'the agent needs to know when it's done', and an 'Out of scope' section whose stated purpose is that it 'prevents the agent from gold-plating or making assumptions about adjacent features'.",
+    "matched_on": [
+      "Done conditions stated before the agent starts, as concrete independently verifiable acceptance criteria",
+      "an explicit out-of-scope list at task start, aimed squarely at gold-plating",
+      "the brief is the contract the agent works from, not the surrounding discussion",
+      "criteria written in machine-checkable checkbox form"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+        "https://www.skills.sh/mattpocock/skills/triage (592 installs, first seen Apr 28 2026; Trust Hub Pass, Socket Pass, Snyk Warn)",
+        "read skills/engineering/triage/SKILL.md and skills/engineering/triage/AGENT-BRIEF.md at HEAD"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "viksant/swe-skills@scope-creep-prevention",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/viksant/swe-skills",
+        "why_not_primary": "Previous primary, demoted on reputation: 4 stars, 3 commits total, 6 installs, and the repo bills itself as the 'Official Claude Code Swe-Skills Repo' — a claim nothing supports. Its 'Iron Law' (complete the requested task before considering any additions) plus a scope-creep red-flag list is still the closest instruction-layer statement of the boundary.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/viksant/swe-skills (4 stars, 0 forks, 3 commits total, last commit 2026-07-16)",
+            "first pass reported 6 installs on skills.sh",
+            "repo description claims 'Official Claude Code Swe-Skills Repo' — a claim nothing supports; its first commit also describes renaming superpowers-* skills"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "shubhamsaboo/awesome-llm-apps@scope-creep-detector",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/shubhamsaboo/awesome-llm-apps",
+        "why_not_primary": "Post-hoc: compares a diff against its stated intent and recommends keep/split/justify, so it detects unrequested changes after they exist rather than bounding scope at task start; and the repo's 132k stars belong to a demo mega-collection, not to this skill.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/shubhamsaboo/awesome-llm-apps (132,751 stars, 19,525 forks, last commit 2026-08-13)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "omer-metin/skills-for-antigravity@scope-creep-defense",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/omer-metin/skills-for-antigravity",
+        "why_not_primary": "Same topic but a single commit dated 2026-01-22 with no maintenance since, written for the Antigravity harness.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/omer-metin/skills-for-antigravity (128 stars, 24 forks, a single commit on 2026-01-22)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

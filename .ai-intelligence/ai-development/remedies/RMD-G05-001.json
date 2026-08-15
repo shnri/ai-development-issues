@@ -54,6 +54,13 @@
       "observed_at": "2026-08-11",
       "summary": "flake率をmetricとして継続監視する対策(operationally-supported)",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/archieindian/openclaw-superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "loop-circuit-breaker (public, reputation unknown): read the skills.sh page: the skill normalises failure identity as (tool_name, sorted_args_hash, error_type) and stops execution when the same signature has failed N times (default 2), which is the remedy's 'same command, same failure: one re-run only' cap. The page describes no escalation or root-cause protocol after the stop.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -104,5 +111,62 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "loop-circuit-breaker",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/archieindian/openclaw-superpowers",
+    "url": "https://skills.sh/archieindian/openclaw-superpowers/loop-circuit-breaker",
+    "confirmed_by": "read the skills.sh page: the skill normalises failure identity as (tool_name, sorted_args_hash, error_type) and stops execution when the same signature has failed N times (default 2), which is the remedy's 'same command, same failure: one re-run only' cap. The page describes no escalation or root-cause protocol after the stop.",
+    "matched_on": [
+      "cap on repeating the same failing action: 'If the same signature has failed N times (default: 2), trigger the circuit breaker'",
+      "failure identity normalised so a retry of the same command with the same error counts",
+      "halts the loop before it exhausts the context window and API budget"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/archieindian/openclaw-superpowers (70 stars, 13 forks, 87 commits, last commit May 2026, personal account)",
+        "the repo is explicitly 'adapted from obra/superpowers plus new additions', i.e. largely redistribution of another author's work",
+        "skills.sh: 47 installs (first pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "triage-flaky-test",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/datadog-labs/agent-skills",
+        "why_not_primary": "established (official Datadog Labs org) and safe to name, but it covers the flake leg only and depends on Datadog's flaky-test history rather than a single isolated --retry run recorded as a flake",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/datadog-labs/agent-skills (154 stars, 24 forks, 202 commits, official Datadog Labs organisation; skill confirmed at dd-software-delivery/triage-flaky-test)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "diagnosing-bugs",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established (218.3k stars); it is the root-cause destination this remedy escalates into, not the budget that triggers escalation",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks, 437 commits; maintained by Matt Pocock, a notable engineer)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

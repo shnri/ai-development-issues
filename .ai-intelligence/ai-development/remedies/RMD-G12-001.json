@@ -53,6 +53,13 @@
       "observed_at": "2026-08-15",
       "summary": "Codex `model_auto_compact_token_limit`、`project_doc_max_bytes`(AGENTS.md読取上限)",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/keli-wen/agentic-harness-patterns-skill",
+      "observed_at": "2026-08-15",
+      "summary": "agentic-harness-patterns (public, reputation emerging): read SKILL.md (section 4 Context Engineering): select/write/compress/isolate plus 'audit your context cost per turn' and the hard-cap-with-recovery-pointer rule cover scoped reading, verbose-output truncation, subagent isolation and compaction guidance - four of the five legs of this remedy.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -101,5 +108,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "agentic-harness-patterns",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/keli-wen/agentic-harness-patterns-skill",
+    "url": "https://skills.sh/keli-wen/agentic-harness-patterns-skill/agentic-harness-patterns",
+    "path": "skills/agentic-harness-patterns",
+    "confirmed_by": "read SKILL.md (section 4 Context Engineering): select/write/compress/isolate plus 'audit your context cost per turn' and the hard-cap-with-recovery-pointer rule cover scoped reading, verbose-output truncation, subagent isolation and compaction guidance - four of the five legs of this remedy.",
+    "matched_on": [
+      "'apply hard caps to every variable-length block' and 'add truncation recovery pointers'",
+      "Isolate: delegated work must not pollute the parent's context",
+      "Select: just-in-time loading with progressive-disclosure tiers",
+      "Compress: reactive compaction that preserves recent context and marks snapshot data as snapshots"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/keli-wen/agentic-harness-patterns-skill (301 stars, 49 forks, only 8 commits, last commit April 2026 - ~4 months stale)",
+        "personal account, no organisational backing, no third-party article or awesome-list mention found"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "tailing-build-output",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/spencerpauly/awesome-cursor-skills",
+        "why_not_primary": "implements the file-not-context leg for build output, but the rest of its instructions are not visible and its SKILL.md path could not be resolved; maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/spencerpauly/awesome-cursor-skills (alternate only; SKILL.md path unresolvable per first pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "research",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/warpdotdev/common-skills",
+        "why_not_primary": "established (Warp); implements the subagent-isolation leg for bulk reading of files, logs and large diffs, but not output filtering, /clear or compact instructions",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/warpdotdev/common-skills (165 stars, 2 forks, 38 commits, official repository of Warp, the terminal company)",
+            "https://skills.sh/warpdotdev/common-skills/research (14,059 installs)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "addresses only the CLAUDE.md-bloat failure mode",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

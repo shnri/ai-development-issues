@@ -59,6 +59,13 @@
       "observed_at": "2026-05-12",
       "summary": "textual conflict自体が27.67%と高頻度であり、Gitが検知しない意味的衝突はさらに別gateが必要という前提。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "verification-before-completion (public, reputation established): read SKILL.md: the gate function requires running the complete verification command and reading its exit code before claiming completion, the failure table separates 'linter clean', 'build succeeds' and 'requirements met' evidence, and 'Agent completed' explicitly requires a VCS diff rather than the agent's success report — the remedy's separate, evidence-based completion gate.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -106,5 +113,63 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "verification-before-completion",
+    "source": "skills.sh",
+    "path": "skills/verification-before-completion/SKILL.md",
+    "url": "https://skills.sh/obra/superpowers/verification-before-completion",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "matched_on": [
+      "an explicit gate before any completion claim, run before committing or opening a PR",
+      "run the full test / lint / build command fresh rather than reusing an earlier or partial result",
+      "do not accept an agent's 'tests pass' report as the gate — verify independently against the VCS diff"
+    ],
+    "confirmed_by": "read SKILL.md: the gate function requires running the complete verification command and reading its exit code before claiming completion, the failure table separates 'linter clean', 'build succeeds' and 'requirements met' evidence, and 'Agent completed' explicitly requires a VCS diff rather than the agent's success report — the remedy's separate, evidence-based completion gate.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, 24,362 forks, last commit 2026-08-12)",
+        "https://skills.sh/obra/superpowers/verification-before-completion (178.2K installs; Gen Agent Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "collection listed among the well-known agent-skill collections used as the reference set for this pass"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "installed-skill",
+        "asset_id": "code-review",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Reviews the whole merge-base diff against spec and standards before merge, which catches semantic conflicts, but it is an LLM review rather than a deterministic test/lint/typecheck/build gate.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "kind": "installed-command",
+        "asset_id": "add-feature",
+        "availability": "consumer-local",
+        "why_not_primary": "Its step 4 runs npm test / lint / typecheck / build on the finished change, but it is single-session and TechLog-local, with no integration branch and no restriction on editing verification assets.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/add-feature.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

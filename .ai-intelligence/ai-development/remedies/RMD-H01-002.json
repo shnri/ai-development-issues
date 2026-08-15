@@ -36,6 +36,13 @@
       "observed_at": "2026-08-11",
       "summary": "MBI-fable-long-run-unsupported-progress: verified/high。TechLogでは未再現・未計測。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "verification-before-completion (public, reputation established): read SKILL.md: the gate function requires identifying the command that proves a claim, running it fresh in the current message, reading the full output and only then stating the claim; the failure table maps 'Agent completed' to 'VCS diff shows changes' rather than the agent's report — the same mechanism as the Anthropic prompt line 'audit each claim against a tool result from this session'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -82,5 +89,32 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "verification-before-completion",
+    "source": "skills.sh",
+    "path": "skills/verification-before-completion/SKILL.md",
+    "url": "https://skills.sh/obra/superpowers/verification-before-completion",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "matched_on": [
+      "audit every progress or completion claim against a command result produced in this session",
+      "no completion claim without fresh verification evidence",
+      "do not trust an agent's own success report"
+    ],
+    "confirmed_by": "read SKILL.md: the gate function requires identifying the command that proves a claim, running it fresh in the current message, reading the full output and only then stating the claim; the failure table maps 'Agent completed' to 'VCS diff shows changes' rather than the agent's report — the same mechanism as the Anthropic prompt line 'audit each claim against a tool result from this session'.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, 24,362 forks, last commit 2026-08-12)",
+        "https://skills.sh/obra/superpowers/verification-before-completion (178.2K installs; Gen Agent Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "collection listed among the well-known agent-skill collections used as the reference set for this pass"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)"
   }
 }

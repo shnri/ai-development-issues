@@ -51,6 +51,13 @@
       "observed_at": "2025-10-26",
       "summary": "誤検証9.1%・検証欠落8.2%: 検証Agentが表層checkに留まる失敗が主要mode。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "code-review (public, reputation established): read SKILL.md: it pins a fixed point, locates the originating issue/spec, then spawns Standards and Spec sub-agents in parallel — each receiving the diff command, commit list and its own source material — explicitly 'so they don't pollute each other's context', and reports the two axes separately without merging.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -99,5 +106,65 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "installed-skill",
+    "asset_id": "code-review",
+    "source": "consumer:techlog",
+    "path": "skills/code-review",
+    "url": "https://skills.sh/mattpocock/skills/code-review",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "matched_on": [
+      "reviewers run as separate sub-agents so they do not pollute each other's context",
+      "the reviewer is given the originating spec plus the diff and commit list, not just the artifact",
+      "review axes are kept separate so one cannot mask the other, and findings are not re-ranked"
+    ],
+    "confirmed_by": "read SKILL.md: it pins a fixed point, locates the originating issue/spec, then spawns Standards and Spec sub-agents in parallel — each receiving the diff command, commit list and its own source material — explicitly 'so they don't pollute each other's context', and reports the two axes separately without merging.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "requesting-code-review",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Equally direct on fresh context ('the reviewer gets precisely crafted context for evaluation — never your session's history') and passes plan/requirements plus base and head SHAs; a close second, chosen against only because code-review is already installed here and additionally splits spec from standards.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-12)",
+            "https://skills.sh/obra/superpowers/requesting-code-review (200.3K installs; all three audits Pass)",
+            "read https://raw.githubusercontent.com/obra/superpowers/main/skills/requesting-code-review/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "fresh-context-review",
+        "availability": "public",
+        "public_url": "https://github.com/epicenterhq/epicenter",
+        "why_not_primary": "Explicitly adversarial fresh-context review with a bounded reviewer prompt (files, diff, invariants, one review question, output shape) and 'findings are hypotheses, verify against source' — matches the adversarial half, but this id was not returned by the skills.sh queries run, only confirmed in the repository.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "adversarial-review",
+        "availability": "public",
+        "public_url": "https://github.com/poteto/noodle",
+        "why_not_primary": "Candidate only — mechanism not read.",
+        "reader_facing": false
+      }
+    ]
   }
 }

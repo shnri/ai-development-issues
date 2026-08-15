@@ -44,6 +44,13 @@
       "observed_at": "2026-08-15",
       "summary": "ledger: Fable 5 / effort guidance（routine taskは低effort推奨）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/ruvnet/ruflo",
+      "observed_at": "2026-08-15",
+      "summary": "cost-health (public, reputation established): read SKILL.md for cost-health and cost-burn plus the plugin README (plugins/ruflo-cost-tracker/): per-session token and USD capture via a Stop hook, a budget ladder with alerts at 50/75/90% and a hard stop at 100% that exits non-zero as a CI gate, burn-rate acceleration, per-session anomaly detection and budget-exhaustion projection composed into one gate, and cost-counterfactual / cost-optimize recommending model downgrades, caching and batching.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -101,5 +108,84 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "cost-health",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/ruvnet/ruflo",
+    "url": "https://skills.sh/ruvnet/ruflo/cost-health",
+    "path": "plugins/ruflo-cost-tracker",
+    "confirmed_by": "read SKILL.md for cost-health and cost-burn plus the plugin README (plugins/ruflo-cost-tracker/): per-session token and USD capture via a Stop hook, a budget ladder with alerts at 50/75/90% and a hard stop at 100% that exits non-zero as a CI gate, burn-rate acceleration, per-session anomaly detection and budget-exhaustion projection composed into one gate, and cost-counterfactual / cost-optimize recommending model downgrades, caching and batching.",
+    "matched_on": [
+      "per-session token and USD capture on session end",
+      "budget enforcement ladder with alerts and a hard stop usable as a CI gate",
+      "burn-rate, anomaly detection and days-until-exhausted projection composed into one check",
+      "counterfactual comparison against always-haiku/sonnet/opus baselines so over-escalation is quantified"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/ruvnet/ruflo (67.9k stars, 8.1k forks, 7,367 commits, last commit today, 559 open issues)",
+        "https://skills.sh/ruvnet/ruflo/cost-health (219 installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "mention: https://www.augmentcode.com/learn/ruflo-v3-32-22-meta-harness-claude-code",
+        "mention: https://www.scrapingbee.com/blog/ruflo-ai-agent-orchestration/",
+        "critical mention: https://www.developersdigest.tech/blog/github-trending-ruflo-2026-05-10 - 'Ruflo Is an Agent Meta-Harness. Treat the Star Count as a Warning Label'; flags audit surface, README hype, stale claude-flow package metadata, and recommends installing 'only if your current workflow has a harness-shaped hole'"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "stay-within-limits",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/BuilderIO/skills",
+        "why_not_primary": "established (Builder.io) and lighter to adopt - it reads usage via `npx ccusage blocks --active --json`, pauses launching new work when either the 5-hour or the weekly window is at 95%, schedules a wake time and re-verifies by block timestamp - but it measures against plan limits only, with no per-run cost figure, no dollar budget and no model/effort recommendations",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/BuilderIO/skills (4.0k stars, 199 forks, active; Builder.io organisation)",
+            "read https://raw.githubusercontent.com/BuilderIO/skills/main/skills/stay-within-limits/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "cost-session",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/ruvnet/ruflo",
+        "why_not_primary": "same plugin; per-message drill-down inside one session - the diagnostic companion, not the budget loop",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/ruvnet/ruflo (67.9k stars, active daily) - same plugin as cost-health"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "harden-repo-for-coding-agents",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/justinramos101/agent-skill-kit",
+        "why_not_primary": "states the governance condition but measures nothing; 0-star repository",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+            "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+            "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

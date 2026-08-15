@@ -46,6 +46,13 @@
       "observed_at": "2026-08-15",
       "summary": "'start with a small pilot group and use the tracking tools below to establish a baseline before wider rollout'。`/insights`で作業上の摩擦（misunderstood requests等）report。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/vasilyu1983/ai-agents-public",
+      "observed_at": "2026-08-15",
+      "summary": "dev-ai-coding-metrics (public, reputation unknown): read the skills.sh page (the repository exposes no guessable raw SKILL.md path): the visible body states the anti-vanity-metric and no-single-blended-score rules, the assistant/agent stratification, and the 'usage-up / outcomes-flat' diagnostic. The specific outcome metrics and any baseline procedure were not visible.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -106,5 +113,63 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "dev-ai-coding-metrics",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/vasilyu1983/ai-agents-public",
+    "url": "https://skills.sh/vasilyu1983/ai-agents-public/dev-ai-coding-metrics",
+    "confirmed_by": "read the skills.sh page (the repository exposes no guessable raw SKILL.md path): the visible body states the anti-vanity-metric and no-single-blended-score rules, the assistant/agent stratification, and the 'usage-up / outcomes-flat' diagnostic. The specific outcome metrics and any baseline procedure were not visible.",
+    "matched_on": [
+      "measures coding assistants and agents 'without collapsing results into vanity metrics or one blended score'",
+      "stratifies by mode: assistants inline/chat vs agents needing task-level measurement",
+      "named trigger 'diagnosing usage-up / outcomes-flat'",
+      "used to design a pilot or rollout scorecard rather than to report usage"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/vasilyu1983/ai-agents-public (75 stars, 17 forks, only 6 commits for a claimed 140 skills + 28 GPT prompts, personal account, last commit yesterday)",
+        "skills.sh audit: Snyk Warn (first pass); the skill body is not fully visible on skills.sh and the repo exposes no readable SKILL.md path",
+        "no third-party mention found"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "engineering-health",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/refoundai/lenny-skills",
+        "why_not_primary": "delivery-health metrics not tied to an AI-adoption comparison; not read, maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/refoundai/lenny-skills (alternate only; 143 installs per first pass; not read)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "copilot-usage-metrics",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/awesome-copilot",
+        "why_not_primary": "established via the GitHub-run collection and safe to cite, but it reports exactly the adoption and acceptance-rate vanity metrics this remedy rejects",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/awesome-copilot (37.9k stars, 4.8k forks, GitHub organisation)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

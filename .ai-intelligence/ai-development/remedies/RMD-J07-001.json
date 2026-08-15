@@ -67,6 +67,13 @@
       "observed_at": "2021-02-01",
       "summary": "SPACE(ACM Queue 2021): 生産性は活動量でも単一指標でも測れない",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/vasilyu1983/ai-agents-public",
+      "observed_at": "2026-08-15",
+      "summary": "dev-ai-coding-metrics (public, reputation unknown): read the skills.sh page for the skill (SKILL.md excerpt): its stated purpose is measuring coding assistants and agents 'without collapsing results into vanity metrics or one blended score', instrumenting assistant and agent workflows separately because 'agents execute multi-step work and need task-level measurement' — the remedy's 'not LOC/PR count/tokens, measure multi-dimensionally and stratify by task/model/harness'.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -127,5 +134,52 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "dev-ai-coding-metrics",
+    "source": "skills.sh",
+    "path": "dev-ai-coding-metrics",
+    "url": "https://skills.sh/vasilyu1983/ai-agents-public/dev-ai-coding-metrics",
+    "availability": "public",
+    "public_url": "https://github.com/vasilyu1983/ai-agents-public",
+    "matched_on": [
+      "refuses vanity metrics and a single blended score",
+      "measures inline assistants and multi-step agents separately, with task-level measurement for agents",
+      "designs pilot/rollout scorecards rather than reporting one number",
+      "diagnoses the case where usage rises but outcomes stay flat",
+      "designs experiments independent of vendor benchmarks"
+    ],
+    "confirmed_by": "read the skills.sh page for the skill (SKILL.md excerpt): its stated purpose is measuring coding assistants and agents 'without collapsing results into vanity metrics or one blended score', instrumenting assistant and agent workflows separately because 'agents execute multi-step work and need task-level measurement' — the remedy's 'not LOC/PR count/tokens, measure multi-dimensionally and stratify by task/model/harness'.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/vasilyu1983/ai-agents-public (75 stars, 17 forks, only 6 commits for a claimed 140 skills + 28 GPT prompts, personal account, last commit yesterday)",
+        "skills.sh audit: Snyk Warn (first pass); the skill body is not fully visible on skills.sh and the repo exposes no readable SKILL.md path",
+        "no third-party mention found"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "dora-metrics",
+        "availability": "public",
+        "public_url": "https://github.com/athola/claude-night-market",
+        "why_not_primary": "Named for the DORA four keys the remedy asks for, but small (47 installs) and its SKILL.md could not be located from the repository, so the mechanism is unverified; it also has no AI-specific stratification.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "developer-productivity",
+        "availability": "public",
+        "public_url": "https://github.com/manager-dot-dev/manager-skills",
+        "why_not_primary": "Surfaced by two queries as a management-side productivity skill (99 installs) but not opened; framing is people-management rather than delivery-metric instrumentation.",
+        "reader_facing": false
+      }
+    ]
   }
 }

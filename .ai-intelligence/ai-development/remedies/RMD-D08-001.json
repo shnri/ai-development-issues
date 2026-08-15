@@ -45,6 +45,13 @@
       "observed_at": "2026-08-15",
       "summary": "frontmatter YAML不正時はdescriptionが空でloadされ発火しない（--debugでparse error確認）。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/terrylica/cc-skills",
+      "observed_at": "2026-08-15",
+      "summary": "link-validation (public, reputation emerging): pass 1 read SKILL.md: it discovers all markdown files in the workspace, runs lychee for broken links, lints paths against NO_ABSOLUTE_PATHS (error), NO_PARENT_ESCAPES (warning) and MARKETPLACE_RELATIVE, and writes machine-readable results.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -102,5 +109,79 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "link-validation",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/terrylica/cc-skills",
+    "url": "https://skills.sh/terrylica/cc-skills/link-validation",
+    "path": "plugins/link-tools/skills/link-validation",
+    "confirmed_by": "pass 1 read SKILL.md: it discovers all markdown files in the workspace, runs lychee for broken links, lints paths against NO_ABSOLUTE_PATHS (error), NO_PARENT_ESCAPES (warning) and MARKETPLACE_RELATIVE, and writes machine-readable results.",
+    "matched_on": [
+      "mechanical validation that every markdown reference resolves",
+      "path policy checks (absolute paths rejected, excessive ../ traversal warned, plugin-relative ./ enforced)",
+      "machine-readable JSON output suitable for CI or a scheduled audit"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/terrylica/cc-skills (62 stars, 10 forks, 50 open issues, last commit 2026-08-15)",
+        "https://skills.sh/terrylica/cc-skills/link-validation (129 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "link-checker-agent",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/richfrem/agent-plugins-skills",
+        "why_not_primary": "Strong repair pipeline but it mutates files, is docs-oriented, and the repo has 5 stars.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/richfrem/agent-plugins-skills (5 stars, 3 forks, last commit 2026-08-01)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "agents-md",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mblode/agent-skills",
+        "why_not_primary": "The only asset checking instruction-specific reference forms (@import resolution, silent failure inside code spans, hop limits), but a human-run audit pass, not a CI check; emerging repo.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation)",
+            "read https://raw.githubusercontent.com/getsentry/skills/main/skills/agents-md/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "skill-validator",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/shipshitdev/skills",
+        "why_not_primary": "Validates frontmatter rather than references; emerging repo.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/shipshitdev/skills (32 stars, 3 forks, last commit 2026-08-15)",
+            "https://skills.sh/shipshitdev/skills/skill-validator (44 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

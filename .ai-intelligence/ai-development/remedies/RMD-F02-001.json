@@ -46,6 +46,13 @@
       "observed_at": "2026-01-30",
       "summary": "Spec-Driven Development論文: 仕様を主要artifactとし、spec-first/spec-anchored/spec-as-sourceの3段階を提示(概念整理、効果測定なし)。",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "obra/superpowers@brainstorming (public, reputation established): read skills/brainstorming/SKILL.md at HEAD: a HARD-GATE forbids invoking any implementation skill (TDD included) before the human partner approves; the architectural path ends in a Spec Self-Review that scans for internal contradictions ('Do any sections contradict each other?') and ambiguity ('Could any requirement be interpreted two different ways? If so, pick one and make it explicit'), and then a User Review Gate that commits the spec and waits — 'Only proceed once the user approves' — before writing-plans and the test cycle begin.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -103,5 +110,80 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "obra/superpowers@brainstorming",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "url": "https://www.skills.sh/obra/superpowers/brainstorming",
+    "path": "skills/brainstorming/SKILL.md",
+    "confirmed_by": "read skills/brainstorming/SKILL.md at HEAD: a HARD-GATE forbids invoking any implementation skill (TDD included) before the human partner approves; the architectural path ends in a Spec Self-Review that scans for internal contradictions ('Do any sections contradict each other?') and ambiguity ('Could any requirement be interpreted two different ways? If so, pick one and make it explicit'), and then a User Review Gate that commits the spec and waits — 'Only proceed once the user approves' — before writing-plans and the test cycle begin.",
+    "matched_on": [
+      "spec contradictions and ambiguities are resolved before any test or implementation exists",
+      "a human is the arbiter: an explicit approval gate on the written spec, not an agent's own ruling",
+      "the arbitrated spec is committed, giving tests a versioned artifact to be written against"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-12)",
+        "https://www.skills.sh/obra/superpowers/brainstorming (326 installs, first seen Jan 19 2026; Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "read skills/brainstorming/SKILL.md at HEAD"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "codeplain-ai/plain-forge@resolve-spec-conflict",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/codeplain-ai/plain-forge",
+        "why_not_primary": "Previous primary, demoted on reputation (54-star repo, company-backed but small). It remains the only asset with the verdict ladder this remedy wants — implementation-wrong / conformance-tests-incorrect (the overly strict test) / requirements-truly-conflict, decided before anything is edited — but it is bound to the ***plain toolchain.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/codeplain-ai/plain-forge (54 stars, 2 forks, last commit 2026-08-07, npm releases)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "mattpocock/skills@tdd",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Established and covers the remedy's second part — tests written at agreed public seams against behavior, with implementation-coupled tests named as an anti-pattern, so multiple valid implementations pass — but it does not arbitrate spec contradictions.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+            "https://www.skills.sh/mattpocock/skills/tdd (686 installs — the highest install count seen in this batch; first seen Feb 10 2026; Trust Hub Pass, Socket Pass, Snyk Pass)",
+            "read skills/engineering/tdd/SKILL.md at HEAD"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "code-review",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Its Spec axis quotes the spec line for each finding and catches unasked-for behavior, but it reviews after the fact rather than arbitrating contradictions before tests exist.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

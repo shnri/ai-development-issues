@@ -36,6 +36,13 @@
       "observed_at": "2026-08-15",
       "summary": "Claude Code sessionはlocal JSONL・内部形式で製品間互換なし（形式は版で変わる）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "<SAP>:plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+      "observed_at": "2026-08-15",
+      "summary": "maintain-agent-instructions (org-private, reputation unknown): read SKILL.md step 7 (\"同じSkillを複数製品で使う場合、製品中立な本体を1か所に置き、各製品の探索ディレクトリからリンクする。製品固有の拡張は共有本体に必須化しない\"), step 2 (scripts/inventory.mjs reports Skill bodies, links, duplicates, divergence and length) and step 9 (run the Skill validator, audit scripts and link resolution).",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -90,5 +97,29 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "shared-plugin",
+    "asset_id": "maintain-agent-instructions",
+    "source": "<SAP>",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+    "availability": "org-private",
+    "matched_on": [
+      "one product-neutral canonical Skill body, linked from each product's discovery directory",
+      "product-specific extensions must not be required by the shared body",
+      "inventory script resolves real files, links, duplicates and divergence",
+      "Skill validator and link resolution run as verification"
+    ],
+    "confirmed_by": "read SKILL.md step 7 (\"同じSkillを複数製品で使う場合、製品中立な本体を1か所に置き、各製品の探索ディレクトリからリンクする。製品固有の拡張は共有本体に必須化しない\"), step 2 (scripts/inventory.mjs reports Skill bodies, links, duplicates, divergence and length) and step 9 (run the Skill validator, audit scripts and link resolution).",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)"
   }
 }

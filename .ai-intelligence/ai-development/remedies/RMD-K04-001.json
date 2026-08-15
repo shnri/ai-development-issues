@@ -37,6 +37,13 @@
       "observed_at": "2026-08-15",
       "summary": "OTel属性に`app.version`、`terminal.type`等を含められ（`OTEL_METRICS_INCLUDE_VERSION`既定false）、環境情報を計測に付与可能。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/justinramos101/agent-skill-kit",
+      "observed_at": "2026-08-15",
+      "summary": "harden-repo-for-coding-agents (public, reputation unknown): read references/playbooks/sandbox.md: digest pinning is a hard rule stated with the exact failure this remedy names (floating tags make runs incomparable), the image must be identical across laptop / CI / orchestration, and run metadata (repo hash, model, settings) is recorded alongside it.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -92,5 +99,64 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "harden-repo-for-coding-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/justinramos101/agent-skill-kit",
+    "url": "https://skills.sh/justinramos101/agent-skill-kit/harden-repo-for-coding-agents",
+    "path": "skills/harden-repo-for-coding-agents",
+    "confirmed_by": "read references/playbooks/sandbox.md: digest pinning is a hard rule stated with the exact failure this remedy names (floating tags make runs incomparable), the image must be identical across laptop / CI / orchestration, and run metadata (repo hash, model, settings) is recorded alongside it.",
+    "matched_on": [
+      "'Unpinned images invalidate comparison. Pin to a content-addressed digest, never latest'",
+      "'the same image should lift unchanged from laptop to CI to orchestration'",
+      "record the run environment so runs are comparable (repo hash, model, settings)",
+      "sandbox mode as part of the fixed environment"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+        "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+        "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "docker",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/oakoss/agent-skills",
+        "why_not_primary": "emerging (14 stars, stale since March); the same pins as general Dockerfile practice, unrelated to agent runs, and no devcontainer feature versions",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/oakoss/agent-skills (14 stars, 5 forks, last commit March 2026, personal account)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "devcontainer-setup",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/trailofbits/skills",
+        "why_not_primary": "established (Trail of Bits, confirmed present at plugins/devcontainer-setup) and reader-safe, but confirmed by reading as a non-match: it uses lockfile-deterministic installs (npm ci, --frozen-lockfile, cargo build --locked) yet pins no image digest and ships a devcontainer feature as \"version\": \"latest\"",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/trailofbits/skills/tree/main/plugins (confirmed present as plugins/devcontainer-setup; repo 6.6k stars, Trail of Bits)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

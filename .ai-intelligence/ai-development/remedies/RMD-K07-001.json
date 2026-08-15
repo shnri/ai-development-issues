@@ -44,6 +44,13 @@
       "observed_at": "2026-08-15",
       "summary": "Codex `codex resume --last`、session ID/名前指定、`codex exec --output-last-message`。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "handoff (public, reputation established): read SKILL.md: it compacts the current conversation into a handoff document for a fresh agent, tells the author not to duplicate content already in specs, plans, ADRs, issues, commits or diffs but to reference them by path/URL, and to redact secrets and PII — i.e. the summary-restart half of the remedy.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -97,5 +104,47 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "installed-skill",
+    "asset_id": "handoff",
+    "source": "consumer:techlog",
+    "path": "skills/handoff",
+    "url": "https://github.com/mattpocock/skills",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "matched_on": [
+      "write a summary document so work continues in a fresh session after an interruption",
+      "point at existing durable artifacts (commits, diffs, specs) instead of re-describing them",
+      "redact secrets/PII from the carried-over state"
+    ],
+    "confirmed_by": "read SKILL.md: it compacts the current conversation into a handoff document for a fresh agent, tells the author not to duplicate content already in specs, plans, ADRs, issues, commits or diffs but to reference them by path/URL, and to redact secrets and PII — i.e. the summary-restart half of the remedy.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, 18,809 forks, last commit 2026-08-15)",
+        "https://skills.sh/mattpocock/skills/handoff (595.0K installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "installed-skill",
+        "asset_id": "steering",
+        "availability": "consumer-local",
+        "why_not_primary": "keeps requirements/design/tasklist state under .steering/ across sessions and forbids marking unfinished work as done, which is the durable progress-file half, but it is TechLog-local and is explicitly not to be used for small or investigation-only work.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local Skill in TechLog (skills/steering); no public origin recorded in the batch"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

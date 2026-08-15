@@ -57,6 +57,13 @@
       "observed_at": "2026-08-11",
       "summary": "tool call監査logは事後追跡に有効だが予防ではない、sensitive payload記録は新risk。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/justinramos101/agent-skill-kit",
+      "observed_at": "2026-08-15",
+      "summary": "harden-repo-for-coding-agents (public, reputation unknown): read SKILL.md and references/playbooks/operations.md (Telemetry, Governance): per-line authorship provenance tying model/agent/session to code (e.g. Git notes), trace resource attributes carrying model id and commit SHA, traceparent propagation across handoffs, and an append-only event history.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -106,5 +113,64 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "harden-repo-for-coding-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/justinramos101/agent-skill-kit",
+    "url": "https://skills.sh/justinramos101/agent-skill-kit/harden-repo-for-coding-agents",
+    "path": "skills/harden-repo-for-coding-agents",
+    "confirmed_by": "read SKILL.md and references/playbooks/operations.md (Telemetry, Governance): per-line authorship provenance tying model/agent/session to code (e.g. Git notes), trace resource attributes carrying model id and commit SHA, traceparent propagation across handoffs, and an append-only event history.",
+    "matched_on": [
+      "'record which model/agent/session wrote which lines (e.g. Git notes) so agent-written code stays traceable through review and deploy'",
+      "'every trace carries run metadata as resource attributes: model id, prompt hash, tool-schema version, commit SHA, environment'",
+      "'propagate traceparent through every handoff'",
+      "append-only immutable event history"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+        "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+        "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "domain-modeling",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established (218.3k stars); covers the decision-record leg (ADRs recording the why) but nothing about agent attribution, session links or telemetry",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "trace",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/boshu2/agentops",
+        "why_not_primary": "depends on the external `cass` CLI and records no commit-to-session linkage; maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/boshu2/agentops (alternate only; depends on an external `cass` CLI)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

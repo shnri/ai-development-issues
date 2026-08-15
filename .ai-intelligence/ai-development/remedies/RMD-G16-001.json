@@ -36,6 +36,13 @@
       "observed_at": "2026-08-15",
       "summary": "auto memory/CLAUDE.mdでbuild commandやproject layoutをsession横断保持し初期調査を省く",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/trailofbits/skills",
+      "observed_at": "2026-08-15",
+      "summary": "trailofbits/skills@devcontainer-setup (public, reputation emerging): read plugins/devcontainer-setup/skills/devcontainer-setup/SKILL.md: it generates .devcontainer files with persistent named volumes suffixed ${devcontainerId} for tool caches, keeps postCreateCommand to one-time dependency install/build, forwards CLAUDE_CODE_OAUTH_TOKEN/ANTHROPIC_API_KEY through remoteEnv instead of re-login, and pins Python 3.13 / Node 22.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -82,5 +89,66 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "trailofbits/skills@devcontainer-setup",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/trailofbits/skills",
+    "url": "https://www.skills.sh/trailofbits/skills/devcontainer-setup",
+    "path": "plugins/devcontainer-setup/skills/devcontainer-setup/SKILL.md",
+    "confirmed_by": "read plugins/devcontainer-setup/skills/devcontainer-setup/SKILL.md: it generates .devcontainer files with persistent named volumes suffixed ${devcontainerId} for tool caches, keeps postCreateCommand to one-time dependency install/build, forwards CLAUDE_CODE_OAUTH_TOKEN/ANTHROPIC_API_KEY through remoteEnv instead of re-login, and pins Python 3.13 / Node 22.",
+    "matched_on": [
+      "named volumes suffixed with ${devcontainerId} so tool state survives rebuilds",
+      "postCreateCommand reserved for one-time initialization",
+      "per-session credential injection via remoteEnv instead of re-login",
+      "language toolchain versions pinned in the generated devcontainer"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/trailofbits/skills (6,603 stars, last commit 2026-08-14) — maintainer standing is high",
+        "https://www.skills.sh/trailofbits/skills/devcontainer-setup (4 installs, first seen Feb 10 2026; Trust Hub Pass, Socket Warn, Snyk Fail)",
+        "https://www.skills.sh/trailofbits/skills/devcontainer-setup/security/snyk (Fail = E006 CRITICAL 'malicious code pattern': sets Claude to bypassPermissions, runs curl|bash installers, grants NET_ADMIN/NET_RAW, socat, iptables, sudo ownership fixes; plus W011 and W012 MEDIUM for third-party installer/marketplace content)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "afonsograca/devcontainers-best-practices@devcontainers-best-practices",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/afonsograca/devcontainers-best-practices",
+        "why_not_primary": "178 installs against 1 star, no commits since 2026-05-30, contents never opened; general devcontainer guidance rather than agent-CLI persistence.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/afonsograca/devcontainers-best-practices (1 star, 0 forks, last commit 2026-05-30, carries its own eval assertions)",
+            "first pass reported 178 installs on skills.sh"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "jwynia/agent-skills@devcontainer",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/jwynia/agent-skills",
+        "why_not_primary": "301 installs but the repo is stale since 2026-02-24 with 145 stars, and neither pass opened the skill.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/jwynia/agent-skills (145 stars, last commit 2026-02-24)",
+            "first pass reported 301 installs on skills.sh"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

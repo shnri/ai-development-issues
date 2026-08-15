@@ -46,6 +46,13 @@
       "observed_at": "2026-08-15",
       "summary": "fresh subagentにPLAN.mdとの差分reviewをさせ'every requirement is implemented'を確認。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/tahajemmali/skills",
+      "observed_at": "2026-08-15",
+      "summary": "repo-doc-maintainer (public, reputation unknown): read SKILL.md on skills.sh: inspect -> compare -> decide -> update workflow run when finishing a feature, fix, refactor or architectural change, updating the affected project documentation in the same unit.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -103,5 +110,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "repo-doc-maintainer",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/tahajemmali/skills",
+    "url": "https://skills.sh/tahajemmali/skills/repo-doc-maintainer",
+    "confirmed_by": "read SKILL.md on skills.sh: inspect -> compare -> decide -> update workflow run when finishing a feature, fix, refactor or architectural change, updating the affected project documentation in the same unit.",
+    "matched_on": [
+      "at the end of a change, classify what the change altered and update the affected project documents in the same unit",
+      "compare the change against current guidance and update only the correct document/level",
+      "keeps docs compact rather than appending changelogs"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/tahajemmali/skills (0 stars, 0 forks, last commit 2026-04-14)",
+        "https://skills.sh/tahajemmali/skills/repo-doc-maintainer"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "spec-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "established, and its 'Keeping the Spec Alive' section requires updating the spec when decisions or scope change, committing it, and referencing the spec section in each PR - but there is no change->affected-artifact coverage check at review",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/spec-driven-development read from a fresh clone)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "documentation-and-adrs",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "established trigger to document at ship time, but no per-change artifact coverage audit",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, active)",
+            "https://skills.sh/addyosmani/agent-skills/documentation-and-adrs (22.8K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+            "SKILL.md read: ADR Lifecycle PROPOSED -> ACCEPTED -> (SUPERSEDED or DEPRECATED), 'don't delete old ADRs', 'match the existing convention first / surface the conflict'"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "doc-sync",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/acedergren/agentic-tools",
+        "why_not_primary": "the periodic gardening half only; 24-star dormant repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/acedergren/agentic-tools (24 stars, 3 forks, last commit 2026-05-27)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

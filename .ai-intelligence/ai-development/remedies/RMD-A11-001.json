@@ -20,6 +20,13 @@
       "reference": "https://arxiv.org/html/2605.29442",
       "observed_at": "2026-08-15",
       "summary": "20,574-session study: incomplete upfront specification is the norm; turn-by-turn intent refinement drives misalignment."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "tdd (public, reputation unknown): read SKILL.md: 'Tests verify behavior through public interfaces, not implementation details ... A good test reads like a specification ... survives refactors because it doesn't care about internal structure', tests live at agreed seams, and the anti-pattern list names implementation-coupled tests plus tautological oracles - 'expected values must come from an independent source of truth - a known-good literal, a worked example, the spec.'",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -46,5 +53,79 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "tdd",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://skills.sh/mattpocock/skills/tdd",
+    "path": "skills/engineering/tdd",
+    "confirmed_by": "read SKILL.md: 'Tests verify behavior through public interfaces, not implementation details ... A good test reads like a specification ... survives refactors because it doesn't care about internal structure', tests live at agreed seams, and the anti-pattern list names implementation-coupled tests plus tautological oracles - 'expected values must come from an independent source of truth - a known-good literal, a worked example, the spec.'",
+    "matched_on": [
+      "acceptance criteria expressed as externally observable behavior at a public seam",
+      "implementation-coupled tests named as a defect (breaks on refactor with unchanged behavior)",
+      "test oracle must come from the spec or another independent source, not from the implementation"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/help-me-test/skills (0 stars, 0 forks, last commit 2026-08-13)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "behavior-driven-testing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/agent-next/behavior-driven-testing",
+        "why_not_primary": "demoted former primary: right principles, but 12 stars and no commits since 2026-03; its exhaustive-branch-coverage emphasis also pulls toward structure-based testing",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/agent-next/behavior-driven-testing (12 stars, 1 fork, last commit 2026-03-01)",
+            "https://skills.sh/agent-next/behavior-driven-testing/behavior-driven-testing"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "test-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "established equivalent ('Test State, Not Interactions'; 'test inputs and outputs, not internal structure'), but without the oracle-independence rule that the remedy's 'correct alternative implementations must pass' clause needs",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, active)",
+            "SKILL.md read: 'Test State, Not Interactions', anti-pattern table 'Testing implementation details -> test inputs and outputs, not internal structure'"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "qe-requirements-validation",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/proffesor-for-testing/agentic-qe",
+        "why_not_primary": "validates acceptance criteria for testability but is CLI-bound; emerging",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/proffesor-for-testing/agentic-qe (449 stars, 82 forks, last commit 2026-08-15)",
+            "https://skills.sh/proffesor-for-testing/agentic-qe/qe-requirements-validation"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

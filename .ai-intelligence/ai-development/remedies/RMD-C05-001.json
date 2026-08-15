@@ -37,6 +37,13 @@
       "observed_at": "2025-09-29",
       "summary": "Anthropicが有限のattention budgetとcontext rotを前提に、just-in-time retrieval、compaction、structured note-taking、subagentが1,000-2,000 token要約を返す構成、system promptのright altitudeを推奨",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "handoff (public, reputation established): pass 1 read SKILL.md: it writes a handoff document for a fresh agent and instructs 'Do not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Reference them by path or URL instead', taking the next session's focus as an argument.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -90,5 +97,46 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "handoff",
+    "kind": "installed-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://skills.sh/mattpocock/skills/handoff",
+    "path": "skills/handoff",
+    "confirmed_by": "pass 1 read SKILL.md: it writes a handoff document for a fresh agent and instructs 'Do not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Reference them by path or URL instead', taking the next session's focus as an argument.",
+    "matched_on": [
+      "do not duplicate content already captured in specs, plans, ADRs, issues, commits or diffs - reference them by path or URL",
+      "produce a durable document the next agent picks up instead of relaying conversation state",
+      "tailor the handoff to the stated objective of the next session"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, 18,809 forks, last commit 2026-08-15)",
+        "https://skills.sh/mattpocock/skills/handoff (595.0K installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "steering",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "Persists in-repo requirements/design/task state rather than framing a delegation with objective, output format and boundaries.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local Skill in TechLog (skills/steering); no public origin recorded in the batch"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

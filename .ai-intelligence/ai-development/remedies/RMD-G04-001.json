@@ -54,6 +54,13 @@
       "observed_at": "2026-08-11",
       "summary": "Fable 5長時間runの進捗claim接地(verified/high)",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "obra/superpowers@subagent-driven-development (public, reputation established): read skills/subagent-driven-development/SKILL.md at HEAD, Setup section: 'Conversation memory does not survive compaction. In real sessions, controllers that lost their place have re-dispatched entire completed task sequences — the single most expensive failure observed. Track progress in a ledger file, not only in todos.' The ledger lives at <repo-root>/.superpowers/sdd/<plan>/progress.md with the plan path as its first line; tasks carrying 'Task <N>: complete' are not re-dispatched and the controller resumes at the first task without one, a task ending mid fix-round resumes at the next round, and 'the commits it names exist in git even when your context no longer remembers creating them. After compaction, trust the ledger and git log over your own recollection.'",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -103,5 +110,81 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "obra/superpowers@subagent-driven-development",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "url": "https://www.skills.sh/obra/superpowers/subagent-driven-development",
+    "path": "skills/subagent-driven-development/SKILL.md",
+    "confirmed_by": "read skills/subagent-driven-development/SKILL.md at HEAD, Setup section: 'Conversation memory does not survive compaction. In real sessions, controllers that lost their place have re-dispatched entire completed task sequences — the single most expensive failure observed. Track progress in a ledger file, not only in todos.' The ledger lives at <repo-root>/.superpowers/sdd/<plan>/progress.md with the plan path as its first line; tasks carrying 'Task <N>: complete' are not re-dispatched and the controller resumes at the first task without one, a task ending mid fix-round resumes at the next round, and 'the commits it names exist in git even when your context no longer remembers creating them. After compaction, trust the ledger and git log over your own recollection.'",
+    "matched_on": [
+      "progress file persisted outside the context window, read at start and resumed from",
+      "per-task completion markers so finished work is never redone",
+      "git commits as the durable checkpoint the ledger points at",
+      "machine-readable task list: the plan's `- [ ]` checkbox tasks from superpowers:writing-plans, each an independently testable deliverable ending in a commit",
+      "explicitly aimed at re-reading, redoing whole sequences, and losing place after compaction"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-12)",
+        "https://www.skills.sh/obra/superpowers/subagent-driven-development (176 installs; Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "read skills/subagent-driven-development/SKILL.md at HEAD"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "michael-f-bryan/skills@long-running-agent-harness",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/michael-f-bryan/skills",
+        "why_not_primary": "Previous primary, demoted on reputation: the repo has 0 stars and 0 forks with 32 installs. Its design remains the closest to the remedy's machine-readable acceptance list — an Initializer sub-agent generating a YAML feature list, runbook, backlog and progress file under _working/, then one work unit per session with a commit.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/michael-f-bryan/skills (0 stars, 0 forks, last commit 2026-08-03)",
+            "first pass reported 32 installs on skills.sh"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "obra/superpowers@writing-plans",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Established; supplies the machine-readable half — plans committed under docs/superpowers/plans/ with `- [ ]` checkbox steps sized so each ends in an independently testable deliverable and a commit — but it writes the plan rather than executing and checkpointing it.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-12)",
+            "read skills/writing-plans/SKILL.md at HEAD (checkbox task syntax, bite-sized steps ending in Commit, plans committed under docs/superpowers/plans/)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "steering",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "Persists requirements/design/tasklist under .steering/ with rules against marking unfinished tasks done, so it substitutes for the progress file, but prescribes no git checkpoint commits, no per-milestone loop and nothing about context-budget or early-stop wording. Non-public, so never reader-facing.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local Skill in TechLog (skills/steering); no public origin recorded in the batch"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

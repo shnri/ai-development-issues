@@ -33,6 +33,13 @@
       "observed_at": "2026-08-15",
       "summary": "Anthropic: fresh subagentで'review the ... diff against PLAN.md. Check that every requirement is implemented ... nothing outside the task's scope changed. Report gaps'。reviewerは指摘を出したがるので'flag only gaps that affect correctness or the stated requirements'と限定する。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/github/spec-kit",
+      "observed_at": "2026-08-15",
+      "summary": "spec-kit (public, reputation established): read templates/commands/analyze.md: 'Perform a non-destructive cross-artifact consistency and quality analysis across spec.md, plan.md, and tasks.md after task generation', gated on tasks.md existing via check-prerequisites --require-tasks - the read-only pre-implementation audit the remedy specifies.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -94,5 +101,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "spec-kit",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/github/spec-kit",
+    "path": "templates/commands/analyze.md",
+    "confirmed_by": "read templates/commands/analyze.md: 'Perform a non-destructive cross-artifact consistency and quality analysis across spec.md, plan.md, and tasks.md after task generation', gated on tasks.md existing via check-prerequisites --require-tasks - the read-only pre-implementation audit the remedy specifies.",
+    "matched_on": [
+      "read-only cross-artifact audit over spec.md/plan.md/tasks.md",
+      "reports ambiguity, duplication, contradictions, requirement-to-task coverage gaps, constitution conflicts",
+      "runs as a gate before implementation and edits nothing"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "spec-kit-analyze",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/ahgraber/skills",
+        "why_not_primary": "demoted former primary: a 5-star personal port of exactly this upstream command",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/ahgraber/skills (5 stars, 0 forks, last commit 2026-08-09)",
+            "https://skills.sh/ahgraber/skills/spec-kit-analyze (19 installs)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "spec-gap-analysis",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/wojons/skills",
+        "why_not_primary": "narrower gap analysis; 4-star dormant repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/wojons/skills (4 stars, 2 forks, last commit 2026-04-01)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "review-docs",
+        "kind": "installed-command",
+        "availability": "consumer-local",
+        "why_not_primary": "reviews one document at a time rather than the spec->design->tasks chain; consumer-local",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/review-docs.md (not published)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

@@ -51,6 +51,13 @@
       "observed_at": "2025-06-13",
       "summary": "Anthropic: subagentは成果を外部systemへ保存し軽量参照だけを返して伝言劣化を防ぐ。lead agentはplanをmemoryへ保存(200k超で切り詰め)、subagentへはobjective・output format・tool guidance・boundariesを明示。token使用量が性能分散の80%を説明",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/keli-wen/agentic-harness-patterns-skill",
+      "observed_at": "2026-08-15",
+      "summary": "agentic-harness-patterns (public, reputation emerging): read SKILL.md (section 4 Context Engineering): select / write / compress / isolate are exactly the remedy's controls - just-in-time selection instead of full-text loading, isolation of bulk work in delegated agents that return only their result, compression for long sessions, and measuring context cost per turn.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -107,5 +114,81 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "agentic-harness-patterns",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/keli-wen/agentic-harness-patterns-skill",
+    "url": "https://skills.sh/keli-wen/agentic-harness-patterns-skill/agentic-harness-patterns",
+    "path": "skills/agentic-harness-patterns",
+    "confirmed_by": "read SKILL.md (section 4 Context Engineering): select / write / compress / isolate are exactly the remedy's controls - just-in-time selection instead of full-text loading, isolation of bulk work in delegated agents that return only their result, compression for long sessions, and measuring context cost per turn.",
+    "matched_on": [
+      "'Treat context as a budget, not a dump' - select / write / compress / isolate",
+      "Select: load context just-in-time, not all-at-once, via progressive disclosure tiers",
+      "Isolate: delegated work must not pollute the parent context; coordinator workers start with zero context inheritance",
+      "Start here: audit your current context cost per turn; apply hard caps to every variable-length block"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/keli-wen/agentic-harness-patterns-skill (301 stars, 49 forks, only 8 commits, last commit April 2026 - ~4 months stale)",
+        "personal account, no organisational backing, no third-party article or awesome-list mention found"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "research",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/warpdotdev/common-skills",
+        "why_not_primary": "established (Warp-maintained, 14,059 installs) and reader-safe, but it implements only one leg - delegate reading many files/logs/large diffs to a subagent and get back 'a distilled answer plus the evidence' to 'keep your context clean'. No just-in-time/path-reference rule, no /clear, no context measurement, so it is not the same mechanism as the remedy",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/warpdotdev/common-skills (165 stars, 2 forks, 38 commits, official repository of Warp, the terminal company)",
+            "https://skills.sh/warpdotdev/common-skills/research (14,059 installs)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "context-management",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/rysweet/amplihack",
+        "why_not_primary": "its repository is now formally DEPRECATED in favour of rysweet/amplihack-rs, on top of the first pass's objection that it is driven by its own context_manager Python tool",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/rysweet/amplihack (72 stars, 47 forks; README banner: 'DEPRECATED - no longer maintained; development has moved to rysweet/amplihack-rs')",
+            "personal account, no company affiliation stated"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "dispatching-parallel-agents",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "established and covers the isolation leg (self-contained subagent context, results returned as summaries) but says nothing about scoping what the main agent reads, /clear or context measurement",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272.5k stars, 24.4k forks; maintained by Jesse Vincent, a notable engineer)",
+            "one of the collections this pass is instructed to treat as well-known; widely redistributed (archieindian/openclaw-superpowers adapts its skills under MIT with attribution)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

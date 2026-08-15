@@ -54,6 +54,13 @@
       "observed_at": "2025-09-24",
       "summary": "DORA 2025: AI採用はthroughputと正、stabilityと負の関係。30%がAI生成コードを信用していない。small batches/強いversion controlが増幅要因",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/trailofbits/skills",
+      "observed_at": "2026-08-15",
+      "summary": "differential-review (public, reputation established): read SKILL.md at plugins/differential-review/skills/differential-review: Phase 0 triage assigns a risk level from explicit triggers, the 'Rationalizations' table forbids 'small PR, quick review' and requires classification by risk, Phase 2 raises severity when tests are missing, and Principle 4 requires stating coverage limits — i.e. the remedy's risk-based review with machine pre-checks ahead of the human.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -116,5 +123,71 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "differential-review",
+    "source": "skills.sh",
+    "path": "plugins/differential-review/skills/differential-review",
+    "url": "https://skills.sh/trailofbits/skills/differential-review",
+    "availability": "public",
+    "public_url": "https://github.com/trailofbits/skills",
+    "matched_on": [
+      "machine review of the PR/commit diff placed before and alongside human review",
+      "classify the change by risk rather than by size, with explicit HIGH/MEDIUM/LOW triggers (auth, crypto, external calls, value transfer, validation removal)",
+      "concentrate depth on the risky paths and scale coverage down elsewhere (SMALL/MEDIUM/LARGE strategies)",
+      "treat missing tests on a non-trivial change as elevated risk",
+      "state coverage limits and confidence instead of implying the automated pass is complete"
+    ],
+    "confirmed_by": "read SKILL.md at plugins/differential-review/skills/differential-review: Phase 0 triage assigns a risk level from explicit triggers, the 'Rationalizations' table forbids 'small PR, quick review' and requires classification by risk, Phase 2 raises severity when tests are missing, and Principle 4 requires stating coverage limits — i.e. the remedy's risk-based review with machine pre-checks ahead of the human.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/trailofbits/skills (6,603 stars, 568 forks, last commit 2026-08-14)",
+        "https://skills.sh/trailofbits/skills/differential-review (5.7K installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "installed-skill",
+        "asset_id": "code-review",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Already installed and public, and it does run an automated pass over the diff before the human (Standards axis plus a Spec axis that catches unrequested behaviour, explicitly skipping what tooling already enforces) — but it reviews every hunk at the same depth and has no notion of risk boundaries, which is the distinguishing part of this remedy.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "kind": "installed-command",
+        "asset_id": "add-feature",
+        "availability": "consumer-local",
+        "why_not_primary": "Implements several legs incidentally — one small commit per verified task, a failing test before a bug fix, npm test/lint/typecheck/build, and a self-review of the diff — but it is a feature-implementation workflow for the author, not a review policy, and it does not target risk boundaries.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/add-feature.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "development-guidelines",
+        "availability": "consumer-local",
+        "why_not_primary": "Templates for the team's PR process, review process and quality automation, so it is where such a policy would be written down, but it prescribes no PR-size limit, no machine-before-human ordering and no risk-boundary targeting.",
+        "reader_facing": false
+      }
+    ]
   }
 }

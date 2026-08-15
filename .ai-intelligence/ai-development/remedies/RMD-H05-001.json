@@ -51,6 +51,13 @@
       "observed_at": "2026-08-11",
       "summary": "小さな一目的batchはreview負荷と併せてconflict面積も下げる（operationally-supported）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "using-git-worktrees (public, reputation established): read SKILL.md: step 0 detects existing isolation via git-dir vs git-common-dir (with a submodule guard), step 1a requires using a native worktree tool such as EnterWorktree or a --worktree flag when one exists — warning that manual git worktree add creates phantom state the harness cannot manage — and step 1b is the git fallback with .worktrees/ placement and gitignore verification.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -105,5 +112,59 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "using-git-worktrees",
+    "source": "skills.sh",
+    "path": "skills/using-git-worktrees/SKILL.md",
+    "url": "https://skills.sh/obra/superpowers/using-git-worktrees",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "matched_on": [
+      "give each agent/session an isolated work tree separate from the human's checkout",
+      "prefer the harness's native worktree mechanism (EnterWorktree, /worktree, --worktree) over manual git worktree",
+      "detect that you are already inside a worktree before creating another",
+      "keep gitignored environment files usable inside the worktree"
+    ],
+    "confirmed_by": "read SKILL.md: step 0 detects existing isolation via git-dir vs git-common-dir (with a submodule guard), step 1a requires using a native worktree tool such as EnterWorktree or a --worktree flag when one exists — warning that manual git worktree add creates phantom state the harness cannot manage — and step 1b is the git fallback with .worktrees/ placement and gitignore verification.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-12)",
+        "https://skills.sh/obra/superpowers/using-git-worktrees (163.9K installs; Trust Hub Pass / Socket Pass / Snyk Warn)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "git-worktrees",
+        "availability": "public",
+        "public_url": "https://github.com/neolabhq/context-engineering-kit",
+        "why_not_primary": "Same topic in a broader kit; not read in full, and the superpowers Skill is the one that prefers the harness-native worktree mechanism this remedy names.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "ce-worktree",
+        "availability": "public",
+        "public_url": "https://github.com/everyinc/compound-engineering-plugin",
+        "why_not_primary": "Candidate only — mechanism not read; listed because it is the highest-install worktree Skill after the superpowers one.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/everyinc/compound-engineering-plugin (24,291 stars, 2,003 forks, last commit 2026-08-15)",
+            "https://skills.sh/everyinc/compound-engineering-plugin/ce-worktree (2.4K installs; Trust Hub Pass, Socket Pass, Snyk Warn)",
+            "maintainer: Every Inc, whose 'compound engineering' plugin is the official companion to a widely read publication"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

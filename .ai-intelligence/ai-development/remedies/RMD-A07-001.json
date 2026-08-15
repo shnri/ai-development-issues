@@ -20,6 +20,13 @@
       "reference": "https://adr.github.io/",
       "observed_at": "2026-08-15",
       "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/terraphim/terraphim-skills",
+      "observed_at": "2026-08-15",
+      "summary": "requirements-traceability (public, reputation unknown): read SKILL.md on skills.sh: 'Produce a small, high-signal traceability matrix that makes it obvious what requirements are in scope, where they are implemented, and how they are verified', requirement sources in priority order, REQ id convention.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -46,5 +53,80 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "requirements-traceability",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/terraphim/terraphim-skills",
+    "url": "https://skills.sh/terraphim/terraphim-skills/requirements-traceability",
+    "confirmed_by": "read SKILL.md on skills.sh: 'Produce a small, high-signal traceability matrix that makes it obvious what requirements are in scope, where they are implemented, and how they are verified', requirement sources in priority order, REQ id convention.",
+    "matched_on": [
+      "explicit REQ -> design/ADR -> implementation -> tests -> evidence matrix",
+      "flags unimplemented requirements, untested changes, undocumented decisions",
+      "walked as a change-impact check for a PR or release"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/terraphim/terraphim-skills returns HTTP 404 - the repository no longer exists publicly (2026-08-15 check)",
+        "https://skills.sh/terraphim/terraphim-skills/requirements-traceability (page still live: 57 installs, 3 GitHub stars, first seen Jan 2026, Trust Hub/Socket/Snyk Pass)",
+        "https://github.com/terraphim/terraphim-ai (57 stars) - the org exists, the skills repo does not"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "spec-kit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/spec-kit",
+        "why_not_primary": "established, and analyze.md reports requirement-to-task coverage gaps, but only inside Spec Kit artifacts - no requirement->test->evidence matrix",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "qe-requirements-validation",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/proffesor-for-testing/agentic-qe",
+        "why_not_primary": "requirements-to-test traceability, but CLI-bound (aqe) and test-side only; emerging",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/proffesor-for-testing/agentic-qe (449 stars, 82 forks, last commit 2026-08-15)",
+            "https://skills.sh/proffesor-for-testing/agentic-qe/qe-requirements-validation"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "steering",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "keeps requirements/design/tasklist together but records no explicit links; consumer-local",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local Skill in TechLog (skills/steering); no public origin recorded in the batch"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

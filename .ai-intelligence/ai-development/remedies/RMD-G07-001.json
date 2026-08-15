@@ -59,6 +59,13 @@
       "observed_at": "2026-08-11",
       "summary": "MBI-fable-high-effort-overexplains: verified/high。緩和はprompt(outcome-first)とeffort比較。global word capは品質低下のため除外",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/BuilderIO/skills",
+      "observed_at": "2026-08-15",
+      "summary": "efficient-frontier (public, reputation established): read SKILL.md (skills/efficient-frontier/SKILL.md): it partitions work into frontier-only decisions (architecture, prioritisation, ambiguity resolution, risk assessment, synthesis, final review) and delegable work (research, repo inventory, search, doc extraction, testing passes, mechanical edits), routes each class to a different model tier, and bounds the downshift with four guardrails plus a verification gate on returned work - the remedy's difficulty-based model assignment.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -108,5 +115,83 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "efficient-frontier",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/BuilderIO/skills",
+    "url": "https://skills.sh/builderio/skills/efficient-frontier",
+    "path": "skills/efficient-frontier",
+    "confirmed_by": "read SKILL.md (skills/efficient-frontier/SKILL.md): it partitions work into frontier-only decisions (architecture, prioritisation, ambiguity resolution, risk assessment, synthesis, final review) and delegable work (research, repo inventory, search, doc extraction, testing passes, mechanical edits), routes each class to a different model tier, and bounds the downshift with four guardrails plus a verification gate on returned work - the remedy's difficulty-based model assignment.",
+    "matched_on": [
+      "reserve the expensive frontier model for work 'where its marginal judgment matters'",
+      "'push repeatable, bounded, or token-heavy work to cheaper/faster subagents'",
+      "guardrails on when not to downshift: do not delegate the immediate blocker, inspect important evidence yourself when risk is high",
+      "compact returns and a verification gate before delegated output is integrated"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/BuilderIO/skills (4.0k stars, 199 forks, active; Builder.io organisation)",
+        "https://skills.sh/builderio/skills/efficient-frontier (79 installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Warn; first seen 2026-07-06)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "meta-agent-creator",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/oakoss/agent-skills",
+        "why_not_primary": "demoted on reputation: 14 stars, 5 forks, last commit March, no third-party mention. It still holds the configuration surface the new primary lacks (subagent frontmatter 'model: haiku|sonnet|opus|inherit' and the 'use haiku for read-only reviews' rule) - but its content is transcribed from code.claude.com/docs/en/sub-agents, so a reader should be sent to the official documentation instead",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/oakoss/agent-skills (14 stars, 5 forks, 210 commits, last commit March 2026, personal account)",
+            "no third-party mention found"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "harden-repo-for-coding-agents",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/justinramos101/agent-skill-kit",
+        "why_not_primary": "one-line routing policy plus the condition that it 'only sticks when cost-per-session is surfaced in the audit log', but configures nothing; 0-star repository",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+            "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+            "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "ponytail",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/dietrichgebert/ponytail",
+        "why_not_primary": "established, but its 'code first, at most three short lines' rule is a verbosity constraint, not an effort setting",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/dietrichgebert/ponytail (103.3k stars, 5.7k forks, 210 commits, 56 open issues, last commit August 2026)",
+            "https://skills.sh/dietrichgebert/ponytail/ponytail (36.0K installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Pass)",
+            "mention: https://trendshift.io/repositories/50668 (tracked as a trending repository); listed on mcpservers.org and openagentskill.com skill directories"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

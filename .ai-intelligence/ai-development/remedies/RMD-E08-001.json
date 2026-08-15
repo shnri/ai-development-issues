@@ -62,6 +62,13 @@
       "observed_at": "2026-05-07",
       "summary": "GitHub: coverage閾値変更・test skip・CI無効化は明示的justificationなしに承認しない。risky changeにはrollback planを要求。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/wshobson/agents",
+      "observed_at": "2026-08-15",
+      "summary": "block-no-verify-hook (public, reputation established): read the skills.sh page: 'PreToolUse hook configuration that intercepts and blocks bypass-flag usage before execution, ensuring AI agents cannot skip pre-commit hooks', rejecting tool calls containing --no-verify / --no-gpg-sign — the same deny-before-execution mechanism this remedy applies to high-impact paths.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -116,5 +123,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "block-no-verify-hook",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/wshobson/agents",
+    "url": "https://www.skills.sh/wshobson/agents/block-no-verify-hook",
+    "path": "plugins/block-no-verify/skills/block-no-verify-hook",
+    "confirmed_by": "read the skills.sh page: 'PreToolUse hook configuration that intercepts and blocks bypass-flag usage before execution, ensuring AI agents cannot skip pre-commit hooks', rejecting tool calls containing --no-verify / --no-gpg-sign — the same deny-before-execution mechanism this remedy applies to high-impact paths.",
+    "matched_on": [
+      "PreToolUse hook that denies a tool call before execution",
+      "deterministic harness-layer guard instead of advisory prose rules",
+      "protects a verification path the agent must not bypass"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/wshobson/agents (38,837 stars, 4,137 forks, last commit 2026-08-15, only 4 open issues)",
+        "https://www.skills.sh/wshobson/agents/block-no-verify-hook (4 installs, first seen Apr 8 2026; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "mattpocock/skills@git-guardrails-claude-code",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Established and the same mechanism read at source (PreToolUse hook, Bash matcher, bundled block-dangerous-git.sh copied into .claude/hooks, project-or-global scope question), but its deny list is destructive git commands (push, reset --hard, clean -f, branch -D, checkout .), not the remedy's migration/CI/dependency paths.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+            "read skills/misc/git-guardrails-claude-code/SKILL.md at HEAD (PreToolUse hook, Bash matcher, bundled block-dangerous-git.sh, project or global settings.json)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "claude-code-hooks",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/daymade/claude-code-skills",
+        "why_not_primary": "Explains when a repeatedly-violated prose rule should become a blocking hook and how exit codes gate a tool call, but stays at governance level with no path-deny recipe; 1.3k-star personal marketplace.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/daymade/claude-code-skills (1,338 stars, 214 forks, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "hooks-builder",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mike-coulbourn/claude-vibes",
+        "why_not_primary": "Generic hook-authoring helper in a 39-star repo untouched since 2025-12-21.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/mike-coulbourn/claude-vibes (39 stars, 4 forks, last commit 2025-12-21)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

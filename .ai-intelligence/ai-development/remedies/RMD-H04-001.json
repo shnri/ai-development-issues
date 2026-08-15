@@ -46,6 +46,13 @@
       "observed_at": "2026-08-15",
       "summary": "teammateにplan approvalを要求し、leadに『test coverageを含む計画のみ承認』等の判定基準を与えられる。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/lerianstudio/ring",
+      "observed_at": "2026-08-15",
+      "summary": "ring:pre-dev-api-design (public, reputation unknown): read SKILL.md (pm-team/skills/designing-api-contracts): the deliverable is a real OpenAPI 3.1 spec produced after the TRD and before data model and implementation planning, explicitly so implementation agents generate handlers, clients and tests from that one file, and the gate fails if the spec does not lint — the remedy's contract-first decomposition with a machine check.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -92,5 +99,48 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "ring:pre-dev-api-design",
+    "source": "skills.sh",
+    "path": "pm-team/skills/designing-api-contracts/SKILL.md",
+    "url": "https://skills.sh/lerianstudio/ring/ringpre-dev-api-design",
+    "availability": "public",
+    "public_url": "https://github.com/lerianstudio/ring",
+    "matched_on": [
+      "fix the interface contract as a machine-consumable artifact before implementation starts",
+      "implementation agents generate handlers, clients and tests from the contract",
+      "the contract is a gate: if it does not lint, the phase does not pass"
+    ],
+    "confirmed_by": "read SKILL.md (pm-team/skills/designing-api-contracts): the deliverable is a real OpenAPI 3.1 spec produced after the TRD and before data model and implementation planning, explicitly so implementation agents generate handlers, clients and tests from that one file, and the gate fails if the spec does not lint — the remedy's contract-first decomposition with a machine check.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/lerianstudio/ring (206 stars, 26 forks, last commit 2026-08-11)",
+        "https://skills.sh/lerianstudio/ring/ringpre-dev-api-design (no install figure published; Trust Hub Warn / Socket Pass / Snyk Warn)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "contracts",
+        "availability": "public",
+        "public_url": "https://github.com/liaoann/skills",
+        "why_not_primary": "Principles for identifying and classifying cross-boundary contract changes (additive / narrowing / breaking / semantic) and preserving compatibility; it governs contract evolution, not fixing a contract before parallel implementation.",
+        "reader_facing": false
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "functional-design",
+        "availability": "consumer-local",
+        "why_not_primary": "Japanese functional-design document template: prose specification, not a type/schema artifact verifiable by contract tests or typecheck.",
+        "reader_facing": false
+      }
+    ]
   }
 }

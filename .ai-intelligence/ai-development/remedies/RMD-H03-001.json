@@ -52,6 +52,13 @@
       "observed_at": "2025-10-26",
       "summary": "MAST 1,642 traces: 情報withholding 0.85%、他Agent入力無視 1.9%、reasoning-action mismatch 13.2%、明確化要求の欠如 6.8%。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "handoff (public, reputation established): read SKILL.md: the handoff document must reference specs, plans, ADRs, issues, commits and diffs by path or URL instead of duplicating them, and is tailored to the next session's stated focus — the remedy's 'pass artifact references, not a summary' rule.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -99,5 +106,83 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "installed-skill",
+    "asset_id": "handoff",
+    "source": "consumer:techlog",
+    "path": "skills/handoff",
+    "url": "https://github.com/mattpocock/skills",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "matched_on": [
+      "hand off by reference to artifacts instead of re-summarizing them",
+      "do not duplicate content already captured in specs, plans, ADRs, issues, commits or diffs",
+      "tailor the handoff to what the receiving session will do"
+    ],
+    "confirmed_by": "read SKILL.md: the handoff document must reference specs, plans, ADRs, issues, commits and diffs by path or URL instead of duplicating them, and is tailored to the next session's stated focus — the remedy's 'pass artifact references, not a summary' rule.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, 18,809 forks, last commit 2026-08-15)",
+        "https://skills.sh/mattpocock/skills/handoff (595.0K installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "dispatching-parallel-agents",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Implements the delegation-contract half (each agent gets specific scope, clear goal, constraints and expected output, and never inherits session history) but not the artifact-reference handoff; use it alongside handoff.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272.5k stars, 24.4k forks; maintained by Jesse Vincent, a notable engineer)",
+            "one of the collections this pass is instructed to treat as well-known; widely redistributed (archieindian/openclaw-superpowers adapts its skills under MIT with attribution)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "multi-agent-patterns",
+        "availability": "public",
+        "public_url": "https://github.com/neolabhq/context-engineering-kit",
+        "why_not_primary": "Design-level guidance: names the 'telephone game' loss when a supervisor paraphrases subagent output and recommends subagents write directly to shared files, but gives no delegation template.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/neolabhq/context-engineering-kit (1,337 stars, 137 forks, last commit 2026-08-07)",
+            "https://skills.sh/neolabhq/context-engineering-kit/multi-agent-patterns (1.0K installs; all three audits Pass)",
+            "mention: skill-directory sites only (claudeskills.info, awesomeskills.dev, claudemarketplaces.com)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "session-handoff",
+        "availability": "public",
+        "public_url": "https://github.com/softaworks/agent-toolkit",
+        "why_not_primary": "Session-to-session handoff document rather than agent-to-agent delegation; its document is summary-shaped, which is what this remedy warns about.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/softaworks/agent-toolkit (2,339 stars, 218 forks, last commit 2026-03-05 — no commits in five months)",
+            "https://skills.sh/softaworks/agent-toolkit/session-handoff (4.0K installs; all three audits Pass)",
+            "mention: only auto-generated registry listings (tessl.io registry, agentskills.me, explainx.ai), no independent write-up"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

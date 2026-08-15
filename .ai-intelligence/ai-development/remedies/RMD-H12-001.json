@@ -52,6 +52,13 @@
       "observed_at": "2026-04-08",
       "summary": "harness/sandbox/sessionを分離し、sessionをevent logとして外部化することで障害時に状態を失わない設計。TTFT p50約60%改善など運用値あり。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/hacktivist123/agent-session-resume",
+      "observed_at": "2026-08-15",
+      "summary": "agent-session-resume (public, reputation emerging): read SKILL.md: the workflow locates the platform's session record (per-platform reference files), prefers full transcripts over summaries, pins the exact stopping point with evidence refs, checks git status and current files before editing (using a separate worktree when the tree is dirty), and continues from the first unfinished step — the remedy's 'use the product resume mechanism, anchored on repository state'.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -98,5 +105,50 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "agent-session-resume",
+    "source": "skills.sh",
+    "path": "skills/agent-session-resume/SKILL.md",
+    "url": "https://skills.sh/hacktivist123/agent-session-resume/agent-session-resume",
+    "availability": "public",
+    "public_url": "https://github.com/hacktivist123/agent-session-resume",
+    "matched_on": [
+      "resume interrupted work from the real stopping point instead of redoing it",
+      "per-product resume mechanisms (Claude Code, Codex, Cursor, Antigravity, OpenCode, Copilot references)",
+      "validate the reconstructed state against git status and current files, trusting the repository over transcript claims",
+      "treat prior summaries and handoffs as claims needing re-verification"
+    ],
+    "confirmed_by": "read SKILL.md: the workflow locates the platform's session record (per-platform reference files), prefers full transcripts over summaries, pins the exact stopping point with evidence refs, checks git status and current files before editing (using a separate worktree when the tree is dirty), and continues from the first unfinished step — the remedy's 'use the product resume mechanism, anchored on repository state'.",
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/hacktivist123/agent-session-resume (234 stars, 13 forks, last commit 2026-06-24)",
+        "https://skills.sh/hacktivist123/agent-session-resume/agent-session-resume (96 installs; Trust Hub Warn / Socket Pass / Snyk Warn)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "incremental-commits",
+        "availability": "public",
+        "public_url": "https://github.com/aspiers/ai-config",
+        "why_not_primary": "Implements the small-commit half — plan dependency-ordered atomic commits, run the smallest relevant checks and commit each concern — but its stated purpose is reviewability and rollback, not surviving interruption; only 10 installs.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "standalone-commits",
+        "availability": "public",
+        "public_url": "https://github.com/epicenterhq/epicenter",
+        "why_not_primary": "Same commit-shaping mechanism (each commit reviewable, buildable and complete on its own, ordered in dependency waves) with the same review-oriented motivation; listed on skills.sh as epicenterhq/epicenter@incremental-commits, which no longer resolves in the repository.",
+        "reader_facing": false
+      }
+    ]
   }
 }

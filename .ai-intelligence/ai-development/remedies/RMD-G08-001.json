@@ -46,6 +46,13 @@
       "observed_at": "2026-08-15",
       "summary": "Agent teams: 'Keep teams small... token usage is roughly proportional to team size'; teammates plan modeで約7x token",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "dispatching-parallel-agents (public, reputation established): read SKILL.md (skills/dispatching-parallel-agents/SKILL.md) via raw.githubusercontent: fan-out requires that 'each problem can be understood without context from others' with 'no shared state between investigations' and independent failures; connected failures and shared-resource interference are stated do-not-use cases; and every subagent prompt must carry a specific scope ('one test file or subsystem'), a clear goal, constraints ('don't change other code'), the expected output, and self-contained context with concrete test names, error messages and file paths.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -94,5 +101,80 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "dispatching-parallel-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "path": "skills/dispatching-parallel-agents",
+    "confirmed_by": "read SKILL.md (skills/dispatching-parallel-agents/SKILL.md) via raw.githubusercontent: fan-out requires that 'each problem can be understood without context from others' with 'no shared state between investigations' and independent failures; connected failures and shared-resource interference are stated do-not-use cases; and every subagent prompt must carry a specific scope ('one test file or subsystem'), a clear goal, constraints ('don't change other code'), the expected output, and self-contained context with concrete test names, error messages and file paths.",
+    "matched_on": [
+      "split only into work that is independent and shares no state - the remedy's precondition for subagent division",
+      "explicit rule against splitting connected or interfering work",
+      "per-subagent brief fixes purpose, scope boundary, constraints and expected output format",
+      "self-contained context per agent so nothing is inherited from the parent session",
+      "parallel dispatch is worth it from roughly three independent problems"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272.5k stars, 24.4k forks; maintained by Jesse Vincent, a notable engineer)",
+        "one of the collections this pass is instructed to treat as well-known; widely redistributed (archieindian/openclaw-superpowers adapts its skills under MIT with attribution)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "orchestrate",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/hyperb1iss/hyperskills",
+        "why_not_primary": "demoted on reputation: 26 stars, 2 forks, no third-party mention. It remains the richer implementation - a Strategy Selection table mapping work shape to strategy and agent count (Research Swarm 10-60+, Sequential Pipeline 3-15, Parallel Sweep 4-10, Multi-Dimensional Audit 6-9, Fleet Maintenance 1), a Brief Anatomy table and copyable dispatch briefs - and it is the only asset found with explicit agent-count tiering",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/hyperb1iss/hyperskills (26 stars, 2 forks, 96 commits, 1 open issue, last commit August 2026, personal account)",
+            "no third-party mention found"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "subagents-orchestration-guide",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/shinpr/claude-code-workflows",
+        "why_not_primary": "strong delegation-boundary contract but bound to that repository's own named specialists; maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/shinpr/claude-code-workflows (alternate only; not researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "research",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/warpdotdev/common-skills",
+        "why_not_primary": "established (Warp, 14,059 installs); states when delegation pays off but defines no counts and no brief contract",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/warpdotdev/common-skills (165 stars, 2 forks, 38 commits, official repository of Warp, the terminal company)",
+            "https://skills.sh/warpdotdev/common-skills/research (14,059 installs)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

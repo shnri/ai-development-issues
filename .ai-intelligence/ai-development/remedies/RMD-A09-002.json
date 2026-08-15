@@ -38,6 +38,13 @@
       "observed_at": "2026-08-15",
       "summary": "Spec Kit clarifyは質問を最大5問・材料的影響のあるものに限定し、'Only asks when answers materially impact architecture...'。過剰詳細化を抑える設計。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": ":plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+      "observed_at": "2026-08-15",
+      "summary": "maintain-agent-instructions (org-private, reputation unknown): read SKILL.md: step 6 ('常時読み込まれるファイルには、広く適用され、コードから推測できず、削除すると実害がある事実と制約だけを残す。条件付き手順はSkillへ移す') and 判定の原則 ('コードや設定から確実に推測できる説明は繰り返さない', 'Skill本文は手順に集中させ、詳細な基準や例はreferencesへ分離する').",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -95,5 +102,76 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "maintain-agent-instructions",
+    "kind": "shared-plugin",
+    "availability": "org-private",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+    "confirmed_by": "read SKILL.md: step 6 ('常時読み込まれるファイルには、広く適用され、コードから推測できず、削除すると実害がある事実と制約だけを残す。条件付き手順はSkillへ移す') and 判定の原則 ('コードや設定から確実に推測できる説明は繰り返さない', 'Skill本文は手順に集中させ、詳細な基準や例はreferencesへ分離する').",
+    "matched_on": [
+      "keep only facts that are broadly applicable, not inferable from code, and harmful to remove, in always-loaded files",
+      "classify each rule as 維持/圧縮/移動/更新/統合/削除",
+      "move detailed criteria and examples out of the body into references"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "writing-for-agents",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established public equivalent of the same trimming rule ('Every word of an always-loaded pointer costs on every turn', 'Cut identity the body already carries', Pruning + Sprawl), but the consumer already adopts the org-private plugin, which additionally classifies each existing rule",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, 18,808 forks, last commit 2026-08-15; maintainer Matt Pocock, well-known TypeScript educator)",
+            "https://skills.sh/mattpocock/skills/writing-for-agents (74.7K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+            "SKILL.md read: information hierarchy ladder (in-file step / in-file reference / disclosed reference), progressive disclosure, Pruning section: 'Keep each meaning in a single source of truth ... Duplication - the same meaning in more than one place - costs maintenance and tokens'"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "agentmd",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mryll/skills",
+        "why_not_primary": "same 'only include what the agent cannot discover' rule but generates a new file; 3-star repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mryll/skills (3 stars, 0 forks, last commit 2026-08-10)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "write-concisely",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/neolabhq/context-engineering-kit",
+        "why_not_primary": "prose concision, not spec trimming; emerging",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/neolabhq/context-engineering-kit (1,337 stars, 137 forks, last commit 2026-08-07)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

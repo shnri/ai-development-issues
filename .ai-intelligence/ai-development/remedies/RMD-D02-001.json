@@ -46,6 +46,13 @@
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions: 「モデルの進歩だけを削除理由にしない」— 一次情報とevalで裏付ける。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/archive228/loopkit",
+      "observed_at": "2026-08-15",
+      "summary": "harness-stripping (public, reputation emerging): pass 1 read SKILL.md: when_to_use is 'auditing a harness after a model upgrade to see what workarounds are now obsolete', with a 6-step procedure - inventory components and the failure mode each was added to prevent, rank by suspicion, fix a baseline eval of 20-60 tasks, strip exactly one component, compare score/cost/latency against baseline, commit each strip separately.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -110,12 +117,75 @@
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
   "existing_asset": {
-    "asset_id": "model-behavior-operations",
-    "path": "plugins/model-behavior-operations/skills/mitigate-model-behavior-issues",
-    "skill": "mitigate-model-behavior-issues",
-    "coverage": "SKILL.md: \"Prefer removing obsolete workaround instructions over stacking new instructions when a newer model no longer needs them\" / \"Do not preserve a workaround forever... re-evaluate and remove obsolete instructions\"; mitigation-playbook.md: \"gate legacy behavior workarounds to old models; rerun regression evals before deleting a workaround\". Missing only the concrete inventory checklist (列挙型指示・強調命令・show-your-thinking・短run前提timeout・context予算表示) → follow-up candidate, not a new asset.",
+    "asset_id": "harness-stripping",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/archive228/loopkit",
+    "url": "https://skills.sh/archive228/loopkit/harness-stripping",
+    "path": "skills/harness-stripping",
+    "confirmed_by": "pass 1 read SKILL.md: when_to_use is 'auditing a harness after a model upgrade to see what workarounds are now obsolete', with a 6-step procedure - inventory components and the failure mode each was added to prevent, rank by suspicion, fix a baseline eval of 20-60 tasks, strip exactly one component, compare score/cost/latency against baseline, commit each strip separately.",
+    "matched_on": [
+      "inventory of scaffolding added for older-model weaknesses",
+      "triggered by a model upgrade",
+      "remove one component at a time and decide by eval, not by assumption",
+      "keep components that still earn their complexity; delete ones that are neutral or harmful"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/archive228/loopkit (747 stars, 130 forks, last commit 2026-07-14)",
+        "https://skills.sh/archive228/loopkit/harness-stripping (16 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
     "verified_at": "2026-08-15",
-    "verified_by": "ai-development-improvement maintain MNT-20260815T120030Z (second pilot)"
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "mitigate-model-behavior-issues",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Valid match (prefers removing obsolete workarounds, gates legacy workarounds to old models, reruns regression evals before deletion) but org-private and framed as reacting to a detected issue.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin (shnri/shared-agent-plugins)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Covers the obsolescence signal and the guard against deleting on model generation alone, but audits text rather than running the before/after eval.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "agents-md-evals",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/vltansky/agents-md-evals",
+        "why_not_primary": "The measurement half (with/without A/B on instruction files), but 4 stars and stale since March, and not scoped to model migration.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/vltansky/agents-md-evals (4 stars, 0 forks, last commit 2026-03-09)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   },
   "pilot_1_annotations": {
     "existing_asset": {

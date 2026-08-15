@@ -22,6 +22,13 @@
       "observed_at": "2026-02",
       "summary": "From Code to Contract: AI coding assistantの契約・法的整理（R21）",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/jorgealves/agent_skills",
+      "observed_at": "2026-08-15",
+      "summary": "license-compliance-auditor (public, reputation unknown): read SKILL.md on skills.sh: it checks every direct and transitive dependency license against organization-approved licenses and is meant to block merges in a pipeline, which is this remedy's 'supplement with a dependency license scan in CI' clause.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -75,5 +82,49 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "license-compliance-auditor",
+    "source": "skills.sh",
+    "path": "jorgealves/agent_skills@license-compliance-auditor",
+    "url": "https://skills.sh/jorgealves/agent_skills/license-compliance-auditor",
+    "availability": "public",
+    "public_url": "https://github.com/jorgealves/agent_skills",
+    "matched_on": [
+      "verify direct and transitive dependency licenses against an approved list",
+      "run as a blocking CI/CD gate",
+      "run on dependency onboarding and before release"
+    ],
+    "confirmed_by": "read SKILL.md on skills.sh: it checks every direct and transitive dependency license against organization-approved licenses and is meant to block merges in a pipeline, which is this remedy's 'supplement with a dependency license scan in CI' clause.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/jorgealves/agent_skills (2 stars, 1 fork, last commit 2026-01-25, two commits in the feed)",
+        "https://skills.sh/jorgealves/agent_skills/license-compliance-auditor (223 installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "license-compliance",
+        "availability": "public",
+        "public_url": "https://github.com/claude-dev-suite/claude-dev-suite",
+        "why_not_primary": "Same SPDX/license-audit intent with 34 installs and less explicit CI-gate framing.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "open-source-license",
+        "availability": "public",
+        "public_url": "https://github.com/skala-io/legal-skills",
+        "why_not_primary": "License selection and interpretation guidance rather than an automated dependency audit.",
+        "reader_facing": false
+      }
+    ]
   }
 }

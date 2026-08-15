@@ -38,6 +38,13 @@
       "observed_at": "2026-08-11",
       "summary": "author-evidence（before/after証拠）はcandidate。",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/maestor/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "api-contract-sync (public, reputation unknown): pass 1 read SKILL.md on skills.sh: the contract is the single source of truth and generated types, server behavior and every consumer must be updated in the same change.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -84,5 +91,76 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "api-contract-sync",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/maestor/agent-skills",
+    "url": "https://skills.sh/maestor/agent-skills/api-contract-sync",
+    "path": "maestor/agent-skills@api-contract-sync",
+    "confirmed_by": "pass 1 read SKILL.md on skills.sh: the contract is the single source of truth and generated types, server behavior and every consumer must be updated in the same change.",
+    "matched_on": [
+      "keep the contract source of truth, generated types/clients, backend behavior and consumers in sync at the same time",
+      "OpenAPI / JSON Schema / Zod-derived schemas in a TypeScript stack",
+      "use when an API change affects more than one codebase or layer"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/maestor/agent-skills (1 star, 0 forks, last commit 2026-07-10)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "spec-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "Established and safe to name for the spec-anchored discipline - 'Keeping the Spec Alive' requires updating the spec before implementing, committing it beside the code and linking each PR to the spec section it implements, and Phase 3 ties every task to acceptance plus verification - but the synchronization is human discipline, not the machine-enforced contract/test coupling the remedy asks for.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/spec-driven-development read from a fresh clone)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "sdd-verify",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/ahgraber/skills",
+        "why_not_primary": "Verification half only, assumes its own .specs/ root; 5-star repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/ahgraber/skills (5 stars, last commit 2026-08-09)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "contract-sync-check",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/0disoft/mustflow",
+        "why_not_primary": "Same intent but written around mustflow-owned files; 1 install.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/0disoft/mustflow (4 stars, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

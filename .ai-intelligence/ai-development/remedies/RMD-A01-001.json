@@ -26,6 +26,13 @@
       "reference": "https://arxiv.org/html/2605.29442",
       "observed_at": "2026-08-15",
       "summary": "20,574-session study: incomplete upfront specification is the norm; turn-by-turn intent refinement drives misalignment."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/github/spec-kit",
+      "observed_at": "2026-08-15",
+      "summary": "spec-kit (public, reputation established): read templates/commands/specify.md ('create or update the feature specification from a natural language feature description', handoff to speckit.plan) and templates/commands/clarify.md ('Goal: Detect and reduce ambiguity or missing decision points in the active feature specification and record the clarifications directly in the spec file', with a re-validated checklists/requirements.md before/after report) - the Specify -> Clarify gate that must clear before Plan.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -53,5 +60,79 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "spec-kit",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/github/spec-kit",
+    "path": "templates/commands/specify.md + templates/commands/clarify.md",
+    "confirmed_by": "read templates/commands/specify.md ('create or update the feature specification from a natural language feature description', handoff to speckit.plan) and templates/commands/clarify.md ('Goal: Detect and reduce ambiguity or missing decision points in the active feature specification and record the clarifications directly in the spec file', with a re-validated checklists/requirements.md before/after report) - the Specify -> Clarify gate that must clear before Plan.",
+    "matched_on": [
+      "Specify -> Clarify -> Plan gate before implementation",
+      "ambiguities resolved and written into the spec artifact before planning",
+      "spec files checked into .specify/specs/NNN-feature/"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "spec-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/addyosmani/agent-skills",
+        "why_not_primary": "established equivalent (gated SPECIFY/PLAN/TASKS/IMPLEMENT with human review at each gate and an 'Open Questions - anything unresolved that needs human input' spec section), but it does not use the [NEEDS CLARIFICATION] marker or the .specify/specs layout the remedy names",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/spec-driven-development read from a fresh clone)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "spec-kit-skill",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/feiskyer/claude-code-settings",
+        "why_not_primary": "demoted former primary: a third-party wrapper of the same Spec Kit workflow (1,633 stars) - the upstream github/spec-kit carries the track record",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/feiskyer/claude-code-settings (1,633 stars, 247 forks, last commit 2026-08-13; maintainer Pengfei Ni, known Kubernetes contributor)",
+            "https://skills.sh/feiskyer/claude-code-settings/spec-kit-skill"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "clarify-before-implementing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/adwilkinson/claude-code-tools",
+        "why_not_primary": "questioning gate without a persisted spec artifact; 3-star personal repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/adwilkinson/claude-code-tools (3 stars, 0 forks, last commit 2026-04-16)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

@@ -20,6 +20,13 @@
       "reference": "https://adr.github.io/",
       "observed_at": "2026-08-15",
       "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "writing-for-agents (public, reputation established): read SKILL.md, Pruning section: 'Keep each meaning in a single source of truth: one authoritative place, so changing the behaviour is a one-place edit. Duplication - the same meaning in more than one place - costs maintenance and tokens'; and 'The environment is a source of truth too ... a document that restates it is a cache' - the DRY-docs rule plus the reference-don't-restate discipline.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -45,5 +52,78 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "writing-for-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://skills.sh/mattpocock/skills/writing-for-agents",
+    "path": "skills/productivity/writing-for-agents",
+    "confirmed_by": "read SKILL.md, Pruning section: 'Keep each meaning in a single source of truth: one authoritative place, so changing the behaviour is a one-place edit. Duplication - the same meaning in more than one place - costs maintenance and tokens'; and 'The environment is a source of truth too ... a document that restates it is a cache' - the DRY-docs rule plus the reference-don't-restate discipline.",
+    "matched_on": [
+      "each fact lives in exactly one authoritative place",
+      "other documents point at it instead of restating it",
+      "restating a mechanically discoverable fact is treated as a cache that must earn its keep"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, 18,808 forks, last commit 2026-08-15; maintainer Matt Pocock, well-known TypeScript educator)",
+        "https://skills.sh/mattpocock/skills/writing-for-agents (74.7K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "SKILL.md read: information hierarchy ladder (in-file step / in-file reference / disclosed reference), progressive disclosure, Pruning section: 'Keep each meaning in a single source of truth ... Duplication - the same meaning in more than one place - costs maintenance and tokens'"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "source-of-truth-docs-skills",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/elvincth/source-of-truth-docs-skills",
+        "why_not_primary": "demoted former primary: right mechanism, 2 stars, no track record",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/elvincth/source-of-truth-docs-skills (2 stars, 0 forks, last commit 2026-05-21, 6 commits total)",
+            "https://skills.sh/elvincth/source-of-truth-docs-skills/source-of-truth-docs-skills"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "same de-duplication judgement but scoped to agent instructions, and org-private",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "dry",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/jordancoin/codingskills",
+        "why_not_primary": "same principle applied to code, not documents; 6-star dormant repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/jordancoin/codingskills (6 stars, 2 forks, last commit 2026-02-28)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

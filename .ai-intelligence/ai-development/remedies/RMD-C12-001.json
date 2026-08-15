@@ -23,6 +23,13 @@
       "observed_at": "2025-07-21",
       "summary": "GitChameleon 2.0(328問, version条件付き): frontier modelのbaseline 48-51%。docs RAGでGPT-4.1 48.5→58.5%、Claude 3.7 Sonnet 48.8→56.1%。visible testでのself-debugで+10〜20pt(Llama3.1 30.2→52.1、GPT-4.1-mini 44.2→68.0)。Claude Code 48.8%、Goose+GPT-4.1 55.5%",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/BuilderIO/skills",
+      "observed_at": "2026-08-15",
+      "summary": "read-the-damn-docs (public, reputation established): read SKILL.md (skills/read-the-damn-docs/SKILL.md) via raw.githubusercontent: the required 7-step workflow is identify the exact surface (package, version, provider, CLI, config) -> search the web for current official docs -> read the authoritative page -> extract options/imports/breaking changes/limits -> implement from those facts -> 'Verify with the smallest useful check: typecheck, tests, build, CLI dry run, API schema validation, or a local reproduction' -> name the docs consulted. Its dependency trigger requires 'npm view <pkg> version' (or the ecosystem equivalent) when adding or upgrading a package. That is the remedy's pre-install registry check plus its execution-verification gate in one skill.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -81,5 +88,51 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "read-the-damn-docs",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/BuilderIO/skills",
+    "url": "https://skills.sh/builderio/skills/read-the-damn-docs",
+    "path": "skills/read-the-damn-docs",
+    "confirmed_by": "read SKILL.md (skills/read-the-damn-docs/SKILL.md) via raw.githubusercontent: the required 7-step workflow is identify the exact surface (package, version, provider, CLI, config) -> search the web for current official docs -> read the authoritative page -> extract options/imports/breaking changes/limits -> implement from those facts -> 'Verify with the smallest useful check: typecheck, tests, build, CLI dry run, API schema validation, or a local reproduction' -> name the docs consulted. Its dependency trigger requires 'npm view <pkg> version' (or the ecosystem equivalent) when adding or upgrading a package. That is the remedy's pre-install registry check plus its execution-verification gate in one skill.",
+    "matched_on": [
+      "registry check before adopting a dependency: `npm view <pkg> version` or ecosystem equivalent when adding or upgrading a package",
+      "'Verify with the smallest useful check: typecheck, tests, build, CLI dry run, API schema validation, or a local reproduction' as the step before the change stands",
+      "triggers include errors that indicate deprecation or version mismatch, and version-sensitive APIs",
+      "'Do not guess where authoritative docs can answer the question' - model memory is not an accepted source"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/BuilderIO/skills (4.0k stars, 199 forks, 98 commits, active; official GitHub organisation of Builder.io, a known company)",
+        "https://skills.sh/builderio/skills/read-the-damn-docs (309 installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Warn)",
+        "distributed through the @agent-native/skills installer and as a Claude Code plugin"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "live-dependency-resolver",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/maddhruv/absolute",
+        "why_not_primary": "demoted on reputation: 206 stars, unresearched personal maintainer, no third-party mention, Snyk Warn on skills.sh, and an unrelated behavioural directive (always open the first response with an emoji) inside its SKILL.md. It is still the sharper implementation of the registry leg specifically (CLI first, registry web API fallback, explicitly motivated by knowledge-cutoff hallucination)",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/maddhruv/absolute (206 stars, 31 forks, 234 commits, last commit July 2026, 1 open issue, personal account)",
+            "skills.sh audit for this skill: Snyk Warn (Gen Agent Trust Hub and Socket pass) - reported by the first pass",
+            "no third-party mention found"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

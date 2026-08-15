@@ -26,6 +26,13 @@
       "reference": "https://www.thebcms.com/blog/spec-driven-development/",
       "observed_at": "2026-08-15",
       "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/addyosmani/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "documentation-and-adrs (public, reputation established): read SKILL.md: 'ADR Lifecycle: PROPOSED -> ACCEPTED -> (SUPERSEDED or DEPRECATED)', 'Don't delete old ADRs ... when a decision changes, write a new ADR that references and supersedes the old one', plus 'Match the existing convention first' (inspect the repo's existing ADR location/numbering and surface the conflict rather than silently introducing a second scheme) and a 'Documentation for Agents' section naming which document owns what.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -52,5 +59,80 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "documentation-and-adrs",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/addyosmani/agent-skills",
+    "url": "https://skills.sh/addyosmani/agent-skills/documentation-and-adrs",
+    "path": "skills/documentation-and-adrs",
+    "confirmed_by": "read SKILL.md: 'ADR Lifecycle: PROPOSED -> ACCEPTED -> (SUPERSEDED or DEPRECATED)', 'Don't delete old ADRs ... when a decision changes, write a new ADR that references and supersedes the old one', plus 'Match the existing convention first' (inspect the repo's existing ADR location/numbering and surface the conflict rather than silently introducing a second scheme) and a 'Documentation for Agents' section naming which document owns what.",
+    "matched_on": [
+      "every superseding decision recorded as an ADR with an explicit supersedence link",
+      "one declared convention per repository, conflicts surfaced instead of forked",
+      "documents named by what they are authoritative for (rules file / spec / ADR / inline gotchas)"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/addyosmani/agent-skills (87,489 stars, active)",
+        "https://skills.sh/addyosmani/agent-skills/documentation-and-adrs (22.8K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "SKILL.md read: ADR Lifecycle PROPOSED -> ACCEPTED -> (SUPERSEDED or DEPRECATED), 'don't delete old ADRs', 'match the existing convention first / surface the conflict'"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "source-of-truth-docs-skills",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/elvincth/source-of-truth-docs-skills",
+        "why_not_primary": "demoted former primary: covers the documentation-map half well, but is a 2-star, 6-commit personal repo dormant since 2026-05",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/elvincth/source-of-truth-docs-skills (2 stars, 0 forks, last commit 2026-05-21, 6 commits total)",
+            "https://skills.sh/elvincth/source-of-truth-docs-skills/source-of-truth-docs-skills"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "domain-modeling",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established ADR format with 'superseded by ADR-NNNN', but declares no spec hierarchy; primary for RMD-A13-001",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "review-doc-consistency",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/heyvhuang/ship-faster",
+        "why_not_primary": "implements the change-triggered consistency-review half only; emerging",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/heyvhuang/ship-faster (339 stars, 58 forks, last commit 2026-04-04)",
+            "https://skills.sh/heyvhuang/ship-faster/review-doc-consistency"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

@@ -53,6 +53,13 @@
       "observed_at": "2026-08-11",
       "summary": "flake・実行時間を複合品質指標に含める。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": ":plugins/ai-development-improvement/skills/ai-development-improvement",
+      "observed_at": "2026-08-15",
+      "summary": "ai-development-improvement (org-private, reputation unknown): read references/evaluation-policy.md: the required sequence ends with 'classify infrastructure failures separately', the Adaptive trials section defines sequential confirmation until two consecutive trials agree, and Evaluation artifacts stores the per-run plan, trials and artifacts.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -115,5 +122,74 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "ai-development-improvement",
+    "kind": "shared-plugin",
+    "availability": "org-private",
+    "path": "plugins/ai-development-improvement/skills/ai-development-improvement",
+    "confirmed_by": "read references/evaluation-policy.md: the required sequence ends with 'classify infrastructure failures separately', the Adaptive trials section defines sequential confirmation until two consecutive trials agree, and Evaluation artifacts stores the per-run plan, trials and artifacts.",
+    "matched_on": [
+      "repeated trials instead of a single run, with confirmation trials until two consecutive trials agree",
+      "infrastructure failures classified separately and excluded from the trial count",
+      "the evaluation unit is model plus harness together, persisted per run"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "optimize-skill",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Has the model-variance rule (3 runs for critical cases, 1 for deterministic output, blind A/B for subjective cases) but no failure-cause classification and no run-environment recording; org-private.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "yeachan-heo/oh-my-codex@ultraqa",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/yeachan-heo/oh-my-codex",
+        "why_not_primary": "Established and safe to name: its required scenario matrix includes a flaky-test class (rerun strategy, failure clustering, quarantine evidence, avoiding a false green from one lucky pass), but it does not separate infrastructure from model regression and records no run metadata.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/yeachan-heo/oh-my-codex (32,680 stars, 2,526 forks, last commit 2026-08-14, releasing 0.20.5)",
+            "https://www.skills.sh/yeachan-heo/oh-my-codex/ultraqa (152 installs, first seen Feb 17 2026; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "diagnosing-bugs",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Established; handles non-determinism by raising the reproduction rate and demanding a deterministic loop, i.e. flakes at diagnosis time rather than failure classification across CI/eval runs.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks, 437 commits; maintained by Matt Pocock, a notable engineer)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

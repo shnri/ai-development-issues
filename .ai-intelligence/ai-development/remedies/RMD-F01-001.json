@@ -33,6 +33,13 @@
       "observed_at": "2026-08-11",
       "summary": "同じ誤解を共有するoracleを独立fault model・property・contractで補う(evidence-supported)。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "mattpocock/skills@tdd (public, reputation established): read skills/engineering/tdd/SKILL.md at HEAD: the Anti-patterns section names the 'Tautological' test, where 'the assertion recomputes the expected value the way the code does ... so it passes by construction and can never disagree with the code', and rules that 'Expected values must come from an independent source of truth — a known-good literal, a worked example, the spec'; the Rules of the loop require 'Red before green' with one vertical slice at a time; and no test may be written at a seam that has not been agreed first.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -92,5 +99,81 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "mattpocock/skills@tdd",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://www.skills.sh/mattpocock/skills/tdd",
+    "path": "skills/engineering/tdd/SKILL.md",
+    "confirmed_by": "read skills/engineering/tdd/SKILL.md at HEAD: the Anti-patterns section names the 'Tautological' test, where 'the assertion recomputes the expected value the way the code does ... so it passes by construction and can never disagree with the code', and rules that 'Expected values must come from an independent source of truth — a known-good literal, a worked example, the spec'; the Rules of the loop require 'Red before green' with one vertical slice at a time; and no test may be written at a seam that has not been agreed first.",
+    "matched_on": [
+      "expected values must come from an independent source of truth — the spec, a worked example, a known-good literal — not recomputed the way the code does",
+      "test-first ordering: red before green, one slice per cycle",
+      "tests written at agreed public seams, i.e. at spec-level behavior rather than against internals"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+        "https://www.skills.sh/mattpocock/skills/tdd (686 installs — the highest install count seen in this batch; first seen Feb 10 2026; Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "read skills/engineering/tdd/SKILL.md at HEAD"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "obra/superpowers@test-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Established and clean-audited, and the strongest statement of the blind-ordering half — 'NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST', code written before the test must be deleted ('Don't look at it. Delete means delete'), and 'tests written after are biased by the code you already wrote' — but it has no rule about where expected values may come from, which is this remedy's other half.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-12)",
+            "https://www.skills.sh/obra/superpowers/test-driven-development (198 installs; Trust Hub Pass, Socket Pass, Snyk Pass)",
+            "read skills/test-driven-development/SKILL.md at HEAD"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "citypaul/.dotfiles@tdd",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/citypaul/.dotfiles",
+        "why_not_primary": "Previous primary, demoted on reputation: a personal dotfiles repo (714 stars, 194 installs, clean audits) with no third-party citation found. Content is strong — RED before implementation, a ban on manufacturing a fake RED, mutation testing as the end-of-phase gate.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/citypaul/.dotfiles (714 stars, 89 forks, last commit 2026-08-13)",
+            "https://www.skills.sh/citypaul/.dotfiles/tdd (194 installs, first seen Jan 29 2026; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "mikeyobrien/ralph-orchestrator@test-driven-development",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mikeyobrien/ralph-orchestrator",
+        "why_not_primary": "Maps each Given/When/Then acceptance criterion to a failing stub before implementation — the closest 'derive from the spec' framing — but the skill is marked internal in its frontmatter and its examples are Rust-only.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/mikeyobrien/ralph-orchestrator (3,098 stars, 285 forks, last commit 2026-07-25)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

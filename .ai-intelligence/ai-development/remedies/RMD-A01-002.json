@@ -52,6 +52,13 @@
       "observed_at": "2026-05-28",
       "summary": "20,574 sessionの実観測で意図解釈・行動範囲の不一致が反復し、可視な解決の91.49%がユーザーの明示的訂正を要した。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/addyosmani/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "interview-me (public, reputation established): read SKILL.md on skills.sh: pre-spec interview stage ('before any plan, spec, or code exists'), one question at a time with a proposed answer, running until the agent can predict the answer, then handing off to the sibling spec-driven-development skill - the Explore->interview->SPEC.md sequence the remedy describes.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -114,5 +121,79 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "interview-me",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/addyosmani/agent-skills",
+    "url": "https://skills.sh/addyosmani/agent-skills/interview-me",
+    "path": "skills/interview-me",
+    "confirmed_by": "read SKILL.md on skills.sh: pre-spec interview stage ('before any plan, spec, or code exists'), one question at a time with a proposed answer, running until the agent can predict the answer, then handing off to the sibling spec-driven-development skill - the Explore->interview->SPEC.md sequence the remedy describes.",
+    "matched_on": [
+      "separate clarification phase before any plan/spec/code exists",
+      "agent asks one question at a time with its own best guess attached",
+      "runs until the agent can predict the answer (~95% confidence), then hands off to spec writing"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/addyosmani/agent-skills (87,489 stars, last commit 2026-08-14; skills/interview-me read from a fresh clone)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "add-feature",
+        "kind": "installed-command",
+        "availability": "consumer-local",
+        "why_not_primary": "covers the record-the-answers half (回答は requirements.md の「## 確認事項」に記録) but is consumer-local",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/add-feature.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "grill-with-docs",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established, but records decisions as ADRs rather than a feature spec",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+            "listed at skills/engineering/grill-with-docs/SKILL.md in the repo tree at HEAD"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "spec-kit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/spec-kit",
+        "why_not_primary": "same gate via the Clarify command; primary for RMD-A01-001",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

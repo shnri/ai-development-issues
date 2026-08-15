@@ -38,6 +38,13 @@
       "observed_at": "2026-08-11",
       "summary": "trajectory・tool・artifact・graderのsample監査(evidence-supported, 確度high)。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": ":plugins/ai-development-improvement/skills/ai-development-improvement",
+      "observed_at": "2026-08-15",
+      "summary": "ai-development-improvement (org-private, reputation unknown): read references/evaluation-policy.md: the 'Evaluation unit' section lists outcome, trajectory, artifacts, efficiency and guardrails as separate capture axes and defines outcome as the final state/artifact rather than the agent's completion claim; record_evaluation.py persists the run artifacts that make trajectory review possible.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -93,5 +100,43 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "ai-development-improvement",
+    "kind": "shared-plugin",
+    "availability": "org-private",
+    "path": "plugins/ai-development-improvement/skills/ai-development-improvement",
+    "confirmed_by": "read references/evaluation-policy.md: the 'Evaluation unit' section lists outcome, trajectory, artifacts, efficiency and guardrails as separate capture axes and defines outcome as the final state/artifact rather than the agent's completion claim; record_evaluation.py persists the run artifacts that make trajectory review possible.",
+    "matched_on": [
+      "outcome, trajectory, artifact and efficiency captured as separate axes",
+      "outcome defined against the completion claim",
+      "trajectory enumerated as commands, tool calls, skipped/required steps, time, tokens and retries"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "optimize-skill",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Its skill-failure-attribution agent reads the transcript and directs the reviewer at the trajectory rather than only the final output, but it runs per failed eval case rather than as a standing sample audit.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

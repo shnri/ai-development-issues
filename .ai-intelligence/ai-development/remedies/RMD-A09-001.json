@@ -20,6 +20,13 @@
       "reference": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/",
       "observed_at": "2026-08-15",
       "summary": "GitHub Spec Kit: Specify->Plan->Tasks->Implement workflow; spec is the contract/source of truth for agent work; integrates 30+ agents as of 0.11.0 (2026-06)."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "writing-for-agents (public, reputation established): read SKILL.md: the 'Information hierarchy' ladder (in-file step -> in-file reference -> disclosed reference reached by a context pointer, loaded only when the pointer fires), 'Progressive disclosure is the move down the ladder ... so the top stays legible', the branching test for what to inline vs disclose, and 'Sprawl' with a 'When to split' section.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -45,5 +52,79 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "writing-for-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://skills.sh/mattpocock/skills/writing-for-agents",
+    "path": "skills/productivity/writing-for-agents",
+    "confirmed_by": "read SKILL.md: the 'Information hierarchy' ladder (in-file step -> in-file reference -> disclosed reference reached by a context pointer, loaded only when the pointer fires), 'Progressive disclosure is the move down the ladder ... so the top stays legible', the branching test for what to inline vs disclose, and 'Sprawl' with a 'When to split' section.",
+    "matched_on": [
+      "short always-loaded top level, detail in linked material loaded on demand",
+      "an explicit rule for deciding what stays at the top and what moves down (branching test)",
+      "triggered when the top-level document grows past what attention can carry"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218,346 stars, 18,808 forks, last commit 2026-08-15; maintainer Matt Pocock, well-known TypeScript educator)",
+        "https://skills.sh/mattpocock/skills/writing-for-agents (74.7K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "SKILL.md read: information hierarchy ladder (in-file step / in-file reference / disclosed reference), progressive disclosure, Pruning section: 'Keep each meaning in a single source of truth ... Duplication - the same meaning in more than one place - costs maintenance and tokens'"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "skill-progressive-disclosure-design",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/samber/cc-skills",
+        "why_not_primary": "demoted former primary: same mechanism with a line-count trigger, but a 184-star young collection",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/samber/cc-skills (184 stars, 15 forks, last commit 2026-08-01; maintainer Samuel Berthe of samber/lo)",
+            "https://skills.sh/samber/cc-skills/skill-progressive-disclosure-design"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "source-of-truth-docs-skills",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/elvincth/source-of-truth-docs-skills",
+        "why_not_primary": "same short-entry-point shape without an altitude rule; 2 stars",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/elvincth/source-of-truth-docs-skills (2 stars, 0 forks, last commit 2026-05-21, 6 commits total)",
+            "https://skills.sh/elvincth/source-of-truth-docs-skills/source-of-truth-docs-skills"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "moves conditional procedures out of always-loaded files, but org-private",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

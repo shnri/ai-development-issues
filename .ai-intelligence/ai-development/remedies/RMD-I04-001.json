@@ -60,6 +60,13 @@
       "observed_at": "2025-12-09",
       "summary": "ASI09 Human-Agent Trust Exploitation: 承認は内容拘束で、包括承認を避ける",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/oakoss/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "destructive-command-guard (public, reputation unknown): read SKILL.md on skills.sh: DCG runs as a Claude Code PreToolUse hook, reads the Bash tool-call JSON on stdin and returns exit 2 to block, matches 49+ modular denial packs across git/filesystem/database/cloud, allows unrecognized commands by default, and offers a dcg scan subcommand for CI — the hook-and-deny half of this remedy.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -119,5 +126,66 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "destructive-command-guard",
+    "source": "skills.sh",
+    "path": "oakoss/agent-skills@destructive-command-guard",
+    "url": "https://skills.sh/oakoss/agent-skills/destructive-command-guard",
+    "availability": "public",
+    "public_url": "https://github.com/oakoss/agent-skills",
+    "matched_on": [
+      "PreToolUse hook that blocks destructive Bash commands before execution",
+      "mechanical denial of rm -rf, git force push, and other high-impact patterns",
+      "whitelist-first so low-risk commands are not sent to approval",
+      "CI-side scan subcommand for the same patterns"
+    ],
+    "confirmed_by": "read SKILL.md on skills.sh: DCG runs as a Claude Code PreToolUse hook, reads the Bash tool-call JSON on stdin and returns exit 2 to block, matches 49+ modular denial packs across git/filesystem/database/cloud, allows unrecognized commands by default, and offers a dcg scan subcommand for CI — the hook-and-deny half of this remedy.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/oakoss/agent-skills (14 stars, 5 forks, no repository description, last commit 2026-03-02)",
+        "https://skills.sh/oakoss/agent-skills/destructive-command-guard (64 installs; Trust Hub Warn / Socket FAIL / Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "global-agent-guardrails",
+        "availability": "public",
+        "public_url": "https://github.com/davidondrej/skills",
+        "why_not_primary": "Same mechanism (one denylist file plus a shared hook script returning exit 2, with per-agent adapters and a pattern test suite) and it passes all three skills.sh audits, but it is a smaller pattern denylist with no CI scan and it states it is a seatbelt against accidents, not a defense against a malicious agent. A strong second choice if the primary fails TechLog's audit.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/davidondrej/skills (3,631 stars, 526 forks, last commit 2026-08-14)",
+            "https://skills.sh/davidondrej/skills/global-agent-guardrails (103 installs; all three audits Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "dangerous-action-guard",
+        "availability": "public",
+        "public_url": "https://github.com/archieindian/openclaw-superpowers",
+        "why_not_primary": "Same idea with 49 installs and no visible Claude Code hook contract; less evidence than the two above.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "git-safety-guard",
+        "availability": "public",
+        "public_url": "https://github.com/terraphim/terraphim-skills",
+        "why_not_primary": "Covers only the git subset (force push, reset) of the destructive-operation set.",
+        "reader_facing": false
+      }
+    ]
   }
 }

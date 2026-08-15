@@ -31,6 +31,13 @@
       "observed_at": "2026-08-15",
       "summary": "Codexは相当機能がAGENTS.md階層とproject_doc_max_bytesで代替（Skill単位の発火制御設定は本調査範囲では未確認）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/shipshitdev/skills",
+      "observed_at": "2026-08-15",
+      "summary": "skill-validator (public, reputation emerging): pass 1 read SKILL.md: the Claude Code extension table defines when_to_use, disable-model-invocation, user-invocable, allowed-tools/disallowed-tools and paths (marked broken upstream, issue #49835), and the validation rules check description+when_to_use under 1536 chars and warn when a side-effecting skill lacks disable-model-invocation.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -83,5 +90,65 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "skill-validator",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/shipshitdev/skills",
+    "url": "https://skills.sh/shipshitdev/skills/skill-validator",
+    "path": ".agents/skills/skill-validator",
+    "confirmed_by": "pass 1 read SKILL.md: the Claude Code extension table defines when_to_use, disable-model-invocation, user-invocable, allowed-tools/disallowed-tools and paths (marked broken upstream, issue #49835), and the validation rules check description+when_to_use under 1536 chars and warn when a side-effecting skill lacks disable-model-invocation.",
+    "matched_on": [
+      "side-effecting Skills must set disable-model-invocation: true (warned when missing)",
+      "user-invocable: false hides a Skill from the / menu but does not stop model invocation",
+      "when_to_use appends extra trigger phrases to the description",
+      "description plus when_to_use must stay under the 1536-character listing cap",
+      "paths: is flagged as broken upstream and reported if present"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/shipshitdev/skills (32 stars, 3 forks, last commit 2026-08-15)",
+        "https://skills.sh/shipshitdev/skills/skill-validator (44 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "context-doctor",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mark-life/agent-skills",
+        "why_not_primary": "Covers the settings-side controls (disable-model-invocation gating, settings skillOverrides off / user-invocable-only, reading the /context breakdown) but a 1-star repo with a Trust Hub Warn.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mark-life/agent-skills (1 star, 0 forks, last commit 2026-08-15)",
+            "https://skills.sh/mark-life/agent-skills/context-doctor (17 installs; Socket Pass, Snyk Pass, Gen Agent Trust Hub Warn)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "skill-frontmatter",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/latestaiagents/agent-skills",
+        "why_not_primary": "Name/description authoring only; never mentions the firing-control fields; 5-star repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/latestaiagents/agent-skills (5 stars, last commit 2026-04-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

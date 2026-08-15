@@ -29,6 +29,13 @@
       "observed_at": "2026-04-08",
       "summary": "Anthropic Managed Agents: sessionをcontext window外に置くappend-only event logとして扱い、harness失敗後もwake(sessionId)/getEventsで状態を復元",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/everyinc/compound-engineering-plugin",
+      "observed_at": "2026-08-15",
+      "summary": "ce-worktree (public, reputation established): pass 1 read the skills.sh page: 'Ensure the current work happens in an isolated workspace, without disturbing the user's main checkout' - detects existing isolation, prefers native worktree tooling with a plain-git fallback, and supports branching from a base trunk or isolating an existing ref.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -80,5 +87,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "ce-worktree",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/everyinc/compound-engineering-plugin",
+    "url": "https://skills.sh/everyinc/compound-engineering-plugin/ce-worktree",
+    "confirmed_by": "pass 1 read the skills.sh page: 'Ensure the current work happens in an isolated workspace, without disturbing the user's main checkout' - detects existing isolation, prefers native worktree tooling with a plain-git fallback, and supports branching from a base trunk or isolating an existing ref.",
+    "matched_on": [
+      "give each agent/task an isolated git worktree instead of the user's main checkout",
+      "detect whether the session is already isolated before creating another worktree",
+      "create the worktree from an explicit base trunk, or isolate an existing ref (PR, branch, commit)"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/everyinc/compound-engineering-plugin (24,291 stars, 2,003 forks, last commit 2026-08-15)",
+        "https://skills.sh/everyinc/compound-engineering-plugin/ce-worktree (2.4K installs; Trust Hub Pass, Socket Pass, Snyk Warn)",
+        "maintainer: Every Inc, whose 'compound engineering' plugin is the official companion to a widely read publication"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "using-git-worktrees",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Equally established and the same mechanism, stated even more compactly ('Detect existing isolation first. Then use native tools. Then fall back to git. Never fight the harness'); the pass-1 primary was already confirmed in detail, so it stays, but either is safe to name.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-12)",
+            "https://skills.sh/obra/superpowers/using-git-worktrees (163.9K installs; Trust Hub Pass / Socket Pass / Snyk Warn)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "parallel-worktrees",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/rohitg00/pro-workflow",
+        "why_not_primary": "Not opened, 79 installs.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/rohitg00/pro-workflow (2,776 stars, 270 forks, last commit 2026-07-18)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "git-worktree",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/davidondrej/skills",
+        "why_not_primary": "General git-worktree usage, not confirmed to tie worktrees to agent isolation.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/davidondrej/skills (3,631 stars, 526 forks, last commit 2026-08-14)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

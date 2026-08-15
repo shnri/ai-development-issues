@@ -46,6 +46,13 @@
       "observed_at": "2026-08-15",
       "summary": "CI用途は--sandbox read-only --ask-for-approval never",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/trailofbits/skills",
+      "observed_at": "2026-08-15",
+      "summary": "agentic-actions-auditor (public, reputation established): read SKILL.md on skills.sh: it performs static security analysis of GitHub Actions workflows that invoke AI coding agents (Claude Code Action, Gemini CLI, Codex), checking trigger exposure, tool permissions, user allowlists, and the event-context-to-prompt data path — the same attack surface this remedy tells the developer to close.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -105,5 +112,60 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "agentic-actions-auditor",
+    "source": "skills.sh",
+    "path": "trailofbits/skills@agentic-actions-auditor",
+    "url": "https://skills.sh/trailofbits/skills/agentic-actions-auditor",
+    "availability": "public",
+    "public_url": "https://github.com/trailofbits/skills",
+    "matched_on": [
+      "detect attacker-controlled input reaching an AI agent prompt in CI",
+      "flag exposing triggers such as pull_request_target and issue_comment",
+      "check agentic action configuration: sandbox settings, tool permissions, user allowlists",
+      "trace data flow from GitHub event context through env: blocks into prompt fields",
+      "follow composite actions and reusable workflows that hide agent invocations"
+    ],
+    "confirmed_by": "read SKILL.md on skills.sh: it performs static security analysis of GitHub Actions workflows that invoke AI coding agents (Claude Code Action, Gemini CLI, Codex), checking trigger exposure, tool permissions, user allowlists, and the event-context-to-prompt data path — the same attack surface this remedy tells the developer to close.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/trailofbits/skills (6,603 stars, last commit 2026-08-14)",
+        "https://skills.sh/trailofbits/skills/agentic-actions-auditor (5.3K installs; Trust Hub Pass / Socket Warn / Snyk Fail)",
+        "https://skills.sh/trailofbits/skills/agentic-actions-auditor/security/snyk (W007 + W011 + W012, audited 2026-04-29)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "github-actions-hardening",
+        "availability": "public",
+        "public_url": "https://github.com/github/awesome-copilot",
+        "why_not_primary": "Not agent-specific: it is a general Actions security reviewer reasoning about trust boundaries in trigger types, token scopes, and ${{ }} interpolation. It covers the GITHUB_TOKEN contents:read and untrusted-input-via-env clauses of this remedy and passes all three skills.sh audits (37.8K-star github/awesome-copilot repo), so it is a strong complement to the primary.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/awesome-copilot (37,884 stars, last commit 2026-08-14)",
+            "https://skills.sh/github/awesome-copilot/github-actions-hardening (250 installs; all three audits Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "secure-github-actions",
+        "availability": "public",
+        "public_url": "https://github.com/vechain/vechain-ai-skills",
+        "why_not_primary": "66 installs and no agent-specific coverage; superseded by the two above.",
+        "reader_facing": false
+      }
+    ]
   }
 }

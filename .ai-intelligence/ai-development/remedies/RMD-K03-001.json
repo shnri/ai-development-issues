@@ -45,6 +45,13 @@
       "observed_at": "2025-06-18",
       "summary": "MCP serverはtools/list_changed通知でtool schemaを動的変更でき、client側で変更検知が可能。tool schema変化は回帰要因。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "<SAP>:plugins/skill-optimization/skills/optimize-skill",
+      "observed_at": "2026-08-15",
+      "summary": "optimize-skill (org-private, reputation unknown): read SKILL.md (\"1 iterationにつき1つのscoped changeだけ作る\", \"old/candidateを同一条件で比較する\", \"gateを通らないcandidateを反映しない\") and references/promotion-policy.md, whose gate requires one logical change, identical eval IDs/run configuration, no regression on previously passing cases, and whose automatic-rejection list includes \"multiple logical changes\" and \"hidden regressions\"; report-only/branch modes give the staged rollout.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -103,5 +110,59 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "shared-plugin",
+    "asset_id": "optimize-skill",
+    "source": "<SAP>",
+    "path": "plugins/skill-optimization/skills/optimize-skill",
+    "availability": "org-private",
+    "matched_on": [
+      "exactly one logical change per iteration",
+      "baseline and candidate run under identical eval IDs and shared run configuration",
+      "regression gate: no previously passing case may fail and no case score may decrease",
+      "staged rollout: report-only by default, then an inspectable branch, never push or merge"
+    ],
+    "confirmed_by": "read SKILL.md (\"1 iterationにつき1つのscoped changeだけ作る\", \"old/candidateを同一条件で比較する\", \"gateを通らないcandidateを反映しない\") and references/promotion-policy.md, whose gate requires one logical change, identical eval IDs/run configuration, no regression on previously passing cases, and whose automatic-rejection list includes \"multiple logical changes\" and \"hidden regressions\"; report-only/branch modes give the staged rollout.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "shared-plugin",
+        "asset_id": "ai-development-improvement",
+        "availability": "org-private",
+        "why_not_primary": "its evaluation policy supplies the ablation-style test sets (replay/target/holdout/adjacent, trigger-positive/negative) and forbids regression, and revalidate mode covers externally driven model/effort/harness updates, but it does not state the one-axis-per-change rule as directly as optimize-skill's promotion gate.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "shared-plugin",
+        "asset_id": "maintain-agent-instructions",
+        "availability": "org-private",
+        "why_not_primary": "requires minimal edit units and running the Skill validator plus trigger/non-trigger prompts after instruction changes, but has no regression eval suite or staged rollout.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

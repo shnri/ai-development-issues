@@ -39,6 +39,13 @@
       "observed_at": "2025-07-10",
       "summary": "METR: 熟練者でも体感と実測が乖離(過信の一形態)",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/github/awesome-copilot",
+      "observed_at": "2026-08-15",
+      "summary": "mentoring-juniors (public, reputation established): read the raw SKILL.md at github/awesome-copilot skills/mentoring-juniors: the Golden Rules forbid an unexplained solution and blind copy-paste, the PEAR loop (Plan/Explore/Analyze/Rewrite) and the Copilot tool table ('first try to understand the error yourself, THEN use /fix') implement the three learning patterns the Anthropic RCT identified, and the 'Total blockage' branch routes the learner to pair programming with a senior.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -97,5 +104,52 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "mentoring-juniors",
+    "source": "skills.sh",
+    "path": "skills/mentoring-juniors",
+    "url": "https://skills.sh/github/awesome-copilot/mentoring-juniors",
+    "availability": "public",
+    "public_url": "https://github.com/github/awesome-copilot",
+    "matched_on": [
+      "a learning mode that answers with concepts and questions instead of solutions",
+      "the learner must be able to explain every generated line, no blind copy-paste (generation-then-comprehension)",
+      "PEAR loop: plan in pseudocode before generating, read every line, rewrite the solution in your own words (hybrid code-explanation)",
+      "understand the error yourself before using the automatic fix",
+      "post-urgency debrief that lists which lines were accepted without understanding",
+      "escalate a total blockage to pair programming with a senior"
+    ],
+    "confirmed_by": "read the raw SKILL.md at github/awesome-copilot skills/mentoring-juniors: the Golden Rules forbid an unexplained solution and blind copy-paste, the PEAR loop (Plan/Explore/Analyze/Rewrite) and the Copilot tool table ('first try to understand the error yourself, THEN use /fix') implement the three learning patterns the Anthropic RCT identified, and the 'Total blockage' branch routes the learner to pair programming with a senior.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/github/awesome-copilot (37,884 stars, 4,777 forks, last commit 2026-08-14)",
+        "https://skills.sh/github/awesome-copilot/mentoring-juniors (6.8K installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "gentle-teaching",
+        "availability": "public",
+        "public_url": "https://github.com/jwynia/agent-skills",
+        "why_not_primary": "Surfaced as a teaching-mode skill (383 installs) but not opened; mentoring-juniors is both far more installed and explicitly built around AI-assisted coding rather than teaching in general.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "socratic-questioning",
+        "availability": "public",
+        "public_url": "https://github.com/nickcrew/claude-cortex",
+        "why_not_primary": "Same Socratic mechanism but generic (62 installs, not opened) and not tied to reviewing code the assistant just generated.",
+        "reader_facing": false
+      }
+    ]
   }
 }

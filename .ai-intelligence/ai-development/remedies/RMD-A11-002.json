@@ -53,6 +53,13 @@
       "observed_at": "2026-08-04",
       "summary": "EARS('WHEN ... THE SYSTEM SHALL ...')で受入基準を'directly translatable to test cases'に。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "tdd (public, reputation unknown): read SKILL.md: behavior-through-public-interfaces rule plus the anti-patterns 'implementation-coupled' (mocks internal collaborators / verifies through a side channel) and 'tautological' (oracle recomputed the way the code does) - i.e. the definition of correct is an observable end state with an independently sourced expected value, not an implementation path.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -115,5 +122,77 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "tdd",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://skills.sh/mattpocock/skills/tdd",
+    "path": "skills/engineering/tdd",
+    "confirmed_by": "read SKILL.md: behavior-through-public-interfaces rule plus the anti-patterns 'implementation-coupled' (mocks internal collaborators / verifies through a side channel) and 'tautological' (oracle recomputed the way the code does) - i.e. the definition of correct is an observable end state with an independently sourced expected value, not an implementation path.",
+    "matched_on": [
+      "正解定義を観測可能な振る舞い・公開seam上の結果で書く",
+      "実装経路や内部構造に依存するテストを明確な欠陥として禁止する",
+      "期待値は仕様など独立した情報源から取る"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/help-me-test/skills (0 stars, 0 forks, last commit 2026-08-13)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "behavior-driven-testing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/agent-next/behavior-driven-testing",
+        "why_not_primary": "demoted former primary: 12 stars, dormant since 2026-03",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/agent-next/behavior-driven-testing (12 stars, 1 fork, last commit 2026-03-01)",
+            "https://skills.sh/agent-next/behavior-driven-testing/behavior-driven-testing"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "add-feature",
+        "kind": "installed-command",
+        "availability": "consumer-local",
+        "why_not_primary": "post-hoc tests written by a separate subagent given only the spec and public interface - the closest thing to the multiple-valid-solutions safeguard, but consumer-local",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/add-feature.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "qe-requirements-validation",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/proffesor-for-testing/agentic-qe",
+        "why_not_primary": "no separation of must vs should/style; emerging",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/proffesor-for-testing/agentic-qe (449 stars, 82 forks, last commit 2026-08-15)",
+            "https://skills.sh/proffesor-for-testing/agentic-qe/qe-requirements-validation"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

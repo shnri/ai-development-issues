@@ -39,6 +39,13 @@
       "observed_at": "2025-12-09",
       "summary": "ASI01の緩和として目的固定・入力信頼境界の明示",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/justinramos101/agent-skill-kit",
+      "observed_at": "2026-08-15",
+      "summary": "harden-repo-for-coding-agents (public, reputation unknown): read SKILL.md plus references/playbooks/instruction-surface.md, context-surfaces.md and operations.md: the instruction and tool surfaces are declared injection surfaces, guardrails are required at the tool-response point because that is where injection enters, and the tool surface is minimised and typed.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -92,5 +99,82 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "harden-repo-for-coding-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/justinramos101/agent-skill-kit",
+    "url": "https://skills.sh/justinramos101/agent-skill-kit/harden-repo-for-coding-agents",
+    "path": "skills/harden-repo-for-coding-agents",
+    "confirmed_by": "read SKILL.md plus references/playbooks/instruction-surface.md, context-surfaces.md and operations.md: the instruction and tool surfaces are declared injection surfaces, guardrails are required at the tool-response point because that is where injection enters, and the tool surface is minimised and typed.",
+    "matched_on": [
+      "'Tool metadata is untrusted prompt input (W5)'",
+      "'Guardrails sit at four execution points - user input, tool call, tool response, final output'",
+      "'Instruction files are an injection surface (W5) ... check for injection-bait'",
+      "tool-surface minimisation: 'make invalid actions structurally inexpressible'"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+        "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+        "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "skill-scanner",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/getsentry/skills",
+        "why_not_primary": "established (Sentry) and it touches all three legs - it treats skill text as potentially hostile and distinguishes performing injection from documenting it, reviews the allowed-tools field for least privilege with a tool risk matrix, and flags 'instructions that exceed the skill's stated purpose'. But it is a scanner applied to third-party skills, not the AGENTS.md declaration this remedy specifies, so it is a detection gate rather than the same mechanism",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation, 28 maintained skills)",
+            "read https://raw.githubusercontent.com/getsentry/skills/main/skills/skill-scanner/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "claude-settings-audit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/getsentry/skills",
+        "why_not_primary": "established (Sentry); generates Claude Code settings.json permission allowlists (read-only Bash by stack, WebFetch domain allowlists) - the minimal-tool-allowlist leg only, with nothing about untrusted external text",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation)",
+            "read https://github.com/getsentry/skills/blob/main/skills/claude-settings-audit/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "meta-agent-creator",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/oakoss/agent-skills",
+        "why_not_primary": "emerging (14 stars); covers subagent tools/disallowedTools allowlisting and one-purpose-per-agent design, nothing on untrusted text",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/oakoss/agent-skills (14 stars, 5 forks, 210 commits, last commit March 2026, personal account)",
+            "no third-party mention found"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

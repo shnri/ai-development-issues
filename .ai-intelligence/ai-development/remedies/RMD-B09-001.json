@@ -46,6 +46,13 @@
       "observed_at": "2026-08-11",
       "summary": "短い常時mapとtask時詳細読込はoperationally-supported。ownership-metadata（reason/owner/version）はcandidate。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "domain-modeling (public, reputation established): pass 1 read skills/domain-modeling/SKILL.md in TechLog: 'Offer ADRs sparingly' gates ADRs behind three tests (hard to reverse, surprising without context, the result of a real trade-off) and the file-structure section places them under docs/adr/ with a root map file.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -95,5 +102,76 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "domain-modeling",
+    "kind": "installed-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://skills.sh/mattpocock/skills/domain-modeling",
+    "path": "skills/domain-modeling",
+    "confirmed_by": "pass 1 read skills/domain-modeling/SKILL.md in TechLog: 'Offer ADRs sparingly' gates ADRs behind three tests (hard to reverse, surprising without context, the result of a real trade-off) and the file-structure section places them under docs/adr/ with a root map file.",
+    "matched_on": [
+      "record an architectural decision as an ADR under docs/adr/ in the repository",
+      "offer ADRs sparingly - only hard to reverse, surprising without context, and the result of a real trade-off",
+      "a root CONTEXT.md / CONTEXT-MAP.md that points to where each context and its decisions live"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "develop-adr",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/product-on-purpose/pm-skills",
+        "why_not_primary": "Dedicated Nygard-format ADR skill with wider install count (572) but a 536-star repo with no independent standing, and it says nothing about keeping the always-loaded instruction file a short map.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/product-on-purpose/pm-skills (536 stars, 71 forks, last commit 2026-08-15; 572 installs per pass 1)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "grill-with-docs",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Same established repo, but it is a thin wrapper that produces ADRs only as a side effect of a grilling session.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+            "listed at skills/engineering/grill-with-docs/SKILL.md in the repo tree at HEAD"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Covers the other half (auditing AGENTS.md/CLAUDE.md down to a short map) but records no design decisions; org-private.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

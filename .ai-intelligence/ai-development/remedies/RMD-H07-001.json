@@ -52,6 +52,13 @@
       "observed_at": "2026-06-29",
       "summary": "ATM: 複数Agentのwrite intentを事前admission（parallel/serialize/fail-closed）で調停する研究。feasibilityのみで比較優位は主張せず。",
       "quality": "low"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "dispatching-parallel-agents (public, reputation established): read SKILL.md: the decision graph routes related or shared-state work to a single agent and only independent domains to parallel dispatch; step 1 groups work by what is broken so domains do not overlap, and step 2 gives each agent a specific scope plus a 'don't change other code' constraint — the remedy's non-overlapping-ownership split.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -100,5 +107,72 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "dispatching-parallel-agents",
+    "source": "skills.sh",
+    "path": "skills/dispatching-parallel-agents/SKILL.md",
+    "url": "https://skills.sh/obra/superpowers/dispatching-parallel-agents",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "matched_on": [
+      "one agent per independent problem domain, no shared state between them",
+      "do not parallelize work with sequential dependencies or where agents would interfere",
+      "each task is a self-contained unit with explicit scope, goal, constraints and expected output"
+    ],
+    "confirmed_by": "read SKILL.md: the decision graph routes related or shared-state work to a single agent and only independent domains to parallel dispatch; step 1 groups work by what is broken so domains do not overlap, and step 2 gives each agent a specific scope plus a 'don't change other code' constraint — the remedy's non-overlapping-ownership split.",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272.5k stars, 24.4k forks; maintained by Jesse Vincent, a notable engineer)",
+        "one of the collections this pass is instructed to treat as well-known; widely redistributed (archieindian/openclaw-superpowers adapts its skills under MIT with attribution)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "installed-command",
+        "asset_id": "add-feature",
+        "availability": "consumer-local",
+        "why_not_primary": "Closest wording match — it states that parallel subagents are used only for units with non-overlapping file/module ownership, one deliverable each, at most 3-5 at a time, and that same-file or strongly sequential work stays in one session — but it is a TechLog-local slash command, not obtainable by outside readers.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/add-feature.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "multi-agent-patterns",
+        "availability": "public",
+        "public_url": "https://github.com/neolabhq/context-engineering-kit",
+        "why_not_primary": "Architecture-level treatment (supervisor / peer-to-peer / hierarchical, coordination overhead and divergence failure modes) without a concrete ownership-splitting procedure.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/neolabhq/context-engineering-kit (1,337 stars, 137 forks, last commit 2026-08-07)",
+            "https://skills.sh/neolabhq/context-engineering-kit/multi-agent-patterns (1.0K installs; all three audits Pass)",
+            "mention: skill-directory sites only (claudeskills.info, awesomeskills.dev, claudemarketplaces.com)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "subagent-driven-development",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "Sequential fresh-subagent-per-task execution of a plan; it assumes mostly independent tasks rather than teaching how to carve them.",
+        "reader_facing": false
+      }
+    ]
   }
 }

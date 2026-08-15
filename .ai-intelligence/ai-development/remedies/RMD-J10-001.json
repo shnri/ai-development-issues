@@ -46,6 +46,13 @@
       "observed_at": "2025-09-24",
       "summary": "DORA 2025 AI Capabilities Model: 明確に共有されたAI stance/policyが増幅要因の一つ",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/justinramos101/agent-skill-kit",
+      "observed_at": "2026-08-15",
+      "summary": "harden-repo-for-coding-agents (public, reputation unknown): read references/playbooks/operations.md (Governance): named human owners per path/artifact, an approval matrix assigning named approvers by action type and risk class, explicit routing of judgment calls to humans, and provenance that keeps agent-written code inside the human review path.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -102,5 +109,78 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "harden-repo-for-coding-agents",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/justinramos101/agent-skill-kit",
+    "url": "https://skills.sh/justinramos101/agent-skill-kit/harden-repo-for-coding-agents",
+    "path": "skills/harden-repo-for-coding-agents",
+    "confirmed_by": "read references/playbooks/operations.md (Governance): named human owners per path/artifact, an approval matrix assigning named approvers by action type and risk class, explicit routing of judgment calls to humans, and provenance that keeps agent-written code inside the human review path.",
+    "matched_on": [
+      "'every agent-facing artifact has a named owner in CODEOWNERS ... resolvable handles, no opaque strings'",
+      "'approval matrix: action type x risk class -> named approvers'",
+      "'route by judgment, not just risk: mechanical failures go straight back to the agent; judgment calls go to humans'",
+      "authorship provenance so agent-written code 'stays traceable through review and deploy'"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+        "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+        "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "self-review-diff",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/afollestad/skills",
+        "why_not_primary": "implements the pre-submit self-review leg precisely but carries no accountability policy; 21 installs, maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/afollestad/skills (alternate only; 21 installs per first pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "ai-assessment-scale",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mastepanoski/claude-skills",
+        "why_not_primary": "AI-use disclosure at project rather than change level; maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mastepanoski/claude-skills (alternate only; not researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "add-feature",
+        "kind": "installed-command",
+        "availability": "consumer-local",
+        "why_not_primary": "requires a diff self-review before completion, but for one workflow only",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/add-feature.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

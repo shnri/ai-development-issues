@@ -62,6 +62,13 @@
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions: 6分類（維持/圧縮/移動/更新/統合/削除）と陳腐化/維持シグナル、「監査結果そのものを恒久ルールとして追加しない。再発する失敗だけをルール化する」。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/othavi0/skills",
+      "observed_at": "2026-08-15",
+      "summary": "claude-md-prune (public, reputation unknown): pass 1 read SKILL.md: an explicitly subtractive audit built on 'prune it regularly, and test changes by observing whether Claude's behavior actually shifts', the mistakes-only rule ('only rules that fix recurring mistakes'), a Phase 2 drift fact-check over paths, commands, enums and ADRs, and additions held out of scope.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -124,5 +131,81 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "claude-md-prune",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/othavi0/skills",
+    "url": "https://skills.sh/othavi0/skills/claude-md-prune",
+    "path": "skills/engineering/claude-md-prune",
+    "confirmed_by": "pass 1 read SKILL.md: an explicitly subtractive audit built on 'prune it regularly, and test changes by observing whether Claude's behavior actually shifts', the mistakes-only rule ('only rules that fix recurring mistakes'), a Phase 2 drift fact-check over paths, commands, enums and ADRs, and additions held out of scope.",
+    "matched_on": [
+      "only rules that fix recurring mistakes belong in the file",
+      "for each line ask whether removing it would cause mistakes; if not, cut it",
+      "prune regularly and verify by observing whether behavior actually shifts",
+      "flag drift: paths, commands, enums, ADRs that no longer match the code",
+      "rules that must execute every time belong in a hook, not in instruction text"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/othavi0/skills (0 stars, 0 forks, last commit 2026-08-04)",
+        "https://skills.sh/othavi0/skills/claude-md-prune (8 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "getsentry/agents-md",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/getsentry/skills",
+        "why_not_primary": "The established public asset for maintaining these files - its workflow rewrites to the smallest useful file, verifies that paths and commands still exist, and lists the bloat anti-patterns - but it is a create/maintain pass with no recurrence signal, no ablation evidence and no maintain/compress/move/merge/delete classification.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (915 stars, last commit 2026-08-15)",
+            "https://skills.sh/getsentry/skills/agents-md (4.8K installs; Trust Hub Pass, Socket Pass, Snyk Pass, listed since 2026-01-20)",
+            "maintainer: Sentry (known engineering company); repo is one of the reference skill collections"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "rules-check-drift",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/coleam00/skills",
+        "why_not_primary": "The recurring-cadence half (run before a merge or in review over a diff range, report now-false rules with the minimal edit) but diff-scoped, and a 200-star repo with no citations found.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/coleam00/skills (alternate only; not researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "agents-md-evals",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/vltansky/agents-md-evals",
+        "why_not_primary": "Supplies the with/without ablation evidence for deletions but is 4 stars and stale.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/vltansky/agents-md-evals (4 stars, 0 forks, last commit 2026-03-09)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

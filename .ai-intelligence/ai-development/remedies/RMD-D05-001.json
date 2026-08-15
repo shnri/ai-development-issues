@@ -59,6 +59,13 @@
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions audit-criteria: 「『必ず』『すべて』『絶対』が多いが例外条件や防ぐ失敗がない」を陳腐化シグナル、「毎回必ず同じ判定をする形式検証」は決定論的仕組みへ移す。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": ":plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+      "observed_at": "2026-08-15",
+      "summary": "maintain-agent-instructions (org-private, reputation unknown): pass 1 read SKILL.md and references/audit-criteria.md: judgment principles route deterministic checks to tests/lint/hooks/CI, and audit-criteria lists formal checks that always decide the same way as a move-to-deterministic-mechanism case and unconditional always/never rules as an obsolescence signal.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -120,11 +127,75 @@
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
   "existing_asset": {
-    "asset_id": "agent-instruction-maintenance",
+    "asset_id": "maintain-agent-instructions",
+    "kind": "shared-plugin",
+    "availability": "org-private",
     "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
-    "skill": "maintain-agent-instructions",
-    "coverage": "SKILL.md 判定の原則: deterministic checks move to tests/lint/hook/CI; audit-criteria「決定論的な仕組みへ移す」+ 陳腐化シグナル「必ず/すべて/絶対 without exception」.",
+    "confirmed_by": "pass 1 read SKILL.md and references/audit-criteria.md: judgment principles route deterministic checks to tests/lint/hooks/CI, and audit-criteria lists formal checks that always decide the same way as a move-to-deterministic-mechanism case and unconditional always/never rules as an obsolescence signal.",
+    "matched_on": [
+      "rules a linter/formatter/type checker/CI already enforces are moved out of natural-language instructions",
+      "'always / never / must' rules without an exception condition or a named failure are an obsolescence signal",
+      "deterministic, always-identical checks belong in a deterministic mechanism (test, lint, hook, CI)"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
     "verified_at": "2026-08-15",
-    "verified_by": "ai-development-improvement maintain MNT-20260815T111324Z"
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "getsentry/agents-md",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/getsentry/skills",
+        "why_not_primary": "Established and states the boundary as a writing rule ('Do not restate linter, formatter, or typechecker config'), but it removes such rules from the instruction file without installing the lint/hook/CI replacement, and it says nothing about permissions/settings or verification tiered by change impact.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/getsentry/skills (915 stars, last commit 2026-08-15)",
+            "https://skills.sh/getsentry/skills/agents-md (4.8K installs; Trust Hub Pass, Socket Pass, Snyk Pass, listed since 2026-01-20)",
+            "maintainer: Sentry (known engineering company); repo is one of the reference skill collections"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "claude-md-authoring",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/ratacat/claude-skills",
+        "why_not_primary": "Its 'Anti-Pattern: Claude as Linter' section is a direct hit ('a linter fails deterministically; Claude fails silently and unpredictably') but the repo is 51 stars and six months stale, and the scope is style rules only.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/ratacat/claude-skills (51 stars, 9 forks, last commit 2026-02-11)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "claude-md-prune",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/othavi0/skills",
+        "why_not_primary": "States the enforcement split as rationale inside a subtractive pass; 0-star repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/othavi0/skills (0 stars, 0 forks, last commit 2026-08-04)",
+            "https://skills.sh/othavi0/skills/claude-md-prune (8 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

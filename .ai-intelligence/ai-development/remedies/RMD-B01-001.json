@@ -61,6 +61,13 @@
       "observed_at": "2026-08-11",
       "summary": "lint・型・静的解析・重複検査を人間reviewの前に置く対策はoperationally-supported。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/melodic-software/claude-code-plugins",
+      "observed_at": "2026-08-15",
+      "summary": "fitness-functions (public, reputation unknown): pass 1 read SKILL.md on skills.sh: 'When to Use' / 'What Are Fitness Functions' turn layer constraints, dependency direction and module isolation into automated repeatable tests that fail when the architecture drifts.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -113,5 +120,77 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "fitness-functions",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/melodic-software/claude-code-plugins",
+    "url": "https://skills.sh/melodic-software/claude-code-plugins/fitness-functions",
+    "path": "melodic-software/claude-code-plugins@fitness-functions",
+    "confirmed_by": "pass 1 read SKILL.md on skills.sh: 'When to Use' / 'What Are Fitness Functions' turn layer constraints, dependency direction and module isolation into automated repeatable tests that fail when the architecture drifts.",
+    "matched_on": [
+      "enforce architectural boundaries between modules as automated tests",
+      "test that dependencies follow prescribed rules / validate layer constraints",
+      "generate architecture test code and audit existing architecture for violations"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/melodic-software/claude-code-plugins (6 stars, 1 fork, 28 open issues, last commit 2026-08-15)",
+        "https://skills.sh/melodic-software/claude-code-plugins/fitness-functions (6 installs per pass 1)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "dotnet-architecture-tests",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/envoydev/agents-stack",
+        "why_not_primary": ".NET-scoped, and a 1-star repo with no track record.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/envoydev/agents-stack (1 star, 0 forks, last commit 2026-08-11)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "dependency-architecture",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/jacob-balslev/skills",
+        "why_not_primary": "Human/agent judgement over the dependency graph, not a machine-executed CI gate; 0-star repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/jacob-balslev/skills (0 stars, last commit 2026-06-16)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "lint-gate",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/open-hax/opencode-skills",
+        "why_not_primary": "CI-gate half only, no architecture rule definition; 6-star stale repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/open-hax/opencode-skills (6 stars, last commit 2026-05-31)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

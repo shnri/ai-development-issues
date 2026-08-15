@@ -56,6 +56,13 @@
       "observed_at": "2026-05-28",
       "summary": "20,574 session分析で『行動の境界（bound their actions）』が7つの再発形態の一つ。constraint violationの割合は時間とともに増加。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/dietrichgebert/ponytail",
+      "observed_at": "2026-08-15",
+      "summary": "ponytail (public, reputation established): read SKILL.md (skills/ponytail/SKILL.md): a laziness ladder (does this need to exist at all -> reuse what is in the codebase -> stdlib -> native platform -> already-installed dependency -> one line -> minimum code that works) plus a Rules section forbidding unrequested abstractions, scaffolding and extra files, and a 'When NOT to be lazy' carve-out for validation, error handling, security and anything explicitly requested.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -110,5 +117,68 @@
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
-  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)"
+  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)",
+  "existing_asset": {
+    "asset_id": "ponytail",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/dietrichgebert/ponytail",
+    "url": "https://skills.sh/dietrichgebert/ponytail/ponytail",
+    "path": "skills/ponytail",
+    "confirmed_by": "read SKILL.md (skills/ponytail/SKILL.md): a laziness ladder (does this need to exist at all -> reuse what is in the codebase -> stdlib -> native platform -> already-installed dependency -> one line -> minimum code that works) plus a Rules section forbidding unrequested abstractions, scaffolding and extra files, and a 'When NOT to be lazy' carve-out for validation, error handling, security and anything explicitly requested.",
+    "matched_on": [
+      "persistent prompt-layer constraint active on every response for any coding task",
+      "'No unrequested abstractions: no interface with one implementation, no factory for one product'",
+      "'No boilerplate, no scaffolding for later'; 'Fewest files possible. Shortest working diff wins'",
+      "dependency rung: 'Never add a new one for what a few lines can do'",
+      "output discipline: code first, at most three short lines, no unrequested prose"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/dietrichgebert/ponytail (103.3k stars, 5.7k forks, 210 commits, 56 open issues, last commit August 2026)",
+        "https://skills.sh/dietrichgebert/ponytail/ponytail (36.0K installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "mention: https://trendshift.io/repositories/50668 (tracked as a trending repository); listed on mcpservers.org and openagentskill.com skill directories"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "scope-creep-detector",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/shubhamsaboo/awesome-llm-apps",
+        "why_not_primary": "post-hoc detector: compares a git diff against its stated intent and returns keep/split/justify, explicitly 'a review tool, not a guardrail'. Hosted in a 132.8k-star curated collection, so it is safe to name, but its standing comes from the list rather than from the skill",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/shubhamsaboo/awesome-llm-apps (132.8k stars, 19.5k forks, 1,184 commits, active; 'Scope Creep Detector' confirmed in the skills index)",
+            "featured as Trendshift repository of the day"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "harden-repo-for-coding-agents",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/justinramos101/agent-skill-kit",
+        "why_not_primary": "supplies the ask-first enforcement tier for dependency and public-API changes via a PreToolUse hook, but carries no minimal-implementation instruction; 0-star repository",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+            "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+            "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

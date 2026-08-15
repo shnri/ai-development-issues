@@ -44,6 +44,13 @@
       "observed_at": "2026-08-11",
       "summary": "TechLogはClaude Code native installer + SkillSpector 2.8.2をpin",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "consumer:techlog:vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance",
+      "observed_at": "2026-08-15",
+      "summary": "watch-official-guidance (consumer-local, reputation unknown): read vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance/SKILL.md: scripts/watch.mjs conditionally fetches registered official sources, hashes sections, stores content-addressed snapshots, and emits observations that are then classified into a ledger — the advisory-monitoring half of this remedy, provided Claude Code and Codex security/release pages are registered as sources.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -94,5 +101,53 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "installed-skill",
+    "asset_id": "watch-official-guidance",
+    "source": "consumer:techlog",
+    "path": "vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance",
+    "availability": "consumer-local",
+    "matched_on": [
+      "recurring deterministic observation of authoritative provider sources",
+      "detect and classify revisions that can change a security or operational decision",
+      "cover deprecations, limits, and lifecycle notices",
+      "keep a provenance-preserving ledger of what changed and when"
+    ],
+    "confirmed_by": "read vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance/SKILL.md: scripts/watch.mjs conditionally fetches registered official sources, hashes sections, stores content-addressed snapshots, and emits observations that are then classified into a ledger — the advisory-monitoring half of this remedy, provided Claude Code and Codex security/release pages are registered as sources.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin (shnri/shared-agent-plugins)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "shared-plugin",
+        "asset_id": "watch-official-guidance",
+        "availability": "org-private",
+        "why_not_primary": "Same Skill in the shared checkout (plugins/official-guidance-operations/skills/watch-official-guidance); TechLog consumes it through the submodule, so the installed copy is the one in use.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin (shnri/shared-agent-plugins)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "cve-tracking-system",
+        "availability": "public",
+        "public_url": "https://github.com/dengineproblem/agents-monorepo",
+        "why_not_primary": "Generic CVE triage and patch-management expertise (NVD/MITRE, CVSS scoring) with no notion of tracking agent, IDE-extension, sandbox-runtime, or Skill versions; 4-star repo and partly Russian-language content.",
+        "reader_facing": false
+      }
+    ]
   }
 }

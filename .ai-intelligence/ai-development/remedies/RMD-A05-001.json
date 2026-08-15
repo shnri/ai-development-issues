@@ -20,6 +20,13 @@
       "reference": "https://www.thebcms.com/blog/spec-driven-development/",
       "observed_at": "2026-08-15",
       "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/github/spec-kit",
+      "observed_at": "2026-08-15",
+      "summary": "spec-kit (public, reputation established): read templates/commands/plan.md: 'Load context: read FEATURE_SPEC and /memory/constitution.md ... fill Constitution Check section from constitution ... Phase 0: generate research.md (resolve all NEEDS CLARIFICATION); Phase 1: generate data-model.md, contracts/, quickstart.md' - the Plan phase that merges the spec with the governing constraints into one implementation plan before any code.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -46,5 +53,81 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "spec-kit",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/github/spec-kit",
+    "path": "templates/commands/plan.md",
+    "confirmed_by": "read templates/commands/plan.md: 'Load context: read FEATURE_SPEC and /memory/constitution.md ... fill Constitution Check section from constitution ... Phase 0: generate research.md (resolve all NEEDS CLARIFICATION); Phase 1: generate data-model.md, contracts/, quickstart.md' - the Plan phase that merges the spec with the governing constraints into one implementation plan before any code.",
+    "matched_on": [
+      "a Plan phase that consolidates the spec and governing constraints into one implementation plan before code",
+      "design artifacts generated from the merged plan",
+      "runs before implementation, so conflicts surface while still cheap"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+        "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "speckit-plan",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/dceoy/speckit-agent-skills",
+        "why_not_primary": "demoted former primary: a 123-star port of this exact upstream command",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/dceoy/speckit-agent-skills (123 stars, 25 forks, last commit 2026-08-12)",
+            "https://skills.sh/dceoy/speckit-agent-skills/speckit-plan"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "writing-plans",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/obra/superpowers",
+        "why_not_primary": "established plan-from-spec consolidation with a file-structure map, but it splits multi-subsystem specs into separate plans instead of merging them and testing joint feasibility",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/obra/superpowers (272,491 stars, active)",
+            "SKILL.md read: comprehensive implementation plan from a spec, file-structure map, scope check that splits multi-subsystem specs into one plan per subsystem"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "spec-kit-analyze",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/ahgraber/skills",
+        "why_not_primary": "audits contradictions rather than merging into one plan; unknown reputation",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/ahgraber/skills (5 stars, 0 forks, last commit 2026-08-09)",
+            "https://skills.sh/ahgraber/skills/spec-kit-analyze (19 installs)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

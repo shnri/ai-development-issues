@@ -67,6 +67,13 @@
       "observed_at": "2025-12-09",
       "summary": "ASI01 Agent Goal Hijack / ASI02 Tool Misuseの緩和として最小権限・sandbox・承認を整理",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/itallstartedwithaidea/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "sandbox-hardening (public, reputation unknown): read SKILL.md on skills.sh: the skill configures and validates agent sandboxes (process/container/VM levels), applies least privilege and resource limits, and segments network access so a prompt injection or hallucinated command cannot reach unauthorized resources — the containment half of this remedy.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -126,5 +133,73 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "sandbox-hardening",
+    "source": "skills.sh",
+    "path": "itallstartedwithaidea/agent-skills@sandbox-hardening",
+    "url": "https://skills.sh/itallstartedwithaidea/agent-skills/sandbox-hardening",
+    "availability": "public",
+    "public_url": "https://github.com/itallstartedwithaidea/agent-skills",
+    "matched_on": [
+      "isolate the agent execution environment instead of relying on input classification",
+      "permission boundaries / least privilege for the agent",
+      "network segmentation and monitored egress",
+      "choose isolation level (process seccomp/AppArmor, container, microVM) by trust boundary"
+    ],
+    "confirmed_by": "read SKILL.md on skills.sh: the skill configures and validates agent sandboxes (process/container/VM levels), applies least privilege and resource limits, and segments network access so a prompt injection or hallucinated command cannot reach unauthorized resources — the containment half of this remedy.",
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "https://github.com/itallstartedwithaidea/agent-skills (32 stars, 8 forks, last commit 2026-04-12) — a 73-skill Google Ads management library",
+        "https://skills.sh/itallstartedwithaidea/agent-skills/sandbox-hardening (60 installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "prompt-injection-test",
+        "availability": "public",
+        "public_url": "https://github.com/owasp/secure-agent-playbook",
+        "why_not_primary": "OWASP playbook skill that red-teams injection defenses (13 attack intents, direct and indirect surfaces). It produces this remedy's metric (injection red-team success rate) but does not implement containment (sandbox, fail-closed permission, Rule of Two).",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/owasp/secure-agent-playbook (146 stars, 15 forks, last commit 2026-06-02)",
+            "https://skills.sh/owasp/secure-agent-playbook/prompt-injection-test (22 installs; Trust Hub Pass / Socket Warn / Snyk FAIL)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "prompt-injection-defense",
+        "availability": "public",
+        "public_url": "https://github.com/bagelhole/devops-security-agent-skills",
+        "why_not_primary": "Targets LLM applications and RAG pipelines the developer builds (system/user/tool prompt boundaries), not the coding-agent harness the developer runs.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "secure-ai",
+        "availability": "public",
+        "public_url": "https://github.com/oakoss/agent-skills",
+        "why_not_primary": "Application-layer OWASP LLM Top 10 / NIST AI RMF coverage (output validation, secure server actions); same topic, different layer from OS sandboxing of the agent.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/oakoss/agent-skills (14 stars, 5 forks, last commit March 2026, personal account)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

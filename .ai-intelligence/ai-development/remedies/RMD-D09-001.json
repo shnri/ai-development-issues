@@ -53,6 +53,13 @@
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions手順9: 代表的な発動・非発動プロンプトでdescription境界を確認する。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/anthropics/skills",
+      "observed_at": "2026-08-15",
+      "summary": "skill-creator (public, reputation established): pass 1 read SKILL.md raw from anthropics/skills main: the description-optimization section creates 20 eval queries as JSON with should_trigger flags, requires near-miss negatives, and the bundled script splits 60% train / 40% held-out test, runs each query 3 times, iterates up to 5 times and returns the best description selected by test score rather than train score.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -120,5 +127,78 @@
     "asset_id": "agent-instruction-maintenance",
     "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals",
     "note": "Controller routing 2026-08-15 (second pilot): the reusable form of this remedy for shared Skills is a per-Skill trigger eval set consumed by skill-optimization; maintain-agent-instructions is the first shared Skill without evals/trigger-evals.json (its 発動評価例 live only in audit-criteria.md). skill-optimization owns the method (validate-skill-package.py checks the format); the evals live with the owning Skill."
+  },
+  "existing_asset": {
+    "asset_id": "skill-creator",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/anthropics/skills",
+    "url": "https://github.com/anthropics/skills/tree/main/skills/skill-creator",
+    "path": "skills/skill-creator",
+    "confirmed_by": "pass 1 read SKILL.md raw from anthropics/skills main: the description-optimization section creates 20 eval queries as JSON with should_trigger flags, requires near-miss negatives, and the bundled script splits 60% train / 40% held-out test, runs each query 3 times, iterates up to 5 times and returns the best description selected by test score rather than train score.",
+    "matched_on": [
+      "~20 trigger eval queries, 8-10 should-trigger and 8-10 should-not-trigger",
+      "should-not-trigger cases must be near-misses, not obviously irrelevant queries",
+      "each query run 3 times to get a reliable trigger rate",
+      "60% train / 40% held-out test split, up to 5 iterations",
+      "best description selected by test score rather than train score to avoid overfitting"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/anthropics/skills (169,557 stars, 20,184 forks, last commit 2026-08-13) — skills/skill-creator present in the repository listing opened this pass",
+        "https://skills.sh/anthropics/skills/skill-creator (vendor-published collection)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "run-trigger-evals",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/wianvdm/skills",
+        "why_not_primary": "Case-authoring half only, and a 0-star repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/wianvdm/skills (0 stars, last commit 2026-07-23)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "eval-triggers",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/datocms/agent-skills",
+        "why_not_primary": "Execution half with precision/recall/F1 gates but no train/validation split or description loop; company-maintained yet brand new (3 stars).",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/datocms/agent-skills (3 stars, 1 fork, last commit 2026-08-11)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "optimize-skill",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "The consumer's implementation of the surrounding method, but org-private.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

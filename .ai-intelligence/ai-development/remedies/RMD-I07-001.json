@@ -46,6 +46,13 @@
       "observed_at": "2026-08-11",
       "summary": "TechLogはvendor submoduleを確定SHAで利用し、SkillSpector 2.8.2静的監査（risk 0/100）を導入前に実行、静的監査は安全の保証ではないと明記",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/getsentry/skills",
+      "observed_at": "2026-08-15",
+      "summary": "skill-scanner (public, reputation established): read skills/skill-scanner/SKILL.md at getsentry/skills: it scans a skill directory before adoption in seven phases — bundled static scan (scripts/scan_skill.py, JSON findings), frontmatter and allowed-tools validation, prompt-injection triage that separates performing from documenting, behavioural analysis for config poisoning and scope creep, full reading of every bundled script, and a supply-chain pass over external URLs — which is this remedy's pre-install static audit plus code-review-grade content review (TechLog runs the same gate as npm run skills:audit).",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -106,5 +113,74 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "skill-scanner",
+    "source": "skills.sh",
+    "path": "skills/skill-scanner/SKILL.md",
+    "url": "https://skills.sh/getsentry/skills/skill-scanner",
+    "availability": "public",
+    "public_url": "https://github.com/getsentry/skills",
+    "matched_on": [
+      "static audit of an agent Skill before installation or adoption",
+      "bundled deterministic scanner that emits structured findings with severity, treated as leads rather than a verdict",
+      "content review for prompt injection, config/memory poisoning, scope creep and script behaviour",
+      "structural attack checks: symlinks resolving outside the skill, frontmatter hooks, load-time !command expansion, npm postinstall hooks, instructions hidden in image metadata",
+      "supply-chain assessment of every URL the skill would fetch or execute"
+    ],
+    "confirmed_by": "read skills/skill-scanner/SKILL.md at getsentry/skills: it scans a skill directory before adoption in seven phases — bundled static scan (scripts/scan_skill.py, JSON findings), frontmatter and allowed-tools validation, prompt-injection triage that separates performing from documenting, behavioural analysis for config poisoning and scope creep, full reading of every bundled script, and a supply-chain pass over external URLs — which is this remedy's pre-install static audit plus code-review-grade content review (TechLog runs the same gate as npm run skills:audit).",
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/getsentry/skills (916 stars, 47 forks; official Sentry organisation, 28 maintained skills)",
+        "read https://raw.githubusercontent.com/getsentry/skills/main/skills/skill-scanner/SKILL.md"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "skill-security-auditor",
+        "availability": "public",
+        "public_url": "https://github.com/alirezarezvani/claude-skills",
+        "why_not_primary": "Same pre-install audit intent, but its own skills.sh badges read Gen Agent Trust Hub FAIL / Socket Warn and it ships inside a 345-skill mega-collection, so it cannot be named to readers; the Sentry scanner covers the same gate with clean badges and a company maintainer.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/alirezarezvani/claude-skills (24,470 stars, 3,438 forks, last commit 2026-07-17; a 345-skill mega-collection)",
+            "https://skills.sh/alirezarezvani/claude-skills/skill-security-auditor (686 installs; Gen Agent Trust Hub FAIL / Socket Warn / Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "kind": "installed-skill",
+        "asset_id": "find-skills",
+        "availability": "consumer-local",
+        "why_not_primary": "Consumer-local, so it cannot be named to outside readers, but it is the most complete implementation of this remedy in TechLog: consumer:techlog/skills/find-skills SKILL.md Step 6 requires downloading the candidate into a temp directory without activating it, running npm run skills:audit -- <path>, refusing DO_NOT_INSTALL, treating SAFE as one input rather than a guarantee, installing only the exact reviewed revision, and re-auditing the installed copy.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "mcp-security-audit",
+        "availability": "public",
+        "public_url": "https://github.com/github/awesome-copilot",
+        "why_not_primary": "Covers only the MCP half (parses .mcp.json for secrets in args/env, shell-injection patterns, unpinned @latest versions, dangerous commands, and an approved-server list); 986 installs and Pass on all three skills.sh audits, so it is the best complement to a Skill-focused auditor.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/awesome-copilot (37.9k stars, 4.8k forks, 2,224 commits, GitHub organisation, CODEOWNERS + SECURITY.md)",
+            "skills.sh: 986 installs (first pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

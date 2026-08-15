@@ -54,6 +54,13 @@
       "observed_at": "2026-08-15",
       "summary": "private repositoryでのcode scanningにはGitHub Code Security licenseが必要（費用条件）。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/trailofbits/skills",
+      "observed_at": "2026-08-15",
+      "summary": "trailofbits/skills@semgrep (public, reputation established): read plugins/static-analysis/skills/semgrep/SKILL.md at HEAD: it detects languages, selects rulesets including third-party Trail of Bits / 0xdea / Decurity rules ('required, not optional'), holds a hard approval gate before scanning, dispatches the scans through scripts/run-scans.sh so --metrics=off and the include-scoping are properties of the code rather than instructions, merges output to SARIF, and requires that failed/skipped rulesets be reported because 'a partial scan presented as a complete one is worse than no scan'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -106,5 +113,83 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "trailofbits/skills@semgrep",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/trailofbits/skills",
+    "url": "https://www.skills.sh/trailofbits/skills/semgrep",
+    "path": "plugins/static-analysis/skills/semgrep/SKILL.md",
+    "confirmed_by": "read plugins/static-analysis/skills/semgrep/SKILL.md at HEAD: it detects languages, selects rulesets including third-party Trail of Bits / 0xdea / Decurity rules ('required, not optional'), holds a hard approval gate before scanning, dispatches the scans through scripts/run-scans.sh so --metrics=off and the include-scoping are properties of the code rather than instructions, merges output to SARIF, and requires that failed/skipped rulesets be reported because 'a partial scan presented as a complete one is worse than no scan'.",
+    "matched_on": [
+      "static application security testing executed over the source as a machine step, not a prompt instruction",
+      "SARIF output a gate can consume",
+      "explicit reporting of what did not run, so a partial scan is never read as a pass"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/trailofbits/skills (6,603 stars, 568 forks, last commit 2026-08-14)",
+        "https://www.skills.sh/trailofbits/skills/semgrep (7 installs, first seen Jan 19 2026; Trust Hub Pass, Socket Pass, Snyk Warn)",
+        "read plugins/static-analysis/skills/semgrep/SKILL.md at HEAD",
+        "maintainer: Trail of Bits, an established security audit firm"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "secret-scanning",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/awesome-copilot",
+        "why_not_primary": "Established and maintained by GitHub, and it is the only asset here that configures a real pre-merge gate (secret scanning with push protection) rather than an on-demand scan — but it covers only the secret strand, not SAST or dependency scanning.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/awesome-copilot (37,884 stars, 4,777 forks, last commit 2026-08-14)",
+            "https://www.skills.sh/github/awesome-copilot/secret-scanning (4 installs, first seen Mar 18 2026; Trust Hub Pass, Socket Pass, Snyk Pass)",
+            "maintainer: GitHub (the platform whose gate the skill configures)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "sast-scanning",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/bagelhole/devops-security-agent-skills",
+        "why_not_primary": "Previous primary, demoted on reputation: 47-star repo, no commits since 2026-05-22, one of 80+ sibling skills, and the first pass could confirm it only from its skills.sh page.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/bagelhole/devops-security-agent-skills (47 stars, 4 forks, last commit 2026-05-22)",
+            "repo self-describes as 80+ skills across Kubernetes/Terraform/cloud/compliance — a broad auto-generated-looking catalogue"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "codeql-semgrep",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/itallstartedwithaidea/agent-skills",
+        "why_not_primary": "32-star repo whose stated purpose is Google Ads management; no security provenance to substantiate.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/itallstartedwithaidea/agent-skills (32 stars, 8 forks, last commit 2026-04-12)",
+            "repo is a Google Ads management skill library ('73+ skills ... built for googleadsagent.ai'); a CodeQL/Semgrep skill inside it has no security provenance to check"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

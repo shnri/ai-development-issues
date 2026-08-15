@@ -26,6 +26,13 @@
       "reference": "https://www.thebcms.com/blog/spec-driven-development/",
       "observed_at": "2026-08-15",
       "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "brainstorming (public, reputation established): read SKILL.md: '<HARD-GATE> Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have told your human partner what you intend and they have approved it. This applies to EVERY task on EVERY path' - plus an explicit 'Too Simple To Need Approval' anti-pattern and, on the architectural path, a written spec that only becomes actionable after approval.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -50,5 +57,78 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "brainstorming",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "url": "https://skills.sh/obra/superpowers/brainstorming",
+    "path": "skills/brainstorming",
+    "confirmed_by": "read SKILL.md: '<HARD-GATE> Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have told your human partner what you intend and they have approved it. This applies to EVERY task on EVERY path' - plus an explicit 'Too Simple To Need Approval' anti-pattern and, on the architectural path, a written spec that only becomes actionable after approval.",
+    "matched_on": [
+      "designs/specs are not actionable until a human explicitly approves them",
+      "the gate holds for every task size, with no silent downgrade",
+      "pre-approval artifacts exist but cannot be treated as accepted"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, last commit 2026-08-15; maintainer Jesse Vincent)",
+        "https://skills.sh/obra/superpowers/brainstorming (326.5K installs; Trust Hub Pass / Socket Pass / Snyk Pass)",
+        "SKILL.md read: <HARD-GATE> 'Do NOT invoke any implementation skill, write any code ... until you have told your human partner what you intend and they have approved it'; architectural path produces a written spec then hands to writing-plans"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "design-approval-gate",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/fudesign2008/open-skills",
+        "why_not_primary": "demoted former primary: same rule, 6-star repo with 10 installs",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/fudesign2008/open-skills (6 stars, 1 fork, last commit 2026-08-14)",
+            "https://skills.sh/fudesign2008/open-skills/design-approval-gate (10 installs)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "domain-modeling",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established ADR status frontmatter (proposed|accepted|...) supplies the acceptance marker, but nothing forces AI-generated documents through it",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "setup-project",
+        "kind": "installed-command",
+        "availability": "consumer-local",
+        "why_not_primary": "requires user approval of the generated PRD before downstream documents, but consumer-local and bootstrap-only",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/.claude/commands/setup-project.md (not published)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

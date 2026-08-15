@@ -50,6 +50,13 @@
       "observed_at": "2026-08-15",
       "summary": "PostToolUse hookでlint自動実行、code intelligence pluginで編集後のerror検出。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/boshu2/agentops",
+      "observed_at": "2026-08-15",
+      "summary": "boshu2/agentops@pr-validate (public, reputation emerging): read the skills.sh page: 'Validates a PR branch for submission readiness by checking isolation, upstream alignment, scope containment, and quality gates', invoked after implementation and before PR prep — the remedy's small-diff + machine-precheck ordering.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -104,5 +111,61 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "boshu2/agentops@pr-validate",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/boshu2/agentops",
+    "url": "https://www.skills.sh/boshu2/agentops/pr-validate",
+    "path": "pr-validate",
+    "confirmed_by": "read the skills.sh page: 'Validates a PR branch for submission readiness by checking isolation, upstream alignment, scope containment, and quality gates', invoked after implementation and before PR prep — the remedy's small-diff + machine-precheck ordering.",
+    "matched_on": [
+      "scope containment check on the PR branch (one purpose per PR)",
+      "quality gates run before the PR reaches human review",
+      "machine pre-checks ordered ahead of reviewer attention"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/boshu2/agentops (424 stars, 40 forks, last commit 2026-08-15, mostly renovate traffic)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "code-review",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Established and safe to name, but it reviews a diff — it neither constrains PR size nor runs the machine pre-checks, so it is not this remedy's mechanism. Its Duplicated Code smell and its rule to skip anything tooling already enforces do match the remedy's duplication and ordering signals.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "shubhamsaboo/awesome-llm-apps@scope-creep-detector",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/shubhamsaboo/awesome-llm-apps",
+        "why_not_primary": "Implements the keep/split/justify decision but post hoc, with no quality-gate execution; and although the repo has 132k stars, that belongs to a demo mega-collection whose skills directory is a recent addition, so the number is not this skill's track record.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/shubhamsaboo/awesome-llm-apps (132,751 stars, 19,525 forks, last commit 2026-08-13)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

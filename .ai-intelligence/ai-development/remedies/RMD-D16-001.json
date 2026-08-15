@@ -67,6 +67,13 @@
       "observed_at": "2026-01-09",
       "summary": "Anthropic: capability evalとregression evalを分け、living artifactとしてowner保守。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": ":plugins/skill-optimization/skills/optimize-skill",
+      "observed_at": "2026-08-15",
+      "summary": "optimize-skill (org-private, reputation unknown): pass 1 read the plugin's references: eval-design.md defines the holdout share and forbids the candidate-authoring agent from seeing holdout expected answers; operational-guardrails.md requires blind A/B and an independent reviewer; optimization-method.md enforces one scoped change per iteration with rejected variants recorded; promotion-policy.md gates on validation-side improvement.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -129,11 +136,76 @@
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
   "existing_asset": {
-    "asset_id": "skill-optimization",
+    "asset_id": "optimize-skill",
+    "kind": "shared-plugin",
+    "availability": "org-private",
     "path": "plugins/skill-optimization/skills/optimize-skill",
-    "skill": "optimize-skill",
-    "coverage": "eval-design.md (holdout hidden from the candidate-authoring agent, ≥ share of holdout), operational-guardrails.md (blind A/B, holdout comparison, independent reviewer), optimization-method.md (one scoped change per iteration, rejected variants recorded), promotion-policy.md (gate on validation-side improvement). Capability-vs-regression suite split is documented in eval-design.md categories.",
+    "confirmed_by": "pass 1 read the plugin's references: eval-design.md defines the holdout share and forbids the candidate-authoring agent from seeing holdout expected answers; operational-guardrails.md requires blind A/B and an independent reviewer; optimization-method.md enforces one scoped change per iteration with rejected variants recorded; promotion-policy.md gates on validation-side improvement.",
+    "matched_on": [
+      "holdout kept hidden from the candidate-authoring agent, at least 20% of cases",
+      "acceptance gated on validation-side improvement",
+      "blind A/B plus an independent reviewer for subjective cases",
+      "one scoped change per iteration with rejected variants recorded",
+      "capability versus regression case categories"
+    ],
+    "reputation": {
+      "verdict": "unknown",
+      "evidence": [
+        "org-private shared plugin in the TechLog shared checkout; not published"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
     "verified_at": "2026-08-15",
-    "verified_by": "ai-development-improvement maintain MNT-20260815T120030Z (second pilot)"
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "skill-creator",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/anthropics/skills",
+        "why_not_primary": "The established public implementation of the holdout and blind-comparison core (60/40 train/validation, 'never let the optimization process see validation results', best iteration selected by test score, blind judging by an independent agent) and the asset to name to readers; it lacks the one-change-per-iteration discipline, the rejected-edit record and the capability/regression split, so the org-private Skill remains the fuller mechanism match.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/anthropics/skills (169,557 stars, 20,184 forks, last commit 2026-08-13) — skills/skill-creator present in the repository listing opened this pass",
+            "https://skills.sh/anthropics/skills/skill-creator (vendor-published collection)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "evaluate-skill",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/edonadei/caliper",
+        "why_not_primary": "With/without comparison under identical conditions and repeat runs, but no holdout and no blind reviewer; emerging repo.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/edonadei/caliper (39 stars, 5 forks, 7 open issues, last commit 2026-08-05)",
+            "https://skills.sh/edonadei/caliper/evaluate-skill (14 installs; Trust Hub Pass, Socket Pass, Snyk Warn)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "agents-md-evals",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/vltansky/agents-md-evals",
+        "why_not_primary": "Controlled A/B for instruction files, no holdout or independent reviewer; 4-star stale repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/vltansky/agents-md-evals (4 stars, 0 forks, last commit 2026-03-09)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

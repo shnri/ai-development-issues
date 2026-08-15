@@ -48,6 +48,13 @@
       "observed_at": "2026-05-28",
       "summary": "inaccurate self-reporting は7形態の一つで、時間とともに割合が増加。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "obra/superpowers@verification-before-completion (public, reputation established): read skills/verification-before-completion/SKILL.md at HEAD: the Iron Law is 'NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE — if you haven't run the verification command in this message, you cannot claim it passes', enforced by a five-step gate (identify the command that proves the claim, run it fresh and complete, read the full output and exit code, verify it confirms the claim, only then claim); a Common Failures table fixes the required evidence per claim type — a regression test needs a verified red-green cycle, and 'Agent completed' needs a VCS diff, never the agent's own success report.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -101,5 +108,82 @@
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
-  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)"
+  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)",
+  "existing_asset": {
+    "asset_id": "obra/superpowers@verification-before-completion",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "url": "https://www.skills.sh/obra/superpowers/verification-before-completion",
+    "path": "skills/verification-before-completion/SKILL.md",
+    "confirmed_by": "read skills/verification-before-completion/SKILL.md at HEAD: the Iron Law is 'NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE — if you haven't run the verification command in this message, you cannot claim it passes', enforced by a five-step gate (identify the command that proves the claim, run it fresh and complete, read the full output and exit code, verify it confirms the claim, only then claim); a Common Failures table fixes the required evidence per claim type — a regression test needs a verified red-green cycle, and 'Agent completed' needs a VCS diff, never the agent's own success report.",
+    "matched_on": [
+      "no completion claim without fresh verification evidence",
+      "evidence must be command/test output executed in the current session",
+      "rejects claims grounded in assumption, confidence or 'should work'",
+      "gates 'done' / 'fixed' / 'green' / 'ready to merge' and any paraphrase of them",
+      "distrusts a subagent's success report, requiring the diff instead"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, 24,362 forks, last commit 2026-08-12, releasing v6.3.0)",
+        "https://www.skills.sh/obra/superpowers/verification-before-completion (178 installs, first seen Jan 19 2026; Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "read skills/verification-before-completion/SKILL.md at HEAD",
+        "mention: the loopkit, rileyhilliard, max4c and jimweller variants all restate this skill's 'Iron Law' wording, i.e. it is the upstream of the category"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "archive228/loopkit@verification-before-completion",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/archive228/loopkit",
+        "why_not_primary": "Previous primary, demoted on reputation: pseudonymous maintainer, 750 stars, no commit since 2026-07-14, 17 installs — and its own page frames it as the 'when' half of an idea it did not originate.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/archive228/loopkit (750 stars, 130 forks, last commit 2026-07-14)",
+            "https://www.skills.sh/archive228/loopkit/verification-before-completion (17 installs, first seen Jul 9 2026; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "rileyhilliard/claude-essentials@verification-before-completion",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/rileyhilliard/claude-essentials",
+        "why_not_primary": "Active but 127 stars; another restatement of the same rule.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/rileyhilliard/claude-essentials (127 stars, 19 forks, last commit 2026-08-03)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "jimweller/clanker-skills@verify-claims",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/jimweller/clanker-skills",
+        "why_not_primary": "Reported by the first pass as the highest-install hit for this mechanism, but the repo has 1 star and 0 forks, so there is nothing to substantiate.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/jimweller/clanker-skills (1 star, 0 forks, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

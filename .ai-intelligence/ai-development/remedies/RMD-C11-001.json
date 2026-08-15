@@ -21,6 +21,13 @@
       "observed_at": "2026-08-12",
       "summary": "Anthropic Fable 5 guidance: 長時間runではprogress claimをtool結果へ接地し、context上限を理由に止めず、旧modelのscaffolding・memory前提を再評価する",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/basicmachines-co/basic-memory-skills",
+      "observed_at": "2026-08-15",
+      "summary": "memory-defrag (public, reputation emerging): read SKILL.md (memory-defrag/SKILL.md): five-step process Audit ('For each file, note: line count, last modified, topic coverage, staleness') -> Identify problems (bloated file >300 lines -> split; stale entries -> remove or archive; duplicates -> consolidate; orphan files -> merge or remove) -> Plan -> Execute -> Verify & log, run weekly or when MEMORY.md exceeds ~500 lines.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -72,5 +79,64 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "memory-defrag",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/basicmachines-co/basic-memory-skills",
+    "url": "https://skills.sh/basicmachines-co/basic-memory-skills/memory-defrag",
+    "path": "memory-defrag",
+    "confirmed_by": "read SKILL.md (memory-defrag/SKILL.md): five-step process Audit ('For each file, note: line count, last modified, topic coverage, staleness') -> Identify problems (bloated file >300 lines -> split; stale entries -> remove or archive; duplicates -> consolidate; orphan files -> merge or remove) -> Plan -> Execute -> Verify & log, run weekly or when MEMORY.md exceeds ~500 lines.",
+    "matched_on": [
+      "periodic audit of MEMORY.md plus memory/ files, noting line count, last modified and staleness per file",
+      "remove or archive stale entries",
+      "split a bloated MEMORY.md over a size threshold into focused topical files, consolidate duplicates",
+      "verify nothing was lost and log what changed"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/basicmachines-co/basic-memory-skills (25 stars, 3 forks, 23 commits, last commit April 2026, 0 open issues)",
+        "owner basicmachines-co is a real organisation behind the Basic Memory MCP server and a commercial cloud product",
+        "no third-party mention of this skills repo found"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "agentic-harness-patterns",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/keli-wen/agentic-harness-patterns-skill",
+        "why_not_primary": "emerging (301 stars, 8 commits, stale since April); covers the capped auto-memory index and the promotion-with-approval rule as harness design, not as a runnable procedure",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/keli-wen/agentic-harness-patterns-skill (301 stars, 49 forks, only 8 commits, last commit April 2026 - ~4 months stale)",
+            "personal account, no organisational backing, no third-party article or awesome-list mention found"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "maintain-agent-instructions",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "consumer-local; scope excludes Claude Code auto memory (no /memory audit, no size cap, no timestamp staleness check, no autoMemoryEnabled)",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private: https://github.com/shnri/shared-agent-plugins (not publicly obtainable); consumer copy installed in TechLog"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

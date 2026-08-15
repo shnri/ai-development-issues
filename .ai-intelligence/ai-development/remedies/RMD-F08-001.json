@@ -53,6 +53,13 @@
       "observed_at": "2026-08-11",
       "summary": "test/scorer/referenceへのwrite/read分離(operationally-supported)。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/wshobson/agents",
+      "observed_at": "2026-08-15",
+      "summary": "block-no-verify-hook (public, reputation established): read SKILL.md: it supplies the .claude/settings.json PreToolUse block that inspects $TOOL_INPUT and exits 2 with a message when the agent tries `git commit/push --no-verify` or `--no-gpg-sign` — the same mechanical block this remedy applies to protected oracle paths, and it exists specifically to stop an agent weakening the project's own verification gates.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -112,5 +119,76 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "block-no-verify-hook",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/wshobson/agents",
+    "url": "https://www.skills.sh/wshobson/agents/block-no-verify-hook",
+    "path": "plugins/block-no-verify/skills/block-no-verify-hook/SKILL.md",
+    "confirmed_by": "read SKILL.md: it supplies the .claude/settings.json PreToolUse block that inspects $TOOL_INPUT and exits 2 with a message when the agent tries `git commit/push --no-verify` or `--no-gpg-sign` — the same mechanical block this remedy applies to protected oracle paths, and it exists specifically to stop an agent weakening the project's own verification gates.",
+    "matched_on": [
+      "PreToolUse hook committed to the repository's .claude/settings.json, matcher scoped to Bash, exit 2 to deny before execution",
+      "the guard exists specifically to stop an AI agent from weakening the project's own verification gates"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/wshobson/agents (38,837 stars, 4,137 forks, last commit 2026-08-15, only 4 open issues)",
+        "https://www.skills.sh/wshobson/agents/block-no-verify-hook (4 installs, first seen Apr 8 2026; Trust Hub Pass, Socket Pass, Snyk Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "mattpocock/skills@git-guardrails-claude-code",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Established, same PreToolUse deny mechanism and it ships the hook script rather than only the settings block, but its deny list is destructive git commands rather than the remedy's protected paths (tests, CI workflows, coverage thresholds, verifiers).",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218,346 stars, last commit 2026-08-15)",
+            "read skills/misc/git-guardrails-claude-code/SKILL.md at HEAD (PreToolUse hook, Bash matcher, bundled block-dangerous-git.sh, project or global settings.json)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "diagnosing-bugs",
+        "kind": "installed-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "Established; supplies the before-fail/after-pass evidence half — a named, already-run, red-capable command that goes red on this bug and green once fixed — but contains no protected-path or hook enforcement.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks, 437 commits; maintained by Matt Pocock, a notable engineer)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "ai-development-improvement",
+        "kind": "shared-plugin",
+        "availability": "org-private",
+        "why_not_primary": "Enforces path/diff allowlists, holdout isolation from the author and author/reviewer role separation — the same separation-of-oracle idea — but governs the improvement workflow rather than the project's test and CI files; org-private, so never reader-facing.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "org-private shared plugin in the TechLog shared checkout; not published, so there is no public track record to assess"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

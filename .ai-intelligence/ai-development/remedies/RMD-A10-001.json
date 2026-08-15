@@ -20,6 +20,13 @@
       "reference": "https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record",
       "observed_at": "2026-08-15",
       "summary": "Microsoft Well-Architected guidance on maintaining an architecture decision record."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/jabrena/plinth",
+      "observed_at": "2026-08-15",
+      "summary": "032-architecture-adr-non-functional-requirements (public, reputation emerging): read SKILL.md on skills.sh: challenge-first conversation over the ISO/IEC 25010:2023 quality characteristics with per-quality deep dives and trade-off exploration, recorded as an ADR.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -43,5 +50,78 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "032-architecture-adr-non-functional-requirements",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/jabrena/plinth",
+    "url": "https://skills.sh/jabrena/plinth/032-architecture-adr-non-functional-requirements",
+    "confirmed_by": "read SKILL.md on skills.sh: challenge-first conversation over the ISO/IEC 25010:2023 quality characteristics with per-quality deep dives and trade-off exploration, recorded as an ADR.",
+    "matched_on": [
+      "systematic sweep of quality attributes (performance, security, reliability, maintainability, compatibility, safety)",
+      "forces measurable criteria per attribute instead of silent omission",
+      "outcome recorded as a decision document"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/jabrena/plinth (425 stars, 90 forks, 24 open issues, last commit 2026-08-14)",
+        "https://skills.sh/jabrena/plinth/032-architecture-adr-non-functional-requirements"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "spec-kit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/spec-kit",
+        "why_not_primary": "established, and checklist.md generates 'unit tests for requirements writing' that catch unquantified NFRs (e.g. \"Is 'fast loading' quantified with specific timing thresholds? [Clarity, Spec NFR-2]\"), but it generates ad-hoc per-feature checklists rather than requiring a fixed non-functional section with a not-applicable justification",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "prd-writing",
+        "kind": "installed-skill",
+        "availability": "consumer-local",
+        "why_not_primary": "template.md has the required 非機能要件 section, i.e. the template half, but consumer-local and without a not-applicable justification field",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "consumer-local: consumer:techlog/skills/prd-writing"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "testing-nonfunctional-suite",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/wojons/skills",
+        "why_not_primary": "NFR verification rather than spec-time coverage; 4-star repo",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/wojons/skills (4 stars, 2 forks, last commit 2026-04-01)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

@@ -20,6 +20,13 @@
       "reference": "https://www.thebcms.com/blog/spec-driven-development/",
       "observed_at": "2026-08-15",
       "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/proffesor-for-testing/agentic-qe",
+      "observed_at": "2026-08-15",
+      "summary": "qe-requirements-validation (public, reputation emerging): read SKILL.md on skills.sh: 'Validates acceptance criteria for testability, traces requirements to test cases ... building requirements traceability matrices ... ensuring complete requirements coverage before development'.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -45,5 +52,81 @@
     "spec-workflow-tooling-change",
     "agent-surface-change",
     "model-family-change"
-  ]
+  ],
+  "existing_asset": {
+    "asset_id": "qe-requirements-validation",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/proffesor-for-testing/agentic-qe",
+    "url": "https://skills.sh/proffesor-for-testing/agentic-qe/qe-requirements-validation",
+    "confirmed_by": "read SKILL.md on skills.sh: 'Validates acceptance criteria for testability, traces requirements to test cases ... building requirements traceability matrices ... ensuring complete requirements coverage before development'.",
+    "matched_on": [
+      "every test traced to the requirement it verifies",
+      "requirements-to-test traceability matrix plus coverage gap identification",
+      "acceptance criteria validated for testability before development"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/proffesor-for-testing/agentic-qe (449 stars, 82 forks, last commit 2026-08-15)",
+        "https://skills.sh/proffesor-for-testing/agentic-qe/qe-requirements-validation"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "spec-kit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/github/spec-kit",
+        "why_not_primary": "established, and analyze.md checks requirement-to-task coverage, but tasks are not tests and it adds no per-test requirement citation",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/github/spec-kit (129,168 stars, last commit 2026-08-14, maintained by the GitHub org)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/clarify.md (Goal: detect and reduce ambiguity in the active feature spec and record clarifications in the spec file)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/analyze.md (non-destructive cross-artifact consistency analysis across spec.md/plan.md/tasks.md)",
+            "https://github.com/github/spec-kit/blob/main/templates/commands/plan.md (loads FEATURE_SPEC + memory/constitution.md, resolves NEEDS CLARIFICATION, emits data-model.md and contracts/)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "tdd",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mattpocock/skills",
+        "why_not_primary": "established, and requires the expected value to come from the spec, but does not constrain the test set to traced requirements",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/help-me-test/skills (0 stars, 0 forks, last commit 2026-08-13)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "requirements-traceability",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/terraphim/terraphim-skills",
+        "why_not_primary": "same matrix from the requirements side, but its GitHub repo now 404s",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/terraphim/terraphim-skills returns HTTP 404 - the repository no longer exists publicly (2026-08-15 check)",
+            "https://skills.sh/terraphim/terraphim-skills/requirements-traceability (page still live: 57 installs, 3 GitHub stars, first seen Jan 2026, Trust Hub/Socket/Snyk Pass)",
+            "https://github.com/terraphim/terraphim-ai (57 stars) - the org exists, the skills repo does not"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

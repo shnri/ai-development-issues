@@ -53,6 +53,13 @@
       "observed_at": "2025-10-20",
       "summary": "filesystem/network隔離とcredential分離の設計",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/trailofbits/skills",
+      "observed_at": "2026-08-15",
+      "summary": "seatbelt-sandboxer (public, reputation established): read the skills.sh page (skills.sh/trailofbits/skills/seatbelt-sandboxer): the skill generates minimally-permissioned, allowlist-based Seatbelt sandbox configurations that restrict a process's file and network access, triggered when a user asks to sandbox, isolate or restrict a macOS process, with supply-chain compromise named as the threat it mitigates. That is the remedy's isolation mechanism - putting credentials and network destinations physically out of reach of the process running model-written code. It performs no credential brokering or short-lived token exchange, and its declared non-applicability is Linux containers, Windows, and processes legitimately needing broad access.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -110,5 +117,64 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "seatbelt-sandboxer",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/trailofbits/skills",
+    "url": "https://skills.sh/trailofbits/skills/seatbelt-sandboxer",
+    "confirmed_by": "read the skills.sh page (skills.sh/trailofbits/skills/seatbelt-sandboxer): the skill generates minimally-permissioned, allowlist-based Seatbelt sandbox configurations that restrict a process's file and network access, triggered when a user asks to sandbox, isolate or restrict a macOS process, with supply-chain compromise named as the threat it mitigates. That is the remedy's isolation mechanism - putting credentials and network destinations physically out of reach of the process running model-written code. It performs no credential brokering or short-lived token exchange, and its declared non-applicability is Linux containers, Windows, and processes legitimately needing broad access.",
+    "matched_on": [
+      "generate minimally-permissioned, allowlist-based sandbox configurations for the process running untrusted code",
+      "default-deny restriction of both file access and network access",
+      "stated purpose includes mitigating supply-chain compromise through process isolation",
+      "explicit scope limits: not for Linux containers, Windows, or processes needing broad system access"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/trailofbits/skills (6.6k stars, 568 forks, 153 commits, maintained by Trail of Bits, a well-known security firm)",
+        "https://skills.sh/trailofbits/skills/seatbelt-sandboxer (3.3K installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Pass; catalogued 2026-02-26)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "harden-repo-for-coding-agents",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/justinramos101/agent-skill-kit",
+        "why_not_primary": "demoted on reputation only (0 stars, 0 forks, no mentions). Substantively it is still the fuller implementation: references/playbooks/sandbox.md keeps secrets out of the agent's writable workspace, orders the walls (broker holds the secret -> host-side egress proxy injects auth -> short-lived policy-scoped tokens), requires default-deny egress with a per-domain allowlist and an exfiltration smoke test, prescribes rootless containers and a remote sandbox that separates harness from compute, and requires CODEX_SANDBOX_ENV_VAR / CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR to be declared read-only invariants in AGENTS.md",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/justinramos101/agent-skill-kit (0 stars, 0 forks, 0 watchers, 0 open issues, 318 commits, last commit July 2026, personal account, homepage points at skills.sh)",
+            "https://img.shields.io/github/stars/justinramos101/agent-skill-kit.json (independent confirmation: 0 stars)",
+            "no third-party mention found: not in any awesome list, no article, no repo referencing it"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "credential-scanner",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/useai-pro/openclaw-skills-security",
+        "why_not_primary": "detects reachable secrets rather than removing them; maintainer not researched",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/useai-pro/openclaw-skills-security (alternate only; not researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

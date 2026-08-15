@@ -37,6 +37,13 @@
       "observed_at": "2026-05-28",
       "summary": "実sessionで'reporting progress'が失敗形態の一つで、inaccurate self-reportingの比率は増加傾向。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/obra/superpowers",
+      "observed_at": "2026-08-15",
+      "summary": "obra/verification-before-completion (public, reputation established): read skills/verification-before-completion/SKILL.md from a fresh clone of obra/superpowers@main: 'The Iron Law - NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE ... If you haven't run the verification command in this message, you cannot claim it passes', the five-step Gate Function (identify the proving command, run it in full, read output and exit code, check it confirms the claim, only then claim), the Common Failures table pairing each claim with the tool output that proves it (claim 'Agent completed' requires 'VCS diff shows changes'), and the Requirements pattern 'Re-read plan -> Create checklist -> Verify each -> Report gaps'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -84,5 +91,79 @@
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
   },
-  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)"
+  "merged_into_work_item_for": "RMD-B04-001 (agent-instruction-maintenance audit-criteria candidate, 2026-08-15)",
+  "existing_asset": {
+    "asset_id": "obra/verification-before-completion",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/obra/superpowers",
+    "url": "https://skills.sh/obra/superpowers/verification-before-completion",
+    "path": "skills/verification-before-completion",
+    "confirmed_by": "read skills/verification-before-completion/SKILL.md from a fresh clone of obra/superpowers@main: 'The Iron Law - NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE ... If you haven't run the verification command in this message, you cannot claim it passes', the five-step Gate Function (identify the proving command, run it in full, read output and exit code, check it confirms the claim, only then claim), the Common Failures table pairing each claim with the tool output that proves it (claim 'Agent completed' requires 'VCS diff shows changes'), and the Requirements pattern 'Re-read plan -> Create checklist -> Verify each -> Report gaps'.",
+    "matched_on": [
+      "evidence before claims, always - no completion claim without a freshly run verification command in this session",
+      "five-step gate: identify the proving command, run it, read the full output and exit code, confirm, then claim",
+      "delegated-agent results verified against the VCS diff rather than the agent's own success report",
+      "requirements verified line by line against the plan before reporting completion"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/obra/superpowers (272,491 stars, 24,362 forks, 153 open issues, last commit 2026-08-12)",
+        "https://skills.sh/obra/superpowers/verification-before-completion (178.2K installs; Trust Hub Pass, Socket Pass, Snyk Pass, listed since 2026-01-19)",
+        "maintainer: Jesse Vincent (obra), superpowers is one of the most-cited public skill collections"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "delphine-l/verification-before-completion",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/delphine-l/claude_global",
+        "why_not_primary": "Pass-1 primary; same text as the superpowers skill, but hosted in an 18-star personal bioinformatics repo, so it appears to be a copy with no independent track record.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/delphine-l/claude_global (18 stars, 2 forks, last commit 2026-05-14)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "evidence-before-done",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mohamedzhioua/proofguard",
+        "why_not_primary": "2 installs, 1-star repo, not opened.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mohamedzhioua/proofguard (1 star, last commit 2026-07-06; 2 installs per pass 1)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "verify-done",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/jamie-bitflight/claude_skills",
+        "why_not_primary": "Same family (17 installs), not opened; 64-star repo with 374 open issues.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/jamie-bitflight/claude_skills (64 stars, 10 forks, 374 open issues, last commit 2026-08-15)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
+  }
 }

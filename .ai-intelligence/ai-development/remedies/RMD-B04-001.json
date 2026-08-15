@@ -45,6 +45,13 @@
       "observed_at": "2026-05-28",
       "summary": "20,574 real sessions: 失敗形態に'bounding their actions'を含み、全体失敗率が下がる中で「constraint violations and inaccurate self-reporting grow in share」。91.49%の解決に明示的なuser修正が必要。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/addyosmani/agent-skills",
+      "observed_at": "2026-08-15",
+      "summary": "incremental-implementation (public, reputation established): read skills/incremental-implementation/SKILL.md from a fresh clone of addyosmani/agent-skills@main: 'Rule 0.5: Scope Discipline - Touch only what the task requires', with the Do-NOT list (no cleaning up adjacent code, no refactoring imports in files you are not modifying, no adding features not in the spec because they seem useful, no modernizing syntax in files you are only reading) and the 'NOTICED BUT NOT TOUCHING' report form; 'Rule 0: Simplicity First' adds 'Am I building for hypothetical future requirements, or the current task?' and rejects premature abstraction.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -101,5 +108,80 @@
     "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md",
     "skill": "maintain-agent-instructions",
     "note": "Controller routing 2026-08-15: the reusable form of this remedy is an audit criterion (missing-signal: no scope/behavior boundary for high-effort models; no done criteria grounded in tool results). Related remedies merged into the same candidate: RMD-E04-001, RMD-G14-001 (scope boundary/done criteria), RMD-E11-001/RMD-F18-001/RMD-B11-001 (completion grounded in tool output). Model-specific wording stays with model-behavior-operations."
+  },
+  "existing_asset": {
+    "asset_id": "incremental-implementation",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/addyosmani/agent-skills",
+    "url": "https://skills.sh/addyosmani/agent-skills/incremental-implementation",
+    "path": "skills/incremental-implementation",
+    "confirmed_by": "read skills/incremental-implementation/SKILL.md from a fresh clone of addyosmani/agent-skills@main: 'Rule 0.5: Scope Discipline - Touch only what the task requires', with the Do-NOT list (no cleaning up adjacent code, no refactoring imports in files you are not modifying, no adding features not in the spec because they seem useful, no modernizing syntax in files you are only reading) and the 'NOTICED BUT NOT TOUCHING' report form; 'Rule 0: Simplicity First' adds 'Am I building for hypothetical future requirements, or the current task?' and rejects premature abstraction.",
+    "matched_on": [
+      "touch only what the task requires; do not add features that are not in the spec",
+      "do not refactor, tidy or modernize code adjacent to the change",
+      "note out-of-scope improvements and ask instead of fixing them",
+      "no abstraction for hypothetical future requirements; simplest thing that works first"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/addyosmani/agent-skills (87,489 stars, 9,383 forks, last commit 2026-08-14)",
+        "https://skills.sh/addyosmani/agent-skills/incremental-implementation (22.4K installs; Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "maintainer: Addy Osmani (Google Chrome engineering lead), repo described as production-grade engineering skills"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "surgical",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/albertobarnabo/lean",
+        "why_not_primary": "Pass-1 primary and still the cleanest statement of the rule plus the carve-out (stand down when error handling, validation, tests or safety are the actual task), but a 39-star repo with 9 installs and no commits since June - not a name to put in a public article.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/albertobarnabo/lean (39-48 stars, 1 fork, last commit 2026-06-11)",
+            "https://skills.sh/albertobarnabo/lean/surgical (9 installs; Trust Hub Pass, Socket Pass, Snyk Pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "avoid-unrequested-scope-expansion",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/mew-ton/coding-guidelines",
+        "why_not_primary": "1 install, and its Boy Scout Rule exception reopens unrequested tidying.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/mew-ton/coding-guidelines (0 stars, last commit 2026-04-20)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "scope-creep-prevention",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/viksant/swe-skills",
+        "why_not_primary": "No exception clause, so it risks the over-suppression the remedy warns about; 4-star repo.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/viksant/swe-skills (4 stars, last commit 2026-07-16)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

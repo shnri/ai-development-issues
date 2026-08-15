@@ -57,6 +57,13 @@
       "observed_at": "2026-08-15",
       "summary": "network.allowedDomainsでregistry.npmjs.org等へ限定し、NPM_TOKENはmaskで注入可能",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/athola/claude-night-market",
+      "observed_at": "2026-08-15",
+      "summary": "dependency-verification (public, reputation emerging): read SKILL.md on skills.sh: its rule is 'a package name the model produced is a claim, not a fact; the registry is the fact — verify before you install', backed by the Spracklen et al. hallucination-rate measurements and the huggingface-cli proof-of-concept, which is this remedy's registry-verification step.",
+      "quality": "low"
     }
   ],
   "applicability": {
@@ -113,5 +120,66 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "dependency-verification",
+    "source": "skills.sh",
+    "path": "athola/claude-night-market@dependency-verification",
+    "url": "https://skills.sh/athola/claude-night-market/dependency-verification",
+    "availability": "public",
+    "public_url": "https://github.com/athola/claude-night-market",
+    "matched_on": [
+      "treat a model-produced package name as a claim and verify it against the registry before installing",
+      "deterministic registry check rather than plausibility of the name",
+      "slopsquatting threat model (hallucinated names recur and get pre-registered)"
+    ],
+    "confirmed_by": "read SKILL.md on skills.sh: its rule is 'a package name the model produced is a claim, not a fact; the registry is the fact — verify before you install', backed by the Spracklen et al. hallucination-rate measurements and the huggingface-cli proof-of-concept, which is this remedy's registry-verification step.",
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "https://github.com/athola/claude-night-market (328 stars, 34 forks, last commit 2026-08-15)",
+        "https://skills.sh/athola/claude-night-market/dependency-verification (19 installs; all three audits Pass)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": false,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "kind": "public-skill",
+        "asset_id": "supply-chain",
+        "availability": "public",
+        "public_url": "https://github.com/claude-dev-suite/claude-dev-suite",
+        "why_not_primary": "Broader OWASP A03:2025 supply-chain checklist that explicitly delegates license and secret concerns elsewhere; it frames the risk but does not give the pre-install registry-verification procedure.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "dependency-auditor",
+        "availability": "public",
+        "public_url": "https://github.com/useai-pro/openclaw-skills-security",
+        "why_not_primary": "481 installs, but it audits dependencies already present rather than gating a new install.",
+        "reader_facing": false
+      },
+      {
+        "kind": "public-skill",
+        "asset_id": "supply-chain-risk-auditor",
+        "availability": "public",
+        "public_url": "https://github.com/trailofbits/skills",
+        "why_not_primary": "Read this pass: deterministic collector scripts measure version-matched advisories, abandoned or archived upstreams, npm publisher concentration and install-time script execution, and it refuses to report when it measured nothing — established (Trail of Bits, 5.9K installs) and the strongest public evidence-based dependency check, but it audits the tree a project already has instead of verifying a new package before installation.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/trailofbits/skills (6,603 stars, last commit 2026-08-14)",
+            "https://skills.sh/trailofbits/skills/supply-chain-risk-auditor (5.9K installs; Trust Hub Pass / Socket Pass / Snyk Warn)",
+            "read https://raw.githubusercontent.com/trailofbits/skills/main/plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor/SKILL.md"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

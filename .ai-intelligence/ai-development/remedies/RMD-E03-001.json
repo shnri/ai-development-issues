@@ -48,6 +48,13 @@
       "observed_at": "2026-08-15",
       "summary": "'write a failing test that reproduces the issue, then fix it'、Writer/Reviewer や『one Claude write tests, another write code』の分離pattern。",
       "quality": "high"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "diagnosing-bugs (public, reputation established): read skills/diagnosing-bugs/SKILL.md Phase 1: the phase completes only when one named command (test, curl, CLI, harness) has 'already been run at least once' with its output shown and is 'red-capable' on this bug — the remedy's before-fail/after-pass evidence, ordered so the oracle exists before the fix.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -101,5 +108,60 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "diagnosing-bugs",
+    "kind": "installed-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://www.skills.sh/mattpocock/skills/diagnosing-bugs",
+    "path": "skills/diagnosing-bugs",
+    "confirmed_by": "read skills/diagnosing-bugs/SKILL.md Phase 1: the phase completes only when one named command (test, curl, CLI, harness) has 'already been run at least once' with its output shown and is 'red-capable' on this bug — the remedy's before-fail/after-pass evidence, ordered so the oracle exists before the fix.",
+    "matched_on": [
+      "before-change failing evidence: a signal already shown red on this bug before any fix",
+      "the oracle is built and run before the implementation, not after it"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks, 437 commits; maintained by Matt Pocock, a notable engineer)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "code-hardcode-audit",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/terrylica/cc-skills",
+        "why_not_primary": "62-star repo and a self-rewriting 'self-evolving' skill; it audits hardcoded values generally, not test-specific special-casing or protected oracle paths.",
+        "reputation": {
+          "verdict": "emerging",
+          "evidence": [
+            "https://github.com/terrylica/cc-skills (62 stars, 10 forks, last commit 2026-08-15, 50 open issues)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "tdd",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/help-me-test/skills",
+        "why_not_primary": "Enforces test-first but the repo has 0 stars/0 forks and nothing external references it; it also has no rule against weakening tests and no general-solution requirement.",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/help-me-test/skills (0 stars, 0 forks, last commit 2026-08-13)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }

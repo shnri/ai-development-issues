@@ -51,6 +51,13 @@
       "observed_at": "2026-08-11",
       "summary": "機械検査を人間の前に置くが最終判断にしない(operationally-supported)。",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/mattpocock/skills",
+      "observed_at": "2026-08-15",
+      "summary": "code-review (public, reputation established): read SKILL.md: step 4 spawns the Standards and Spec sub-agents with separate briefs and separate evidence (repo standards plus a smell baseline; the originating spec text), and step 5 forbids merging or reranking the two reports, so no single blocking verdict is produced and findings stay advisory.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -107,5 +114,64 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "code-review",
+    "kind": "installed-skill",
+    "availability": "public",
+    "public_url": "https://github.com/mattpocock/skills",
+    "url": "https://www.skills.sh/mattpocock/skills/code-review",
+    "path": "skills/code-review",
+    "confirmed_by": "read SKILL.md: step 4 spawns the Standards and Spec sub-agents with separate briefs and separate evidence (repo standards plus a smell baseline; the originating spec text), and step 5 forbids merging or reranking the two reports, so no single blocking verdict is produced and findings stay advisory.",
+    "matched_on": [
+      "Standards and Spec reviews run as parallel sub-agents specifically so they do not pollute each other's context",
+      "the Spec sub-agent is given the originating issue/spec — evidence independent of the implementer's context — and must quote the spec line for each finding",
+      "findings are labelled hard violation vs judgement call and reported per axis without merging, i.e. advisory rather than blocking"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/mattpocock/skills (218.3k stars, 18.8k forks; Matt Pocock)"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "trailofbits/skills@fp-check",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/trailofbits/skills",
+        "why_not_primary": "Established; implements the disprove step directly — each suspected finding is restated, traced and driven to a TRUE/FALSE POSITIVE verdict, with an explicit rule that LLMs are biased toward seeing bugs and overrating severity — but it is scoped to security findings and verifies one claim at a time.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/trailofbits/skills (6,603 stars, last commit 2026-08-14)",
+            "listed at plugins/fp-check/skills/fp-check/SKILL.md in the repo tree at HEAD"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      },
+      {
+        "asset_id": "anthropics/defending-code-reference-harness@triage",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/anthropics/defending-code-reference-harness",
+        "why_not_primary": "Opened in this pass and established (Anthropic, 7,051 stars): it verifies each finding is real using N verifier votes (default 3), deduplicates, re-ranks by derived exploitability rather than the scanner's claimed severity, and routes to an owner — the remedy's disprove-plus-severity step. Not primary because it triages a batch of scanner output rather than configuring the reviewer's evidence sources.",
+        "reputation": {
+          "verdict": "established",
+          "evidence": [
+            "https://github.com/anthropics/defending-code-reference-harness (7,051 stars, 565 forks, last commit 2026-08-06)",
+            "read .claude/skills/triage/SKILL.md at HEAD (verify / deduplicate / rank by derived exploitability / route to owner; --votes N verifier votes, default 3)",
+            "maintainer: Anthropic"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": true
+      }
+    ]
   }
 }

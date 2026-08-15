@@ -22,6 +22,13 @@
       "observed_at": "2026-05-28",
       "summary": "20,574 sessionで意図解釈の不一致が主要失敗形態の一つ。上流の問題設定を人間が保持する必要性の間接根拠",
       "quality": "medium"
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "https://github.com/deanpeters/product-manager-skills",
+      "observed_at": "2026-08-15",
+      "summary": "problem-framing-canvas (public, reputation established): read SKILL.md (skills/problem-framing-canvas/SKILL.md): the MITRE Problem Framing Canvas is run in three phases (Look Inward / Look Outward / Reframe); its stated purpose is 'to ensure you're solving the right problem before jumping to solutions - avoiding confirmation bias, overlooked stakeholders, and solution-first thinking', and the Input section asks the framer to name the solution everyone is anchored on so the canvas can 'de-bias it'.",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -69,5 +76,63 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "problem-framing-canvas",
+    "kind": "public-skill",
+    "availability": "public",
+    "public_url": "https://github.com/deanpeters/product-manager-skills",
+    "url": "https://skills.sh/deanpeters/product-manager-skills/problem-framing-canvas",
+    "path": "skills/problem-framing-canvas",
+    "confirmed_by": "read SKILL.md (skills/problem-framing-canvas/SKILL.md): the MITRE Problem Framing Canvas is run in three phases (Look Inward / Look Outward / Reframe); its stated purpose is 'to ensure you're solving the right problem before jumping to solutions - avoiding confirmation bias, overlooked stakeholders, and solution-first thinking', and the Input section asks the framer to name the solution everyone is anchored on so the canvas can 'de-bias it'.",
+    "matched_on": [
+      "human-led framing session run before any solution work",
+      "Look Inward phase surfaces the framer's own assumptions and the solution everyone is already anchored on",
+      "output is a human-authored problem statement / How-Might-We, explicitly 'not a solution brainstorm'"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "https://github.com/deanpeters/product-manager-skills (6.5k stars, 785 forks, 142 commits, last commit 2026-08-10, 7 open issues)",
+        "https://skills.sh/deanpeters/product-manager-skills/problem-framing-canvas (1.9K installs; Gen Agent Trust Hub Pass, Socket Pass, Snyk Pass)",
+        "maintainer Dean Peters is a publicly known product-management practitioner/writer; the canvas itself is MITRE's, not invented by the repo"
+      ],
+      "checked_at": "2026-08-15"
+    },
+    "reader_facing": true,
+    "verified_at": "2026-08-15",
+    "verified_by": "existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)",
+    "alternates": [
+      {
+        "asset_id": "define-problem-statement",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/product-on-purpose/pm-skills",
+        "why_not_primary": "same family (problem statement before solution) but lower install base, not read, and no reputation research done",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/product-on-purpose/pm-skills (alternate only; not opened or researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      },
+      {
+        "asset_id": "problem-framing",
+        "kind": "public-skill",
+        "availability": "public",
+        "public_url": "https://github.com/joellewis/skill-library",
+        "why_not_primary": "38 installs, not read, unresearched maintainer",
+        "reputation": {
+          "verdict": "unknown",
+          "evidence": [
+            "https://github.com/joellewis/skill-library (alternate only; 38 installs per first pass; not researched this pass)"
+          ],
+          "checked_at": "2026-08-15"
+        },
+        "reader_facing": false
+      }
+    ]
   }
 }
