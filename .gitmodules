@@ -1,0 +1,3 @@
+[submodule "vendor/shared-agent-plugins"]
+	path = vendor/shared-agent-plugins
+	url = https://github.com/shnri/shared-agent-plugins.git

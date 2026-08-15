@@ -1,0 +1,6 @@
+# cloned target checkouts used by maintain runs (never authority state)
+.ai-intelligence/ai-development/workspaces/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store

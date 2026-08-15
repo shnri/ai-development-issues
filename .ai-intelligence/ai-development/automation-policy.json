@@ -57,7 +57,7 @@
     "require_changelog_for_shared_plugins": true,
     "record_provenance": true,
     "self_update_max_decision": "branch-review",
-    "authority_state_strategy": "branch",
+    "authority_state_strategy": "direct",
     "authority_state_remote": "origin",
     "authority_state_branch_prefix": "ai-development-maintenance/",
     "authority_state_push": true

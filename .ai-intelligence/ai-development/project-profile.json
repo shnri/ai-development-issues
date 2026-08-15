@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "project": "shared-agent-plugins",
+  "project": "ai-development-issues",
   "state_root": ".ai-intelligence/ai-development",
   "specification": {
     "sources": [],
@@ -8,7 +8,7 @@
   },
   "verification": {
     "related_test": null,
-    "full_test": null,
+    "full_test": "python3 scripts/check_authority.py",
     "lint": null,
     "typecheck": null,
     "build": null
@@ -35,5 +35,36 @@
     "mode": "closed-loop",
     "policy_path": ".ai-intelligence/ai-development/automation-policy.json",
     "target_registry_path": ".ai-intelligence/ai-development/target-registry.json"
-  }
+  },
+  "repository": "https://github.com/shnri/ai-development-issues",
+  "visibility": "public",
+  "plugin_version": "ai-development-improvement 0.3.0",
+  "plugin_checkout": "vendor/shared-agent-plugins (git submodule, pinned SHA)",
+  "public_boundary": {
+    "allowed": [
+      "catalog",
+      "remedies",
+      "research/evidence from public sources",
+      "lifecycle history",
+      "quick wins",
+      "publishable evaluations"
+    ],
+    "forbidden": [
+      "private repository code",
+      "project-specific agent traces",
+      "project-specific internal information",
+      "credentials/secrets/tokens",
+      "non-public URLs",
+      "customer/user data",
+      "undisclosed vulnerabilities",
+      "project-specific findings/experiments/adoptions"
+    ],
+    "checker": "scripts/check_public_boundary.py"
+  },
+  "migration": {
+    "from": "shared-agent-plugins 6e03799 (.ai-intelligence/ai-development)",
+    "at": "2026-08-15",
+    "method": "git filter-branch history extraction; per-file sha256 verified identical (419 files)"
+  },
+  "updated_at": "2026-08-15T11:40:00Z"
 }

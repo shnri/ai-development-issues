@@ -1,0 +1,3 @@
+ai-development-improvement の maintain を実行してください。
+
+このRepository（ai-development-issues）はauthorityです。AGENTS.mdの手順に従い、Plugin submoduleを初期化し、`python3 scripts/check_authority.py`を確認してから`maintain` modeの閉ループ（棚卸し → 新規問題探索 → 必要なresearch → 改善候補化 → 実装・評価 → 必要に応じてshared-agent-plugins等へのpromotion/release → Catalog更新）を`automation-policy.json`の範囲で進めてください。既存のWork Itemを再開し、重複を作らないでください。Authority stateの変更はvalidation通過後に`safe_commit_state.py --apply`で`main`へcommit・pushし、共有資産のreleaseは`shared-agent-plugins`のrelease policy（PR、Risk gate）に従ってください。最後にcatalog delta、research delta、work item、release/PR、propagation、blocker／decision-requiredを簡潔に報告してください。

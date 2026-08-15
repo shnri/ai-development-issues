@@ -5,25 +5,20 @@
       "id": "current-project",
       "enabled": true,
       "roles": [
-        "authority",
-        "project"
+        "authority"
       ],
-      "kind": "project-repository",
+      "kind": "authority-repository",
       "checkout": {
         "mode": "existing-path",
         "path": ".",
         "url": null,
         "branch": null,
-        "expected_remote_url": null
+        "expected_remote_url": "https://github.com/shnri/ai-development-issues.git"
       },
       "artifact_root": null,
       "default_branch": "main",
       "allowed_paths": [
-        ".ai-intelligence/ai-development/**",
-        "CLAUDE.md",
-        "AGENTS.md",
-        ".claude/**",
-        ".agents/**"
+        ".ai-intelligence/ai-development/**"
       ],
       "protected_paths": [
         ".env*",
@@ -32,12 +27,14 @@
         "**/*credential*",
         ".git/**"
       ],
-      "validation_commands": [],
+      "validation_commands": [
+        "python3 scripts/check_authority.py"
+      ],
       "release": {
-        "strategy": "branch",
+        "strategy": "direct",
         "remote": "origin",
         "base_branch": "main",
-        "branch_prefix": "ai-development-improvement/"
+        "branch_prefix": "ai-development-maintenance/"
       }
     },
     {
@@ -48,10 +45,10 @@
       ],
       "kind": "shared-agent-repository",
       "checkout": {
-        "mode": "existing-path",
-        "path": ".",
+        "mode": "git-clone",
+        "path": ".ai-intelligence/ai-development/workspaces/shared-agent-plugins",
         "url": "https://github.com/shnri/shared-agent-plugins.git",
-        "branch": null,
+        "branch": "main",
         "expected_remote_url": "https://github.com/shnri/shared-agent-plugins.git"
       },
       "artifact_root": null,
@@ -107,6 +104,7 @@
         ".git/**"
       ],
       "validation_commands": [
+        "npm ci",
         "npm run check"
       ],
       "release": {
