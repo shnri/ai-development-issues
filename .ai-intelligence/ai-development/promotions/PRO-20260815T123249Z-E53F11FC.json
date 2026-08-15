@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "PRO-20260815T123249Z-E53F11FC",
+  "work_item_id": "WRK-20260815T122838Z-5E073CAB",
+  "implementation_id": "IMP-20260815T123028Z-C55ECB9D",
+  "evaluation_id": "EVL-20260815T123249Z-9242BDCB",
+  "created_at": "2026-08-15T12:32:49Z",
+  "risk_tier": "R1",
+  "gate": {
+    "reasons": [
+      "holdout evaluation is missing for an agent-behavior change"
+    ],
+    "release_strategy": "none",
+    "scope_validation": {
+      "passed": true,
+      "changed_files": [
+        "package.json",
+        "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json"
+      ],
+      "diff_stats": {
+        "files": 2,
+        "insertions": 101,
+        "deletions": 1
+      },
+      "binary_changes": [],
+      "reasons": []
+    },
+    "independent_roles": [
+      "candidate-author-subagent",
+      "controller-deterministic-checks",
+      "independent-reviewer-subagent"
+    ],
+    "self_update": false
+  },
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-existing",
+    "risk_tier": "R1"
+  },
+  "decision": "blocked",
+  "status": "blocked",
+  "version_before": null,
+  "version_after": null
+}

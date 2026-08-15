@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "id": "PRP-20260815T120530Z-F8A00FDD",
+  "work_item_id": "WRK-20260815T120046Z-6C5D71F8",
+  "release_id": null,
+  "created_at": "2026-08-15T12:05:30Z",
+  "problem_ids": [
+    "J01",
+    "J04",
+    "J10",
+    "J16"
+  ],
+  "asset": {
+    "kind": "guidance",
+    "guidance_kind": "knowledge-only",
+    "remedy_id": "RMD-J10-001",
+    "repository_id": null,
+    "version": null,
+    "distribution": "project-local",
+    "consumer_risk_tier": "R0",
+    "note": "no shared asset was released; consumers apply the remedy guidance as a project change and audit the effect"
+  },
+  "consumer_actions": [
+    {
+      "consumer_id": "techlog",
+      "action": "apply-guidance-and-audit",
+      "status": "queued"
+    }
+  ],
+  "auto_update_consumers": false,
+  "status": "queued",
+  "notes": []
+}

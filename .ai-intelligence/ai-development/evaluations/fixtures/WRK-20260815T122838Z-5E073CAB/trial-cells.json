@@ -1,0 +1,1 @@
+[{"id":"validator","kind":"target","assertions_total":4,"baseline_pass":0,"candidate_pass":4},{"id":"repo-check","kind":"adjacent","assertions_total":2,"baseline_pass":2,"candidate_pass":2}]

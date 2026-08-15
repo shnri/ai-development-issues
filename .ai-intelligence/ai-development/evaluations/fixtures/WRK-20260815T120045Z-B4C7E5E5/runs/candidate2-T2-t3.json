@@ -1,0 +1,72 @@
+{
+  "fixture": "T2",
+  "trial": 3,
+  "criteria_revision": "candidate2",
+  "findings": [
+    {
+      "file": "both",
+      "rule": "CONFLICT: ordersスキーマの正 — AGENTS.md「`docs/data-model.md`が正」 vs CLAUDE.md「`src/types/order.ts`が正」",
+      "judgment": "更新",
+      "reason": "矛盾箇所: Firestoreセクションの正とする参照先が層間で食い違う。採用: AGENTS.md（製品中立で共有指示を所有する層。ただしどちらのファイルが実在し最新かは未確認のため推定）。提案: CLAUDE.mdは取り込みのみにし、所有者にdocs/data-model.mdとsrc/types/order.tsのどちらを正とするか確認する（保留付き）。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: 検証コマンド — AGENTS.md「変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`」 vs CLAUDE.md「変更後は必ず…`npm run build`をすべて実行する」",
+      "judgment": "更新",
+      "reason": "矛盾箇所: 検証の必須範囲と条件が食い違う。採用: AGENTS.md（影響に応じた実行、検証を所有する共有層。「必ず・すべて」に防ぐ失敗の記載がなく、低リスク作業にも一律要求する陳腐化シグナル）。提案: CLAUDE.md側の一律義務を削除しAGENTS.mdに統合。buildを常時必須にする根拠は不明のため保留。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: rules:test — AGENTS.md「変更したときだけ」 vs CLAUDE.md「変更したときは」",
+      "judgment": "統合",
+      "reason": "矛盾箇所: 実行条件の限定表現の差（実質同義だがCLAUDE.md側は「だけ」がなく他ケースを排除しない）。採用: AGENTS.md（Firestoreの関心事を所有する共有層）。提案: CLAUDE.mdから削除しAGENTS.md取り込みで一本化。",
+      "proposed_text": null
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "コードを書く前に必ず計画をmarkdownで提示し、承認を待つ。",
+      "judgment": "削除",
+      "reason": "低リスクな一段階作業にも承認待ちを要求する陳腐化シグナル。防ぐ具体的な失敗の記載がなく、AGENTS.mdにも対応規則がない。承認要否は層間矛盾に該当し、共有層（承認不要）を採用。ただし組織ポリシー由来の可能性は未確認のため、削除前に所有者確認を推奨（推定）。",
+      "proposed_text": null
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "プロジェクト概要・作業原則（docs/読む、rg確認、範囲限定、Conventional Commits）",
+      "judgment": "統合",
+      "reason": "AGENTS.mdと同内容の製品別コピー。差分管理の理由がなく、常時読み込みが二重になる。AGENTS.mdを単一の正本にし、CLAUDE.mdは取り込みのみにする。",
+      "proposed_text": "# Claude Codeエントリーポイント\n\n@AGENTS.md"
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "完了報告はそのセッションのテスト出力・diffに基づき、未実行の検証は未実行と書く。",
+      "judgment": "維持",
+      "reason": "記録と現実の不一致（虚偽の完了報告）を低コストで防ぐ。CLAUDE.mdには欠落しているが、統合後はAGENTS.md経由で適用される。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "依頼外のrefactor・依存追加は提案に留める。",
+      "judgment": "維持",
+      "reason": "スコープ逸脱という具体的な失敗を防ぐ。CLAUDE.md版より条件が明確で、統合時にこちらを残す。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "E2Eは`npm run e2e`（要ローカルemulator）。",
+      "judgment": "維持",
+      "reason": "標準から外れた検証手順で、コードから推測しにくい前提（emulator）を含む。実在は未確認（推定）。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "プロジェクト概要（Next.js 16 App Router / TypeScript 6 / React 19 / npm / devcontainer）",
+      "judgment": "維持",
+      "reason": "ほぼ全タスクで必要な最小限のプロジェクト事実。短く、package.jsonからの推測を省ける程度に留まっている。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "AGENTS.mdとCLAUDE.mdは常時読み込みの製品別コピーで、大半が重複し、3点で層間矛盾がある（ordersスキーマの正、検証コマンドの範囲、rules:testの条件）。加えてCLAUDE.mdのみに「毎回計画提示と承認待ち」の過剰指定がある。提案: AGENTS.mdを単一正本とし、CLAUDE.mdは`@AGENTS.md`取り込みのみに置き換える。ordersスキーマの正本（docs/data-model.md vs src/types/order.ts）とbuild常時必須の要否は、リポジトリを確認できないため所有者判断として保留。安全・権限に関わる規則の弱体化はない。",
+  "proposed_additions_line_count": 3
+}

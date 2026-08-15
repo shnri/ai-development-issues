@@ -1,0 +1,36 @@
+{
+  "work_item_id": "WRK-20260815T120045Z-B4C7E5E5",
+  "frozen_at": "2026-08-15T12:05:00Z",
+  "problem_ids": ["D03", "D08", "D11"],
+  "remedy_id": "RMD-D03-001",
+  "hypothesis": "Adding two short criteria to maintain-agent-instructions audit-criteria (cross-layer contradiction as a staleness signal with the layer that must win; product-specific always-loaded copies to be consolidated into one source that the other file @imports) makes the audit report layer contradictions and duplicated CLAUDE.md/AGENTS.md copies with a concrete consolidation, without new findings where a single source already exists, without weakening safety boundaries, and without recommending long new rules.",
+  "target_asset": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md",
+  "executor": "fresh subagent per run; input = SKILL.md + audit-criteria (baseline or candidate) + one fixture directory (all listed files); output = JSON findings",
+  "trial_plan_source": "plan_evaluation_trials.py after the first candidate trial (sequential confirmation)",
+  "test_sets": [
+    {"kind": "target", "id": "T2", "files": ["T2/AGENTS.md", "T2/CLAUDE.md"], "visible_to_author": true,
+     "assertions": [
+       {"id": "T2-a", "must": "reports that CLAUDE.md and AGENTS.md are duplicated product copies and proposes 統合 into one source with CLAUDE.md reduced to an @AGENTS.md import (or equivalent single-source mechanism)"},
+       {"id": "T2-b", "must": "reports the contradictions between the two files (schema source of truth docs/data-model.md vs src/types/order.ts; verification scope 影響に応じて vs 必ずすべて+build; rules:test condition) and says which layer/file must win or that the owner must decide"},
+       {"id": "T2-c", "must": "still classifies the always-plan-and-wait rule and the always-all-checks rule in CLAUDE.md as 更新/圧縮/削除 (regression guard for existing criteria)"},
+       {"id": "T2-d", "must_not": "adds a new long rule block; consolidation/contradiction proposals are short (≤3 lines each) and do not restate the whole file"}
+     ]},
+    {"kind": "adjacent", "id": "A2", "files": ["A2/AGENTS.md", "A2/CLAUDE.md"], "visible_to_author": true,
+     "assertions": [
+       {"id": "A2-a", "must_not": "reports duplication or a missing single source (CLAUDE.md already @imports AGENTS.md)"},
+       {"id": "A2-b", "must_not": "reports a cross-layer contradiction (there is none)"},
+       {"id": "A2-c", "must": "still flags the GPT-4-era answer format rule as 更新 (regression guard)"}
+     ]},
+    {"kind": "holdout", "id": "H2", "files": ["H2/CLAUDE.md", "H2/AGENTS.md", "H2/.claude/rules/testing.md"], "visible_to_author": false,
+     "assertions": [
+       {"id": "H2-a", "must": "reports the contradiction between .claude/rules/testing.md (always all tests; failing tests may be reported as done) and CLAUDE.md/AGENTS.md (related specs then one full run) and names which must win: the safety/correctness rule (do not report done with failing tests) — the rules file's 'report done with failing tests' must be 削除"},
+       {"id": "H2-b", "must": "reports CLAUDE.md and AGENTS.md as near-duplicate product copies and proposes consolidation into one source (AGENTS.md as single source, CLAUDE.md @import)"},
+       {"id": "H2-c", "must": "moves the 'run prettier on every save' rule to a deterministic mechanism (hook/format-on-save/CI) rather than keeping it as prose"},
+       {"id": "H2-d", "must": "keeps the production-DB and .env boundaries as 維持"},
+       {"id": "H2-e", "must_not": "adds a long new rule block; proposals ≤3 short lines each"}
+     ]}
+  ],
+  "metrics": {"primary": "assertion pass count per cell (baseline vs candidate)", "guardrails": ["A2-a", "A2-b", "A2-c", "T2-d", "H2-d", "H2-e"]},
+  "promotion_threshold": "candidate passes T2-a, T2-b, H2-a, H2-b that baseline fails or passes only partially; zero guardrail regressions; adjacent unchanged or better; trial plan satisfied (confirmation trials agree)",
+  "roles": {"candidate_author": "subagent (cannot see H2; sees T2/A2 files only as intent, not assertions)", "executor": "fresh subagent per cell and trial", "evaluator": "subagent grading outputs blind to A/B labels", "reviewer": "subagent reviewing candidate diff for scope, leakage, contradiction", "controller": "main session applies plan_evaluation_trials.py and promotion_gate.py"}
+}

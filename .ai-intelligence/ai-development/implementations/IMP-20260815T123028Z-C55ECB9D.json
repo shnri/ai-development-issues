@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "id": "IMP-20260815T123028Z-C55ECB9D",
+  "work_item_id": "WRK-20260815T122838Z-5E073CAB",
+  "created_at": "2026-08-15T12:30:28Z",
+  "target_repository_id": "shared-agent-plugins",
+  "target_path": "/tmp/claude-1000/-workspaces-techlog/ada2e32e-dd18-4298-a4e1-a2466d68dc59/scratchpad/authority/.ai-intelligence/ai-development/workspaces/shared-agent-plugins",
+  "artifact_kind": "shared-existing-asset",
+  "action_type": "update-existing",
+  "author_role": "candidate-author-subagent",
+  "baseline_ref": "95fcda2c2d54088619695da24bc9fd9b491771e8",
+  "candidate_ref": "ebfa5ad76d0144d3e3b446f0d3259347ab3dbf3062a3ed1b4af91a58fe6a58c9",
+  "base_revision": "95fcda2c2d54088619695da24bc9fd9b491771e8",
+  "branch": "main",
+  "changed_files": [
+    "package.json",
+    "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json"
+  ],
+  "diff_stats": {
+    "files": 2,
+    "insertions": 101,
+    "deletions": 1
+  },
+  "reversible": true,
+  "checks_run": [],
+  "scope_validation": {
+    "passed": true,
+    "changed_files": [
+      "package.json",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json"
+    ],
+    "diff_stats": {
+      "files": 2,
+      "insertions": 101,
+      "deletions": 1
+    },
+    "binary_changes": [],
+    "reasons": []
+  },
+  "status": "ready"
+}

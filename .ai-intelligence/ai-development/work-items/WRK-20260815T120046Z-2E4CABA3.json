@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T120046Z-2E4CABA3",
+  "created_at": "2026-08-15T12:00:46Z",
+  "updated_at": "2026-08-15T12:06:25Z",
+  "problem_ids": [
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F20"
+  ],
+  "remedy_id": "RMD-F03-001",
+  "source_run_id": "MNT-20260815T120030Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "evaluate-and-adopt-existing-solution",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "existing solution/tool evaluation precedes any new mechanism",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "tool/dependency without existing asset → solution adoption (evaluate existing solutions first)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-F03-001 to solution-adoption will reduce F03, F04, F05, F06, F20 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T12:00:46Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:06:25Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "solution_evaluation": {
+    "question": "Independent test-strength measurement instead of coverage (RMD-F03-001)?",
+    "existing_solutions": [
+      {
+        "name": "StrykerJS (@stryker-mutator/vitest-runner)",
+        "fit": "Vitest projects (TechLog); mutation score per package; CI cost high → run on changed packages / nightly"
+      },
+      {
+        "name": "fast-check property-based testing",
+        "fit": "targeted for pure functions; complements, does not replace"
+      },
+      {
+        "name": "coverage thresholds",
+        "fit": "rejected as sole metric (problem F06)"
+      }
+    ],
+    "decision": "no new shared asset: consumers evaluate StrykerJS on a bounded scope first (Vitest runner, one package, nightly), keep coverage as a secondary signal; shared repository has no JS unit-test surface where mutation testing is meaningful",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

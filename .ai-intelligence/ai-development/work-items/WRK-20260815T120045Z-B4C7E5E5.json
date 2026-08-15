@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T120045Z-B4C7E5E5",
+  "created_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T12:28:06Z",
+  "problem_ids": [
+    "D03",
+    "D08",
+    "D11"
+  ],
+  "remedy_id": "RMD-D03-001",
+  "source_run_id": "MNT-20260815T120030Z",
+  "state": "rejected",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-owner-asset",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R1",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "instruction/prompt/Skill/CLAUDE.md/AGENTS.md remedies become audit criteria or bounded edits in agent-instruction-maintenance",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: agent-instruction-maintenance (score 50)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-D03-001 to shared-existing-asset will reduce D03, D08, D11 without adjacent regressions.",
+  "baseline_ref": "95fcda2c2d54088619695da24bc9fd9b491771e8",
+  "implementation_id": "IMP-20260815T120959Z-A056DD03",
+  "evaluation_id": "EVL-20260815T122752Z-D29D894E",
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T12:00:45Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:03:05Z",
+      "from": "scoped",
+      "to": "baseline-required",
+      "reason": "audit not required: reproducer is a frozen fixture set (evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5); target = shared checkout main",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:03:05Z",
+      "from": "baseline-required",
+      "to": "implementation-ready",
+      "reason": "baseline frozen: audit-criteria at shared main HEAD; fixtures T2 (target: duplicated+contradicting CLAUDE.md/AGENTS.md), A2 (adjacent: @AGENTS.md single source), H2 (holdout hidden); assertions frozen in eval-plan.json",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:06:57Z",
+      "from": "implementation-ready",
+      "to": "candidate-ready",
+      "reason": "bounded candidate captured",
+      "actor": "candidate-author-subagent"
+    },
+    {
+      "at": "2026-08-15T12:09:59Z",
+      "from": "candidate-ready",
+      "to": "implementation-ready",
+      "reason": "independent reviewer (pass with 'should' edits) requested wording fixes before evaluation; iteration 2 of max_candidate_iterations_per_item=2. IMP-20260815T120657Z-71AD6034 superseded (no state-machine path candidate-ready→implementation-ready without an evaluation record: controller finding)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:09:59Z",
+      "from": "implementation-ready",
+      "to": "candidate-ready",
+      "reason": "bounded candidate captured",
+      "actor": "candidate-author-subagent"
+    },
+    {
+      "at": "2026-08-15T12:27:52Z",
+      "from": "candidate-ready",
+      "to": "evaluation-ready",
+      "reason": "candidate ready for frozen evaluation",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:27:52Z",
+      "from": "evaluation-ready",
+      "to": "evaluation-failed",
+      "reason": "candidate failed evaluation or independent review",
+      "actor": "blind-evaluator-subagent"
+    },
+    {
+      "at": "2026-08-15T12:28:06Z",
+      "from": "evaluation-failed",
+      "to": "rejected",
+      "reason": "candidate not promoted: improvement over baseline not confirmed within the trial plan (see EVL-20260815T122752Z-D29D894E); existing audit criteria already cover most of RMD-D03-001; candidate diff retained in IMP-20260815T120959Z-A056DD03 for future reuse (contradiction resolution rule) if a stronger reproducer appears",
+      "actor": "controller"
+    }
+  ]
+}

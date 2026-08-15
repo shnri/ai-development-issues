@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T120045Z-7415E4AB",
+  "work_item_id": "WRK-20260815T120045Z-8529904A",
+  "problem_ids": [
+    "I05",
+    "I14"
+  ],
+  "remedy_id": "RMD-I14-001",
+  "created_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T12:07:00Z",
+  "status": "open",
+  "title": "利用planと経路（Consumer/Team/Enterprise/API/Bedrock/Vertex/Foundry）ごとの学習利用・保持期間・ZDR・所在地を確認し、要件に合う経路をproject文書に固定する。TechLogは個人開発のため契約層はprovider側で、選択は決定事項",
+  "problem_titles": {
+    "I05": "Secret、Source、顧客Dataを外部へ送信する",
+    "I14": "Data residency、保持期間、学習利用条件に違反する"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [
+    "R2 operation markers: 保持期間"
+  ],
+  "why_not_autonomous": "R3 operation or structural decision: R2 operation markers: 保持期間",
+  "classification": {
+    "kind": "structural-decision",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "create-implementation-project",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "structural decision → R3 decision package"
+  ],
+  "existing_capabilities": [
+    "Provider plan/route documentation (Consumer/Team/Enterprise/API/Bedrock/Vertex/Foundry) for training use, retention, ZDR, residency"
+  ],
+  "options": [
+    "A: record the chosen provider route and its retention/training terms in the project docs (TechLog: personal plan, provider-side contract layer, decision fixed)",
+    "B: switch route (Enterprise/API+ZDR) — organizational contract decision"
+  ],
+  "proposed_action": "A for TechLog (already the case per remedy note); B only if requirements change",
+  "implementation_target": "consumer docs (decision record)",
+  "evaluation_plan": "not applicable (documentation of a contractual choice); revalidate on plan/provider change",
+  "decision_owner": "project owner",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/data-usage",
+      "observed_at": "2026-08-15",
+      "summary": "商用（Team/Enterprise/API/3rd-party）は学習不使用、標準30日保持、ZDRはEnterpriseで審査後、Consumer（Free/Pro/Max）はopt-in時5年・非opt-in30日、Bedrock/Vertex/FoundryはCMEK等提供者依存、Foundry Hosted on Azureはprompt域内",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data",
+      "observed_at": "2026-07-01",
+      "summary": "Consumer削除は30日以内、学習有効時5年、安全違反2–7年",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Trust Center/SOC2/ISO27001、Consumer privacy設定",
+      "quality": "high"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

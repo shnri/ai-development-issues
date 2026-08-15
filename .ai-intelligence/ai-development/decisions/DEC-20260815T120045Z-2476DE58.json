@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T120045Z-2476DE58",
+  "work_item_id": "WRK-20260815T120045Z-67E88A80",
+  "problem_ids": [
+    "G17"
+  ],
+  "remedy_id": "RMD-G17-001",
+  "created_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T12:07:00Z",
+  "status": "open",
+  "title": "安全な読取・検証commandだけを狭いprefix ruleで事前許可し(Claude Code `permissions.allow`、Codex `prefix_rule`+`approval_policy=\"on-request\"`+`sandbox_mode=\"workspace-write\"`)、危険操作はdeny/askに残してpermission fatigueを減らす。",
+  "problem_titles": {
+    "G17": "安全な読取操作にも毎回承認が必要でPermission fatigueになる"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [
+    "R3 operation markers: permissions?\\.(allow|deny), approval_policy, permission fatigue, 事前許可",
+    "R2 operation markers: sandbox"
+  ],
+  "why_not_autonomous": "R3 operation or structural decision: R3 operation markers: permissions?\\.(allow|deny), approval_policy, permission fatigue, 事前許可; R2 operation markers: sandbox",
+  "classification": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "owning shared Plugin from remedy_routes: none",
+    "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+    "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+  ],
+  "existing_capabilities": [
+    "Claude Code built-in `/fewer-permission-prompts` (proposes a prioritized read-only allowlist from transcripts)",
+    "Claude Code `permissions.allow` prefix rules; Codex `prefix_rule` + `approval_policy=on-request` + `sandbox_mode=workspace-write`"
+  ],
+  "options": [
+    "A: per consumer, run /fewer-permission-prompts, keep deny/ask for write/network/destructive prefixes, commit .claude/settings.json under human review",
+    "B: keep prompting as is (accept fatigue)",
+    "C: shared allowlist template in a Plugin (rejected: allowlists are repository/permission-specific and R3 by policy)"
+  ],
+  "proposed_action": "A",
+  "implementation_target": "consumer .claude/settings.json / .codex/config.toml (no shared asset)",
+  "evaluation_plan": "permission prompts per session on a fixed replay of read-only tasks before/after; guardrail: zero newly allowed write/network/destructive prefixes",
+  "decision_owner": "repository owner",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/permissions",
+      "observed_at": "2026-08-15",
+      "summary": "読取toolとbuilt-in read-only Bash(ls,cat,grep,find,git read-only等)は既定でprompt無し。`Bash(npm run test *)`等のprefix wildcard、`:*`接尾、`timeout`等wrapper除去。deny > ask > allowの優先。permission modes: default(manual)/acceptEdits/plan/auto/dontAsk/bypassPermissions。argument制約patternは脆弱と警告",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/settings",
+      "observed_at": "2026-08-15",
+      "summary": "`permissions.allow/deny/ask`はscope間でmerge。`.claude/settings.json`(project共有)と`settings.local.json`。`permissions.disableBypassPermissionsMode`/`disableAutoMode`",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "PreToolUse hookは`hookSpecificOutput.permissionDecision`= allow|deny|ask を返せる(rule表現力を超える判定に使える)",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `approval_policy`= untrusted|on-request|never|granular、`sandbox_mode`= read-only|workspace-write|danger-full-access、`sandbox_workspace_write.network_access`",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/rules",
+      "observed_at": "2026-08-15",
+      "summary": "`~/.codex/rules/default.rules`または信頼済み`<repo>/.codex/rules/`に`prefix_rule(pattern=[...], decision=\"allow|prompt|forbidden\")`。複数一致時は最も制限的な判定。Smart approvalsがescalation時にprefix_ruleを提案",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-risk-approval",
+      "observed_at": "2026-08-11",
+      "summary": "risk-based approval: low-riskまで毎回確認すると形骸化・approval fatigue。high-impact actionだけ承認に残す",
+      "quality": "medium"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

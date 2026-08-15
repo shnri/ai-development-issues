@@ -1,0 +1,237 @@
+{
+  "schema_version": "1.0",
+  "id": "EVL-20260815T122752Z-D29D894E",
+  "work_item_id": "WRK-20260815T120045Z-B4C7E5E5",
+  "implementation_id": "IMP-20260815T120959Z-A056DD03",
+  "created_at": "2026-08-15T12:27:52Z",
+  "evaluator_role": "blind-evaluator-subagent",
+  "baseline": {
+    "criteria_revision": "95fcda2",
+    "T2_pass_per_trial": [
+      2,
+      4,
+      4
+    ],
+    "A2_pass_per_trial": [
+      3,
+      3
+    ],
+    "H2_pass_per_trial": [
+      4,
+      4,
+      5,
+      4
+    ],
+    "partial_cell_trials": 4
+  },
+  "candidate": {
+    "criteria_revision": "IMP-20260815T120959Z-A056DD03 (iteration 2)",
+    "T2_pass_per_trial": [
+      4,
+      4,
+      4
+    ],
+    "A2_pass_per_trial": [
+      3,
+      3
+    ],
+    "H2_pass_per_trial": [
+      5,
+      5,
+      4,
+      4
+    ],
+    "partial_cell_trials": 2
+  },
+  "test_sets": [
+    {
+      "id": "T2-target-duplicated-contradicting-CLAUDE-AGENTS",
+      "kind": "target",
+      "passed": true,
+      "detail": "candidate 12/12 over 3 trials vs baseline 10/12; baseline already passes T2-a in every trial"
+    },
+    {
+      "id": "A2-adjacent-single-source",
+      "kind": "adjacent",
+      "passed": true,
+      "detail": "3/3 both revisions, 2 trials, no duplicate/contradiction findings"
+    },
+    {
+      "id": "H2-holdout-rules-conflict",
+      "kind": "holdout",
+      "held_out": true,
+      "passed": false,
+      "detail": "candidate 18/20 vs baseline 17/20 over 4 trials; H2-a differential flips sign between trials 2/3/4 — not confirmed"
+    }
+  ],
+  "guardrail_regressions": 0,
+  "infrastructure_failures": 0,
+  "independent_review": {
+    "reviewer_role": "independent-reviewer-subagent",
+    "status": "pass",
+    "notes": "iteration 1 pass with 'should' edits (safety precedence ordering, duplicate bullet, など); edits applied in iteration 2 (IMP-...A056DD03); iteration 1 candidate IMP-...71AD6034 superseded"
+  },
+  "uses_optional_capability": false,
+  "capability_health": [],
+  "trial_count": 4,
+  "trial_plan": {
+    "change_kind": "agent-behavior",
+    "risk_tier": "R1",
+    "cells": [
+      {
+        "id": "T2",
+        "kind": "target",
+        "trials_required": 1,
+        "trials_done": 3,
+        "reasons": [],
+        "additional": 0
+      },
+      {
+        "id": "A2",
+        "kind": "adjacent",
+        "trials_required": 2,
+        "trials_done": 2,
+        "reasons": [
+          "regression/adjacent cell runs as many trials as the decisive cells planned (2); extra disagreement trials apply only to the disagreeing cell"
+        ],
+        "additional": 0
+      },
+      {
+        "id": "H2",
+        "kind": "holdout",
+        "trials_required": 4,
+        "trials_done": 3,
+        "reasons": [
+          "candidate flips at least one baseline failure (promotion depends on this cell)",
+          "partial verdicts present",
+          "last two trials disagree; add a trial until two consecutive trials agree"
+        ],
+        "additional": 1
+      }
+    ],
+    "stop_rule": "sequential confirmation: stop when every decisive cell has its required trials and the last two trials agree on all promotion assertions; never exceed max_trials; infrastructure failures do not count",
+    "total_additional_runs": 1,
+    "policy": {
+      "deterministic_trials": 1,
+      "initial_trials": 1,
+      "confirmation_trials": 1,
+      "min_trials_r2": 3,
+      "max_trials": 5,
+      "narrow_margin": 1,
+      "escalate_lines": 50,
+      "escalate_files": 3
+    }
+  },
+  "trials": [
+    {
+      "cell": "T2",
+      "trial": 1,
+      "differential": {
+        "T2-a": "same",
+        "T2-b": "better",
+        "T2-c": "better",
+        "T2-d": "same"
+      }
+    },
+    {
+      "cell": "T2",
+      "trial": 2,
+      "differential": {
+        "T2-a": "same",
+        "T2-b": "same",
+        "T2-c": "same",
+        "T2-d": "same"
+      }
+    },
+    {
+      "cell": "T2",
+      "trial": 3,
+      "differential": {
+        "T2-a": "same",
+        "T2-b": "same",
+        "T2-c": "same",
+        "T2-d": "same"
+      }
+    },
+    {
+      "cell": "A2",
+      "trial": 1,
+      "differential": {
+        "A2-a": "same",
+        "A2-b": "same",
+        "A2-c": "same"
+      }
+    },
+    {
+      "cell": "A2",
+      "trial": 2,
+      "differential": {
+        "A2-a": "same",
+        "A2-b": "same",
+        "A2-c": "same"
+      }
+    },
+    {
+      "cell": "H2",
+      "trial": 1,
+      "differential": {
+        "H2-a": "same",
+        "H2-b": "same",
+        "H2-c": "better",
+        "H2-d": "same",
+        "H2-e": "same"
+      }
+    },
+    {
+      "cell": "H2",
+      "trial": 2,
+      "differential": {
+        "H2-a": "better",
+        "H2-b": "same",
+        "H2-c": "same",
+        "H2-d": "same",
+        "H2-e": "same"
+      }
+    },
+    {
+      "cell": "H2",
+      "trial": 3,
+      "differential": {
+        "H2-a": "worse",
+        "H2-b": "same",
+        "H2-c": "same",
+        "H2-d": "same",
+        "H2-e": "same"
+      }
+    }
+  ],
+  "roles": {
+    "candidate_author": "candidate-author-subagent (2 iterations)",
+    "executor": "fresh subagent per cell/trial (18 runs)",
+    "evaluator": "blind-evaluator-subagent (4 gradings)",
+    "reviewer": "independent-reviewer-subagent",
+    "controller": "main session"
+  },
+  "artifacts": {
+    "eval_plan": "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/eval-plan.json",
+    "fixtures": [
+      "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/T2",
+      "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/A2",
+      "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/H2"
+    ],
+    "holdout_manifest": "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/blind-mapping.json",
+    "runs": [
+      "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/runs/"
+    ],
+    "grading": "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/grading-t1.json",
+    "blind_mapping": "evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/blind-mapping.json",
+    "notes": [
+      "grading-t2.json, grading-t3.json, grading-t4.json in the same folder",
+      "trial-plan.json / trial-plan-t2.json / trial-plan-t3.json show the sequential-confirmation decisions",
+      "iteration-1 candidate runs candidate-*-t1.json retained, not graded"
+    ]
+  },
+  "decision": "fail",
+  "reason": "Non-inferior but not confirmed better: zero guardrail regressions and adjacent unchanged, yet the frozen promotion threshold (candidate passes T2-a/T2-b/H2-a/H2-b where baseline fails or is partial) is not met consistently — the baseline criteria already report 統合 and layer contradictions in most trials; the candidate's only consistent gain is fewer partial verdicts (T2-c/H2-c). After 4 trials the H2-a differential still flips sign (executor variance dominates a ~1-assertion effect). Per evaluation policy, an unconfirmed effect is not promoted; the candidate is retained as a rejected record and RMD-D03-001 is marked as substantially covered by the existing criteria.",
+  "artifacts_verified": true
+}

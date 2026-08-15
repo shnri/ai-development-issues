@@ -1,0 +1,36 @@
+{
+  "change_kind": "deterministic",
+  "risk_tier": "R1",
+  "cells": [
+    {
+      "id": "validator",
+      "kind": "target",
+      "trials_required": 1,
+      "trials_done": 0,
+      "reasons": [
+        "deterministic change covered by unit/integration tests"
+      ]
+    },
+    {
+      "id": "repo-check",
+      "kind": "adjacent",
+      "trials_required": 1,
+      "trials_done": 0,
+      "reasons": [
+        "deterministic change covered by unit/integration tests"
+      ]
+    }
+  ],
+  "stop_rule": "deterministic: one passing run of the covering tests",
+  "total_additional_runs": 0,
+  "policy": {
+    "deterministic_trials": 1,
+    "initial_trials": 1,
+    "confirmation_trials": 1,
+    "min_trials_r2": 3,
+    "max_trials": 5,
+    "narrow_margin": 1,
+    "escalate_lines": 50,
+    "escalate_files": 3
+  }
+}

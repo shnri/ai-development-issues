@@ -1,0 +1,6 @@
+{
+  "A": "candidate2 (IMP-20260815T120959Z-A056DD03)",
+  "B": "baseline (95fcda2)",
+  "note": "candidate (iteration 1, IMP-...71AD6034) runs are kept in runs/ as superseded artifacts and were not graded",
+  "holdout_manifest": "H2 fixtures were kept in the controller scratchpad (outside the state root) until the candidate was captured, then copied to evaluations/fixtures/WRK-20260815T120045Z-B4C7E5E5/H2"
+}

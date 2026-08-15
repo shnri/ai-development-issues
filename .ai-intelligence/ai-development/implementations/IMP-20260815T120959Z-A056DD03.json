@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "IMP-20260815T120959Z-A056DD03",
+  "work_item_id": "WRK-20260815T120045Z-B4C7E5E5",
+  "created_at": "2026-08-15T12:09:59Z",
+  "target_repository_id": "shared-agent-plugins",
+  "target_path": "/tmp/claude-1000/-workspaces-techlog/ada2e32e-dd18-4298-a4e1-a2466d68dc59/scratchpad/authority/.ai-intelligence/ai-development/workspaces/shared-agent-plugins",
+  "artifact_kind": "shared-existing-asset",
+  "action_type": "update-owner-asset",
+  "author_role": "candidate-author-subagent",
+  "baseline_ref": "95fcda2c2d54088619695da24bc9fd9b491771e8",
+  "candidate_ref": "05c7948036888f8dc9d0df9a8ed1fa953f6c8d11488f1c086e98bf3ead7e41f7",
+  "base_revision": "95fcda2c2d54088619695da24bc9fd9b491771e8",
+  "branch": "main",
+  "changed_files": [
+    "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+  ],
+  "diff_stats": {
+    "files": 1,
+    "insertions": 8,
+    "deletions": 0
+  },
+  "reversible": true,
+  "checks_run": [],
+  "scope_validation": {
+    "passed": true,
+    "changed_files": [
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+    ],
+    "diff_stats": {
+      "files": 1,
+      "insertions": 8,
+      "deletions": 0
+    },
+    "binary_changes": [],
+    "reasons": []
+  },
+  "status": "ready"
+}

@@ -1,0 +1,65 @@
+{
+  "fixture": "H2",
+  "trial": 3,
+  "criteria_revision": "blind",
+  "findings": [
+    {
+      "file": "multiple",
+      "rule": "CONFLICT: CLAUDE.md/AGENTS.md「テストは変更したファイルに関連するspecだけを実行し、PR前に全体を1回実行する」 vs .claude/rules/testing.md「どんな変更でも必ず`bundle exec rspec`と`pnpm test`をすべて実行し、結果を全文貼り付ける」",
+      "judgment": "更新",
+      "reason": "常時ルールと path-scoped ruleが同じテスト実行方針について正反対の指示を出しており、api/**・web/**配下ではエージェントがどちらに従うべきか判定できない。全件実行+結果全文貼り付けは低リスクな一段階作業にも過大な負担を課す陳腐化シグナル(「必ず」「すべて」で防ぐ失敗が特定されない)に該当する。関連spec実行+PR前全体実行の方針をtesting.mdでも採用し、失敗時の切り分けとして必要な範囲でのみ全件実行を許容する。全件実行が過去の実害(見逃し回帰)に由来するかは本リポジトリ履歴を確認できないため推定。",
+      "proposed_text": "- 変更に関連するspec/テスト(`bundle exec rspec <path>`、`pnpm test -- <path>`)を実行し、PR前に全体を1回実行する。失敗結果は該当箇所を要約して報告する。"
+    },
+    {
+      "file": ".claude/rules/testing.md",
+      "rule": "テストが失敗しても、依頼された機能が動いていれば完了として報告してよい。",
+      "judgment": "削除",
+      "reason": "「記録と現実が一致しない」陳腐化シグナルそのもの。失敗テストを完了扱いにする指示は回帰の見逃しと虚偽の完了報告を招き、テスト規則の目的(失敗防止)と逆効果。安全・品質境界を弱める指示であり維持する根拠がない。テスト失敗を報告する規則へ置き換える。",
+      "proposed_text": "- テストが失敗した場合は完了として報告せず、失敗内容と原因の推定を報告する。修正できない失敗は理由とともに保留として明示する。"
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "コードを保存するたびに必ず`pnpm prettier --write`を実行する。",
+      "judgment": "移動",
+      "reason": "「保存するたび」の実行は自然言語で強制しにくい決定論的作業であり、Skill/常時ルールではなくformat-on-save、pre-commit hook、lint CIなどの決定論的仕組みへ移すべき。AGENTS.mdには同項目がなくCodex側と非対称。hookやCI設定の存在は確認できないため、置き換え先の有無は保留。常時ルールに残すなら「コミット前に`pnpm prettier --write`で整形する」程度に圧縮する。",
+      "proposed_text": "- コミット前に`pnpm prettier --write`で変更ファイルを整形する。"
+    },
+    {
+      "file": "multiple",
+      "rule": "CLAUDE.mdとAGENTS.mdの本文がほぼ同一(プロジェクト概要、docs/specs確認、テスト方針、本番DB禁止、docs/api.md更新)",
+      "judgment": "統合",
+      "reason": "同じ内容が2ファイルにコピーされ、すでにテスト方針(「だけ」の有無)とprettier規則で差分が発生している。独立保守する理由がないため、AGENTS.mdを共有本体とし、CLAUDE.mdは`@AGENTS.md`でimportし、Claude Code固有の追記のみ残す。",
+      "proposed_text": "# CLAUDE.md — Ledgerly\n\n@AGENTS.md"
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "本番DBに触るコマンドは絶対に実行しない。認証情報は`.env`にあり、コミットしない。",
+      "judgment": "維持",
+      "reason": "破壊的操作と認証情報に関する安全境界。維持すべきシグナルに該当し、運用コストも低い。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "変更前に関連specを`docs/specs/`で確認する。／API変更時は`docs/api.md`を更新する。",
+      "judgment": "維持",
+      "reason": "プロジェクト固有の文書配置と更新責務であり、コードから推測しにくい。docs/specs/、docs/api.mdの実在は確認できないため推定。存在しなければ更新対象。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "Ledgerlyは家計簿SaaSのRails 7 API + React SPA。Ruby 3.3、Node 22、pnpm。",
+      "judgment": "維持",
+      "reason": "ほぼ全タスクで必要な最小限のプロジェクト事実。バージョンの正確性は.ruby-version/.nvmrc/package.jsonを確認できないため保留。",
+      "proposed_text": null
+    },
+    {
+      "file": ".claude/rules/testing.md",
+      "rule": "MISSING: 標準的でないテスト実行コマンドの明示(api側`bundle exec rspec`、web側`pnpm test`の対応関係)",
+      "judgment": "追加",
+      "reason": "常時ルールでは「関連spec」とだけ書かれ具体コマンドはtesting.mdにしかない。矛盾解消後もコマンド自体は有用なので、上記の更新提案文に含めて残す(別途追加行は不要)。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "最重要はテスト方針の矛盾(常時ルール: 関連specのみ vs path rule: 毎回全件実行+全文貼付)と、テスト失敗を完了扱いにしてよいという逆効果ルール。前者はtesting.mdを常時ルールに合わせて更新、後者は削除して失敗報告義務に置き換える。CLAUDE.md/AGENTS.mdは重複しており、AGENTS.mdを共有本体、CLAUDE.mdをimportに統合する。prettier「保存のたび」実行はhook/CIなどの決定論的仕組みへ移し、常時ルールにはコミット前整形として圧縮する。安全境界(本番DB、.env)、docs参照・更新規則、プロジェクト事実は維持。docs/specs、docs/api.md、hook/CI設定、バージョン値の実在は監査対象外のため推定/保留。",
+  "proposed_additions_line_count": 5
+}

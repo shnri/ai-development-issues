@@ -1,0 +1,72 @@
+{
+  "fixture": "T2",
+  "trial": 1,
+  "criteria_revision": "candidate",
+  "findings": [
+    {
+      "file": "both",
+      "rule": "CONFLICT: ordersスキーマの正本 — AGENTS.md「`docs/data-model.md`が正」 vs CLAUDE.md「`src/types/order.ts`が正」",
+      "judgment": "保留",
+      "reason": "矛盾箇所: 両ファイルのFirestore節で正とする参照先が食い違い、Codexは文書、Claude Codeは型定義を正として動くためデータ破壊リスクがある。採用側: 証拠の優先順位では現在のコード(3位)が文書より上位だが、docs/data-model.mdとsrc/types/order.tsの現物を確認できず、どちらが実運用の正本か判定できない。提案: 所有者判断で正本を一つに決め、AGENTS.mdだけに記載し、他方は参照ではなく生成元・派生元の関係も明記する。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: 検証コマンド — AGENTS.md「変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`」 vs CLAUDE.md「変更後は必ず`npm test`と`npm run lint`と`npm run typecheck`と`npm run build`をすべて実行する」",
+      "judgment": "更新",
+      "reason": "矛盾箇所: 影響に応じた選択実行と、buildを含む無条件全実行が食い違う。採用側: 検証方針はAGENTS.mdが所有し、低リスクな一段階作業にも全コマンドを要求するのは陳腐化シグナル(過剰な「必ず」「すべて」)に該当するためAGENTS.mdを採用する。ただしbuildが本当に不要かは実際の失敗履歴を確認できないため、buildは影響に応じて実行する項目としてAGENTS.mdに追記し、CLAUDE.md側の重複は削る。",
+      "proposed_text": "変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`、`npm run build`を実行する。E2Eは`npm run e2e`（要ローカルemulator）。"
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: rules:testの条件 — AGENTS.md「`firestore.rules`を変更したときだけ」 vs CLAUDE.md「変更したときは」",
+      "judgment": "統合",
+      "reason": "実質同一の意図だが「だけ」の有無で解釈が揺れる。同じ関心事のコピーであり独立保守する理由がないため、AGENTS.mdの表現に一本化しCLAUDE.md側は削除する。",
+      "proposed_text": null
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "コードを書く前に必ず計画をmarkdownで提示し、承認を待つ。",
+      "judgment": "削除",
+      "reason": "低リスクな一段階作業にも承認待ちを要求しており陳腐化シグナルに該当する。AGENTS.mdには同じ規則がなくCodex側は要求されていないため層間矛盾でもある。防ぐ具体的な失敗の証拠がフィクスチャ内に無い(推定)。大きな変更で計画が必要な場合はユーザー要求またはワークフローに委ねる。",
+      "proposed_text": null
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "プロジェクト概要、変更前にdocs/と既存実装を読む、依頼範囲だけ変更、Conventional Commits（AGENTS.mdと同内容の製品別コピー）",
+      "judgment": "統合",
+      "reason": "常時読み込まれる製品別コピーが同一内容であり、差分管理の理由がない。製品中立なAGENTS.mdを単一の正本にし、CLAUDE.mdは取り込みだけにする。CLAUDE.md固有で残すべきClaude Code専用指示は現状存在しない。",
+      "proposed_text": "# Claude Codeエントリーポイント\n\n@AGENTS.md"
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "依頼された範囲だけを変更し、依頼外のrefactor・依存追加は提案に留める。／完了報告はそのセッションのテスト出力・diffに基づき、未実行の検証は未実行と書く。",
+      "judgment": "維持",
+      "reason": "スコープ逸脱と虚偽の完了報告という具体的な失敗を低コストで防ぐ。CLAUDE.md側の簡略版より詳細で、統合後の正本として適切。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "コミットメッセージはConventional Commitsに従う。",
+      "judgment": "維持",
+      "reason": "リポジトリ作法でありコードから推測しにくい。commitlint等の決定論的な仕組みの有無は確認できないため(保留)、現時点は維持する。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "E2Eは`npm run e2e`（要ローカルemulator）。／`firestore.rules`を変更したときだけ`npm run rules:test`を実行する。",
+      "judgment": "維持",
+      "reason": "標準から外れた検証手順と前提条件(emulator)であり、コードから推測しにくく、条件付きのため常時ルールでも短い。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "Orderlyは飲食店向け注文管理のNext.js 16 App Routerアプリ。TypeScript 6、React 19、npm、devcontainer。",
+      "judgment": "維持",
+      "reason": "ほぼ全タスクで必要なプロジェクト固有の事実であり1行で短い。package.jsonとの一致は確認できない(推定)。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "AGENTS.mdとCLAUDE.mdは大部分が同内容の製品別コピーで、3点の層間矛盾がある。(1) ordersスキーマの正本(docs/data-model.md vs src/types/order.ts)は現物を確認できず所有者判断として保留。(2) 検証コマンドはAGENTS.mdの「影響に応じて」を採用し、buildを候補に加えて更新。(3) rules:testの条件はAGENTS.md表現へ統合。CLAUDE.md固有の「必ず計画提示・承認待ち」は過剰指定として削除。最終的にCLAUDE.mdは`@AGENTS.md`取り込みのみとし、AGENTS.mdを単一正本にする。",
+  "proposed_additions_line_count": 3
+}

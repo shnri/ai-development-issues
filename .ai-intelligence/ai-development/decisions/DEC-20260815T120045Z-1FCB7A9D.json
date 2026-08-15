@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T120045Z-1FCB7A9D",
+  "work_item_id": "WRK-20260815T120045Z-8D71C7EA",
+  "problem_ids": [
+    "I01",
+    "I02",
+    "I10",
+    "I11"
+  ],
+  "remedy_id": "RMD-I01-001",
+  "created_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T12:07:00Z",
+  "status": "open",
+  "title": "Prompt injectionは入力分類で完全防御せず、OS sandbox（filesystem/network deny既定）、fail-closed permission、Rule of Two（untrusted input・secret/tool・外部送信を同時に持たせない）で被害範囲を封じ込める",
+  "problem_titles": {
+    "I01": "README、Issue、Comment、Web、Log内の文を命令として実行する",
+    "I02": "Prompt InjectionでAgentの目的が乗っ取られる",
+    "I10": "CI/CD AgentがIssue・PR・Commit内容から乗っ取られる",
+    "I11": "Agent間通信・Shared memoryが汚染される"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [
+    "R3 operation markers: fail-closed permission",
+    "R2 operation markers: sandbox"
+  ],
+  "why_not_autonomous": "R3 operation or structural decision: R3 operation markers: fail-closed permission; R2 operation markers: sandbox",
+  "classification": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "owning shared Plugin from remedy_routes: none",
+    "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+    "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+  ],
+  "existing_capabilities": [
+    "Claude Code / Codex OS sandbox (filesystem/network deny defaults), fail-closed permissions",
+    "Rule of Two (untrusted input, secret/tool, external send never together)"
+  ],
+  "options": [
+    "A: consumers enable sandbox defaults + deny network for untrusted-input tasks and keep secrets out of the agent env (see DEC for I03)",
+    "B: no change"
+  ],
+  "proposed_action": "A; permission/sandbox changes stay human-reviewed per consumer",
+  "implementation_target": "consumer runtime settings",
+  "evaluation_plan": "known-positive injection fixture blocked from external send; known-negative normal task unaffected",
+  "decision_owner": "repository owner",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Codeはread-only既定、fail-closed matching、curl/wget非自動許可、WebFetchの隔離context、command injection detection、-pではtrust verification無効を明記（2026-08-15閲覧）",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-08-15",
+      "summary": "bubblewrap/seatbelt sandbox: allowedDomains、denyRead、credentials deny/mask、allowUnsandboxedCommands=falseでStrict sandbox（v2.1.187+/2.1.199+）",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/codex/agent-approvals-security",
+      "observed_at": "2026-08-15",
+      "summary": "Codexはworkspace-write既定・network既定off、.git/.codex/.agents保護、CIは--sandbox read-only --ask-for-approval never、web検索はcached既定でinjection露出を下げる",
+      "quality": "high"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/",
+      "observed_at": "2026-06-05",
+      "summary": "Claude Code GitHub Actionでissue/PR文からANTHROPIC_API_KEYが/proc経由で読まれた事案。Read toolがBash sandbox外だったのが根因、2.1.128で修正。Agents Rule of Twoを推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/designing-agents-to-resist-prompt-injection/",
+      "observed_at": "2026-03-11",
+      "summary": "source-to-sink制約とsensitive transfer consentを設計原則として公開",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-sandbox",
+      "observed_at": "2026-08-11",
+      "summary": "task単位sandboxはoperationally-supported/high",
+      "quality": "medium"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

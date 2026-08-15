@@ -127,5 +127,13 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "skill-optimization",
+    "path": "plugins/skill-optimization/skills/optimize-skill",
+    "skill": "optimize-skill",
+    "coverage": "eval-design.md (holdout hidden from the candidate-authoring agent, ≥ share of holdout), operational-guardrails.md (blind A/B, holdout comparison, independent reviewer), optimization-method.md (one scoped change per iteration, rejected variants recorded), promotion-policy.md (gate on validation-side improvement). Capability-vs-regression suite split is documented in eval-design.md categories.",
+    "verified_at": "2026-08-15",
+    "verified_by": "ai-development-improvement maintain MNT-20260815T120030Z (second pilot)"
   }
 }

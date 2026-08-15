@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T120218Z-F41AF9E5",
+  "created_at": "2026-08-15T12:02:18Z",
+  "updated_at": "2026-08-15T12:05:30Z",
+  "problem_ids": [
+    "D02",
+    "D04",
+    "D12",
+    "D13"
+  ],
+  "remedy_id": "RMD-D02-001",
+  "source_run_id": "MNT-20260815T120030Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "model",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/model-behavior-operations",
+    "asset_id": "model-behavior-operations",
+    "action_type": "update-owner-asset",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [
+    "R2 operation markers: 権限"
+  ],
+  "routing": {
+    "reason": "model/hosted-surface specific remedies extend model-behavior-operations (detect/mitigate)",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: model-behavior-operations (score 60)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-D02-001 to shared-existing-asset will reduce D02, D04, D12, D13 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T12:02:18Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:05:30Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "Controller verified coverage: mitigate-model-behavior-issues (model-behavior-operations) already prescribes removing obsolete old-model workarounds with regression evals; remedy.existing_asset annotated; effective risk R0 (no repository change). Follow-up candidate: concrete workaround inventory checklist in mitigation-playbook.md.",
+      "actor": "controller"
+    }
+  ]
+}

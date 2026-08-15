@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T120046Z-E87E5C26",
+  "work_item_id": "WRK-20260815T120046Z-4B339DFC",
+  "problem_ids": [
+    "I03",
+    "I04",
+    "I05",
+    "I06"
+  ],
+  "remedy_id": "RMD-I03-001",
+  "created_at": "2026-08-15T12:00:46Z",
+  "updated_at": "2026-08-15T12:07:00Z",
+  "status": "open",
+  "title": "Agent実行環境からcredentialを物理的に外す: sandbox credentials deny/mask、CLAUDE_CODE_SUBPROCESS_ENV_SCRUB、Codex network off、scoped短期token/OIDC、本番権限はAgentに与えない",
+  "problem_titles": {
+    "I03": "Shell、GitHub、Cloud、DB、本番への権限が過大",
+    "I04": "誤推論から破壊的Command・Migration・Deployを実行する",
+    "I05": "Secret、Source、顧客Dataを外部へ送信する",
+    "I06": "Prompt、Trace、LogにSecretや個人情報が残る"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [
+    "R3 operation markers: 本番権限, credential, 短期token",
+    "R2 operation markers: \\bdeny\\b, sandbox, 権限"
+  ],
+  "why_not_autonomous": "R3 operation or structural decision: R3 operation markers: 本番権限, credential, 短期token; R2 operation markers: \\bdeny\\b, sandbox, 権限",
+  "classification": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "owning shared Plugin from remedy_routes: none",
+    "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+    "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+  ],
+  "existing_capabilities": [
+    "sandbox credential deny/mask, CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, Codex network off, scoped short-lived tokens/OIDC"
+  ],
+  "options": [
+    "A: remove long-lived credentials from the agent environment on consumers; use scoped short-lived tokens; never grant production permissions to agents",
+    "B: keep current environment (accept exposure)"
+  ],
+  "proposed_action": "A; credential and production-permission changes are R3 and executed by humans per consumer",
+  "implementation_target": "consumer devcontainer/CI secrets configuration",
+  "evaluation_plan": "secret-scan of agent env before/after; regression: agent can still run tests/build",
+  "decision_owner": "repository owner / security",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-08-15",
+      "summary": "sandbox.credentials files/envVars deny・mask（proxyがallow hostへのみ実値注入、v2.1.199+）、既定read範囲は~/.aws等も読めるため明示deny必要、CLAUDE_CODE_SUBPROCESS_ENV_SCRUB",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code on the webはscoped credential + proxy、push先を作業branchに制限、Remote Controlは短期narrow credential",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/codex/agent-approvals-security",
+      "observed_at": "2026-08-15",
+      "summary": "workspace-write既定でnetwork off、danger-full-accessは非推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.npmjs.com/trusted-publishers",
+      "observed_at": "2026-08-15",
+      "summary": "OIDC trusted publishingで長期tokenを排除、npm 11.5.1+",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-credential-proxy",
+      "observed_at": "2026-08-11",
+      "summary": "credential-outside-sandbox scoped proxy、operationally-supported/high",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/claude-code-sandboxing",
+      "observed_at": "2025-10-20",
+      "summary": "filesystem/network隔離とcredential分離の設計",
+      "quality": "high"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

@@ -1,0 +1,59 @@
+{
+  "grader_role": "evaluator",
+  "trial": 2,
+  "revisions": {
+    "A": {
+      "cells": {
+        "T2": [
+          {"assertion": "T2-a", "verdict": "pass", "justification": "Finding on CLAUDE.md is 統合 with reason '常時読み込まれる製品別コピーが同一内容。AGENTS.mdを単一正本にし、CLAUDE.mdは@AGENTS.md取り込みだけにする' and proposed_text '# Claude Codeエントリーポイント\\n\\n@AGENTS.md'."},
+          {"assertion": "T2-b", "verdict": "pass", "justification": "Three CONFLICT findings: schema (保留, '所有者判断として保留' i.e. owner decides), verification ('採用側: AGENTS.md ... CLAUDE.md側の必須全実行を削除'), rules:test ('AGENTS.mdへ一本化')."},
+          {"assertion": "T2-c", "verdict": "pass", "justification": "'コードを書く前に必ず計画をmarkdownで提示し、承認を待つ' is 削除 and the 必ず全実行 verification rule is 更新 ('CLAUDE.md側の必須全実行を削除しAGENTS.mdへ委ねる')."},
+          {"assertion": "T2-d", "verdict": "pass", "justification": "Only two proposed_text values: a 1-line verification sentence and the 3-line '# Claude Codeエントリーポイント / (blank) / @AGENTS.md' stub; no new long rule block, proposed_additions_line_count 3."}
+        ],
+        "A2": [
+          {"assertion": "A2-a", "verdict": "pass", "justification": "CLAUDE.md '@AGENTS.md' is judged 維持 with '製品固有の差分がなく重複もない'; no duplication or missing single source reported."},
+          {"assertion": "A2-b", "verdict": "pass", "justification": "The 'CONFLICT: 層間の矛盾' entry is 維持 with 'AGENTS.md内でも矛盾は検出されない', so no contradiction is reported."},
+          {"assertion": "A2-c", "verdict": "pass", "justification": "'質問がある場合はGPT-4向けの短い箇条書きで返す。' is 更新 citing '存在しないツール、モデルを前提にする' with proposed_text '- 質問がある場合は短い箇条書きで返す。'."}
+        ],
+        "H2": [
+          {"assertion": "H2-a", "verdict": "pass", "justification": "CONFLICT finding names AGENTS.md's staged policy as the winner ('採用する側: ... 共有指示AGENTS.md側'), and the 'テストが失敗しても...完了として報告してよい' line is 削除 with '安全・品質境界を弱める側は採用しない'."},
+          {"assertion": "H2-b", "verdict": "pass", "justification": "統合 finding: 'AGENTS.mdを単一の正本にし、CLAUDE.mdは`@AGENTS.md`で取り込むだけにする' with proposed_text '# CLAUDE.md — Ledgerly\\n\\n@AGENTS.md'."},
+          {"assertion": "H2-c", "verdict": "pass", "justification": "prettier rule is 移動: '決定論的な仕組み（pre-commit hook、lint-staged、Claude Code hook）へ移すべき'."},
+          {"assertion": "H2-d", "verdict": "pass", "justification": "'本番DBに触るコマンドは絶対に実行しない。認証情報は`.env`にあり、コミットしない。' is 維持 as '維持すべきシグナルに該当'."},
+          {"assertion": "H2-e", "verdict": "pass", "justification": "proposed_text lengths are 1, 1 and 3 lines (the @AGENTS.md stub); no long new rule block, count 4."}
+        ]
+      },
+      "scores": {"target_pass": 4, "target_total": 4, "adjacent_pass": 3, "adjacent_total": 3, "holdout_pass": 5, "holdout_total": 5, "partial": {"T2": 0, "A2": 0, "H2": 0}, "guardrail_regressions": 0}
+    },
+    "B": {
+      "cells": {
+        "T2": [
+          {"assertion": "T2-a", "verdict": "pass", "justification": "First finding is 統合: '製品ごとのコピーが同じ内容 ... CLAUDE.mdは共有本体AGENTS.mdへの参照だけにする' with proposed_text '# Claude Code向け指示\\n\\n@AGENTS.md'."},
+          {"assertion": "T2-b", "verdict": "pass", "justification": "Verification CONFLICT 更新 with 'AGENTS.md版の影響に応じた実行へ寄せる'; schema CONFLICT 保留 with 'リポジトリ本体を確認できないため判定不能 ... 1つに確定し、AGENTS.mdだけに記載する' (owner decides); rules:test difference noted ('AGENTS.mdは「ときだけ」') and 'AGENTS.md版へ一本化する'."},
+          {"assertion": "T2-c", "verdict": "pass", "justification": "Plan-and-wait rule is 削除 ('監査基準の削除例「単純作業にも毎回詳細計画を要求する」に該当') and the 必ず全実行 rule is 更新."},
+          {"assertion": "T2-d", "verdict": "pass", "justification": "proposed_text values are the 3-line @AGENTS.md stub and a 1-line verification sentence; proposed_additions_line_count 1; no long rule block."}
+        ],
+        "A2": [
+          {"assertion": "A2-a", "verdict": "pass", "justification": "CLAUDE.md is 維持: '@importのみの製品別エントリーポイントになっており、重複コピーがない望ましい構成'."},
+          {"assertion": "A2-b", "verdict": "pass", "justification": "No CONFLICT finding exists; summary says 'CLAUDE.mdは@AGENTS.mdのみで重複なし'."},
+          {"assertion": "A2-c", "verdict": "pass", "justification": "GPT-4 rule is 更新 ('存在しないモデル前提') with proposed_text '- 質問がある場合は短い箇条書きで返す。'."}
+        ],
+        "H2": [
+          {"assertion": "H2-a", "verdict": "partial", "justification": "CONFLICT is reported and the upper documents win ('上位文書の方針に合わせ'), and the failing-tests line is inverted ('安全・正確性のガードレールとして逆方向に書き換える'), but its judgment is 更新 rather than the required 削除."},
+          {"assertion": "H2-b", "verdict": "pass", "justification": "統合: 'CLAUDE.md は AGENTS.md を @import し、Claude固有事項だけを残す' with proposed_text '# CLAUDE.md — Ledgerly\\n\\n@AGENTS.md'."},
+          {"assertion": "H2-c", "verdict": "pass", "justification": "prettier rule is 移動: '決定論的な仕組み（lint-staged / pre-commit / Claude Code hook / CI の format check）へ移す対象'."},
+          {"assertion": "H2-d", "verdict": "pass", "justification": "'本番DBに触るコマンドは絶対に実行しない。認証情報は`.env`にあり、コミットしない。' is 維持."},
+          {"assertion": "H2-e", "verdict": "pass", "justification": "proposed_text lengths are 3 (@AGENTS.md stub), 1 and 1 lines; count 3; no long rule block."}
+        ]
+      },
+      "scores": {"target_pass": 4, "target_total": 4, "adjacent_pass": 3, "adjacent_total": 3, "holdout_pass": 4, "holdout_total": 5, "partial": {"T2": 0, "A2": 0, "H2": 1}, "guardrail_regressions": 0}
+    }
+  },
+  "infrastructure_failures": [],
+  "comparison": "neither (strictly, from trial 2 alone): both revisions pass T2-a, T2-b, H2-b and all guardrails with zero regressions and identical adjacent results, so no differential exists on those key assertions; the only difference is H2-a, where A passes and B is partial (B labels the harmful failing-tests line 更新 instead of 削除). If A is the candidate, trial 2 supports promotion only on H2-a; if B is the candidate, trial 2 shows no gain over baseline. The controller must combine with trial 1 to judge whether confirmation trials agree.",
+  "notes": [
+    "Both revisions treated the rules:test wording difference (ときだけ vs とき) as a near-duplicate to be 一本化 into AGENTS.md rather than a labeled CONFLICT; graded as satisfying T2-b since the difference is reported and AGENTS.md is named as the winner.",
+    "A-A2 contains a finding titled 'CONFLICT: ...' with judgment 維持 stating no contradiction is detected; graded as not reporting a contradiction (A2-b pass).",
+    "Line counts for T2-d/H2-e computed from proposed_text newlines including the blank line inside the @AGENTS.md stub (3 lines)."
+  ]
+}

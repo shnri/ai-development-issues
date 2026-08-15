@@ -103,5 +103,12 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "agent-instruction-maintenance",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md",
+    "coverage": "baseline criteria (統合 for product copies, 陳腐化シグナル duplication, 決定論的な仕組みへ移す) already produce @AGENTS.md consolidation and cross-layer conflict findings in 3/3 and 4/4 blind trials (second pilot, WRK-20260815T120045Z-B4C7E5E5); an explicit resolution rule (safety boundaries win, owning layer wins) gave only a marginal, unconfirmed gain and was not promoted",
+    "verified_at": "2026-08-15",
+    "verified_by": "ai-development-improvement maintain MNT-20260815T120030Z"
   }
 }

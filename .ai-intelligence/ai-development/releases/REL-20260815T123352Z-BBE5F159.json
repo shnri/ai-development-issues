@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "id": "REL-20260815T123352Z-BBE5F159",
+  "promotion_id": "PRO-20260815T123323Z-920DD145",
+  "created_at": "2026-08-15T12:33:52Z",
+  "repository_id": "shared-agent-plugins",
+  "strategy": "pull-request",
+  "base_branch": "main",
+  "branch": "ai-development-improvement/wrk-20260815t122838z-5e073cab",
+  "commit_sha": "73d36740a86ea3529a7a8b112574b98fb0ab6ae1",
+  "pull_request_url": null,
+  "status": "branch-pushed",
+  "validation_commands": [
+    "npm ci",
+    "npm run check"
+  ],
+  "version_before": "0.1.0",
+  "version_after": "0.1.2",
+  "provenance": {
+    "problem_ids": [
+      "D09",
+      "D10",
+      "D11"
+    ],
+    "remedy_id": "RMD-D09-001",
+    "work_item_id": "WRK-20260815T122838Z-5E073CAB",
+    "implementation_id": "IMP-20260815T123028Z-C55ECB9D",
+    "evaluation_id": "EVL-20260815T123249Z-9242BDCB",
+    "promotion_id": "PRO-20260815T123323Z-920DD145",
+    "changed_files": [
+      "CHANGELOG.md",
+      "package.json",
+      "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+      "plugins/agent-instruction-maintenance/plugin.json",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json"
+    ],
+    "implementation_files": [
+      "package.json",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json"
+    ],
+    "release_preparation_files": [
+      "CHANGELOG.md",
+      "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+      "plugins/agent-instruction-maintenance/plugin.json"
+    ],
+    "artifact_hashes": {
+      "CHANGELOG.md": "5ae28d1ebd24ccb7987315021771f1069af4d161cc229f2e25fd9887cfd1462e",
+      "package.json": "0c1e67a9d122d44ddbbb5cfcc3c1d096a31b3e21d0fc8737352ba161dc7d0d18",
+      "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json": "0acf3e839c1d9680be9b7da3635d8d41dffdac5792a090e33b2a3e55df2251e0",
+      "plugins/agent-instruction-maintenance/plugin.json": "a39b78b8f4cd23cc84d41d77a4290ae52585600d7cac6cdc0a3d2b9ae1ae1e0b",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json": "871fbece90746b49bf277cb5962045d292b6b9d6261bd8cc4fd23a6b20b956bd"
+    },
+    "plugin_releases": [
+      {
+        "root": "plugins/agent-instruction-maintenance",
+        "version_before": "0.1.0",
+        "version_after": "0.1.2",
+        "changelog": "repository changelog updated: CHANGELOG.md"
+      }
+    ]
+  },
+  "notes": [
+    "[ai-development-improvement/wrk-20260815t122838z-5e073cab 73d3674] improve(agent-instruction-maintenance): add trigger evals for maintain-agent-instructions (D09/D10/D11 via WRK-20260815T122838Z-5E073CAB)\n 5 files changed, 118 insertions(+), 5 deletions(-)\n create mode 100644 plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json",
+    "No PR automation available (install and authenticate the GitHub CLI); branch delivery succeeded, open the pull request from compare_url. The release resumes automatically once the branch is merged."
+  ],
+  "compare_url": "https://github.com/shnri/shared-agent-plugins/compare/main...ai-development-improvement/wrk-20260815t122838z-5e073cab?expand=1"
+}

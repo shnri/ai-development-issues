@@ -1,0 +1,183 @@
+{
+  "grader_role": "evaluator",
+  "trial": 1,
+  "revisions": {
+    "A": {
+      "cells": {
+        "T2": [
+          {
+            "assertion": "T2-a",
+            "verdict": "pass",
+            "justification": "Finding on shared content is 統合: 「常時読み込まれる製品別コピーが同一内容で…AGENTS.mdを単一正本にし、CLAUDE.mdは取り込みだけにする」 with proposed_text '# Claude Code向け指示\\n\\n@AGENTS.md'."
+          },
+          {
+            "assertion": "T2-b",
+            "verdict": "pass",
+            "justification": "Three CONFLICT findings: schema 保留 「所有者判断として保留を報告する」, verification 「採用側: 検証手順の所有層は製品中立なAGENTS.md」, rules:test 「採用側: AGENTS.md（所有層…）」."
+          },
+          {
+            "assertion": "T2-c",
+            "verdict": "pass",
+            "justification": "Plan-and-wait rule is 削除 (「低リスクな一段階作業にも承認待ちを要求する陳腐化シグナル」) and the always-all-checks rule is 更新 (「CLAUDE.mdの独自行を削り、AGENTS.mdの「影響に応じて」へ統一する」)."
+          },
+          {
+            "assertion": "T2-d",
+            "verdict": "pass",
+            "justification": "Only proposed_text is the 3-line CLAUDE.md replacement ('# Claude Code向け指示 / blank / @AGENTS.md'); contradiction proposals are one-sentence inline; proposed_additions_line_count 1; no long rule block."
+          }
+        ],
+        "A2": [
+          {
+            "assertion": "A2-a",
+            "verdict": "pass",
+            "justification": "No duplication finding; CLAUDE.md judged 維持 「CLAUDE.mdは取り込みのみという推奨構成に合致。層間の重複・矛盾はない」."
+          },
+          {
+            "assertion": "A2-b",
+            "verdict": "pass",
+            "justification": "No CONFLICT finding; summary states 「層間の重複・矛盾はない」 and 「追加行なし」."
+          },
+          {
+            "assertion": "A2-c",
+            "verdict": "pass",
+            "justification": "GPT-4 rule judged 更新 「特定モデル（GPT-4）を前提にした古い表現」 with proposed_text '- 質問がある場合は短い箇条書きで返す。'."
+          }
+        ],
+        "H2": [
+          {
+            "assertion": "H2-a",
+            "verdict": "pass",
+            "justification": "CONFLICT finding testing.md vs CLAUDE.md/AGENTS.md 更新 「採用側: 共有指示（関連spec + PR前に全体）」 and the failing-tests-as-done rule is 削除 「記録と現実が一致しない報告を明示的に許可しており…逆効果」."
+          },
+          {
+            "assertion": "H2-b",
+            "verdict": "pass",
+            "justification": "統合 finding 「製品中立なAGENTS.mdを単一の正本にし、CLAUDE.mdは取り込み…だけにする」 with proposed_text '# CLAUDE.md — Ledgerly\\n\\n@AGENTS.md'."
+          },
+          {
+            "assertion": "H2-c",
+            "verdict": "pass",
+            "justification": "Prettier rule judged 移動 「決定論的な仕組み（Claude Code hook / lint-staged / CI のprettier check）へ移す対象」 and deleted from CLAUDE.md after the mechanism exists; no prose kept."
+          },
+          {
+            "assertion": "H2-d",
+            "verdict": "pass",
+            "justification": "「本番DBに触るコマンドは絶対に実行しない。認証情報は.envにあり、コミットしない。」 judged 維持 「破壊的操作と認証情報に関する境界…効率化を理由に弱めない」."
+          },
+          {
+            "assertion": "H2-e",
+            "verdict": "pass",
+            "justification": "proposed_text blocks are 3 lines (CLAUDE.md import), 1 line (testing.md replacement) and 1 line (failure-report line); each ≤3 lines, total 5; no long new rule block."
+          }
+        ]
+      },
+      "scores": {
+        "target_pass": 4,
+        "target_total": 4,
+        "adjacent_pass": 3,
+        "adjacent_total": 3,
+        "holdout_pass": 5,
+        "holdout_total": 5,
+        "partial": {
+          "T2": 0,
+          "A2": 0,
+          "H2": 0
+        },
+        "guardrail_regressions": 0
+      }
+    },
+    "B": {
+      "cells": {
+        "T2": [
+          {
+            "assertion": "T2-a",
+            "verdict": "pass",
+            "justification": "統合 finding 「CLAUDE.md を『@AGENTS.md』でAGENTS.mdを取り込む薄いエントリーポイントにし」 with proposed_text '# Claude Codeエントリーポイント\\n\\n@AGENTS.md'."
+          },
+          {
+            "assertion": "T2-b",
+            "verdict": "partial",
+            "justification": "Schema conflict 保留 「正本を1つに確定し…要ユーザー確定」 and verification conflict 「AGENTS.md の『影響に応じて』へ寄せ」 are reported with a winner, but the rules:test condition difference is only mentioned in a 維持 finding as 「表現差（『だけ』の有無）は統合で解消する」 without labeling it a contradiction or naming which wins."
+          },
+          {
+            "assertion": "T2-c",
+            "verdict": "partial",
+            "justification": "Plan-and-wait rule is 削除 「低リスクな一段階作業にも承認待ちを要求」, but the always-all-checks rule is labeled 統合 (not 更新/圧縮/削除) even though its proposed_text rewrites 「必ず…すべて」 into 「影響に応じて」."
+          },
+          {
+            "assertion": "T2-d",
+            "verdict": "pass",
+            "justification": "proposed_text blocks are 1 line (verification sentence 「変更の影響に応じて…実行できない検証は理由を報告する。」) and 3 lines (CLAUDE.md import); proposed_additions_line_count 3; no long rule block."
+          }
+        ],
+        "A2": [
+          {
+            "assertion": "A2-a",
+            "verdict": "pass",
+            "justification": "No duplication finding; CLAUDE.md judged 維持 「Claude/Codex間で内容を重複させず共有本体へ委譲しており、統合原則に沿った構成」."
+          },
+          {
+            "assertion": "A2-b",
+            "verdict": "pass",
+            "justification": "No CONFLICT finding; summary says 「CLAUDE.mdはAGENTS.mdへの委譲のみで重複なし」."
+          },
+          {
+            "assertion": "A2-c",
+            "verdict": "pass",
+            "justification": "GPT-4 rule judged 更新 「特定モデル名（GPT-4）を前提にした古いモデル前提」 with proposed_text '- 質問がある場合は短い箇条書きで返す。'."
+          }
+        ],
+        "H2": [
+          {
+            "assertion": "H2-a",
+            "verdict": "pass",
+            "justification": "CONFLICT finding testing.md vs CLAUDE.md/AGENTS.md 更新 「testing.mdは常時ルールに合わせ」 and the failing-tests-as-done rule is 削除 「品質・安全のガードレールを弱める規則であり維持根拠がない」."
+          },
+          {
+            "assertion": "H2-b",
+            "verdict": "pass",
+            "justification": "統合 finding 「AGENTS.mdを製品中立な本体とし、CLAUDE.mdは@importで参照する」 with proposed_text '# CLAUDE.md — Ledgerly\\n\\n@AGENTS.md'."
+          },
+          {
+            "assertion": "H2-c",
+            "verdict": "partial",
+            "justification": "Judged 移動 to 「lint-staged/pre-commit hook/CIのprettier --check」, but proposed_text keeps a prose line 「- コミット前にpnpm prettier --writeを実行する（hook/CIで自動化済みなら本行は削除）」 as an interim rule."
+          },
+          {
+            "assertion": "H2-d",
+            "verdict": "pass",
+            "justification": "「本番DBに触るコマンドは絶対に実行しない。認証情報は.envにあり、コミットしない。」 judged 維持 「破壊的操作と認証情報に関する境界…効率化を理由に弱めない」."
+          },
+          {
+            "assertion": "H2-e",
+            "verdict": "pass",
+            "justification": "proposed_text blocks are 3 lines (CLAUDE.md import), 3 lines (testing.md heading+blank+one bullet), 1 line (prettier), 1 line (AGENTS.md 追加 test command); each ≤3 lines and no long new rule block, though total proposed lines (8) exceed the self-reported proposed_additions_line_count of 1."
+          }
+        ]
+      },
+      "scores": {
+        "target_pass": 2,
+        "target_total": 4,
+        "adjacent_pass": 3,
+        "adjacent_total": 3,
+        "holdout_pass": 4,
+        "holdout_total": 5,
+        "partial": {
+          "T2": 2,
+          "A2": 0,
+          "H2": 1
+        },
+        "guardrail_regressions": 0
+      }
+    }
+  },
+  "infrastructure_failures": [],
+  "comparison": "Both revisions pass all six guardrails (A2-a/b/c, T2-d, H2-d, H2-e) with zero regressions and identical adjacent results (3/3). Revision A passes T2-a, T2-b, H2-a, H2-b outright; revision B passes T2-a, H2-a, H2-b but only partially passes T2-b (rules:test condition not reported as a contradiction with a winner) and also has partials on T2-c and H2-c. Therefore only 'A' can satisfy the promotion_threshold: if A is the candidate it passes T2-b where B passes only partially, with no guardrail regression and adjacent unchanged; if B is the candidate it passes none of T2-a/T2-b/H2-a/H2-b that A fails or passes partially, so the threshold is not met. Blind verdict: 'A' (conditional on A being the candidate; 'neither' otherwise). Confirmation trials are still required by the trial plan; this is trial 1 only.",
+  "notes": [
+    "Grading is blind to which revision is baseline; labels A/B taken literally from filenames.",
+    "B-H2 self-reports proposed_additions_line_count=1 while its proposed_text fields total 8 lines across four findings; each block is still ≤3 lines so H2-e passes, but the self-count is unreliable.",
+    "B-H2 adds a new 追加 finding (test command line in AGENTS.md); it is 1 line and not treated as a long rule block.",
+    "B-T2 finding 2 introduces a new sentence 「実行できない検証は理由を報告する」 not present in either fixture file; 1 line, within T2-d limits.",
+    "A-T2 and B-T2 both leave the schema source-of-truth as 保留/owner decision, which the T2-b assertion explicitly allows."
+  ]
+}

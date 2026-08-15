@@ -1,0 +1,20 @@
+{
+  "work_item_id": "WRK-20260815T122838Z-5E073CAB",
+  "frozen_at": "2026-08-15T12:29:00Z",
+  "problem_ids": ["D09", "D10", "D11"],
+  "remedy_id": "RMD-D09-001",
+  "change_kind": "deterministic",
+  "hypothesis": "A trigger eval set for maintain-agent-instructions (>=20 queries, >=40% should_not near-miss negatives, covering the four 発動評価例 pairs) validated by skill-optimization's validate-skill-package.py in npm run check makes the Skill's trigger boundary measurable; no agent behavior changes.",
+  "test_sets": [
+    {"kind": "target", "id": "validator", "assertions": [
+      {"id": "V-a", "must": "python3 plugins/skill-optimization/scripts/validate-skill-package.py plugins/agent-instruction-maintenance/skills/maintain-agent-instructions --allow-missing-evals exits 0 with the new file present"},
+      {"id": "V-b", "must": ">=20 cases; >=40% should_trigger=false; every should_trigger=false case is a near-miss (instruction/prompt/doc/review related) not a random unrelated task"},
+      {"id": "V-c", "must": "the four 発動すべき依頼 and four 発動すべきでない依頼 from audit-criteria.md are present verbatim or paraphrased"},
+      {"id": "V-d", "must": "package.json validate:skill-optimization includes the new Skill path so npm run check enforces the format"}]},
+    {"kind": "adjacent", "id": "repo-check", "assertions": [
+      {"id": "R-a", "must": "npm run check passes in the target checkout (all plugins, lint, tests)"},
+      {"id": "R-b", "must_not": "SKILL.md, references, scripts of the Skill change (only evals/ and root package.json)"}]}
+  ],
+  "trial_plan_source": "plan_evaluation_trials.py --change-kind deterministic (1 trial)",
+  "roles": {"candidate_author": "subagent", "evaluator": "controller deterministic checks (scripts)", "reviewer": "subagent (query quality / leakage / scope)", "controller": "main session"}
+}

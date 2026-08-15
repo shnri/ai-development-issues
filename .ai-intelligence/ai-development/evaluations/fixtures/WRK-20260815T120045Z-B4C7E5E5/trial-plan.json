@@ -1,0 +1,48 @@
+{
+  "change_kind": "agent-behavior",
+  "risk_tier": "R1",
+  "cells": [
+    {
+      "id": "T2",
+      "kind": "target",
+      "trials_required": 2,
+      "trials_done": 0,
+      "reasons": [
+        "candidate flips at least one baseline failure (promotion depends on this cell)"
+      ],
+      "additional": 2
+    },
+    {
+      "id": "A2",
+      "kind": "adjacent",
+      "trials_required": 2,
+      "trials_done": 0,
+      "reasons": [
+        "regression/adjacent cell runs as many trials as the decisive cells (2)"
+      ],
+      "additional": 2
+    },
+    {
+      "id": "H2",
+      "kind": "holdout",
+      "trials_required": 2,
+      "trials_done": 0,
+      "reasons": [
+        "candidate flips at least one baseline failure (promotion depends on this cell)"
+      ],
+      "additional": 2
+    }
+  ],
+  "stop_rule": "sequential confirmation: stop when every decisive cell has its required trials and the last two trials agree on all promotion assertions; never exceed max_trials; infrastructure failures do not count",
+  "total_additional_runs": 6,
+  "policy": {
+    "deterministic_trials": 1,
+    "initial_trials": 1,
+    "confirmation_trials": 1,
+    "min_trials_r2": 3,
+    "max_trials": 5,
+    "narrow_margin": 1,
+    "escalate_lines": 50,
+    "escalate_files": 3
+  }
+}

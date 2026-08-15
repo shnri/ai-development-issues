@@ -108,5 +108,13 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "model-behavior-operations",
+    "path": "plugins/model-behavior-operations/skills/mitigate-model-behavior-issues",
+    "skill": "mitigate-model-behavior-issues",
+    "coverage": "SKILL.md: \"Prefer removing obsolete workaround instructions over stacking new instructions when a newer model no longer needs them\" / \"Do not preserve a workaround forever... re-evaluate and remove obsolete instructions\"; mitigation-playbook.md: \"gate legacy behavior workarounds to old models; rerun regression evals before deleting a workaround\". Missing only the concrete inventory checklist (列挙型指示・強調命令・show-your-thinking・短run前提timeout・context予算表示) → follow-up candidate, not a new asset.",
+    "verified_at": "2026-08-15",
+    "verified_by": "ai-development-improvement maintain MNT-20260815T120030Z (second pilot)"
   }
 }

@@ -1,0 +1,81 @@
+{
+  "T2": [
+    {
+      "trial": 1,
+      "assertions": {
+        "T2-a": "same",
+        "T2-b": "better",
+        "T2-c": "better",
+        "T2-d": "same"
+      }
+    },
+    {
+      "trial": 2,
+      "assertions": {
+        "T2-a": "same",
+        "T2-b": "same",
+        "T2-c": "same",
+        "T2-d": "same"
+      }
+    },
+    {
+      "trial": 3,
+      "assertions": {
+        "T2-a": "same",
+        "T2-b": "same",
+        "T2-c": "same",
+        "T2-d": "same"
+      }
+    }
+  ],
+  "A2": [
+    {
+      "trial": 1,
+      "assertions": {
+        "A2-a": "same",
+        "A2-b": "same",
+        "A2-c": "same"
+      }
+    },
+    {
+      "trial": 2,
+      "assertions": {
+        "A2-a": "same",
+        "A2-b": "same",
+        "A2-c": "same"
+      }
+    }
+  ],
+  "H2": [
+    {
+      "trial": 1,
+      "assertions": {
+        "H2-a": "same",
+        "H2-b": "same",
+        "H2-c": "better",
+        "H2-d": "same",
+        "H2-e": "same"
+      }
+    },
+    {
+      "trial": 2,
+      "assertions": {
+        "H2-a": "better",
+        "H2-b": "same",
+        "H2-c": "same",
+        "H2-d": "same",
+        "H2-e": "same"
+      }
+    },
+    {
+      "trial": 3,
+      "assertions": {
+        "H2-a": "worse",
+        "H2-b": "same",
+        "H2-c": "same",
+        "H2-d": "same",
+        "H2-e": "same"
+      }
+    }
+  ]
+}

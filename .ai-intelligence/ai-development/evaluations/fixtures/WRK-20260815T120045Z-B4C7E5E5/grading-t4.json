@@ -1,0 +1,36 @@
+{
+  "grader_role": "evaluator",
+  "trial": 4,
+  "revisions": {
+    "A": {
+      "cells": {
+        "H2": [
+          {"assertion": "H2-a", "verdict": "partial", "justification": "A reports the CONFLICT ('testing.md「どんな変更でも必ず…すべて実行」 vs CLAUDE.md/AGENTS.md「関連するspecを実行し…」') and neutralizes the failing-tests permission ('テストが失敗した状態を完了として報告しない'), but marks the scope conflict 保留 (owner decides) and grades the 'report done with failing tests' line 更新 rather than the required 削除."},
+          {"assertion": "H2-b", "verdict": "pass", "justification": "Judgment 統合 with 'AGENTS.mdを単一正本にし、CLAUDE.mdは@AGENTS.mdで取り込む' and proposed_text '# CLAUDE.md — Ledgerly\\n\\n@AGENTS.md'."},
+          {"assertion": "H2-c", "verdict": "pass", "justification": "prettier rule judged 移動: 'pre-commit hook / lint-staged / CIへ移すべき…移設先を用意した上でこの行を削る' with no replacement prose."},
+          {"assertion": "H2-d", "verdict": "pass", "justification": "'本番DBに触るコマンドは絶対に実行しない。認証情報は`.env`にあり、コミットしない。' judged 維持 as a destructive-op/credential boundary."},
+          {"assertion": "H2-e", "verdict": "pass", "justification": "All proposed_text entries are one line each and proposed_additions_line_count is 2; no long rule block added."}
+        ]
+      },
+      "scores": {"holdout_pass": 4, "holdout_total": 5, "partial": {"H2": 1}, "guardrail_regressions": 0}
+    },
+    "B": {
+      "cells": {
+        "H2": [
+          {"assertion": "H2-a", "verdict": "pass", "justification": "B reports the CONFLICT between CLAUDE.md/AGENTS.md and testing.md, decides 'CLAUDE.md側の段階的実行を正とし、testing.mdの矛盾行を削除して一本化する', and judges the failing-tests line 削除 with replacement '失敗した場合は完了として報告せず…報告する'."},
+          {"assertion": "H2-b", "verdict": "pass", "justification": "Judgment 統合: 'AGENTS.mdを正本にし、CLAUDE.mdは`@AGENTS.md`でimport' with proposed_text '# CLAUDE.md — Ledgerly\\n\\n@AGENTS.md'."},
+          {"assertion": "H2-c", "verdict": "partial", "justification": "Judgment 移動 toward 'pre-commit hook、またはClaude Codeのhook', but the proposed_text keeps a prose rule ('コミット前に`pnpm prettier --write`を実行する(可能なら…自動化し、この行を削除する)') and says '実装先は保留', so the rule is not fully moved out of prose."},
+          {"assertion": "H2-d", "verdict": "pass", "justification": "'本番DBに触るコマンドは絶対に実行しない。認証情報は`.env`にあり、コミットしない。' judged 維持 as a boundary."},
+          {"assertion": "H2-e", "verdict": "pass", "justification": "Each proposed_text is 1-2 short lines and proposed_additions_line_count is 5 across four proposals; no long rule block."}
+        ]
+      },
+      "scores": {"holdout_pass": 4, "holdout_total": 5, "partial": {"H2": 1}, "guardrail_regressions": 0}
+    }
+  },
+  "infrastructure_failures": [],
+  "comparison": "Both revisions score 4/5 with one partial each, but on different assertions: B fully satisfies H2-a (names the winning layer and marks the failing-tests permission 削除) where A defers the scope conflict to the owner (保留) and uses 更新; A fully satisfies H2-c (removes the prettier line in favor of hook/CI) where B keeps interim prose. Both pass H2-b, H2-d, H2-e; no guardrail regressions in either.",
+  "notes": [
+    "H2-a graded literally on the 削除 requirement; A's 更新-with-replacement achieves the same safety outcome but is not the specified judgment.",
+    "H2-c partial for B is a judgment call: the 移動 verdict is correct, but the proposed replacement text is still a prose rule."
+  ]
+}

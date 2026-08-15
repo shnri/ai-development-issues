@@ -1,0 +1,58 @@
+{
+  "fixture": "H2",
+  "trial": 4,
+  "criteria_revision": "blind",
+  "findings": [
+    {
+      "file": "multiple",
+      "rule": "CLAUDE.mdとAGENTS.mdがプロジェクト概要・spec確認・テスト方針・本番DB禁止・.env・docs/api.md更新をほぼ同文で重複保持している（差分は「だけ」の一語とprettier行のみ）",
+      "judgment": "統合",
+      "reason": "常時読み込まれる製品別コピーが同内容で差分管理の理由がない（陳腐化シグナル）。基準どおり製品中立なAGENTS.mdを単一正本にし、CLAUDE.mdは@AGENTS.mdで取り込む。微妙な文言差（「関連するspecだけ」vs「関連するspec」）も一本化で解消する。",
+      "proposed_text": "# CLAUDE.md — Ledgerly\n\n@AGENTS.md"
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "コードを保存するたびに必ず`pnpm prettier --write`を実行する。",
+      "judgment": "移動",
+      "reason": "フォーマットは毎回同じ判定をする決定論的チェックであり、自然言語指示ではなくpre-commit hook / lint-staged / CIへ移すべき（基準「決定論的な仕組みへ移す」）。「保存するたび」はエージェントには実行単位が曖昧で運用コストが高い。prettier設定やhookの有無はリポジトリ未確認のため推定。移設先を用意した上でこの行を削る。",
+      "proposed_text": null
+    },
+    {
+      "file": ".claude/rules/testing.md",
+      "rule": "CONFLICT: testing.md「どんな変更でも必ず`bundle exec rspec`と`pnpm test`をすべて実行し、結果を全文貼り付ける」 vs CLAUDE.md/AGENTS.md「関連するspecを実行し、PR前に全体を1回実行する」",
+      "judgment": "保留",
+      "reason": "矛盾箇所: テスト実行範囲と報告形式。採用候補: 共有層AGENTS.mdの「関連spec→PR前に全体」。根拠は低リスク作業にも全実行・全文貼り付けを課すのは過剰指定シグナルであり、Codexには読み込まれないrulesが共有方針を上書きすると製品間で挙動が食い違うため。ただしtesting.mdが意図的にapi/web配下だけ厳格化した実失敗の記録がある可能性を否定できず、証拠の優先順位で決め切れないため所有者判断として保留。提案: 全実行要件を削り、結果は失敗・要約のみ報告に改める。",
+      "proposed_text": "- 変更に関連するspec/testを実行し、PR前に`bundle exec rspec`と`pnpm test`を全体で1回実行する。結果は失敗内容と要約を報告し、全文貼り付けはしない。"
+    },
+    {
+      "file": ".claude/rules/testing.md",
+      "rule": "テストが失敗しても、依頼された機能が動いていれば完了として報告してよい。",
+      "judgment": "更新",
+      "reason": "「記録と現実が一致しない」陳腐化シグナルに該当し、失敗を隠した完了報告を許容するため現在は逆効果。同ファイル1行目の「全実行」とも目的が矛盾する。失敗の明示報告を求める文へ置き換える（安全・品質境界の強化であり弱体化ではない）。",
+      "proposed_text": "- テストが失敗した状態を完了として報告しない。失敗したテスト名、原因の推定、未解決である旨を明記して報告する。"
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "本番DBに触るコマンドは絶対に実行しない。認証情報は`.env`にあり、コミットしない。",
+      "judgment": "維持",
+      "reason": "破壊的操作と認証情報に関する境界であり、維持すべきシグナルに該当。低コストで実害を防ぐ。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "変更前に関連specを`docs/specs/`で確認する。／API変更時は`docs/api.md`を更新する。",
+      "judgment": "維持",
+      "reason": "コードから推測しにくいプロジェクト固有の参照先・更新義務で、常時ルールの境界内。docs/specs/とdocs/api.mdの実在は未確認（推定）。存在しなければ「更新」対象。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "Ledgerlyは家計簿SaaSのRails 7 API + React SPA。Ruby 3.3、Node 22、pnpm。",
+      "judgment": "維持",
+      "reason": "ほぼ全タスクで必要な最小限のプロジェクト事実。バージョンの正確性はGemfile/.node-version等で確認できず推定。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "主要な問題は3点。(1) CLAUDE.mdとAGENTS.mdの同内容コピー→AGENTS.md正本+CLAUDE.mdは@AGENTS.mdへ統合。(2) prettier毎回実行は決定論的処理としてhook/CIへ移動。(3) .claude/rules/testing.mdが共有層のテスト方針と矛盾し（全実行・全文貼り付け）、さらに失敗テストのまま完了報告を許容する逆効果な規則を含む→前者は所有者判断として保留（共有方針への整合を提案）、後者は失敗明示報告へ更新。安全境界（本番DB禁止、.env）は維持。リポジトリ本体は未閲覧のためパス・バージョンの実在は推定。",
+  "proposed_additions_line_count": 2
+}

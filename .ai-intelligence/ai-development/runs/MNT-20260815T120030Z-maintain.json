@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "id": "MNT-20260815T120030Z",
+  "started_at": "2026-08-15T12:00:30Z",
+  "completed_at": "2026-08-15T12:34:15Z",
+  "mode": "maintain",
+  "catalog_revision_before": 51,
+  "catalog_revision_after": 51,
+  "plan": {
+    "inventory_problem_ids": [],
+    "inventory_items": [],
+    "discovery_source_ids": [],
+    "discovery_sources": [],
+    "research_problem_ids": [],
+    "research_items": [],
+    "limits": {
+      "inventory": 30,
+      "external_research": 12
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "max_decision_items": 3,
+      "runnable_work_item_ids": [],
+      "open_decision_package_ids": []
+    },
+    "workflow": [
+      "inventory due problems",
+      "scan due discovery sources",
+      "deduplicate and register candidates",
+      "research new/reactivated/materially changed problems in the same run",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "commit/push authority state when configured",
+      "write a concise catalog and release delta report"
+    ]
+  },
+  "results": {
+    "new": 0,
+    "reactivated": 0,
+    "inactive": 0,
+    "obsolete": 0,
+    "updated": 6,
+    "quick_wins": 0,
+    "work_items_created": 14,
+    "candidates": 2,
+    "promoted": 1,
+    "released": 0,
+    "propagated": 6,
+    "decision_required": 4,
+    "blocked_items": 1,
+    "rejected": 1,
+    "notes": "Second pilot (0.4.0 controller, branch controller-0.4.0). Phase A: no due inventory/sources. Phase B: action_queue selected 3 implementation + 3 decision items mechanically; controller planned 8 representative items via plan_action (D03, D02, D16, G22, F03, J10, I03, D09). Branches exercised: instruction→agent-instruction-maintenance (D03 candidate: 2 iterations, 18 blind executor runs, 4 gradings, REJECTED — improvement not confirmed; D09 trigger-evals candidate: deterministic, promoted, release branch-pushed, PR pending), model-specific→model-behavior-operations (D02, after model_conditions scope fix; covered → completed), Skill eval→skill-optimization (D16 covered → completed), consumer-configuration/knowledge-only/solution-adoption → guidance propagation events for techlog (G22, J10, I06, I08, I16, F03), R3 decision packages (G17, I14, I01, I03). No new Skill/Plugin created. Controller fixes discovered: model_conditions text scope, guidance propagation without release, promotion gate for deterministic changes, adjacent-cell trial inflation, no candidate-revision path before evaluation, version collision across pending releases (0.1.1 vs 0.1.2).",
+    "catalog_summary": {
+      "catalog_id": "ai-development-problems",
+      "revision": 51,
+      "updated_at": "2026-08-15T10:33:31Z",
+      "problem_count": 179,
+      "by_status": {
+        "active": 179
+      },
+      "by_research_status": {
+        "current": 179
+      }
+    }
+  },
+  "status": "partial"
+}

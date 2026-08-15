@@ -1,0 +1,58 @@
+{
+  "fixture": "T2",
+  "trial": 1,
+  "criteria_revision": "blind",
+  "findings": [
+    {
+      "file": "both",
+      "rule": "CONFLICT: ordersのスキーマ正本 — AGENTS.md『docs/data-model.md が正』 vs CLAUDE.md『src/types/order.ts が正』",
+      "judgment": "保留",
+      "reason": "同じ事実について両ファイルが異なる正本を指しており、データを壊し得るプロジェクト固有制約なので維持対象だが、どちらが現在の正本かはリポジトリ（docs/data-model.md と src/types/order.ts の存在・整合・履歴）を確認しないと判断できない（推定: 型定義はスキーマ文書から派生する運用が一般的だが未検証）。正本を1つに確定し、両ファイルで同一表現に統一する必要がある。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: 検証コマンド — AGENTS.md『変更の影響に応じて npm test / lint / typecheck』 vs CLAUDE.md『変更後は必ず test / lint / typecheck / build をすべて実行する』",
+      "judgment": "統合",
+      "reason": "同じ目的（変更の検証）に対し、CLAUDE.md は例外条件や防ぐ失敗の説明なしに『必ず』『すべて』を要求しており、低リスクな一段階作業にも全検証を強制する陳腐化シグナルに該当する。AGENTS.md の『影響に応じて』へ寄せ、buildは影響がある場合の候補として一覧に含める。build が常時必須である証拠（過去の失敗）は不明なため推定。",
+      "proposed_text": "変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`、`npm run build`を実行する。実行できない検証は理由を報告する。"
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "コードを書く前に必ず計画をmarkdownで提示し、承認を待つ。",
+      "judgment": "削除",
+      "reason": "単純作業にも毎回詳細計画と承認待ちを要求しており、監査基準の削除例（単純作業にも毎回詳細計画を要求）および陳腐化シグナル（低リスクな一段階作業にも承認待ちを要求）に一致する。AGENTS.md には対応規則がなく Claude Code だけ制約が重い。過去の具体的失敗が根拠であれば例外条件付きで復活可能だが、ここでは確認できない（推定）。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "プロジェクト概要（Orderly / Next.js 16 App Router / TypeScript 6 / React 19 / npm / devcontainer）",
+      "judgment": "維持",
+      "reason": "広く適用されるプロジェクト固有の事実で、常時ルールに残す対象。CLAUDE.md にだけ devcontainer が欠けており、統合時に AGENTS.md の表現に揃える。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "変更前に関係する`docs/`と既存実装を読み、`rg`で類似パターンを確認する。 / 依頼された範囲だけを変更する。 / コミットメッセージはConventional Commitsに従う。",
+      "judgment": "統合",
+      "reason": "両ファイルにほぼ同一のコピーがあり、独立保守する理由がない。CLAUDE.md を『@AGENTS.md』でAGENTS.mdを取り込む薄いエントリーポイントにし、Claude Code固有の差分だけを残す。AGENTS.md 側の『依頼外のrefactor・依存追加は提案に留める』『完了報告は実行した検証に基づく』はスコープ逸脱・完了偽装を防ぐ具体的な規則として維持する。",
+      "proposed_text": "# Claude Codeエントリーポイント\n\n@AGENTS.md"
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "E2Eは`npm run e2e`（要ローカルemulator）。",
+      "judgment": "維持",
+      "reason": "標準から外れた前提条件（ローカルemulator）を持つ検証コマンドで、コードから推測しにくい。短く運用コストが低い。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "`firestore.rules`を変更したときは`npm run rules:test`を実行する。",
+      "judgment": "維持",
+      "reason": "セキュリティルール変更時の非標準検証で、誤るとデータ保護に影響する。条件付き（rules変更時のみ）で運用コストも低い。両ファイルの表現差（『だけ』の有無）は統合で解消する。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "AGENTS.md と CLAUDE.md は同一プロジェクトの常時ルールとしてほぼ重複しており、CLAUDE.md を @AGENTS.md による薄いエントリーポイントへ統合するのが最小変更である。実害のある矛盾は2点: (1) orders スキーマの正本が docs/data-model.md と src/types/order.ts で食い違っており、リポジトリ実態を確認できないため保留（要ユーザー確定）。(2) 検証コマンドは CLAUDE.md の『必ずすべて実行』を AGENTS.md の『影響に応じて』へ統合し、build は候補として追加。CLAUDE.md の『必ず計画提示・承認待ち』は低リスク作業への過剰要求として削除を提案。プロジェクト事実、rg確認、スコープ制限、正直な完了報告、Conventional Commits、E2E emulator前提、rules:test は維持。inventory.mjs の実行、履歴・実装の確認、公式仕様の再確認は今回の制約上未実施。",
+  "proposed_additions_line_count": 3
+}

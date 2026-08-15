@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T122838Z-5E073CAB",
+  "created_at": "2026-08-15T12:28:38Z",
+  "updated_at": "2026-08-15T12:33:23Z",
+  "problem_ids": [
+    "D09",
+    "D10",
+    "D11"
+  ],
+  "remedy_id": "RMD-D09-001",
+  "source_run_id": "MNT-20260815T120030Z",
+  "state": "release-ready",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-existing",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R1",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "existing shared asset already owns this remedy",
+    "alternatives_considered": [
+      "existing asset: agent-instruction-maintenance (explicit-existing-asset)",
+      "existing asset → update existing (R1, precedence 3)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Adding evals/trigger-evals.json (>=20 queries incl. near-miss negatives) to maintain-agent-instructions and validating it in npm run check gives skill-optimization a deterministic trigger boundary set for that Skill; validate-skill-package passes and the set covers the four 発動評価例 pairs",
+  "baseline_ref": "95fcda2c2d54088619695da24bc9fd9b491771e8",
+  "implementation_id": "IMP-20260815T123028Z-C55ECB9D",
+  "evaluation_id": "EVL-20260815T123249Z-9242BDCB",
+  "promotion_id": "PRO-20260815T123323Z-920DD145",
+  "release_id": "REL-20260815T123352Z-BBE5F159",
+  "decision_package_id": null,
+  "next_step": "release",
+  "blockers": [
+    "Release is pending: branch-pushed."
+  ],
+  "history": [
+    {
+      "at": "2026-08-15T12:28:38Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:28:59Z",
+      "from": "scoped",
+      "to": "baseline-required",
+      "reason": "deterministic candidate: reproducer = validate-skill-package + npm run check + count assertions (eval-plan.json)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:28:59Z",
+      "from": "baseline-required",
+      "to": "implementation-ready",
+      "reason": "baseline: no evals/ directory in maintain-agent-instructions; validate-skill-package passes only with --allow-missing-evals; trigger cases = 0",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:30:28Z",
+      "from": "implementation-ready",
+      "to": "candidate-ready",
+      "reason": "bounded candidate captured",
+      "actor": "candidate-author-subagent"
+    },
+    {
+      "at": "2026-08-15T12:32:49Z",
+      "from": "candidate-ready",
+      "to": "evaluation-ready",
+      "reason": "candidate ready for frozen evaluation",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:32:49Z",
+      "from": "evaluation-ready",
+      "to": "evaluation-passed",
+      "reason": "candidate passed frozen evaluation and independent review",
+      "actor": "controller-deterministic-checks"
+    },
+    {
+      "at": "2026-08-15T12:32:49Z",
+      "from": "evaluation-passed",
+      "to": "promotion-ready",
+      "reason": "evaluation passed; applying promotion policy",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:33:23Z",
+      "from": "promotion-ready",
+      "to": "promoted",
+      "reason": "promotion gate passed with decision promote",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:33:23Z",
+      "from": "promoted",
+      "to": "release-ready",
+      "reason": "candidate ready for release strategy pull-request",
+      "actor": "controller"
+    }
+  ]
+}

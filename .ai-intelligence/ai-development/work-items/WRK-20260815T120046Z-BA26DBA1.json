@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T120046Z-BA26DBA1",
+  "created_at": "2026-08-15T12:00:46Z",
+  "updated_at": "2026-08-15T12:05:30Z",
+  "problem_ids": [
+    "D09",
+    "D10",
+    "D14",
+    "D16"
+  ],
+  "remedy_id": "RMD-D16-001",
+  "source_run_id": "MNT-20260815T120030Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/skill-optimization",
+    "asset_id": "skill-optimization",
+    "action_type": "update-owner-asset",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "Skill eval / trigger eval / holdout remedies extend skill-optimization",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: skill-optimization (score 40)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-D16-001 to shared-existing-asset will reduce D09, D10, D14, D16 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T12:00:46Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:05:30Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "Controller verified coverage: optimize-skill (skill-optimization) already implements holdout secrecy, one-change variants, blind A/B, independent review, recorded rejections, and validation-side promotion; remedy.existing_asset annotated; effective risk R0.",
+      "actor": "controller"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "fixture": "T2",
+  "trial": 2,
+  "criteria_revision": "baseline",
+  "findings": [
+    {
+      "file": "both",
+      "rule": "プロジェクト概要（Orderly / Next.js 16 App Router / TypeScript 6 / React 19 / npm）",
+      "judgment": "統合",
+      "reason": "同一内容がAGENTS.mdとCLAUDE.mdに重複し、独立保守する理由がない（陳腐化シグナル: 製品ごとのコピーが同じ内容）。AGENTS.mdはdevcontainerも含み上位互換。CLAUDE.mdは共有本体AGENTS.mdへの参照だけにする。",
+      "proposed_text": "# Claude Code向け指示\n\n@AGENTS.md"
+    },
+    {
+      "file": "both",
+      "rule": "変更前に関係する`docs/`と既存実装を読み、`rg`で類似パターンを確認する。",
+      "judgment": "統合",
+      "reason": "両ファイルで完全一致。プロジェクト固有の作法として有効なので内容は維持し、AGENTS.mdを正本にしてCLAUDE.md側の重複を除去する。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "依頼された範囲だけを変更する（AGENTS.md: 依頼外のrefactor・依存追加は提案に留める）",
+      "judgment": "統合",
+      "reason": "同目的の規則が2か所にあり、AGENTS.md版の方が具体的（依頼外変更の扱いを定義）。AGENTS.md版へ一本化する。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "コミットメッセージはConventional Commitsに従う。",
+      "judgment": "統合",
+      "reason": "完全重複。リポジトリ作法として維持しつつAGENTS.mdへ一本化する。commitlint等の決定論的チェックが存在するかは未確認（保留）。存在すれば常時ルールから削除可能。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: 検証コマンド — AGENTS.md「変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`を実行する」 vs CLAUDE.md「変更後は必ず`npm test`と`npm run lint`と`npm run typecheck`と`npm run build`をすべて実行する」",
+      "judgment": "更新",
+      "reason": "同じ検証規則が矛盾している。CLAUDE.md版は「必ず」「すべて」で例外条件も防ぐ失敗も示さず、docs修正など低リスク作業にもbuildを強制する（陳腐化シグナル）。AGENTS.md版の影響に応じた実行へ寄せる。`npm run build`を影響大の変更で要求すべきかは実リポジトリのCI設定を確認できないため保留し、必要ならAGENTS.mdの列挙に加える。",
+      "proposed_text": "変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`、`npm run build`を実行する。E2Eは`npm run e2e`（要ローカルemulator）。"
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "コードを書く前に必ず計画をmarkdownで提示し、承認を待つ。",
+      "judgment": "削除",
+      "reason": "低リスクな一段階作業にも毎回の計画提示と承認待ちを要求しており、監査基準の削除例「単純作業にも毎回詳細計画を要求する」に該当。防ぐ具体的な失敗が特定できず、AGENTS.md（Codex）には対応規則がなく製品間で挙動が乖離する。複雑な作業での計画は依頼時に個別指示すれば足りる。導入経緯（過去の失敗）は履歴を確認できないため推定。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: `orders`のスキーマの正 — AGENTS.md「`docs/data-model.md`が正」 vs CLAUDE.md「`src/types/order.ts`が正」",
+      "judgment": "保留",
+      "reason": "データを壊し得るプロジェクト固有制約であり維持対象だが、正本が2ファイルで食い違っており、どちらが現行かはリポジトリ本体を確認できないため判定不能。実際の`docs/data-model.md`と`src/types/order.ts`の存在・更新状況を確認したうえで1つに確定し、AGENTS.mdだけに記載する。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "`firestore.rules`を変更したときは`npm run rules:test`を実行する（AGENTS.mdは「ときだけ」）",
+      "judgment": "統合",
+      "reason": "同目的の規則が微差で重複。非標準の検証コマンドで維持価値があるためAGENTS.md版へ一本化する。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "完了報告はそのセッションのテスト出力・diffに基づき、未実行の検証は未実行と書く。",
+      "judgment": "維持",
+      "reason": "完了の虚偽報告という具体的な失敗を低コストで防ぐ。CLAUDE.mdには無く、CLAUDE.mdをAGENTS.md参照にすることでClaude Codeにも適用される。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "E2Eは`npm run e2e`（要ローカルemulator）。",
+      "judgment": "維持",
+      "reason": "標準から外れた前提（emulator必須）を持つ検証手順で、コードから推測しにくい。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "MISSING: inventory.mjs実行結果、Skill/rules/commandsの棚卸し",
+      "judgment": "保留",
+      "reason": "本監査は指定2ファイルのみ閲覧可能で、Skill手順2の`inventory.mjs`実行およびリポジトリ履歴・実装の確認ができない。上記の判定は文面比較と監査基準に基づく推定を含む。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "AGENTS.mdとCLAUDE.mdは概要・作業原則・Conventional Commits・rules:testが重複し、検証コマンドとordersスキーマ正本が矛盾している。CLAUDE.mdをAGENTS.md参照（@AGENTS.md）に一本化し、CLAUDE.md固有の「必ずbuildまで全実行」「毎回計画承認待ち」は過剰指定として削除・緩和する。AGENTS.mdの完了報告規則、emulator付きE2E、rules:testは維持。ordersスキーマの正本（docs/data-model.md vs src/types/order.ts）とbuildの要否は実リポジトリを確認できないため保留。inventory.mjsは未実行。",
+  "proposed_additions_line_count": 1
+}

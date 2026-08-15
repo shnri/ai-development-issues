@@ -1,0 +1,79 @@
+{
+  "fixture": "A2",
+  "trial": 1,
+  "criteria_revision": "candidate2",
+  "findings": [
+    {
+      "file": "AGENTS.md",
+      "rule": "Orderlyは飲食店向け注文管理のNext.js 16 App Routerアプリ。TypeScript 6、React 19、npm、devcontainer。",
+      "judgment": "維持",
+      "reason": "プロジェクト固有の事実であり、ほぼ全タスクで必要。短く、常時ルールの境界（プロジェクト固有の事実）に合致する。package.json等は閲覧できないため、バージョン表記の正確性は推定/保留。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "変更前に関係する`docs/`と既存実装を読み、`rg`で類似パターンを確認する。",
+      "judgment": "維持",
+      "reason": "リポジトリ作法として広く適用され、コードから推測できないdocs/参照を促す。低コスト。docs/の存在は未検証のため推定。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "依頼された範囲だけを変更し、依頼外のrefactor・依存追加は提案に留める。",
+      "judgment": "維持",
+      "reason": "scope creepという具体的な失敗を防ぐ常時作法。一文で低コスト。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "完了報告はそのセッションのテスト出力・diffに基づき、未実行の検証は未実行と書く。",
+      "judgment": "維持",
+      "reason": "記録と現実の不一致（未検証の完了報告）という具体的失敗を防ぐ。常時適用が妥当。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "コミットメッセージはConventional Commitsに従う。",
+      "judgment": "維持",
+      "reason": "リポジトリ作法であり、コードから推測しにくい。commitlint等の決定論的仕組みの有無は確認できないため、存在すれば削除候補だが現状は保留付き維持。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "質問がある場合はGPT-4向けの短い箇条書きで返す。",
+      "judgment": "更新",
+      "reason": "特定モデル（GPT-4）を前提にした古い表現。このファイルはCodex/Claude Codeで読み込まれ、モデル前提は陳腐化シグナル（存在しないモデル・ツールを前提）に該当する。目的（質問を短く箇条書きで返す）自体は有効なので、モデル名を外して残す。",
+      "proposed_text": "- 質問がある場合は短い箇条書きで返す。"
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`を実行する。E2Eは`npm run e2e`（要ローカルemulator）。",
+      "judgment": "維持",
+      "reason": "最小限の検証コマンドとemulator要件はコードから推測しにくく常時ルールに適切。scriptsの実在はpackage.jsonを見られないため推定/保留。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "`orders`のスキーマは`docs/data-model.md`が正。",
+      "judgment": "維持",
+      "reason": "データを壊し得るプロジェクト固有制約であり、正本の所在を示す。docs/data-model.mdの実在は未検証（推定）。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "`firestore.rules`を変更したときだけ`npm run rules:test`を実行する。",
+      "judgment": "維持",
+      "reason": "条件付きだが一文で、セキュリティルールという安全境界に関わる非標準の検証コマンド。Skillへ移すほどの分量はなく維持が妥当。scriptの実在は推定。",
+      "proposed_text": null
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "# Claude Codeエントリーポイント / @AGENTS.md",
+      "judgment": "維持",
+      "reason": "製品中立なAGENTS.mdを単一の正本とし、CLAUDE.mdは取り込みのみという推奨構成に合致。層間の重複・矛盾はない。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "AGENTS.mdは概ね簡潔で常時ルールの境界内に収まっており、CLAUDE.mdは@AGENTS.md取り込みのみで正本の一本化ができている。唯一の指摘は「GPT-4向け」という古いモデル前提の表現で、目的を保ったままモデル名を外す更新を提案する。その他の規則は維持。docs/やnpm scriptsの実在、commitlint等の決定論的チェックの有無はリポジトリ本体を確認できないため推定/保留とした。追加行なし。",
+  "proposed_additions_line_count": 0
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "id": "EVL-20260815T123249Z-9242BDCB",
+  "work_item_id": "WRK-20260815T122838Z-5E073CAB",
+  "implementation_id": "IMP-20260815T123028Z-C55ECB9D",
+  "created_at": "2026-08-15T12:32:49Z",
+  "evaluator_role": "controller-deterministic-checks",
+  "baseline": {
+    "trigger_cases": 0,
+    "validator": "passes only with --allow-missing-evals (no evals dir)",
+    "npm_run_check": "pass"
+  },
+  "candidate": {
+    "trigger_cases": 22,
+    "negatives": 10,
+    "negative_ratio": 0.45,
+    "criteria_examples_present": "9/9",
+    "validator": "pass",
+    "npm_run_check": "pass"
+  },
+  "test_sets": [
+    {
+      "id": "validator",
+      "kind": "target",
+      "passed": true,
+      "detail": "V-a validate-skill-package pass; V-b 22 cases / 45% near-miss negatives with notes; V-c all audit-criteria examples present; V-d package.json validate:skill-optimization includes the Skill"
+    },
+    {
+      "id": "repo-check",
+      "kind": "adjacent",
+      "passed": true,
+      "detail": "npm run check exit 0 in the target checkout; only evals/ and package.json changed"
+    }
+  ],
+  "guardrail_regressions": 0,
+  "infrastructure_failures": 0,
+  "independent_review": {
+    "reviewer_role": "independent-reviewer-subagent",
+    "status": "pass",
+    "notes": "6/6 pass; one debatable-but-defensible negative (#17 root-less deletion) kept as an intentional hard negative"
+  },
+  "uses_optional_capability": false,
+  "capability_health": [],
+  "trial_count": 1,
+  "trial_plan": {
+    "change_kind": "deterministic",
+    "risk_tier": "R1",
+    "cells": [
+      {
+        "id": "validator",
+        "kind": "target",
+        "trials_required": 1,
+        "trials_done": 0,
+        "reasons": [
+          "deterministic change covered by unit/integration tests"
+        ]
+      },
+      {
+        "id": "repo-check",
+        "kind": "adjacent",
+        "trials_required": 1,
+        "trials_done": 0,
+        "reasons": [
+          "deterministic change covered by unit/integration tests"
+        ]
+      }
+    ],
+    "stop_rule": "deterministic: one passing run of the covering tests",
+    "total_additional_runs": 0,
+    "policy": {
+      "deterministic_trials": 1,
+      "initial_trials": 1,
+      "confirmation_trials": 1,
+      "min_trials_r2": 3,
+      "max_trials": 5,
+      "narrow_margin": 1,
+      "escalate_lines": 50,
+      "escalate_files": 3
+    }
+  },
+  "trials": [],
+  "roles": {
+    "candidate_author": "candidate-author-subagent",
+    "evaluator": "controller-deterministic-checks",
+    "reviewer": "independent-reviewer-subagent",
+    "controller": "main session"
+  },
+  "artifacts": {
+    "eval_plan": "evaluations/fixtures/WRK-20260815T122838Z-5E073CAB/eval-plan.json",
+    "runs": [],
+    "grading": "evaluations/fixtures/WRK-20260815T122838Z-5E073CAB/eval-plan.json",
+    "notes": [
+      "deterministic evaluation: validate-skill-package.py + npm run check + count assertions; commands and results recorded in this record",
+      "no holdout/replay set: change_kind=deterministic (test data + validation script line), no agent behavior change"
+    ]
+  },
+  "decision": "pass",
+  "reason": "Deterministic candidate: validator and full npm run check pass with the change; 22 trigger cases (45% near-miss negatives, all criteria examples present) now enforced in CI; independent review pass; no behavior change.",
+  "artifacts_verified": true,
+  "change_kind": "deterministic"
+}

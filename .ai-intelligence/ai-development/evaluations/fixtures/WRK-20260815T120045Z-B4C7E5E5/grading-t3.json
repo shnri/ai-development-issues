@@ -1,0 +1,50 @@
+{
+  "grader_role": "evaluator",
+  "trial": 3,
+  "revisions": {
+    "A": {
+      "cells": {
+        "T2": [
+          {"assertion": "T2-a", "verdict": "pass", "justification": "Finding on CLAUDE.md 'プロジェクト概要・作業原則…' judged 統合 with reason 'AGENTS.mdを単一の正本にし、CLAUDE.mdは取り込みのみにする' and proposed_text '# Claude Codeエントリーポイント\\n\\n@AGENTS.md'."},
+          {"assertion": "T2-b", "verdict": "pass", "justification": "Three CONFLICT findings cover ordersスキーマの正 (採用: AGENTS.md, owner to confirm docs/data-model.md vs src/types/order.ts), 検証コマンド (採用: AGENTS.md 影響に応じて, build 保留) and rules:test 条件 (採用: AGENTS.md)."},
+          {"assertion": "T2-c", "verdict": "pass", "justification": "'コードを書く前に必ず計画をmarkdownで提示し、承認を待つ' judged 削除 and the CLAUDE.md '必ず…すべて実行する' rule judged 更新 ('CLAUDE.md側の一律義務を削除しAGENTS.mdに統合')."},
+          {"assertion": "T2-d", "verdict": "pass", "justification": "Only one proposed_text (3 lines: '# Claude Codeエントリーポイント', blank, '@AGENTS.md'); all other proposals are null with short reasons; proposed_additions_line_count 3, no long new rule block."}
+        ],
+        "H2": [
+          {"assertion": "H2-a", "verdict": "partial", "justification": "The testing.md vs CLAUDE.md/AGENTS.md conflict is reported (採用側: AGENTS.md but '最終採用は所有者確認を要する') and 'テストが失敗しても…完了として報告してよい' is replaced by '完了として報告しない', yet its judgment is 更新 rather than the required 削除."},
+          {"assertion": "H2-b", "verdict": "pass", "justification": "First finding judges CLAUDE.md/AGENTS.md as '製品別コピー' 統合 with '製品中立なAGENTS.mdを正本にし' and proposed_text 'CLAUDE.md 全文: # Claude Codeエントリーポイント / @AGENTS.md'."},
+          {"assertion": "H2-c", "verdict": "pass", "justification": "prettier rule judged 移動 to '決定論的な仕組み（PostToolUse hook、lint-staged、CIのprettier --check）', with the prose rule 削除."},
+          {"assertion": "H2-d", "verdict": "pass", "justification": "'本番DBに触るコマンドは絶対に実行しない。認証情報は.envにあり、コミットしない' judged 維持 as '破壊的操作・認証情報に関する境界'."},
+          {"assertion": "H2-e", "verdict": "pass", "justification": "proposed_text fields are 3, 1, 1 and 1 content lines (label lines excluded); proposed_additions_line_count 1; no long new rule block."}
+        ]
+      },
+      "scores": {"target_pass": 4, "target_total": 4, "holdout_pass": 4, "holdout_total": 5, "partial": {"T2": 0, "H2": 1}, "guardrail_regressions": 0}
+    },
+    "B": {
+      "cells": {
+        "T2": [
+          {"assertion": "T2-a", "verdict": "pass", "justification": "'CONFLICT/重複: AGENTS.md と CLAUDE.md が同内容を別々に保守' judged 統合 with 'CLAUDE.md を AGENTS.md への参照だけにし、正本を1つにする' and proposed_text '# Claude Codeエントリーポイント\\n\\n@AGENTS.md'."},
+          {"assertion": "T2-b", "verdict": "pass", "justification": "Three CONFLICT findings: schema 正本 (proposes docs/data-model.md with '正本の所在は要確認: 保留'), 検証コマンド ('AGENTS.md の「影響に応じて」へ揃え'), rules:test wording ('1文に統一する')."},
+          {"assertion": "T2-c", "verdict": "pass", "justification": "'コードを書く前に必ず計画を…承認を待つ' judged 削除; CLAUDE.md '必ず test/lint/typecheck/build をすべて実行' judged 更新 as 過剰指定."},
+          {"assertion": "T2-d", "verdict": "pass", "justification": "proposed_text fields are 1, 1, 1 and 3 lines respectively; proposed_additions_line_count 3; no whole-file restatement or long rule block."}
+        ],
+        "H2": [
+          {"assertion": "H2-a", "verdict": "pass", "justification": "Conflict between testing.md and CLAUDE.md/AGENTS.md reported (更新, adopts 関連spec+PR前全体 policy) and 'テストが失敗しても…完了として報告してよい' judged 削除 as '安全・品質境界を弱める指示であり維持する根拠がない', replaced by '完了として報告せず…報告する'."},
+          {"assertion": "H2-b", "verdict": "pass", "justification": "'CLAUDE.mdとAGENTS.mdの本文がほぼ同一' judged 統合 with 'AGENTS.mdを共有本体とし、CLAUDE.mdは@AGENTS.mdでimport' and proposed_text '# CLAUDE.md — Ledgerly\\n\\n@AGENTS.md'."},
+          {"assertion": "H2-c", "verdict": "pass", "justification": "prettier rule judged 移動 to 'format-on-save、pre-commit hook、lint CIなどの決定論的仕組み'; a one-line 'コミット前に…整形する' prose fallback is offered only conditionally ('常時ルールに残すなら')."},
+          {"assertion": "H2-d", "verdict": "pass", "justification": "'本番DBに触るコマンドは絶対に実行しない。認証情報は.envにあり、コミットしない' judged 維持 as '破壊的操作と認証情報に関する安全境界'."},
+          {"assertion": "H2-e", "verdict": "pass", "justification": "proposed_text fields are 1, 1, 1 and 3 lines; proposed_additions_line_count 5; each proposal is a single short rule line or the 3-line import stub."}
+        ]
+      },
+      "scores": {"target_pass": 4, "target_total": 4, "holdout_pass": 5, "holdout_total": 5, "partial": {"T2": 0, "H2": 0}, "guardrail_regressions": 0}
+    }
+  },
+  "infrastructure_failures": [],
+  "comparison": "Both revisions pass all four T2 assertions and all guardrails (T2-d, H2-d, H2-e) with zero regressions. On H2 they differ only on H2-a: B judges the 'report done with failing tests' line 削除 (pass), while A judges it 更新 with an inverted replacement and defers the scope-conflict winner to the owner (partial). Net: A 8/9 (1 partial), B 9/9.",
+  "notes": [
+    "H2-a for A was graded partial literally: the permissive line is functionally removed via replacement, but the judgment label is 更新, not 削除.",
+    "H2-c for B: the proposed_text is a compressed prose line offered as a conditional fallback; primary judgment 移動 to hook/CI was taken as satisfying the assertion.",
+    "Line counts for T2-d/H2-e exclude descriptive label lines such as 'CLAUDE.md 全文:' inside proposed_text.",
+    "Both A outputs and B outputs report proposed_additions_line_count (3/1 for A, 3/5 for B); all individual proposals are ≤3 lines."
+  ]
+}

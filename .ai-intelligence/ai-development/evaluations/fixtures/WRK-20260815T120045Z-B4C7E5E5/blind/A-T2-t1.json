@@ -1,0 +1,65 @@
+{
+  "fixture": "T2",
+  "trial": 1,
+  "criteria_revision": "blind",
+  "findings": [
+    {
+      "file": "both",
+      "rule": "CONFLICT: ordersスキーマの正本 — AGENTS.md「`docs/data-model.md`が正」 vs CLAUDE.md「`src/types/order.ts`が正」",
+      "judgment": "保留",
+      "reason": "矛盾箇所: Firestore節の正とする参照先。採用側: 証拠優先順位3（現在のコード・設定）で`docs/data-model.md`と`src/types/order.ts`のどちらが実際に維持・参照されているか確認する必要があるが、本監査ではリポジトリを参照できず判定不能。両方を黙って残さず、所有者判断として保留を報告する。提案: 正本を一つに決め、CLAUDE.mdは`@AGENTS.md`取り込みに一本化してこの行を削る。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: 検証コマンド — AGENTS.md「変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`」 vs CLAUDE.md「変更後は必ず`npm test`と`npm run lint`と`npm run typecheck`と`npm run build`をすべて実行する」",
+      "judgment": "更新",
+      "reason": "矛盾箇所: 検証の範囲と条件。採用側: 検証手順の所有層は製品中立なAGENTS.md（安全・権限境界ではないため所有層が勝つ）。CLAUDE.md側は「必ず」「すべて」で例外条件がなく、低リスク作業にも一律`build`を要求する陳腐化シグナルに該当。`npm run build`が本当に必須かは未検証（推定）。提案: CLAUDE.mdの独自行を削り、AGENTS.mdの「影響に応じて」へ統一する。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "CONFLICT: `firestore.rules`変更時の`npm run rules:test` — AGENTS.md「変更したときだけ」 vs CLAUDE.md「変更したときは」",
+      "judgment": "統合",
+      "reason": "矛盾箇所: 表現の差のみで意図は同一（rules変更時に限定実行）。採用側: AGENTS.md（所有層、かつ「だけ」で不要な実行を明示的に抑止）。提案: CLAUDE.md側の重複を`@AGENTS.md`取り込みで解消する。",
+      "proposed_text": null
+    },
+    {
+      "file": "CLAUDE.md",
+      "rule": "「コードを書く前に必ず計画をmarkdownで提示し、承認を待つ。」",
+      "judgment": "削除",
+      "reason": "低リスクな一段階作業にも承認待ちを要求する陳腐化シグナル。防ぐ具体的失敗が示されず、例外条件もない。AGENTS.mdには同等の要求がなく層間で承認要否が食い違う。承認要否は所有層(AGENTS.md)側に合わせ、必要ならユーザーが依頼時に指定する。過去に再発した失敗に基づく規則である証拠は確認できないため、その証拠が出た場合は再考(推定)。",
+      "proposed_text": null
+    },
+    {
+      "file": "both",
+      "rule": "プロジェクト概要（Orderly / Next.js 16 App Router / TypeScript 6 / React 19 / npm）、「変更前に関係するdocs/と既存実装を読み、rgで類似パターンを確認する」、「依頼された範囲だけを変更する」、「Conventional Commits」",
+      "judgment": "統合",
+      "reason": "常時読み込まれる製品別コピーが同一内容で、差分管理する理由がない。AGENTS.mdのほうが完全（devcontainer記載、依頼外変更は提案に留める、完了報告の根拠規則、E2Eコマンド）。監査基準に従い製品中立なAGENTS.mdを単一正本にし、CLAUDE.mdは取り込みだけにする。",
+      "proposed_text": "# Claude Code向け指示\n\n@AGENTS.md"
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "「完了報告はそのセッションのテスト出力・diffに基づき、未実行の検証は未実行と書く。」",
+      "judgment": "維持",
+      "reason": "記録と現実の不一致（作業開始を完了扱いにする等）を低コストで防ぐ規則。CLAUDE.mdには欠けているため、統合により両製品へ適用される。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "「E2Eは`npm run e2e`（要ローカルemulator）」「`orders`のスキーマ正本」「`firestore.rules`変更時だけ`npm run rules:test`」",
+      "judgment": "維持",
+      "reason": "標準から外れた検証手順とプロジェクト固有のデータ制約で、コードから推測しにくく誤るとデータを壊し得る。コマンドの実在はpackage.json未確認のため推定。",
+      "proposed_text": null
+    },
+    {
+      "file": "AGENTS.md",
+      "rule": "「依頼された範囲だけを変更し、依頼外のrefactor・依存追加は提案に留める。」「変更前に関係するdocs/と既存実装を読み、rgで類似パターンを確認する。」「Conventional Commits」",
+      "judgment": "維持",
+      "reason": "スコープ逸脱と作法違反を1文ずつ低コストで防いでおり、反復や過剰指定はない。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "AGENTS.mdとCLAUDE.mdは常時読み込まれる同内容の製品別コピーで、3点の層間矛盾（ordersスキーマ正本、検証コマンドの範囲・条件、rules:testの表現）と、CLAUDE.md固有の過剰指定2件（一律build必須、毎回の計画承認待ち）がある。提案: AGENTS.mdを単一正本とし、CLAUDE.mdは`@AGENTS.md`取り込み1行に置き換える。スキーマ正本（docs/data-model.md vs src/types/order.ts）はリポジトリ未参照のため所有者判断として保留。追加行は取り込み行のみ。",
+  "proposed_additions_line_count": 1
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T120045Z-8A4F59EB",
+  "created_at": "2026-08-15T12:00:45Z",
+  "updated_at": "2026-08-15T12:06:25Z",
+  "problem_ids": [
+    "I07",
+    "I16"
+  ],
+  "remedy_id": "RMD-I16-001",
+  "source_run_id": "MNT-20260815T120030Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "evaluate-and-adopt-existing-solution",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: sandbox, CVE-\\d{4}, security advisory"
+  ],
+  "routing": {
+    "reason": "existing solution/tool evaluation precedes any new mechanism",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "tool/dependency without existing asset → solution adoption (evaluate existing solutions first)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-I16-001 to solution-adoption will reduce I07, I16 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T12:00:45Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:06:25Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "solution_evaluation": {
+    "question": "How should consumers track agent/IDE/sandbox/Skill versions and security advisories (RMD-I16-001)?",
+    "existing_solutions": [
+      {
+        "name": "GitHub Dependabot (version + security updates) for devcontainer features, npm, and GitHub Actions",
+        "fit": "covers npm/devcontainer/action pins; not Claude Code/Codex binaries"
+      },
+      {
+        "name": "Renovate",
+        "fit": "broader ecosystems incl. custom regex managers for CLI versions; heavier setup"
+      },
+      {
+        "name": "GitHub security advisories / provider release notes watched by official-guidance-operations",
+        "fit": "already installed shared Plugin for advisory/lifecycle watching"
+      }
+    ],
+    "decision": "no new mechanism: enable Dependabot on consumers, pin agent CLI minimum versions in devcontainer, and route advisory watching to the existing official-guidance-operations Plugin",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

@@ -1,0 +1,5 @@
+[
+ {"id":"T2","kind":"target","assertions_total":4,"baseline_pass":2,"candidate_pass":4,"partial":0,"guardrail_regressions":0},
+ {"id":"A2","kind":"adjacent","assertions_total":3,"baseline_pass":3,"candidate_pass":3,"partial":0,"guardrail_regressions":0},
+ {"id":"H2","kind":"holdout","assertions_total":5,"baseline_pass":4,"candidate_pass":5,"partial":0,"guardrail_regressions":0}
+]

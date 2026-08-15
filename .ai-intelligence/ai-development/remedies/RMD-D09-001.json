@@ -115,5 +115,10 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "implementation_target": {
+    "asset_id": "agent-instruction-maintenance",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals",
+    "note": "Controller routing 2026-08-15 (second pilot): the reusable form of this remedy for shared Skills is a per-Skill trigger eval set consumed by skill-optimization; maintain-agent-instructions is the first shared Skill without evals/trigger-evals.json (its 発動評価例 live only in audit-criteria.md). skill-optimization owns the method (validate-skill-package.py checks the format); the evals live with the owning Skill."
   }
 }
