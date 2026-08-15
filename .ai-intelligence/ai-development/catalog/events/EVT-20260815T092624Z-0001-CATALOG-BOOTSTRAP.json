@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260815T092624Z-0001-CATALOG-BOOTSTRAP",
+  "event_type": "catalog-bootstrap",
+  "occurred_at": "2026-08-15T09:26:24Z",
+  "catalog_revision_before": 0,
+  "catalog_revision_after": 1,
+  "details": {
+    "seed": "bundled",
+    "problem_count": 179
+  }
+}

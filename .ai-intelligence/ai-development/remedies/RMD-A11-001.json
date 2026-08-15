@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A11-001",
+  "problem_ids": [
+    "A11"
+  ],
+  "summary": "Write acceptance criteria as externally observable behavior, not implementation structure; review test oracles against the spec so correct alternative implementations pass and only behavioral violations fail.",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/html/2605.29442",
+      "observed_at": "2026-08-15",
+      "summary": "20,574-session study: incomplete upfront specification is the norm; turn-by-turn intent refinement drives misalignment."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "spec with behavioral acceptance criteria",
+      "test review step"
+    ],
+    "not_for": [
+      "performance-critical code where structure is the requirement"
+    ]
+  },
+  "expected_effect": {
+    "false_rejections": "lower",
+    "test_review_effort": "higher"
+  },
+  "risks": [
+    "Purely behavioral tests may under-constrain non-functional properties; pair with A10."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

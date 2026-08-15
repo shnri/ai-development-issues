@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "id": "official-model-and-agent-providers",
+      "kind": "web",
+      "evidence_tier": "official",
+      "cadence_days": 7,
+      "enabled": true,
+      "domains": [
+        "openai.com",
+        "developers.openai.com",
+        "anthropic.com",
+        "docs.anthropic.com",
+        "google.com",
+        "github.com"
+      ],
+      "query_themes": [
+        "coding agent release notes",
+        "model behavior changes",
+        "agent tools and permissions",
+        "skills plugins instructions"
+      ],
+      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_result": {
+        "candidate_count": 3,
+        "notes": "Claude Code Aug-2026 permission-bypass/sandbox fixes (CND-001); Mar-Apr 2026 product-layer regression postmortem (CND-003); GPT-5.4 retirement migration (CND-006). All evidence updates to existing problems."
+      }
+    },
+    {
+      "id": "primary-software-engineering-research",
+      "kind": "web",
+      "evidence_tier": "research",
+      "cadence_days": 7,
+      "enabled": true,
+      "domains": [
+        "arxiv.org",
+        "dl.acm.org",
+        "ieeexplore.ieee.org",
+        "openreview.net"
+      ],
+      "query_themes": [
+        "AI-assisted software engineering failure modes",
+        "coding agent testing evaluation",
+        "multi-agent software development",
+        "specification drift AI coding"
+      ],
+      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_result": {
+        "candidate_count": 1,
+        "notes": "20,574-session developer-agent misalignment study (CND-005 -> A01); SlopCodeBench long-horizon degradation and production drift taxonomy corroborate B01/E10/K01 without material change."
+      }
+    },
+    {
+      "id": "standards-security-and-risk",
+      "kind": "web",
+      "evidence_tier": "official",
+      "cadence_days": 14,
+      "enabled": true,
+      "domains": [
+        "nist.gov",
+        "owasp.org",
+        "mitre.org"
+      ],
+      "query_themes": [
+        "generative AI risk updates",
+        "agent security prompt injection",
+        "AI software supply chain"
+      ],
+      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_result": {
+        "candidate_count": 1,
+        "notes": "OWASP GenAI State of Agentic AI Security v2.01 + Q1-2026 exploit round-up (CND-002 -> I02)."
+      }
+    },
+    {
+      "id": "empirical-agent-engineering",
+      "kind": "web",
+      "evidence_tier": "empirical",
+      "cadence_days": 14,
+      "enabled": true,
+      "domains": [
+        "metr.org",
+        "dora.dev"
+      ],
+      "query_themes": [
+        "coding agent productivity empirical",
+        "agent evaluation infrastructure",
+        "AI development delivery performance"
+      ],
+      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_result": {
+        "candidate_count": 1,
+        "notes": "METR 2026 usage survey + transcript upper-bound analysis (CND-004 -> J07)."
+      }
+    },
+    {
+      "id": "community-and-issue-signals",
+      "kind": "web",
+      "evidence_tier": "community",
+      "cadence_days": 7,
+      "enabled": true,
+      "domains": [
+        "github.com",
+        "reddit.com",
+        "news.ycombinator.com"
+      ],
+      "query_themes": [
+        "coding agent recurring issue",
+        "AI generated code workflow problem",
+        "Claude Code Codex agent regression"
+      ],
+      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "constraints": [
+        "Signals require corroboration before a problem becomes active."
+      ],
+      "last_result": {
+        "candidate_count": 0,
+        "notes": "Community regression chatter corroborates CND-003 (K03); active issue flow on anthropics/claude-code; no uncatalogued mechanism found."
+      }
+    },
+    {
+      "id": "local-project-evidence",
+      "kind": "repository",
+      "evidence_tier": "local",
+      "cadence_days": 7,
+      "enabled": true,
+      "paths": [
+        ".ai-intelligence/ai-development/findings",
+        ".ai-intelligence/ai-development/runs"
+      ],
+      "query_themes": [
+        "unmapped recurring failure",
+        "unexplained time or token loss",
+        "new specification or test inconsistency"
+      ],
+      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_result": {
+        "candidate_count": 0,
+        "notes": "Fresh state bootstrap; no findings or prior runs to mine."
+      }
+    }
+  ]
+}

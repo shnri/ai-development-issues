@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A01-001",
+  "problem_ids": [
+    "A01"
+  ],
+  "summary": "Adopt a clarify-before-implement gate: requirements enter a Specify phase where the agent must mark unresolved points (e.g. [NEEDS CLARIFICATION]) and get human answers before planning/implementation; spec-driven workflows (GitHub Spec Kit and equivalents) operationalize this for coding agents.",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub Spec Kit: Specify->Plan->Tasks->Implement workflow; spec is the contract/source of truth for agent work; integrates 30+ agents as of 0.11.0 (2026-06)."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/html/2605.29442",
+      "observed_at": "2026-08-15",
+      "summary": "20,574-session study: incomplete upfront specification is the norm; turn-by-turn intent refinement drives misalignment."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "human available to answer clarification questions",
+      "spec artifact checked into the repository"
+    ],
+    "not_for": [
+      "throwaway prototypes where rework cost is trivial"
+    ]
+  },
+  "expected_effect": {
+    "rework_cycles": "lower",
+    "assumption_defects": "lower",
+    "lead_time": "slightly higher upfront"
+  },
+  "risks": [
+    "Over-formalization can slow trivial tasks; scope the gate to non-trivial changes."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

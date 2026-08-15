@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "id": "CND-20260815-001",
+  "title": "Agent CLI permission-prompt bypass vulnerabilities fixed in Claude Code (Aug 2026)",
+  "summary": "August 2026 Claude Code releases fixed a Bash permission bypass where crafted commands could hide parts of themselves from permission checks, invisible-Unicode/tab padding hiding command parts in approval dialogs, workflow-sandbox escape via dynamic import(), and an agent-definition bypassPermissions gap ignoring org policy. Confirms the agent surface itself remains an active intrusion vector.",
+  "source_problem_id": null,
+  "priority_lanes": [
+    "S0"
+  ],
+  "discovered_at": "2026-08-15T09:30:00Z",
+  "detected_by": "maintain-discovery",
+  "confidence": "high",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "I16",
+  "evidence": [
+    {
+      "kind": "official-release-note",
+      "reference": "https://code.claude.com/docs/en/changelog",
+      "observed_at": "2026-08-15",
+      "summary": "Provider fixed multiple permission-prompt bypass and sandbox-escape vulnerabilities in August 2026 releases."
+    }
+  ],
+  "source_refs": [
+    {
+      "kind": "web",
+      "url": "https://code.claude.com/docs/en/changelog",
+      "tier": "official"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "cadence_days": 14,
+  "inventory_batch_size": 30,
+  "full_inventory_cycle_days": 90,
+  "discovery_lookback_days": 21,
+  "external_research_limit_per_run": 12,
+  "auto_research_events": [
+    "new",
+    "reactivated",
+    "material-change"
+  ],
+  "status_review_days": {
+    "provisional": 7,
+    "active": 30,
+    "watch": 45,
+    "mitigated": 60,
+    "inactive": 90,
+    "unverified": 14,
+    "obsolete": 365,
+    "superseded": 365,
+    "rejected": 365
+  },
+  "evidence_refresh_days": {
+    "official": 60,
+    "research": 90,
+    "empirical": 90,
+    "community": 30,
+    "local": 30
+  },
+  "new_candidate_similarity_review_threshold": 0.78,
+  "new_candidate_duplicate_threshold": 0.92,
+  "allow_automatic_catalog_updates": true,
+  "allow_automatic_project_changes": false
+}

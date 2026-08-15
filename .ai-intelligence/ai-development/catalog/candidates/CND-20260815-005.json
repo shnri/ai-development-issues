@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "id": "CND-20260815-005",
+  "title": "Large-scale evidence: developers rarely give complete specs upfront; agent-intent misalignment at scale",
+  "summary": "Analysis of 20,574 real-world coding-agent sessions shows developers refine requests turn by turn rather than providing complete specifications, and agents must track evolving intent; corroborates ambiguous-requirement gap-filling as a live failure mechanism.",
+  "source_problem_id": null,
+  "priority_lanes": [
+    "C1"
+  ],
+  "discovered_at": "2026-08-15T09:30:00Z",
+  "detected_by": "maintain-discovery",
+  "confidence": "high",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "A01",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/html/2605.29442",
+      "observed_at": "2026-08-15",
+      "summary": "20,574-session study of developer-agent misalignment; incomplete upfront specification is the norm."
+    }
+  ],
+  "source_refs": [
+    {
+      "kind": "web",
+      "url": "https://arxiv.org/html/2605.29442",
+      "tier": "research"
+    }
+  ]
+}

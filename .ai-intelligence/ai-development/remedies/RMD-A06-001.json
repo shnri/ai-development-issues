@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A06-001",
+  "problem_ids": [
+    "A06"
+  ],
+  "summary": "Stamp every spec document with version, effective date, target release, and status (draft/current/superseded); archive superseded docs out of the default retrieval path and check freshness metadata before an agent may cite a spec.",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "doc metadata convention",
+      "archive location outside default search scope"
+    ],
+    "not_for": []
+  },
+  "expected_effect": {
+    "stale_spec_adoption": "lower",
+    "doc_hygiene_effort": "slightly higher"
+  },
+  "risks": [
+    "Unmaintained metadata is worse than none; needs periodic audit."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A08-001",
+  "problem_ids": [
+    "A08"
+  ],
+  "summary": "Treat AI-generated design documents as drafts by default: label provenance, require human review and explicit acceptance (ADR-style status accepted) before any generated document may be cited as specification.",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record",
+      "observed_at": "2026-08-15",
+      "summary": "Microsoft Well-Architected guidance on maintaining an architecture decision record."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "review workflow for docs",
+      "provenance labels"
+    ],
+    "not_for": []
+  },
+  "expected_effect": {
+    "unverified_assumption_adoption": "lower",
+    "review_load": "higher"
+  },
+  "risks": [
+    "Rubber-stamp acceptance recreates the problem; sampling audits needed."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

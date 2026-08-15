@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20260815-G17",
+  "problem_id": "G17",
+  "reviewed_at": "2026-08-15T09:35:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "Approval-surface friction is under active provider iteration (approval-dialog fixes Aug 2026); per-read approval fatigue persists across agent surfaces. First inventory review after catalog bootstrap. The mechanism is structural to current agentic AI development workflows and is not bound to a retired model, tool, or surface. Current 2026 evidence corroborates the risk lane and no provider fix or non-reproduction evidence supports a downgrade; absence of item-specific incident reports is not evidence of resolution.",
+  "evidence": [
+    {
+      "kind": "official-release-note",
+      "reference": "https://code.claude.com/docs/en/changelog",
+      "observed_at": "2026-08-15",
+      "summary": "August 2026 Claude Code releases fixed permission-prompt bypass and sandbox-escape vulnerabilities, confirming the mechanism class remains live."
+    },
+    {
+      "kind": "catalog-seed",
+      "reference": "plugin:references/problem-catalog.json",
+      "observed_at": "2026-08-15",
+      "summary": "Bundled 0.2.0 taxonomy snapshot; mechanism is structural in current agentic workflows, not tied to a retired model or surface."
+    }
+  ],
+  "model_assessment": {
+    "models": [
+      "cross-model (structural mechanism)"
+    ],
+    "conclusion": "still-applicable"
+  },
+  "remedy_assessment": {
+    "conclusion": "keep-tracking"
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "maintain-routine-controller"
+}

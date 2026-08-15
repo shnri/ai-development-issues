@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260815T092940Z-0005-PROBLEM-EVIDENCE-ADDED",
+  "event_type": "problem-evidence-added",
+  "occurred_at": "2026-08-15T09:29:40Z",
+  "catalog_revision_before": 4,
+  "catalog_revision_after": 5,
+  "details": {
+    "candidate_id": "CND-20260815-004",
+    "decision": "duplicate",
+    "target_problem_id": "J07"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260815T093044Z-0009-PROBLEM-INVENTORY-REVIEW",
+  "event_type": "problem-inventory-review",
+  "occurred_at": "2026-08-15T09:30:44Z",
+  "catalog_revision_before": 8,
+  "catalog_revision_after": 9,
+  "details": {
+    "review_id": "REV-20260815-A02",
+    "problem_id": "A02",
+    "previous_status": "active",
+    "new_status": "active",
+    "research_required": false,
+    "reviewed_at": "2026-08-15T09:35:00Z"
+  }
+}

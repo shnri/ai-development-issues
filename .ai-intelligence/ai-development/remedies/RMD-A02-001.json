@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A02-001",
+  "problem_ids": [
+    "A02"
+  ],
+  "summary": "Declare one canonical specification hierarchy and record every conflicting/superseding decision as an ADR with explicit supersedence links; run docs-as-code consistency review when any spec document changes.",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record",
+      "observed_at": "2026-08-15",
+      "summary": "Microsoft Well-Architected guidance on maintaining an architecture decision record."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "docs stored in-repo and reviewed via PR",
+      "named spec owner"
+    ],
+    "not_for": [
+      "projects with a single spec document"
+    ]
+  },
+  "expected_effect": {
+    "contradiction_defects": "lower",
+    "review_effort": "slightly higher"
+  },
+  "risks": [
+    "ADR discipline decays without review enforcement; stale ADRs can themselves mislead agents."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

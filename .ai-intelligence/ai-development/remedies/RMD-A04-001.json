@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A04-001",
+  "problem_ids": [
+    "A04"
+  ],
+  "summary": "Declare the source-of-truth ordering (e.g. spec > code > tests > issues > conversation) in the repository instruction file (AGENTS.md/CLAUDE.md) and project profile so both humans and agents resolve conflicts deterministically.",
+  "remedy_type": "instruction",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub Spec Kit: Specify->Plan->Tasks->Implement workflow; spec is the contract/source of truth for agent work; integrates 30+ agents as of 0.11.0 (2026-06)."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "maintained repository instruction file"
+    ],
+    "not_for": [
+      "repos with no written specification at all"
+    ]
+  },
+  "expected_effect": {
+    "conflict_resolution_time": "lower",
+    "wrong_authority_adoption": "lower"
+  },
+  "risks": [
+    "The declaration itself must be kept current or it becomes another stale document."
+  ],
+  "implementation_owner": "instruction-maintenance",
+  "fix_effort": 1,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

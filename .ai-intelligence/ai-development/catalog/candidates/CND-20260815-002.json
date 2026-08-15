@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "id": "CND-20260815-002",
+  "title": "OWASP 2026: prompt injection remains the leading agentic AI threat",
+  "summary": "OWASP GenAI Security Project State of Agentic AI Security v2.01 and the Q1 2026 Exploit Round-up name prompt injection the leading threat, mapping it to six of ten agentic Top-10 categories, with CVEs and breach reports across nearly every agentic risk category; injection attack volume reported up 340% year-over-year.",
+  "source_problem_id": null,
+  "priority_lanes": [
+    "S0"
+  ],
+  "discovered_at": "2026-08-15T09:30:00Z",
+  "detected_by": "maintain-discovery",
+  "confidence": "high",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "I02",
+  "evidence": [
+    {
+      "kind": "standards-report",
+      "reference": "https://genai.owasp.org/2026/04/14/owasp-genai-exploit-round-up-report-q1-2026/",
+      "observed_at": "2026-08-15",
+      "summary": "OWASP 2026 reporting keeps prompt injection as the top agentic risk with documented exploits."
+    }
+  ],
+  "source_refs": [
+    {
+      "kind": "web",
+      "url": "https://genai.owasp.org/2026/04/14/owasp-genai-exploit-round-up-report-q1-2026/",
+      "tier": "official"
+    },
+    {
+      "kind": "web",
+      "url": "https://www.helpnetsecurity.com/2026/06/11/owasp-prompt-injection-ai-security-failures/",
+      "tier": "community"
+    }
+  ]
+}

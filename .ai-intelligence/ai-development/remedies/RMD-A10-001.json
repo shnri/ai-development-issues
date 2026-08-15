@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A10-001",
+  "problem_ids": [
+    "A10"
+  ],
+  "summary": "Require a non-functional section (performance, security, operations, failure handling, migration/rollout) in the spec template with an explicit not-applicable justification per item, so NFR omissions become visible at review time.",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record",
+      "observed_at": "2026-08-15",
+      "summary": "Microsoft Well-Architected guidance on maintaining an architecture decision record."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "spec template under version control"
+    ],
+    "not_for": []
+  },
+  "expected_effect": {
+    "nfr_omissions": "lower",
+    "spec_authoring_effort": "slightly higher"
+  },
+  "risks": [
+    "Checklist fatigue; keep the list short and curated."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

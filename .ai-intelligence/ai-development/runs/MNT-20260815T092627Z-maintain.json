@@ -1,0 +1,571 @@
+{
+  "schema_version": "1.0",
+  "id": "MNT-20260815T092627Z",
+  "started_at": "2026-08-15T09:26:27Z",
+  "completed_at": "2026-08-15T09:32:49Z",
+  "mode": "maintain",
+  "catalog_revision_before": 1,
+  "catalog_revision_after": 49,
+  "plan": {
+    "inventory_problem_ids": [
+      "E08",
+      "E09",
+      "G17",
+      "I01",
+      "I02",
+      "I03",
+      "I04",
+      "I05",
+      "I06",
+      "I07",
+      "I08",
+      "I09",
+      "I10",
+      "I11",
+      "I12",
+      "I13",
+      "I14",
+      "I15",
+      "I16",
+      "I17",
+      "I18",
+      "J10",
+      "K13",
+      "K14",
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06"
+    ],
+    "inventory_items": [
+      {
+        "id": "E08",
+        "title": "Migration、Config、Dependency更新を不用意に含める",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "E09",
+        "title": "Security上危険でも「動くコード」を採用する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "G17",
+        "title": "安全な読取操作にも毎回承認が必要でPermission fatigueになる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I01",
+        "title": "README、Issue、Comment、Web、Log内の文を命令として実行する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I02",
+        "title": "Prompt InjectionでAgentの目的が乗っ取られる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I03",
+        "title": "Shell、GitHub、Cloud、DB、本番への権限が過大",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I04",
+        "title": "誤推論から破壊的Command・Migration・Deployを実行する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I05",
+        "title": "Secret、Source、顧客Dataを外部へ送信する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I06",
+        "title": "Prompt、Trace、LogにSecretや個人情報が残る",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I07",
+        "title": "悪意あるSkill・Plugin・MCPが命令と権限を持つ",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I08",
+        "title": "AIが存在しないPackage名を提案し、攻撃者のPackageを取得する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I09",
+        "title": "Skill文書内のCode例・TemplateにPayloadが埋め込まれる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I10",
+        "title": "CI/CD AgentがIssue・PR・Commit内容から乗っ取られる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I11",
+        "title": "Agent間通信・Shared memoryが汚染される",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I12",
+        "title": "承認疲れで人間が内容を見ずに許可する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I13",
+        "title": "AI生成コードの出典・License・著作権リスクが不明",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I14",
+        "title": "Data residency、保持期間、学習利用条件に違反する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I15",
+        "title": "AI利用が監査証跡に残らず、後から説明できない",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I16",
+        "title": "Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I17",
+        "title": "AgentがBranch protectionや通常工程を迂回する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "I18",
+        "title": "AIが安全対策コードを「不要」と判断して削除する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "J10",
+        "title": "「AIが書いた」で責任主体が曖昧になる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "K13",
+        "title": "AI利用Telemetry自体がPrivacy・機密リスクになる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "K14",
+        "title": "外部Systemへの副作用があり、Code rollbackだけでは戻らない",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A01",
+        "title": "要求が曖昧なまま、AIが暗黙の前提を補って実装する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A02",
+        "title": "複数の設計書が互いに矛盾する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A03",
+        "title": "同じ仕様を複数文書に重複記載し、更新時に分岐する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A04",
+        "title": "設計書、Issue、コード、テスト、会話のどれが正本か不明",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A05",
+        "title": "各設計書は単体で正しいが、組み合わせると成立しない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A06",
+        "title": "古い設計書をAIが現行仕様として採用する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-08-15",
+        "research_status": "unresearched"
+      }
+    ],
+    "discovery_source_ids": [
+      "official-model-and-agent-providers",
+      "primary-software-engineering-research",
+      "standards-security-and-risk",
+      "empirical-agent-engineering",
+      "community-and-issue-signals",
+      "local-project-evidence"
+    ],
+    "discovery_sources": [
+      {
+        "id": "official-model-and-agent-providers",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "openai.com",
+          "developers.openai.com",
+          "anthropic.com",
+          "docs.anthropic.com",
+          "google.com",
+          "github.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent release notes",
+          "model behavior changes",
+          "agent tools and permissions",
+          "skills plugins instructions"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": null
+      },
+      {
+        "id": "primary-software-engineering-research",
+        "kind": "web",
+        "evidence_tier": "research",
+        "domains": [
+          "arxiv.org",
+          "dl.acm.org",
+          "ieeexplore.ieee.org",
+          "openreview.net"
+        ],
+        "paths": [],
+        "query_themes": [
+          "AI-assisted software engineering failure modes",
+          "coding agent testing evaluation",
+          "multi-agent software development",
+          "specification drift AI coding"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": null
+      },
+      {
+        "id": "standards-security-and-risk",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "nist.gov",
+          "owasp.org",
+          "mitre.org"
+        ],
+        "paths": [],
+        "query_themes": [
+          "generative AI risk updates",
+          "agent security prompt injection",
+          "AI software supply chain"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": null
+      },
+      {
+        "id": "empirical-agent-engineering",
+        "kind": "web",
+        "evidence_tier": "empirical",
+        "domains": [
+          "metr.org",
+          "dora.dev"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent productivity empirical",
+          "agent evaluation infrastructure",
+          "AI development delivery performance"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": null
+      },
+      {
+        "id": "community-and-issue-signals",
+        "kind": "web",
+        "evidence_tier": "community",
+        "domains": [
+          "github.com",
+          "reddit.com",
+          "news.ycombinator.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent recurring issue",
+          "AI generated code workflow problem",
+          "Claude Code Codex agent regression"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": null
+      },
+      {
+        "id": "local-project-evidence",
+        "kind": "repository",
+        "evidence_tier": "local",
+        "domains": [],
+        "paths": [
+          ".ai-intelligence/ai-development/findings",
+          ".ai-intelligence/ai-development/runs"
+        ],
+        "query_themes": [
+          "unmapped recurring failure",
+          "unexplained time or token loss",
+          "new specification or test inconsistency"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": null
+      }
+    ],
+    "research_problem_ids": [
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A12"
+    ],
+    "research_items": [
+      {
+        "id": "A01",
+        "title": "要求が曖昧なまま、AIが暗黙の前提を補って実装する",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A02",
+        "title": "複数の設計書が互いに矛盾する",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A03",
+        "title": "同じ仕様を複数文書に重複記載し、更新時に分岐する",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A04",
+        "title": "設計書、Issue、コード、テスト、会話のどれが正本か不明",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A05",
+        "title": "各設計書は単体で正しいが、組み合わせると成立しない",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A06",
+        "title": "古い設計書をAIが現行仕様として採用する",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A07",
+        "title": "一つの要求変更が関連設計・API・DB・テストへ反映されない",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A08",
+        "title": "AIが生成した設計書が権威的に見え、未確認の仮定が仕様化する",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A09",
+        "title": "仕様が過剰に詳細化され、人間もAIも全体を把握できない",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A10",
+        "title": "非機能要件、運用条件、移行条件が機能仕様から抜ける",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A11",
+        "title": "仕様が狭すぎて正しい別解を不合格にする",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      },
+      {
+        "id": "A12",
+        "title": "仕様が広すぎて未指定の挙動までテスト対象になる",
+        "event": "initial",
+        "status": "active",
+        "research_status": "unresearched"
+      }
+    ],
+    "limits": {
+      "inventory": 30,
+      "external_research": 12
+    },
+    "workflow": [
+      "inventory due problems",
+      "scan due discovery sources",
+      "deduplicate and register candidates",
+      "research new/reactivated/materially changed problems in the same run",
+      "write a concise catalog delta report"
+    ]
+  },
+  "results": {
+    "new": 0,
+    "reactivated": 0,
+    "inactive": 0,
+    "obsolete": 0,
+    "updated": 18,
+    "quick_wins": 0,
+    "notes": "Bootstrap run: catalog initialized from bundled 0.2.0 snapshot (authority role, 179 problems). Inventory: 30/30 due problems reviewed, all confirmed active (first-cycle confirmation with 2026 corroborating evidence). Discovery: all 6 source groups scanned; 6 candidates, all classified duplicate/evidence-update (I16, I02, K03, J07, A01, K02); no new problems. Research: 12/12 initial backlog A01-A12 completed, remedy records RMD-A01-001..RMD-A12-001 created (spec-driven clarify gates, source-of-truth/ADR discipline, traceability, behavioral acceptance criteria). Remaining inventory backlog: 149 problems across future rotating batches.",
+    "catalog_summary": {
+      "catalog_id": "ai-development-problems",
+      "revision": 49,
+      "updated_at": "2026-08-15T09:32:29Z",
+      "problem_count": 179,
+      "by_status": {
+        "active": 179
+      },
+      "by_research_status": {
+        "current": 12,
+        "unresearched": 167
+      }
+    }
+  },
+  "status": "completed"
+}

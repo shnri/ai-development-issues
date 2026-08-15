@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "id": "CND-20260815-004",
+  "title": "METR 2026: self-reported uplift vs measured upper bounds still diverge",
+  "summary": "METR 2026 work: transcript analysis gives only a soft upper bound (1.5x-13x) on time savings while a 349-worker survey reports median 1.4-2x self-reported value change, with task-substitution inflation acknowledged; perception vs measurement divergence in AI productivity persists.",
+  "source_problem_id": null,
+  "priority_lanes": [
+    "F2"
+  ],
+  "discovered_at": "2026-08-15T09:30:00Z",
+  "detected_by": "maintain-discovery",
+  "confidence": "high",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "J07",
+  "evidence": [
+    {
+      "kind": "empirical-study",
+      "reference": "https://metr.org/blog/2026-05-11-ai-usage-survey/",
+      "observed_at": "2026-08-15",
+      "summary": "Self-reported uplift and measured upper bounds remain far apart; substitution effects inflate estimates."
+    }
+  ],
+  "source_refs": [
+    {
+      "kind": "web",
+      "url": "https://metr.org/blog/2026-05-11-ai-usage-survey/",
+      "tier": "empirical"
+    },
+    {
+      "kind": "web",
+      "url": "https://metr.org/notes/2026-02-17-exploratory-transcript-analysis-for-estimating-time-savings-from-coding-agents/",
+      "tier": "empirical"
+    }
+  ]
+}

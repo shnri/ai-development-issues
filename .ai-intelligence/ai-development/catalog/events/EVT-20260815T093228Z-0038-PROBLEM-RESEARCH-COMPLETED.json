@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260815T093228Z-0038-PROBLEM-RESEARCH-COMPLETED",
+  "event_type": "problem-research-completed",
+  "occurred_at": "2026-08-15T09:32:28Z",
+  "catalog_revision_before": 37,
+  "catalog_revision_after": 38,
+  "details": {
+    "problem_id": "A01",
+    "outcome": "remedy-found",
+    "remedy_ids": [
+      "RMD-A01-001"
+    ],
+    "researched_at": "2026-08-15T09:32:28Z"
+  }
+}

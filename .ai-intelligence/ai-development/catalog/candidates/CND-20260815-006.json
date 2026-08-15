@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "id": "CND-20260815-006",
+  "title": "Provider model retirements break saved agent configurations and scheduled tasks",
+  "summary": "GPT-5.4/5.4-mini retire from Codex on 2026-08-31; saved configurations, custom agents, and scheduled tasks with pinned model IDs must be migrated. Confirms provider-side model lifecycle changes alone alter agent behavior and break automation.",
+  "source_problem_id": null,
+  "priority_lanes": [
+    "F2",
+    "W3"
+  ],
+  "discovered_at": "2026-08-15T09:30:00Z",
+  "detected_by": "maintain-discovery",
+  "confidence": "high",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "K02",
+  "evidence": [
+    {
+      "kind": "official-release-note",
+      "reference": "https://developers.openai.com/codex/changelog",
+      "observed_at": "2026-08-15",
+      "summary": "Model retirement forces migration of pinned model IDs in saved configs and scheduled tasks."
+    }
+  ],
+  "source_refs": [
+    {
+      "kind": "web",
+      "url": "https://developers.openai.com/codex/changelog",
+      "tier": "official"
+    }
+  ]
+}

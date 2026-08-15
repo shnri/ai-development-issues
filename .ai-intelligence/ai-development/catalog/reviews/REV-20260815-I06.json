@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20260815-I06",
+  "problem_id": "I06",
+  "reviewed_at": "2026-08-15T09:35:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "Secrets and PII persisting in prompts, traces, and logs remain a live compliance/security exposure. First inventory review after catalog bootstrap. The mechanism is structural to current agentic AI development workflows and is not bound to a retired model, tool, or surface. Current 2026 evidence corroborates the risk lane and no provider fix or non-reproduction evidence supports a downgrade; absence of item-specific incident reports is not evidence of resolution.",
+  "evidence": [
+    {
+      "kind": "standards-report",
+      "reference": "https://genai.owasp.org/2026/04/14/owasp-genai-exploit-round-up-report-q1-2026/",
+      "observed_at": "2026-08-15",
+      "summary": "OWASP 2026 agentic security reporting catalogs CVEs, vendor advisories, and breach reports across nearly every agentic risk category."
+    },
+    {
+      "kind": "catalog-seed",
+      "reference": "plugin:references/problem-catalog.json",
+      "observed_at": "2026-08-15",
+      "summary": "Bundled 0.2.0 taxonomy snapshot; mechanism is structural in current agentic workflows, not tied to a retired model or surface."
+    }
+  ],
+  "model_assessment": {
+    "models": [
+      "cross-model (structural mechanism)"
+    ],
+    "conclusion": "still-applicable"
+  },
+  "remedy_assessment": {
+    "conclusion": "keep-tracking"
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "maintain-routine-controller"
+}

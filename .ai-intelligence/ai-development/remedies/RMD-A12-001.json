@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A12-001",
+  "problem_ids": [
+    "A12"
+  ],
+  "summary": "Constrain tests to traced requirements: every test cites the requirement it verifies, and behavior the spec leaves unspecified is explicitly marked out of scope instead of being locked in by incidental tests.",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub Spec Kit: Specify->Plan->Tasks->Implement workflow; spec is the contract/source of truth for agent work; integrates 30+ agents as of 0.11.0 (2026-06)."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "requirement IDs usable from tests"
+    ],
+    "not_for": [
+      "characterization tests intentionally freezing legacy behavior"
+    ]
+  },
+  "expected_effect": {
+    "overconstrained_tests": "lower",
+    "spec_churn_flexibility": "higher"
+  },
+  "risks": [
+    "Requires discipline when tests are mass-generated; lint for missing trace tags."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

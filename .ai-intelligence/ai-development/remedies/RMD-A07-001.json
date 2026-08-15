@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A07-001",
+  "problem_ids": [
+    "A07"
+  ],
+  "summary": "Maintain explicit traceability links from requirement to design, API, schema, tests, and tasks (spec-kit style task tracing or a lightweight traceability matrix) and walk the links as a change-impact checklist on every requirement change.",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub Spec Kit: Specify->Plan->Tasks->Implement workflow; spec is the contract/source of truth for agent work; integrates 30+ agents as of 0.11.0 (2026-06)."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "stable requirement IDs",
+      "links kept in-repo"
+    ],
+    "not_for": [
+      "exploratory prototypes"
+    ]
+  },
+  "expected_effect": {
+    "unpropagated_changes": "lower",
+    "change_lead_time": "slightly higher"
+  },
+  "risks": [
+    "Heavy matrices rot; keep links minimal and machine-checkable where possible."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 3,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

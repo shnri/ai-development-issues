@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "id": "CND-20260815-003",
+  "title": "Hosted product-layer changes degraded Claude Code reasoning for six weeks (Mar-Apr 2026)",
+  "summary": "Three separate product-layer modifications (default reasoning effort, context/thinking retention, reduced system prompt verbosity) degraded Claude Code output quality between March and April 2026 before the provider published a postmortem on April 23. Confirms harness/system-prompt-layer regressions occur without any user-side change.",
+  "source_problem_id": null,
+  "priority_lanes": [
+    "C1",
+    "F2"
+  ],
+  "discovered_at": "2026-08-15T09:30:00Z",
+  "detected_by": "maintain-discovery",
+  "confidence": "medium",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "K03",
+  "evidence": [
+    {
+      "kind": "provider-postmortem",
+      "reference": "https://www.buildthisnow.com/blog/models/claude-code-quality-regression-2026",
+      "observed_at": "2026-08-15",
+      "summary": "Documented six-week product-layer regression with provider postmortem 2026-04-23."
+    }
+  ],
+  "source_refs": [
+    {
+      "kind": "web",
+      "url": "https://www.buildthisnow.com/blog/models/claude-code-quality-regression-2026",
+      "tier": "community"
+    }
+  ]
+}

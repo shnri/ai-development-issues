@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A09-001",
+  "problem_ids": [
+    "A09"
+  ],
+  "summary": "Layer specifications by altitude: top-level behavior contracts stay short and stable; detail lives in linked lower-level documents loaded on demand (progressive disclosure), keeping both humans and agents able to hold the whole contract.",
+  "remedy_type": "instruction",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub Spec Kit: Specify->Plan->Tasks->Implement workflow; spec is the contract/source of truth for agent work; integrates 30+ agents as of 0.11.0 (2026-06)."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "docs-as-code structure supporting layering"
+    ],
+    "not_for": [
+      "tiny specs already within comfortable context"
+    ]
+  },
+  "expected_effect": {
+    "context_overload": "lower",
+    "navigation_cost": "slightly higher"
+  },
+  "risks": [
+    "Wrong layering hides constraints; layer boundaries need review."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

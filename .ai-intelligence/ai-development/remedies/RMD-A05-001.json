@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A05-001",
+  "problem_ids": [
+    "A05"
+  ],
+  "summary": "Add a cross-document integration review before implementation: the Plan phase must merge all applicable specs into one implementation plan, surfacing joint infeasibility while it is still cheap to fix.",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub Spec Kit: Specify->Plan->Tasks->Implement workflow; spec is the contract/source of truth for agent work; integrates 30+ agents as of 0.11.0 (2026-06)."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "multiple spec documents feeding one change",
+      "plan artifact reviewed by a human or independent agent"
+    ],
+    "not_for": [
+      "single-spec changes"
+    ]
+  },
+  "expected_effect": {
+    "integration_failures": "lower",
+    "planning_effort": "higher per change"
+  },
+  "risks": [
+    "Review quality depends on the reviewer actually loading all referenced specs."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}

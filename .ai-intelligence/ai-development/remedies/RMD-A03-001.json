@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A03-001",
+  "problem_ids": [
+    "A03"
+  ],
+  "summary": "Keep each specification fact in exactly one authoritative document and reference or generate all other views from it (DRY docs / single source of truth); prohibit copy-paste duplication in doc review.",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "industry-guide",
+      "reference": "https://www.thebcms.com/blog/spec-driven-development/",
+      "observed_at": "2026-08-15",
+      "summary": "2026 SDD guide: versioned structured specifications as source of truth; community reports 60-80% fewer rework cycles vs prompt-driven development."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADRs create a single durable source of truth per decision; decision log links to PRs/issues for traceability."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "docs-as-code tooling supporting includes/links"
+    ],
+    "not_for": [
+      "one-off documents that never get updated"
+    ]
+  },
+  "expected_effect": {
+    "divergence_on_update": "lower",
+    "doc_maintenance": "lower long-term"
+  },
+  "risks": [
+    "Link-only views reduce local readability; agents must be able to resolve references."
+  ],
+  "implementation_owner": "project-team",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "spec-workflow-tooling-change",
+    "agent-surface-change",
+    "model-family-change"
+  ]
+}
