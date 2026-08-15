@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "test-strategy",
+    "process"
+  ],
+  "id": "RMD-H04-001",
+  "problem_ids": [
+    "H04",
+    "H09",
+    "H10",
+    "H06"
+  ],
+  "summary": "並列実装の前にInterface契約（型・schema・API contract・受入条件）を先に固定し、境界ごとに契約test/型検査で検証してから統合する（spec-anchored、contract-first分解）。",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2602.00180v1",
+      "observed_at": "2026-01-30",
+      "summary": "Spec-Driven Development: spec-first/spec-anchored/spec-as-source。引用研究で誤り最大50%減、OpenAPI+contract testで統合cycle time 75%減の事例（二次引用・限定的）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2503.13657v3",
+      "observed_at": "2025-10-26",
+      "summary": "高次目的に対する検証stepを追加しChatDev ProgramDevで+15.6%。task specification不遵守11.8%、検証欠落/誤検証17.3%。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "明確なtask boundariesと出力形式指定が重複・抜けを防いだ（Anthropic内部運用）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "teammateにplan approvalを要求し、leadに『test coverageを含む計画のみ承認』等の判定基準を与えられる。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数Agentが同じinterfaceの両側を実装する",
+      "上流の設計判断が下流実装の前提になる"
+    ],
+    "not_applicable_when": [
+      "単一Agentが端から端まで実装する小変更"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "Agent間の仕様解釈差と上流誤解の下流連鎖を統合前に検出する",
+    "metrics": [
+      "統合時に発覚したinterface不一致数",
+      "契約test/typecheck failで止まった件数（早期検出）"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "契約を先に固定しすぎて実装知見を反映できない",
+    "契約自体をAgentが独断で変更する（変更には承認gateが必要）"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "設計前工程と契約testの追加",
+  "verdict": "candidate",
+  "known_failure_modes": [
+    "散文の要約仕様だけを渡す（H03と同じ欠落）",
+    "契約が型/testに落ちておらず人手reviewでしか検出できない"
+  ],
+  "revalidate_when": [
+    "contract-first分解のAgent実装での対照研究公開",
+    "TechLogで契約test基盤を導入した後"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

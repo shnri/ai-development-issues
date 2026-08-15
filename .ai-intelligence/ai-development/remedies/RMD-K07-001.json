@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K07-001",
+  "problem_ids": [
+    "K07",
+    "K05"
+  ],
+  "summary": "長時間作業は小さな単位でgit commit＋進捗file＋名前付きsessionをcheckpointにし、rate limit/usage windowで中断しても`--resume`/`codex resume`と要約再開で継続できるようにする。",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sessions",
+      "observed_at": "2026-08-15",
+      "summary": "`claude --continue`/`--resume <name|id>`、`/rename`、`/branch`・`--fork-session`、resume from summary（Pro/Max、1h超・100k token超で提示）。resumeはmodel/agent/permission modeを復元、`--mcp-config`等は再指定。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/checkpointing",
+      "observed_at": "2026-08-15",
+      "summary": "promptごとにfile snapshot（直近100）、`/rewind`でcode/conversation復元。bash変更・subagent編集・外部変更は復元不可、'Not a replacement for version control'。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-08-15",
+      "summary": "seat allowanceは5時間rolling window＋週次window、'You've hit your session/weekly limit'はmodel切替で回復しない、`/usage-credits`で超過利用。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "initializer/coding agent分離、`claude-progress.txt`、feature list JSON、1 sessionあたり1 feature、git commitをcheckpointに。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `codex resume --last`、session ID/名前指定、`codex exec --output-last-message`。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "数十分〜数時間の自律作業、subscription window上限下の運用",
+      "複数日にまたがるタスク"
+    ],
+    "not_applicable_when": [
+      "短いone-shot作業",
+      "限度到達自体を回避したい場合（→provider側plan/creditsが必要、K07はその部分でprovider-controlled）"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "中断からの再開costを下げ、失った作業をcommit単位に限定",
+    "metrics": [
+      "中断後の再開成功率",
+      "再開までの時間",
+      "中断で失われた作業量（未commit差分）"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "要約再開はsummary外の詳細を失う",
+    "2端末で同一session resumeするとtranscriptが混線"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "運用習慣＋進捗fileテンプレ",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process"
+  ],
+  "known_failure_modes": [
+    "/rewindをbash副作用やsubagent編集の巻き戻しに期待する",
+    "未commitのまま長時間run（限度到達で状態喪失）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "usage limit policy変更",
+    "session/resume仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

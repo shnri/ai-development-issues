@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D02-001",
+  "problem_ids": [
+    "D02",
+    "D12",
+    "D13",
+    "D04"
+  ],
+  "summary": "新model（Fable 5等）へ移行する時は、旧model向けの過剰に規範的なSkill・列挙型指示・強調命令・show-your-thinking指示・短run前提timeout・context予算表示を棚卸しし、既定挙動が良ければ削除、残すものは短い意図ベース指示に置き換える。判断は移行前後のevalで行い、安全・権限規則は対象外。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5公式: 「Skills developed for prior models are often too prescriptive for Claude Fable 5 and can degrade output quality. Review and consider removing older instructions if default performance is better」「steer most behaviors with a brief instruction rather than enumerating each behavior」。reasoning echo指示はreasoning_extraction refusalを誘発するので監査。timeout/progress UX/subagent/memoryを再評価。context残量countdown表示は早期停止を誘発。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json",
+      "observed_at": "2026-08-12",
+      "summary": "TechLog ledger: anthropic-fable-5-agent-capabilities-and-scaffolding（may_replace: prior-model-scaffolding, short-run-timeout-assumptions）、instruction-and-scope-guidance（may_replace: exhaustive-behavior-instructions, generic-scope-guardrails）、long-run-reliability（may_replace: context-budget-stop-instructions）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "agentskills.io: 「Reasoning-based instructions ... work better than rigid directives (ALWAYS/NEVER)」、over-constrainedなら削って確認。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-ablation-evals",
+      "observed_at": "2026-08-11",
+      "summary": "削除判断はablationで。安全policyは同基準で削除しない。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "observed_at": "2026-08-11",
+      "summary": "maintain-agent-instructions: 「モデルの進歩だけを削除理由にしない」— 一次情報とevalで裏付ける。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "利用modelがFable 5/Mythos 5など新世代へ更新された",
+      "Skill/CLAUDE.mdに旧model時代のworkaround（列挙・強調・reasoning echo・context予算指示）が残る"
+    ],
+    "not_applicable_when": [
+      "旧modelを併用し続ける経路（Opus 4.8 fallback等）がある場合はmodel別に分岐/条件付きに",
+      "安全・権限・データ保護規則"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "claude-fable-5 / claude-mythos-5 に固有の指針。他modelは各provider guideで再確認"
+  },
+  "expected_effect": {
+    "primary": "逆効果化した旧workaroundの除去による品質回復と指示量削減",
+    "metrics": [
+      "移行前後のregression eval差",
+      "削除した指示件数と回帰有無",
+      "refusal（reasoning_extraction）発生率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "旧modelへのfallback経路で必要な指示まで削る",
+    "『新modelだから不要』の推測だけで削除する"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "棚卸し半日＋eval実行",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "test",
+    "process"
+  ],
+  "known_failure_modes": [
+    "model進歩だけを理由に根拠なく削除",
+    "重い恒久策（専用harness）を旧model問題のために作り込み新modelでも残す"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "次のmodel世代更新",
+    "Fable 5 prompting guide改訂（ledgerで検知）",
+    "effort既定値変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "E-陳腐化管理",
+  "model_behavior_refs": [
+    "MBI-fable-high-effort-overexplains",
+    "MBI-fable-high-effort-scope-creep",
+    "MBI-fable-long-run-unsupported-progress"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

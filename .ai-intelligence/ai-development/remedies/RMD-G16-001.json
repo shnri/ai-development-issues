@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "process"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G16-001",
+  "problem_ids": [
+    "G16"
+  ],
+  "summary": "devcontainerでtool・認証・依存を永続化(named volumeで`~/.claude`/`~/.codex`、CLIのversion固定、`postCreateCommand`は初回のみ、`init.sh`相当で通常起動手順を分離)し、毎sessionのinstall/build/初期調査を無くす。",
+  "remedy_type": "harness",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/devcontainer",
+      "observed_at": "2026-08-15",
+      "summary": "'By default, the container's home directory is discarded on rebuild' → named volumeを`~/.claude`にmountし`CLAUDE_CONFIG_DIR`を同じpathへ; version固定は`npm install -g @anthropic-ai/claude-code@X.Y.Z`+`DISABLE_AUTOUPDATER=1`; 参照containerはvolume/firewall/Dockerfileの組合せ",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2026-08-15",
+      "summary": "initializer agentが環境を初回に整え、以後は`init.sh`で立上げ・検証を高速化",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "auto memory/CLAUDE.mdでbuild commandやproject layoutをsession横断保持し初期調査を省く",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "container rebuildや新sessionでinstall・login・環境調査を毎回繰り返す",
+      "複数agent/複数人で同一環境が必要"
+    ],
+    "not_applicable_when": [
+      "環境が既に固定・cache済みで再構築が稀"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "session立上げ時間と初期探索tokenの削減、環境再現性",
+    "metrics": [
+      "container起動〜最初の有効toolまでの秒数",
+      "session冒頭のinstall/build command回数",
+      "初期調査で読んだfile数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "volumeにcredentialが残るためuntrusted repositoryでのbypass modeと組み合わせない(公式警告)",
+    "auto-update無効化で古いCLIに留まる"
+  ],
+  "implementation_owner": "platform",
+  "fix_effort": 2,
+  "cost": "devcontainer.json編集とscript分離。npm cache volumeは追加検討",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "postCreateに毎回走る重い処理を置く",
+    "host secretをmountして永続化(公式が回避推奨)"
+  ],
+  "revalidate_when": [
+    "devcontainer feature/CLI install方式の変更",
+    "Node/npm major更新"
+  ],
+  "techlog_notes": "TechLogは`techlog-claude-home`/`techlog-codex-home` volumeを既に持つ(commit 06e1935)。残る候補: node_modules/npm cache volume、`postCreate.sh`の初回/通常分離、CLAUDE_CONFIG_DIRの明示。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "test-strategy",
+    "process"
+  ],
+  "id": "RMD-H13-001",
+  "problem_ids": [
+    "H13",
+    "H09"
+  ],
+  "summary": "Coder AgentとReviewer Agentの相互同意を防ぐため、fresh-contextの独立verifier subagent・決定的なtest/typecheck oracle・敵対的（反証）role設定を用い、Reviewerには生成物だけでなく仕様と実行証拠を渡す。",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "『Separate, fresh-context verifier subagents tend to outperform self-critique.』一定間隔で仕様に対しsubagent検証する指示を推奨。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "競合仮説を互いに反証させるdebate構造（anchoring回避）と、review観点を分けた並列reviewer。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-trajectory-audit",
+      "observed_at": "2026-08-11",
+      "summary": "trajectory/artifactのsample監査でreward hacking・不当passを検出（evidence-supported）。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-risk-based-review",
+      "observed_at": "2026-08-11",
+      "summary": "AI reviewを人間判断の完全代替にしない（失敗対策として明記）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2503.13657v3",
+      "observed_at": "2025-10-26",
+      "summary": "誤検証9.1%・検証欠落8.2%: 検証Agentが表層checkに留まる失敗が主要mode。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "生成と検証を別Agentに分ける構成",
+      "reviewerが同じ会話文脈・同じ前提を共有している"
+    ],
+    "not_applicable_when": [
+      "決定的testで判定可能な変更（Agent reviewer自体が不要）"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "fresh-context verifier優位はFable 5でAnthropicが観測。他modelは一般則として候補"
+  },
+  "expected_effect": {
+    "primary": "生成側前提を共有した形式的承認を減らし、実欠陥検出率を上げる",
+    "metrics": [
+      "reviewer指摘のうち実欠陥率",
+      "独立verifierが差し戻した割合",
+      "人間reviewで後から見つかった欠陥数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "verifier追加でToken/時間増",
+    "verifierも同じmodel biasを共有し得る（決定的oracle併用が必要）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "verifier subagent定義と検証間隔の指示",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "同一Contextでのself-critique",
+    "Reviewerへ要約だけ渡す（H03）",
+    "reviewer LGTMを人間reviewの代替にする"
+  ],
+  "revalidate_when": [
+    "Fable 5後継のscaffolding guidance",
+    "TechLogでverifier subagentのA/B計測後"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K04-001",
+  "problem_ids": [
+    "K04",
+    "K05"
+  ],
+  "summary": "実行環境（container image digest、devcontainer feature版、Node/npm版、lockfile、sandbox mode）を固定・記録し、agent runの環境差を消す。",
+  "remedy_type": "dependency",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "standard",
+      "reference": "https://containers.dev/implementors/features-distribution/",
+      "observed_at": "2026-08-15",
+      "summary": "Dev Container Features spec: 'provide the ability for a user to pin to a particular version (absolute, or semantic version) of a Feature to allow for consistent, repeatable environments'。参照形式`<registry>/<namespace>/<id>[:version]`。",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://github.com/devcontainers/cli/issues/1195",
+      "observed_at": "2026-08-15",
+      "summary": "devcontainers CLI: `--experimental-lockfile`で`devcontainer-lock.json`生成、`--experimental-frozen-lockfile`で強制、`devcontainer upgrade`で更新。stable化議論中（Discussion #237も参照）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `sandbox_mode`(read-only|workspace-write|danger-full-access)、`features.network_proxy.domains`（未設定=外部宛先不可）で実行環境条件を宣言的に固定。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/monitoring-usage",
+      "observed_at": "2026-08-15",
+      "summary": "OTel属性に`app.version`、`terminal.type`等を含められ（`OTEL_METRICS_INCLUDE_VERSION`既定false）、環境情報を計測に付与可能。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "devcontainer/CIで再現性が必要",
+      "agentがbuild/test結果に依存して判断する"
+    ],
+    "not_applicable_when": [
+      "環境差が本質的に問題にならないdoc-only作業",
+      "host固有hardware依存（CPU/Memory差はimage固定では消えない→記録のみ）"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "OS/toolchain差による偽の変動を除去し、残る変動をmodel/prompt側に帰属できる",
+    "metrics": [
+      "環境manifest記録率",
+      "同一入力での環境起因差分件数",
+      "devcontainer rebuild再現成功率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "pin固定で更新遅延・脆弱性残存（→定期upgrade）",
+    "lockfileはexperimental扱い"
+  ],
+  "implementation_owner": "platform",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "devcontainer.jsonのimage digest/feature版固定とlockfile運用",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process"
+  ],
+  "known_failure_modes": [
+    "floating tag（例: `base:bookworm`、node `version: lts`）のまま'環境固定した'とみなす（TechLogのdevcontainer.jsonは両方floating）",
+    "Network/timeouts差は無視して結果だけ比較"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "base image更新",
+    "Node major更新",
+    "devcontainer CLI lockfile stable化"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

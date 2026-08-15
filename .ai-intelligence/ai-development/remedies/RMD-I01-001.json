@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I01-001",
+  "problem_ids": [
+    "I01",
+    "I02",
+    "I10",
+    "I11"
+  ],
+  "summary": "Prompt injectionは入力分類で完全防御せず、OS sandbox（filesystem/network deny既定）、fail-closed permission、Rule of Two（untrusted input・secret/tool・外部送信を同時に持たせない）で被害範囲を封じ込める",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Codeはread-only既定、fail-closed matching、curl/wget非自動許可、WebFetchの隔離context、command injection detection、-pではtrust verification無効を明記（2026-08-15閲覧）",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-08-15",
+      "summary": "bubblewrap/seatbelt sandbox: allowedDomains、denyRead、credentials deny/mask、allowUnsandboxedCommands=falseでStrict sandbox（v2.1.187+/2.1.199+）",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/codex/agent-approvals-security",
+      "observed_at": "2026-08-15",
+      "summary": "Codexはworkspace-write既定・network既定off、.git/.codex/.agents保護、CIは--sandbox read-only --ask-for-approval never、web検索はcached既定でinjection露出を下げる",
+      "quality": "high"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/",
+      "observed_at": "2026-06-05",
+      "summary": "Claude Code GitHub Actionでissue/PR文からANTHROPIC_API_KEYが/proc経由で読まれた事案。Read toolがBash sandbox外だったのが根因、2.1.128で修正。Agents Rule of Twoを推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/designing-agents-to-resist-prompt-injection/",
+      "observed_at": "2026-03-11",
+      "summary": "source-to-sink制約とsensitive transfer consentを設計原則として公開",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-sandbox",
+      "observed_at": "2026-08-11",
+      "summary": "task単位sandboxはoperationally-supported/high",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-source-sink-consent",
+      "observed_at": "2026-08-11",
+      "summary": "source-sink制約と内容拘束consent、medium",
+      "quality": "medium"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "observed_at": "2025-12-09",
+      "summary": "ASI01 Agent Goal Hijack / ASI02 Tool Misuseの緩和として最小権限・sandbox・承認を整理",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがweb/issue/README/logなどuntrusted textを読み、かつBash・network・secretへ到達できる",
+      "headless/CI実行（trust verificationが無効）"
+    ],
+    "not_applicable_when": [
+      "Agentが読み取り専用でtool・network・secretを持たない場合"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "injection成功時でもsecret到達・外部送信・host変更が遮断される",
+    "metrics": [
+      "sandbox deny件数",
+      "許可外egress件数",
+      "injection red-team成功率（目標: secret exfil 0）"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "allowUnsandboxedCommands既定trueでモデルがdangerouslyDisableSandbox再試行し得る",
+    "allowedDomains上の正規サービス（github, npm）経由のexfilは残る",
+    "sandbox escape/harness CVE"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "sandbox依存導入（bubblewrap/socat）、allowlist整備、初期摩擦",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "instruction",
+    "ci"
+  ],
+  "known_failure_modes": [
+    "入力分類器/モデル判断だけの防御（局所card: 未知injectionを残す）",
+    "Read/Grepなどsandbox外toolを忘れる（Microsoft事例）",
+    "-p headlessでinteractive前提の保護を期待する"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code sandbox仕様変更",
+    "Codex sandbox変更",
+    "新しいharness CVE",
+    "OWASP改訂"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

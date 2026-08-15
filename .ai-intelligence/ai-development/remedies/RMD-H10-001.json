@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "harness",
+    "process"
+  ],
+  "id": "RMD-H10-001",
+  "problem_ids": [
+    "H10",
+    "H06",
+    "H09"
+  ],
+  "summary": "担当単位の『完了』とは別に統合gateを置き、統合branch/worktreeでtest・lint・typecheck・buildを一括実行して意味的conflictを検出し、Agentがtest/feature listを書き換えて完了を偽装できないよう検証資産の変更を制限する。",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "feature listのpasses以外を変更禁止、Session開始時の基本機能test、end-to-end自己検証（browser）を推奨。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2503.13657v3",
+      "observed_at": "2025-10-26",
+      "summary": "検証欠落8.2%・誤検証9.1%・早期終了6.2%。高次目的検証step追加で+15.6%。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "TaskCompleted/TeammateIdle hookでexit code 2により完了を拒否しfeedbackを返す品質gate機構。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-machine-prechecks",
+      "observed_at": "2026-08-11",
+      "summary": "機械検査を人間reviewの前段に置く（operationally-supported）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-oracle-isolation",
+      "observed_at": "2026-08-11",
+      "summary": "test/scorerへのwrite分離でoracle改変を抑える（operationally-supported）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2604.03551",
+      "observed_at": "2026-05-12",
+      "summary": "textual conflict自体が27.67%と高頻度であり、Gitが検知しない意味的衝突はさらに別gateが必要という前提。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数Agentの成果を統合する",
+      "各担当がlocalでgreenでも全体挙動が未検証"
+    ],
+    "not_applicable_when": [
+      "単一変更で全体testを既に走らせる場合（重複gateは不要: taxonomy quick win『最終確認の重複』）"
+    ],
+    "controllable_layer": "ci",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "統合時の全体破壊と意味的conflictをmerge前に検出する",
+    "metrics": [
+      "統合gate失敗率",
+      "merge後に発覚した回帰数",
+      "test改変を伴う『完了』件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "gateの重複で待ち時間増（作業中は関連testのみ、全体は統合時1回）",
+    "gate偽装（skip/xfail追加）を検出できない"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "統合branch運用とhook/CI設定",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "Agent自身の『tests pass』報告を統合gateとして扱う",
+    "test/CI設定の変更をAgentに自由に許可する"
+  ],
+  "revalidate_when": [
+    "TechLog CIにmulti-agent統合jobを追加した後",
+    "agent teams hook仕様変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

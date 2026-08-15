@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "harness",
+    "process"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G08-001",
+  "problem_ids": [
+    "G08",
+    "G09",
+    "G10"
+  ],
+  "summary": "Subagent分割を'独立・並列可能・要約で返せる'作業に限定し、query複雑度でagent数を段階化(単純: 1 agent/3–10 tool call、比較: 2–4 subagent、複雑: >10)、各subagentに目的・出力形式・tool・境界を明示して重複と統合costを抑える。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic multi-agent: 'Simple fact-finding requires just 1 agent with 3-10 tool calls, direct comparisons might need 2-4 subagents with 10-15 calls each, and complex research might use more than 10 subagents'; token使用が性能分散の80%を説明、multi-agentはchatの約15倍token; 'Without detailed task descriptions, agents duplicate work, leave gaps'; 共有contextや依存が多いdomainはmulti-agent不向き",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sub-agents",
+      "observed_at": "2026-08-15",
+      "summary": "main conversationを使う条件: 'frequent back-and-forth', 'Multiple phases share significant context', 'quick, targeted change', 'Latency matters'。subagentは冗長出力隔離・tool制限・自己完結作業向け。fresh contextで会話履歴を持たない",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5はsubagentをより積極的に使うため、'provide explicit guidance about when delegation is appropriate'; 'Delegate independent subtasks to subagents and keep working while they run'; fresh-context verifier subagentは自己批評より有効",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-08-15",
+      "summary": "Agent teams: 'Keep teams small... token usage is roughly proportional to team size'; teammates plan modeで約7x token",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "subagent/team機能を使うworkflow",
+      "調査・レビューなど並列化可能な作業と、依存の強い実装作業が混在する"
+    ],
+    "not_applicable_when": [
+      "subagentを使わないsession",
+      "全工程が単一contextの共有を要する小変更"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic; Fable 5では委譲傾向が強く境界指示の必要性が上がる(公式)"
+  },
+  "expected_effect": {
+    "primary": "不要なsubagent起動と重複調査の削減、統合cost低下",
+    "metrics": [
+      "task当たりsubagent数と複雑度区分の対応",
+      "subagent間の重複file読取/検索率",
+      "統合(merge/reconcile)に要したturn数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "並列化を抑えすぎて長い調査が遅くなる(公式は並列で最大90%短縮の事例)",
+    "境界指示が長文化"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "AGENTS.md/subagent定義に数行、担当割当のtemplate",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "依存作業を分割してsubagentが互いの前提を知らずに衝突",
+    "出力形式未指定で親が統合に大量turnを使う",
+    "subagent数上限だけ置いて担当境界を書かない(local: 担当と成果物を先に割り当てる)"
+  ],
+  "revalidate_when": [
+    "subagent/team機能の仕様変更",
+    "model更新(委譲傾向変化)"
+  ],
+  "techlog_notes": "TechLogの`.claude/agents/`とreview系skillsは並列subagentを使う。委譲条件と出力contractを各agent定義に持たせる。RMD-G22-001の同時数上限と併用。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

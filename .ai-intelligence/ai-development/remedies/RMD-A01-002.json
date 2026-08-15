@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A01-002",
+  "problem_ids": [
+    "A01",
+    "A08",
+    "A10"
+  ],
+  "summary": "実装前に「明確化フェーズ」を分離し、Agentに未確定事項を質問させて回答を仕様書へ記録してから実装セッションを開始する（Explore→Plan→Code、interview→SPEC.md）。",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic Claude Code best practices: 'Explore first, then plan, then code'、'have Claude interview you first ... write a complete spec to SPEC.md'、specは'name the files and interfaces involved, state what is out of scope, and end with an end-to-end verification step'。scopeが一文で言える小変更ではplanを省く。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/github/spec-kit/main/templates/commands/clarify.md",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub Spec Kit /speckit.clarify: 9カテゴリ(Functional Scope, Data Model, UX, Non-Functional, Integration, Edge Cases, Constraints, Terminology, Completion Signals)をClear/Partial/Missingで走査し、最大5問、回答を'## Clarifications / ### Session YYYY-MM-DD'へ'Q→A'で記録し該当セクションへ即反映。vague adjective('robust','intuitive')やTODO placeholderを候補化。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://kiro.dev/docs/specs/feature-specs/",
+      "observed_at": "2026-08-04",
+      "summary": "Kiro specs: requirements.md(EARS 'WHEN ... THE SYSTEM SHALL ...')→design.md→tasks.md。'Analyze Requirements'でlogical inconsistencies, ambiguities, conflicting constraints, gapsを検出してから設計へ進む。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2603.26233",
+      "observed_at": "2026-06-03",
+      "summary": "Ask or Assume?: 現行Agentは'largely optimized for autonomous execution'で質問しない。underspecified SWE-bench Verifiedで、明確化検出をコード実行から分離したUA-Multiが69.40%を達成し、fully specified(70.80%)にほぼ並ぶ。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.07937",
+      "observed_at": "2026-05-08",
+      "summary": "Ask Early, Ask Late, Ask Right: goal clarificationは実行10%以降で価値をほぼ失う(pass@3 0.78→baseline)。mid-trajectory以降の質問は'never asking'より悪化。frontier modelは52%のsessionで過剰質問または無質問。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05-28",
+      "summary": "20,574 sessionの実観測で意図解釈・行動範囲の不一致が反復し、可視な解決の91.49%がユーザーの明示的訂正を要した。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "変更が複数file/複数artifactに及ぶ、approachが複数ある、要求文に量的基準がない、非機能・運用条件が未記載",
+      "AIにspec/設計書を生成させる場合(A08)"
+    ],
+    "not_applicable_when": [
+      "diffを一文で説明できる小変更(typo, log追加, rename)",
+      "探索目的でvague promptを意図的に使う場合"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "暗黙前提の補完実装と手戻りを減らし、未確定事項を仕様書に明示化する",
+    "metrics": [
+      "実装後のユーザー訂正回数",
+      "clarification記録件数/feature",
+      "'[NEEDS CLARIFICATION]'残数0で実装着手した割合",
+      "再作業PR率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "質問過多(52% sessionで観測)による摩擦。goal級の質問は着手直後に限定する",
+    "planning overheadを小変更にも課すと効率低下",
+    "spec作成自体を全面AI任せにするとA08を再生産する"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "数分〜30分/feature。Claude Codeはplan mode・AskUserQuestionで追加設定不要",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "途中(mid-trajectory)で初めて質問する運用は無質問より悪い(Ask Early paper)",
+    "質問しない前提のautonomous scaffoldに'質問せよ'とだけ書く。検出をworkerから分離しないと質問率が上がらない(UA-Multi)",
+    "計測なしのplan mode常時強制"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model update(質問calibrationはmodel依存)",
+    "Claude Code plan mode/AskUserQuestion仕様変更",
+    "Spec Kit template大改訂"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "controller_notes": [
+    "2026-08-15: renamed from RMD-A01-001 on merge into authority catalog (ID taken by routine research record)."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

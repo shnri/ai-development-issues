@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I03-001",
+  "problem_ids": [
+    "I03",
+    "I05",
+    "I06",
+    "I04"
+  ],
+  "summary": "Agent実行環境からcredentialを物理的に外す: sandbox credentials deny/mask、CLAUDE_CODE_SUBPROCESS_ENV_SCRUB、Codex network off、scoped短期token/OIDC、本番権限はAgentに与えない",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-08-15",
+      "summary": "sandbox.credentials files/envVars deny・mask（proxyがallow hostへのみ実値注入、v2.1.199+）、既定read範囲は~/.aws等も読めるため明示deny必要、CLAUDE_CODE_SUBPROCESS_ENV_SCRUB",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code on the webはscoped credential + proxy、push先を作業branchに制限、Remote Controlは短期narrow credential",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/codex/agent-approvals-security",
+      "observed_at": "2026-08-15",
+      "summary": "workspace-write既定でnetwork off、danger-full-accessは非推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.npmjs.com/trusted-publishers",
+      "observed_at": "2026-08-15",
+      "summary": "OIDC trusted publishingで長期tokenを排除、npm 11.5.1+",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-credential-proxy",
+      "observed_at": "2026-08-11",
+      "summary": "credential-outside-sandbox scoped proxy、operationally-supported/high",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/claude-code-sandboxing",
+      "observed_at": "2025-10-20",
+      "summary": "filesystem/network隔離とcredential分離の設計",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがshell/gh/npm/cloud CLIを実行",
+      "devcontainerや.envにsecretがある"
+    ],
+    "not_applicable_when": [
+      "Agentがcredentialを一切持たない読み取り専用task"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "secret露出・過剰権限のblast radius縮小",
+    "metrics": [
+      "sandbox内で読めるsecret file/env数",
+      "token scope/TTL",
+      "secret exfil red-team結果"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "maskはtlsTerminate必須で設定ミス時は認証失敗（fail-closed）",
+    "deny型はgh/npmを壊す",
+    "mask等はrepo settings.jsonでは無視される（user/managed設定のみ）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "settings整備と再認証、Linuxでbubblewrap/socat",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness",
+    "process"
+  ],
+  "known_failure_modes": [
+    "repo .claude/settings.jsonでmaskを設定して効いていると誤認",
+    "本番admin権限のtokenをAgent環境に置く",
+    "Bedrock/Vertexで環境変数credentialをそのまま渡す"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code sandbox credentials仕様更新",
+    "Codex sandbox変更",
+    "cloud IAM変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

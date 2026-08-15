@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K14-001",
+  "problem_ids": [
+    "K14"
+  ],
+  "summary": "外部systemへ作用する操作（Firestore upsert、Algolia index、publish、delete、payment）はread/analysisから分離し、sandbox・emulator/staging・dry-run・idempotency key・実行前承認を経由させ、code rollbackで戻らない副作用を前提に設計する。",
+  "remedy_type": "harness",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-risk-approval",
+      "observed_at": "2026-08-11",
+      "summary": "分析・実行分離とrisk-based approval（delete/publish/payment/permission/本番反映）（operationally-supported, high）。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-sandbox",
+      "observed_at": "2026-08-11",
+      "summary": "filesystem/networkのtask単位sandbox、egress deny既定（operationally-supported, high）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/checkpointing",
+      "observed_at": "2026-08-15",
+      "summary": "'Checkpointing does not track files modified by bash commands'、外部変更・subagent編集も復元不可 → 外部副作用はrewind/rollback対象外。",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "observed_at": "2025-06-18",
+      "summary": "MCP: tool annotations（readOnlyHint/destructiveHint/idempotentHint/openWorldHint）で副作用性を宣言可能だが'clients MUST consider tool annotations to be untrusted unless they come from trusted servers'。clientはsensitive操作で確認・入力表示・audit logをSHOULD。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `sandbox_mode`, `approval_policy`(untrusted|on-request|never|granular), `features.network_proxy.domains`（既定は外部宛先不可）で外部作用を構造的に遮断。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://firebase.google.com/docs/emulator-suite",
+      "observed_at": "2026-08-15",
+      "summary": "Firebase Local Emulator Suite: Firestore等を'perform integration testing or QA without touching production data'。TechLogのFirestore upsert前検証（content:validate）と組み合わせ可能。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "agentがDB書込・index更新・外部API・publish権限を持つ",
+      "TechLog: content upsert/Algolia同期など"
+    ],
+    "not_applicable_when": [
+      "read-onlyのみのtask",
+      "副作用が可逆かつ低コストで巻き戻せる場合（それでも記録は残す）"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "不可逆な外部副作用をagent自律範囲外に置き、誤操作の影響を承認済み操作に限定",
+    "metrics": [
+      "承認なしhigh-risk action件数（目標0）",
+      "dry-run/emulator経由率",
+      "idempotency違反（重複書込）件数",
+      "本番副作用incident"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "approval fatigue",
+    "emulatorと本番差による見逃し"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "dry-run flag/emulator設定/承認gateの実装（数時間〜1日）",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "process",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "/rewindやgit revertで外部systemも戻ると仮定",
+    "MCP annotationsを信頼して確認を省略",
+    "全操作へ一律確認で形骸化"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "MCP spec更新",
+    "sandbox/approval実装変更",
+    "Firebase/Algolia API変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "controller_notes": [
+    "2026-08-15 controller review: downgraded validated→candidate; evidence is official mechanism/guidance plus operationally-supported local cards without measured effect on agent workflows."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

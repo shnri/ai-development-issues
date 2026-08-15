@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "setting",
+    "observability"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G22-001",
+  "problem_ids": [
+    "G22",
+    "G09",
+    "G24",
+    "G05",
+    "G06"
+  ],
+  "summary": "harness側のhard limitで暴走を止める: Claude Code非対話は`--max-turns`と`--max-budget-usd`、subagentは`maxTurns` frontmatterと`CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`/`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`、Codexは`model_auto_compact_token_limit`等の予算値と`notify`で終了検知。",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/cli-reference",
+      "observed_at": "2026-08-15",
+      "summary": "`--max-turns`: agentic turn数上限(print modeのみ、既定無制限、超過でerror終了)。`--max-budget-usd`: API支出上限(print mode)、subagent支出も加算、到達でsubagent起動失敗・background subagent停止(v2.1.217+)",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sub-agents",
+      "observed_at": "2026-08-15",
+      "summary": "subagent frontmatter `maxTurns`; 同時subagent既定20(`CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`)、nesting既定3(`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`); 'Running many subagents that each return detailed results can consume significant context'",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex config: `model_auto_compact_token_limit`, `model_context_window`, `notify`(JSON payloadで通知command)。turn/USD上限keyは本reference上で未確認",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-08-15",
+      "summary": "組織cap: Teams/Enterprise spend limits, Console workspace spend limits, gateway per-user spend limits, `/usage`と`/insights`",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-hard-limits",
+      "observed_at": "2026-08-11",
+      "summary": "hard-limits: tool call監査と反復・予算・時間制限はoperationally-supported(medium)。auditは予防でなく途中停止が副作用",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "非対話(`claude -p`、routine、CI)や長時間autonomous runで費用・turnが青天井",
+      "subagent fan-outが起きうるworkflow"
+    ],
+    "not_applicable_when": [
+      "対話sessionでは`--max-turns`/`--max-budget-usd`は効かない(print modeのみ) → 指示層(RMD-G05-001)とsubagent maxTurnsで代替",
+      "Codexで同等のturn/USD capが未提供の部分(provider-controlled)"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "最悪ケース費用の上限化と無限loop・過剰fan-outの機械停止",
+    "metrics": [
+      "run当たりUSD/turn数の上限到達率",
+      "limitで停止したrunのうち手戻りが必要だった割合",
+      "同時subagent最大数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "上限に当たると未完で止まる(G15/G21のcheckpointと併用)",
+    "上限が緩すぎると効果無し、厳しすぎると正当な長時間作業を切る"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "CLI flag/env/frontmatter追加。routine定義があれば数分",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "監査logだけ入れて予防と誤認(local card)",
+    "上限を設定したがcheckpointが無く、停止=全損になる",
+    "対話modeで`--max-turns`が効くと誤解する"
+  ],
+  "revalidate_when": [
+    "Claude Code CLI flagの仕様変更",
+    "Codexにturn/cost cap設定が追加された",
+    "subagent既定上限の変更"
+  ],
+  "techlog_notes": "TechLogのClaude Code Routine/`claude -p`系workflowに`--max-turns`と`--max-budget-usd`を付ける。`.claude/agents/*.md`のsubagentに`maxTurns`を検討。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

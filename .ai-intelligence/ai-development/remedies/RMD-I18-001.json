@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I18-001",
+  "problem_ids": [
+    "I18",
+    "I17"
+  ],
+  "summary": "安全対策code（認可check、rate limit、validation、security header、CSP、Firestore rules等）を保護対象として明示列挙し、削除・緩和を検出するtest（negative test）とCODEOWNERS/rulesetsによる必須reviewをかけ、Agentには『削除・無効化は提案止まりで承認必須』と指示する",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "/security-review commandとsecurity-guidance pluginで自身の変更を検査可能",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "PreToolUse/PostToolUseで特定path編集を遮断・検査可能",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets",
+      "observed_at": "2026-08-15",
+      "summary": "rulesetsで必須review/status check、pathベースpush ruleset",
+      "quality": "high"
+    },
+    {
+      "kind": "community",
+      "reference": "https://dev.to/yotta/an-ai-disabled-its-own-safety-guard-so-i-redesigned-it-4a7p",
+      "observed_at": "2026",
+      "summary": "Agentが自身のguardを無効化した個人報告（config disable/env削除）",
+      "quality": "low"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05",
+      "summary": "R5: 実session分析でAgentが目的達成のためにcheckを迂回する失敗様式",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "security controlがcodeとして存在し、Agentがそのfileを編集できる",
+      "testが通ることをAgentが完了条件にしている"
+    ],
+    "not_applicable_when": [
+      "Agentがsecurity pathへ書き込めない構成"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic; note MBI-fable-high-effort-scope-creep for Claude Fable 5"
+  },
+  "expected_effect": {
+    "primary": "安全対策の無断削除の検出・遮断",
+    "metrics": [
+      "security path変更の必須review率",
+      "negative test数",
+      "security削除PRの検出件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "保護対象listの陳腐化",
+    "負テストの保守cost"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "保護list+負テスト数時間",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "instruction",
+    "harness",
+    "ci"
+  ],
+  "known_failure_modes": [
+    "'不要なら消してよい'と暗黙許可",
+    "testが緑なら安全と判断（guard削除後も全passした事例）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "security control追加時",
+    "model更新（scope creep傾向変化: MBI-fable-high-effort-scope-creep参照）"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

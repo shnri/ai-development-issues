@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E04-001",
+  "problem_ids": [
+    "E04",
+    "E05",
+    "E07",
+    "E10"
+  ],
+  "summary": "依頼範囲・最小実装を短い境界指示で明示し（refactor/抽象化/依存追加/一時ファイルを禁止・要確認にする）、モデル固有のscope-creep傾向をprompt層で抑える",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5はhigh/xhigh effortで未依頼のtidying/refactorへ広がり得ると明記し、'Don't add features, refactor, or introduce abstractions beyond what the task requires... do the simplest thing that works well' の短い境界指示を推奨。網羅列挙より短い指示が有効（Strong instruction following）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "'Overeagerness' 節: Opus 4.5/4.6の過剰設計（余分なfile、不要抽象化、未依頼の柔軟性）に対する minimal-scope prompt を提示。'Reduce file creation' 節: 一時file/scriptを終了時に削除する指示例。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex AGENTS.md guidance: working agreementsとして『production dependency追加前に確認を求める』を例示。Codexは作業前にAGENTS.mdを読む。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code best practices: 'build from scratch without libraries other than the ones already used in the codebase' のようにタスクをscopeする例、'nothing outside the task's scope changed' を検証するreviewer subagent例。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MBI-fable-high-effort-scope-creep",
+      "observed_at": "2026-08-11",
+      "summary": "verified/high confidence の model behavior issue。TechLog AGENTS.mdは無関係差分禁止を既に持つがFable 5で未評価。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05-28",
+      "summary": "20,574 session分析で『行動の境界（bound their actions）』が7つの再発形態の一つ。constraint violationの割合は時間とともに増加。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがコード変更権限を持つ通常のbug fix / 小機能実装",
+      "high effort設定またはambiguousな依頼"
+    ],
+    "not_applicable_when": [
+      "明示的にrefactor/整理を依頼したタスク",
+      "指示ファイルが既に肥大化しており追加指示が埋もれる場合（先に剪定が必要）"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic だが文言はClaude Fable 5 / Opus 4.5-4.6向けにAnthropicが公式提示。Codexは同等の公式文言なし"
+  },
+  "expected_effect": {
+    "primary": "依頼外のfile変更・依存追加・一時fileの残存が減る",
+    "metrics": [
+      "変更file数のうち依頼外の比率",
+      "package.json/lockfile差分の無承認発生数",
+      "一時file・debug出力の残存件数/PR"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "過度に厳しい境界で必要な付随修正（型エラー修正等）まで抑制される",
+    "指示の追加は常時contextを増やす（AGENTS.md肥大化はE04以外の遵守率を下げる）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "数分。AGENTS.md/CLAUDE.md へ数行、または task promptに付与",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness",
+    "process"
+  ],
+  "known_failure_modes": [
+    "行動を網羅列挙する長い指示（Fable 5では短い指示の方が有効と公式明記）",
+    "指示だけに依存し、diff review/hookでの検出を持たない（R5: 可視化された不整合の91.49%はユーザーの明示的訂正で解決しており、指示は自動的には守られない）"
+  ],
+  "revalidate_when": [
+    "Claude Fable 5 / Codex model更新",
+    "AGENTS.md剪定後",
+    "effort設定変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

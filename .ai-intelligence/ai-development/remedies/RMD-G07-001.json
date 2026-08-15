@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "instruction",
+    "process"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G07-001",
+  "problem_ids": [
+    "G07",
+    "G11"
+  ],
+  "summary": "作業難度でmodelとeffortを振り分け(Claude Code `effortLevel`/`--effort`/`/effort`、subagent frontmatter `model: haiku|sonnet`と`effort`、`CLAUDE_CODE_SUBAGENT_MODEL`、Codex `model`/`model_reasoning_effort`)、Fable 5には'outcome-first'の短い簡潔化指示を置いて小作業の長い計画・説明を抑える。",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/model-config",
+      "observed_at": "2026-08-15",
+      "summary": "効果level: Fable 5/Opus 5/Sonnet 5は low|medium|high|xhigh|max、既定high。設定は`effortLevel`(settings)、`--effort`、`CLAUDE_CODE_EFFORT_LEVEL` env、skill/subagent frontmatter `effort`。'low: short, scoped, latency-sensitive tasks that are not intelligence-sensitive'、'medium: cost-sensitive work'。`CLAUDE_CODE_SUBAGENT_MODEL`で全subagent modelを上書き。`availableModels`で選択制限",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "'Use high as the default for most tasks, with xhigh for the most capability-sensitive workloads and medium or low for routine work.' 'On routine work at higher effort, Claude Fable 5 can gather context and deliberate beyond what the task needs.' 短いbrevity指示('Lead with the outcome...')が列挙と同等に効く。過剰計画抑止の定型文あり",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://claude.com/blog/claude-model-and-effort-level-in-claude-code",
+      "observed_at": "2026-07-07",
+      "summary": "Anthropic blog: 'Pick a smaller model when the work is routine... edits you can describe precisely, mechanical changes'; 大きいmodelは'genuinely hard'な問題へ。effortは既定を基本とし、'skipping a file, not running the tests'のような不足時に上げる",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-08-15",
+      "summary": "'For simple subagent tasks, specify model: haiku in your subagent configuration'; Sonnet handles most coding tasks; teammatesはSonnet",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `model_reasoning_effort`= minimal|low|medium|high|xhigh、`model`、`--profile`で作業別profile切替",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-high-effort-overexplains",
+      "observed_at": "2026-08-11",
+      "summary": "MBI-fable-high-effort-overexplains: verified/high。緩和はprompt(outcome-first)とeffort比較。global word capは品質低下のため除外",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "routine作業(定型edit、文書更新、単純調査)にも既定high effort・最上位modelを使っている",
+      "subagentやroutine/CI runの用途が明確"
+    ],
+    "not_applicable_when": [
+      "capability-sensitiveな作業(難bug、設計判断)。公式はeffort低下前にworkload別evalを推奨",
+      "組織のavailableModels/effort capで選択できない"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "Claude Fable 5/Opus 5/Sonnet 5 (effort対応model)。GPT系はmodel_reasoning_effort。effort scaleはmodel間で非等価(公式)"
+  },
+  "expected_effect": {
+    "primary": "routine作業のlatency・token・費用削減と出力の簡潔化。品質は作業別evalで確認",
+    "metrics": [
+      "task種別ごとのtoken/USD/wall time(effort別比較)",
+      "最終出力の語数と'採用しない選択肢'の記述有無",
+      "品質(test pass/差戻し率)の非劣化"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "低effortへの一律切替で見落とし・test未実行が増える(blogの判断基準を使う)",
+    "effortはmodel間で意味が違うためmodel変更時に再調整",
+    "subagent modelを全体上書きすると高難度subagentも弱くなる"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "settings/frontmatter/profile編集。routine taskの baseline計測を1回",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "出力語数の固定上限(公式・MBIともに品質低下として除外)",
+    "'think less'系の曖昧指示だけで効果を期待(effortが主制御)",
+    "対話中の`--effort`変更は非永続と知らずsessionごとに戻る"
+  ],
+  "revalidate_when": [
+    "Claude Fable 5/Opus 5後継のeffort既定変更",
+    "Codex model/effort既定変更",
+    "MBI-fable-high-effort-overexplainsの再検証"
+  ],
+  "techlog_notes": "TechLogはmodel/effortを固定していない(MBI記録)。候補: `.claude/agents/`のExplore/review系subagentに`model: sonnet`または`haiku`と`effort: medium`、Codexに`routine` profile。効果はroutine task 5件でbefore/after。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

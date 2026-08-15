@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-J08-001",
+  "problem_ids": [
+    "J08",
+    "J09",
+    "J11",
+    "J05"
+  ],
+  "summary": "学習が目的の場面ではAI利用様式を制御する: 生成後に概念質問で理解を確認する/説明付きで生成させる/概念のみ質問しerrorは自力で解く'学習mode'を採用し、juniorはmentorとAI判断をpair reviewし、複雑系は意図的に手書きし、AIへの信頼度をrisk別に較正する。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://www.anthropic.com/research/AI-assistance-coding-skills",
+      "observed_at": "2026-01-29",
+      "summary": "Anthropic RCT: junior中心52名、未知library(Trio)でAI群のquiz得点50% vs 手書き67%(約17pt低、debugging差が最大)、時間短縮は約2分で有意でない。高得点者のpattern: generation-then-comprehension、hybrid code-explanation、conceptual inquiry(最速)。'learning mode'の設計を提言",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/",
+      "observed_at": "2025-04-01",
+      "summary": "Microsoft/CMU CHI2025: 知識労働者319名・936事例。GenAIへの信頼が高いほど批判的思考が減り、自己効力感が高いほど増える。批判的思考は検証・統合・stewardshipへ移行",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/insights/balancing-ai-tensions/",
+      "observed_at": "2026-03-10",
+      "summary": "DORA: Skill Preservationとしてjuniorをmentorとpairしてよ AI判断をreviewさせ、複雑系では手書きを奨励",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/",
+      "observed_at": "2025-07-10",
+      "summary": "METR: 熟練者でも体感と実測が乖離(過信の一形態)",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "junior育成やdomain習得が目的に含まれるteam",
+      "reviewが知識伝播を担っていた小規模team"
+    ],
+    "not_applicable_when": [
+      "納期優先で学習を意図しない一回限りの作業",
+      "十分な熟練者が対象領域を既に理解しておりskill維持策が別にある場合"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "概念理解・debug能力の低下を抑え、AI出力への過信を較正する",
+    "metrics": [
+      "理解度quiz/振り返り",
+      "junior単独でのdebug成功率",
+      "AI提案の却下・修正率",
+      "reviewでの説明要求件数"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "短期速度の低下",
+    "'学習mode'が形骸化",
+    "個人差が大きく一律policyが合わない"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "運用ルールと1on1/pair review時間。tool費用なし",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "instruction",
+    "setting"
+  ],
+  "known_failure_modes": [
+    "直接答えを求め続けるdelegation-only利用(Anthropic研究で低得点patternと一致)",
+    "AIへの高信頼を放置(MS/CMUで批判的思考低下と関連)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Anthropicや他機関の追試",
+    "'learning mode'を提供するproduct機能の登場"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category J)",
+  "structural_note": "J08/J09/J11は個人・組織の学習投資に依存し、tool側だけでは解消しない。採用は人的判断(decision-required寄り)。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

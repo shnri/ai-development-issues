@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A11-002",
+  "problem_ids": [
+    "A11",
+    "A12",
+    "A10",
+    "A01"
+  ],
+  "summary": "正解定義は観測可能な結果(end state・出力・must-pass check)で書き、実装経路や未指定挙動を固定しない。テスト/受入基準は複数の有効解に照らして監査し、'must'と'should/style'を分離する。",
+  "remedy_type": "test-strategy",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-task-audit",
+      "observed_at": "2026-08-11",
+      "summary": "prompt・test・referenceを複数の有効解で監査するtask audit。evidence-supported/high(SWE-bench Verified難問138件で59.4%に欠陥、SWE-Bench Pro再監査で撤回)。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/",
+      "observed_at": "2026-02-23",
+      "summary": "OpenAI: SWE-bench Verified頻出失敗subsetでoverly strict testとunderspecified problem statementを確認し評価を停止。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://developers.openai.com/blog/eval-skills",
+      "observed_at": "2026-08-15",
+      "summary": "OpenAI eval-skills: Outcome/Process/Style/Efficiency goalsを分け、初期checklistは'small and focused on must-pass checks'、deterministic checkはcritical behavior(does it build?)、多様な有効解はrubricで許容。'every manual fix ... is a candidate for a future eval'。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic: 'Provide verification criteria'(例: validateEmailの具体例テスト)、'Give Claude a way to verify its work'、evidence(test出力)を示させる。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.26321",
+      "observed_at": "2026-05-25",
+      "summary": "state-based verifier(最終状態で判定)により経路依存の誤判定を避ける設計。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://kiro.dev/docs/specs/feature-specs/",
+      "observed_at": "2026-08-04",
+      "summary": "EARS('WHEN ... THE SYSTEM SHALL ...')で受入基準を'directly translatable to test cases'に。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Acceptance criteria/テストをAIに書かせる、またはAIの実装をテストで採点する",
+      "非機能・運用条件を受入に含めたい(A10)"
+    ],
+    "not_applicable_when": [
+      "探索的prototypeで正解定義がまだ不要"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "正しい別解の不合格(A11)と未指定挙動への過剰拘束(A12)を減らし、必要なNFRを受入へ含める",
+    "metrics": [
+      "false reject率(監査sample)",
+      "must-pass check数と通過率",
+      "未指定挙動をassertするtest数",
+      "NFR受入項目数/feature"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "rubric/model-graded判定のばらつき",
+    "must-passを絞りすぎて品質後退",
+    "監査コスト"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "受入基準の書式統一は数分〜。既存テスト監査はsample数に比例",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "aggregate pass率だけで採否判断(local card)",
+    "実装と同じ誤りを共有するテスト(R6)を正解にする",
+    "snapshot等で未指定挙動を全て固定する",
+    "EARSで書けば十分だと考える(内容の妥当性監査は別)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model update(新たな有効解の出現)",
+    "benchmark監査結果の更新",
+    "test framework変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "controller_notes": [
+    "2026-08-15: renamed from RMD-A11-001 on merge into authority catalog (ID taken by routine research record)."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

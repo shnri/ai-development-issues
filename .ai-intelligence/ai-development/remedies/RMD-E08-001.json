@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E08-001",
+  "problem_ids": [
+    "E08",
+    "E05",
+    "E04"
+  ],
+  "summary": "Migration・CI/config・依存追加などhigh-impact pathをharness層で保護し（PreToolUse hookでの書込みdeny、dependency default deny/承認、risk-based approval）、実装本体とは別変更に分離する",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code hooks: PreToolUse で exit code 2 により Edit/Write をblock可能（例: migrations, package.json）。hooksは advisory なCLAUDE.mdと異なりdeterministic。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "'Set up hooks' 節: 'Write a hook that blocks writes to the migrations folder' を例示。permissions/allowlist/sandbox で許可範囲を制御。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex AGENTS.md: production dependency追加前に確認を求めるworking agreement例。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-risk-approval",
+      "observed_at": "2026-08-11",
+      "summary": "delete/publish/permission/本番反映などhigh-impact actionだけを実行前承認にする（operationally-supported, 確度high）。low-riskまで毎回確認すると形骸化。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-default-deny",
+      "observed_at": "2026-08-11",
+      "summary": "dependency default deny/allowlistとowner承認（operationally-supported, high）。registry検証はevidence-supported。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-protected-oracle-paths",
+      "observed_at": "2026-08-11",
+      "summary": "CI workflow・test削除・coverageをprotected pathとして別承認（operationally-supported, high）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: coverage閾値変更・test skip・CI無効化は明示的justificationなしに承認しない。risky changeにはrollback planを要求。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがpackage.json/lockfile、migration、CI workflow、環境設定を編集できるrepository",
+      "自律実行・長時間run"
+    ],
+    "not_applicable_when": [
+      "そのタスク自体が依存更新/migrationである場合（その時は専用PRとして人間承認付きで実行）"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "実装PRに紛れ込むmigration/config/dependency変更がゼロに近づき、混入時は機械的に検出される",
+    "metrics": [
+      "保護path未承認変更数",
+      "dependency差分を含むPR比率",
+      "hook deny発火数と正当な例外数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "正当な変更まで止めるfalse positive（Bashによる編集など迂回経路をhookが捕捉しない）",
+    "承認の乱発によるapproval fatigue"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "hook script + settings.json 数十行。CODEOWNERS/PR template は数分",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "setting",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "hookでEdit/Writeだけを保護しBash経由の書込みを見落とす",
+    "全操作にapproval（形骸化）",
+    "allowlistの陳腐化"
+  ],
+  "revalidate_when": [
+    "Claude Code hooks/permissions仕様変更",
+    "Codex sandbox/approval仕様変更",
+    "package manager変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

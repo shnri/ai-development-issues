@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "harness"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G17-001",
+  "problem_ids": [
+    "G17"
+  ],
+  "summary": "安全な読取・検証commandだけを狭いprefix ruleで事前許可し(Claude Code `permissions.allow`、Codex `prefix_rule`+`approval_policy=\"on-request\"`+`sandbox_mode=\"workspace-write\"`)、危険操作はdeny/askに残してpermission fatigueを減らす。",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/permissions",
+      "observed_at": "2026-08-15",
+      "summary": "読取toolとbuilt-in read-only Bash(ls,cat,grep,find,git read-only等)は既定でprompt無し。`Bash(npm run test *)`等のprefix wildcard、`:*`接尾、`timeout`等wrapper除去。deny > ask > allowの優先。permission modes: default(manual)/acceptEdits/plan/auto/dontAsk/bypassPermissions。argument制約patternは脆弱と警告",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/settings",
+      "observed_at": "2026-08-15",
+      "summary": "`permissions.allow/deny/ask`はscope間でmerge。`.claude/settings.json`(project共有)と`settings.local.json`。`permissions.disableBypassPermissionsMode`/`disableAutoMode`",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "PreToolUse hookは`hookSpecificOutput.permissionDecision`= allow|deny|ask を返せる(rule表現力を超える判定に使える)",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `approval_policy`= untrusted|on-request|never|granular、`sandbox_mode`= read-only|workspace-write|danger-full-access、`sandbox_workspace_write.network_access`",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/rules",
+      "observed_at": "2026-08-15",
+      "summary": "`~/.codex/rules/default.rules`または信頼済み`<repo>/.codex/rules/`に`prefix_rule(pattern=[...], decision=\"allow|prompt|forbidden\")`。複数一致時は最も制限的な判定。Smart approvalsがescalation時にprefix_ruleを提案",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-risk-approval",
+      "observed_at": "2026-08-11",
+      "summary": "risk-based approval: low-riskまで毎回確認すると形骸化・approval fatigue。high-impact actionだけ承認に残す",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/devcontainer",
+      "observed_at": "2026-08-15",
+      "summary": "隔離devcontainerではnon-root前提で`--dangerously-skip-permissions`が選択肢だが、workspaceとnetworkの到達範囲は残る。安全性を保ちつつpromptを減らすには`auto` modeが代替",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "read-only以外の反復command(npm test/lint/typecheck、gh pr view等)が毎回promptを出す",
+      "permission ruleをrepositoryで共有したい"
+    ],
+    "not_applicable_when": [
+      "信頼できないrepositoryやprompt injection源を扱うsession(allowlist拡大は blast radius拡大)",
+      "組織managed settingsが上書き不可の制限を課している"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "人間の割込み回数削減と自律区間の延長。安全境界(deny/ask)は不変",
+    "metrics": [
+      "session当たりpermission prompt数",
+      "allow rule一致率(/permissionsやtranscriptから)",
+      "deny/askで止まったhigh-risk action数(維持)"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "`Bash(npm *)`のような広いprefixはinstall/publish等も通す",
+    "allowlistは指示ではなく強制なので、間違えるとagentが気付かず実行",
+    "argument制約のBash patternは迂回されやすい(公式警告)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "settings.json/rulesファイル編集のみ。`fewer-permission-prompts` skillでtranscriptから候補抽出可",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "全操作をbypass/`never`にして事故のblast radiusを広げる(local card: 全操作への一般approvalも、全面bypassも非推奨)",
+    "`Bash(curl http://x/ *)`型の引数制約allow(公式が脆弱と明記)",
+    "deny/askが同時に一致する広いruleを置いてallowが無効になり、逆にpromptが増える"
+  ],
+  "revalidate_when": [
+    "Claude Code permission matcher仕様変更",
+    "Codex rules/approval仕様変更",
+    "repositoryに未信頼の外部入力経路(MCP/skill)が増えた"
+  ],
+  "techlog_notes": "TechLogの.claude/settings.jsonはSkill許可のみ。候補: `Bash(npm run lint)`, `Bash(npm run typecheck)`, `Bash(npm test)`, `Bash(npm run test:*)`, `Bash(npm run content:validate)`, `Bash(npm run build)`, `Bash(rg *)`。deny候補: `Read(./.env*)`, `Bash(git push *)`はask。Codex側は`.codex/rules/`は未使用。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

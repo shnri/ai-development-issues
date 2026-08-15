@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-J10-001",
+  "problem_ids": [
+    "J10",
+    "J04",
+    "J16",
+    "J01"
+  ],
+  "summary": "「AIが書いた」に関わらず提出者(author)と承認者(approver)が人間として責任を負うことをpolicyで明示し、CODEOWNERSと必須reviewで責任者をpathに固定、AI利用の開示と提出前self-reviewを義務化する。Agent起動者の承認をカウントしない設定に合わせる。",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/copilot/how-tos/agents/copilot-coding-agent/reviewing-a-pull-request-created-by-copilot",
+      "observed_at": "2026-08-15",
+      "summary": "GitHub docs: Copilot PRは他の貢献と同じ徹底したreviewに値する。Copilot PRを起動した本人のapprovalは必須approval数に数えられず別のreviewerが必要。Copilotのpushではworkflowが自動実行されず人間の'Approve and run workflows'が必要",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: Agent関与時のself-reviewは任意ではない。作者がAgentの意図を検証してからreviewを依頼する。判断はreviewerの不可欠なcontextに依存",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners",
+      "observed_at": "2026-08-15",
+      "summary": "CODEOWNERSはpath patternごとにreviewerを自動要求し、branch protectionでcode owner承認を必須化できる(任意の1 ownerで十分)。CODEOWNERS自体にownerを置く。3MB上限",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.16706",
+      "observed_at": "2026-07-13",
+      "summary": "人気GitHub repo 1,000件中118件のAI policyを分析: 78%がAI支援を許容、51%が開示を義務化、74%が人間in-the-loopを要求",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report",
+      "observed_at": "2025-09-24",
+      "summary": "DORA 2025 AI Capabilities Model: 明確に共有されたAI stance/policyが増幅要因の一つ",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数人が同一repoへAgent PRを提出する",
+      "branch protection/required reviewを設定できるhosting(GitHub等)を使う",
+      "AI利用の開示と責任帰属を契約・監査上明示する必要がある"
+    ],
+    "not_applicable_when": [
+      "個人repoで作者=承認者しか存在しない場合(責任は明示できるが分離はできない)"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "責任主体の曖昧化を防ぎ、reviewを形式的承認から責任を伴う判断へ戻す",
+    "metrics": [
+      "AI開示率",
+      "author self-review証跡の有無",
+      "CODEOWNERS coverage of protected paths",
+      "起動者自己承認の件数(0であるべき)"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "開示・self-reviewがcheckbox化する",
+    "責任集中でowner個人がbottleneck化(J15)"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "CONTRIBUTING/AGENTS.mdへのpolicy追記、CODEOWNERS作成、branch protection設定で数時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "'AI-generated'を免責事由として扱う",
+    "責任者を置くだけでrisk境界へreview注意を配分しない"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "hostingのagent PR/approval仕様変更",
+    "組織のAI利用policy改定"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category J)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

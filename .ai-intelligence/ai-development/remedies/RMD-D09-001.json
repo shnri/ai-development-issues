@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D09-001",
+  "problem_ids": [
+    "D09",
+    "D10",
+    "D11",
+    "D16"
+  ],
+  "summary": "各Skillにshould-trigger/should-not-trigger（near-miss中心）のtrigger eval query集合（約20件、各3回実行、trigger rate閾値0.5）を持ち、train 60%/validation 40%に分割してdescriptionを改善し、選択はvalidation pass rateで行い、最後に未使用の新規query 5–10件で確認する。",
+  "remedy_type": "test-strategy",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/optimizing-descriptions",
+      "observed_at": "2026-08-15",
+      "summary": "agentskills.io Optimizing descriptions: 約20 query（8–10 positive/8–10 negative）、near-miss negativeが最も有用、3 runでtrigger rate、閾値0.5、train~60%/validation~40%、「Only use train set failures to guide your changes」、失敗queryのkeyword追加はoverfitting、5 iterationで十分、1024文字上限。注意: 単純taskはdescriptionが一致してもskillを参照しないことがある。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://developers.openai.com/blog/eval-skills",
+      "observed_at": "2026-08-15",
+      "summary": "OpenAI eval-skills: 10–20 caseのCSVにexplicit/implicit/contextual invocationとnegative controlsを含め、codex exec --jsonのtraceを決定論チェック→rubric gradingで判定。「Every manual fix ... is a candidate for a future eval」。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code troubleshooting: 発火しない→descriptionにユーザーが自然に言うkeywordを含める、listing予算超過でdescriptionが切られる（1% budget、1,536 cap）；発火しすぎ→descriptionを具体化またはdisable-model-invocation。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/anthropics/skills/main/skills/skill-creator/SKILL.md",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic skill-creator: 20 queryを生成しtrain/test splitで最大5回反復、held-out性能で選択、blind A/Bを任意提供。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Skill境界: coherent unit設計、近接Skill間の境界をdescriptionに明記（何をしないか）。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "observed_at": "2026-08-11",
+      "summary": "maintain-agent-instructions手順9: 代表的な発動・非発動プロンプトでdescription境界を確認する。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Skill数が多く、近接領域のSkillが並存する",
+      "Skill/AGENTS.md変更後やmodel更新後に発火挙動を確認したい"
+    ],
+    "not_applicable_when": [
+      "disable-model-invocation: trueで手動起動のみのSkill（発火評価は不要）",
+      "Skillが1–2個で人手確認で足りる"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic（trigger rateはmodel依存で再測定要）"
+  },
+  "expected_effect": {
+    "primary": "必要時の未発火と不要時の誤発火の同時削減、Skill間の境界の明確化",
+    "metrics": [
+      "positive trigger rate / negative false-trigger rate（train/validation別）",
+      "validation pass rate",
+      "description文字数（≤1024、Claude Code listingでは≤1,536含むwhen_to_use）"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "queryが簡単すぎる/難しすぎると改善が頭打ち（query品質を疑う）",
+    "descriptionが最適化で肥大化して他Skillの予算を圧迫",
+    "評価runのcost（20×3 = 60 invocations/iteration）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "query作成1–2時間、run自動化script、iterationあたり60 invocations",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "setting"
+  ],
+  "known_failure_modes": [
+    "全queryで最適化しvalidationなし（過適合、D16）",
+    "失敗query固有のkeywordを追加する",
+    "obviousなnegative（『天気は？』）だけで境界を測る"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model更新（trigger rate再測定）",
+    "Claude Code skill listing予算/cap変更",
+    "Skill追加・統合時"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "C-Skill発火品質",
+  "local_tooling": [
+    "vendor skill-optimization/optimize-skill（Anthropic skill-creatorをeval engineに使用、report-only既定）— 適用可能性のみ、実行は別判断"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

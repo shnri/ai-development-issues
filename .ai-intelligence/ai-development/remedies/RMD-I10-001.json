@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I10-001",
+  "problem_ids": [
+    "I10",
+    "I05",
+    "I16",
+    "I17"
+  ],
+  "summary": "CI上のAgent workflowは、GITHUB_TOKENをcontents:read既定、pull_request_target/workflow_runでのfork checkoutを避け、untrusted入力はenv経由、environment protectionでsecret注入前に承認、first-time contributor gate、action SHA pin、Agentのtool allowlist最小化、Agent版を修正済み以上に固定する",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "observed_at": "2026-08-15",
+      "summary": "GITHUB_TOKEN read-only既定、pull_request_target/workflow_runでのfork checkout回避、untrusted inputはenv経由、環境保護でsecretに承認、full SHA pinのみ不変、OIDC推奨。AI agent固有記述なし",
+      "quality": "high"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/",
+      "observed_at": "2026-06-05",
+      "summary": "Comment-and-Control系: PR title/issue body/commentからのinjectionでsecret読出し。修正2.1.128（2026-05-05）。緩和: Rule of Two、key per workflow、tool allowlist、system prompt hardening、token監視・rotation",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://labs.cloudsecurityalliance.org/research/csa-research-note-comment-control-github-prompt-injection-20/",
+      "observed_at": "2026-04-15",
+      "summary": "Claude Code Security Review/Gemini CLI Action/Copilot Agentが同一手法で乗っ取り可能と開示、hardened Actions設定（permissions、environment protection、first-time contributor gate）で遮断",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "-p headlessではtrust verification無効、network commandは既定非自動許可",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/codex/agent-approvals-security",
+      "observed_at": "2026-08-15",
+      "summary": "CI用途は--sandbox read-only --ask-for-approval never",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "GitHub ActionsやRoutineでAgentがissue/PR/commentを読む",
+      "workflowがsecret（Firebase admin key等）を持つ"
+    ],
+    "not_applicable_when": [
+      "Agentを一切CIで動かさない"
+    ],
+    "controllable_layer": "ci",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "CI Agent乗っ取り時のsecret流出・repo改変を遮断",
+    "metrics": [
+      "workflow permissionsの最小化率",
+      "pull_request_target使用数",
+      "環境保護なしでsecretを持つjob数",
+      "action SHA pin率"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "環境保護で承認が増える",
+    "first-time gateで外部貢献の摩擦"
+  ],
+  "implementation_owner": "platform",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "workflow設定見直し数時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness",
+    "setting",
+    "observability",
+    "ci"
+  ],
+  "known_failure_modes": [
+    "Agent jobにfull secretsとwrite tokenを同居",
+    "issue本文をそのままpromptに連結",
+    "action版をmajor tag参照"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "GitHub Actions security guidance更新",
+    "Agent action新CVE",
+    "import-ai-content workflowにAgentを追加するとき"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A05-002",
+  "problem_ids": [
+    "A05",
+    "A07",
+    "A02",
+    "A03"
+  ],
+  "summary": "派生artifact(型・API契約・DB schema・validation・テストfixture)を一つの機械可読な仕様(schema/契約)から生成・検証し、人手の重複記述を減らす。",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.26321",
+      "observed_at": "2026-05-25",
+      "summary": "Anchor: instruction/environment/oracle/verifierが'loosely coupled processes'で作られると'artifact drift'(unsolvable, reward-hackable, internally inconsistent)が生じる。単一parametric specificationからinstruction・環境・ground truth・state-based verifierを同時生成して整合させる。ERP-Bench 300 tasks(benchmark生成文脈)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://google.github.io/styleguide/docguide/best_practices.html",
+      "observed_at": "2026-08-15",
+      "summary": "'Duplication is Evil'/'Update Docs with Code'。重複は分岐の源。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2602.00180",
+      "observed_at": "2026-01-30",
+      "summary": "spec-as-source: 仕様から生成/検証される二次artifactとしてcodeを扱う枠組み。API・enterprise・embeddedの事例。",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "同じ構造を型・schema・validation・doc・testに手書きしている",
+      "Firestore document shape、API入出力、content frontmatterなど契約が複数箇所に現れる"
+    ],
+    "not_applicable_when": [
+      "契約が1箇所にしか現れない",
+      "生成器の保守費が仕様変更頻度に見合わない"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "artifact間の整合を構造で保証し、要求変更の伝播漏れ(A07)を型/生成エラーとして検出",
+    "metrics": [
+      "契約定義箇所数",
+      "仕様変更1件あたりの手動更新file数",
+      "不整合起因のバグ件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "生成器・schemaが新たな正本になり保守対象が増える",
+    "過剰な自動生成でcodeが読みにくくなる"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "schema(zod/OpenAPI等)と生成/検証の導入。数日〜",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "test",
+    "ci"
+  ],
+  "known_failure_modes": [
+    "Anchorの結果はbenchmark生成での知見であり、一般開発への転移は推論(inference)",
+    "仕様の意味レベルの矛盾(A05の業務ルール矛盾)は型では捕まらない。RMD-A01-003を併用"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Anchor実装公開・追試",
+    "schema toolchain変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "controller_notes": [
+    "2026-08-15: renamed from RMD-A05-001 on merge into authority catalog (ID taken by routine research record)."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

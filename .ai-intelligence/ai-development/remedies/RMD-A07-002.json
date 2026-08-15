@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A07-002",
+  "problem_ids": [
+    "A07",
+    "A03",
+    "A06",
+    "A02"
+  ],
+  "summary": "要求変更は同一PR/変更単位で正本仕様・設計・テスト・関連文書を更新し、reviewで「変更点→影響artifact」のcoverageを確認する。定期doc gardeningで残存差分を回収する。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://google.github.io/styleguide/docguide/best_practices.html",
+      "observed_at": "2026-08-15",
+      "summary": "'Update Docs with Code': 'Change your documentation in the same CL as the code change'。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/github/spec-kit/main/templates/commands/analyze.md",
+      "observed_at": "2026-08-15",
+      "summary": "Spec Kit analyzeの'Coverage Gaps'(requirements without tasks / tasks without requirements)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://kiro.dev/docs/specs/best-practices/",
+      "observed_at": "2026-08-15",
+      "summary": "Kiro 'Sync Files'でtasks.md状態を実装に合わせて更新、spec chatで既実装機能を特定。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-production-gardening",
+      "observed_at": "2026-08-11",
+      "summary": "production feedback/trace/costを使ったdoc gardening(OpenAI harness engineering)。operationally-supported。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "fresh subagentにPLAN.mdとの差分reviewをさせ'every requirement is implemented'を確認。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "仕様・設計・テストが別fileに分かれ、要求変更が反復的に起きる",
+      "AIに実装させて人間がdocを後回しにしがち"
+    ],
+    "not_applicable_when": [
+      "docが存在しない一時的なプロトタイプ"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "要求変更の伝播漏れを変更単位で防ぎ、残存差分を定期的に回収する",
+    "metrics": [
+      "doc未更新のまままergeされたPR割合",
+      "仕様-実装差分件数(gardening時)",
+      "変更影響fileの見落とし件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "PRが肥大化",
+    "AIによる自動doc更新が誤記を混入(review必須)"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "PR templateとreview checklist追加。gardeningは定期数十分",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "ci",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "'後でまとめて文書を直す'運用(Google: 陳腐化docは有害)",
+    "変更影響分析をAgentの記憶に頼る(context切れで消える)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "docs構成変更",
+    "CI review自動化の導入"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "controller_notes": [
+    "2026-08-15: renamed from RMD-A07-001 on merge into authority catalog (ID taken by routine research record)."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

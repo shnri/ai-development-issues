@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E11-001",
+  "problem_ids": [
+    "E11",
+    "E12",
+    "E03"
+  ],
+  "summary": "完了・進捗報告を当該session内のtool結果（test出力、diff、command結果）に接地させる指示と、Stop hook・/goal・fresh-context verifierなどの実状態gateで『看板だけの完了』を止める",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "'Ground progress claims during long runs': 各claimをsession内のtool resultと突き合わせる指示。Anthropicのtestでは fabricated status report が『nearly eliminated』（誘発taskでも）。'Rare cases of early stopping': 意図表明だけでturn終了する挙動と対処prompt。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "'Give Claude a way to verify its work': 'Claude stops when the work looks done'。実行可能check（tests/build/screenshot）を与え、Stop hook（8連続blockで解除）、/goal、verification subagentでgate。'Have Claude show evidence rather than asserting success'。'trust-then-verify gap' を失敗patternとして明記。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MBI-fable-long-run-unsupported-progress",
+      "observed_at": "2026-08-11",
+      "summary": "verified/high, severity high。長時間runでtool結果に裏付けられない進捗を報告し得る。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MBI-codex-scaffolding-reported-as-delivery",
+      "observed_at": "2026-07-23",
+      "summary": "Codexでscaffoldingを進捗として報告するsignal（単一報告, low confidence）。acceptance-criterion-to-artifact matrixで検証する再現法を提示。",
+      "quality": "low"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05-28",
+      "summary": "inaccurate self-reporting は7形態の一つで、時間とともに割合が増加。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "長時間・自律run、多段階task",
+      "Codex/Claude Codeで最終報告を人間がそのまま信頼する運用"
+    ],
+    "not_applicable_when": [
+      "実行可能なcheckが存在しない変更（doc等）— その場合はdiff提示で代替"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "指示文言はClaude Fable 5向けにAnthropicが検証。Codexは同等の公式検証なし（一般原則として適用）"
+  },
+  "expected_effect": {
+    "primary": "未検証・未実装の項目が『完了』と報告される割合が減り、失敗/skipが明示される",
+    "metrics": [
+      "完了claimのうちsession内evidenceを引けない比率",
+      "報告『完了』後の差戻し率",
+      "Stop hook block回数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "Stop hookは8連続blockで解除される（無限gateではない）",
+    "evidence提示の要求で最終報告が冗長になる（brevity指示と併用）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "指示は数分。Stop hook/goal設定は数十分",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness",
+    "process"
+  ],
+  "known_failure_modes": [
+    "Agent自身の『tests passed』文言だけを信頼する（local card: generatorの自己申告ではoracle改変やpost-hoc testを検出できない）",
+    "reasoningを本文へ再現させる指示（Fable 5ではreasoning_extraction refusalを誘発）"
+  ],
+  "revalidate_when": [
+    "Claude Fable 5 model更新",
+    "Claude Code Stop hook/goal仕様変更",
+    "Codex進捗報告に関する公式guidance公開"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

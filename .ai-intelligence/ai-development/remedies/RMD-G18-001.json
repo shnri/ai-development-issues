@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "process"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G18-001",
+  "problem_ids": [
+    "G18",
+    "G01"
+  ],
+  "summary": "test workerを実測に基づき上限設定する(vitest `maxWorkers`を数または'50%'で固定、必要なら`--no-file-parallelism`)ことで、agent複数並列やdevcontainer内でのCPU競合による全体遅延とtimeout flakeを抑える。",
+  "remedy_type": "setting",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/config/maxworkers",
+      "observed_at": "2026-08-15",
+      "summary": "`maxWorkers`: number|string。既定はwatch無効時 'all available parallelism'、watch有効時その半分。'50%'のような割合指定可、CLI `--maxWorkers=<value>`",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/guide/cli",
+      "observed_at": "2026-08-15",
+      "summary": "`--fileParallelism` 既定true、`--no-file-parallelism`で無効化",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "devcontainer/CI等でCPU割当が少ない、または複数agent・subagentが同時にtestを走らせる環境",
+      "test workerが利用可能CPUを全部使う既定のまま"
+    ],
+    "not_applicable_when": [
+      "testが少数で並列化の恩恵も競合も無い",
+      "専有マシンで単一agentしか走らない"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "全体wall timeとtimeout起因flakeの削減(実測依存)",
+    "metrics": [
+      "`npm test`のwall time(worker数別に3回計測)",
+      "timeout/ハングによるflake件数",
+      "CPU steal/loadavg"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "worker数を減らしすぎると単独実行時に遅くなる",
+    "環境ごとに最適値が異なるためconfig固定値が別環境で不利になる"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "vitest.config.tsに1行 + 数回の計測",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "計測せずに慣習値(例: 2)を置く: 効果も副作用も分からない",
+    "割合指定にしてもCPU quotaを認識しないcontainerでは過大になる(availableParallelismがhostのCPU数を返す場合)"
+  ],
+  "revalidate_when": [
+    "devcontainerのCPU割当変更",
+    "vitest pool実装の変更",
+    "並列agent運用の開始"
+  ],
+  "techlog_notes": "vitest.config.tsにmaxWorkers未設定。devcontainer内で`nproc`と実測を取り、'50%'または固定値を比較する。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

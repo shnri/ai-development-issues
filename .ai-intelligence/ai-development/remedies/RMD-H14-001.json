@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "process"
+  ],
+  "id": "RMD-H14-001",
+  "problem_ids": [
+    "H14",
+    "H12"
+  ],
+  "summary": "Agent変更の追跡は、commit trailer/attribution（Co-Authored-By・Claude Code attribution設定）、PR⇔session link（--from-pr）、telemetry event（session.id・model・tool_name）と、決定・根拠を残すprogress/steering記録を組み合わせて確保する。",
+  "remedy_type": "observability",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/settings",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code `attribution` 設定（commit/pr文言、pr空文字で無効化）、cleanupPeriodDays（既定30日）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/common-workflows",
+      "observed_at": "2026-08-15",
+      "summary": "gh pr create時にsessionがPRへlinkされ claude --from-pr <n> で該当sessionを再開可能。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/monitoring-usage",
+      "observed_at": "2026-08-15",
+      "summary": "OpenTelemetryでtool_result/api_request/tool_decision等のeventにsession.id・user.id・model・tool_nameを付与。prompt/tool内容は既定でredacted、OTEL_LOG_*で明示opt-in。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/managed-agents",
+      "observed_at": "2026-04-08",
+      "summary": "Managed Agentsのappend-only event logは実行履歴そのものをprovenanceとして保持。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-provenance",
+      "observed_at": "2026-08-11",
+      "summary": "model/harness/effort等の構成記録で比較・再現性を担保（operationally-supported）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-hard-limits",
+      "observed_at": "2026-08-11",
+      "summary": "tool call監査logは事後追跡に有効だが予防ではない、sensitive payload記録は新risk。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数Agent/model/Sessionがrepositoryへcommitする",
+      "監査・回帰原因特定・責任分界が必要"
+    ],
+    "not_applicable_when": [
+      "個人の使い捨て実験repository"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "どのAgent・model・sessionがどの根拠で変更したかを事後に辿れる",
+    "metrics": [
+      "Agent由来commitのtrailer付与率",
+      "PR→session復元成功率",
+      "根拠不明変更の件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "telemetry内容loggingはprivacy/secret露出risk（既定redactionを保つ）",
+    "trailerは自己申告で改変可能（監査logとの突合が必要）",
+    "transcriptは30日で削除される"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "設定数行とcommit規約",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "監査logだけで予防を期待する（authority-boundary card）",
+    "model/effort/versionを記録せずSession跨ぎで挙動差を比較する"
+  ],
+  "revalidate_when": [
+    "Claude Code attribution/telemetry仕様変更",
+    "Codex commit attribution仕様確認",
+    "Agent identity標準の登場"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A04-002",
+  "problem_ids": [
+    "A04",
+    "A03",
+    "A02",
+    "A06"
+  ],
+  "summary": "正本(Source of Truth)を種類ごとに一つ宣言し、他文書は要約せずlinkで参照する。重複記載を禁止し、正本以外の記述は「参照」と明示する。",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://google.github.io/styleguide/docguide/best_practices.html",
+      "observed_at": "2026-08-15",
+      "summary": "Google documentation best practices: 'Minimum Viable Documentation'('A small set of fresh and accurate docs is better than a large assembly ... in various states of disrepair')、'Duplication is Evil'(既存共通docへlinkし、更新は元へ寄せる)、'Delete Dead Documentation'。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic CLAUDE.md guidance: 'Detailed API documentation (link to docs instead)'、'Information that changes frequently'は除外、'Architectural decisions specific to your project'は含める。CLAUDE.mdをcodeのようにreview・prune・検証する。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-progressive-instructions",
+      "observed_at": "2026-08-11",
+      "summary": "短い常時mapとtask時詳細読込(OpenAI harness engineering: 巨大AGENTS.md→短いmap+structured docs+doc gardening)。operationally-supported。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://kiro.dev/docs/specs/best-practices/",
+      "observed_at": "2026-08-15",
+      "summary": "Kiro: specsをrepositoryにcodeと同居させversion管理し、実装時にspecを参照して'aligns with your design decisions and meets acceptance criteria'。featureごとに複数specを推奨(単一巨大spec回避)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2602.00180",
+      "observed_at": "2026-01-30",
+      "summary": "Spec-driven development(spec-first/spec-anchored/spec-as-source)は'specifications as the source of truth and code as a generated or verified secondary artifact'を提案。適用判断枠組みは示すが効果の定量はない。",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "設計書・Issue・AGENTS.md・会話・codeが並存し同じ仕様を複数箇所に書いている",
+      "AIが複数文書を読んで実装する"
+    ],
+    "not_applicable_when": [
+      "文書が1つで小規模",
+      "外部管理の仕様(規制文書等)を正本にできない場合は参照元を宣言する"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "どの文書が勝つかを機械的に決められ、分岐した記述を検出・削除できる",
+    "metrics": [
+      "同一仕様の記載箇所数(目標1)",
+      "正本宣言のある文書種類の割合",
+      "古い記述起因のAI誤実装件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "正本が更新されず'正本という名の古い文書'になる(A06)。RMD-A14-001と併用",
+    "linkだらけでAgentが必要文書を読まない(retrieval失敗)",
+    "codeが正本の領域(型・schema)まで文書化して二重化"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "宣言はAGENTS.md/docs/READMEへ数行。既存重複の整理は数時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "process"
+  ],
+  "known_failure_modes": [
+    "会話・chat履歴を実質の正本にする(検索不能・共有不能)",
+    "全文書を同格に扱いAgentに'矛盾したら判断せよ'と書く",
+    "specを正本と宣言しながらcode変更時にspecを更新しない(Kiro/Google共に同時更新を前提)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "docs構成の変更",
+    "spec駆動ツール導入",
+    "harnessの文書読込方式変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "controller_notes": [
+    "2026-08-15: renamed from RMD-A04-001 on merge into authority catalog (ID taken by routine research record)."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

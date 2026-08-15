@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E02-001",
+  "problem_ids": [
+    "E02",
+    "E01",
+    "E06",
+    "E13"
+  ],
+  "summary": "境界値・失敗経路・concurrency・権限・維持すべき互換性を受入条件として明示し、実装者と独立したoracle（fresh-context reviewer、独立生成test、mutation/property/contract test、回帰suite）で意味的誤りと誤解の横展開を検出する",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "'Provide verification criteria'（例testを列挙）、'trust-then-verify gap'（edge caseを扱わないplausible実装）、Writer/Reviewer分離、'Add an adversarial review step'（fresh contextのsubagentがdiffを独立評価。ただしreviewerは常に指摘を出すため要件影響のみ拾うよう指示）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "'Separate, fresh-context verifier subagents tend to outperform self-critique.' 長時間runでは間隔を決めてspecに対し検証。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2607.05139",
+      "observed_at": "2026-07",
+      "summary": "R6: 誤った生成codeをcontextにしたtest生成は独立生成よりfault検出力が低下（実装とtestが同じ誤りを共有）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-independent-fault-models",
+      "observed_at": "2026-08-11",
+      "summary": "mutation/property/fuzz/contract test（evidence-supported）。Meta: mutation-guided生成testの73%をengineerが採用。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "最重要code pathをend-to-endでtraceし、boundary condition・permission validation・unexpected branchingを確認。重複utilityの検索。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2602.00180v1",
+      "observed_at": "2026-01-30",
+      "summary": "Code-to-Contract: 曖昧なpromptがAIに未明示の仮定を強いる。spec-anchored（testでspecと実装の整合を強制）を提案。人間精緻化specでerror最大50%削減という引用は nascent research。",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "受入条件を列挙できる機能・bug fix",
+      "既存機能の互換性維持が要件に含まれる変更"
+    ],
+    "not_applicable_when": [
+      "探索的prototype",
+      "meaningfulなmutant/propertyを定義できないdomain"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "見落とされた境界・失敗経路・互換性破壊が実装者以外のoracleで検出される",
+    "metrics": [
+      "受入条件ごとのtest対応率",
+      "fresh reviewer指摘のうち要件影響ありの件数",
+      "回帰suite失敗数",
+      "surviving mutant数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "reviewer subagentの過剰指摘による過剰設計（公式にも注記）",
+    "独立生成でも同じ仕様誤解は共有され得る（E13は仕様側の対策も要る）",
+    "Fable 5公式promptは『backwards-compatibility shimを避けよ』と述べるため、維持すべき互換性は明示しないと壊され得る"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "受入条件列挙は数分/タスク。mutation/property導入は数時間〜数日",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "instruction",
+    "process",
+    "ci"
+  ],
+  "known_failure_modes": [
+    "実装済codeを見せてtestを書かせる（R6）",
+    "self-critiqueのみ（公式: fresh verifierに劣る）",
+    "回帰範囲を暗黙にする"
+  ],
+  "revalidate_when": [
+    "model更新",
+    "test基盤変更",
+    "仕様管理方式の変更"
+  ],
+  "controller_notes": [
+    "2026-08-15 controller review: downgraded validated→candidate; evidence is official mechanism/guidance plus operationally-supported local cards without measured effect on agent workflows."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

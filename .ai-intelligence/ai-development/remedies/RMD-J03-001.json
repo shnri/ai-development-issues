@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-J03-001",
+  "problem_ids": [
+    "J03",
+    "J04",
+    "J15",
+    "J06",
+    "J05"
+  ],
+  "summary": "AI/Agent由来の変更は小さな一目的PRに制限し、lint・型・静的解析・自動review・非自明変更へのfailing test要求を人間の前に置き、人間はCI・権限・data・migration・重要経路などrisk境界に集中する(risk-based review)。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-small-batches",
+      "observed_at": "2026-08-11",
+      "summary": "一目的の小batchへ制限。operationally-supported、確度medium",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-machine-prechecks",
+      "observed_at": "2026-08-11",
+      "summary": "機械検査を人間reviewの前段に置く。operationally-supported",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-risk-based-review",
+      "observed_at": "2026-08-11",
+      "summary": "人間を高impact境界へ集中。operationally-supported",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: 大きすぎるAgent PRは実装計画を要求して分割、Copilot code reviewで機械的問題を先行除去、CI整合性・重複・重要経路・workflow securityのrisk checklist、非自明変更にはfailing testを要求",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/insights/balancing-ai-tensions/",
+      "observed_at": "2026-03-10",
+      "summary": "DORA: verification taxはreviewerへ負荷を移す。AI feedbackを事後reviewerではなく執筆時の作者へ移す、small-batchを強制、context-aware review agentで規約適用を自動化",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report",
+      "observed_at": "2025-09-24",
+      "summary": "DORA 2025: AI採用はthroughputと正、stabilityと負の関係。30%がAI生成コードを信用していない。small batches/強いversion controlが増幅要因",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agent/AIが生成したPRを人間がmergeする通常workflow",
+      "変更が分割可能で、機械判定可能な欠陥classがCIで検査できる",
+      "risk境界(CI設定、権限、data、migration、rollback、認証)がpathで特定できる"
+    ],
+    "not_applicable_when": [
+      "atomicな大規模移行で分割自体がriskを上げる場合",
+      "仕様判断そのものが争点でありrisk境界へ集中できない場合"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "reviewer認知負荷をrisk境界へ再配分し、形式的承認を減らして高impact流出欠陥を抑える",
+    "metrics": [
+      "PR diff size/目的数",
+      "review latency",
+      "高impact流出欠陥・revert率",
+      "人間指摘のうち機械欠陥比率",
+      "protected path review欠落数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "low-risk箇所の見落とし(別gateが必要)",
+    "PR数増による統合負荷・merge conflict増",
+    "自動reviewを最終判断と誤認しJ04を再生産"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "PR size policy、CIの前段検査、CODEOWNERS/checklist整備で数時間〜数日。既存CI(npm lint/typecheck/test)を流用可能",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "ci",
+    "tool",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "全行を同じ深さでreviewする(注意が希薄化、DORA verification tax)",
+    "AI reviewを人間判断の完全代替にする(同じ生成/oracle問題を再生産)",
+    "PR数だけを最適化する形式的分割"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "autonomous PR規模の拡大",
+    "自動review権限の拡大",
+    "Agent PRの比較研究の公開(local card next_review 2026-11-11)"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category J)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

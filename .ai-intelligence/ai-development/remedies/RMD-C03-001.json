@@ -1,0 +1,119 @@
+{
+  "id": "RMD-C03-001",
+  "problem_ids": [
+    "C03",
+    "C04",
+    "C05"
+  ],
+  "summary": "要求・禁止事項・完了条件・判断理由・未完了事項をcontext外の耐久状態(progress file/feature list/.steering/git commit)へ置き、session開始時に再読、compaction前にcheckpointし、/compactにfocus指示を与える",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "Anthropic: initializer agentがinit.sh・progress file・feature list(JSON pass/fail)を作り、以後のsessionはgit log・progress noteを読んでbaseline testから開始。git commitをcheckpointとする。premature completion・未完了機能を抑制",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/context-window",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: compaction後にproject-root CLAUDE.md・unscoped rules・auto memoryは再注入、paths付rules・nested CLAUDE.md・会話内指示は失われる、skill bodyは1skill 5,000/合計25,000 tokenで再注入。/compact focus指示、/autocompact閾値、/clear、subagentへの大量読込委譲、/contextでの実測を推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "Anthropic: subagentは成果を外部systemへ保存し軽量参照だけを返して伝言劣化を防ぐ。lead agentはplanをmemoryへ保存(200k超で切り詰め)、subagentへはobjective・output format・tool guidance・boundariesを明示。token使用量が性能分散の80%を説明",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
+      "observed_at": "2026-08-12",
+      "summary": "Anthropic Fable 5 guidance: 長時間runではprogress claimをtool結果へ接地し、context上限を理由に止めず、旧modelのscaffolding・memory前提を再評価する",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
+      "observed_at": "2026-07-29",
+      "summary": "Codex CLI/Desktopで自動compaction後に完了作業・次の実行箇所・subagent結果を失い反復する4件の独立報告(candidate/medium)。project-local durable stateを緩和として記録、未検証",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://developers.openai.com/api/docs/guides/compaction",
+      "observed_at": "2026-08-15",
+      "summary": "OpenAI Responses compaction: compaction itemは不透明で人間可読を意図せず、細部は要約・抽象化され得ると明記。compaction item以前の手動pruneは非推奨",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/managed-agents",
+      "observed_at": "2026-04-08",
+      "summary": "Anthropic Managed Agents: sessionをcontext window外に置くappend-only event logとして扱い、harness失敗後もwake(sessionId)/getEventsで状態を復元",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数context windowにまたがる長時間task",
+      "自動compactionが起きるharness(Claude Code/Codex)"
+    ],
+    "not_applicable_when": [
+      "1 session内で終わる小規模task(TechLog方針: 小規模変更に.steeringは不要)"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic。Codexはcompaction後の状態喪失報告あり(MBI candidate)、Fable 5は旧scaffolding再評価を推奨"
+  },
+  "expected_effect": {
+    "primary": "compaction・session跨ぎでの要求忘却・未完了事項の消失を防ぐ",
+    "metrics": [
+      "compaction後の再読・重複作業回数",
+      "完了条件の充足率",
+      "会話内指示の喪失件数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "checkpoint fileが古くなり誤誘導(C11)",
+    "過剰なsteering文書作成コスト"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "progress note運用と保守(小)",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "会話内でだけ禁止事項を伝える: Claude Codeではcompaction後に失われる(公式)。永続させるならproject-root CLAUDE.md/unscoped rules",
+    "paths付rulesやnested CLAUDE.mdに重要規則を置く: compaction後に再読まで消える",
+    "compaction要約に任せる: OpenAI compaction itemは不透明で細部が失われ得る"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code compaction仕様変更",
+    "Codex compaction修正のrelease",
+    "MBI-codex-compaction-loses-execution-stateの更新"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

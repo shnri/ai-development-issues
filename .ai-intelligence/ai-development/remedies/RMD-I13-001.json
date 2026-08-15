@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I13-001",
+  "problem_ids": [
+    "I13"
+  ],
+  "summary": "AI生成codeの出典/licenseは組織policyとして明文化し、Copilot code referencing相当の公開code一致検出（利用可能なら）や依存license scanをCIで補い、長い逐語的snippetは出所確認を要求する",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/copilot/concepts/completions/code-referencing",
+      "observed_at": "2026-08-15",
+      "summary": "Copilotは公開repo索引と一致した提案（<1%）にURLとlicenseを表示、改変済みや自作codeは検査対象外、法的責任の明示なし",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2602.00180v1",
+      "observed_at": "2026-02",
+      "summary": "From Code to Contract: AI coding assistantの契約・法的整理（R21）",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "生成codeを商用/公開配布する",
+      "OSS licenseとの互換性要件がある"
+    ],
+    "not_applicable_when": [
+      "個人の使い捨てcode"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "license/著作権riskの可視化と方針一貫性",
+    "metrics": [
+      "policy文書有無",
+      "license scan導入有無"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "一致検出は提供者依存でClaude Code/Codexに同等機能がない",
+    "policyがあっても検出は不完全"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "policy記述数分、scan導入数時間",
+  "verdict": "decision-required",
+  "secondary_layers": [
+    "ci",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "'AIが書いたからlicense不問'",
+    "逐語的な長いsnippetを出所不明のまま採用"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "provider規約更新",
+    "法的判例・規制更新"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

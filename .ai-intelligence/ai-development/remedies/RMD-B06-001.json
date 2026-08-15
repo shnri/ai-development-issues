@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category B)",
+  "status": "active",
+  "secondary_layers": [
+    "instruction",
+    "test"
+  ],
+  "id": "RMD-B06-001",
+  "problem_ids": [
+    "B06",
+    "B12",
+    "B05"
+  ],
+  "summary": "Definition of Doneとtask specに、実際に要求される運用・失敗時挙動・移行順序・後方互換制約を『実在する要件』として明示し、out of scopeとend-to-end検証も併記する（Happy Path欠落と理想設計への一足飛び置換の両方を防ぐ）。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "最も有用なspecは対象file/interface、out of scope、e2e検証手順を含む。『Scope the task』で対象scenarioを明示。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "『State the boundaries』で行動境界を明示。同時に『Don't add error handling... for scenarios that cannot happen』『Only validate at system boundaries』『Don't use ... backwards-compatibility shims when you can just change the code』— 互換性・失敗時挙動が本当に必要な場合は要件として明示しないと省かれ得ることを示唆。",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://www.thoughtworks.com/en-us/insights/articles/fitness-function-driven-development",
+      "observed_at": "2019-01-11",
+      "summary": "fitness functionの例にoperability（runbook、alerting）、resiliencyがあり、運用要件も自動gateにできる。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2602.00180v1",
+      "observed_at": "2026-01-30",
+      "summary": "曖昧promptはAIに多数の未言明の仮定を置かせる（『poor at mind reading』）。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "データ移行、schema/format変更、外部契約を持つ変更",
+      "運用・障害時挙動が要件のfeature"
+    ],
+    "not_applicable_when": [
+      "互換性維持が不要でcodeを直接変えられる内部変更（この場合は最小変更指示RMD-B04-001が優先）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic（Fable 5の既定挙動は最小変更寄りなので互換要件の明示が特に必要）"
+  },
+  "expected_effect": {
+    "primary": "運用・失敗・移行設計の欠落と、移行順序を無視した置換の減少",
+    "metrics": [
+      "移行/互換起因の障害・rollback数",
+      "DoD項目の未充足指摘数"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "DoDが長大化してcheckbox化",
+    "不要な防御コードを誘発（B04と衝突）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "task templateに数項目追加",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "『考え得る全ての失敗に備えよ』という汎用指示（過剰設計へ）",
+    "互換性をchatで口頭合意しrepository specに残さない"
+  ],
+  "revalidate_when": [
+    "移行系taskでの実失敗事例",
+    "model prompting guide改訂"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

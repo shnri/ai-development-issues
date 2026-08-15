@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "harness",
+    "setting"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G12-001",
+  "problem_ids": [
+    "G12",
+    "G13",
+    "G04"
+  ],
+  "summary": "Context衛生: 変更点・入口・依存先からの限定読取を指示し、長いlog/test出力はhookで失敗行だけにfilterまたはfileへ保存し要約だけ保持し、冗長操作はsubagentへ隔離、無関係task間は`/clear`、compactには保持対象を指示する。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-08-15",
+      "summary": "'Vague requests like improve this codebase trigger broad scanning'; PreToolUse hookで10,000行logを数百tokenへ; 'Delegate verbose operations to subagents'; '/clear between tasks'; '/compact Focus on ...'とCLAUDE.md '# Compact instructions'; code intelligence pluginで不要file読取削減; CLAUDE.mdは200行以下・手順はskillへ",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/guide/reporters",
+      "observed_at": "2026-08-15",
+      "summary": "minimal/agent reporterで失敗のみ出力(agent検出時自動)",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "auto memory(`~/.claude/projects/<project>/memory/MEMORY.md`, 先頭200行/25KBを毎session読込)にbuild command・debug知見を蓄積し再学習を減らす。CLAUDE.mdは'what you'd otherwise re-explain'",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/settings",
+      "observed_at": "2026-08-15",
+      "summary": "`autoCompactWindow`(100k–1M)と`autoCompactEnabled`でcompact閾値を制御",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `model_auto_compact_token_limit`、`project_doc_max_bytes`(AGENTS.md読取上限)",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "agentが着手時にrepository全体を読む・大きなlogをそのままcontextに載せる",
+      "同一sessionで無関係taskを続ける"
+    ],
+    "not_applicable_when": [
+      "repositoryが小さくcontext圧が無い",
+      "監査目的で全出力を保持する必要がある"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "探索token・context占有の削減とcompact頻度低下",
+    "metrics": [
+      "task着手からfirst editまでの読取file数/token",
+      "test/log出力token",
+      "auto-compact発生回数/session"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "filterが必要なerror文脈を落とす(grep -A行数を十分に)",
+    "限定読取で関連fileを見落とす(局所→影響範囲確認の段階化で補う)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "cost": "hook script 1本 + AGENTS.md数行。hookは`~/.claude/hooks/`か`.claude/settings.json`",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "巨大logを'要約して'と指示するだけで、読込自体は起きる(hookでpre-filterする方が確実)",
+    "CLAUDE.mdにrepository構造を全部書いてcontext bloat(公式/doctorは導出可能な内容を削る)"
+  ],
+  "revalidate_when": [
+    "Claude Code hook/compaction仕様変更",
+    "vitest reporter変更",
+    "repository規模の大幅変化"
+  ],
+  "techlog_notes": "`.claude/settings.json`のhooksは空。test出力filter hookとcompact指示が最小候補。auto memoryはnamed volume `techlog-claude-home`で永続化済み。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K03-001",
+  "problem_ids": [
+    "K03",
+    "K09",
+    "K02"
+  ],
+  "summary": "system prompt/instruction/Skill/tool schema/model/effortの変更は一度に一軸だけ行い、変更ごとにablation付きの回帰evalとsoak・段階rolloutで通す。",
+  "remedy_type": "test-strategy",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-ablation-evals",
+      "observed_at": "2026-08-11",
+      "summary": "Skillあり/なし/一部削除ablationと回帰eval（evidence-supported, high）。GitHubのproduction比較でtask固有instruction再設計後、同品質で約20% cost低下。",
+      "quality": "high"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.anthropic.com/engineering/april-23-postmortem",
+      "observed_at": "2026-04-23",
+      "summary": "Anthropicの再発防止: 'a broad suite of per-model evals for every system prompt change'、拡張ablation、公開buildのdogfooding、system prompt変更へのsoak期間と段階rollout、prompt change review infra。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "capability eval（低pass率）とregression eval（ほぼ100%）を分離、graduate運用、owner保守。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-eval-separation",
+      "observed_at": "2026-08-11",
+      "summary": "capability/regression分離とowner保守（operationally-supported）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "observed_at": "2025-06-18",
+      "summary": "MCP serverはtools/list_changed通知でtool schemaを動的変更でき、client側で変更検知が可能。tool schema変化は回帰要因。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "AGENTS.md/CLAUDE.md/Skill/hook/MCPを継続保守する",
+      "model・effort・harnessの更新が外部起因で入る"
+    ],
+    "not_applicable_when": [
+      "安全・権限・data保護規則（効率理由のablation削除対象にしない）",
+      "evalを回すtoken予算が確保できない小規模変更（→最低限smoke task）"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "回帰の原因軸を1つに限定し、検出と巻き戻しを速くする",
+    "metrics": [
+      "回帰suite pass率（前後）",
+      "変更あたりの同時変更軸数",
+      "回帰検出までのlead time",
+      "cost/latency差"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "eval保守cost",
+    "一軸ずつは遅い（→低リスク変更はbatch可とする判断基準が必要）"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "回帰suite（代表task 10-30件）の作成・保守とrun費用",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "複数軸を同時変更しての体感評価（postmortemで3原因が重なり検出困難に）",
+    "metadata更新だけで実行evalなし",
+    "全Skill一括削除"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model update",
+    "system prompt/harness変更",
+    "tool schema変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

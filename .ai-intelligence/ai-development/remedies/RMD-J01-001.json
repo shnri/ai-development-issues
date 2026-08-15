@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-J01-001",
+  "problem_ids": [
+    "J01",
+    "J02",
+    "J16",
+    "J11"
+  ],
+  "summary": "設計理由・却下案・前提をコードと一緒に残す(ADR/決定記録、PRに実装計画とAgent session要約を添付、重要判断にはOwnerを指名)ことで、書いた人間が居ない状態でも理由を説明・修正可能にする。",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: 大きなAgent PRには'clearer implementation plan'を要求。作者はAgentの意図をreview前に検証",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/insights/balancing-ai-tensions/",
+      "observed_at": "2026-03-10",
+      "summary": "DORA: Expertise Paradox。AIは知識ギャップを埋めるが理解に必要な苦闘を迂回し、不慣れな領域では検証できない('blind leading the blind')。AI toolを自社codebase/documentationへ接続することを推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://www.computer.org/csdl/journal/ts/2026/07/11458664/2fj9JDJDiy4",
+      "observed_at": "2026-04-01",
+      "summary": "More Code, Less Understanding?(TSE 2026): AI支援は生産性を上げる一方で開発者のコード理解・ownership感を弱める(要旨は二次情報から確認、全文未検証)",
+      "quality": "low"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://arxiv.org/pdf/2605.23135",
+      "observed_at": "2026-05-01",
+      "summary": "縦断研究: AI多用で同僚のコード理解への信頼が低下、技術方向のhuman ownershipと検証責任を保持したいという報告",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "長寿命のrepositoryで後から修正・説明が必要",
+      "Agentが大部分を生成し人間は承認者のみ",
+      "architecture/domainの重要判断が存在する"
+    ],
+    "not_applicable_when": [
+      "使い捨てprototype",
+      "判断が自明で記録費用が理解費用を上回る小変更"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "設計理由の再構成費用(Epistemic Debt)を下げ、Owner不在時にも判断根拠を辿れるようにする",
+    "metrics": [
+      "ADR/決定記録の件数と参照率",
+      "理由不明で再実装した回数",
+      "重要判断のOwner指名率"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "記録が形式化・陳腐化する",
+    "記録費用が増える"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "ADR template、PR template(計画・検証証拠欄)、Owner表の整備で数時間",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "instruction",
+    "process"
+  ],
+  "known_failure_modes": [
+    "Agent trace全文をそのまま保存し誰も読まない",
+    "理由記録を後追いで書く(生成時に残さないと失われる)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "ADR/AI trace保存の実証研究の公開",
+    "Agentが構造化決定記録を出す機能の提供"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category J)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

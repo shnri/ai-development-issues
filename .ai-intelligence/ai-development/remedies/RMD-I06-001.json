@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I06-001",
+  "problem_ids": [
+    "I06",
+    "I05",
+    "I15",
+    "I14"
+  ],
+  "summary": "Prompt/trace/logはcontent redaction既定を維持し、必要なtelemetryだけ有効化、local transcript保持期間を短縮、feedback/telemetryを組織方針で制御、push protection/secret scanningで漏れを止める",
+  "remedy_type": "observability",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/monitoring-usage",
+      "observed_at": "2026-08-15",
+      "summary": "OTelはprompt/response/tool内容を既定redact、OTEL_LOG_USER_PROMPTS/TOOL_DETAILS/TOOL_CONTENTで明示opt-in、user.email等の属性を含む、v2.1.217+でmanaged settingsがOTLP宛先を固定",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/data-usage",
+      "observed_at": "2026-08-15",
+      "summary": "local transcriptは~/.claude/projects/に平文30日（cleanupPeriodDays）、/feedbackはcode含む送信で5年保持、DISABLE_TELEMETRY/CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC、error reportは既知secret patternをredact",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/code-security/secret-scanning/introduction/about-push-protection",
+      "observed_at": "2026-08-15",
+      "summary": "push protectionはCLI/UI/API/GitHub MCP経由のsecret pushを遮断、public repoは既定有効、delegated bypass",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-hard-limits",
+      "observed_at": "2026-08-11",
+      "summary": "audit logはsensitive payload記録が新riskになると注記",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "OTel/observabilityを導入する",
+      "Agentがcustomer data・secretを含むfileを読む"
+    ],
+    "not_applicable_when": [
+      "telemetryを一切送らずlocalのみ、かつtranscript共有をしない場合（それでもlocal transcript平文は残る）"
+    ],
+    "controllable_layer": "observability",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "secret/PIIのlog残留と外部送信の最小化",
+    "metrics": [
+      "content logging flag有効数",
+      "transcript保持日数",
+      "push protection block件数",
+      "feedback送信の組織方針有無"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "redactionで調査性が落ちる",
+    "OTel宛先が第三者だと新たな流出面"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "環境変数/settings整備数分",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "process"
+  ],
+  "known_failure_modes": [
+    "調査目的でOTEL_LOG_TOOL_CONTENT=1を常時有効",
+    "/feedbackにcode付きで送るのを気軽に許容",
+    "secretをprompt本文に貼る"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code telemetry仕様変更",
+    "OTel destination変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

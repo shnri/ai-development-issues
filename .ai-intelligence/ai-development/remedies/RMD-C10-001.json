@@ -1,0 +1,84 @@
+{
+  "id": "RMD-C10-001",
+  "problem_ids": [
+    "C10",
+    "C05"
+  ],
+  "summary": "並列Agentは`claude --worktree`等でAgentごとに分離checkoutを持ち、委譲時に基準commit SHAとbranchを明示し、統合前にrebase/差分確認を必須にする",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/common-workflows",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: `claude --worktree <name>`で既存commitからの分離checkoutで並列session、@file参照で明示的にfileを投入(directory参照は一覧のみ)、subagentへ探索委譲、`!`コマンドで実行結果を接地、Claudeは最新のClaude Code docsへ常時アクセス",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2604.03551",
+      "observed_at": "2026-04-01",
+      "summary": "AgenticFlict(R12, preprint): AI coding Agent PRのmerge conflictを大規模に分析。並列Agentの同時変更が競合を生む(数値は台帳R12参照、今回未再取得)",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/managed-agents",
+      "observed_at": "2026-04-08",
+      "summary": "Anthropic Managed Agents: sessionをcontext window外に置くappend-only event logとして扱い、harness失敗後もwake(sessionId)/getEventsで状態を復元",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数Agent/複数sessionが同一repositoryを同時に変更"
+    ],
+    "not_applicable_when": [
+      "単一Agentの直列作業"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "異なる時点のrepositoryを見た作業の混入・conflict削減",
+    "metrics": [
+      "merge conflict件数",
+      "stale base起因の手戻り"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "worktree増加によるdisk/依存install重複(devcontainerで緩和)",
+    "基準commitの明示忘れ"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "worktree運用と委譲テンプレート",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process"
+  ],
+  "known_failure_modes": [
+    "同一working treeで複数Agentを並列実行",
+    "委譲後にmainが進んでも再基準化しない"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "harnessのworktree/backgrounding仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

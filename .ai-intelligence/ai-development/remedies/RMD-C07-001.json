@@ -1,0 +1,85 @@
+{
+  "id": "RMD-C07-001",
+  "problem_ids": [
+    "C07",
+    "C11"
+  ],
+  "summary": "記録・memory・docs参照に出典URL・確認日・対象versionを必ず残し、公式/一次情報と二次記事・記憶を区別して記録する(provenance-first)。有効期限と再確認triggerを持たせる",
+  "remedy_type": "observability",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: CLAUDE.mdは200行未満を目標、長いと遵守率低下。path-scoped rules・skillsでon-demand化。@importは起動時に全読込で節約にならない。矛盾する指示は任意に一方が選ばれる。/doctorがCLAUDE.mdのtrimを提案。auto memory MEMORY.mdは先頭200行/25KBのみ読込、`modified` timestamp付与(v2.1.214+)。CLAUDE.mdはcontextであり強制ではなくhookで強制する",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-ownership-metadata",
+      "observed_at": "2026-08-11",
+      "summary": "reason・owner・対象version・再確認triggerのmetadata(candidate, medium)。metadataだけの更新は形骸化する",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.claude/skills/ai-development-improvement/references/evidence-policy.md",
+      "observed_at": "2026-08-15",
+      "summary": "TechLog既存policy: source order、観測日・version記録、repostは独立根拠でない、maturity区分",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "長期に参照される記録・memory・知識カルテ",
+      "公式docsが頻繁に変わる領域"
+    ],
+    "not_applicable_when": [
+      "使い捨ての一時メモ"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "古い/誤った知識の再利用防止と鑑別容易化",
+    "metrics": [
+      "出典・確認日欠落率",
+      "期限超過entry数",
+      "古い根拠起因の誤判断件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "metadataだけの形骸化(局所cardの失敗条件)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "記録templateの数項目",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "metadata更新のみで再検証しない",
+    "二次記事(repost)を独立根拠として数える"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "harnessのmemory機能変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

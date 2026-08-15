@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-J14-001",
+  "problem_ids": [
+    "J14",
+    "J17",
+    "J12"
+  ],
+  "summary": "AI利用の最小共通運用(明確なAI stance、AGENTS.md等の共有指示、小batch、version control、CI safety net、内部platform)をteamで定め、AIが増幅する既存の悪い工程を先に是正する。AI導入前に工程の欠陥を直すかは組織判断。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report",
+      "observed_at": "2025-09-24",
+      "summary": "DORA 2025(約5,000名): AIは増幅器で強い組織をより強く、弱い組織の問題を顕在化。7 capabilities(clear AI stance、healthy data ecosystem、AI-accessible internal data、strong version control、small batches、user-centric focus、quality internal platforms)。高品質platformとAI価値に相関",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/ai/capabilities-model/report/",
+      "observed_at": "2025-11-25",
+      "summary": "DORA AI Capabilities Model: 各capabilityの実装戦略・開始tactics・監視方法を提示(本文は要download、本調査ではpage概要のみ確認)",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/insights/balancing-ai-tensions/",
+      "observed_at": "2026-03-10",
+      "summary": "DORA: tool sprawlの最小化、社内codebase/docsとの接続、production readinessに合わせた計画調整",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: Agent PRの共通review checklist",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数人がAIを使い品質がばらつく",
+      "AI導入で速度は上がったがdelivery/stabilityが改善しない"
+    ],
+    "not_applicable_when": [
+      "個人開発でteam差が存在しない場合(J17は残る)"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "利用者Skill差によるばらつきを共通下限で抑え、AIが増幅する対象を良い工程に揃える",
+    "metrics": [
+      "team内PR品質分散(差戻し率・revert率の個人差)",
+      "AI stance/共有指示の遵守率",
+      "stability指標"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "過剰な標準化で熟練者の効率を下げる",
+    "policyだけで工程の欠陥は直らない"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "policy/共有指示は数時間、工程是正・platform投資は数週間以上",
+  "verdict": "decision-required",
+  "secondary_layers": [
+    "instruction",
+    "harness"
+  ],
+  "known_failure_modes": [
+    "AIをtool導入だけで工程改善の代替にする(DORA: AIはteamを直さない)",
+    "tool sprawl"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "DORA 2026 report公開",
+    "組織のAI stance改定"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category J)",
+  "structural_note": "J17(悪い工程の高速化)はAI側の対策では解消せず、工程・組織習慣の是正という人間の判断が前提。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D14-001",
+  "problem_ids": [
+    "D14",
+    "D01",
+    "D02",
+    "D12",
+    "D16"
+  ],
+  "summary": "model・effort・harness・system prompt・tool・Skill revisionを一体でversion記録し、model/harness/主要instruction変更のたびに主要ケースのregression evalとSkillあり/なし/一部削除のablationを実行して、回帰と不要指示を検出する。",
+  "remedy_type": "test-strategy",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-ablation-evals",
+      "observed_at": "2026-08-11",
+      "summary": "evidence-supported/high: GitHub production比較でtask固有instruction再設計後に同品質で約20% cost低下。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-configuration-versioning",
+      "observed_at": "2026-08-11",
+      "summary": "operationally-supported/high: model名だけでなくAgent構成全体を固定して比較可能にする。",
+      "quality": "medium"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.anthropic.com/engineering/april-23-postmortem",
+      "observed_at": "2026-04-23",
+      "summary": "Anthropic: effort既定値high→medium（3/4–4/7）、thinking cache clear bug（3/26–4/10, v2.1.101で修正）、system prompt冗長性制約（4/16–4/20, ablationで約3%低下）の3件がmodel変更なしに品質回帰を起こした。対策: model別eval suite拡充、prompt変更の監査tooling、staged rollout/soak。",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://github.blog/ai-and-ml/github-copilot/better-tools-made-copilot-code-review-worse-heres-how-we-actually-improved-it/",
+      "observed_at": "2026-07-10",
+      "summary": "GitHub: tool追加でCopilot code reviewが悪化、instruction/tool比較で改善（単一組織のproduction control）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "capability/regression eval分離、trace監査。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "「Capability improvements at this level are also a good prompt to re-evaluate which instructions, tools, and guardrails are still needed」。effort変更時はworkload別evalで品質確認。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json",
+      "observed_at": "2026-08-12",
+      "summary": "effort guidance: 既定highから下げる場合はworkload固有評価で品質維持を確認（anthropic-fable-effort-guidance）。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "利用model/harness/effort既定値/system promptが更新される（provider側変更を含む）",
+      "常時指示やSkillを削除・追加する判断をする"
+    ],
+    "not_applicable_when": [
+      "法律・安全policyの削除判断（ablation結果単独で決めない）",
+      "evalを保存・実行できる環境がない"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic（結果はmodel/version固有）"
+  },
+  "expected_effect": {
+    "primary": "model/構成変更起因の回帰の早期検出と、不要指示の根拠ある削除",
+    "metrics": [
+      "主要ケースpass率のbaseline差",
+      "cost/latency差",
+      "構成revision記録の完全率（model/effort/harness/tool/prompt）"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "eval token cost、artifact review時間",
+    "provider非公開変更は外部からは事後検知しかできない（残存）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "regression suite初期構築に1–2日、更新ごとの実行cost",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "observability",
+    "process"
+  ],
+  "known_failure_modes": [
+    "model名だけ記録して比較する",
+    "regression 100%だけで新能力を測る（saturation）",
+    "全Skill一括削除"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "主要model/harness更新",
+    "effort既定値変更",
+    "Claude Code/Codex system prompt変更告知"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "E-陳腐化管理",
+  "local_tooling": [
+    "watch-official-guidance ledger（provider変更検知）",
+    "detect-model-behavior-issues issues.json（MBI-fable-* / MBI-codex-*）をregression caseの起点にできる"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

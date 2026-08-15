@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F02-001",
+  "problem_ids": [
+    "F02",
+    "F09",
+    "F10",
+    "F21"
+  ],
+  "summary": "テスト作成前に仕様矛盾を人間が裁定し、テストは複数の有効解を受け入れる仕様レベルの振る舞い(outcome)で書き、overly strict/underspecifiedなテストを定期監査してspec versionと紐付ける",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/",
+      "observed_at": "2026-02-23",
+      "summary": "OpenAI: SWE-bench Verified難問138件の59.4%にテストまたは問題記述の実質的欠陥(overly strict test, underspecified prompt)。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/separating-signal-from-noise-coding-evaluations/",
+      "observed_at": "2026-07-08",
+      "summary": "OpenAI: SWE-Bench Proの約30%(pipeline 27.4%, 人手34.1%)がbroken。overly strict testが正しい実装を拒否、underspecified promptが隠しtestの要求を含む。5名のengineerによる独立review。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "Anthropic: 特定手順を強制するgraderは「too rigid」で有効な別解を落とす。「grade what the agent produced, not the path it took」。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-task-audit",
+      "observed_at": "2026-08-11",
+      "summary": "prompt・test・referenceを複数有効解で監査(evidence-supported, 確度high)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2602.00180",
+      "observed_at": "2026-01-30",
+      "summary": "Spec-Driven Development論文: 仕様を主要artifactとし、spec-first/spec-anchored/spec-as-sourceの3段階を提示(概念整理、効果測定なし)。",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "設計書とテストが別々に存在し矛盾し得る",
+      "AIが仕様書からテストを生成する",
+      "仕様変更が頻繁で旧テストが残る"
+    ],
+    "not_applicable_when": [
+      "正解が一意で仕様が安定している純粋なbug fix"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "正しい別解の拒否と仕様外要求の混入を減らし、旧仕様テストの陳腐化を追跡可能にする",
+    "metrics": [
+      "false reject率(正しい実装をテストが落とした件数)",
+      "仕様矛盾の裁定record数",
+      "spec versionと紐付かないテスト比率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "監査費用",
+    "仕様を厳密化しすぎると変更速度が落ちる",
+    "spec version紐付けは運用が形骸化しやすい"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "低〜中: 裁定record(docs/ or ADR)とテストのtag/命名規約",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "test",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "AIに矛盾する設計書をそのまま渡してテスト生成させる(正解が一意に決まらない)",
+    "実装のcall順序やprivate構造をassertする(別解拒否, Anthropic)",
+    "古いテストをskipで放置する(F21がF08の経路になる)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "設計書構成の変更",
+    "benchmark監査手法の更新"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

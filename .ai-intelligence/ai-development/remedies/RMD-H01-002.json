@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "harness"
+  ],
+  "id": "RMD-H01-002",
+  "problem_ids": [
+    "H01",
+    "H02"
+  ],
+  "summary": "Claude Fable 5の長時間runでは、進捗claimを当該Sessionのtool結果に照らして監査させ、Context残量を理由に停止・要約・新Session提案をしないよう指示し、Contextの限界に依存しないmemory notesを持たせる（Anthropic公式prompt）。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "『Before reporting progress, audit each claim against a tool result from this session…』でfabricated status reportをtestingで『nearly eliminated』。context-budget concernへは『You have ample context remaining. Do not stop, summarize, or suggest a new session…』。remaining-token countdownを表示しないよう推奨。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
+      "observed_at": "2026-08-12",
+      "summary": "官方guidance ledger: long autonomous runsは進捗をtool結果へ接地し、real blockerまで継続、context limitで止まらない。",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-long-run-unsupported-progress",
+      "observed_at": "2026-08-11",
+      "summary": "MBI-fable-long-run-unsupported-progress: verified/high。TechLogでは未再現・未計測。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "claude-fable-5 / claude-mythos-5での長時間自律run",
+      "harnessがContext残量を表示する"
+    ],
+    "not_applicable_when": [
+      "他model（効果未検証。過剰指示は逆効果になり得る）",
+      "短い対話的作業"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "generic"
+    ],
+    "model_conditions": "claude-fable-5 / claude-mythos-5（Anthropic testing）"
+  },
+  "expected_effect": {
+    "primary": "未検証の進捗・完了報告と不要な早期停止を減らす",
+    "metrics": [
+      "tool結果に対応しない完了claim数",
+      "context理由の自発停止回数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "Context countdownを隠すと真の枯渇時の挙動が不透明になる",
+    "他modelへ流用すると指示bloat"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "prompt数行",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "行動を網羅列挙する長い指示（Fable 5では過剰指定が品質を下げるとAnthropicが明記）",
+    "reasoningを本文へ再現させる指示（reasoning_extraction refusalを誘発）"
+  ],
+  "revalidate_when": [
+    "Fable 5後継model",
+    "prompting guide改訂（ledger fingerprint変化）"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

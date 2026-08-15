@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D05-001",
+  "problem_ids": [
+    "D05",
+    "D13",
+    "D03"
+  ],
+  "summary": "Linter/Formatter/型検査/schema検証が担う機械的規則、および「必ず特定時点で実行」する規則は自然言語指示から外し、lint設定・hooks（PreToolUse/PostToolUse等）・permissions/settings・CIへ移す。検証指示は一律の絶対規則ではなく変更影響に応じた段階別にする。",
+  "remedy_type": "tool",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: CLAUDE.mdは「context, not enforced configuration」。特定時点で必ず実行するものはhookに、blockはPreToolUse hookまたはpermissions.denyに。「Use settings for technical enforcement and CLAUDE.md for behavioral guidance」。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex AGENTS.mdガイド: lint checkはCIに委ね、review ruleは簡潔に。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2606.15828v5",
+      "observed_at": "2026-07-30",
+      "summary": "Lint Leakage（linter/formatterが強制済みの規則を指示に重複記載）が62%で最頻smell、検出precision 93%。推奨: styleはlinter/formatterへ。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "agentskills.io: 決定論的検証はscriptへ（validation loop / plan-validate-execute）。「Match specificity to fragility」—毎回同じ判定をする作業に自然言語の絶対規則は不要。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5ガイド: 「steer most behaviors with a brief instruction rather than enumerating each behavior」。exhaustive listは不要。",
+      "quality": "high"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.anthropic.com/engineering/april-23-postmortem",
+      "observed_at": "2026-04-23",
+      "summary": "system promptへの一律制約（≤25語/≤100語）追加が広範ablationで約3%のintelligence低下を招き4/20に撤回。絶対規則の副作用は測って初めて分かる。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "observed_at": "2026-08-11",
+      "summary": "maintain-agent-instructions audit-criteria: 「『必ず』『すべて』『絶対』が多いが例外条件や防ぐ失敗がない」を陳腐化シグナル、「毎回必ず同じ判定をする形式検証」は決定論的仕組みへ移す。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "lint/format/typecheck/schemaで機械的に検証できる規則が指示に書かれている",
+      "『毎回全テスト』『必ずXを実行』型の規則が軽微変更にも適用され待ち時間・cost・無視を生む"
+    ],
+    "not_applicable_when": [
+      "判断が必要でtool化できない規則（設計方針・責務境界）",
+      "hooksやCIを持てない環境（その場合は指示に留めるが段階別にする）"
+    ],
+    "controllable_layer": "tool",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "指示量の削減と遵守の確実化（enforcement層へ）。軽微変更での不要な全量検証コストの削減",
+    "metrics": [
+      "指示内の機械的規則件数",
+      "hook/lint/CIでの検出件数 vs 指示違反件数",
+      "変更あたり検証時間・token",
+      "検証未実施起因の回帰件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "hookが多すぎて開発ループが遅くなる",
+    "段階別検証の判断を誤り重要な検証を飛ばす（最終gateはCI/broad testで担保）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "lint/hook設定は短時間。段階別検証規則の設計は数時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "ci",
+    "harness"
+  ],
+  "known_failure_modes": [
+    "自然言語で『必ず』と書けば守られると期待する（context扱いで保証なし）",
+    "絶対規則を積み増して品質が落ちる（postmortem 3%）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code hooks/settings仕様変更",
+    "Codex hooks/CI連携の変更",
+    "lint toolchain更新"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "A-常時contextの縮小と分離",
+  "project_note": "TechLog AGENTS.mdは既に『変更の影響に応じて』段階別検証を採用。残るのは指示に含まれる機械的規則の棚卸し。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

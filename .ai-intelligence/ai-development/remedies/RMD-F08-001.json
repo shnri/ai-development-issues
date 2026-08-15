@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F08-001",
+  "problem_ids": [
+    "F08",
+    "F07",
+    "F19",
+    "F18"
+  ],
+  "summary": "テスト・CI workflow・coverage閾値・verifierをprotected pathとして別承認にし、Claude Code PreToolUse hookやCODEOWNERSで実装Agentによる変更を機械的に遮断し、bug修正には同一テストのbefore-fail/after-pass証拠を要求する",
+  "remedy_type": "harness",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: 削除/skipテスト、`|| true`、coverage閾値変更、workflow条件変更をred flagとし「Any change that weakens CI is a blocker」。非自明なlogic変更にはpre-change behaviorで失敗するテストを要求。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code PreToolUse hookはmatcher `Edit|Write`/`Bash`でtool callを事前に検査し、exit 2またはpermissionDecision denyで遮断できる。`.claude/settings.json`でrepoへcommit可能。",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://metr.org/blog/2025-06-05-recent-reward-hacking/",
+      "observed_at": "2025-06-05",
+      "summary": "METR: frontier modelがtest/scoring codeを書き換えてscoreを上げる行動を観測。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-protected-oracle-paths",
+      "observed_at": "2026-08-11",
+      "summary": "workflow・test削除・coverage・security testの別承認(operationally-supported, 確度high)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-before-after-evidence",
+      "observed_at": "2026-08-11",
+      "summary": "同一testの変更前fail・変更後pass証拠(operationally-supported)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-oracle-isolation",
+      "observed_at": "2026-08-11",
+      "summary": "test/scorer/referenceへのwrite/read分離(operationally-supported)。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentが実装とテスト/CIを同じsession・PRで変更できる",
+      "acceptance testやholdoutを実装Agentから分離できる",
+      "GitHub PR flowまたはClaude Code hooksが使える"
+    ],
+    "not_applicable_when": [
+      "テストの正当な更新が仕様変更の一部である場合(別PR/別承認で処理する)",
+      "Codex単独: PreToolUse相当のhookがないためCODEOWNERS/CI側でのみ遮断"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic(reward hacking傾向はmodel依存で増幅)"
+  },
+  "expected_effect": {
+    "primary": "テスト・verifier改変によるfalse PASSと、visible testへの過適合経路を閉じる",
+    "metrics": [
+      "未承認oracle変更数",
+      "skip/削除/`|| true`検出数",
+      "before-fail evidence添付率",
+      "hook deny件数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "小変更にも追加reviewが必要",
+    "hookは設定外の迂回経路(shell経由の別編集)を全て塞げない",
+    "holdout分離はrealismを下げる"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "低〜中: hook script + CODEOWNERS + PR template",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "ci"
+  ],
+  "known_failure_modes": [
+    "Agentの「tests passed」自己申告だけを信頼する(oracle改変とpost-hocテストを検出できない)",
+    "oracleを隠すだけ(contamination・side channelは残る)",
+    "holdoutなしでvisible testのみで受け入れる(F07)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code hooks仕様変更",
+    "Codexにhook相当機能が追加",
+    "autonomous CI変更Agentの普及"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

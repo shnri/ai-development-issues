@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category B)",
+  "status": "active",
+  "secondary_layers": [
+    "process",
+    "ci"
+  ],
+  "id": "RMD-B07-001",
+  "problem_ids": [
+    "B07",
+    "B02",
+    "B12"
+  ],
+  "summary": "仕様・契約（API schema、契約テスト、受入テスト）を実装と機械的に同期するspec-anchored方式にし、変更影響を文書→テスト→コードで追跡可能にする。",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2602.00180v1",
+      "observed_at": "2026-01-30",
+      "summary": "Code to Contract: documentation driftとtraceability gapを問題化し、spec-first / spec-anchored（テストで同期強制）/ spec-as-sourceの3段階を提示。引用: 精緻化specで最大50%のerror削減、API-first+contract testで統合cycle 75%短縮（二次引用でpreprint）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "specは「name the files and interfaces involved, state what is out of scope, and end with an end-to-end verification step」が最も有用。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/mitigations/MITIGATIONS-agent-review-capacity.md",
+      "observed_at": "2026-08-11",
+      "summary": "author-evidence（before/after証拠）はcandidate。",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "外部契約（API、schema、Firestore document形式、content validation）を持つ変更",
+      "文書とテストが分離して保守されている"
+    ],
+    "not_applicable_when": [
+      "UI微調整など契約変更を伴わない変更",
+      "spec自体が未確定の探索段階"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "文書だけ・コードだけの片側更新をテスト失敗として検出し、影響追跡の断絶を減らす",
+    "metrics": [
+      "spec-implementation不一致の検出数",
+      "契約テスト数と失敗率",
+      "docs更新を伴わない挙動変更PR数"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "契約テストの保守費",
+    "spec-as-sourceは大半のprojectで過剰"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "契約/受入テスト整備に日単位、以後変更ごとの更新",
+  "verdict": "candidate",
+  "known_failure_modes": [
+    "文書を『正』としながらテストで縛らない（drift再発）",
+    "AI生成テストが実装をそのまま写す（oracle decay）"
+  ],
+  "revalidate_when": [
+    "TechLogでcontent:validateやschema検証範囲を拡張した時",
+    "spec-anchored方式の独立再現研究の登場"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

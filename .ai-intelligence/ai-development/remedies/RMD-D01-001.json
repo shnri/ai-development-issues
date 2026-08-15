@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D01-001",
+  "problem_ids": [
+    "D01",
+    "D15",
+    "D12"
+  ],
+  "summary": "継続保守するSkill/rule/常時指示にfrontmatterまたはinventoryで導入理由・owner・対象model/runtime/依存version・最終検証日・再確認trigger（model/harness/tool更新）を持たせ、期限超過やtrigger発生時に再評価キューへ入れる。metadata追加だけで終えず、実行evalと期限管理を伴わせる。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-ownership-metadata",
+      "observed_at": "2026-08-11",
+      "summary": "reason・owner・対象version・失敗例・review trigger（candidate, medium）。失敗条件: metadataだけ更新する形骸化。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/specification",
+      "observed_at": "2026-08-15",
+      "summary": "agentskills spec: `metadata`（string map、author/version例）と`compatibility`（≤500字、対象製品・依存）フィールドを標準化。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Codeは`metadata`/`compatibility`を受理するが動作には使わない（自前toolingで読む前提）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "auto memoryはfrontmatter付きfileにClaude Codeが`modified` ISO timestampを付与（v2.1.214+）— 鮮度表示の公式先例。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "evalを継続ownerを持つliving artifactとして運用。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json",
+      "observed_at": "2026-08-12",
+      "summary": "TechLog official-guidance ledger: guidance毎にrevision/observed_at/may_replaceを記録し、再確認triggerの入力源として使える。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Skill・rule・promptを複数人・複数セッションで継続保守する",
+      "vendor submoduleなど外部由来Skillを利用する"
+    ],
+    "not_applicable_when": [
+      "使い捨てprompt、一時的なsession指示"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "owner不明・期限超過・対象model不明の解消と、再評価の起点確保",
+    "metrics": [
+      "owner欠落数",
+      "last_verified期限超過数",
+      "trigger発生後未評価数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "metadata更新の手間、形骸化",
+    "toolがmetadataを解釈しないため運用でしか効かない"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "frontmatter/inventory整備に数時間、定期review運用",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "instruction",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "metadataだけ追加してevalも期限管理もしない",
+    "model名だけ記録しharness/effort/tool差を再現できない（RMD-D14-001参照）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "agentskills spec metadata仕様変更",
+    "Claude Code/Codexがmetadataを解釈し始めた場合"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "E-陳腐化管理",
+  "local_tooling": [
+    "ai-development-improvement Skillのrevalidate mode（model/tool/skill/runtime変更後の再検証）",
+    "watch-official-guidance Skill（公式guidance改訂の検知）"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

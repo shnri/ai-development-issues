@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I15-001",
+  "problem_ids": [
+    "I15",
+    "I17",
+    "I12"
+  ],
+  "summary": "Agent利用・変更・承認を追跡可能にする: commit trailer（Co-Authored-By）、PR本文の生成表示、OTelのtool_decision/api_requestイベント、ConfigChange hookでの設定改変記録、cloud sessionの監査log、rulesetsで人間と同じreview必須",
+  "remedy_type": "observability",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/monitoring-usage",
+      "observed_at": "2026-08-15",
+      "summary": "claude_code.tool_decision/user_prompt/api_request event、session.id/user.id/organization.id、agent.name/skill.name/mcp_server.name属性でattribution可能",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "cloud sessionは全操作をaudit log、ConfigChange hookで設定変更を監査/遮断、managed settings",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "PreToolUse/PostToolUse等はsubagentでも発火しagent_id/agent_typeを含む",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+      "observed_at": "2025-11-25",
+      "summary": "token passthroughは監査trailを壊す、scope elevationはcorrelation ID付きでlog",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-hard-limits",
+      "observed_at": "2026-08-11",
+      "summary": "auditは予防でなく事後追跡、operationally-supported/medium",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数人/複数Agentが同じrepoに変更を入れる",
+      "後からAI由来変更の説明責任が必要"
+    ],
+    "not_applicable_when": [
+      "単独開発でgit履歴だけで十分と判断する場合（ただしtrailerは低costで有用）"
+    ],
+    "controllable_layer": "observability",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "AI由来変更・承認の後追い可能性",
+    "metrics": [
+      "AI生成commitのtrailer付与率",
+      "OTel event収集有無",
+      "設定変更のhook記録率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "log量・privacy cost",
+    "監査だけでは予防にならない"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "trailerは既に運用中、OTel導入は数時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "harness"
+  ],
+  "known_failure_modes": [
+    "監査logのみで防御と見なす",
+    "Agent commitを人間名義でsquashして痕跡消去"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "OTel仕様変更",
+    "git trailer規約変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "id": "RMD-C06-001",
+  "problem_ids": [
+    "C06",
+    "C07",
+    "C12"
+  ],
+  "summary": "対象versionを固定(lockfile)し、そのversionと一致する公式docs(node_modules同梱docs、公式docs、version指定docs取得tool)を生成前に参照させ、記憶より実環境の型・testで裏取りする",
+  "remedy_type": "tool",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2507.12367",
+      "observed_at": "2025-07-21",
+      "summary": "GitChameleon 2.0(328問, version条件付き): frontier modelのbaseline 48-51%。docs RAGでGPT-4.1 48.5→58.5%、Claude 3.7 Sonnet 48.8→56.1%。visible testでのself-debugで+10〜20pt(Llama3.1 30.2→52.1、GPT-4.1-mini 44.2→68.0)。Claude Code 48.8%、Goose+GPT-4.1 55.5%",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-grounded-retrieval",
+      "observed_at": "2026-08-11",
+      "summary": "official docs/API retrievalでのgrounding(evidence-supported, medium)。Amazon Scienceの研究。retrieval sourceの汚染・陳腐化が失敗条件",
+      "quality": "medium"
+    },
+    {
+      "kind": "field-report",
+      "reference": "/workspaces/techlog/node_modules/next/dist/docs/ + node_modules/next/dist/server/lib/generate-agent-files.js",
+      "observed_at": "2026-08-15",
+      "summary": "Next.js 16はinstall済みversionと一致するdocsをnode_modules内に同梱し、`next dev`がAGENTS.md/CLAUDE.mdへ「training dataと異なるので書く前にnode_modules/next/dist/docs/を読め」ブロックを自動追記する。TechLogでも観測済み",
+      "quality": "medium"
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/upstash/context7",
+      "observed_at": "2026-08-15",
+      "summary": "Context7: version指定docs取得のMCP/CLI(60.8k stars、Claude Code/Cursor等30+ client)。ただし『community-contributedで正確性・完全性・安全性を保証しない』と明記",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "training cutoff以後に変わったAPI/Framework/CLI(TechLog: Next.js 16, React 19, TS 6)",
+      "version一致docsが取得可能"
+    ],
+    "not_applicable_when": [
+      "docsが存在しない/古い内部library(この場合は実装読解が代替)"
+    ],
+    "controllable_layer": "tool",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic(GitChameleonでfrontier含む全modelが48-51%)"
+  },
+  "expected_effect": {
+    "primary": "古いAPI利用・存在しないoptionの削減",
+    "metrics": [
+      "version条件付きtask成功率(RAGで+7〜10pt, self-debugで+10〜20pt)",
+      "typecheck/build失敗率",
+      "古いAPI起因のreview指摘数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "docs取得toolの汚染・陳腐化(Context7はcommunity contributed)",
+    "docs全文投入でcontext肥大(C13) → 該当sectionのみ"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "docs参照の指示とlockfile運用(既存)",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "dependency",
+    "test"
+  ],
+  "known_failure_modes": [
+    "docs retrievalだけで十分と扱う: 最良でも40%超が未解決(GitChameleon)。実行/型検査との併用が必要",
+    "古い記事・記憶を出典なしで採用(C07)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "主要dependencyのmajor更新",
+    "新modelのversion条件付き評価",
+    "docs取得toolの信頼性変化"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "controller_notes": [
+    "2026-08-15 controller review: removed misplaced worktree evidence entry copied from RMD-C02-001."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

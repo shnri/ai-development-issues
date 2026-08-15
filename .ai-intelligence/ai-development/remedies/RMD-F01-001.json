@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F01-001",
+  "problem_ids": [
+    "F01",
+    "F03",
+    "F04",
+    "F11",
+    "F05"
+  ],
+  "summary": "テスト期待値を実装ではなく仕様・設計書・fixtureから独立に導出し、テスト作成者(人間またはfresh-context subagent)に生成コードを見せない順序(test-first / blind test authoring)にする",
+  "remedy_type": "test-strategy",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2607.05139",
+      "observed_at": "2026-07-06",
+      "summary": "LLMが誤った生成コードをcontextにしてテストを書くとfault detectionが14%、独立生成では25%。artifact間の独立性欠如が原因と結論(R6)。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-12",
+      "summary": "Anthropic Fable 5 guide: 「Separate, fresh-context verifier subagents tend to outperform self-critique」。長時間runでは仕様に対しsubagentで検証する方法を推奨。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-independent-fault-models",
+      "observed_at": "2026-08-11",
+      "summary": "同じ誤解を共有するoracleを独立fault model・property・contractで補う(evidence-supported)。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "AIが実装とテストの両方を書くworkflow",
+      "仕様・設計書・既知の期待出力(fixture, golden file)から期待値を先に確定できる",
+      "subagentやworktreeでcontextを分離できる(Claude Code Agent tool / Codex)"
+    ],
+    "not_applicable_when": [
+      "期待値が仕様から一意に決まらない(先にF02の仕様裁定が必要)",
+      "exploratory prototypeで正解が未定"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic (Fable 5でfresh-context verifierの効果はprovider報告)"
+  },
+  "expected_effect": {
+    "primary": "実装と同じ誤りを共有するテストを減らし、生成テストのfault detectionを回復する",
+    "metrics": [
+      "mutation score / surviving mutant",
+      "実装から独立して書かれたテスト比率",
+      "review時に発見される実装追随assertion数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "test-firstで書いたテストが仕様の誤読を固定化する(F02/F10)",
+    "subagent分離でtoken・時間費用が増える",
+    "assertionが弱いままなら独立性だけでは不十分(F03)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "低: 手順順序と指示の変更。subagent利用時はtoken費用が増加",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "harness"
+  ],
+  "known_failure_modes": [
+    "実装完成後にAIへ「テストを書いて」と依頼する(post-hoc生成)はfault detectionが低下する(R6)",
+    "同一contextでの自己批評はfresh-context verifierに劣る(Anthropic guide)",
+    "coverage目標だけを与えると実装を写したテストが増える(local card)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model update",
+    "R6の追試/反証",
+    "Claude Code subagent仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E03-001",
+  "problem_ids": [
+    "E03",
+    "E01",
+    "E02"
+  ],
+  "summary": "『一般解を書き、test hardcodeやtest改変をせず、taskやtestが不正なら報告する』公式prompt＋held-out/before-after test・protected oracle pathで、見えているtestに過適合する解を防ぐ",
+  "remedy_type": "test-strategy",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "'Avoid focusing on passing tests and hardcoding' 節: 'Implement a solution that works correctly for all valid inputs, not just the test cases. Do not hard-code values... If the task is unreasonable or infeasible, or if any of the tests are incorrect, please inform me rather than working around them.'",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-before-after-evidence",
+      "observed_at": "2026-08-11",
+      "summary": "同一testの変更前fail/変更後pass evidenceでpost-hoc testを見分ける（operationally-supported）。GitHubも『pre-change behaviorで失敗するtest』を要求。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-protected-oracle-paths",
+      "observed_at": "2026-08-11",
+      "summary": "METR 2025-06-05: test/scorerへの書込みでscoreを上げる行動を観測。test削除・skip・coverage変更を別承認。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "CI weakening（coverage閾値、skip、無効化）をred flagとし、非自明なlogic変更にはpre-change behaviorで失敗するtestを要求。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "'write a failing test that reproduces the issue, then fix it'、Writer/Reviewer や『one Claude write tests, another write code』の分離pattern。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがtestとimplementationの双方を編集できる",
+      "testがdeterministicに再現可能"
+    ],
+    "not_applicable_when": [
+      "flaky/確率的bug（追加evidence必要）",
+      "testが存在しないlegacy領域（先にoracle定義が必要）"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic。Anthropicは自社評価でhard-coding率を追跡し新モデルで低下傾向と報告（system card, 未fetchのため数値は本記録に含めない）"
+  },
+  "expected_effect": {
+    "primary": "test特化のhardcode・special-caseと、testを弱める変更が減る",
+    "metrics": [
+      "held-out test通過率とvisible test通過率の乖離",
+      "test削除/skip/`|| true`差分の件数",
+      "before-fail evidence欠落率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "held-out testの保守cost",
+    "『testが不正なら報告』が過剰な質問・停止を招く"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "prompt数分。held-out/before-after運用は数時間の整備",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "ci",
+    "process"
+  ],
+  "known_failure_modes": [
+    "visible testのpassだけを完了条件にする",
+    "Agentが実装とfault model/testを同時に恣意変更できる状態（local card）"
+  ],
+  "revalidate_when": [
+    "model更新（hard-coding率の変化）",
+    "test infra変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

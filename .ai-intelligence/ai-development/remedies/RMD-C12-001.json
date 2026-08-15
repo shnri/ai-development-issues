@@ -1,0 +1,85 @@
+{
+  "id": "RMD-C12-001",
+  "problem_ids": [
+    "C12",
+    "C06",
+    "C08"
+  ],
+  "summary": "存在しないpackage/API/optionを実環境で決定論的に検証する: install前registry検証、`npm run typecheck`/`build`/testでの実行検証、CLI `--help`や環境変数の実値確認をコード採用の前提gateにする",
+  "remedy_type": "test-strategy",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-registry-verification",
+      "observed_at": "2026-08-11",
+      "summary": "install前のdeterministic registry/publisher検証(evidence-supported, high)。USENIX Security 2025研究で緩和評価",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2507.12367",
+      "observed_at": "2025-07-21",
+      "summary": "GitChameleon 2.0(328問, version条件付き): frontier modelのbaseline 48-51%。docs RAGでGPT-4.1 48.5→58.5%、Claude 3.7 Sonnet 48.8→56.1%。visible testでのself-debugで+10〜20pt(Llama3.1 30.2→52.1、GPT-4.1-mini 44.2→68.0)。Claude Code 48.8%、Goose+GPT-4.1 55.5%",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがdependency追加やAPI/CLI option選択を行う",
+      "型検査・testが動く環境"
+    ],
+    "not_applicable_when": [
+      "検証commandが実行できない環境(その場合は報告して人間確認)"
+    ],
+    "controllable_layer": "ci",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "もっともらしい非実在物の採用防止",
+    "metrics": [
+      "hallucinated import/option件数",
+      "install前拒否件数",
+      "self-debug後の成功率差"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "新規正当packageの摩擦",
+    "検証commandの実行時間"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "既存検証commandの実行順序を規約化",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "tool",
+    "process"
+  ],
+  "known_failure_modes": [
+    "名前のもっともらしさで承認(局所card)",
+    "lockfileだけ: 悪い解決を固定"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "registry security control変更",
+    "frontier modelのhallucination率追試"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "controller_notes": [
+    "2026-08-15 controller review: removed misplaced worktree evidence entry copied from RMD-C02-001."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

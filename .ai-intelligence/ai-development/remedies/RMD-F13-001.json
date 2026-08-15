@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F13-001",
+  "problem_ids": [
+    "F13",
+    "F14",
+    "F17",
+    "F16"
+  ],
+  "summary": "重要ケースは複数回実行してpass^kで安定性を測り、失敗をflaky/infra(timeout, CPU競合)/実装/model回帰に分類し、環境(worker数、runner、model/harness/effort revision)をrunごとに記録して能力差と混同しない",
+  "remedy_type": "observability",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "Anthropic: pass@kとpass^kの区別、k=10でpass@k≈100%でもpass^k≈0になり得る。信頼性重視ならpass^k。transcriptを読まないとgraderの妥当性は分からない。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://playwright.dev/docs/test-retries",
+      "observed_at": "2026-08-15",
+      "summary": "Playwrightは結果をpassed/flaky(初回失敗→retry成功)/failedに分類し、失敗時はworkerを破棄して再起動。retriesはconfigで設定。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/config/#retry",
+      "observed_at": "2026-08-15",
+      "summary": "Vitestは`retry`、`bail`、`maxWorkers`、`fileParallelism`でretryと並列度を制御可能(CPU競合起因timeoutの切り分けに使用)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/separating-signal-from-noise-coding-evaluations/",
+      "observed_at": "2026-07-08",
+      "summary": "OpenAI: benchmark scoreの差の相当部分がbroken task・評価ノイズであり、単一benchmarkでのmodel比較は誤導し得る。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-provenance",
+      "observed_at": "2026-08-11",
+      "summary": "model・harness・effort・contamination記録(operationally-supported)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-quality-metrics",
+      "observed_at": "2026-08-11",
+      "summary": "flake・実行時間を複合品質指標に含める。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "非決定的な要素(LLM, network, Firestore emulator, browser)を含むテスト/eval",
+      "CIやdevcontainerでCPU競合が起きる",
+      "model/harnessを比較する"
+    ],
+    "not_applicable_when": [
+      "完全決定的なユニットテストのみで一度のPASSが十分な場合"
+    ],
+    "controllable_layer": "ci",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "一度の成功・失敗を能力や回帰と誤認する判断ミスを減らし、flake/infraを別queueで処理できる",
+    "metrics": [
+      "pass^k(重要ケース)",
+      "flaky分類率",
+      "timeout/infra起因失敗比率",
+      "run metadata完備率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "retryはflakeを隠して根本原因を放置し得る",
+    "複数回実行のcompute費用",
+    "分類の誤り"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "低: config(retry, maxWorkers)と失敗ログのラベル付け",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "setting",
+    "process"
+  ],
+  "known_failure_modes": [
+    "retryだけ増やして原因分類しない(flakeが恒常化)",
+    "単一benchmark/単一runでmodelを比較する(OpenAI)",
+    "worker数を実測せず上限なしで走らせる(Quick Win表)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Vitest/Playwright major update",
+    "CI runner変更",
+    "model update"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "controller_notes": [
+    "2026-08-15 controller review: downgraded validated→candidate; evidence is official mechanism/guidance plus operationally-supported local cards without measured effect on agent workflows."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

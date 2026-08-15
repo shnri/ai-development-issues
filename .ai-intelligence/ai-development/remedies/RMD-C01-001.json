@@ -1,0 +1,99 @@
+{
+  "id": "RMD-C01-001",
+  "problem_ids": [
+    "C01",
+    "C09",
+    "C02",
+    "C13"
+  ],
+  "summary": "常時読み込む指示(AGENTS.md/CLAUDE.md)は短い地図とrepository固有の少数ルールに限定し、詳細はpath-scoped rules・Skill・docsへ分けて入口で関連箇所を指定するprogressive disclosureにする",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: CLAUDE.mdは200行未満を目標、長いと遵守率低下。path-scoped rules・skillsでon-demand化。@importは起動時に全読込で節約にならない。矛盾する指示は任意に一方が選ばれる。/doctorがCLAUDE.mdのtrimを提案。auto memory MEMORY.mdは先頭200行/25KBのみ読込、`modified` timestamp付与(v2.1.214+)。CLAUDE.mdはcontextであり強制ではなくhookで強制する",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex公式: AGENTS.mdはglobal→repo root→cwdへ連結、`project_doc_max_bytes`既定32KiBで超過分は読み込まれない、AGENTS.override.mdで一時上書き、repo共通は root・service固有はnestedへ",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "observed_at": "2025-09-29",
+      "summary": "Anthropicが有限のattention budgetとcontext rotを前提に、just-in-time retrieval、compaction、structured note-taking、subagentが1,000-2,000 token要約を返す構成、system promptのright altitudeを推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-progressive-instructions",
+      "observed_at": "2026-08-11",
+      "summary": "短い常時mapとtask時詳細読込(operationally-supported, medium)。OpenAI harness engineeringが巨大AGENTS.mdから短いmapへ移行した単一組織事例",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "常時contextが大きい、または指示が矛盾・重複しているrepository",
+      "Agentが選択的にfileを読める(Claude Code/Codex)"
+    ],
+    "not_applicable_when": [
+      "安全・権限policyなど常時必須の規則(これは削らずhook/settingsで強制する)"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "必要fileの取得率と固有ルールの遵守率向上、常時token削減",
+    "metrics": [
+      "起動時context token(/context)",
+      "固有ルール違反件数",
+      "未読起因のfailure件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "分割しすぎてlink切れ・必要規則の未読",
+    "@importは起動時全読込なので節約にならない(Claude Code)",
+    "Codexは32KiB超過分を黙って読まない"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "指示fileの再構成と定期監査(小〜中)",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "structure",
+    "process"
+  ],
+  "known_failure_modes": [
+    "巨大AGENTS.mdへ全部書く: Codexは32KiBで切り、Claude Codeは200行超で遵守低下",
+    "矛盾する規則の併存: 任意に一方が選ばれる(公式)",
+    "一般則で固有ルールを上書き: 固有ルールを常時mapに置かず埋没させると起きる"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code/Codexの指示読込仕様変更",
+    "model更新でcontext耐性が変わったとき"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

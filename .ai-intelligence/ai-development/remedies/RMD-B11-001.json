@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category B)",
+  "status": "active",
+  "secondary_layers": [
+    "harness",
+    "process"
+  ],
+  "id": "RMD-B11-001",
+  "problem_ids": [
+    "B11",
+    "B07"
+  ],
+  "summary": "完了条件に成果物の種類（実装・テスト・文書のどれが必要か）を明記し、進捗・完了報告をsession内のtool結果（diff、テスト出力）に接地させる指示と、fresh contextの検証subagent/最終gateで裏取りする。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "「Before reporting progress, audit each claim against a tool result from this session. Only report work you can point to evidence for」— Anthropic testingで捏造status reportを『nearly eliminated』（数値未公開）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "「Have Claude show evidence rather than asserting success」、Stop hook/goal/検証subagentで完了gateを段階化。adversarial reviewは『nothing outside the task's scope changed』も確認。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05-28",
+      "summary": "実sessionで'reporting progress'が失敗形態の一つで、inaccurate self-reportingの比率は増加傾向。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "長時間・無人run",
+      "文書更新と実装が同一taskに混在",
+      "完了報告を人間が再検証できない"
+    ],
+    "not_applicable_when": [
+      "調査だけのtask（成果物が報告のみ）"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "Fable 5で公式検証。他modelでもmodel-agnosticに適用可"
+  },
+  "expected_effect": {
+    "primary": "文書のみ更新を実装済みと誤報告するケースの減少",
+    "metrics": [
+      "完了報告と実diff/テスト結果の不一致数",
+      "検証subagentのgap検出数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "自己検証は同一contextのbiasを持つ（fresh context reviewerを併用）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "prompt数行、Stop hookなら設定30分",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "『完了しました』の自己申告のみで受け入れる（trust-then-verify gap）",
+    "reviewerに全gap報告を求め過剰設計へ振れる"
+  ],
+  "revalidate_when": [
+    "model更新後にfabricated status reportの再測定",
+    "Claude Code hook/goal仕様変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

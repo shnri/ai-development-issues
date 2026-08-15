@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I11-001",
+  "problem_ids": [
+    "I11",
+    "I02",
+    "I15"
+  ],
+  "summary": "subagent/MCP/shared memory由来の内容は主Agentが命令でなくdataとして扱い、memoryやhandoff fileには出所・時刻を付け、MCP sessionは認証と非決定的session IDで保護し、共有stateへの書込は検証gate越しに限定する",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "standard",
+      "reference": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "observed_at": "2025-12-09",
+      "summary": "ASI06 Memory & Context Poisoning、ASI07 Insecure Inter-Agent Communication、ASI08 Cascading Failures",
+      "quality": "medium"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+      "observed_at": "2025-11-25",
+      "summary": "session hijack/injection: sessionを認証に使わない、非決定的session ID、user IDとbind；confused deputy対策；scope最小化",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "subagent内でも同じhookが発火しagent_idで識別可能（監視・遮断は主Agentと同等に効く）",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-source-sink-consent",
+      "observed_at": "2026-08-11",
+      "summary": "provenance消失や別sinkへの迂回が失敗条件、multi-Agent delegationのauthority保持は未解決と記録",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06",
+      "summary": "R8: subagent結果の検証・orchestratorでの統合設計",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Fork/subagent、MCP、shared memory file（.ai-intelligence等）を複数Agentが読み書き"
+    ],
+    "not_applicable_when": [
+      "単一Agent・単一sessionのみ"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "汚染された中間成果の伝播抑止",
+    "metrics": [
+      "handoff記録のprovenance付与率",
+      "memory書込の検証gate通過率"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "provenance付与のoverhead",
+    "効果の対照評価が存在しない"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "handoff schemaと運用規則",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "instruction",
+    "harness",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "subagent出力を無検証で実行",
+    "shared memoryを全Agentが自由書込"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "OWASP更新",
+    "MCP spec改訂",
+    "Agent identity標準"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "instruction",
+    "harness"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G01-001",
+  "problem_ids": [
+    "G01",
+    "G02",
+    "G03",
+    "G19",
+    "G23"
+  ],
+  "summary": "検証を3段階（局所: 変更ファイル関連testのみ → package確認: lint/typecheck → 最終gate: 全test+build を1回）に分け、段階別npm scriptと「最終gateは変更後に1回だけ」の指示で毎回の全量実行を止める。",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-tiered-test-selection",
+      "observed_at": "2026-08-11",
+      "summary": "tiered-test-selection: changed/failed/new testと定期full regressionの二層をoperationally-supported(medium)として記録。TIA非対応topologyは対象外",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/guide/cli",
+      "observed_at": "2026-08-15",
+      "summary": "`vitest related <files>`は指定sourceをimportするtestだけ実行(静的importのみ)、`--changed`はuncommitted変更に関係するtestだけ実行、`--bail <n>`でn件失敗時停止、`--retry.count`既定0",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/guide/reporters",
+      "observed_at": "2026-08-15",
+      "summary": "Vitest 4は失敗testとerrorだけを出す`minimal`(alias `agent`) reporterを持ち、AI coding agent内検出時に自動適用してtoken使用を減らす",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式cost guide: 'Test incrementally: Write one file, test it, then continue' と、PreToolUse hookでtest出力を失敗行だけにfilterする例(hookSpecificOutput.updatedInput.command)",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "/workspaces/techlog/.claude/skills/ai-development-improvement/references/research-foundations.md",
+      "observed_at": "2026-08-15",
+      "summary": "本skillの設計判断: 'Broad test suites are final gates, not an automatic loop after every edit'",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-quality-metrics",
+      "observed_at": "2026-08-11",
+      "summary": "flake・実行時間を複合監視するquality-metricsカード(operationally-supported)。flake率とruntime deltaを追跡指標として使える",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "test suiteが数十秒〜数分かかりagentが変更のたびに全量実行する",
+      "vitest/jestなど関連test選択(related/--changed/--findRelatedTests)を持つrunner",
+      "AGENTS.md等でagentが読む検証手順を持つrepository"
+    ],
+    "not_applicable_when": [
+      "test全体が数秒で終わる小規模repository",
+      "静的importで依存を辿れないdynamic import中心のtest(vitest relatedは対象外)",
+      "変更が横断的で影響範囲を機械的に絞れない移行作業(最初からfull gate)"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "1変更あたりの検証待ち時間とtest出力token量の削減、最終gateの重複実行の抑止",
+    "metrics": [
+      "session内の`npm test`(全量)実行回数",
+      "変更→feedbackまでの中央値秒数",
+      "test出力token量",
+      "最終gate後に差分なしで再実行した回数(目標0)"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "関連test選択がregressionを見逃す(TIAの限界) → 最終gate/CIのfull runで回収する前提が必要",
+    "段階化指示が長くなるとinstruction bloatになる",
+    "`--bail`で最初の失敗だけ見て原因を誤る"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "npm script追加とAGENTS.md数行。追加基盤なし",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "部分testだけで最終確認を済ませてregressionを流出させる(local card '永続的なpartial testだけ'は非推奨)",
+    "段階名だけ定義しcommandが無い指示はagentが結局全量実行する",
+    "flaky失敗を全量再実行で潰そうとして時間を倍にする(G23はRMD-G05-001の再試行上限と併用)"
+  ],
+  "revalidate_when": [
+    "vitest major更新(related/--changedの挙動変更)",
+    "test suite実行時間が大きく変わった",
+    "CIがTIAを提供し始めた"
+  ],
+  "techlog_notes": "TechLogは`vitest run`(全量)のみscript化。候補: `test:related`= `vitest related` / `test:changed`= `vitest run --changed`、`verify:quick`= lint+typecheck、`verify:final`= test+build。既定でminimal reporterが効いているか確認する。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

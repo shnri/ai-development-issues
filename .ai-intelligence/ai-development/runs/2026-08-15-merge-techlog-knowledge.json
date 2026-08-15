@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "id": "MRG-20260815-001",
+  "mode": "merge",
+  "completed_at": "2026-08-15T10:33:31Z",
+  "summary": "techlog was initialized as a second authority on 2026-08-15; consolidated into the shared-agent-plugins authority. techlog becomes consumer.",
+  "imported": {
+    "remedies": 111,
+    "renamed_on_conflict": {
+      "RMD-A01-001": "RMD-A01-002",
+      "RMD-A01-002": "RMD-A01-003",
+      "RMD-A04-001": "RMD-A04-002",
+      "RMD-A05-001": "RMD-A05-002",
+      "RMD-A07-001": "RMD-A07-002",
+      "RMD-A09-001": "RMD-A09-002",
+      "RMD-A11-001": "RMD-A11-002"
+    },
+    "inventory_reviews_applied": 149
+  },
+  "events": [
+    "EVT-20260815T103331Z-0050-PROBLEM-RESEARCH-COMPLETED",
+    "EVT-20260815T103331Z-0051-PROBLEM-INVENTORY-REVIEW"
+  ],
+  "source_runs": [
+    "techlog: runs/2026-08-15-research.json",
+    "techlog: runs/2026-08-15-migration-0.2.0.json"
+  ]
+}

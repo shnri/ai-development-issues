@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "process"
+  ],
+  "id": "RMD-H05-001",
+  "problem_ids": [
+    "H05",
+    "H11",
+    "H07"
+  ],
+  "summary": "Agent/SessionごとにGit worktree（Claude Code --worktree / isolation: worktree、Codex worktree）で作業treeを分離して人間の作業treeと基準を切り離し、変更単位を小さく保ってmerge conflictを抑える。",
+  "remedy_type": "setting",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2604.03551",
+      "observed_at": "2026-05-12",
+      "summary": "AgenticFlict: 107K+ Agent PRで conflict率27.67%（Codex 31.85%、Claude Code 25.93%、Devin 22.85%、Cursor 19.75%、Copilot 15.24%）。小PRは約9.9%、中規模で約30%へ急増。change sizeの制御を推奨。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/worktrees",
+      "observed_at": "2026-08-15",
+      "summary": "claude --worktree / EnterWorktree / subagent frontmatter isolation: worktree。isolation中はmain checkoutへのEdit/Write/git redirectをblock。.worktreeincludeでgitignored envをcopy。未変更worktreeは自動削除。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/subagents.md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex: 並列書込みは競合と調整costが増える。Codex appはworktreeで並列Agentを実行。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "agent teamsでも同一file編集は上書きになるためfile所有を分けるよう明記。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-small-batches",
+      "observed_at": "2026-08-11",
+      "summary": "小さな一目的batchはreview負荷と併せてconflict面積も下げる（operationally-supported）。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数Session/Agentが同一repositoryで並行作業",
+      "Agent作業中に人間も同じcheckoutを触る（H11）"
+    ],
+    "not_applicable_when": [
+      "worktree毎のdependency install costが大きくtaskが短い",
+      "git以外のVCS（hookで代替要）"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "並列変更間・人間との作業tree衝突とmerge conflictを減らす",
+    "metrics": [
+      "conflict発生率（AgenticFlict比較）",
+      "conflict region数/PR",
+      "人間変更による基準ずれincident"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "worktreeごとのnode_modules/.envセットアップ費用",
+    "worktree branchが増え未mergeのまま放置",
+    "保存済みpermissionがworktree間で共有される（意図せぬ許可拡散）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": ".gitignoreへ.claude/worktrees/、.worktreeinclude整備、setup script",
+  "verdict": "candidate",
+  "known_failure_modes": [
+    "同一checkoutで複数Agent（上書き）",
+    "worktreeで隔離しても大きなPRを長期間放置（size起因のconflictは残る）",
+    "worktree.baseRef=freshで進行中branchの状態が載らず驚く"
+  ],
+  "revalidate_when": [
+    "Claude Code worktree仕様変更",
+    "AgenticFlict後続研究",
+    "TechLog devcontainerでのworktree setup費用計測"
+  ],
+  "controller_notes": [
+    "2026-08-15 controller review: downgraded validated→candidate; evidence is official mechanism/guidance plus operationally-supported local cards without measured effect on agent workflows."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

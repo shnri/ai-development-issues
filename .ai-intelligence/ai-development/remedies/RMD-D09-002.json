@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D09-002",
+  "problem_ids": [
+    "D09",
+    "D10",
+    "D11"
+  ],
+  "summary": "Claude Code側の発火制御設定を使い分ける: 副作用のあるSkillはdisable-model-invocation: true、背景知識はuser-invocable: false、領域限定はpaths:、補助trigger語はwhen_to_use、低優先Skillはsettings.skillOverrides『name-only』、listing予算はskillListingBudgetFraction/skillListingMaxDescCharsで調整し、/doctorと/contextで実際にmodelへ渡るlistingを確認する。",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-15",
+      "summary": "frontmatter: disable-model-invocation（descriptionをcontextから外し手動のみ）、user-invocable:false、paths（該当file作業時のみ自動load）、when_to_use（descriptionに追記、1,536 cap内）。listing予算はcontext windowの1%、超過時はinvoke頻度の低いskillのdescriptionから削られる。/doctorでlisting costと主要寄与を確認。skillOverridesで'name-only'/'off'。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "InstructionsLoaded hookでpath-scoped rule/lazy-loaded fileの読み込みを可視化。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-08-15",
+      "summary": "Codexは相当機能がAGENTS.md階層とproject_doc_max_bytesで代替（Skill単位の発火制御設定は本調査範囲では未確認）。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Claude Codeで多数のSkill/pluginを持ち、descriptionが切られている・誤発火する",
+      "副作用のあるworkflow Skill（deploy/commit等）が存在する"
+    ],
+    "not_applicable_when": [
+      "Codex単独運用（同等設定なし、AGENTS.md階層で代替）"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "誤発火の構造的防止と、必要Skillのdescriptionを予算内で保つこと",
+    "metrics": [
+      "/doctor listing cost",
+      "description切り詰め件数",
+      "誤発火件数（副作用Skill）"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "disable-model-invocationにするとClaudeが自律的に必要Skillを使えなくなる（D09側の悪化）",
+    "予算を上げるとcontext消費増"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "frontmatter/settings編集で数分",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "全SkillのdescriptionをClaude Codeの1,536 cap超で書き、肝心のkeywordが切られる",
+    "user-invocable:falseで誤発火を止めようとする（Claudeはまだ呼べる）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code skills/settings仕様変更",
+    "plugin構成変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "C-Skill発火品質",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

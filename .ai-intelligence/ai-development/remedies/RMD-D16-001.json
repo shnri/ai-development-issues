@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D16-001",
+  "problem_ids": [
+    "D16",
+    "D09",
+    "D10",
+    "D14"
+  ],
+  "summary": "Skill/prompt改善はwith/withoutまたはold/candidateを同一条件で比較し、holdout（validation）caseを候補生成側に見せず、受け入れはvalidation側の改善で判定、独立reviewer/blind A/Bを併用し、1 iteration 1変更でrejected editも記録する。評価は能力探索suiteと安定regression suiteに分ける。",
+  "remedy_type": "process",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/evaluating-skills",
+      "observed_at": "2026-08-15",
+      "summary": "agentskills.io Evaluating: with_skill/without_skill（またはold_skill）比較、assertionは観察後に追加、常にpass/failするassertionは除去、blind comparison、「Keep the skill lean... If pass rates plateau despite adding more rules, the skill may be over-constrained—try removing instructions」。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/optimizing-descriptions",
+      "observed_at": "2026-08-15",
+      "summary": "train/validation split（60/40）、validation結果を改善過程から隔離、best iterationはvalidation pass rateで選ぶ（最後のiterationとは限らない）、確定後に新規5–10 queryで確認。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/anthropics/skills/main/skills/skill-creator/SKILL.md",
+      "observed_at": "2026-08-15",
+      "summary": "skill-creator: 「Rather than put in fiddly overfitty changes ... try branching out and using different metaphors」「Remove things that aren't pulling their weight」、blind A/B mode。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.23904",
+      "observed_at": "2026-05-25",
+      "summary": "SkillOpt (Microsoft): 別optimizerがscored traceを有界add/delete/replace編集に変換し、validation scoreが厳密に改善した時だけ採用、rejected-edit buffer。6 benchmark×7 modelで52組全てで最良/同率、GPT-5.5で+19.1〜+24.8pt。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2606.19605",
+      "observed_at": "2026-06-20",
+      "summary": "FAPO: evaluate→attribute→propose→validate variantsの反復、GEPA比15/18で優位、+14.1pp平均。holdout明示なし（引用時注意）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-eval-separation",
+      "observed_at": "2026-08-11",
+      "summary": "capability/regression eval分離とowner保守（operationally-supported）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/references/eval-design.md",
+      "observed_at": "2026-08-11",
+      "summary": "vendor optimize-skill eval-design: holdoutは全体の20%以上、候補生成agentにholdoutのexpected answerを見せない、templateの値違いはholdoutにならない、subjective caseはblind A/B。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "Anthropic: capability evalとregression evalを分け、living artifactとしてowner保守。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Skill/prompt/descriptionを反復改善する（手動・自動を問わず）",
+      "改善効果を数値で主張する場合"
+    ],
+    "not_applicable_when": [
+      "一回限りの使い捨てprompt",
+      "評価caseが5件未満でsplit不能（その場合はまずcase追加）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "特定eval caseへの過適合の検出と防止、改善主張の信頼性向上",
+    "metrics": [
+      "train vs validation pass rateの乖離",
+      "holdout比率（≥20%）",
+      "blind A/B勝率",
+      "rejected edit件数と理由"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "評価cost増（多run）",
+    "LLM judgeのbias（blindでも同model judgeは限界）",
+    "holdout自体がoracle decayする（定期監査要）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "case設計・splitに数時間、iterationごとの複数run cost",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "test",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "全caseで最適化して最良iterationを選ぶ",
+    "常にpassするassertionを残しpass rateを水増し",
+    "optimizerが自分の変更を自己承認する（SkillOpt/FAPOはいずれも独立validation gate）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model更新（validation再実行）",
+    "評価harness変更",
+    "benchmark/oracleの腐敗兆候"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "D-最適化の過適合防止",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

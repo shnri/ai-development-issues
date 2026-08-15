@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A14-001",
+  "problem_ids": [
+    "A14",
+    "A06",
+    "A13"
+  ],
+  "summary": "仕様・設計文書にfrontmatter等で status/version/対象system version/作成日/出典/owner/再確認trigger を付け、失効文書はsupersededとして削除または隔離する。",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-ownership-metadata",
+      "observed_at": "2026-08-11",
+      "summary": "reason・owner・対象version・失敗例・review triggerをfrontmatter/inventoryで持つ。candidate/medium。'metadataだけ更新する形骸化'が失敗条件。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://google.github.io/styleguide/docguide/best_practices.html",
+      "observed_at": "2026-08-15",
+      "summary": "'Delete Dead Documentation': 陳腐化docは開発者を誤導し保守放置の前例を作るので体系的に削除。'Update Docs with Code': codeと同じCLで更新。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADRはstatus(proposed/accepted/superseded)を持ち、過去決定は編集せず新ADRでsupersedeし決定logを保つ。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/github/spec-kit/main/templates/commands/clarify.md",
+      "observed_at": "2026-08-15",
+      "summary": "Spec Kit clarifyは'### Session YYYY-MM-DD'で日付付きに記録し、矛盾する旧記述は'replaced, not duplicated'。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "設計書・PRD・ADR・AI週報などを複数世代保持する",
+      "AIが古い文書を検索して読む可能性がある(A06)"
+    ],
+    "not_applicable_when": [
+      "使い捨てprompt・一時メモ"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "AIと人間が文書の鮮度・適用範囲・出典を判定でき、古い仕様の採用を防ぐ",
+    "metrics": [
+      "metadata欠落文書数",
+      "期限超過/owner不明文書数",
+      "古い設計書起因の誤実装件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "metadata記入の手間・形骸化",
+    "statusがdraftのまま放置される"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "template/frontmatter追加は数分。既存文書へのbackfillは文書数に比例",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process"
+  ],
+  "known_failure_modes": [
+    "metadata追加のみで削除・隔離をしない(A06は残る)",
+    "statusを持ちながらAgentに読ませる際にstatusをfilterしない",
+    "日付だけで対象system versionがない(どのschema/APIに対する仕様か不明)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "文書template変更",
+    "docs構成の変更",
+    "harnessの検索方式変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

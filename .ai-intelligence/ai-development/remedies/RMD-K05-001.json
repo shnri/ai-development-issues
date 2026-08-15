@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K05-001",
+  "problem_ids": [
+    "K05",
+    "K07",
+    "K13"
+  ],
+  "summary": "成功sessionを後で再現・監査できるよう、prompt・model・tool呼出・commitを含む構造化transcript（JSON/JSONL）を公式interfaceで保存し、Git commit/PRとsession IDを紐付ける。",
+  "remedy_type": "observability",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sessions",
+      "observed_at": "2026-08-15",
+      "summary": "transcriptは`~/.claude/projects/<project>/<session-id>.jsonl`に継続保存、30日retention（`cleanupPeriodDays`）。`/export`、`claude -p --output-format json|stream-json`（session ID/usage/cost）、hooksの`transcript_path`+`SessionEnd`でarchive。JSONL内部形式は版間で変わるため直接parse非推奨。`--from-pr <number>`でPR紐付け。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+      "observed_at": "2026-08-15",
+      "summary": "Codex: `codex resume --last/--all`、session ID/名前で再開、`codex exec --json`（NDJSON events）、`--output-last-message`。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex `history.persistence`(save-all|none)、`history.max_bytes`。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "長期runでは`claude-progress.txt`と説明的git commitをcheckpointとし、次sessionは進捗file+git logから開始。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-provenance",
+      "observed_at": "2026-08-11",
+      "summary": "run metadata保存で再現率・比較可能性を確保。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "'前回うまくいった手順'を再利用・監査したい",
+      "PR/commitとAI sessionの対応が必要（監査証跡）"
+    ],
+    "not_applicable_when": [
+      "transcriptに機密が含まれ保存自体が禁止される環境（→K13の最小化と併用）"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "再現に必要な入力（prompt列・model・tool結果・commit）を後から取り出せる",
+    "metrics": [
+      "session→commit/PR紐付け率",
+      "transcript保管率",
+      "再現試行の成功率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "transcriptにsecret/個人情報が混入（保管期間・アクセス制御必要）",
+    "内部JSONL形式変更でscriptが壊れる"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "SessionEnd hook / exec --jsonの保管先とretention設計",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "setting"
+  ],
+  "known_failure_modes": [
+    "JSONLを直接parseして依存（版で壊れる、公式に非推奨）",
+    "model非決定性のため'同じtranscript=同じ結果'は保証されない（再現は近似）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code session format変更",
+    "Codex history仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

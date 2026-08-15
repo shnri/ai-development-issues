@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I08-001",
+  "problem_ids": [
+    "I08"
+  ],
+  "summary": "新規dependencyはinstall前にregistry存在・publisher・履歴・repositoryを決定論的に検証し、default deny/owner承認、lockfile・provenance検証、install scriptはsecretなしsandboxで実行し、公式docs retrievalで名前生成をgroundする",
+  "remedy_type": "process",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-registry-verification",
+      "observed_at": "2026-08-11",
+      "summary": "USENIX Security 25研究でdeterministic検証を含む緩和を評価、evidence-supported/high",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-default-deny",
+      "observed_at": "2026-08-11",
+      "summary": "allowlist/owner承認、operationally-supported/high",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-artifact-integrity",
+      "observed_at": "2026-08-11",
+      "summary": "lockfile/hash/signed artifact/SBOM、medium",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-install-sandbox",
+      "observed_at": "2026-08-11",
+      "summary": "secretなしsandbox install、high",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-package-hallucination-supply-chain-grounded-retrieval",
+      "observed_at": "2026-08-11",
+      "summary": "official docs retrieval、evidence-supported/medium",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.npmjs.com/trusted-publishers",
+      "observed_at": "2026-08-15",
+      "summary": "OIDC trusted publishingとprovenance attestation（public repoは既定生成）で出所検証可能",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-08-15",
+      "summary": "network.allowedDomainsでregistry.npmjs.org等へ限定し、NPM_TOKENはmaskで注入可能",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがnpm install/依存追加を提案・実行する"
+    ],
+    "not_applicable_when": [
+      "依存追加を人間だけが行い、Agentは提案しない運用"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "存在しない/typosquat packageの取得率をほぼ0に",
+    "metrics": [
+      "registry検証拒否件数",
+      "package-lock差分にowner承認がある率",
+      "provenance検証失敗件数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "正当な新規packageの摩擦",
+    "publisher compromiseは別対策"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "数分（AGENTS.md規則+lockfile方針）、CI検証は数時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "ci",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "名前のもっともらしさで承認",
+    "lockfileだけ（悪意packageを固定）",
+    "retrievalだけ"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "frontier model追試",
+    "npm署名仕様変更",
+    "slopsquatting incident"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

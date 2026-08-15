@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category B)",
+  "status": "active",
+  "secondary_layers": [
+    "instruction",
+    "tool"
+  ],
+  "id": "RMD-B03-001",
+  "problem_ids": [
+    "B03",
+    "B08",
+    "B01",
+    "B02"
+  ],
+  "summary": "実装前に既存機構・pattern・reusable utilityを探索して参照させる（plan mode / 調査subagent / 具体的な参照file指定）と同時に、既知の例外・負債箇所を『真似てはいけない例』として文書に明示し、重複実装と負債複製を防ぐ。",
+  "remedy_type": "process",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "「Explore first, then plan, then code」（plan mode）、「Reference existing patterns... follow the pattern... build from scratch without libraries other than the ones already used」、「Use subagents to investigate ... whether we have any existing OAuth utilities I should reuse」。小さな明確なtaskではplanを省くと注記。",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://www.gitclear.com/ai_assistant_code_quality_2025_research",
+      "observed_at": "2025-02",
+      "summary": "211M changed lines(2020–2024): 複製code blockが8.3%(2021)→12.3%(2024)、copy/pasteがmovedを初めて上回り、refactor系変更は25%→10%未満。AI採用との相関で因果ではない。公開日はpage上で曖昧（2025年初頭報告）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2603.28592v2",
+      "observed_at": "2026-03",
+      "summary": "AI-authored commitのissueの89.3%がcode smell、著者はrepository-level contextの利用を推奨。",
+      "quality": "medium"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://openai.com/index/harness-engineering/",
+      "observed_at": "2026-02-15",
+      "summary": "OpenAI: 短いAGENTS.md mapとdocs/知識ベースでAgentがrepository規約を発見できるようにし、逸脱は定期'garbage collection' taskで掃除。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "同種機能・helper・設定が既に存在し得る中規模以上のrepository",
+      "複数fileにまたがる変更",
+      "既知の例外実装（legacy、暫定回避）が残っている"
+    ],
+    "not_applicable_when": [
+      "一文で差分を説明できる小変更（planは過剰）",
+      "新規repositoryで参照すべきpatternが無い"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "重複実装・並行抽象化の減少、既存規約への整合",
+    "metrics": [
+      "重複検出tool（jscpd等）の重複率",
+      "同一目的helper/設定の件数",
+      "review指摘『既存Xを使うべき』の頻度"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "探索範囲を絞らないとcontext浪費（infinite exploration）",
+    "古い例外を『標準』とラベルしたままだと逆に複製を助長"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "prompt/AGENTS.mdの数行、既知例外の一覧化に数十分",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "repository全体を無差別に読ませる（Quick Win表『無関係なRepository全体探索』）",
+    "文書に例外を書かず、Agentが最頻patternを標準と推定する"
+  ],
+  "revalidate_when": [
+    "Claude Code plan mode/subagent仕様の変更",
+    "重複率が改善しない場合は機械検査（RMD-B01-001）へ移行"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

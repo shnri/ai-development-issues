@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "setting",
+    "harness"
+  ],
+  "id": "RMD-H12-001",
+  "problem_ids": [
+    "H12",
+    "H02",
+    "H11"
+  ],
+  "summary": "Milestone毎の小さなgit commit（またはstash/branch）を作業単位に組み込み、製品側の再開機構（Claude Code --continue/--resume、worktree session再入、/rewind checkpoint、Managed Agents durable session）は補助として使う。",
+  "remedy_type": "tool",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "feature単位のdescriptive commitで悪い変更のrevertと動作baseline特定を可能にするとAnthropicが推奨。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/common-workflows",
+      "observed_at": "2026-08-15",
+      "summary": "claude --continue / --resume / /resume でSessionを跨いで再開。gh pr create時にsessionがPRへ自動linkされ claude --from-pr で再開可能。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/worktrees",
+      "observed_at": "2026-08-15",
+      "summary": "worktree sessionはresume時に同じworktreeへ復帰（-p/Agent SDK含む）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/checkpointing",
+      "observed_at": "2026-08-15",
+      "summary": "checkpointはfile編集tool経由の変更のみ・30日保持・bash/subagent/外部変更は対象外、『version controlの代替ではない』。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/managed-agents",
+      "observed_at": "2026-04-08",
+      "summary": "harness/sandbox/sessionを分離し、sessionをevent logとして外部化することで障害時に状態を失わない設計。TTFT p50約60%改善など運用値あり。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "利用制限・crash・Context枯渇で中断し得る作業",
+      "人間と並行して変更が入るrepository（H11）"
+    ],
+    "not_applicable_when": [
+      "commit不可の環境（読取専用調査）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "中断からの再開costと失われる作業量を最小化する",
+    "metrics": [
+      "中断後の再作業時間",
+      "失われた未commit変更行数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "WIP commitの粒度が粗いとbisect/revert価値が下がる",
+    "checkpoint/自動再開に過信し人手のcommitを省く"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "ほぼゼロ（指示とhabit）",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "Claude Code /rewindだけで復旧しようとする（bash rm/mv、background subagentの編集は戻らない）",
+    "agent teams in-process teammateは/resumeで復元されない（公式limitation）"
+  ],
+  "revalidate_when": [
+    "Claude Code checkpoint/session仕様変更",
+    "Codex resume仕様変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

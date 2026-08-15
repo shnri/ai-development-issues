@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E12-001",
+  "problem_ids": [
+    "E12",
+    "E13"
+  ],
+  "summary": "comment/説明を正とせず実状態（code、test、実行結果）で検証し、未変更codeへのcomment追加を禁止、仕様はspec-anchored testで実装と同期させる",
+  "remedy_type": "instruction",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "'Don't add docstrings, comments, or type annotations to code you didn't change. Only add comments where the logic isn't self-evident.'（Overeagerness節）。'Never speculate about code you have not opened'（investigate_before_answering）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "未steer時に『次の行を説明するcomment』を書く傾向を明記し、短い指示で抑制可能。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2602.00180v1",
+      "observed_at": "2026-01-30",
+      "summary": "spec-first/spec-anchored/spec-as-source の3段階。spec-anchoredではautomated testで整合を強制しdrift防止。",
+      "quality": "low"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2607.01867v1",
+      "observed_at": "2026-07",
+      "summary": "LLM生成と検出されたcodeはrepository内cloneが多く、commentは文法的に正しい文の比率が低い（探索的研究）。comment不整合の直接測定ではない。",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentが説明文・comment・docを同時生成する変更",
+      "docs/とcodeの整合をreviewに依存しているproject"
+    ],
+    "not_applicable_when": [
+      "公開API docなど説明自体が成果物で人間が明示的に依頼した場合"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "comment/報告と実装のずれが減り、reviewerがcommentではなくdiff・testで判断する",
+    "metrics": [
+      "comment追加行のうち未変更codeへのもの",
+      "説明とtest結果の不一致件数"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "comment抑制で意図の記録が減る（設計判断はdocs/ADRへ）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "数分",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "test-strategy",
+    "process"
+  ],
+  "known_failure_modes": [
+    "commentやPR説明を根拠に承認する",
+    "docだけ更新してtestを更新しない"
+  ],
+  "revalidate_when": [
+    "comment-code inconsistency検出toolの実用化",
+    "model更新"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

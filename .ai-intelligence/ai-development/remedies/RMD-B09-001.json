@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category B)",
+  "status": "active",
+  "secondary_layers": [
+    "instruction",
+    "process"
+  ],
+  "id": "RMD-B09-001",
+  "problem_ids": [
+    "B09",
+    "B02",
+    "B07",
+    "B08"
+  ],
+  "summary": "主要な設計判断だけをADR/decision logとしてrepositoryに残し、AGENTS.md/CLAUDE.mdは短いmapとして『project固有のarchitecture決定』と参照先を示す（詳細はdocs/やSkillへ）。Agent間の設計原則の分岐と決定の消失を防ぐ。",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "CLAUDE.mdに含めるもの: 「Architectural decisions specific to your project」「Common gotchas or non-obvious behaviors」; 除外: codeから読める事、長い説明。「Would removing this cause Claude to make mistakes?」で剪定。",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://openai.com/index/harness-engineering/",
+      "observed_at": "2026-02-15",
+      "summary": "OpenAI: 約100行のAGENTS.mdを目次にし、docs/（design-docs, product-specs, exec-plans, references）に知識を置く。単一組織事例。",
+      "quality": "medium"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADR: 一決定一記録、根拠・trade-off・結果を記録し、集合がdecision logになる。MADR template・toolingあり。AI以前からの確立実務。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-progressive-instructions",
+      "observed_at": "2026-08-11",
+      "summary": "短い常時mapとtask時詳細読込はoperationally-supported。ownership-metadata（reason/owner/version）はcandidate。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数Agent/人が同じrepositoryで設計判断を行う",
+      "chatで合意した決定が後続sessionに伝わらない",
+      "仕様やarchitectureの変更が発生した"
+    ],
+    "not_applicable_when": [
+      "使い捨てprototype",
+      "決定を保守するownerが不在"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "設計原則の単一正本化により、Agentごとの原則分岐と決定の再議論を減らす",
+    "metrics": [
+      "同一論点の再決定・再質問回数",
+      "docs/と実装の不一致指摘数",
+      "ADR参照率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "ADRが肥大化して読まれない",
+    "決定と実装のlinkが無いと文書drift（B07）を再生産"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "ADR template導入と初期数件の記録に数時間、以後1決定10〜20分",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "全議論をchat logのまま保存する（決定だけを残さないとnoise）",
+    "巨大なAGENTS.mdに設計原則を全て書く（context希釈で無視される）"
+  ],
+  "revalidate_when": [
+    "Agentのdocs参照挙動が変わるharness更新",
+    "ADR件数が増え検索性が落ちた時"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

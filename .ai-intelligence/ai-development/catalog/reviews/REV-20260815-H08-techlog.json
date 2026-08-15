@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20260815-H08-techlog",
+  "problem_id": "H08",
+  "reviewed_at": "2026-08-15T10:33:31Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "Initial 0.2.0 inventory after ingest. Mechanism (基盤) still exists under current conditions; 2026-08-15 research found 3 remedy record(s) with maturities ['candidate', 'official'], confirming the problem is currently recognized in official guidance/primary research. No affirmative evidence of resolution; lane ['F2'] retained.",
+  "evidence": [
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-H03-001",
+      "observed_at": "2026-08-15",
+      "summary": "official / known-applicable; evidence n=5; layer=process"
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-H07-001",
+      "observed_at": "2026-08-15",
+      "summary": "official / known-applicable; evidence n=5; layer=structural-decision"
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-H08-001",
+      "observed_at": "2026-08-15",
+      "summary": "candidate / candidate; evidence n=3; layer=harness"
+    },
+    {
+      "kind": "external-problem-set",
+      "reference": "techlog:ai-development-problems-taxonomy-ja-2026-08-15.md",
+      "observed_at": "2026-08-15",
+      "summary": "Curated problem set dated 2026-08-15 with references R1–R21; mechanism described as 基盤, model_improvement=残存"
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "残存",
+    "assessed_models": null,
+    "assessment": "Not locally reproduced; existence supported by 2026-08-15 remedy research evidence (official guidance/papers). No affirmative evidence of disappearance under current models."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-H03-001",
+      "RMD-H07-001",
+      "RMD-H08-001"
+    ],
+    "maturities": [
+      "candidate",
+      "official"
+    ],
+    "verdicts": [
+      "candidate",
+      "known-applicable"
+    ],
+    "assessment": "Remedies researched 2026-08-15 remain current; none rejected. Adopt only via audit→prioritize→optimize."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+  ],
+  "next_review_days": 74,
+  "reviewer": "controller: ai-development-improvement 0.2.0 inventory (claude-fable-5), evidence from 0.1.0 research run 2026-08-15 — merged into authority catalog 2026-08-15"
+}

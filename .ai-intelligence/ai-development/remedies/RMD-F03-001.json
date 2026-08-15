@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F03-001",
+  "problem_ids": [
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F20"
+  ],
+  "summary": "coverageの代わりに独立fault model(mutation testing: StrykerJS+Vitest / property-based: fast-check / mock最小の統合テスト)でテスト強度を測り、mutation score・流出欠陥・flake・実行時間の複合指標で低価値テストと弱いassertionを検出する",
+  "remedy_type": "tool",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "field-report",
+      "reference": "https://engineering.fb.com/2025/09/30/security/llms-are-the-key-to-mutation-testing-and-better-compliance/",
+      "observed_at": "2025-09-30",
+      "summary": "Meta: mutation-guided生成テストの73%をengineerが採用、36%をprivacy relevantと判断(単一企業・vendor報告)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://stryker-mutator.io/docs/stryker-js/vitest-runner/",
+      "observed_at": "2026-08-15",
+      "summary": "StrykerJSはv7以降Vitest runnerを公式サポート(@stryker-mutator/vitest-runner)。Browser Mode非対応、perTest coverage固定。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://fast-check.dev/",
+      "observed_at": "2026-08-15",
+      "summary": "fast-checkはJS/TS向けproperty-based testingでtest runner非依存(Vitest含む)。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-independent-fault-models",
+      "observed_at": "2026-08-11",
+      "summary": "mutation・property・fuzz・contract testが同じ誤解を共有するoracleを補う(evidence-supported, 確度medium)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-quality-metrics",
+      "observed_at": "2026-08-11",
+      "summary": "test数・coverageだけの量最適化を複合品質指標で抑える(operationally-supported)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2506.14297",
+      "observed_at": "2025-06",
+      "summary": "LLM生成Pythonテストのerrorとtest smellを3 modelで分析(生成テストの品質問題の存在証拠)。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Vitest/TS(threads pool)でユニットテストが存在する",
+      "meaningfulなmutant/propertyをdomain(例: Markdown parse, Firestore変換, content validation)から定義できる",
+      "品質指標を継続保持できる"
+    ],
+    "not_applicable_when": [
+      "UI snapshotのみのsuite",
+      "mutation実行時間がCI予算を超える巨大repo(部分実行・夜間実行が必要)"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "実行しただけでPASSするテスト・重複テストを可視化し、coverage誤認を減らす",
+    "metrics": [
+      "mutation score",
+      "surviving mutant数",
+      "property violation数",
+      "escaped defect",
+      "テスト実行時間delta"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "equivalent mutantとcompute費用",
+    "同じAgentがmutation設定やpropertyを恣意的に弱める(protected pathへ含める必要)",
+    "指標自体のgaming"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "中: 依存追加とCI時間。夜間/週次実行で抑制可",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "ci",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "coverage閾値だけを上げる: 量を増やして低価値テストと同じ誤解を増やす(local card)",
+    "mockだらけのユニットテストで統合を代替する: 統合欠陥は検出されない(F05)",
+    "mutation scoreを単独目標にする: metric gaming"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "StrykerJS/Vitest major update",
+    "Meta以外のdomainでの流出欠陥削減evidence出現"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

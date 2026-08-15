@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K01-001",
+  "problem_ids": [
+    "K01",
+    "K09",
+    "K10",
+    "K02"
+  ],
+  "summary": "重要な比較・判断は単発runではなくtaskごとに複数trial（pass@k / pass^k）を取り、標準誤差・paired差分・transcript監査つきで読む。",
+  "remedy_type": "test-strategy",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "Anthropic: agent結果はrun間で変動し、pass@k（k回中1回成功）とpass^k（k回全成功）を用途で使い分ける。'each task has its own success rate' 'You won't know if your graders are working well unless you read the transcripts'。tracked_metricsにn_turns/n_toolcalls/n_total_tokens/latencyを含める。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/research/statistical-approach-to-model-evals",
+      "observed_at": "2024-11-19",
+      "summary": "Anthropic統計手法: SEM報告、clustered SE（naiveの3倍超になり得る）、質問内resampling、paired-difference（frontier間相関0.3–0.7）、power analysis。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/separating-signal-from-noise-coding-evaluations/",
+      "observed_at": "2026-07-08",
+      "summary": "OpenAI: SWE-Bench Pro公開731 taskの監査で約30%がbroken（overly strict test / vague requirement / shallow task / misleading description）、推奨撤回。aggregate scoreだけでは信号と雑音を分離できない（fetchは403、検索結果とGigazine等の要約で確認）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-trajectory-audit",
+      "observed_at": "2026-08-11",
+      "summary": "trajectory/tool/artifact/graderのsample監査でreward hacking・invalid passを検出（evidence-supported, high）。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-task-audit",
+      "observed_at": "2026-08-11",
+      "summary": "prompt/test/referenceを複数有効解で監査（evidence-supported, high）。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "model・prompt・Skill・harnessの採用/変更判断を数値で行う",
+      "自Repositoryの代表taskでagentを比較する",
+      "flakyな結果で原因切り分けを行う"
+    ],
+    "not_applicable_when": [
+      "1回きりの探索的作業で判断が結果に依存しない",
+      "trialを複数回すtoken予算がない（→サンプル数を減らしても複数runの原則は維持）"
+    ],
+    "controllable_layer": "test",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "単発runの偶然を判断から除き、変動幅（信頼区間）つきで差を読めるようにする",
+    "metrics": [
+      "pass@k, pass^k per task",
+      "SEM / paired difference",
+      "n_turns, n_toolcalls, tokens, latency per trial",
+      "invalid pass率（transcript監査）"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "eval token費用がk倍になる",
+    "grader/oracle自体の腐敗を見落とすとk回でも誤判断（→transcript監査必須）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "trial数×task数のtoken費用と、transcript読解の人手",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "observability",
+    "process"
+  ],
+  "known_failure_modes": [
+    "aggregate scoreだけで採否判断（OpenAI監査: 約30% broken task）",
+    "1 runでの'改善した/悪化した'判断",
+    "two-sample比較（paired差分より分散が大きい）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model update",
+    "harness/eval framework変更",
+    "benchmark推奨撤回"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

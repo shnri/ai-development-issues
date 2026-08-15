@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I16-001",
+  "problem_ids": [
+    "I16",
+    "I07"
+  ],
+  "summary": "Agent本体・IDE拡張・sandbox runtime・Skillの版を追跡し、security advisoryを監視して修正版へ速やかに更新する。既知CVE（CVE-2025-59536 8.7、CVE-2026-21852、Read /proc問題→2.1.128）を下限に固定し、devcontainerで隔離する",
+  "remedy_type": "dependency",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "field-report",
+      "reference": "https://labs.cloudsecurityalliance.org/research/csa-research-note-skill-md-agent-context-poisoning-20260506/",
+      "observed_at": "2026-05-06",
+      "summary": "CVE-2025-59536（Claude Code project fileでpre-auth command exec、CVSS 8.7）、CVE-2026-21852（設定fileでAPI key流出）、Unicode Tag injectionは2026-02-10までに修正",
+      "quality": "medium"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/",
+      "observed_at": "2026-06-05",
+      "summary": "Read tool /proc/self/environ露出、2.1.128で修正（2026-05-05）",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2607.05743",
+      "observed_at": "2026-07-07",
+      "summary": "39論文のSoK: 4件のpatched CVEがproduction agent harnessに直接影響、TOCTOU/MCP脅威、denylistの現実的回避への再評価が未解決",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "HackerOne報告経路、devcontainer推奨、WebDAV警告、VS Code security",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "/workspaces/techlog/docs/architecture.md",
+      "observed_at": "2026-08-11",
+      "summary": "TechLogはClaude Code native installer + SkillSpector 2.8.2をpin",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Claude Code/Codex/IDE拡張/sandbox-runtimeを常用"
+    ],
+    "not_applicable_when": [],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "既知脆弱性の露出期間短縮",
+    "metrics": [
+      "修正版までの更新遅延日数",
+      "advisory監視の有無"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "自動更新は動作変化を伴う（挙動regression）",
+    "denylist型防御の回避（SoK指摘）"
+  ],
+  "implementation_owner": "platform",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "版確認と更新",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "harness"
+  ],
+  "known_failure_modes": [
+    "固定版のまま長期放置",
+    "'sandboxがあるから'と更新を怠る"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "新CVE/advisory",
+    "Claude Code/Codex major更新"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

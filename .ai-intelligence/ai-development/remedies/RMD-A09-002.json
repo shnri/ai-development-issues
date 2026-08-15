@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A09-002",
+  "problem_ids": [
+    "A09",
+    "A03",
+    "A01"
+  ],
+  "summary": "仕様は最小限(必須制約・受入基準・out of scope・検証手順)に絞り、重複説明・自明事項・変動情報を削る。詳細は正本へlinkし、常時読込文書は短いmapにする。",
+  "remedy_type": "instruction",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic: 'Keep it concise. For each line, ask: Would removing this cause Claude to make mistakes? If not, cut it. Bloated CLAUDE.md files cause Claude to ignore your actual instructions!'。良いspecは'self-contained: name the files and interfaces involved, state what is out of scope, and end with an end-to-end verification step'。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://google.github.io/styleguide/docguide/best_practices.html",
+      "observed_at": "2026-08-15",
+      "summary": "'Minimum Viable Documentation'、'Prefer the Good Over the Perfect'、bonsaiのように頻繁にtrim。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-progressive-instructions",
+      "observed_at": "2026-08-11",
+      "summary": "短い常時mapとtask時詳細読込(OpenAI harness engineering)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/github/spec-kit/main/templates/commands/clarify.md",
+      "observed_at": "2026-08-15",
+      "summary": "Spec Kit clarifyは質問を最大5問・材料的影響のあるものに限定し、'Only asks when answers materially impact architecture...'。過剰詳細化を抑える設計。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "AI生成でspec/設計書が長文化している",
+      "常時読込される文書(AGENTS.md/CLAUDE.md)が長い"
+    ],
+    "not_applicable_when": [
+      "規制・安全上必須の詳細(削減対象外)"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "人間とAIが全体を把握でき、指示遵守率とcontext効率が上がる",
+    "metrics": [
+      "spec/常時文書のtoken数",
+      "重複説明箇所数",
+      "AIが既記載事項を再質問する回数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "削りすぎで必要制約が消える(ablation evalで確認)",
+    "安全・権限規則を効率理由で削る"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "数分〜数十分/文書",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "structure",
+    "process"
+  ],
+  "known_failure_modes": [
+    "'AIに全部書かせて長い方が安心'とする運用",
+    "一括削除(agent-configuration-drift card: 全Skill一括削除は非推奨)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model update(context耐性の変化)",
+    "harnessのcontext仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "controller_notes": [
+    "2026-08-15: renamed from RMD-A09-001 on merge into authority catalog (ID taken by routine research record)."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

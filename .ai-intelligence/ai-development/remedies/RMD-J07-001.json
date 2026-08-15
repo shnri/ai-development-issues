@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-J07-001",
+  "problem_ids": [
+    "J07",
+    "J12",
+    "J13",
+    "J06"
+  ],
+  "summary": "生産性はLOC/PR数/Token量ではなく、SPACE等の多次元枠組みでlead time・review turnaround・rework・流出欠陥・stabilityをteam/工程単位で計測し、developer・task・model・harnessで分層して自己申告と実測を突き合わせる。",
+  "remedy_type": "observability",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-ai-productivity-measurement-instability-stratification",
+      "observed_at": "2026-08-11",
+      "summary": "developer・task・repo・構成・利用形態の分層。operationally-supported、確度high",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-ai-productivity-measurement-instability-multi-outcome",
+      "observed_at": "2026-08-11",
+      "summary": "速度と品質・review・再作業・流出欠陥・business outcomeの併記",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-ai-productivity-measurement-instability-triangulation",
+      "observed_at": "2026-08-11",
+      "summary": "RCT・観測・time-useのtriangulation。並行Agentでwall/active timeが乖離",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/",
+      "observed_at": "2025-07-10",
+      "summary": "METR RCT: 熟練OSS開発者16名・246 issue、AI許可時に19%遅延。事前予測は24%高速化、事後の体感も20%高速化で実測と逆(J07の直接証拠)。適用範囲は限定的と明記",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://metr.org/blog/2026-02-24-uplift-update/",
+      "observed_at": "2026-02-24",
+      "summary": "METR: 離脱・task選別・並行Agentで既存RCT設計が歪むため設計を変更",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/insights/balancing-ai-tensions/",
+      "observed_at": "2026-03-10",
+      "summary": "DORA: LOC等のoutput指標を捨てSPACE/SEQのような枠組みへ。code review turnaroundなど下流指標を追う。'last mile'で初期の時間節約が相殺される",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report",
+      "observed_at": "2025-09-24",
+      "summary": "DORA 2025: 80%超が生産性向上を体感する一方、AI採用はstabilityと負の関係",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/",
+      "observed_at": "2021-02-01",
+      "summary": "SPACE(ACM Queue 2021): 生産性は活動量でも単一指標でも測れない",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "AI導入効果を判断・報告する必要がある",
+      "team規模でdelivery指標(lead time、change failure、rework)を取得できる"
+    ],
+    "not_applicable_when": [
+      "個人監視・評価目的への転用(SPACE/DORAが明示的に警告)"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "体感と実測の乖離、個人速度とteam delivery の乖離、活動量指標の誤用を可視化する",
+    "metrics": [
+      "lead time for changes",
+      "review turnaround",
+      "rework/revert率",
+      "change failure rate",
+      "流出欠陥",
+      "(補助)PR size分布"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "metric gaming(Goodhart)",
+    "計測基盤・privacy費用",
+    "sample不足で分層が過剰になる"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "既存git/CI dataからの集計は数日、継続dashboardは数週間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "ci",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "単一平均・自己申告のみで効果断定",
+    "LOC/PR数/Token量をKPI化(J13そのもの)",
+    "task時間だけの評価(review・再作業・並行Agentのwall/active差を見落とす)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "主要model/harness更新",
+    "METR新設計の結果公開",
+    "新しい測定標準"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category J)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

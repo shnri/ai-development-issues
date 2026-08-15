@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20260815-A15-techlog",
+  "problem_id": "A15",
+  "reviewed_at": "2026-08-15T10:33:31Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "Initial 0.2.0 inventory after ingest. Mechanism (増幅) still exists under current conditions; 2026-08-15 research found 1 remedy record(s) with maturities ['signal'], confirming the problem is currently recognized in official guidance/primary research. No affirmative evidence of resolution; lane ['C1'] retained.",
+  "evidence": [
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-A15-001",
+      "observed_at": "2026-08-15",
+      "summary": "signal / decision-required; evidence n=2; layer=structural-decision"
+    },
+    {
+      "kind": "external-problem-set",
+      "reference": "techlog:ai-development-problems-taxonomy-ja-2026-08-15.md",
+      "observed_at": "2026-08-15",
+      "summary": "Curated problem set dated 2026-08-15 with references R1–R21; mechanism described as 増幅, model_improvement=増幅"
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "増幅",
+    "assessed_models": null,
+    "assessment": "Not locally reproduced; existence supported by 2026-08-15 remedy research evidence (official guidance/papers). No affirmative evidence of disappearance under current models."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-A15-001"
+    ],
+    "maturities": [
+      "signal"
+    ],
+    "verdicts": [
+      "decision-required"
+    ],
+    "assessment": "Remedies researched 2026-08-15 remain current; none rejected. Structural/organizational: no established technical remedy."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+  ],
+  "next_review_days": 44,
+  "reviewer": "controller: ai-development-improvement 0.2.0 inventory (claude-fable-5), evidence from 0.1.0 research run 2026-08-15 — merged into authority catalog 2026-08-15"
+}

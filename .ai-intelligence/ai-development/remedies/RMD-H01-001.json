@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "harness",
+    "instruction"
+  ],
+  "id": "RMD-H01-001",
+  "problem_ids": [
+    "H01",
+    "H02",
+    "H12",
+    "H03"
+  ],
+  "summary": "長時間・複数Session作業では、目標・完了済み作業・判断・test結果・次のactionをrepository内の耐久state（progress file / feature list / .steering等）へ外部化し、各Session開始時にgit log・progress・feature list・基本動作確認を読むstartup checklistを固定する。",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "Anthropicの長時間Agent harness: initializer/coding agent分割、claude-progress.txt、JSON feature list（passesのみ更新可、testの削除・編集は不可）、feature単位のgit commit、Session開始時にgit log・progress・feature listを読み基本機能を確認。定量値なし（claude.ai clone構築の事例）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5向け公式guidance: memory system（1 lesson/1 file、既存noteを更新、誤ったnoteは削除）を推奨。長時間runでは進捗claimをtool結果へ接地するよう指示。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/managed-agents",
+      "observed_at": "2026-04-08",
+      "summary": "Managed Agents: sessionをContext window外のappend-only event logとして保持し、harness障害後にwake/getSessionで最後のeventから再開。stateをContext window外に置く設計原則の一次例。",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
+      "observed_at": "2026-07-29",
+      "summary": "Codex CLI/Desktopのcompaction後に完了済み作業・次の実行箇所を失い停止・反復する複数の独立report（issues 16042/25792/35226/35935）。project-local durable stateは回復controlとして提案済み（provider欠陥の修正ではない）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/checkpointing",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code checkpointは直近100 prompt分のfile編集をsessionと共に保存し--resume後も/rewind可能だが、bash変更・subagent編集・外部変更は追跡しない。恒久履歴はgitを使うよう明記。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "1 Context windowを超える作業",
+      "複数Sessionまたは複数Agentへの引き継ぎ",
+      "compactionが起き得るtool-heavy task"
+    ],
+    "not_applicable_when": [
+      "単一turnで完了する小変更",
+      "progress fileが指示bloatになる短時間task"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic（Codex compaction issueは特定build依存）"
+  },
+  "expected_effect": {
+    "primary": "Session跨ぎ・compaction後の再読・再分析・重複作業と誤った完了認識を減らす",
+    "metrics": [
+      "再開時の再読file数/Token",
+      "同一作業の反復回数",
+      "完了誤認（done扱いだが未検証の項目）数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "progress fileが陳腐化して誤情報源になる",
+    "state記録自体がContextを消費する",
+    "Agentがfeature list/testを書き換えて『完了』を偽装する（R7はpasses以外の編集を禁止）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "progress/feature list templateの整備と各Session数分の読み書き",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "会話要約（compaction summary）だけに依存する: Codex issue群で完了状態が失われた",
+    "Claude Code checkpointをgitの代替にする: bash/subagent変更は復元不能",
+    "progress fileに全logを貼る: Context bloatで逆効果（taxonomy G quick win『巨大LogのContext保持』）"
+  ],
+  "revalidate_when": [
+    "Codex compaction修正のrelease",
+    "Claude Code sessions/checkpoint仕様変更",
+    "Fable 5後継modelのmemory guidance更新"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

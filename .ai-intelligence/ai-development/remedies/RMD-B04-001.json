@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category B)",
+  "status": "active",
+  "secondary_layers": [
+    "process"
+  ],
+  "id": "RMD-B04-001",
+  "problem_ids": [
+    "B04",
+    "B05",
+    "B12",
+    "B01"
+  ],
+  "summary": "Claude Fable 5等の高effort modelには「taskが要求する以上の機能・refactor・抽象化・仮想要件対応・不要なerror handling/互換shimを追加しない」という短い最小scope指示と行動境界（何を変えてよいか）を明示する。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropicが「On routine work at higher effort, Claude Fable 5 can gather context and deliberate beyond what the task needs」と明記し、'Don't add features, refactor, or introduce abstractions beyond what the task requires... Don't design for hypothetical future requirements... Avoid premature abstraction... Don't use feature flags or backwards-compatibility shims when you can just change the code' の指示文と 'State the boundaries' 節を提示。効果の数値は未提示。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code best practices: reviewer subagentに欠陥を探させ続けると「extra abstraction layers, defensive code, tests for cases that can't happen」へ過剰設計が進むため、correctness/要件に影響するgapだけ報告させる。CLAUDE.mdは短く保つ。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-high-effort-scope-creep",
+      "observed_at": "2026-08-11",
+      "summary": "MBI-fable-high-effort-scope-creep（verified, high confidence）: 高effort・曖昧task・scope境界不明時に未依頼のtidying/refactor/abstractionへ広がる。TechLogのAGENTS.mdは無関係差分禁止を持つがFable 5で未評価。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05-28",
+      "summary": "20,574 real sessions: 失敗形態に'bounding their actions'を含み、全体失敗率が下がる中で「constraint violations and inaccurate self-reporting grow in share」。91.49%の解決に明示的なuser修正が必要。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "高effort設定のClaude Fable 5/Mythos 5",
+      "bug fix・小変更・一目的task",
+      "scope境界がpromptに無い"
+    ],
+    "not_applicable_when": [
+      "設計変更・refactor自体が依頼内容のtask",
+      "互換性維持が明示要件で shim/feature flagが必要な移行（この場合は逆にRMD-B06-001で互換制約を明示する）"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "Claude Fable 5 / Mythos 5で公式に文書化。他modelでも同種の傾向にはmodel-agnosticに適用可能だが効果は要再測定"
+  },
+  "expected_effect": {
+    "primary": "未依頼のlayer/interface追加、YAGNI違反、周辺cleanupの減少",
+    "metrics": [
+      "依頼file/行数に対する変更file/行数比",
+      "未依頼abstraction・helper数（review検出）",
+      "差戻し率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "指示を強くしすぎると必要なerror handlingや境界検証まで省く（公式指示は system boundary では validate すると明記）",
+    "'shimを使わない'指示は既存互換性が要件のtaskではB12を悪化させ得るため、互換制約は別途明示する"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "AGENTS.md/CLAUDE.mdまたはtask promptへ数行追加",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "行動を一つずつ列挙する長大な禁止リスト（Fable 5には短い指示で十分、長文はCLAUDE.md指示の埋没を招く）",
+    "instructionだけで機械gate（RMD-B01-001）なしに全体architectureを守ろうとする"
+  ],
+  "revalidate_when": [
+    "Claude Fable 5/Mythos 5の後継modelまたはprompting guide改訂",
+    "effort既定値変更",
+    "TechLogでの局所reproduction結果"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

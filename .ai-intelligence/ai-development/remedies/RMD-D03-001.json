@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D03-001",
+  "problem_ids": [
+    "D03",
+    "D11",
+    "D08"
+  ],
+  "summary": "指示レイヤー（managed/system, user, project, local, nested, Skill, rules）の読み込み順と責務を明文化し、同じ事項を複数レイヤーに書かない。強制が必要な規則はsettings/hooksへ、複数Agent間はAGENTS.mdを単一ソースにしてCLAUDE.mdは@importする。矛盾は定期的に検出して削除する。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code: managed→user→project→localの順で連結、closer filesが後に読まれる。「All discovered files are concatenated into context rather than overriding each other」「if two rules contradict each other, Claude may pick one arbitrarily」。managed CLAUDE.mdは除外不可。AGENTS.mdは読まないので@AGENTS.md importまたはsymlink。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex: ~/.codex/AGENTS(.override).md→Git rootから作業dirへ連結、「Files closer to your current directory override earlier guidance because they appear later in the combined prompt」。override fileで一時的上書き。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-15",
+      "summary": "Skill同名衝突: enterprise > personal > project、pluginは`plugin:skill`名前空間で衝突しない、skillはcommandに優先。auto-compaction後はskill再添付が25,000 token予算で最近invoked順（古いskillは落ちる）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "agentskills.io: 「Skills scoped too narrowly force multiple skills to load for a single task, risking overhead and conflicting instructions」→coherent unitで設計。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2606.15828v5",
+      "observed_at": "2026-07-30",
+      "summary": "Conflicting Instructions 28%（検出precision 57%と低く人手確認が必要）。Conflicting+Skill Leakage共起でContext Bloat確率83%増。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数レイヤー・複数Agent向けに指示を保守している",
+      "Skillが複数同時発火し得る（近接領域のSkillが多い）"
+    ],
+    "not_applicable_when": [
+      "単一ファイル・単一Agentの小規模構成"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "矛盾による恣意的選択の減少、レイヤー間重複の削減、Agent間の指示分岐防止",
+    "metrics": [
+      "レイヤー間で重複/矛盾する規則数（監査）",
+      "Skill同時発火時の結果ばらつき",
+      "Agent間（Claude/Codex）の挙動差起因のissue数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "「後勝ち」に依存した設計はtool側仕様変更で壊れる",
+    "managed層の規則はproject側から上書きできないことを前提にする必要"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "レイヤー表の作成と重複削除に数時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "harness",
+    "structure"
+  ],
+  "known_failure_modes": [
+    "矛盾をtoolが解決してくれると期待する（連結のみで解決しない）",
+    "同一Skillを製品別にコピーして独立保守（差分ドリフト）",
+    "Skillの読み込み順序でconflictを制御しようとする（compaction後の再添付順は最近invoked順で制御不能）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code memory/skills load順仕様変更",
+    "Codex AGENTS.md discovery仕様変更",
+    "Skill listing/compaction予算の変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "B-優先順位・責務・参照整合",
+  "project_note": "TechLogはCLAUDE.md→@AGENTS.mdの単一ソース構成、vendor submoduleのSkillへsymlink（重複コピー回避）を既に採用。",
+  "d11_note": "D11のうちSkill listing順序・compaction再添付順はprovider-controlled。設計側remedyはcoherent unit・非重複description・plugin名前空間・trigger eval（RMD-D09-001）。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

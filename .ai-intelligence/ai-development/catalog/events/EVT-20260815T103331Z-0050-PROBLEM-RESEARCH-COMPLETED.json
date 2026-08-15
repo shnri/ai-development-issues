@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260815T103331Z-0050-PROBLEM-RESEARCH-COMPLETED",
+  "event_type": "problem-research-completed",
+  "occurred_at": "2026-08-15T10:33:31Z",
+  "catalog_revision_before": 49,
+  "catalog_revision_after": 50,
+  "details": {
+    "batch": true,
+    "source": "merge of techlog 0.1.0 remedy research (111 records)",
+    "newly_current": 167,
+    "renamed_ids": {
+      "RMD-A01-001": "RMD-A01-002",
+      "RMD-A01-002": "RMD-A01-003",
+      "RMD-A04-001": "RMD-A04-002",
+      "RMD-A05-001": "RMD-A05-002",
+      "RMD-A07-001": "RMD-A07-002",
+      "RMD-A09-001": "RMD-A09-002",
+      "RMD-A11-001": "RMD-A11-002"
+    }
+  }
+}

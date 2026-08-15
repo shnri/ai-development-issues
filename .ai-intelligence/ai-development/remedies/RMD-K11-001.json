@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K11-001",
+  "problem_ids": [
+    "K11",
+    "K01",
+    "K13"
+  ],
+  "summary": "成功率に加えてturn数・tool call数・token・時間・permission拒否/危険操作をrun単位で計測し、trajectory sampleを人が読む運用にする。",
+  "remedy_type": "observability",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "tracked_metricsとしてn_turns, n_toolcalls, n_total_tokens, time_to_first_token, output_tokens_per_sec, time_to_last_tokenを併記、transcript読解を必須と明記。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/monitoring-usage",
+      "observed_at": "2026-08-15",
+      "summary": "events: `claude_code.tool_result`, `claude_code.tool_decision`, `claude_code.api_error`, `claude_code.permission_mode_changed`; metric `claude_code.code_edit_tool.decision`。`prompt.id`でprompt→events相関。tool詳細は既定で非記録（`OTEL_LOG_TOOL_DETAILS`でopt-in）。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-trajectory-audit",
+      "observed_at": "2026-08-11",
+      "summary": "trajectory監査でreward hacking・invalid passを実検出（evidence-supported, high）。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-hard-limits",
+      "observed_at": "2026-08-11",
+      "summary": "tool回数・cost・wall time・limit超過の監査とhard limit（operationally-supported）。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "agentの採用判断・回帰監視・危険操作の検知",
+      "探索loopやtoken浪費が疑われる"
+    ],
+    "not_applicable_when": [
+      "telemetryを収集できないprivacy制約環境（→local eval時のみ計測）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "成功率が同じでもcost・危険度・loopの差を可視化し、hard limitの根拠を得る",
+    "metrics": [
+      "turns/toolcalls/tokens per task",
+      "permission拒否・危険操作件数",
+      "loop検出（同一tool反復）",
+      "監査済みtrajectory率とinvalid pass率"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "tool詳細logはsecret/機密混入risk（K13）",
+    "監査は事後で予防にならない"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "OTel collector＋dashboard、または`--output-format json`集計script",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "test-strategy"
+  ],
+  "known_failure_modes": [
+    "pass率のみのdashboard",
+    "監査logだけで危険操作を予防したつもりになる"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "telemetry schema変更",
+    "model update（tool利用傾向が変わる）"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

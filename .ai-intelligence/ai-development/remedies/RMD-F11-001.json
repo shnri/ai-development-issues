@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F11-001",
+  "problem_ids": [
+    "F11",
+    "F12"
+  ],
+  "summary": "AI reviewerには実装Agentと異なる証拠源(実行結果・別context・別model・仕様書)を与え、findingは検証(disprove)stepと重大度付けを経てadvisoryにし、blockingは狭い高impact条件に限定する",
+  "remedy_type": "setting",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://claude.com/blog/code-review",
+      "observed_at": "2026-03-09",
+      "summary": "Anthropic Code Review: 並列agentがbugを探し「verify bugs to filter out false positives, and rank bugs by severity」。社内で「less than 1% of findings are marked incorrect」(vendor自己報告)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/changelog/2026-06-25-copilot-code-review-analysis-depth-and-efficiency-updates/",
+      "observed_at": "2026-06-25",
+      "summary": "GitHub Copilot code review: Low/Medium analysis tierをorg/repo単位で設定、Medium tier attributionをPRに表示。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/changelog/2026-06-12-copilot-code-review-new-configurations-and-controls/",
+      "observed_at": "2026-06-12",
+      "summary": "Copilot code review: custom instructions文字数制限撤廃、content exclusionでreview対象pathを制御。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: 「Let Copilot review it first」で機械的問題を先に除き、人間は判断が要る箇所へ集中。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-12",
+      "summary": "Fable 5: fresh-context verifier subagentが自己批評より優れる。Code review/debugのbug-finding recallが向上(recallの向上はfalse positive制御と別に管理が必要)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-machine-prechecks",
+      "observed_at": "2026-08-11",
+      "summary": "機械検査を人間の前に置くが最終判断にしない(operationally-supported)。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "AI reviewer(Claude Code code-review plugin, Copilot code review等)をPRに使う",
+      "reviewerが独立にテスト/型/buildを実行できる"
+    ],
+    "not_applicable_when": [
+      "reviewerが実装Agentと同一session/同一contextしか持たない場合は独立性が成立しない"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code",
+      "generic"
+    ],
+    "model_conditions": "model-dependent (false positive率・recallはmodel/tierで変動; W3)"
+  },
+  "expected_effect": {
+    "primary": "同一前提の誤りをすり抜けさせず、過剰修正・false positiveによるreview飽和を抑える",
+    "metrics": [
+      "reviewer指摘のincorrect率",
+      "blocking指摘のうち人間が却下した比率",
+      "reviewerが独立実行した検証(test/build)の有無"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "vendor報告のfalse positive率は自社codebase前提",
+    "recall向上と過剰指摘はtrade-off",
+    "AI reviewを人間判断の完全代替にすると同じoracle問題を再生産"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "低: reviewer設定・instruction・severity運用",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "process",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "AI reviewを最終判断にする(local card)",
+    "全指摘をblockingにする(F12悪化)",
+    "実装と同じcontext/prompt/前提をreviewerに渡す(F11)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "reviewer product/tier更新",
+    "model update",
+    "false positive率の局所測定結果"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

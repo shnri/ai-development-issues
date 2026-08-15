@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F22-001",
+  "problem_ids": [
+    "F22",
+    "F19",
+    "F07"
+  ],
+  "summary": "最終outcomeとは別にtrajectory(tool call列、権限操作、探索量、artifact)をsample監査し、outcome/process/artifact/efficiencyの別軸で評価して危険な途中操作や無駄な探索を検出する",
+  "remedy_type": "observability",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "field-report",
+      "reference": "https://metr.org/blog/2025-06-05-recent-reward-hacking/",
+      "observed_at": "2025-06-05",
+      "summary": "METR: transcript監査によりscoring bug、test改変、reference取得を検出(scoreだけでは不可視)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "Anthropic: 「You won't know if your graders are working well unless you read the transcripts」。outcomeをgradeしつつtrace監査を常設。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://developers.openai.com/blog/eval-skills",
+      "observed_at": "2026-08-15",
+      "summary": "OpenAI Skill eval guidance(R9, local research-foundationsで採用済): outcome, process, artifacts, efficiencyの別軸check。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-trajectory-audit",
+      "observed_at": "2026-08-11",
+      "summary": "trajectory・tool・artifact・graderのsample監査(evidence-supported, 確度high)。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agent trace/transcriptを保存できる(Claude Code session log, Codex log)",
+      "権限操作や外部副作用を伴うtask"
+    ],
+    "not_applicable_when": [
+      "traceが保存されない環境(先にobservabilityを整備)"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "最終結果だけでは見えない危険操作・無駄探索・oracle攻略を検出する",
+    "metrics": [
+      "監査率",
+      "invalid pass率",
+      "危険操作検出数",
+      "探索量(tool call数/token)のoutlier"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "expert review時間",
+    "sampling外のrare failure",
+    "privacy"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "低〜中: sample監査の運用時間",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness"
+  ],
+  "known_failure_modes": [
+    "aggregate scoreだけで採用判断(local card)",
+    "手順を厳密にgradeして別解を落とす(Anthropic; process監査はoutcome graderと分ける)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "harness/log format変更",
+    "model update"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

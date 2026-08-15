@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "harness",
+    "test-strategy"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G05-001",
+  "problem_ids": [
+    "G05",
+    "G06",
+    "G23",
+    "G21"
+  ],
+  "summary": "指示層で打切り条件を定義する: 同一commandの同一失敗は再実行1回まで(2回目は原因分析へ)、同一目的の検索は言い換え3回まで、flaky疑いのtestは`--retry`で1回だけ隔離再実行し結果に関わらずflakeとして記録し、全工程やり直しではなく失敗段階から再開する。",
+  "remedy_type": "instruction",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05",
+      "summary": "20,574 session/1,639 repositoryの実session分析。7種のmisalignment、90.50%はeffort/trust cost、91.49%はuser修正が必要。時間経過で'constraint violations and inaccurate self-reporting grow in share'",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5公式: 'When you have enough information to act, act. Do not re-derive facts already established...' の短い指示で過剰計画・再検討を抑える。強い指示追従のため列挙不要",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/guide/cli",
+      "observed_at": "2026-08-15",
+      "summary": "`--retry.count`既定0(=無条件再試行は既定で起きない)、`--bail`",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-hard-limits",
+      "observed_at": "2026-08-11",
+      "summary": "反復・予算制限は運用支持。単発誤判断の予防には不十分",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-generated-test-ci-coupling-quality-metrics",
+      "observed_at": "2026-08-11",
+      "summary": "flake率をmetricとして継続監視する対策(operationally-supported)",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "対話session(harness上限が効かない)",
+      "transcriptに同一command/検索の反復が観測される",
+      "flaky testがありagentが再実行で通過を狙う"
+    ],
+    "not_applicable_when": [
+      "再試行が正しい一時障害(network)で、失敗理由が毎回異なる場合は原因別に扱う",
+      "testがdeterministicでflake概念が無い"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic; Fable 5では短い指示で足りる(公式)。旧世代modelでは列挙が必要な場合あり"
+  },
+  "expected_effect": {
+    "primary": "同一失敗のretry loopと検索loopの回数削減、flakeの可視化",
+    "metrics": [
+      "session内の同一command連続再実行回数(目標≤2)",
+      "同一意図の連続検索回数",
+      "flake記録件数 vs 無記録再実行件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "指示は強制ではない(公式: CLAUDE.mdはcontextでありenforcementではない)。強制が要るならhook/limit層(RMD-G22-001)",
+    "閾値が厳しすぎると正当な再試行も止める"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "AGENTS.mdに3〜5行",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "'必ず全testを通せ'だけの指示 → flakeを潰すまで再実行を続ける",
+    "再試行上限を数値だけ書き、超過時に何をするか(原因分析・報告・停止)を書かない",
+    "vitest `retry`をglobalに>0へ設定してflakeを隠す(quality-metricsカードの失敗条件: 指標gaming)"
+  ],
+  "revalidate_when": [
+    "model更新(反復傾向の変化)",
+    "flaky testの根治",
+    "R5後続研究の更新"
+  ],
+  "techlog_notes": "AGENTS.mdは検証commandを列挙するが再試行上限・flake扱いは未定義。'同じ失敗を2回見たら再実行せず原因を報告' 等を追加候補。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

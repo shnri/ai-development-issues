@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "process"
+  ],
+  "id": "RMD-H07-001",
+  "problem_ids": [
+    "H07",
+    "H05",
+    "H08",
+    "H04"
+  ],
+  "summary": "並列Agentの分割は、file/module所有を重ねないcohesionの高い単位にし、team規模は3-5、taskは1 deliverable単位に揃え、同一file編集・逐次依存の強い作業は単一Sessionまたはsubagentで行う。",
+  "remedy_type": "structural-decision",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "『Two teammates editing the same file leads to overwrites. Break the work so each teammate owns a different set of files.』3-5 teammate開始、taskは self-contained unit、逐次/同一file/依存多の作業はteam不向き。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/subagents.md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex: 『Avoid simultaneous code editing across multiple agents』、read-heavy taskをsubagentへ。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "初期systemでは単純queryへ過剰subagent生成・重複が発生。明確なtask境界で解消。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2503.13657v3",
+      "observed_at": "2025-10-26",
+      "summary": "role/workflow修正のみで同一model(GPT-4o)でChatDev成功率+9.4%: 設計（役割・topology）が結果を変える。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2607.00041",
+      "observed_at": "2026-06-29",
+      "summary": "ATM: 複数Agentのwrite intentを事前admission（parallel/serialize/fail-closed）で調停する研究。feasibilityのみで比較優位は主張せず。",
+      "quality": "low"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数Agent/teammateへ実装を分ける",
+      "cross-layer変更（frontend/backend/test）"
+    ],
+    "not_applicable_when": [
+      "逐次依存の強い変更",
+      "同一module内の密結合な変更（単一Agentが適切）"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "同一module横断・上書き・conflictの発生と調整costを減らす",
+    "metrics": [
+      "同一fileを触ったAgent数",
+      "conflict発生PR率",
+      "teammate間message数/task"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "過剰分割でcoordination overheadが利得を上回る",
+    "所有境界を守るために不自然なmodule境界を作る"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "分割設計の前工程（数十分）",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "Agent数を増やせば速くなるという想定（agent teams docs: diminishing returns、3 focused > 5 scattered）",
+    "routine taskへのteam使用（Token線形増）"
+  ],
+  "revalidate_when": [
+    "agent teams GA",
+    "ATM等のpre-write admission toolの比較評価公開"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E10-001",
+  "problem_ids": [
+    "E10",
+    "E04",
+    "E07",
+    "E13",
+    "E12"
+  ],
+  "summary": "AI生成量に対してPRを一目的・小diffに制限し、lint/型/静的解析/重複検査を人間review前に機械実行、高impact境界にrisk-based reviewを集中して負債の蓄積速度を抑える",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-small-batches",
+      "observed_at": "2026-08-11",
+      "summary": "一文で目的説明できるPRへ制限（operationally-supported, medium）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-machine-prechecks",
+      "observed_at": "2026-08-11",
+      "summary": "lint・型・静的解析・重複検査を先行（operationally-supported）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "無関係file 5超・一文で目的を言えない・実装planなしなら分割要求。code duplication（既存utility未確認）をred flag。自動review toolを人間reviewの前提に。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2603.28592v2",
+      "observed_at": "2026-04-26",
+      "summary": "AI-authored commitの15%超が問題を導入、code smell 89.3%（broad exception、unused variable等）、22.7%が長期残存。継続監視を推奨。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "PostToolUse hookでlint自動実行、code intelligence pluginで編集後のerror検出。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agent PRを日常的にmergeするrepository",
+      "分割可能な通常変更"
+    ],
+    "not_applicable_when": [
+      "atomicな大規模移行（分割自体がrisk）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "1PRあたりの負債導入とreview見落としが減る",
+    "metrics": [
+      "PR diff size / 目的数",
+      "静的解析issue導入数/commit",
+      "issue残存期間",
+      "unused file・debug出力の残存数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "PR数増加による統合作業増",
+    "分割の形式化"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "PR size policy・PR templateは数分。lint/型のprecheckは既存command流用（TechLog: npm run lint/typecheck）",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "ci",
+    "harness",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "PR数だけの最適化",
+    "全行均等review",
+    "AI reviewを最終判断にする"
+  ],
+  "revalidate_when": [
+    "Agent PRの比較研究公開（local card next_review 2026-11-11）",
+    "review運用変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

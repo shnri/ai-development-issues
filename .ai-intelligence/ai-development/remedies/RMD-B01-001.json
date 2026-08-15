@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category B)",
+  "status": "active",
+  "secondary_layers": [
+    "process",
+    "instruction"
+  ],
+  "id": "RMD-B01-001",
+  "problem_ids": [
+    "B01",
+    "B03",
+    "B10",
+    "B02",
+    "B12"
+  ],
+  "summary": "Architecture制約（layer境界、依存方向、循環、orphan、重複）をdependency-cruiser等の構造テスト・custom lint・CI gateとして機械実行し、Agentの局所変更が全体設計を崩す前に失敗させる（architecture fitness function）。",
+  "remedy_type": "tool",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "field-report",
+      "reference": "https://openai.com/index/harness-engineering/",
+      "observed_at": "2026-02-15",
+      "summary": "OpenAIのagent-first repositoryで、architecture制約を文書ではなくcustom linter・依存方向を検証する構造テスト・layer違反PRをblockするCI jobで機械的に強制し、修復方法を示すエラー文がAgent誘導に最も有効だったと報告。原文はWebFetchで403のため二次要約(alexlavaee.me)で内容確認。単一組織事例。",
+      "quality": "medium"
+    },
+    {
+      "kind": "community",
+      "reference": "https://alexlavaee.me/blog/openai-agent-first-codebase-learnings/",
+      "observed_at": "2026-08-15",
+      "summary": "OpenAI post要約: 「enforced mechanically via custom linters, structural tests that validate dependency directions, and CI jobs that block PRs violating layer boundaries」、golden principleを機械規則化し定期Codex taskで逸脱を掃除する'garbage collection'。",
+      "quality": "low"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://www.thoughtworks.com/en-us/insights/articles/fitness-function-driven-development",
+      "observed_at": "2019-01-11",
+      "summary": "ThoughtWorks fitness-function-driven development: 「Fitness functions describe how close an architecture is to achieving an architectural aim」、CI pipelineの自動gatekeeperとして運用。AI以前からの確立実務。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.com/sverweij/dependency-cruiser",
+      "observed_at": "2026-08-15",
+      "summary": "dependency-cruiser: JS/TS依存を独自ruleで検証し違反をbuild失敗として報告（循環、orphan、forbidden/allowed依存、prod→dev依存）。TypeScript/TSX対応。TechLogのNext.js/TSに直接適用可能。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2603.28592v2",
+      "observed_at": "2026-03",
+      "summary": "302.6k AI-authored commits/6,299 repos: 15–29%のcommitがissueを導入、89.3%はcode smell、22.7%がHEADに残存。著者は静的解析統合とmerge後の継続監視を推奨。人間baselineなし。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-review-capacity-machine-prechecks",
+      "observed_at": "2026-08-11",
+      "summary": "lint・型・静的解析・重複検査を人間reviewの前に置く対策はoperationally-supported。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "module/layer境界が言語化できるrepository",
+      "複数Agent・複数sessionが同一codebaseを変更する",
+      "reviewが生成量に追いつかない"
+    ],
+    "not_applicable_when": [
+      "境界がまだ流動的な初期prototype",
+      "ruleを保守するownerがいない"
+    ],
+    "controllable_layer": "ci",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "layer/依存違反・重複・循環の混入をmerge前に機械検出し、architecture reviewの人間負荷を高impact判断へ集中させる",
+    "metrics": [
+      "CIでの構造rule違反検出数",
+      "人間reviewで指摘される構造欠陥の比率",
+      "循環依存・orphan module数の推移"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "ruleが古くなると正当な変更を阻害する",
+    "エラー文が修復方法を示さないとAgentが回避策（rule無効化）を取る",
+    "過剰なruleがcontextと実行時間を増やす"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "初期rule定義数時間＋CI実行数秒〜十数秒/回、rule保守",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "文書に書くだけで機械強制しない（OpenAI報告では文書化だけでは守られなかった）",
+    "違反時にAgentがlint disable commentやrule緩和で回避する（disable自体を禁止/検出する必要）",
+    "全rule同時導入で大量違反が出て無視される"
+  ],
+  "revalidate_when": [
+    "Next.js/TSのmodule構造の大変更",
+    "dependency-cruiser major update",
+    "Agentが構造ruleを回避した事例の発生"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category E)",
+  "id": "RMD-E09-001",
+  "problem_ids": [
+    "E09",
+    "E10"
+  ],
+  "summary": "AI生成codeにはprompt指示だけでなくSAST・secret・dependency scanningをmerge前の機械gateとして必須化し、認証・入力境界・data flowは人間のsecurity reviewを残す",
+  "remedy_type": "tool",
+  "maturity": "validated",
+  "evidence": [
+    {
+      "kind": "field-report",
+      "reference": "https://www.veracode.com/blog/spring-2026-genai-code-security/",
+      "observed_at": "2026-03-24",
+      "summary": "150+ LLM、GPT-5.x/Gemini 3/Claude 4.5-4.6を含む: syntax正答>95%に対しsecure生成は55%で2024年からほぼ横ばい。XSS/log injection（dataflow系）は13-15%。SAST gate必須化と人間security reviewを推奨、promptだけの効果は限定的。vendor報告（SAST販売元）である点に注意。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2502.11844",
+      "observed_at": "2025-05-30",
+      "summary": "BaxBench（392 backend task）: 各LLMの正しいprogramの約半数でend-to-end exploitが成功。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2603.28592v2",
+      "observed_at": "2026-04-26",
+      "summary": "302.6k AI-authored commit: security issueが4.7%（SQLi/path traversal/command injection）、22.7%のissueが最新版まで残存。merge前のtargeted static analysisと継続監視を推奨。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/changelog/2026-06-09-security-validation-for-third-party-coding-agents/",
+      "observed_at": "2026-06-09",
+      "summary": "GitHubがClaude/Codex等third-party agentの生成codeにCodeQL・Advisory DB・secret scanningを既定で適用し、agentがPR確定前に修正を試みる（GA、Advanced Security不要）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "security-reviewer subagent（injection、authz、secrets）の公式例。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning",
+      "observed_at": "2026-08-15",
+      "summary": "private repositoryでのcode scanningにはGitHub Code Security licenseが必要（費用条件）。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Web app・API・認証・DB queryを含む生成code",
+      "GitHubでPRを運用"
+    ],
+    "not_applicable_when": [
+      "静的解析が届かないlogic層の権限判断（人間reviewが必要）"
+    ],
+    "controllable_layer": "ci",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic（reasoning modelでも70-72%程度で不十分とVeracodeは報告）"
+  },
+  "expected_effect": {
+    "primary": "『動くが危険』なcodeがmerge前に機械的に検出される",
+    "metrics": [
+      "SAST/secret alert数（PR時）",
+      "流出security欠陥数",
+      "alert false positive率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "false positiveでreview負荷増",
+    "private repoではlicense費用",
+    "dataflow系脆弱性はSASTでも取りこぼす"
+  ],
+  "implementation_owner": "platform",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "CodeQL default setup/Semgrep OSSは数十分。private repoはlicense費",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "『secureに書いて』というpromptだけ（Veracode: 効果限定的）",
+    "AI reviewを人間security reviewの代替にする"
+  ],
+  "revalidate_when": [
+    "主要modelのsecurity pass率の大幅変化",
+    "GitHub/Semgrep gate機能の変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

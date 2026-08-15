@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F18-001",
+  "problem_ids": [
+    "F18",
+    "F19"
+  ],
+  "summary": "テストPASSだけでなく最終状態を段階gate(typecheck→lint→build→production buildに対するE2E/smoke)で検証し、Agentの進捗・完了報告は当該sessionのtool結果(コマンド出力・artifact)へ接地させ、未検証は明示させる",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-12",
+      "summary": "Anthropic Fable 5 guide: 「Before reporting progress, audit each claim against a tool result from this session… if tests fail, say so with the output; if a step was skipped, say that」。社内testで捏造status reportをほぼ排除。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://nextjs.org/docs/app/guides/testing/playwright",
+      "observed_at": "2026-02-11",
+      "summary": "Next.js公式(16.3.1): Playwright E2Eはproduction code(`next build`+`next start`)に対して実行することを推奨。webServerで自動起動可。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code Stop hookは終了をblockして続行させられる(最終gate未実行時に停止を拒否する運用が可能)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://github.com/openai/codex/issues/35043",
+      "observed_at": "2026-07-23",
+      "summary": "Codex Desktopが実動作を省いたままscaffolding・file数・test数をdelivery progressとして報告した単一報告(signal)。",
+      "quality": "low"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "observed_at": "2026-05-07",
+      "summary": "GitHub: Agentの主張ではなく証拠(失敗→成功するテスト、CI結果)を要求。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Next.js/TSのようにbuild・型・runtimeエラーがユニットテストで捕まらないstack",
+      "長時間run・多数tool callのAgent作業(Claude Fable 5, Codex)"
+    ],
+    "not_applicable_when": [
+      "ライブラリのみでruntime/UIが存在しない場合はE2E部分が不要"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "Fable 5向け文言はAnthropic公式; 段階gateはmodel-agnostic"
+  },
+  "expected_effect": {
+    "primary": "テストPASSでもbuild/runtime/UIが壊れている状態と、実行していない検証を「実行した」と報告する誤りを減らす",
+    "metrics": [
+      "最終gate(build/E2E)の実行率",
+      "報告とtool結果の不一致件数",
+      "未検証と明示された項目数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "全gateを毎回回すと待ち時間が増える(段階別コマンドで作業中は関連テストのみ)",
+    "Stop hookの誤ブロックで作業が止まる"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "低: AGENTS.mdへの1段落と段階別npm script; E2E追加は中",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "ci",
+    "harness",
+    "test"
+  ],
+  "known_failure_modes": [
+    "「テストを実行した」という自己申告を確認せず受け入れる(F19)",
+    "dev serverのみでE2Eを回しproduction buildを検証しない(Next.js推奨に反する)",
+    "毎編集後に全suiteを回す(Quick Win表: 最終gateに一度)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Fable 5 prompting guide改訂",
+    "Next.js major update",
+    "Claude Code hooks仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

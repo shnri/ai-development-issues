@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "setting"
+  ],
+  "id": "RMD-H08-001",
+  "problem_ids": [
+    "H08",
+    "H03"
+  ],
+  "summary": "調整Agentのbottleneckは、shared task list・self-claim・teammate間直接messaging・非同期subagent（作業しながら待つ）と、Orchestratorに『実装せず待つ/介入だけ』の役割を与えることで緩和する。",
+  "remedy_type": "harness",
+  "maturity": "candidate",
+  "status": "watch",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "agent teams（experimental, CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1）: shared task list、file lockによるclaim、依存task自動unblock、teammate間直接message。limitations: in-process teammateはresume不可、task statusがlagし得る、nested team不可。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5はsubagentのdispatch・非同期通信が改善。『prefer asynchronous communication…over blocking』。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "同期実行のsubagentが情報流のbottleneckとAnthropicが自認。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "3以上のAgentが並列に作業しOrchestratorが逐次待ち合わせている",
+      "Claude Code interactive session（teamsは-pでは不可）"
+    ],
+    "not_applicable_when": [
+      "非対話/CI実行",
+      "逐次依存taskのみ"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code"
+    ],
+    "model_conditions": "非同期委任の改善はclaude-fable-5でAnthropicが明記"
+  },
+  "expected_effect": {
+    "primary": "Orchestrator待ち時間と情報の単一経路化を減らす",
+    "metrics": [
+      "Orchestrator idle待ち時間",
+      "task claim〜完了lead time"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "experimental機能の仕様変更",
+    "Token線形増",
+    "teamsを有効にすると名前付きsubagentがteammateとして起動しorchestration flowが停止し得る"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "設定1行+運用習熟、Token増",
+  "verdict": "candidate",
+  "known_failure_modes": [
+    "leadが自ら実装を始めてteammateを待たない",
+    "idle通知を結果と誤認する（出力は含まれない）"
+  ],
+  "revalidate_when": [
+    "agent teams GA",
+    "Codexのmulti-agent機能更新"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

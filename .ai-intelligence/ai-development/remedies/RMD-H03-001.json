@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category H)",
+  "secondary_layers": [
+    "harness",
+    "instruction"
+  ],
+  "id": "RMD-H03-001",
+  "problem_ids": [
+    "H03",
+    "H08",
+    "H09"
+  ],
+  "summary": "Agent間handoffは要約ではなくartifact（file・diff・test出力・決定記録）への参照で渡し、委任時は目的・出力形式・使用tool/情報源・境界の4要素をtask記述に含め、Orchestratorを経由しない直接共有と非同期通信を使う。",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "subagent task記述に objective / output format / tools・sources guidance / task boundaries が無いと重複と抜けが発生。subagentは出力をfilesystemへ書き軽量参照だけを渡す。同期実行がbottleneckと明記。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "Fable 5: subagentへの委任は非同期を推奨（『keep working while they run』）、長寿命subagentがcache readでcost削減し最遅subagentへのbottleneckを回避。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "agent teams: teammateはleadの会話履歴を継承しないため task-specificな文脈をspawn promptに含める。idle通知は出力を含まず、結果はmessage/shared task listで共有。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/subagents.md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex subagents: 要約だけを親へ返し、noisy outputをmain threadから外す。書込み並列は競合と調整costが増えると警告。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2503.13657v3",
+      "observed_at": "2025-10-26",
+      "summary": "MAST 1,642 traces: 情報withholding 0.85%、他Agent入力無視 1.9%、reasoning-action mismatch 13.2%、明確化要求の欠如 6.8%。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "subagent/teammate/別Sessionへの委任",
+      "調査結果や制約を次工程へ渡す"
+    ],
+    "not_applicable_when": [
+      "単一Agentで完結する短task"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "要約で消える例外・根拠・制約の欠落と、Orchestrator経由の情報損失を減らす",
+    "metrics": [
+      "下流で発覚した上流前提の誤り件数",
+      "重複作業/未着手範囲の発生数",
+      "Orchestrator待ち時間"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "artifact参照だけだと下流が読まない（要点+参照の併用が必要）",
+    "非同期化でOrchestratorの介入が遅れる"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "委任template（4要素）とartifact置き場の合意",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "大きなdataを会話履歴経由でcopyする（R8: 参照を渡す）",
+    "Orchestratorが自分で実装を始めてteammateを待たない（agent teams docsのtroubleshooting）"
+  ],
+  "revalidate_when": [
+    "Claude Code agent teams GA/仕様変更",
+    "Codex subagent仕様変更"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

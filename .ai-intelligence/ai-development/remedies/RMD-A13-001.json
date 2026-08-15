@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A13-001",
+  "problem_ids": [
+    "A13",
+    "A08",
+    "A14"
+  ],
+  "summary": "仕様・設計の「なぜ」をADR/短い決定記録(context・決定・却下案・結果・status)として残し、決定はsupersedeで履歴化する。AI生成specでは仮定(未確認)と決定(承認済)を分けて表示する。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "standard",
+      "reference": "https://adr.github.io/",
+      "observed_at": "2026-08-15",
+      "summary": "ADR: 'justified design choice'をcontext/decision/consequencesで記録し、編集せずsupersedeして決定logを保つ。MADR/adr-tools/log4brains。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/github/spec-kit/main/templates/commands/clarify.md",
+      "observed_at": "2026-08-15",
+      "summary": "Spec Kit: 'Q→A'形式の日付付きClarificationsログ、'Constraints & Tradeoffs'カテゴリで'rejected alternatives'を明示。constitutionを非交渉のprincipleとしてanalyzeがCRITICAL判定に用いる。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "CLAUDE.mdに'Architectural decisions specific to your project'を含める。plan文書はCtrl+Gで人間が直接編集してから実行(AI生成計画を人間が確定)。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05-28",
+      "summary": "可視な解決の91.49%がユーザーの明示的訂正で成立: AI出力を無審査で仕様化しない根拠。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "変更判断が後日必要になる決定(構造・契約・非機能)",
+      "AIにspec/設計書を書かせる"
+    ],
+    "not_applicable_when": [
+      "自明で可逆な実装詳細"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "後からの変更判断と、AI仮定の無審査仕様化(A08)を防ぐ",
+    "metrics": [
+      "決定記録のある重要決定割合",
+      "AI生成spec中の未確認仮定の明示率",
+      "'なぜ'不明で判断保留になった件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "ADR肥大化・形式化",
+    "記録の手間で書かれなくなる(短く保つ)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "決定1件あたり数分。ADR templateはdocs/へ数行",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "structure",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "過去ADRを上書き編集して履歴を失う",
+    "AI生成specの'Assumptions'を人間が承認せずに'Decisions'扱いにする",
+    "理由なしのルールをAGENTS.mdへ蓄積(agent-configuration-drift)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "docs構成変更",
+    "steering/ADR templateの変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K02-001",
+  "problem_ids": [
+    "K02",
+    "K03",
+    "K05",
+    "K09"
+  ],
+  "summary": "model名だけでなくmodel/effort/harness version/system prompt・instruction revision/tool・MCP構成/Skill SHA/commitを一体のmanifestとしてrun単位に記録し、更新時に前後比較する。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-configuration-versioning",
+      "observed_at": "2026-08-11",
+      "summary": "model・effort・harness・tool・promptの一体version記録（operationally-supported, high）。model名だけの記録は再現不能。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-ai-productivity-measurement-instability-version-lock",
+      "observed_at": "2026-08-11",
+      "summary": "model・harness・設定・期間の固定と更新時再測定（operationally-supported, medium）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-provenance",
+      "observed_at": "2026-08-11",
+      "summary": "model/harness/effort/contamination記録（operationally-supported, medium）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.anthropic.com/engineering/april-23-postmortem",
+      "observed_at": "2026-04-23",
+      "summary": "Claude Code品質回帰の3原因: 3/4 effort既定high→medium（4/7 revert）、3/26 caching bugでthinking block毎turn削除（4/10 fix）、4/16 verbosity system promptで3%低下（4/20 revert）。異なるtraffic slice・schedule重なりで検出困難。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sessions",
+      "observed_at": "2026-08-15",
+      "summary": "resumeはmodel/agent/permission modeを復元するが--mcp-config/--settings/--plugin-dir/--add-dir等は復元されない。`claude --version`でharness版確認。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "observed_at": "2026-08-15",
+      "summary": "Codex: `model`, `model_reasoning_effort`(minimal|low|medium|high|xhigh)をconfig.tomlで固定可。project `.codex/config.toml`で上書き不可のprotected keys（approval_policy, sandbox_mode, otel等）。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "model/harness更新が頻繁で結果比較・回帰調査が必要",
+      "複数人・複数Agent（Claude Code, Codex）で同一Repositoryを運用"
+    ],
+    "not_applicable_when": [
+      "使い捨てのone-off prompt",
+      "provider側非公開変更（記録はできても制御不能）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "回帰・変動の原因軸をrun後に切り分け可能にし、'model更新のせいか自分の変更のせいか'を判定できる",
+    "metrics": [
+      "run manifestの記録率（model/effort/harness ver/prompt rev/skill SHA/commit）",
+      "差分特定までの時間",
+      "再現成功率"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "release管理の複雑化",
+    "provider非公開変更は記録できても再現不能"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "manifest生成の自動化（hook/script）と保管",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "observability",
+    "setting"
+  ],
+  "known_failure_modes": [
+    "model名だけの記録（harness/effort/prompt差を再現できない）",
+    "manifestを手書きに頼り欠落する"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model update",
+    "harness major update",
+    "effort既定値変更",
+    "tool/MCP schema変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "controller_notes": [
+    "2026-08-15 controller review: downgraded validated→candidate; evidence is official mechanism/guidance plus operationally-supported local cards without measured effect on agent workflows."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

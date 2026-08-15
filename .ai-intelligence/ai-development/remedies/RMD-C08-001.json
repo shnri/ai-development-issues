@@ -1,0 +1,84 @@
+{
+  "id": "RMD-C08-001",
+  "problem_ids": [
+    "C08"
+  ],
+  "summary": "実行環境を明示・接地する: devcontainerで固定、必要env var/feature flag/runtime差(Node版、Firebase emulator、本番/dev)を常時mapに列挙し、Agentには推測でなく`!`command・実際のcommand実行で確認させる",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "Anthropic: initializer agentがinit.sh・progress file・feature list(JSON pass/fail)を作り、以後のsessionはgit log・progress noteを読んでbaseline testから開始。git commitをcheckpointとする。premature completion・未完了機能を抑制",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/common-workflows",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: `claude --worktree <name>`で既存commitからの分離checkoutで並列session、@file参照で明示的にfileを投入(directory参照は一覧のみ)、subagentへ探索委譲、`!`コマンドで実行結果を接地、Claudeは最新のClaude Code docsへ常時アクセス",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/context-window",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Codeは起動時にworking directory/platform/shell/OS/git状態を自動投入するが、env varやfeature flagは含まれない",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "環境差で挙動が変わるproject(TechLog: Firebase/Firestore/Algolia、devcontainer)"
+    ],
+    "not_applicable_when": [
+      "環境非依存の純粋なlibrary変更"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "環境差の見落とし削減",
+    "metrics": [
+      "環境起因の失敗件数",
+      "env/flag未確認での実装件数"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "secret値を指示fileへ書かない(名前と取得方法のみ)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "環境一覧の記述と保守",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "harness",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "env var実値をCLAUDE.mdに埋める(secret漏洩)",
+    "初期化手順を毎回実行(R7はinit.shで初回と通常を分離)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "環境構成変更",
+    "harnessが環境情報の自動投入を拡張したとき"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

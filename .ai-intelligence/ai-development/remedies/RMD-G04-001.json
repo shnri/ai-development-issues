@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "instruction",
+    "process"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G04-001",
+  "problem_ids": [
+    "G04",
+    "G21",
+    "G15",
+    "G24"
+  ],
+  "summary": "Milestoneごとのcheckpoint(進捗fileと小さなgit commit、機械可読な機能/受入リスト)と、Fable 5向けの'context残量で止まらない/進捗はtool結果に接地'指示で、再読・全工程やり直し・早期終了を減らし、人間が常時監視せずに再開できる状態を作る。",
+  "remedy_type": "harness",
+  "maturity": "candidate",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic長時間harness: `claude-progress.txt`進捗log、'commit its progress to git with descriptive commit messages'でrevert/回復、feature listをJSONで`passes`だけ更新、'work on only one feature at a time'、`init.sh`でsession立上げ。'declares victory early'対策としてfeature list",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "'Rare cases of context-budget concern': 残量表示を避け、必要なら'You have ample context remaining. Do not stop, summarize, or suggest a new session...'; 'Ground progress claims': tool結果に接地させる指示で捏造statusをほぼ排除(Anthropic内部test); memory systemはMarkdown fileで十分",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "auto memoryとMEMORY.md index。session横断のbuild/debug知見保持",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
+      "observed_at": "2026-08-11",
+      "summary": "Codex compaction後に実行状態を失う(candidate/medium)。project-local durable stateへの記録が回復controlとして記載",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-long-run-unsupported-progress",
+      "observed_at": "2026-08-11",
+      "summary": "Fable 5長時間runの進捗claim接地(verified/high)",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "数十分以上・複数段階の作業、session跨ぎ、compactionが起きうるrun",
+      "失敗時に最初からやり直す・同じfileを再読する傾向が観測される"
+    ],
+    "not_applicable_when": [
+      "数分で終わる単発変更(checkpoint自体がoverhead)",
+      "commitを許可されていないworkflow(進捗fileだけ使う)"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic; context-budget/early-stop文言はFable 5固有の公式推奨"
+  },
+  "expected_effect": {
+    "primary": "再開costと再読の削減、未完終了・全損の防止",
+    "metrics": [
+      "同一fileの再読回数/session",
+      "失敗後の再開に要したturn数",
+      "checkpoint数 vs 途中終了時の残作業量"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "進捗fileがrepositoryを汚す(scratchpad/.steering等の置場を決める)",
+    "commit粒度が細かすぎるとhistoryが荒れる"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "cost": "進捗file規約と数行の指示。既存.steeringを再利用可",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "残token countdownをmodelに見せる(公式: 早期終了trigger)",
+    "進捗fileを更新せず会話内だけで状態管理→compactionで消える",
+    "'完了'を自己申告させるだけでtool証拠を求めない"
+  ],
+  "revalidate_when": [
+    "Claude Code/Codexのcompaction仕様変更",
+    "Fable 5後継でcontext挙動が変わった",
+    "MBI-codex-compaction再検証"
+  ],
+  "techlog_notes": "TechLogは複雑作業のみ`.steering`を使う方針(AGENTS.md)。routine/長時間runには軽量な進捗noteをscratchpadに置く運用が候補。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

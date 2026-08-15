@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K12-001",
+  "problem_ids": [
+    "K12",
+    "K15",
+    "K10",
+    "K02"
+  ],
+  "summary": "AI導入前後の効果はvalue stream全体（review turnaround・rework・escaped defect・deploy recovery）で、導入前baselineと分層・複数outcome・複数手法で測る。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/insights/balancing-ai-tensions/",
+      "observed_at": "2026-03-10",
+      "summary": "DORA: verification tax（生成時間の節約がreview/監査へ移転）、AI採用増でthroughputと不安定性が同時に増加、SEQ/SPACE/Value Stream（code review turnaround, deployment recovery, incidents）を推奨、LOC等の狭い出力指標を避ける。2025 DORAで30%がAI生成codeを不信。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-ai-productivity-measurement-instability-multi-outcome",
+      "observed_at": "2026-08-11",
+      "summary": "速度と品質・review・再作業・流出欠陥・business outcomeの併記（operationally-supported）。個人監視目的に転用しない。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-ai-productivity-measurement-instability-stratification",
+      "observed_at": "2026-08-11",
+      "summary": "developer/task/repo/構成/利用形態の分層（operationally-supported, high）。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-ai-productivity-measurement-instability-triangulation",
+      "observed_at": "2026-08-11",
+      "summary": "RCT・観測・time-useのtriangulation。METR 2026-02-24が既存RCT設計の歪み（離脱、task選別、並行Agent）を報告。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-08-15",
+      "summary": "'start with a small pilot group and use the tracking tools below to establish a baseline before wider rollout'。`/insights`で作業上の摩擦（misunderstood requests等）report。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "AI利用拡大の可否・投資判断",
+      "'速くなった'実感と実測が乖離"
+    ],
+    "not_applicable_when": [
+      "個人評価・監視目的",
+      "sampleが小さく分層すると統計power不足（→分層数を絞る）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "負荷移転（review/test/release）を含めた純効果を判定でき、悪化を早期に検知",
+    "metrics": [
+      "lead time / review turnaround",
+      "rework率・revert率",
+      "escaped defect・incident",
+      "baseline期間との差（分層別）"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "計測基盤と長期追跡cost",
+    "metric gaming"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "baseline収集（導入前2–4週）＋継続dashboard",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "observability"
+  ],
+  "known_failure_modes": [
+    "LOC/PR数/Token量を生産性とみなす",
+    "自己申告のみ",
+    "単一平均を全開発へ一般化"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "autonomous agent利用形態変化",
+    "主要model/harness更新",
+    "新しい測定標準"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "controller_notes": [
+    "2026-08-15 controller review: downgraded validated→candidate; evidence is official mechanism/guidance plus operationally-supported local cards without measured effect on agent workflows."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

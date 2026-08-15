@@ -1,0 +1,111 @@
+{
+  "id": "RMD-C02-001",
+  "problem_ids": [
+    "C02",
+    "C13",
+    "C01"
+  ],
+  "summary": "contextを対象範囲へ絞る運用: 全文投入より参照(path/URL)とjust-in-time読込、大量読込はsubagentへ委譲して要約だけ受け取る、task切替で/clear、/contextで実測する",
+  "remedy_type": "harness",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "reproduction",
+      "reference": "https://www.trychroma.com/research/context-rot",
+      "observed_at": "2025-07-14",
+      "summary": "18 model(Anthropic/OpenAI/Google/Qwen)で入力長増加に伴い性能低下。distractor追加で悪化、LongMemEvalでは関連情報のみ約300 tokenのfocused promptが約113kのfull promptを明確に上回り、Claude Opus 4/Sonnet 4はfull contextで棄権が増加",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2502.05167",
+      "observed_at": "2025-07-09",
+      "summary": "NoLiMa(ICML 2025): 128K以上を謳う13 modelのうち11が32Kで短context性能の50%未満に低下、GPT-4oは99.3%→69.7%。reasoning/CoTでも改善せず",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "observed_at": "2025-09-29",
+      "summary": "Anthropicが有限のattention budgetとcontext rotを前提に、just-in-time retrieval、compaction、structured note-taking、subagentが1,000-2,000 token要約を返す構成、system promptのright altitudeを推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/context-window",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: compaction後にproject-root CLAUDE.md・unscoped rules・auto memoryは再注入、paths付rules・nested CLAUDE.md・会話内指示は失われる、skill bodyは1skill 5,000/合計25,000 tokenで再注入。/compact focus指示、/autocompact閾値、/clear、subagentへの大量読込委譲、/contextでの実測を推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/common-workflows",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: `claude --worktree <name>`で既存commitからの分離checkoutで並列session、@file参照で明示的にfileを投入(directory参照は一覧のみ)、subagentへ探索委譲、`!`コマンドで実行結果を接地、Claudeは最新のClaude Code docsへ常時アクセス",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "Anthropic: subagentは成果を外部systemへ保存し軽量参照だけを返して伝言劣化を防ぐ。lead agentはplanをmemoryへ保存(200k超で切り詰め)、subagentへはobjective・output format・tool guidance・boundariesを明示。token使用量が性能分散の80%を説明",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "長いsession・大きなrepository・大量logやdocsを扱うtask",
+      "subagent/tool searchが使えるharness"
+    ],
+    "not_applicable_when": [
+      "短い単一fileの修正で読込量が元々小さい"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic(長context耐性はmodelで差、Chroma 18 model・NoLiMa 13 modelで全model低下)"
+  },
+  "expected_effect": {
+    "primary": "無関係contextによる制約の押し流しと長context劣化の抑制",
+    "metrics": [
+      "turnあたりcontext token",
+      "distractor混入後の指示違反率",
+      "subagent要約サイズ(1-2k token目安)"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "subagent要約での情報欠落(C05と表裏)",
+    "絞りすぎて必要fileを落とす(C01)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "運用習慣とsubagent呼び出しのtoken",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "instruction",
+    "setting"
+  ],
+  "known_failure_modes": [
+    "『念のため全部読ませる』: focused 300 token vs full 113kで明確に劣化(Chroma)",
+    "1M contextへ切替えるだけ: 長さ自体が劣化要因(NoLiMa)で解決しない",
+    "MCP tool schemaの全読込(ENABLE_TOOL_SEARCH=false)でcontext圧迫"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "新modelの長context評価が公開されたとき",
+    "harnessのtool search/compaction仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

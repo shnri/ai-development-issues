@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A01-003",
+  "problem_ids": [
+    "A01",
+    "A08",
+    "A05",
+    "A02",
+    "A10"
+  ],
+  "summary": "仕様→設計→タスクの各artifactに対し、read-onlyの横断分析コマンド(重複・曖昧・未指定・矛盾・coverage gap・NFR欠落を重大度付きで報告)を実装着手前のgateとして走らせる。",
+  "remedy_type": "tool",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/github/spec-kit/main/templates/commands/analyze.md",
+      "observed_at": "2026-08-15",
+      "summary": "Spec Kit /speckit.analyze: spec.md/plan.md/tasks.md/constitution.mdを読み、Duplication/Ambiguity/Underspecification/Constitution Alignment/Coverage Gaps/Inconsistency(terminology drift, conflicting data models, competing technology choices)をCRITICAL〜LOWで報告。'Do not modify any files'。'missing non-functional coverage'はMEDIUM。50 findings上限。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://kiro.dev/docs/specs/best-practices/",
+      "observed_at": "2026-08-15",
+      "summary": "Kiro 'Analyze Requirements'はcompliance-sensitive domainで設計前に'logical inconsistencies, ambiguities, conflicting constraints, and gaps'を検出。specはrepositoryにcodeと同居させversion管理。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "Anthropic: fresh subagentで'review the ... diff against PLAN.md. Check that every requirement is implemented ... nothing outside the task's scope changed. Report gaps'。reviewerは指摘を出したがるので'flag only gaps that affect correctness or the stated requirements'と限定する。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "spec/plan/tasksなど複数の生成文書が同一featureに存在する",
+      "AI生成設計書を人間が全文精読できない規模"
+    ],
+    "not_applicable_when": [
+      "単一の短いissueで完結する変更",
+      "artifactが1つしかない"
+    ],
+    "controllable_layer": "tool",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "artifact間の矛盾・重複・未指定・NFR欠落を実装前に検出する",
+    "metrics": [
+      "analyze報告のCRITICAL/HIGH件数(着手前0)",
+      "requirement→task coverage %",
+      "実装後に発覚した仕様矛盾件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "LLM analyzerの見落とし・過剰指摘。CRITICALはconstitution違反等に限定する",
+    "分析結果を自動修正させると誤修正が入る(read-onlyを守る)",
+    "分析文書自体がcontextを圧迫"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "Spec Kit等の導入またはrepo固有のanalyze skill作成。実行は数分",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "process",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "aggregate summaryだけ読んで承認する",
+    "analyzeが書き換えまで行う",
+    "constitution/正本の定義がないままinconsistencyを判定する(基準がない)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Spec Kit/Kiro機能変更",
+    "model update",
+    "artifact構成の変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category A)",
+  "controller_notes": [
+    "2026-08-15: renamed from RMD-A01-002 on merge into authority catalog (ID taken by routine research record)."
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

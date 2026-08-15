@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-A15-001",
+  "problem_ids": [
+    "A15"
+  ],
+  "summary": "問題設定がAIの作りやすさへ歪む問題には既知の技術的remedyがなく、A01-001(明確化フェーズ)とA13-001(決定記録)で仮定と決定を可視化した上で、product/ownership判断として人間が問題設定を裁定する。",
+  "remedy_type": "structural-decision",
+  "maturity": "signal",
+  "status": "watch",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://dora.dev/insights/balancing-ai-tensions/",
+      "observed_at": "2026-08-15",
+      "summary": "verification tax・expertise paradox等は扱うが、問題設定の歪み自体への対策は示していない",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2605.29442",
+      "observed_at": "2026-05-28",
+      "summary": "20,574 sessionで意図解釈の不一致が主要失敗形態の一つ。上流の問題設定を人間が保持する必要性の間接根拠",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "新機能や仕様の起案にAIを使う",
+      "AI生成の設計書が権威的に扱われがち"
+    ],
+    "not_applicable_when": [
+      "問題設定が人間の明示的決定として既に固定されている"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "AI都合の問題設定を人間の決定として明示化し、後から再判断できるようにする",
+    "metrics": [
+      "決定記録に問題設定の理由が残る割合"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "決定記録の形骸化"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "決定時の短い記録",
+  "verdict": "decision-required",
+  "secondary_layers": [
+    "process"
+  ],
+  "known_failure_modes": [
+    "AI生成specをそのまま採用し仮定が仕様化する(A08)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "A15に関する研究・公式guidanceの出現",
+    "A01-001/A13-001の採用後"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (controller, category A gap)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

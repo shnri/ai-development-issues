@@ -1,0 +1,76 @@
+{
+  "id": "RMD-C11-001",
+  "problem_ids": [
+    "C11"
+  ],
+  "summary": "長期memoryの衛生: Claude Code auto memoryは/memoryで監査・削除、MEMORY.mdは索引のみ(200行/25KB)、`modified` timestampで鮮度判定、不要ならautoMemoryEnabled=falseで無効化。共有知識はCLAUDE.md/docsへ昇格して版管理する",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: CLAUDE.mdは200行未満を目標、長いと遵守率低下。path-scoped rules・skillsでon-demand化。@importは起動時に全読込で節約にならない。矛盾する指示は任意に一方が選ばれる。/doctorがCLAUDE.mdのtrimを提案。auto memory MEMORY.mdは先頭200行/25KBのみ読込、`modified` timestamp付与(v2.1.214+)。CLAUDE.mdはcontextであり強制ではなくhookで強制する",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
+      "observed_at": "2026-08-12",
+      "summary": "Anthropic Fable 5 guidance: 長時間runではprogress claimをtool結果へ接地し、context上限を理由に止めず、旧modelのscaffolding・memory前提を再評価する",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Claude Code auto memoryを使う環境",
+      "複数worktree/複数人で同一repositoryを扱う(auto memoryはmachine-localでworktree共有)"
+    ],
+    "not_applicable_when": [
+      "Codex等auto memoryを持たないsurface(相当機能は無いか未確認)"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code"
+    ],
+    "model_conditions": "model-agnostic(Fable 5では旧memory scaffoldingの再評価を推奨)"
+  },
+  "expected_effect": {
+    "primary": "古い結論・誤学習の持ち越し防止",
+    "metrics": [
+      "memory entryのmodified経過日数",
+      "memory起因の誤前提件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "無効化で有用な学習も失う",
+    "memoryはmachine-localで共有されず環境間で不一致"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "settings 1行と定期監査",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process"
+  ],
+  "known_failure_modes": [
+    "MEMORY.mdに詳細を書き続ける: 200行/25KB超過分は読み込まれない",
+    "memoryをteam共有知識の正本にする: machine-localで版管理されない"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code memory仕様変更",
+    "Codexにmemory機能が追加されたとき"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

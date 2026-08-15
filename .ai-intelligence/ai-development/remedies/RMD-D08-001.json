@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D08-001",
+  "problem_ids": [
+    "D08",
+    "D15",
+    "D06"
+  ],
+  "summary": "指示・Skill内の参照（相対path、@import、symlink、references/）を機械的に検証する: 存在・循環・深さ（@importは4hop、skill referencesは1段）・外部import承認を確認するlink/inventoryチェックをCIまたは定期監査に組み込み、参照には読む条件を添える。",
+  "remedy_type": "tool",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "@import: 相対pathは含むfile基準、最大4hop、code span内は無視、working directory外importは承認dialog。/contextでload済みmemory filesを確認、InstructionsLoaded hookでどのfileがいつ何故loadされたかをlog可能。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/specification",
+      "observed_at": "2026-08-15",
+      "summary": "agentskills spec: 「Keep file references one level deep from SKILL.md. Avoid deeply nested reference chains」。`skills-ref validate`でfrontmatter/naming検証。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2606.15828v5",
+      "observed_at": "2026-07-30",
+      "summary": "Blind References（説明なしの外部参照）16%。推奨: 参照に文脈説明を添える。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "observed_at": "2026-08-11",
+      "summary": "maintain-agent-instructions inventory.mjs: Skill実体・symlink（broken検出）・duplicate-copies・行数を棚卸し。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-15",
+      "summary": "frontmatter YAML不正時はdescriptionが空でloadされ発火しない（--debugでparse error確認）。",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Skill/rules/CLAUDE.mdがsymlinkやsubmodule経由で構成され、参照が壊れやすい",
+      "参照先docs/が頻繁に移動する"
+    ],
+    "not_applicable_when": [
+      "参照が数件で人手確認で足りる"
+    ],
+    "controllable_layer": "ci",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "欠落・循環・古い参照の早期検出。Blind Referenceの解消",
+    "metrics": [
+      "broken link/symlink件数",
+      "@import深さ超過・外部import件数",
+      "frontmatter validation失敗件数",
+      "InstructionsLoaded logで期待fileがloadされた率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "link checkerの誤検知（code内の@表記など）",
+    "参照の『鮮度』（内容が古い）は存在チェックでは検出できない"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "既存script（inventory.mjs, skills-ref validate）+ 汎用markdown link checkerをCIへ。半日以下",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "process",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "存在チェックだけで内容の陳腐化を見逃す（RMD-D01-001の最終検証日と併用）",
+    "参照先を増やしてcontext削減した気になる（@importはlaunch時にload）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code import仕様変更",
+    "agentskills spec更新",
+    "submodule構成変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "B-優先順位・責務・参照整合",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

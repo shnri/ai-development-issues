@@ -1,0 +1,94 @@
+{
+  "id": "RMD-C05-001",
+  "problem_ids": [
+    "C05",
+    "C10",
+    "C04"
+  ],
+  "summary": "Agent間handoffは要約の伝言ではなく成果物(file/commit/issue/JSON)を外部へ保存し軽量参照を渡す。委譲時はobjective・output format・boundaries・基準commitを明示する",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "Anthropic: subagentは成果を外部systemへ保存し軽量参照だけを返して伝言劣化を防ぐ。lead agentはplanをmemoryへ保存(200k超で切り詰め)、subagentへはobjective・output format・tool guidance・boundariesを明示。token使用量が性能分散の80%を説明",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/managed-agents",
+      "observed_at": "2026-04-08",
+      "summary": "Anthropic Managed Agents: sessionをcontext window外に置くappend-only event logとして扱い、harness失敗後もwake(sessionId)/getEventsで状態を復元",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2025-11-26",
+      "summary": "Anthropic: initializer agentがinit.sh・progress file・feature list(JSON pass/fail)を作り、以後のsessionはgit log・progress noteを読んでbaseline testから開始。git commitをcheckpointとする。premature completion・未完了機能を抑制",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "observed_at": "2025-09-29",
+      "summary": "Anthropicが有限のattention budgetとcontext rotを前提に、just-in-time retrieval、compaction、structured note-taking、subagentが1,000-2,000 token要約を返す構成、system promptのright altitudeを推奨",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "subagent委譲やsession跨ぎの引継ぎ",
+      "複数Agentの並列作業"
+    ],
+    "not_applicable_when": [
+      "単一Agentが同一contextで完結する作業"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "handoff時の情報劣化・誤伝達の削減",
+    "metrics": [
+      "handoff後の再調査回数",
+      "成果物参照率(要約のみ vs artifact)"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "artifactが増えrepository汚染(許可Outputを限定)",
+    "参照先の鮮度管理が必要(C11)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "委譲テンプレートと出力先規約",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness",
+    "structure"
+  ],
+  "known_failure_modes": [
+    "subagentの自然文要約だけを次工程へ渡す: Anthropicが伝言劣化として明示的に回避",
+    "委譲prompt にobjective/output format/boundariesが無い: 重複・欠落(Anthropic multi-agent)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "harnessのsubagent/handoff仕様変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

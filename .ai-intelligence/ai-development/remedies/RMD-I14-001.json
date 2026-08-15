@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I14-001",
+  "problem_ids": [
+    "I14",
+    "I05"
+  ],
+  "summary": "利用planと経路（Consumer/Team/Enterprise/API/Bedrock/Vertex/Foundry）ごとの学習利用・保持期間・ZDR・所在地を確認し、要件に合う経路をproject文書に固定する。TechLogは個人開発のため契約層はprovider側で、選択は決定事項",
+  "remedy_type": "structural-decision",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/data-usage",
+      "observed_at": "2026-08-15",
+      "summary": "商用（Team/Enterprise/API/3rd-party）は学習不使用、標準30日保持、ZDRはEnterpriseで審査後、Consumer（Free/Pro/Max）はopt-in時5年・非opt-in30日、Bedrock/Vertex/FoundryはCMEK等提供者依存、Foundry Hosted on Azureはprompt域内",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data",
+      "observed_at": "2026-07-01",
+      "summary": "Consumer削除は30日以内、学習有効時5年、安全違反2–7年",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Trust Center/SOC2/ISO27001、Consumer privacy設定",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "顧客data・非公開codeをAgentに読ませる",
+      "規制・契約上の所在地/保持要件がある"
+    ],
+    "not_applicable_when": [
+      "公開OSS codeのみで要件なし"
+    ],
+    "controllable_layer": "provider",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "契約・設定と実利用の不一致を解消",
+    "metrics": [
+      "利用経路と要件の対応表有無",
+      "Consumer accountでの学習設定状態"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "ZDRは全planで得られない",
+    "経路変更で機能差（telemetry既定等）"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "確認と記録のみ",
+  "verdict": "decision-required",
+  "secondary_layers": [
+    "setting",
+    "process"
+  ],
+  "known_failure_modes": [
+    "Pro/Max個人accountで業務codeを扱いながら学習設定を確認しない",
+    "'API利用だから安全'とlocal transcript/feedback経路を無視"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "provider規約更新",
+    "plan変更",
+    "Codex側data policy更新"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

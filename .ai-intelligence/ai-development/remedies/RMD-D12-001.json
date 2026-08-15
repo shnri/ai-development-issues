@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-D12-001",
+  "problem_ids": [
+    "D12",
+    "D01",
+    "D04",
+    "D07",
+    "D13",
+    "D05"
+  ],
+  "summary": "事故対策の追加は『繰り返された失敗』だけをgotchas/ruleに昇格し、production trace・cost・doc参照・繰り返し修正をsignalに定期gardening（維持/圧縮/移動/更新/統合/削除）を行い、削除は監査基準とablationで裏付ける。監査結果自体を恒久ルールにしない。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-configuration-drift-production-gardening",
+      "observed_at": "2026-08-11",
+      "summary": "production feedback・trace・costを使うdoc gardening（operationally-supported, medium）。失敗条件: safety/policy規則まで効率理由で削除。",
+      "quality": "medium"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://openai.com/index/harness-engineering/",
+      "observed_at": "2026-02-01",
+      "summary": "OpenAI harness engineering: doc gardeningを継続運用（単一組織事例）。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "CLAUDE.mdに追加する時: 「Claude makes the same mistake a second time」「A code review catches something Claude should have known」。定期的にoutdated/conflictingを除去。/doctorのtrim提案。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://agentskills.io/skill-creation/best-practices",
+      "observed_at": "2026-08-15",
+      "summary": "「When an agent makes a mistake you have to correct, add the correction to the gotchas section」と同時に「Remove things that aren't pulling their weight」。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://developers.openai.com/blog/eval-skills",
+      "observed_at": "2026-08-15",
+      "summary": "手動修正はevalの候補にする（instruction追加ではなくeval追加で再発を検出）。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2606.15828v5",
+      "observed_at": "2026-07-30",
+      "summary": "91/100 repoにsmell。継続的保守（agentが同じ誤りを繰り返した時・reviewで欠落が見つかった時に更新、定期見直し）を推奨。",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "observed_at": "2026-08-11",
+      "summary": "maintain-agent-instructions: 6分類（維持/圧縮/移動/更新/統合/削除）と陳腐化/維持シグナル、「監査結果そのものを恒久ルールとして追加しない。再発する失敗だけをルール化する」。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "事故のたびに指示が追記され、削除がない",
+      "telemetry/trace/レビュー記録から再発signalを取れる"
+    ],
+    "not_applicable_when": [
+      "signalを収集できない環境（その場合はRMD-D01-001の期限ベースreviewで代替）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "Instruction Debtの増加抑制と、常時指示の再肥大化防止",
+    "metrics": [
+      "常時指示行数の推移",
+      "追加/削除件数比",
+      "削除後回帰件数",
+      "issue→eval反映率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "誤削除risk（安全規則を効率理由で落とす）",
+    "gardening自体の運用cost"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "月次〜四半期の監査1–2時間",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "instruction",
+    "test"
+  ],
+  "known_failure_modes": [
+    "一件の事故で即恒久ルール化",
+    "監査だけして削除も期限管理もしない",
+    "全Skill一括削除"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model/harness更新",
+    "大量のSkill追加",
+    "再発事故"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
+  "cluster": "F-定期gardening",
+  "local_tooling": [
+    "maintain-agent-instructions Skill（適用可能、実行は別判断）",
+    "ai-development-improvement audit/revalidate mode"
+  ],
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

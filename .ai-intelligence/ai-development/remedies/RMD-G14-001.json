@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "status": "active",
+  "secondary_layers": [
+    "harness"
+  ],
+  "last_verified_at": "2026-08-15",
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category G)",
+  "reversible": true,
+  "id": "RMD-G14-001",
+  "problem_ids": [
+    "G14",
+    "G24",
+    "G19",
+    "G20"
+  ],
+  "summary": "Done条件・禁止範囲・許可Outputを作業開始時に明示(Fable 5公式のscope境界定型文+'最終gateは一度'+'依頼外の文書/backup/一時fileを作らない')し、機械判定はStop hook等で行って、endless polishと未依頼artifact生成を止める。",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "observed_at": "2026-08-15",
+      "summary": "'Don't add features, refactor, or introduce abstractions beyond what the task requires...' 'State the boundaries': 未依頼action(defensive git-branch backups等)を防ぐ定型文; autonomous向け'End your turn only when the task is complete or you are blocked'; 'Pause for the user only when...' の短いcheckpoint指示",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-high-effort-scope-creep",
+      "observed_at": "2026-08-11",
+      "summary": "MBI-fable-high-effort-scope-creep: verified/high。最小scope明示が緩和",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "`Stop` hookはexit 2または`{decision:\"block\",reason}`で終了を差し戻せる(`stop_hook_active`でloop防止)。PostToolUseの`additionalContext`で検査結果を注入",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "observed_at": "2026-08-15",
+      "summary": "feature list JSON(pass/fail)で完了を機械的に定義",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "'Claude treats them as context, not enforced configuration. To block an action regardless... use a PreToolUse hook'",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "受入条件が曖昧なままagentが改善を続ける",
+      "'完了'の判定を人が見張っている",
+      "不要なREADME/backup/summary fileが生成される"
+    ],
+    "not_applicable_when": [
+      "探索的作業で完了条件を事前定義できない(その場合はtime/turn budgetで区切る: RMD-G22-001)"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic; scope/boundary文言はFable 5公式"
+  },
+  "expected_effect": {
+    "primary": "未依頼変更・artifact・追加polishの削減、機械判定可能な終了",
+    "metrics": [
+      "依頼外file/変更数(diff内)",
+      "最終gate後の追加編集回数",
+      "Stop hook差戻し回数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "Stop hookが厳しすぎると終われずloop(公式のstop_hook_active確認とreasonの明確化)",
+    "禁止列挙が長くなる(Fable 5は短文で足りる)"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "cost": "AGENTS.md数行。hookは任意",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "'品質を上げて'等の開いた目標のみ",
+    "許可Outputを書かず'ドキュメントも作って'と誤解される",
+    "done条件を会話内だけで伝えcompaction後に失われる"
+  ],
+  "revalidate_when": [
+    "model更新(scope creep傾向)",
+    "hook仕様変更"
+  ],
+  "techlog_notes": "AGENTS.mdは'依頼と無関係な差分を混ぜない'と`.steering`不作成条件を既に持つ。Fable 5向け境界文とOutput許可(例: scratchpad以外に一時fileを作らない)の追記が候補。",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

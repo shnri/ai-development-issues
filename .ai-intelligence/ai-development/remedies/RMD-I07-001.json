@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I07-001",
+  "problem_ids": [
+    "I07",
+    "I09",
+    "I16",
+    "I11"
+  ],
+  "summary": "Skill/Plugin/MCPは導入前に静的監査（skills:audit=SkillSpector --no-llm）とcode-review相当の内容審査を行い、出所固定（submodule確定SHA・allowlist）、MCPは信頼済み/自作のみ、Unicode Tag等の不可視文字を拒否し、実行時はsandbox+tool call監視で残余riskを受ける",
+  "remedy_type": "process",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2604.03081",
+      "observed_at": "2026-04-03",
+      "summary": "1,070 adversarial skills、DDIPE bypass 11.6–33.5%（4 framework×5 model）、静的解析は大半を検出するが2.5%は検出・alignment両方を回避、4脆弱性開示・2修正",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://labs.cloudsecurityalliance.org/research/csa-research-note-skill-md-agent-context-poisoning-20260506/",
+      "observed_at": "2026-05-06",
+      "summary": "Snyk監査: 3,984 skillの36.82%に欠陥、13.4% critical、ClawHubで341悪意package。推奨: 内容審査、publisher allowlist、hash/署名、Unicode filter、静的解析、tool呼出logging",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "AnthropicはMCP serverをsecurity auditしない。自作または信頼provider推奨、新規MCPはtrust verification",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+      "observed_at": "2025-11-25",
+      "summary": "Local MCP compromise: 実行command全文の同意表示、sandbox実行、stdio推奨；token passthrough禁止；scope最小化",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "/workspaces/techlog/docs/shared-agent-plugins.md",
+      "observed_at": "2026-08-11",
+      "summary": "TechLogはvendor submoduleを確定SHAで利用し、SkillSpector 2.8.2静的監査（risk 0/100）を導入前に実行、静的監査は安全の保証ではないと明記",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "外部Skill/Plugin/MCPを導入・更新する",
+      "Skill文書内のcode例やtemplateをAgentが再利用する"
+    ],
+    "not_applicable_when": [
+      "自作Skillのみで外部導入がない場合（それでもcontext file改変監視は必要）"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "悪意Skill/MCPの導入阻止と、素通り時の被害封じ込め",
+    "metrics": [
+      "監査済み/未監査Skill数",
+      "DO_NOT_INSTALL件数",
+      "submodule SHA更新時の再監査率",
+      "Skill由来tool call異常件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "静的監査の偽陰性（R13で2.5%）",
+    "監査結果を安全保証と誤解",
+    "submodule bump時に再監査を忘れる"
+  ],
+  "implementation_owner": "security",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "導入時数分〜数十分の監査、更新時の再監査",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "tool",
+    "harness",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "static scan単独で安全と判断",
+    "marketplace人気を信頼根拠にする",
+    "LLMベース審査単独（DDIPEは暗黙payloadで回避）"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "SkillSpector更新",
+    "R13追試",
+    "MCP spec改訂",
+    "submodule SHA更新"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "RMD-C03-002",
+  "problem_ids": [
+    "C03",
+    "C04"
+  ],
+  "summary": "Claude Code設定層: 永続すべき規則をproject-root CLAUDE.md/unscoped rulesへ置き、/autocompact閾値を早めに設定、PreCompact hookでcheckpoint保存、SKILL.mdは重要指示を先頭に置く(5,000 token/skill切詰め)",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/context-window",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: compaction後にproject-root CLAUDE.md・unscoped rules・auto memoryは再注入、paths付rules・nested CLAUDE.md・会話内指示は失われる、skill bodyは1skill 5,000/合計25,000 tokenで再注入。/compact focus指示、/autocompact閾値、/clear、subagentへの大量読込委譲、/contextでの実測を推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/memory",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code公式: CLAUDE.mdは200行未満を目標、長いと遵守率低下。path-scoped rules・skillsでon-demand化。@importは起動時に全読込で節約にならない。矛盾する指示は任意に一方が選ばれる。/doctorがCLAUDE.mdのtrimを提案。auto memory MEMORY.mdは先頭200行/25KBのみ読込、`modified` timestamp付与(v2.1.214+)。CLAUDE.mdはcontextであり強制ではなくhookで強制する",
+      "quality": "high"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Claude Codeでの長時間session"
+    ],
+    "not_applicable_when": [
+      "Codex(相当機能はcompaction thresholdとAGENTS.md再読でclient依存)"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "compactionで失われる指示の削減",
+    "metrics": [
+      "compaction後の指示違反件数",
+      "skill body切詰め発生"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "autocompactを早めすぎると要約回数増でも情報欠落",
+    "hookは実行coderなので保守が要る"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "settings.json数行",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness"
+  ],
+  "known_failure_modes": [
+    "CLAUDE.mdを強制装置と誤解: contextに過ぎず、遮断はPreToolUse hook/permissions.denyで行う(公式)"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Claude Code release(compaction/hook仕様)"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "schema_version": "1.0",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

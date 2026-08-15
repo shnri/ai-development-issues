@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-I01-002",
+  "problem_ids": [
+    "I01",
+    "I02",
+    "I09",
+    "I10"
+  ],
+  "summary": "AGENTS.md/system promptで外部由来テキスト（issue、PR、web、log、Skill内サンプル）を『data、not instructions』と明示し、Agentの目的を単一scopeに固定し、tool allowlistを目的に必要な最小に絞る",
+  "remedy_type": "instruction",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "postmortem",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/",
+      "observed_at": "2026-06-05",
+      "summary": "System prompt hardening: GitHub event sourceをuntrusted user inputと宣言、単一目的にscope固定、tool allowlist縮小を推奨",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Best practices: untrusted contentをClaudeへ直接pipeしない、提案commandを承認前に確認",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2604.03081",
+      "observed_at": "2026-04-03",
+      "summary": "Explicit instruction攻撃は強い防御下で0%成功だが、doc内code例/templateに埋めたDDIPEは11.6–33.5%bypass。指示層は明示攻撃には効くが暗黙payloadには不十分",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "observed_at": "2025-12-09",
+      "summary": "ASI01の緩和として目的固定・入力信頼境界の明示",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Agentがuntrusted textを処理するworkflow全般",
+      "Skill/README由来のcode例をそのまま実行・複製する運用"
+    ],
+    "not_applicable_when": [
+      "harness側でsandbox・権限分離が未実装（指示だけでは防げない）"
+    ],
+    "controllable_layer": "instruction",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "明示的injectionの成功率低下とscope外要求の拒否",
+    "metrics": [
+      "injection eval合格率",
+      "scope外action件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "過剰なsecurity前置きでcontextを圧迫",
+    "指示は確率的で保証にならない"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "数分（AGENTS.md追記）",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "harness",
+    "test-strategy"
+  ],
+  "known_failure_modes": [
+    "指示層のみでの防御（R13でDDIPE残存）",
+    "'常に慎重に'等の抽象指示"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "model更新（injection耐性変化）",
+    "AGENTS.md改訂"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category I)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

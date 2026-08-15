@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-F15-001",
+  "problem_ids": [
+    "F15",
+    "F16"
+  ],
+  "summary": "evalをcapability suite(低pass率)とregression suite(≈100%)に分離してownerを置き、production failure・bug tracker・support queueから継続的にケースを追加し、複数benchmarkと監査済みsubsetでmodel比較する",
+  "remedy_type": "process",
+  "maturity": "validated",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-01-09",
+      "summary": "Anthropic: capability evalは低pass率から始め、regression evalは≈100%を維持。「An eval suite is a living artifact that needs ongoing attention and clear ownership」。bug tracker/support queueからeval開始。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/",
+      "observed_at": "2026-02-23",
+      "summary": "OpenAI: SWE-bench Verifiedはtraining exposureと欠陥testでfrontier比較に使えず評価を中止。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://openai.com/index/separating-signal-from-noise-coding-evaluations/",
+      "observed_at": "2026-07-08",
+      "summary": "OpenAI: SWE-Bench Proも約30% brokenで推奨撤回。監査済みsubsetと複数evalを推奨。",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-eval-separation",
+      "observed_at": "2026-08-11",
+      "summary": "capability/regression分離とowner保守(operationally-supported)。",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-evaluation-oracle-decay-task-audit",
+      "observed_at": "2026-08-11",
+      "summary": "task/test/referenceの再監査(evidence-supported)。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Skill・prompt・model選択を継続的に評価する(例: skill eval, model migration判断)",
+      "production failureを記録している"
+    ],
+    "not_applicable_when": [
+      "evalを持たない小規模用途(先にRMD-F13-001の記録から始める)"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "generic",
+      "Claude Code",
+      "Codex"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "evalの陳腐化・飽和を検出し、現在の実務を測るsuiteを維持する",
+    "metrics": [
+      "suite更新頻度",
+      "ceiling(飽和)率",
+      "production failure→eval追加率",
+      "benchmark数と監査済み比率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "suite増加とcompute",
+    "owner不在で形骸化",
+    "public benchmarkのcontaminationは完全には検証不能"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "中: eval registryとowner運用",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "observability"
+  ],
+  "known_failure_modes": [
+    "saturated benchmarkのfrontier順位への継続利用(local card)",
+    "regression 100%だけで新能力を測る",
+    "aggregate scoreだけで採用判断"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "frontier model saturation",
+    "benchmark推奨撤回",
+    "harness変更"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-K08-001",
+  "problem_ids": [
+    "K08"
+  ],
+  "summary": "Skill/Pluginは製品固有形式ではなくAgent Skills spec（SKILL.md）とAgent Plugins spec 1.0.0に準拠したportable folderを正本にし、製品別pathはsymlink/thin adapterにする。Sessionは製品固有のためGit成果物（commit・progress file・PR）を正本にする。",
+  "remedy_type": "structural-decision",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "standard",
+      "reference": "https://agentskills.io/specification",
+      "observed_at": "2026-08-15",
+      "summary": "SKILL.md frontmatter（name/description必須、license/compatibility/metadata/allowed-tools任意）、scripts/references/assets、progressive disclosure、`skills-ref validate`。",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://agentskills.io/home",
+      "observed_at": "2026-08-15",
+      "summary": "採用client一覧にClaude Code、ChatGPT & Codex、GitHub Copilot、VS Code、Cursor、Gemini CLI、OpenCode、OpenHands、Goose、Kiro等。'Cross-product reuse: Build a skill once and use it across any skills-compatible agent'。",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://github.com/agentplugins/agent-plugins-spec/blob/main/spec/1.0.0.md",
+      "observed_at": "2026-08-15",
+      "summary": "Agent Plugins 1.0.0: plugin.json（$schema,name必須）、skills/はAgent Skills specに'MUST conform'、mcp.json（stdio/streamable-http/sse）。hooks/agents/commandsはv1では非portable（client拡張）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sessions",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code sessionはlocal JSONL・内部形式で製品間互換なし（形式は版で変わる）。",
+      "quality": "medium"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Claude CodeとCodex等を併用しSkill/Pluginを共有する（TechLogはvendor submodule＋symlink運用）",
+      "チーム/組織横断でSkillを配布"
+    ],
+    "not_applicable_when": [
+      "単一製品固有機能（hooks, subagents, slash command）に依存する部分→非portableとして分離管理"
+    ],
+    "controllable_layer": "structure",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "製品追加・切替時の再作成をなくし、正本1つで複数agentに提供",
+    "metrics": [
+      "portable spec準拠率（skills-ref validate合格）",
+      "製品固有adapterの行数",
+      "製品追加時の移植工数"
+    ],
+    "confidence": "high"
+  },
+  "risks": [
+    "allowed-toolsはexperimentalで実装差",
+    "hooks/agents等は依然分断"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "既存Skillのspec準拠化と検証scriptの導入",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process"
+  ],
+  "known_failure_modes": [
+    "Session履歴の可搬性を期待する（provider-controlled、現状規格なし）",
+    "製品固有frontmatterをSKILL.md本体に混ぜて他clientで壊れる"
+  ],
+  "last_verified_at": "2026-08-15",
+  "revalidate_when": [
+    "Agent Skills spec改定",
+    "Agent Plugins spec 1.x更新",
+    "主要clientの採用状況変化"
+  ],
+  "created_at": "2026-08-15",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category K)",
+  "provenance": {
+    "origin": "techlog 0.1.0 research run 2026-08-15",
+    "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  }
+}
