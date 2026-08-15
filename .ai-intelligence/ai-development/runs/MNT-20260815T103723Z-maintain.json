@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "id": "MNT-20260815T103723Z",
+  "started_at": "2026-08-15T10:37:23Z",
+  "completed_at": "2026-08-15T10:37:36Z",
+  "mode": "maintain",
+  "catalog_revision_before": 51,
+  "catalog_revision_after": 51,
+  "plan": {
+    "inventory_problem_ids": [],
+    "inventory_items": [],
+    "discovery_source_ids": [],
+    "discovery_sources": [],
+    "research_problem_ids": [],
+    "research_items": [],
+    "limits": {
+      "inventory": 30,
+      "external_research": 12
+    },
+    "workflow": [
+      "inventory due problems",
+      "scan due discovery sources",
+      "deduplicate and register candidates",
+      "research new/reactivated/materially changed problems in the same run",
+      "write a concise catalog delta report"
+    ]
+  },
+  "results": {
+    "new": 0,
+    "reactivated": 0,
+    "inactive": 0,
+    "obsolete": 0,
+    "updated": 0,
+    "quick_wins": 0,
+    "notes": "Scheduled maintain run: deterministic plan empty. All 6 discovery sources scanned earlier today (2026-08-15T09:29:50Z) within their 7-14 day cadences; inventory batch of 30 reviewed in MNT-20260815T092627Z and remaining 149 reviews applied via techlog authority merge MRG-20260815-001; research coverage 179/179 current. Idempotency policy forbids repeating in-cadence scans or re-researching current remedies. Zero-delta run; catalog integrity check passed (revision 51, 179 problems).",
+    "catalog_summary": {
+      "catalog_id": "ai-development-problems",
+      "revision": 51,
+      "updated_at": "2026-08-15T10:33:31Z",
+      "problem_count": 179,
+      "by_status": {
+        "active": 179
+      },
+      "by_research_status": {
+        "current": 179
+      }
+    }
+  },
+  "status": "completed"
+}
