@@ -24,14 +24,14 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "audited",
-      "updated_at": "2026-08-15T15:40:00Z"
+      "status": "covered",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
   "status": "applied",
   "notes": [
-    "2026-08-15 techlog: consumer audit: partial, no change needed",
-    "status applied = consumer audit finished with no change needed"
+    "status applied = consumer audit finished with no change needed",
+    "2026-08-15 techlog: covered — automation-policy（baseline/holdout/3 trials/sequential trial plan）で方針は既に採用済み；実行実績は次回 evaluation で蓄積。"
   ]
 }

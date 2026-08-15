@@ -22,13 +22,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "proposed",
-      "updated_at": "2026-08-15T15:40:00Z"
+      "status": "decision-required",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
+  "status": "blocked",
   "notes": [
-    "2026-08-15 techlog: consumer audit recorded a concrete change proposal outside the controller's allowed paths or at R2/R3; awaiting owner"
+    "2026-08-15 techlog: decision-required — project 層 model_reasoning_effort=medium は owner の user 設定（xhigh）を上書きするため owner 判断。Claude 側は reviewer subagent の effort: medium で対応済み。"
   ]
 }

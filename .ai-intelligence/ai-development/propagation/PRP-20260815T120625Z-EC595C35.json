@@ -25,10 +25,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "queued"
+      "status": "unresolved",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
   "status": "queued",
-  "notes": []
+  "notes": [
+    "2026-08-15 techlog: unresolved — mutation testing（StrykerJS）/ fast-check は依存追加とCI時間を伴い、CI gate自体が未整備（FND-002）。CI導入後に再評価。"
+  ]
 }

@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "id": "PRP-20260815T145558Z-374BB4B5",
+  "work_item_id": "WRK-20260815T111513Z-2C9FE6B0",
+  "release_id": "REL-20260815T112419Z-C340FEFB",
+  "created_at": "2026-08-15T14:55:58Z",
+  "problem_ids": [
+    "B04"
+  ],
+  "asset": {
+    "kind": "shared-release",
+    "repository_id": "shared-agent-plugins",
+    "version": "v0.9.1",
+    "distribution": "git",
+    "commit_sha": "4fce15c7168446d4986028a83a595235720aed7e",
+    "pull_request_url": null
+  },
+  "consumer_actions": [
+    {
+      "consumer_id": "techlog",
+      "action": "update-and-audit",
+      "status": "adopted",
+      "updated_at": "2026-08-15T17:30:00Z",
+      "adoption_id": "ADP-20260815-030"
+    }
+  ],
+  "auto_update_consumers": false,
+  "status": "applied",
+  "notes": [
+    "2026-08-15 techlog: adopted (ADP-20260815-030)"
+  ]
+}

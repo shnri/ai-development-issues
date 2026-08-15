@@ -39,7 +39,7 @@
   "repository": "https://github.com/shnri/ai-development-issues",
   "visibility": "public",
   "plugin_version": "ai-development-improvement 0.5.0",
-  "plugin_checkout": "vendor/shared-agent-plugins (git submodule, pinned to v0.9.0 / 5053784)",
+  "plugin_checkout": "vendor/shared-agent-plugins (git submodule, pinned to v0.9.1 / 2e45082)",
   "public_boundary": {
     "allowed": [
       "catalog",
@@ -66,5 +66,5 @@
     "at": "2026-08-15",
     "method": "git filter-branch history extraction; per-file sha256 verified identical (419 files)"
   },
-  "updated_at": "2026-08-15T14:55:00Z"
+  "updated_at": "2026-08-15T16:10:00Z"
 }

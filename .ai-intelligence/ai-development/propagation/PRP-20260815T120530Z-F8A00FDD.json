@@ -24,10 +24,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "queued"
+      "status": "covered",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
-  "notes": []
+  "status": "applied",
+  "notes": [
+    "2026-08-15 techlog: covered — AI利用開示はCo-Authored-By trailer規則（ADP-005）で採用。CODEOWNERS/必須reviewは個人repoでreviewer不在のため非該当（branch rulesetはDEC I04で判断）。"
+  ]
 }

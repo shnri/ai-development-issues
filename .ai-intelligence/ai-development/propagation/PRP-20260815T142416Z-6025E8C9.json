@@ -22,13 +22,14 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "proposed",
-      "updated_at": "2026-08-15T15:40:00Z"
+      "status": "adopted",
+      "updated_at": "2026-08-15T17:30:00Z",
+      "adoption_id": "ADP-20260815-021"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
+  "status": "applied",
   "notes": [
-    "2026-08-15 techlog: consumer audit recorded a concrete change proposal outside the controller's allowed paths or at R2/R3; awaiting owner"
+    "2026-08-15 techlog: adopted (ADP-20260815-021)"
   ]
 }

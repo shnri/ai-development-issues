@@ -2,13 +2,13 @@
   "schema_version": "1.0",
   "id": "WRK-20260815T111513Z-2C9FE6B0",
   "created_at": "2026-08-15T11:15:13Z",
-  "updated_at": "2026-08-15T11:22:39Z",
+  "updated_at": "2026-08-15T14:55:58Z",
   "problem_ids": [
     "B04"
   ],
   "remedy_id": "RMD-B04-001",
   "source_run_id": "MNT-20260815T111324Z",
-  "state": "release-ready",
+  "state": "completed",
   "scope": "global",
   "target": {
     "kind": "shared-existing-asset",
@@ -26,10 +26,8 @@
   "evaluation_id": "EVL-20260815T112239Z-FEB1AE9E",
   "promotion_id": "PRO-20260815T112239Z-4DC374F7",
   "release_id": "REL-20260815T112419Z-C340FEFB",
-  "next_step": "release",
-  "blockers": [
-    "Release is pending: branch-pushed."
-  ],
+  "next_step": "none",
+  "blockers": [],
   "history": [
     {
       "at": "2026-08-15T11:15:13Z",
@@ -92,6 +90,27 @@
       "from": "promoted",
       "to": "release-ready",
       "reason": "candidate ready for release strategy pull-request",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:55:58Z",
+      "from": "release-ready",
+      "to": "released",
+      "reason": "shared release merged to main as shared-agent-plugins v0.9.1 (2e45082); agent-instruction-maintenance 0.1.1",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:55:58Z",
+      "from": "released",
+      "to": "propagation-pending",
+      "reason": "release is ready for consumer propagation",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:55:58Z",
+      "from": "propagation-pending",
+      "to": "completed",
+      "reason": "propagation event recorded",
       "actor": "controller"
     }
   ]

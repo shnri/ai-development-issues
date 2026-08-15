@@ -23,13 +23,14 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "applied",
-      "updated_at": "2026-08-15T15:40:00Z"
+      "status": "adopted",
+      "updated_at": "2026-08-15T17:30:00Z",
+      "adoption_id": "ADP-20260815-014"
     }
   ],
   "auto_update_consumers": false,
   "status": "applied",
   "notes": [
-    "2026-08-15 techlog: applied by consumer (adoption ADP-20260815-014, branch ai-development-improvement/remediation-bootstrap-20260815); effect audit pending"
+    "2026-08-15 techlog: adopted (ADP-20260815-014)"
   ]
 }

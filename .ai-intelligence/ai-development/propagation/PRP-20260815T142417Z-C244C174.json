@@ -23,13 +23,14 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "review-pending",
-      "updated_at": "2026-08-15T15:40:00Z"
+      "status": "adopted",
+      "updated_at": "2026-08-15T17:30:00Z",
+      "adoption_id": "ADP-20260815-019"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
+  "status": "applied",
   "notes": [
-    "2026-08-15 techlog: implemented by consumer on a reviewed R2 branch (hook gates); not merged"
+    "2026-08-15 techlog: adopted (ADP-20260815-019)"
   ]
 }

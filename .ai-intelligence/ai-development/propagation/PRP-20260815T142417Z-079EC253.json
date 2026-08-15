@@ -23,13 +23,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "proposed",
-      "updated_at": "2026-08-15T15:40:00Z"
+      "status": "not-applicable",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
+  "status": "applied",
   "notes": [
-    "2026-08-15 techlog: consumer audit recorded a concrete change proposal outside the controller's allowed paths or at R2/R3; awaiting owner"
+    "2026-08-15 techlog: not-applicable — 41 Skill / 約4.8k token の listing は claude-fable-5[1m] の予算内で切り詰めなし。200k context へ戻す場合のみ skillOverrides を検討。"
   ]
 }

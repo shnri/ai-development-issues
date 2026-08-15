@@ -162,7 +162,1027 @@
       "research": [],
       "inventory": []
     },
-    "bootstrap_completed": false
+    "bootstrap_completed": false,
+    "remediation_status": {
+      "schema_version": "1.0",
+      "kind": "remediation-status-ledger",
+      "run_id": "MNT-20260815T141330Z",
+      "updated_at": "2026-08-15T17:30:00Z",
+      "vocabulary": {
+        "authority_state": [
+          "guidance-recorded",
+          "covered-by-existing-asset",
+          "superseded-by-release",
+          "released",
+          "decision-required",
+          "rejected"
+        ],
+        "consumer_outcome": [
+          "adopted",
+          "covered",
+          "not-applicable",
+          "decision-required",
+          "rejected",
+          "unresolved"
+        ]
+      },
+      "note": "authority_state = what the authority produced (guidance, coverage evidence, release, decision package); consumers.<id> = what actually happened in that consumer. A completed work item is not an adoption.",
+      "summary": {
+        "authority": {
+          "decision-required": 8,
+          "guidance-recorded": 43,
+          "covered-by-existing-asset": 8,
+          "released": 2,
+          "superseded-by-release": 4
+        },
+        "techlog": {
+          "adopted": 35,
+          "covered": 15,
+          "not-applicable": 3,
+          "unresolved": 2,
+          "decision-required": 10
+        },
+        "remedies": 65
+      },
+      "remedies": [
+        {
+          "remedy_id": "RMD-A01-002",
+          "problem_ids": [
+            "A01",
+            "A08",
+            "A10"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-52D43303",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-A11-002",
+          "problem_ids": [
+            "A01",
+            "A10",
+            "A11",
+            "A12"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-34FE642A",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-B03-001",
+          "problem_ids": [
+            "B01",
+            "B02",
+            "B03",
+            "B08"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-2251C1A5",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-B04-001",
+          "problem_ids": [
+            "B04"
+          ],
+          "work_item_id": "WRK-20260815T111513Z-2C9FE6B0",
+          "authority_state": "released",
+          "decision_package_id": null,
+          "release_id": "REL-20260815T112419Z-C340FEFB",
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-B11-001",
+          "problem_ids": [
+            "B07",
+            "B11"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-19352DC6",
+          "authority_state": "superseded-by-release",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-C01-001",
+          "problem_ids": [
+            "C01"
+          ],
+          "work_item_id": "WRK-20260815T111451Z-BCE24AA2",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "shared asset installed in the consumer (Skill routing/agent-instruction-maintenance); no project change needed"
+        },
+        {
+          "remedy_id": "RMD-C02-001",
+          "problem_ids": [
+            "C01",
+            "C02",
+            "C13"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-8A8367AA",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          }
+        },
+        {
+          "remedy_id": "RMD-C03-001",
+          "problem_ids": [
+            "C03",
+            "C04",
+            "C05"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-EF6A7151",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-C03-002",
+          "problem_ids": [
+            "C03",
+            "C04"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-8A2A86E8",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-C05-001",
+          "problem_ids": [
+            "C04",
+            "C05",
+            "C10"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-BED75CC1",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-C06-001",
+          "problem_ids": [
+            "C06",
+            "C07",
+            "C12"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-9BE3CFD9",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-C10-001",
+          "problem_ids": [
+            "C05",
+            "C10"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-3B798174",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-C11-001",
+          "problem_ids": [
+            "C11"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-92FA2ABB",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "not-applicable"
+          }
+        },
+        {
+          "remedy_id": "RMD-C12-001",
+          "problem_ids": [
+            "C06",
+            "C08",
+            "C12"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-66A373C2",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-D02-001",
+          "problem_ids": [
+            "D02",
+            "D04",
+            "D12",
+            "D13"
+          ],
+          "work_item_id": "WRK-20260815T120218Z-F41AF9E5",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "shared asset installed (skill-optimization/agent-instruction-maintenance)"
+        },
+        {
+          "remedy_id": "RMD-D03-001",
+          "problem_ids": [
+            "D03",
+            "D08",
+            "D11"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-CD5C5E13",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "consumer already uses CLAUDE.md→@AGENTS.md single source + vendor symlinks; audited by maintain-agent-instructions"
+        },
+        {
+          "remedy_id": "RMD-D04-001",
+          "problem_ids": [
+            "D04"
+          ],
+          "work_item_id": "WRK-20260815T111451Z-BF9E06A8",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "shared asset installed"
+        },
+        {
+          "remedy_id": "RMD-D05-001",
+          "problem_ids": [
+            "D05"
+          ],
+          "work_item_id": "WRK-20260815T111451Z-A14E381F",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "consumer AGENTS.md already applies impact-scoped verification (pilot solution-adoption)"
+        },
+        {
+          "remedy_id": "RMD-D09-001",
+          "problem_ids": [
+            "D09",
+            "D10",
+            "D11"
+          ],
+          "work_item_id": "WRK-20260815T122838Z-5E073CAB",
+          "authority_state": "released",
+          "decision_package_id": null,
+          "release_id": "REL-20260815T123352Z-BBE5F159",
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-D09-002",
+          "problem_ids": [
+            "D09",
+            "D10",
+            "D11"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-FBED6784",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "not-applicable"
+          }
+        },
+        {
+          "remedy_id": "RMD-D14-001",
+          "problem_ids": [
+            "D01",
+            "D02",
+            "D12",
+            "D14",
+            "D16"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-E769A207",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "shared asset installed (skill-optimization method); fingerprint recorded in project-profile"
+        },
+        {
+          "remedy_id": "RMD-D16-001",
+          "problem_ids": [
+            "D09",
+            "D10",
+            "D14",
+            "D16"
+          ],
+          "work_item_id": "WRK-20260815T120046Z-BA26DBA1",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "shared asset installed"
+        },
+        {
+          "remedy_id": "RMD-E03-001",
+          "problem_ids": [
+            "E01",
+            "E02",
+            "E03"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-832DF480",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-E04-001",
+          "problem_ids": [
+            "E04",
+            "E05",
+            "E07",
+            "E10"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-86B9B6A4",
+          "authority_state": "superseded-by-release",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-E08-001",
+          "problem_ids": [
+            "E04",
+            "E05",
+            "E08"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-477D94A9",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-E09-001",
+          "problem_ids": [
+            "E09",
+            "E10"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-5355ABE9",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-E11-001",
+          "problem_ids": [
+            "E03",
+            "E11",
+            "E12"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-FBD0E26C",
+          "authority_state": "superseded-by-release",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-F01-001",
+          "problem_ids": [
+            "F01",
+            "F03",
+            "F04",
+            "F05",
+            "F11"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-28C74D07",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-F03-001",
+          "problem_ids": [
+            "F03",
+            "F04",
+            "F05",
+            "F06",
+            "F20"
+          ],
+          "work_item_id": "WRK-20260815T120046Z-2E4CABA3",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "unresolved"
+          }
+        },
+        {
+          "remedy_id": "RMD-F08-001",
+          "problem_ids": [
+            "F07",
+            "F08",
+            "F18",
+            "F19"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-F2196D5A",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-F15-001",
+          "problem_ids": [
+            "F15",
+            "F16"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-CFAA2DA6",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "not-applicable"
+          }
+        },
+        {
+          "remedy_id": "RMD-F18-001",
+          "problem_ids": [
+            "F18",
+            "F19"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-F2C03E89",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "consumer AGENTS.md already has the staged verification gate; grounded reporting via v0.9.1 audit criteria"
+        },
+        {
+          "remedy_id": "RMD-F22-001",
+          "problem_ids": [
+            "F07",
+            "F19",
+            "F22"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-0DC673F9",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-G07-001",
+          "problem_ids": [
+            "G07",
+            "G11"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-C8126BF4",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-G08-001",
+          "problem_ids": [
+            "G08",
+            "G09",
+            "G10"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-05FE0D7B",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-G12-001",
+          "problem_ids": [
+            "G04",
+            "G12",
+            "G13"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-C5226E2A",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-G14-001",
+          "problem_ids": [
+            "G14",
+            "G19",
+            "G20",
+            "G24"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-7AC52418",
+          "authority_state": "superseded-by-release",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-G17-001",
+          "problem_ids": [
+            "G17"
+          ],
+          "work_item_id": "WRK-20260815T120045Z-67E88A80",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T120045Z-2476DE58",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-G22-001",
+          "problem_ids": [
+            "G05",
+            "G06",
+            "G09",
+            "G22",
+            "G24"
+          ],
+          "work_item_id": "WRK-20260815T120046Z-570E7277",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "unresolved"
+          }
+        },
+        {
+          "remedy_id": "RMD-H01-001",
+          "problem_ids": [
+            "H01",
+            "H02",
+            "H03",
+            "H12"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-BD681EC1",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-H01-002",
+          "problem_ids": [
+            "H01",
+            "H02"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-0282B2A5",
+          "authority_state": "covered-by-existing-asset",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          },
+          "coverage_reason": "model-behavior-operations installed; consumer runs mitigate mode on demand"
+        },
+        {
+          "remedy_id": "RMD-H03-001",
+          "problem_ids": [
+            "H03",
+            "H08",
+            "H09"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-592BCD50",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-H07-001",
+          "problem_ids": [
+            "H04",
+            "H05",
+            "H07",
+            "H08"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-0F0F8729",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T141339Z-9AB3FEF1",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-H12-001",
+          "problem_ids": [
+            "H02",
+            "H11",
+            "H12"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-03DA3C2F",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-H13-001",
+          "problem_ids": [
+            "H09",
+            "H13"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-92089391",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-H14-001",
+          "problem_ids": [
+            "H12",
+            "H14"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-F640E764",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-I01-001",
+          "problem_ids": [
+            "I01",
+            "I02",
+            "I10",
+            "I11"
+          ],
+          "work_item_id": "WRK-20260815T120045Z-8D71C7EA",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T120045Z-1FCB7A9D",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-I03-001",
+          "problem_ids": [
+            "I03",
+            "I04",
+            "I05",
+            "I06"
+          ],
+          "work_item_id": "WRK-20260815T120046Z-4B339DFC",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T120046Z-E87E5C26",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-I04-001",
+          "problem_ids": [
+            "I03",
+            "I04",
+            "I12",
+            "I17"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-9D8F661C",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T141339Z-0D3EE621",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-I06-001",
+          "problem_ids": [
+            "I05",
+            "I06",
+            "I14",
+            "I15"
+          ],
+          "work_item_id": "WRK-20260815T120045Z-36816B4B",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          }
+        },
+        {
+          "remedy_id": "RMD-I07-001",
+          "problem_ids": [
+            "I07",
+            "I09",
+            "I11",
+            "I16"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-59896DEB",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-I08-001",
+          "problem_ids": [
+            "I08"
+          ],
+          "work_item_id": "WRK-20260815T120045Z-152051AF",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-I10-001",
+          "problem_ids": [
+            "I05",
+            "I10",
+            "I16",
+            "I17"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-77362059",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T141339Z-131012AE",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-I14-001",
+          "problem_ids": [
+            "I05",
+            "I14"
+          ],
+          "work_item_id": "WRK-20260815T120045Z-8529904A",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T120045Z-7415E4AB",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-I16-001",
+          "problem_ids": [
+            "I07",
+            "I16"
+          ],
+          "work_item_id": "WRK-20260815T120045Z-8A4F59EB",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-J10-001",
+          "problem_ids": [
+            "J01",
+            "J04",
+            "J10",
+            "J16"
+          ],
+          "work_item_id": "WRK-20260815T120046Z-6C5D71F8",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          }
+        },
+        {
+          "remedy_id": "RMD-K01-001",
+          "problem_ids": [
+            "K01",
+            "K02",
+            "K09",
+            "K10"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-0BA6D4EF",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          }
+        },
+        {
+          "remedy_id": "RMD-K03-001",
+          "problem_ids": [
+            "K02",
+            "K03",
+            "K09"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-C1D1FCF4",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          }
+        },
+        {
+          "remedy_id": "RMD-K04-001",
+          "problem_ids": [
+            "K04",
+            "K05"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-6A072B16",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-K05-001",
+          "problem_ids": [
+            "K05",
+            "K07",
+            "K13"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-C59179A5",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "covered"
+          }
+        },
+        {
+          "remedy_id": "RMD-K06-001",
+          "problem_ids": [
+            "K06",
+            "K11"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-F424D9E1",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-K07-001",
+          "problem_ids": [
+            "K05",
+            "K07"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-B0E9EAE0",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-K08-001",
+          "problem_ids": [
+            "K08"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-90CE5268",
+          "authority_state": "decision-required",
+          "decision_package_id": "DEC-20260815T141339Z-2EFFCFC9",
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        },
+        {
+          "remedy_id": "RMD-K11-001",
+          "problem_ids": [
+            "K01",
+            "K11",
+            "K13"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-C9C6DFBE",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "adopted"
+          }
+        },
+        {
+          "remedy_id": "RMD-K13-001",
+          "problem_ids": [
+            "K13"
+          ],
+          "work_item_id": "WRK-20260815T141339Z-7342E005",
+          "authority_state": "guidance-recorded",
+          "decision_package_id": null,
+          "release_id": null,
+          "consumers": {
+            "techlog": "decision-required"
+          }
+        }
+      ]
+    }
   },
   "status": "completed",
   "run_record": ".ai-intelligence/ai-development/runs/MNT-20260815T141330Z-maintain.json",

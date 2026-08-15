@@ -21,10 +21,14 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "queued"
+      "status": "adopted",
+      "updated_at": "2026-08-15T17:30:00Z",
+      "adoption_id": "ADP-20260815-028"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
-  "notes": []
+  "status": "applied",
+  "notes": [
+    "2026-08-15 techlog: adopted (ADP-20260815-028)"
+  ]
 }

@@ -25,10 +25,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "queued"
+      "status": "unresolved",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
   "status": "queued",
-  "notes": []
+  "notes": [
+    "2026-08-15 techlog: unresolved — TechLogのRoutineはClaude.ai Cloud Routine側で定義され、repositoryに `claude -p` 呼び出しがない。turn/USD上限はRoutine設定（owner操作）で付与する必要がある。subagent maxTurnsは暴走観測がなく未採用（G08）。"
+  ]
 }

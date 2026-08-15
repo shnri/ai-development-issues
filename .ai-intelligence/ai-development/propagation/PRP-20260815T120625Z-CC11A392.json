@@ -24,10 +24,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "queued"
+      "status": "covered",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
-  "notes": []
+  "status": "applied",
+  "notes": [
+    "2026-08-15 techlog: covered — OTEL/content logging未導入（既定のredaction維持）、Dependabot alerts有効化はowner action。transcript保持短縮はK13 decision-required。"
+  ]
 }

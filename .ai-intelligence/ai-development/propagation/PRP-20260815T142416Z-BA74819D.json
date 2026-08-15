@@ -21,13 +21,13 @@
     {
       "consumer_id": "techlog",
       "action": "apply-guidance-and-audit",
-      "status": "proposed",
-      "updated_at": "2026-08-15T15:40:00Z"
+      "status": "decision-required",
+      "updated_at": "2026-08-15T17:30:00Z"
     }
   ],
   "auto_update_consumers": false,
-  "status": "queued",
+  "status": "blocked",
   "notes": [
-    "2026-08-15 techlog: consumer audit recorded a concrete change proposal outside the controller's allowed paths or at R2/R3; awaiting owner"
+    "2026-08-15 techlog: decision-required — cleanupPeriodDays（推奨14）は transcript/checkpoint の不可逆削除を伴うため owner が日数を決める。Codex history.* は rollouts の保持を制御しないため対象外。"
   ]
 }
