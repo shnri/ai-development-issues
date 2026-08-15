@@ -99,7 +99,6 @@
   "created_at": "2026-08-15",
   "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
   "cluster": "B-優先順位・責務・参照整合",
-  "project_note": "TechLogはCLAUDE.md→@AGENTS.mdの単一ソース構成、vendor submoduleのSkillへsymlink（重複コピー回避）を既に採用。",
   "d11_note": "D11のうちSkill listing順序・compaction再添付順はprovider-controlled。設計側remedyはcoherent unit・非重複description・plugin名前空間・trigger eval（RMD-D09-001）。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",

@@ -33,14 +33,14 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
+      "reference": "consumer-record:techlog:.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
       "observed_at": "2026-08-12",
       "summary": "Anthropic Fable 5 guidance: 長時間runではprogress claimをtool結果へ接地し、context上限を理由に止めず、旧modelのscaffolding・memory前提を再評価する",
       "quality": "high"
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
+      "reference": "consumer-record:techlog:.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
       "observed_at": "2026-07-29",
       "summary": "Codex CLI/Desktopで自動compaction後に完了作業・次の実行箇所・subagent結果を失い反復する4件の独立報告(candidate/medium)。project-local durable stateを緩和として記録、未検証",
       "quality": "medium"

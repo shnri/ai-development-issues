@@ -34,7 +34,7 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "reference": "shared-agent-plugins:plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions inventory.mjs: Skill実体・symlink（broken検出）・duplicate-copies・行数を棚卸し。",
       "quality": "medium"

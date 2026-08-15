@@ -51,7 +51,7 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/.claude/skills/ai-development-improvement/references/research-foundations.md",
+      "reference": "plugin:ai-development-improvement/references/research-foundations.md",
       "observed_at": "2026-08-15",
       "summary": "本skillの設計判断: 'Broad test suites are final gates, not an automatic loop after every edit'",
       "quality": "medium"
@@ -112,7 +112,6 @@
     "test suite実行時間が大きく変わった",
     "CIがTIAを提供し始めた"
   ],
-  "techlog_notes": "TechLogは`vitest run`(全量)のみscript化。候補: `test:related`= `vitest related` / `test:changed`= `vitest run --changed`、`verify:quick`= lint+typecheck、`verify:final`= test+build。既定でminimal reporterが効いているか確認する。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

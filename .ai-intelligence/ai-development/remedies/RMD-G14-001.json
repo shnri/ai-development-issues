@@ -28,7 +28,7 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-high-effort-scope-creep",
+      "reference": "consumer-record:techlog:.ai-intelligence/model-behavior/issues.json#MBI-fable-high-effort-scope-creep",
       "observed_at": "2026-08-11",
       "summary": "MBI-fable-high-effort-scope-creep: verified/high。最小scope明示が緩和",
       "quality": "high"
@@ -98,7 +98,6 @@
     "model更新(scope creep傾向)",
     "hook仕様変更"
   ],
-  "techlog_notes": "AGENTS.mdは'依頼と無関係な差分を混ぜない'と`.steering`不作成条件を既に持つ。Fable 5向け境界文とOutput許可(例: scratchpad以外に一時fileを作らない)の追記が候補。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

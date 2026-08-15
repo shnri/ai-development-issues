@@ -75,7 +75,6 @@
     "vitest pool実装の変更",
     "並列agent運用の開始"
   ],
-  "techlog_notes": "vitest.config.tsにmaxWorkers未設定。devcontainer内で`nproc`と実測を取り、'50%'または固定値を比較する。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

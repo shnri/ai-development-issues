@@ -91,7 +91,6 @@
     "subagent/team機能の仕様変更",
     "model更新(委譲傾向変化)"
   ],
-  "techlog_notes": "TechLogの`.claude/agents/`とreview系skillsは並列subagentを使う。委譲条件と出力contractを各agent定義に持たせる。RMD-G22-001の同時数上限と併用。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

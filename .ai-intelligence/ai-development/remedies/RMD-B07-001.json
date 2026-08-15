@@ -34,7 +34,7 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/mitigations/MITIGATIONS-agent-review-capacity.md",
+      "reference": "consumer-record:techlog:.ai-intelligence/mitigations/MITIGATIONS-agent-review-capacity.md",
       "observed_at": "2026-08-11",
       "summary": "author-evidence（before/after証拠）はcandidate。",
       "quality": "low"

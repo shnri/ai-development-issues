@@ -110,7 +110,6 @@
     "Codex rules/approval仕様変更",
     "repositoryに未信頼の外部入力経路(MCP/skill)が増えた"
   ],
-  "techlog_notes": "TechLogの.claude/settings.jsonはSkill許可のみ。候補: `Bash(npm run lint)`, `Bash(npm run typecheck)`, `Bash(npm test)`, `Bash(npm run test:*)`, `Bash(npm run content:validate)`, `Bash(npm run build)`, `Bash(rg *)`。deny候補: `Read(./.env*)`, `Bash(git push *)`はask。Codex側は`.codex/rules/`は未使用。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

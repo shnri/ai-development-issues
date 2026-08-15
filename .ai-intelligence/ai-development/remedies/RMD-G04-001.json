@@ -43,14 +43,14 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
+      "reference": "consumer-record:techlog:.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
       "observed_at": "2026-08-11",
       "summary": "Codex compaction後に実行状態を失う(candidate/medium)。project-local durable stateへの記録が回復controlとして記載",
       "quality": "medium"
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-long-run-unsupported-progress",
+      "reference": "consumer-record:techlog:.ai-intelligence/model-behavior/issues.json#MBI-fable-long-run-unsupported-progress",
       "observed_at": "2026-08-11",
       "summary": "Fable 5長時間runの進捗claim接地(verified/high)",
       "quality": "high"
@@ -100,7 +100,6 @@
     "Fable 5後継でcontext挙動が変わった",
     "MBI-codex-compaction再検証"
   ],
-  "techlog_notes": "TechLogは複雑作業のみ`.steering`を使う方針(AGENTS.md)。routine/長時間runには軽量な進捗noteをscratchpadに置く運用が候補。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

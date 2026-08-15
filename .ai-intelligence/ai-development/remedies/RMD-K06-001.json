@@ -40,7 +40,7 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json#anthropic-fable-effort-guidance",
+      "reference": "consumer-record:techlog:.ai-intelligence/official-guidance/ledger.json#anthropic-fable-effort-guidance",
       "observed_at": "2026-08-15",
       "summary": "ledger: Fable 5 / effort guidance（routine taskは低effort推奨）。",
       "quality": "medium"

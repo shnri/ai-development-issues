@@ -58,7 +58,7 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "reference": "shared-agent-plugins:plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions: 6分類（維持/圧縮/移動/更新/統合/削除）と陳腐化/維持シグナル、「監査結果そのものを恒久ルールとして追加しない。再発する失敗だけをルール化する」。",
       "quality": "medium"

@@ -57,7 +57,7 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json",
+      "reference": "consumer-record:techlog:.ai-intelligence/official-guidance/ledger.json",
       "observed_at": "2026-08-12",
       "summary": "effort guidance: 既定highから下げる場合はworkload固有評価で品質維持を確認（anthropic-fable-effort-guidance）。",
       "quality": "medium"

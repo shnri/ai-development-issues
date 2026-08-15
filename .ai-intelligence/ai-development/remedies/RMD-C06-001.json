@@ -26,7 +26,7 @@
     },
     {
       "kind": "field-report",
-      "reference": "/workspaces/techlog/node_modules/next/dist/docs/ + node_modules/next/dist/server/lib/generate-agent-files.js",
+      "reference": "npm:next/dist/docs/ + node_modules/next/dist/server/lib/generate-agent-files.js",
       "observed_at": "2026-08-15",
       "summary": "Next.js 16はinstall済みversionと一致するdocsをnode_modules内に同梱し、`next dev`がAGENTS.md/CLAUDE.mdへ「training dataと異なるので書く前にnode_modules/next/dist/docs/を読め」ブロックを自動追記する。TechLogでも観測済み",
       "quality": "medium"

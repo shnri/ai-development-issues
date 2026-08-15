@@ -48,7 +48,7 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json",
+      "reference": "consumer-record:techlog:.ai-intelligence/official-guidance/ledger.json",
       "observed_at": "2026-08-12",
       "summary": "TechLog official-guidance ledger: guidance毎にrevision/observed_at/may_replaceを記録し、再確認triggerの入力源として使える。",
       "quality": "medium"

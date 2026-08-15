@@ -21,7 +21,7 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json",
+      "reference": "consumer-record:techlog:.ai-intelligence/official-guidance/ledger.json",
       "observed_at": "2026-08-12",
       "summary": "TechLog ledger: anthropic-fable-5-agent-capabilities-and-scaffolding（may_replace: prior-model-scaffolding, short-run-timeout-assumptions）、instruction-and-scope-guidance（may_replace: exhaustive-behavior-instructions, generic-scope-guardrails）、long-run-reliability（may_replace: context-budget-stop-instructions）。",
       "quality": "high"
@@ -42,7 +42,7 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "reference": "shared-agent-plugins:plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions: 「モデルの進歩だけを削除理由にしない」— 一次情報とevalで裏付ける。",
       "quality": "medium"

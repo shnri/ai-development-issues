@@ -55,7 +55,7 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/vendor/shared-agent-plugins/plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "reference": "shared-agent-plugins:plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
       "observed_at": "2026-08-11",
       "summary": "maintain-agent-instructions audit-criteria: 「『必ず』『すべて』『絶対』が多いが例外条件や防ぐ失敗がない」を陳腐化シグナル、「毎回必ず同じ判定をする形式検証」は決定論的仕組みへ移す。",
       "quality": "medium"
@@ -115,7 +115,6 @@
   "created_at": "2026-08-15",
   "researched_by": "ai-development-improvement research 2026-08-15 (category D)",
   "cluster": "A-常時contextの縮小と分離",
-  "project_note": "TechLog AGENTS.mdは既に『変更の影響に応じて』段階別検証を採用。残るのは指示に含まれる機械的規則の棚卸し。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

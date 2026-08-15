@@ -100,7 +100,6 @@
     "Codexにturn/cost cap設定が追加された",
     "subagent既定上限の変更"
   ],
-  "techlog_notes": "TechLogのClaude Code Routine/`claude -p`系workflowに`--max-turns`と`--max-budget-usd`を付ける。`.claude/agents/*.md`のsubagentに`maxTurns`を検討。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

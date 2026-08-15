@@ -25,14 +25,14 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
+      "reference": "consumer-record:techlog:.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
       "observed_at": "2026-08-12",
       "summary": "官方guidance ledger: long autonomous runsは進捗をtool結果へ接地し、real blockerまで継続、context limitで止まらない。",
       "quality": "high"
     },
     {
       "kind": "field-report",
-      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-long-run-unsupported-progress",
+      "reference": "consumer-record:techlog:.ai-intelligence/model-behavior/issues.json#MBI-fable-long-run-unsupported-progress",
       "observed_at": "2026-08-11",
       "summary": "MBI-fable-long-run-unsupported-progress: verified/high。TechLogでは未再現・未計測。",
       "quality": "medium"

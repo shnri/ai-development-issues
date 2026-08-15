@@ -34,7 +34,7 @@
     },
     {
       "kind": "local-mitigation-card",
-      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-fable-high-effort-scope-creep",
+      "reference": "consumer-record:techlog:.ai-intelligence/model-behavior/issues.json#MBI-fable-high-effort-scope-creep",
       "observed_at": "2026-08-11",
       "summary": "MBI-fable-high-effort-scope-creep（verified, high confidence）: 高effort・曖昧task・scope境界不明時に未依頼のtidying/refactor/abstractionへ広がる。TechLogのAGENTS.mdは無関係差分禁止を持つがFable 5で未評価。",
       "quality": "medium"

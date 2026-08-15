@@ -98,7 +98,6 @@
     "vitest reporter変更",
     "repository規模の大幅変化"
   ],
-  "techlog_notes": "`.claude/settings.json`のhooksは空。test出力filter hookとcompact指示が最小候補。auto memoryはnamed volume `techlog-claude-home`で永続化済み。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

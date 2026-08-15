@@ -101,7 +101,6 @@
     "flaky testの根治",
     "R5後続研究の更新"
   ],
-  "techlog_notes": "AGENTS.mdは検証commandを列挙するが再試行上限・flake扱いは未定義。'同じ失敗を2回見たら再実行せず原因を報告' 等を追加候補。",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

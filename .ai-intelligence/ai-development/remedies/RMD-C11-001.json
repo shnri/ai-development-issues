@@ -17,7 +17,7 @@
     },
     {
       "kind": "official-guidance",
-      "reference": "/workspaces/techlog/.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
+      "reference": "consumer-record:techlog:.ai-intelligence/official-guidance/ledger.json#anthropic-fable-5-long-run-reliability",
       "observed_at": "2026-08-12",
       "summary": "Anthropic Fable 5 guidance: 長時間runではprogress claimをtool結果へ接地し、context上限を理由に止めず、旧modelのscaffolding・memory前提を再評価する",
       "quality": "high"

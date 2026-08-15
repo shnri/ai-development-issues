@@ -42,7 +42,7 @@
     },
     {
       "kind": "field-report",
-      "reference": "/workspaces/techlog/.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
+      "reference": "consumer-record:techlog:.ai-intelligence/model-behavior/issues.json#MBI-codex-compaction-loses-execution-state",
       "observed_at": "2026-07-29",
       "summary": "Codex CLI/Desktopのcompaction後に完了済み作業・次の実行箇所を失い停止・反復する複数の独立report（issues 16042/25792/35226/35935）。project-local durable stateは回復controlとして提案済み（provider欠陥の修正ではない）。",
       "quality": "medium"
