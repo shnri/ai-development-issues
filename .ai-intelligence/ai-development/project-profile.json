@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "project": "shared-agent-plugins",
   "state_root": ".ai-intelligence/ai-development",
   "specification": {
@@ -30,5 +30,10 @@
     "plugins": {},
     "repository_revision": null
   },
-  "created_at": "2026-08-15T09:26:24Z"
+  "created_at": "2026-08-15T09:26:24Z",
+  "automation": {
+    "mode": "closed-loop",
+    "policy_path": ".ai-intelligence/ai-development/automation-policy.json",
+    "target_registry_path": ".ai-intelligence/ai-development/target-registry.json"
+  }
 }

@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0",
+  "targets": [
+    {
+      "id": "current-project",
+      "enabled": true,
+      "roles": [
+        "authority",
+        "project"
+      ],
+      "kind": "project-repository",
+      "checkout": {
+        "mode": "existing-path",
+        "path": ".",
+        "url": null,
+        "branch": null,
+        "expected_remote_url": null
+      },
+      "artifact_root": null,
+      "default_branch": "main",
+      "allowed_paths": [
+        ".ai-intelligence/ai-development/**",
+        "CLAUDE.md",
+        "AGENTS.md",
+        ".claude/**",
+        ".agents/**"
+      ],
+      "protected_paths": [
+        ".env*",
+        "**/.env*",
+        "**/*secret*",
+        "**/*credential*",
+        ".git/**"
+      ],
+      "validation_commands": [],
+      "release": {
+        "strategy": "branch",
+        "remote": "origin",
+        "base_branch": "main",
+        "branch_prefix": "ai-development-improvement/"
+      }
+    },
+    {
+      "id": "shared-agent-plugins",
+      "enabled": true,
+      "roles": [
+        "shared-assets"
+      ],
+      "kind": "shared-agent-repository",
+      "checkout": {
+        "mode": "existing-path",
+        "path": ".",
+        "url": "https://github.com/shnri/shared-agent-plugins.git",
+        "branch": null,
+        "expected_remote_url": "https://github.com/shnri/shared-agent-plugins.git"
+      },
+      "artifact_root": null,
+      "default_branch": "main",
+      "allowed_paths": [
+        "skills/**",
+        "agents/**",
+        "hooks/**",
+        "scripts/**",
+        "references/**",
+        "schemas/**",
+        "evals/**",
+        "plugin.json",
+        ".claude-plugin/plugin.json",
+        ".codex-plugin/plugin.json",
+        "README.md",
+        "CHANGELOG.md",
+        "FILE-MANIFEST.sha256",
+        "Makefile",
+        "docs/**",
+        "routines/**",
+        "marketplace/**",
+        "tests/**",
+        "LICENSE",
+        "**/skills/**",
+        "**/agents/**",
+        "**/hooks/**",
+        "**/scripts/**",
+        "**/references/**",
+        "**/schemas/**",
+        "**/evals/**",
+        "**/plugin.json",
+        "**/.claude-plugin/plugin.json",
+        "**/.codex-plugin/plugin.json",
+        "**/README.md",
+        "**/CHANGELOG.md",
+        "**/FILE-MANIFEST.sha256",
+        "package.json",
+        ".claude-plugin/marketplace.json",
+        ".agents/plugins/marketplace.json",
+        "**/examples/**",
+        "**/tests/**",
+        "**/docs/**",
+        "**/routines/**",
+        "**/Makefile",
+        "**/LICENSE"
+      ],
+      "protected_paths": [
+        ".env*",
+        "**/.env*",
+        "**/*secret*",
+        "**/*credential*",
+        ".git/**"
+      ],
+      "validation_commands": [
+        "npm run check"
+      ],
+      "release": {
+        "strategy": "pull-request",
+        "remote": "origin",
+        "base_branch": "main",
+        "branch_prefix": "ai-development-improvement/"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "match": {
+        "scopes": [
+          "global",
+          "domain",
+          "model"
+        ],
+        "remedy_types": [
+          "instruction",
+          "setting",
+          "test-strategy",
+          "process",
+          "harness",
+          "observability"
+        ]
+      },
+      "target_id": "shared-agent-plugins"
+    },
+    {
+      "match": {
+        "scopes": [
+          "project"
+        ]
+      },
+      "target_id": "current-project"
+    }
+  ]
+}

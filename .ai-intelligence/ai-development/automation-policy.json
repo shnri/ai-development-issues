@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "automation_mode": "closed-loop",
+  "max_action_items_per_run": 3,
+  "max_candidate_iterations_per_item": 2,
+  "auto_create_work_items_after_research": true,
+  "require_existing_solution_search_before_new_mechanism": true,
+  "require_baseline": true,
+  "require_independent_review": true,
+  "require_holdout_for_agent_behavior_changes": true,
+  "require_capability_health_check": true,
+  "separate_infrastructure_failures": true,
+  "default_repeated_trials": 3,
+  "risk_tiers": {
+    "R0": {
+      "description": "Provider-resolved or knowledge-only action with no target-repository modification.",
+      "auto_implement": true,
+      "auto_evaluate": true,
+      "auto_promote": true,
+      "release_strategy": "none"
+    },
+    "R1": {
+      "description": "Bounded, reversible, non-sensitive change to an existing Skill, instruction, script, test strategy, or configuration.",
+      "auto_implement": true,
+      "auto_evaluate": true,
+      "auto_promote": true,
+      "release_strategy": "target-default",
+      "max_changed_files": 12,
+      "max_changed_lines": 500
+    },
+    "R2": {
+      "description": "New Skill/Plugin, cross-cutting harness change, tool integration, dependency change, or broad workflow change.",
+      "auto_implement": true,
+      "auto_evaluate": true,
+      "auto_promote": false,
+      "release_strategy": "pull-request",
+      "max_changed_files": 30,
+      "max_changed_lines": 1500
+    },
+    "R3": {
+      "description": "Security boundary, production/data operation, credentials, permissions, legal/compliance, destructive action, or unresolved source-of-truth decision.",
+      "auto_implement": false,
+      "auto_evaluate": false,
+      "auto_promote": false,
+      "release_strategy": "none"
+    }
+  },
+  "release": {
+    "enabled": true,
+    "allow_direct_push": false,
+    "allow_force_push": false,
+    "allow_branch_delete": false,
+    "allow_merge_bypass": false,
+    "require_clean_base": true,
+    "require_validation_commands": true,
+    "require_version_bump_for_shared_plugins": true,
+    "require_changelog_for_shared_plugins": true,
+    "record_provenance": true,
+    "self_update_max_decision": "branch-review",
+    "authority_state_strategy": "branch",
+    "authority_state_remote": "origin",
+    "authority_state_branch_prefix": "ai-development-maintenance/",
+    "authority_state_push": true
+  },
+  "protected_patterns": [
+    "**/.env*",
+    "**/*credential*",
+    "**/*secret*",
+    "**/migrations/**",
+    "**/production/**",
+    ".git/**"
+  ],
+  "propagation": {
+    "create_consumer_events": true,
+    "auto_update_consumers": false,
+    "require_consumer_audit_after_update": true
+  },
+  "eligible_remedy_maturity": [
+    "official",
+    "validated"
+  ],
+  "eligible_priority_lanes": [
+    "S0",
+    "C1",
+    "Q1",
+    "F2"
+  ]
+}
