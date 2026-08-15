@@ -28,8 +28,9 @@
     }
   ],
   "auto_update_consumers": false,
-  "status": "audited",
+  "status": "applied",
   "notes": [
-    "2026-08-15 techlog: consumer audit: compliant, no change needed"
+    "2026-08-15 techlog: consumer audit: compliant, no change needed",
+    "status applied = consumer audit finished with no change needed"
   ]
 }
