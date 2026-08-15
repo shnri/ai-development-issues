@@ -1,23 +1,23 @@
 {
   "schema_version": "1.0",
-  "id": "IMP-20260815T120657Z-71AD6034",
-  "work_item_id": "WRK-20260815T120045Z-B4C7E5E5",
-  "created_at": "2026-08-15T12:06:57Z",
+  "id": "IMP-20260815T111900Z-663DCCDB",
+  "work_item_id": "WRK-20260815T111513Z-2C9FE6B0",
+  "created_at": "2026-08-15T11:19:00Z",
   "target_repository_id": "shared-agent-plugins",
   "target_path": ".ai-intelligence/ai-development/workspaces/shared-agent-plugins",
   "artifact_kind": "shared-existing-asset",
-  "action_type": "update-owner-asset",
-  "author_role": "candidate-author-subagent",
-  "baseline_ref": "95fcda2c2d54088619695da24bc9fd9b491771e8",
-  "candidate_ref": "39a9a970f6e497fbb0fe67780f5b142ca5b6c8f2f128a02c7d9dd8a48bb3b40d",
-  "base_revision": "95fcda2c2d54088619695da24bc9fd9b491771e8",
+  "action_type": "update-existing",
+  "author_role": "candidate-author",
+  "baseline_ref": "6e03799a61e5b779350335519509e5aee4f3f0aa",
+  "candidate_ref": "efbace5ed5292a9c32d6bf25af5876583f243f2f446ef97c56e80d1940305e3e",
+  "base_revision": "6e03799a61e5b779350335519509e5aee4f3f0aa",
   "branch": "main",
   "changed_files": [
     "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
   ],
   "diff_stats": {
     "files": 1,
-    "insertions": 9,
+    "insertions": 8,
     "deletions": 0
   },
   "reversible": true,
@@ -29,12 +29,11 @@
     ],
     "diff_stats": {
       "files": 1,
-      "insertions": 9,
+      "insertions": 8,
       "deletions": 0
     },
     "binary_changes": [],
     "reasons": []
   },
-  "status": "superseded",
-  "superseded_reason": "reviewer required edits (safety-precedence ordering, duplicate bullet, など) applied in iteration 2"
+  "status": "ready"
 }

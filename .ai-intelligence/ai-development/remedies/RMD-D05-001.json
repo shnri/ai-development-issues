@@ -118,5 +118,13 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "agent-instruction-maintenance",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+    "skill": "maintain-agent-instructions",
+    "coverage": "SKILL.md 判定の原則: deterministic checks move to tests/lint/hook/CI; audit-criteria「決定論的な仕組みへ移す」+ 陳腐化シグナル「必ず/すべて/絶対 without exception」.",
+    "verified_at": "2026-08-15",
+    "verified_by": "ai-development-improvement maintain MNT-20260815T111324Z"
   }
 }

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "id": "MNT-20260815T111324Z",
+  "started_at": "2026-08-15T11:13:24Z",
+  "completed_at": "2026-08-15T11:24:47Z",
+  "mode": "maintain",
+  "catalog_revision_before": 51,
+  "catalog_revision_after": 51,
+  "plan": {
+    "inventory_problem_ids": [],
+    "inventory_items": [],
+    "discovery_source_ids": [],
+    "discovery_sources": [],
+    "research_problem_ids": [],
+    "research_items": [],
+    "limits": {
+      "inventory": 30,
+      "external_research": 12
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "runnable_work_item_ids": []
+    },
+    "workflow": [
+      "inventory due problems",
+      "scan due discovery sources",
+      "deduplicate and register candidates",
+      "research new/reactivated/materially changed problems in the same run",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "commit/push authority state when configured",
+      "write a concise catalog and release delta report"
+    ]
+  },
+  "results": {
+    "new": 0,
+    "reactivated": 0,
+    "inactive": 0,
+    "obsolete": 0,
+    "updated": 10,
+    "quick_wins": 0,
+    "work_items_created": 8,
+    "candidates": 1,
+    "promoted": 1,
+    "released": 0,
+    "propagated": 0,
+    "decision_required": 3,
+    "blocked_items": 1,
+    "rejected": 0,
+    "notes": "Pilot closed-loop run (semantic eval). Phase A: no due inventory/sources. Phase B: action_queue mechanically selected 3 S0 R3 items (G17/I06/I08) -> decision packages written; controller judged 4 remedies (D04/D05/D02/C01) already covered by maintain-agent-instructions -> completed R0 with remedy.existing_asset; controller merged B04/E04/G14/E11/F18/B11 into one R1 candidate on agent-instruction-maintenance audit-criteria (WRK-...2C9FE6B0): baseline+candidate blind eval on T1/A1/H1 fixtures (1 trial/cell), independent review pass, promotion_gate promote, release branch-pushed (PR pending: gh unavailable; merge intentionally left to human review). Blocked: release pending review. Controller self-fixes discovered (release prep files, workspaces ignore, target==authority conflict) recorded separately.",
+    "catalog_summary": {
+      "catalog_id": "ai-development-problems",
+      "revision": 51,
+      "updated_at": "2026-08-15T10:33:31Z",
+      "problem_count": 179,
+      "by_status": {
+        "active": 179
+      },
+      "by_research_status": {
+        "current": 179
+      }
+    }
+  },
+  "status": "partial"
+}

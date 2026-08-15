@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T111451Z-BF9E06A8",
+  "created_at": "2026-08-15T11:14:51Z",
+  "updated_at": "2026-08-15T11:15:00Z",
+  "problem_ids": [
+    "D04"
+  ],
+  "remedy_id": "RMD-D04-001",
+  "source_run_id": "MNT-20260815T111324Z",
+  "state": "completed",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-existing",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R0",
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-D04-001 to shared-existing-asset will reduce D04 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T11:14:51Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T11:15:00Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "Controller verified that the existing shared Skill maintain-agent-instructions (agent-instruction-maintenance) already implements RMD-D04-001; see remedy.existing_asset.coverage. No new Skill or edit is justified (reuse precedence step 3). Effective risk R0: knowledge-only, remedy record annotated.",
+      "actor": "controller"
+    }
+  ]
+}

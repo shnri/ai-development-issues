@@ -48,7 +48,7 @@ PRIVATE_URL = re.compile(
 URL_WITH_CREDENTIALS = re.compile(r'(?i)\b(?:https?|ssh|git)://[^/\s"\']+:[^/\s"\']+@')
 # ``project_note(s)`` and ``<consumer>_note(s)`` carry consumer-specific observations; they belong to the consumer repository.
 # Role/process prefixes and problem-id prefixes (e.g. ``d11_note`` = cross-reference to problem D11) are generic and allowed.
-GENERIC_NOTE_PREFIXES = ('controller', 'reviewer', 'maintainer', 'release', 'research', 'structural', 'evaluation', 'migration', 'general', 'shared')
+GENERIC_NOTE_PREFIXES = ('controller', 'reviewer', 'maintainer', 'release', 'research', 'structural', 'evaluation', 'migration', 'general', 'shared', 'resolution', 'trials')
 FORBIDDEN_KEY = re.compile(r'^(?:project_notes?|(?P<prefix>[a-z0-9]+)_project_notes?|(?P<name>[a-z0-9]+)_notes?)$')
 
 

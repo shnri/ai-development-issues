@@ -1,0 +1,37 @@
+{
+  "work_item_id": "WRK-20260815T111513Z-2C9FE6B0",
+  "frozen_at": "2026-08-15T11:16:00Z",
+  "problem_ids": ["B04", "B05", "B12", "B01", "E04", "G14", "E11", "F18", "B11"],
+  "remedy_id": "RMD-B04-001",
+  "hypothesis": "Adding a short missing-signal section (scope/behavior boundary; completion grounded in tool results) to maintain-agent-instructions audit-criteria makes the audit surface these gaps on instruction files that lack them, without new findings on files that already have them and without recommending long new rules.",
+  "target_asset": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md",
+  "executor": "fresh subagent per run; input = SKILL.md + audit-criteria (baseline or candidate) + one fixture; output = JSON findings",
+  "trials_per_cell": 1,
+  "trials_note": "pilot deviation from default_repeated_trials=3; single trial per cell, recorded as a limitation",
+  "test_sets": [
+    {"kind": "target", "id": "T1", "file": "target-T1-AGENTS.md", "visible_to_author": true,
+     "assertions": [
+       {"id": "T1-a", "must": "reports that no scope/behavior boundary (out-of-scope refactor/abstraction/dependency prohibition) exists and proposes adding one"},
+       {"id": "T1-b", "must": "reports that completion/progress reporting is not grounded in tool results / no done criteria, and proposes adding one"},
+       {"id": "T1-c", "must": "still classifies the 'always all tests every time' rule and the GPT-4-era answer format rule as 圧縮/更新/削除 (regression guard for existing criteria)"},
+       {"id": "T1-d", "must_not": "proposes more than 3 new lines / a new long section for the two additions"}
+     ]},
+    {"kind": "adjacent", "id": "A1", "file": "adjacent-A1-AGENTS.md", "visible_to_author": true,
+     "assertions": [
+       {"id": "A1-a", "must_not": "reports missing scope boundary or missing completion grounding (both already present)"},
+       {"id": "A1-b", "must_not": "recommends removing or weakening the existing scope-boundary or completion-grounding lines"},
+       {"id": "A1-c", "must": "still flags the GPT-4-era answer format rule and the mandatory Japanese comment rule as candidates for 更新/削除/圧縮 or 保留 with reason"}
+     ]},
+    {"kind": "holdout", "id": "H1", "file": "holdout-H1-CLAUDE.md", "visible_to_author": false,
+     "assertions": [
+       {"id": "H1-a", "must": "reports missing done criteria / completion grounding"},
+       {"id": "H1-b", "must": "reports missing scope boundary (note: the file even mandates speculative interfaces/factories → 削除 + boundary)"},
+       {"id": "H1-c", "must": "recommends 削除/圧縮 for the always-plan, always-all-checks, show-your-thinking, and Claude 3.5-specific rules"},
+       {"id": "H1-d", "must": "keeps the production-DB and .env boundaries as 維持"},
+       {"id": "H1-e", "must_not": "adds a long new rule block; additions must be ≤3 short lines"}
+     ]}
+  ],
+  "metrics": {"primary": "assertion pass count per cell (baseline vs candidate)", "guardrails": ["no adjacent regression (A1-a, A1-b, A1-c)", "no long additions (T1-d, H1-e)", "维持 boundaries preserved (H1-d)"]},
+  "promotion_threshold": "candidate passes T1-a, T1-b, H1-a, H1-b that baseline fails or passes only partially; zero guardrail regressions; adjacent unchanged or better",
+  "roles": {"candidate_author": "subagent (cannot see H1; sees T1/A1 only as intent, not assertions)", "executor": "fresh subagent per cell", "evaluator": "subagent grading outputs blind to A/B labels", "reviewer": "subagent reviewing candidate diff for scope, leakage, contradiction", "controller": "main session applies promotion_gate.py"}
+}

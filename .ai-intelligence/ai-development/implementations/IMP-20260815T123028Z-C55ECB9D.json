@@ -4,7 +4,7 @@
   "work_item_id": "WRK-20260815T122838Z-5E073CAB",
   "created_at": "2026-08-15T12:30:28Z",
   "target_repository_id": "shared-agent-plugins",
-  "target_path": "/tmp/claude-1000/-workspaces-techlog/ada2e32e-dd18-4298-a4e1-a2466d68dc59/scratchpad/authority/.ai-intelligence/ai-development/workspaces/shared-agent-plugins",
+  "target_path": ".ai-intelligence/ai-development/workspaces/shared-agent-plugins",
   "artifact_kind": "shared-existing-asset",
   "action_type": "update-existing",
   "author_role": "candidate-author-subagent",

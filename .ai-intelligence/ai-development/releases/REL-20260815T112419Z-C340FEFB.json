@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "id": "REL-20260815T112419Z-C340FEFB",
+  "promotion_id": "PRO-20260815T112239Z-4DC374F7",
+  "created_at": "2026-08-15T11:24:19Z",
+  "repository_id": "shared-agent-plugins",
+  "strategy": "pull-request",
+  "base_branch": "main",
+  "branch": "ai-development-improvement/agent-instruction-maintenance-0.1.1",
+  "commit_sha": "4fce15c7168446d4986028a83a595235720aed7e",
+  "pull_request_url": null,
+  "status": "branch-pushed",
+  "validation_commands": [
+    "npm run check"
+  ],
+  "version_before": "0.1.0",
+  "version_after": "0.1.1",
+  "provenance": {
+    "problem_ids": [
+      "B04"
+    ],
+    "remedy_id": "RMD-B04-001",
+    "work_item_id": "WRK-20260815T111513Z-2C9FE6B0",
+    "implementation_id": "IMP-20260815T111900Z-663DCCDB",
+    "evaluation_id": "EVL-20260815T112239Z-FEB1AE9E",
+    "promotion_id": "PRO-20260815T112239Z-4DC374F7",
+    "changed_files": [
+      "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+      "plugins/agent-instruction-maintenance/CHANGELOG.md",
+      "plugins/agent-instruction-maintenance/plugin.json",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+    ],
+    "implementation_files": [
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+    ],
+    "release_preparation_files": [
+      "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+      "plugins/agent-instruction-maintenance/CHANGELOG.md",
+      "plugins/agent-instruction-maintenance/plugin.json"
+    ],
+    "artifact_hashes": {
+      "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json": "e01a52a16d3f3104c72aa063220ddba6b7a66966a30e7b1771d0b9d31c4962a7",
+      "plugins/agent-instruction-maintenance/CHANGELOG.md": "fa2eceafea7fa4fafb5e9772a036f50a0d209369a77c493aa1b7307e792dff02",
+      "plugins/agent-instruction-maintenance/plugin.json": "ed3a86bb09b78244ec11f737d6237a4b283a02624280114dec23ae54bb1188bf",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md": "16d8732dfbb3b738a52c10e3d09bcbae1744569ab94e6d87acf307ffde78090b"
+    },
+    "plugin_releases": [
+      {
+        "root": "plugins/agent-instruction-maintenance",
+        "version_before": "0.1.0",
+        "version_after": "0.1.1"
+      }
+    ]
+  },
+  "notes": [
+    "[ai-development-improvement/wrk-20260815t111513z-2c9fe6b0 3bcd7d0] improve(agent-instruction-maintenance): add 欠落シグナル to audit-criteria (B04/E04/G14/E11/F18 via WRK-20260815T111513Z-2C9FE6B0)\n 4 files changed, 25 insertions(+), 4 deletions(-)\n create mode 100644 plugins/agent-instruction-maintenance/CHANGELOG.md",
+    "GitHub CLI unavailable; branch delivery succeeded but PR creation is pending.",
+    "consolidated into ai-development-improvement/agent-instruction-maintenance-0.1.1 @ 4fce15c7 (agent-instruction-maintenance 0.1.1); PR still pending (no gh); resume detects merge into main"
+  ],
+  "consolidation": {
+    "at": "2026-08-15T12:50:00Z",
+    "original_branch": "ai-development-improvement/wrk-20260815t111513z-2c9fe6b0",
+    "original_commit_sha": "3bcd7d0b38ca209368049c1c80b6eef53fbebf12",
+    "original_version_after": "0.1.1",
+    "consolidated_branch": "ai-development-improvement/agent-instruction-maintenance-0.1.1",
+    "consolidated_head": "4fce15c7168446d4986028a83a595235720aed7e",
+    "candidate_commit": "20c1bb5",
+    "reason": "two pending releases of agent-instruction-maintenance (0.1.1 and 0.1.2) were merged into one reviewed branch and one next version 0.1.1; candidate diffs and evaluation records unchanged; original branches deleted from origin after consolidation"
+  },
+  "compare_url": "https://github.com/shnri/shared-agent-plugins/compare/main...ai-development-improvement/agent-instruction-maintenance-0.1.1?expand=1"
+}

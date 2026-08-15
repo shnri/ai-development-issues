@@ -116,5 +116,15 @@
     "coverage": "SKILL.md: \"Prefer removing obsolete workaround instructions over stacking new instructions when a newer model no longer needs them\" / \"Do not preserve a workaround forever... re-evaluate and remove obsolete instructions\"; mitigation-playbook.md: \"gate legacy behavior workarounds to old models; rerun regression evals before deleting a workaround\". Missing only the concrete inventory checklist (列挙型指示・強調命令・show-your-thinking・短run前提timeout・context予算表示) → follow-up candidate, not a new asset.",
     "verified_at": "2026-08-15",
     "verified_by": "ai-development-improvement maintain MNT-20260815T120030Z (second pilot)"
+  },
+  "pilot_1_annotations": {
+    "existing_asset": {
+      "asset_id": "agent-instruction-maintenance",
+      "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+      "skill": "maintain-agent-instructions",
+      "coverage": "audit-criteria 発動評価例「以前の弱いモデル向けルールがまだ必要か監査して」, 陳腐化シグナル (old tool/model assumptions), 証拠の優先順位 (model generation alone is not a reason) — covers workaround inventory with eval-based decision.",
+      "verified_at": "2026-08-15",
+      "verified_by": "ai-development-improvement maintain MNT-20260815T111324Z"
+    }
   }
 }

@@ -95,5 +95,11 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "implementation_target": {
+    "asset_id": "agent-instruction-maintenance",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md",
+    "skill": "maintain-agent-instructions",
+    "note": "Controller routing 2026-08-15: the reusable form of this remedy is an audit criterion (missing-signal: no scope/behavior boundary for high-effort models; no done criteria grounded in tool results). Related remedies merged into the same candidate: RMD-E04-001, RMD-G14-001 (scope boundary/done criteria), RMD-E11-001/RMD-F18-001/RMD-B11-001 (completion grounded in tool output). Model-specific wording stays with model-behavior-operations."
   }
 }

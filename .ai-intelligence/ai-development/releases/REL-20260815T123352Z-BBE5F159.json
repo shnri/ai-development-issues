@@ -6,8 +6,8 @@
   "repository_id": "shared-agent-plugins",
   "strategy": "pull-request",
   "base_branch": "main",
-  "branch": "ai-development-improvement/wrk-20260815t122838z-5e073cab",
-  "commit_sha": "73d36740a86ea3529a7a8b112574b98fb0ab6ae1",
+  "branch": "ai-development-improvement/agent-instruction-maintenance-0.1.1",
+  "commit_sha": "4fce15c7168446d4986028a83a595235720aed7e",
   "pull_request_url": null,
   "status": "branch-pushed",
   "validation_commands": [
@@ -15,7 +15,7 @@
     "npm run check"
   ],
   "version_before": "0.1.0",
-  "version_after": "0.1.2",
+  "version_after": "0.1.1",
   "provenance": {
     "problem_ids": [
       "D09",
@@ -61,7 +61,18 @@
   },
   "notes": [
     "[ai-development-improvement/wrk-20260815t122838z-5e073cab 73d3674] improve(agent-instruction-maintenance): add trigger evals for maintain-agent-instructions (D09/D10/D11 via WRK-20260815T122838Z-5E073CAB)\n 5 files changed, 118 insertions(+), 5 deletions(-)\n create mode 100644 plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json",
-    "No PR automation available (install and authenticate the GitHub CLI); branch delivery succeeded, open the pull request from compare_url. The release resumes automatically once the branch is merged."
+    "No PR automation available (install and authenticate the GitHub CLI); branch delivery succeeded, open the pull request from compare_url. The release resumes automatically once the branch is merged.",
+    "consolidated into ai-development-improvement/agent-instruction-maintenance-0.1.1 @ 4fce15c7 (agent-instruction-maintenance 0.1.1); PR still pending (no gh); resume detects merge into main"
   ],
-  "compare_url": "https://github.com/shnri/shared-agent-plugins/compare/main...ai-development-improvement/wrk-20260815t122838z-5e073cab?expand=1"
+  "compare_url": "https://github.com/shnri/shared-agent-plugins/compare/main...ai-development-improvement/agent-instruction-maintenance-0.1.1?expand=1",
+  "consolidation": {
+    "at": "2026-08-15T12:50:00Z",
+    "original_branch": "ai-development-improvement/wrk-20260815t122838z-5e073cab",
+    "original_commit_sha": "73d3674",
+    "original_version_after": "0.1.2",
+    "consolidated_branch": "ai-development-improvement/agent-instruction-maintenance-0.1.1",
+    "consolidated_head": "4fce15c7168446d4986028a83a595235720aed7e",
+    "candidate_commit": "20c1bb5",
+    "reason": "two pending releases of agent-instruction-maintenance (0.1.1 and 0.1.2) were merged into one reviewed branch and one next version 0.1.1; candidate diffs and evaluation records unchanged; original branches deleted from origin after consolidation"
+  }
 }

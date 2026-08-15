@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T111332Z-AE67DA3E",
+  "created_at": "2026-08-15T11:13:32Z",
+  "updated_at": "2026-08-15T12:50:00Z",
+  "problem_ids": [
+    "G17"
+  ],
+  "remedy_id": "RMD-G17-001",
+  "source_run_id": "MNT-20260815T111324Z",
+  "state": "superseded",
+  "scope": "global",
+  "target": {
+    "kind": "shared-new-skill",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "create-skill",
+    "risk_tier": "R3"
+  },
+  "risk_tier": "R3",
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-G17-001 will reduce G17 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T11:13:32Z",
+      "from": null,
+      "to": "decision-required",
+      "reason": "security/privacy/supply-chain/legal problem or explicit remedy risk requires a human decision",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T11:13:32Z",
+      "from": "decision-required",
+      "to": "decision-required",
+      "reason": "controller wrote implementation-ready decision package; awaiting human decision",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:50:00Z",
+      "from": "decision-required",
+      "to": "superseded",
+      "reason": "superseded by WRK-20260815T120045Z-67E88A80: the same remedy was re-planned by the 0.4.0 planner in the second pilot (decision package / guidance propagation); pilot-1 decision_package field retained for provenance",
+      "actor": "controller"
+    }
+  ],
+  "decision_package": {
+    "title": "Pre-approve safe read-only commands with narrow prefix rules to reduce permission fatigue",
+    "existing_capabilities": [
+      "Claude Code built-in skill `/fewer-permission-prompts` (scans transcripts, proposes a prioritized read-only allowlist for .claude/settings.json)",
+      "Claude Code `permissions.allow` prefix rules; Codex `prefix_rule` + `approval_policy=on-request` + `sandbox_mode=workspace-write`"
+    ],
+    "why_r3": "Changes agent permission boundaries (SKILL.md safety boundary: no autonomous permission change). Allowlists are consumer-repository settings, not shared assets.",
+    "proposed_action": "Per consumer: run /fewer-permission-prompts, review the proposed prefixes, keep deny/ask for write/network/destructive commands, commit .claude/settings.json under human review. No new shared Skill: the remedy is an existing platform capability.",
+    "implementation_target": "consumer projects (.claude/settings.json / .codex/config.toml); shared assets unaffected",
+    "evaluation": "count permission prompts per session before/after on a fixed replay of read-only tasks; guardrail: zero newly allowed write/network prefixes",
+    "decision_owner": "repository owner",
+    "controller_note": "Mechanical classifier proposed shared-new-skill; controller rejects: existing platform tool covers this remedy."
+  },
+  "superseded_by": "WRK-20260815T120045Z-67E88A80"
+}

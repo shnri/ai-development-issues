@@ -1,0 +1,68 @@
+{
+  "fixture": "A1",
+  "criteria_revision": "baseline",
+  "findings": [
+    {
+      "rule": "Orderlyは、飲食店向けの注文管理をFirestoreで扱うNext.js 16 App Routerアプリケーション。TypeScript 6、React 19、npm、devcontainerで開発する。",
+      "judgment": "維持",
+      "reason": "ほぼ全タスクで必要なプロジェクト固有の事実。短く、技術スタックの前提を1文で与える。バージョン番号がpackage.jsonと一致するかは未検証(推定)。",
+      "proposed_text": null
+    },
+    {
+      "rule": "変更前に関係する`docs/`と既存実装を読み、`rg`で類似パターンを確認する。",
+      "judgment": "維持",
+      "reason": "リポジトリ作法として広く適用され、docs/が正となる規則(後述のdata-model.md)と整合する。低コスト。docs/の実在は未確認(保留付き維持)。",
+      "proposed_text": null
+    },
+    {
+      "rule": "依頼された範囲だけを変更する。依頼外のrefactor、抽象化の追加、依存の追加、互換shimは行わず、必要なら提案として報告する。",
+      "judgment": "維持",
+      "reason": "scope creepという具体的な失敗を防ぐ。例示は具体的で、常時ルールとして妥当な長さ。",
+      "proposed_text": null
+    },
+    {
+      "rule": "ユーザーの既存変更を保持する。",
+      "judgment": "維持",
+      "reason": "破壊的操作(ユーザー編集の上書き)を防ぐ境界。1文で低コスト。",
+      "proposed_text": null
+    },
+    {
+      "rule": "完了・進捗の報告は、そのセッションで実行したテスト出力・diff・コマンド結果に基づいて行い、未実行の検証は未実行と明記する。",
+      "judgment": "維持",
+      "reason": "記録と現実の不一致(未検証の完了報告)を防ぐ。検証セクションと重複はしない。",
+      "proposed_text": null
+    },
+    {
+      "rule": "生成したコードには必ず日本語コメントを付ける。",
+      "judgment": "保留",
+      "reason": "「必ず」があるが防ぐ失敗と例外条件(自明な1行コード、設定ファイル、テストなど)が示されていない。組織ポリシー由来なら維持、そうでなければ「意図が読み取れない箇所に日本語コメント」へ圧縮するか、lint等の決定論的な仕組みへ移す候補。根拠(履歴・チーム合意)を確認できないため保留。",
+      "proposed_text": null
+    },
+    {
+      "rule": "質問がある場合はGPT-4向けの短い箇条書きで返す。",
+      "judgment": "更新",
+      "reason": "特定モデル世代(GPT-4)を前提にした表現で、現在のモデル・ツールに依存しない目的(質問は短く箇条書きで)だけを残すべき。モデル名だけを削除理由にはしないが、モデル名自体は規則の効果に寄与していない。",
+      "proposed_text": "- ユーザーへの質問は短い箇条書きで返す。"
+    },
+    {
+      "rule": "変更の影響に応じて`npm test`、`npm run lint`、`npm run typecheck`を実行する。E2Eは`npm run e2e`（Playwright、要ローカルemulator）。",
+      "judgment": "維持",
+      "reason": "エージェントがコードから推測しにくい最小限の検証コマンドとE2Eの前提条件(ローカルemulator)を与える。scriptの実在はpackage.json未確認(推定)。",
+      "proposed_text": null
+    },
+    {
+      "rule": "`orders`コレクションのスキーマは`docs/data-model.md`が正。",
+      "judgment": "維持",
+      "reason": "誤るとデータを壊すプロジェクト固有の制約で、正本の所在を示す。ファイルの実在は未確認(推定)。",
+      "proposed_text": null
+    },
+    {
+      "rule": "セキュリティルールは`firestore.rules`を変更するときだけ`npm run rules:test`を実行する。",
+      "judgment": "維持",
+      "reason": "セキュリティ境界に関わる非標準の検証手順。条件付きだが1文で、Firestore変更タスクで頻出するため常時ルールに残す価値がある。「だけ」は他の場面での実行を禁止するように読めるが、実害は小さいため現状維持。",
+      "proposed_text": null
+    }
+  ],
+  "summary": "ファイルは全体として簡潔で、常時ルールに残すべきプロジェクト固有の事実・境界・検証コマンドに集中している。変更候補は2件: 「GPT-4向け」というモデル世代前提を含む質問形式の規則を製品中立な表現へ更新すること、および「必ず日本語コメント」規則は防ぐ失敗と例外条件が不明なため根拠確認まで保留すること。その他8件は維持。docs/、npm scripts、firestore.rulesの実在はリポジトリを検査できないため推定として扱った。追加すべき欠落ルールは特定しなかった。",
+  "proposed_additions_line_count": 0
+}

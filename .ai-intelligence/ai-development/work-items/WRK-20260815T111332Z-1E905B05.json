@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T111332Z-1E905B05",
+  "created_at": "2026-08-15T11:13:32Z",
+  "updated_at": "2026-08-15T12:50:00Z",
+  "problem_ids": [
+    "I05",
+    "I06",
+    "I14",
+    "I15"
+  ],
+  "remedy_id": "RMD-I06-001",
+  "source_run_id": "MNT-20260815T111324Z",
+  "state": "superseded",
+  "scope": "global",
+  "target": {
+    "kind": "shared-new-skill",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "create-skill",
+    "risk_tier": "R3"
+  },
+  "risk_tier": "R3",
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-I06-001 will reduce I05, I06, I14, I15 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T11:13:32Z",
+      "from": null,
+      "to": "decision-required",
+      "reason": "security/privacy/supply-chain/legal problem or explicit remedy risk requires a human decision",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T11:13:32Z",
+      "from": "decision-required",
+      "to": "decision-required",
+      "reason": "controller wrote implementation-ready decision package; awaiting human decision",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:50:00Z",
+      "from": "decision-required",
+      "to": "superseded",
+      "reason": "superseded by WRK-20260815T120045Z-36816B4B: the same remedy was re-planned by the 0.4.0 planner in the second pilot (decision package / guidance propagation); pilot-1 decision_package field retained for provenance",
+      "actor": "controller"
+    }
+  ],
+  "decision_package": {
+    "title": "Keep content redaction defaults for AI telemetry/transcripts and shorten local retention",
+    "existing_capabilities": [
+      "Claude Code OTEL_LOG_* content flags default off; cleanupPeriodDays; CLAUDE_CODE_SKIP_PROMPT_HISTORY",
+      "Codex otel.log_user_prompt (opt-in), history.persistence",
+      "GitHub push protection / secret scanning"
+    ],
+    "why_r3": "Privacy/data-retention setting decisions with organizational scope; wrong retention or telemetry changes affect personal data.",
+    "proposed_action": "Decision: (1) confirm no consumer enables OTEL content logging; (2) set cleanupPeriodDays per organization policy; (3) enable push protection on consumer repositories. Document the chosen values in each consumer AGENTS.md security section. No new shared Skill.",
+    "implementation_target": "consumer settings + repository settings (GitHub); optional: one line in agent-instruction-maintenance audit criteria (already covers credential/PII boundaries as 維持 signal)",
+    "evaluation": "settings diff review + secret-scanning report; not an agent-behavior eval",
+    "decision_owner": "repository owner / security",
+    "controller_note": "Classifier proposed shared-new-skill; controller rejects: official settings already provide the control."
+  },
+  "superseded_by": "WRK-20260815T120045Z-36816B4B"
+}

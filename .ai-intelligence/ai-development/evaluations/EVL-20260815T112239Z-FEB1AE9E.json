@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "id": "EVL-20260815T112239Z-FEB1AE9E",
+  "work_item_id": "WRK-20260815T111513Z-2C9FE6B0",
+  "implementation_id": "IMP-20260815T111900Z-663DCCDB",
+  "created_at": "2026-08-15T11:22:39Z",
+  "evaluator_role": "blind-evaluator-subagent",
+  "baseline": {
+    "criteria_revision": "6e03799",
+    "target_pass": 2,
+    "target_total": 4,
+    "adjacent_pass": 3,
+    "adjacent_total": 3,
+    "holdout_pass": 1,
+    "holdout_total": 5,
+    "proposed_addition_lines": 0
+  },
+  "candidate": {
+    "criteria_revision": "IMP-20260815T111900Z-663DCCDB",
+    "target_pass": 4,
+    "target_total": 4,
+    "adjacent_pass": 3,
+    "adjacent_total": 3,
+    "holdout_pass": 4,
+    "holdout_total": 5,
+    "proposed_addition_lines_max": 2
+  },
+  "test_sets": [
+    {
+      "id": "T1-target-AGENTS-missing-signals",
+      "kind": "target",
+      "passed": true,
+      "detail": "T1-a/T1-b fail→pass; T1-c/T1-d unchanged pass"
+    },
+    {
+      "id": "A1-adjacent-AGENTS-already-present",
+      "kind": "adjacent",
+      "passed": true,
+      "detail": "3/3 both revisions; no duplicate additions, no weakening"
+    },
+    {
+      "id": "H1-holdout-CLAUDE-overprescriptive",
+      "kind": "holdout",
+      "held_out": true,
+      "passed": true,
+      "detail": "H1-a/H1-b fail→pass; H1-c partial both; H1-d partial→pass; H1-e pass"
+    }
+  ],
+  "guardrail_regressions": 0,
+  "infrastructure_failures": 0,
+  "independent_review": {
+    "reviewer_role": "independent-reviewer-subagent",
+    "status": "pass",
+    "notes": "6/6 items pass; no contradiction with SKILL principles, model-agnostic, no fixture leakage; non-blocking follow-ups: SKILL.md step 5 does not list 追加; consider tightening 公式の指針 wording."
+  },
+  "uses_optional_capability": false,
+  "capability_health": [],
+  "trial_count": 1,
+  "decision": "pass",
+  "reason": "Blind A/B grading (grading.json, mapping A=candidate) satisfies the frozen promotion_threshold: candidate passes T1-a,T1-b,H1-a,H1-b that baseline fails; zero guardrail regressions; adjacent set unchanged 3/3; additions ≤2 short lines. Limitation: single trial per cell (policy default is 3), LLM-executor variance not controlled.",
+  "artifacts": {
+    "eval_plan": "evaluations/fixtures/WRK-20260815T111513Z-2C9FE6B0/eval-plan.json",
+    "runs": [
+      "evaluations/fixtures/WRK-20260815T111513Z-2C9FE6B0/runs/"
+    ],
+    "grading": "evaluations/fixtures/WRK-20260815T111513Z-2C9FE6B0/grading.json",
+    "blind_mapping": "evaluations/fixtures/WRK-20260815T111513Z-2C9FE6B0/blind-mapping.json",
+    "notes": [
+      "pilot-1 record (0.3.0 controller): artifacts were attached manually; blind_mapping A=candidate B=baseline; single trial per cell"
+    ]
+  }
+}

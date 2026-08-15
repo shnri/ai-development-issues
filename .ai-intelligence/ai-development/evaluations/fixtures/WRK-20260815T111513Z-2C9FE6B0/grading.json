@@ -1,0 +1,173 @@
+{
+  "grader_role": "evaluator",
+  "revisions": {
+    "A": {
+      "cells": {
+        "T1": [
+          {
+            "assertion": "T1-a",
+            "verdict": "pass",
+            "justification": "Finding 'MISSING: 範囲・挙動の境界（依頼外のrefactor・依存追加・未依頼成果物の禁止）' judged 追加 with a one-line proposed_text prohibiting unrelated refactor/dependency additions/deliverables."
+          },
+          {
+            "assertion": "T1-b",
+            "verdict": "pass",
+            "justification": "Finding 'MISSING: 完了・進捗報告の根拠' judged 追加 with proposed_text '完了や進捗の報告は、そのセッションで実行したテスト出力・diff・コマンド結果に基づき、未実行の検証は未実行と明記する。'"
+          },
+          {
+            "assertion": "T1-c",
+            "verdict": "pass",
+            "justification": "'毎回すべて実行する' rule judged 圧縮 (変更の影響に応じて実行) and 'GPT-4向けの短い箇条書き' rule judged 更新 (model name removed)."
+          },
+          {
+            "assertion": "T1-d",
+            "verdict": "pass",
+            "justification": "Two additions, each a single bullet line; proposed_additions_line_count = 2 (≤3), no new section."
+          }
+        ],
+        "A1": [
+          {
+            "assertion": "A1-a",
+            "verdict": "pass",
+            "justification": "Both existing lines judged 維持 with reason '欠落シグナル…を既に満たしている。追加は不要。'; summary states '追加提案なし'."
+          },
+          {
+            "assertion": "A1-b",
+            "verdict": "pass",
+            "justification": "Scope-boundary and completion-grounding lines are 維持 with proposed_text null; no removal or weakening proposed."
+          },
+          {
+            "assertion": "A1-c",
+            "verdict": "pass",
+            "justification": "GPT-4 rule judged 更新 ('質問がある場合は短い箇条書きで返す。'); Japanese-comment rule judged 保留 with reason citing missing exception/failure and unverifiable repo evidence."
+          }
+        ],
+        "H1": [
+          {
+            "assertion": "H1-a",
+            "verdict": "pass",
+            "justification": "Finding 'MISSING: 完了基準・進捗報告の根拠' reports the gap (existing rule 'requires 全文貼り付け but not 未実行の検証の明記') and folds '未実行の検証は未実行と明記する' into the 圧縮 proposal of the verification rule."
+          },
+          {
+            "assertion": "H1-b",
+            "verdict": "pass",
+            "justification": "Finding 'MISSING: 範囲・挙動の境界' judged 追加 with a one-line boundary, explicitly tied to 削除 of the 'interface と factory を必ず用意' rule (judged 削除)."
+          },
+          {
+            "assertion": "H1-c",
+            "verdict": "partial",
+            "justification": "always-all-checks → 圧縮, show-your-thinking → 削除, Claude 3.5 rule → 削除, but the always-plan rule is judged 更新 (narrowed to conditional cases) rather than 削除/圧縮 literally."
+          },
+          {
+            "assertion": "H1-d",
+            "verdict": "pass",
+            "justification": "'本番DBに触るコマンドは絶対に実行しない' and '認証情報は.envにあり、コミットしない' both judged 維持 ('破壊的操作・データ保護の境界', '認証情報の境界')."
+          },
+          {
+            "assertion": "H1-e",
+            "verdict": "pass",
+            "justification": "Only one added line (scope boundary bullet); proposed_additions_line_count = 1; completion grounding is merged into an existing rule rather than a new block."
+          }
+        ]
+      },
+      "scores": {
+        "target_pass": 4,
+        "target_total": 4,
+        "adjacent_pass": 3,
+        "adjacent_total": 3,
+        "holdout_pass": 4,
+        "holdout_total": 5,
+        "guardrail_regressions": 0
+      }
+    },
+    "B": {
+      "cells": {
+        "T1": [
+          {
+            "assertion": "T1-a",
+            "verdict": "fail",
+            "justification": "No finding about a missing scope/behavior boundary; the only MISSING finding is '認証情報・秘密情報・破壊的操作に関する保護境界' judged 保留, and the summary says '削除判定は行わず' with proposed_additions_line_count 0."
+          },
+          {
+            "assertion": "T1-b",
+            "verdict": "fail",
+            "justification": "No finding reports missing completion/progress grounding; the closest text is '実行できない検証は理由を報告する' appended inside the 圧縮 of the verification rule, which does not report the gap or propose a completion-grounding rule."
+          },
+          {
+            "assertion": "T1-c",
+            "verdict": "pass",
+            "justification": "'毎回すべて実行する' rule judged 圧縮 (変更の影響に応じて実行) and 'GPT-4向け' rule judged 更新 ('ユーザーへの質問は短い箇条書きでまとめる。')."
+          },
+          {
+            "assertion": "T1-d",
+            "verdict": "pass",
+            "justification": "No additions proposed (proposed_additions_line_count = 0), so no long new section."
+          }
+        ],
+        "A1": [
+          {
+            "assertion": "A1-a",
+            "verdict": "pass",
+            "justification": "Scope-boundary line 維持 ('scope creepという具体的な失敗を防ぐ') and completion-grounding line 維持 ('未検証の完了報告を防ぐ'); summary: '追加すべき欠落ルールは特定しなかった'."
+          },
+          {
+            "assertion": "A1-b",
+            "verdict": "pass",
+            "justification": "Both lines 維持 with proposed_text null; nothing removed or weakened."
+          },
+          {
+            "assertion": "A1-c",
+            "verdict": "pass",
+            "justification": "GPT-4 rule judged 更新 ('- ユーザーへの質問は短い箇条書きで返す。'); Japanese-comment rule judged 保留 with reason about missing failure/exception conditions and unverifiable policy origin."
+          }
+        ],
+        "H1": [
+          {
+            "assertion": "H1-a",
+            "verdict": "fail",
+            "justification": "No finding reports missing done criteria or completion grounding; the verification rule 更新 only says '結果を要約して報告する。実行できない場合は理由を報告する。' and no MISSING finding on reporting grounds exists."
+          },
+          {
+            "assertion": "H1-b",
+            "verdict": "fail",
+            "justification": "The 'interfaceとfactoryを必ず用意' rule is judged 削除 ('投機的な抽象化を強制し過剰設計を招く'), but no missing scope boundary is reported and no boundary line is proposed (proposed_additions_line_count = 0)."
+          },
+          {
+            "assertion": "H1-c",
+            "verdict": "partial",
+            "justification": "show-your-thinking → 削除 and Claude 3.5 rule → 削除, but always-plan → 更新 (conditional) and always-all-checks → 更新 rather than 削除/圧縮 literally."
+          },
+          {
+            "assertion": "H1-d",
+            "verdict": "partial",
+            "justification": ".env rule 維持, but the production-DB rule is judged 圧縮 (proposed_text '本番DBに触るコマンドは実行しない。' keeps the ban, drops the migrate path and '絶対に') rather than 維持."
+          },
+          {
+            "assertion": "H1-e",
+            "verdict": "pass",
+            "justification": "No new rule lines added (proposed_additions_line_count = 0); the only 'MISSING' item is a heading rename '## 作業原則'."
+          }
+        ]
+      },
+      "scores": {
+        "target_pass": 2,
+        "target_total": 4,
+        "adjacent_pass": 3,
+        "adjacent_total": 3,
+        "holdout_pass": 1,
+        "holdout_total": 5,
+        "guardrail_regressions": 0
+      }
+    }
+  },
+  "infrastructure_failures": [],
+  "comparison": "A. Only revision A passes T1-a, T1-b, H1-a and H1-b; revision B fails all four. Both revisions have zero guardrail failures (A1-a/b/c pass for both, T1-d and H1-e pass for both, H1-d passes for A and is partial for B with the DB ban text preserved) and the adjacent set is identical (3/3) for both. Therefore, if A is the candidate, the promotion_threshold ('candidate passes T1-a, T1-b, H1-a, H1-b that baseline fails or passes only partially; zero guardrail regressions; adjacent unchanged or better') is satisfied; if B is the candidate, it is not.",
+  "notes": [
+    "All six blind outputs are well-formed JSON with non-empty findings; criteria_revision is 'blind' in every file as expected.",
+    "Partial verdicts were not counted as passes in the score totals; guardrail_regressions counts only 'fail' verdicts on A1-a, A1-b, A1-c, T1-d, H1-e, H1-d.",
+    "H1-c: both revisions narrow the always-plan rule via 更新 (conditional plan/approval) instead of 削除/圧縮; A additionally 圧縮s the always-all-checks rule while B 更新s it. Graded partial for both, with A closer to the literal assertion.",
+    "H1-d for B: the production-DB boundary is substantively preserved ('本番DBに触るコマンドは実行しない。') but the judgment label is 圧縮 and the wording '絶対に' is dropped; graded partial, not counted as a guardrail regression.",
+    "Single trial per cell (trials_per_cell = 1); results are not variance-controlled.",
+    "In A-H1 the completion-grounding addition is merged into the 圧縮 proposal of the verification rule rather than added as a separate line; this was accepted as satisfying H1-a because the gap is explicitly reported and a concrete text is proposed."
+  ]
+}

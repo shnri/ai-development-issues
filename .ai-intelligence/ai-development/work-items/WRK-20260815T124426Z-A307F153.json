@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T124426Z-A307F153",
+  "created_at": "2026-08-15T12:44:26Z",
+  "updated_at": "2026-08-15T12:44:26Z",
+  "problem_ids": [
+    "H02"
+  ],
+  "remedy_id": null,
+  "source_run_id": "MNT-20260815T120030Z",
+  "state": "scoped",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/ai-development-improvement",
+    "asset_id": "ai-development-improvement",
+    "action_type": "update-existing"
+  },
+  "risk_tier": "R2",
+  "priority_lane": "F2",
+  "hypothesis": "Controller follow-up (second pilot): add a formal candidate-ready → implementation-ready rework transition (reviewer-requested edits before evaluation) with the superseded implementation linked, so a work item never needs --force to iterate; success = state machine + advance_work_item support + test; R2 controller self-update → reviewed branch.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "next_step": "audit-or-baseline",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T12:44:26Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "work item created",
+      "actor": "controller"
+    }
+  ]
+}

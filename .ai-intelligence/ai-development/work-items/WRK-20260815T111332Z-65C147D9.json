@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T111332Z-65C147D9",
+  "created_at": "2026-08-15T11:13:32Z",
+  "updated_at": "2026-08-15T12:50:00Z",
+  "problem_ids": [
+    "I08"
+  ],
+  "remedy_id": "RMD-I08-001",
+  "source_run_id": "MNT-20260815T111324Z",
+  "state": "superseded",
+  "scope": "global",
+  "target": {
+    "kind": "shared-new-skill",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "create-skill",
+    "risk_tier": "R3"
+  },
+  "risk_tier": "R3",
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-I08-001 will reduce I08 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T11:13:32Z",
+      "from": null,
+      "to": "decision-required",
+      "reason": "security/privacy/supply-chain/legal problem or explicit remedy risk requires a human decision",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T11:13:32Z",
+      "from": "decision-required",
+      "to": "decision-required",
+      "reason": "controller wrote implementation-ready decision package; awaiting human decision",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T12:50:00Z",
+      "from": "decision-required",
+      "to": "superseded",
+      "reason": "superseded by WRK-20260815T120045Z-152051AF: the same remedy was re-planned by the 0.4.0 planner in the second pilot (decision package / guidance propagation); pilot-1 decision_package field retained for provenance",
+      "actor": "controller"
+    }
+  ],
+  "decision_package": {
+    "title": "Verify new dependencies deterministically before install (slopsquatting)",
+    "existing_capabilities": [
+      "npm view <pkg> / registry existence check, npm audit signatures, lockfile + provenance, `ignore-scripts`",
+      "consumer projects already pin lockfiles; installs run in devcontainers"
+    ],
+    "why_r3": "Supply-chain boundary; default-deny dependency policy and sandboxed install scripts are permission/process changes.",
+    "proposed_action": "Decision: adopt a PreToolUse hook or CI check that blocks `npm install <new-pkg>` unless the package exists on the registry with history/publisher and appears in an approved list; require lockfile diff review. Candidate is a project-level hook (R2, reviewed) rather than a shared Skill; if it proves reusable across consumers, promote to a shared hook script later.",
+    "implementation_target": "consumer projects (.claude/settings.json hooks, CI); shared later",
+    "evaluation": "known-positive (fake package name) blocked; known-negative (existing pinned package) allowed; no false blocks on lockfile-only installs",
+    "decision_owner": "repository owner",
+    "controller_note": "Classifier proposed shared-new-skill; controller reroutes to project hook first (reuse precedence: platform/config before shared asset)."
+  },
+  "superseded_by": "WRK-20260815T120045Z-152051AF"
+}

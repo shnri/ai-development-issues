@@ -95,5 +95,13 @@
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"
+  },
+  "existing_asset": {
+    "asset_id": "agent-instruction-maintenance",
+    "path": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+    "skill": "maintain-agent-instructions",
+    "coverage": "SKILL.md steps 6–7 and audit-criteria「常時ルールとSkillの境界」cover progressive disclosure (short map + Skills/rules/docs).",
+    "verified_at": "2026-08-15",
+    "verified_by": "ai-development-improvement maintain MNT-20260815T111324Z"
   }
 }
