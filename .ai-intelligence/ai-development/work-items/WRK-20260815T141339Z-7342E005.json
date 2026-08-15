@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-7342E005",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:16Z",
+  "problem_ids": [
+    "K13"
+  ],
+  "remedy_id": "RMD-K13-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: redaction, 保持期間, telemetry, 権限"
+  ],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-K13-001 to consumer-configuration will reduce K13 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:16Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "AI利用telemetry・transcriptは内容非記録の既定を維持し、識別属性・保持期間・保存先を最小化する。緩和設定はproject層で上書きできない層（user/管理者設定）に置く。",
+    "steps": [
+      "Claude Code: `OTEL_LOG_USER_PROMPTS` / `OTEL_LOG_ASSISTANT_RESPONSES` / `OTEL_LOG_TOOL_DETAILS` / `OTEL_LOG_TOOL_CONTENT` / `OTEL_LOG_RAW_API_BODIES` を未設定（既定=無効）のまま維持し、debug目的で有効化した場合は同じ変更で解除期限を記録する。",
+      "cardinality: `OTEL_METRICS_INCLUDE_ACCOUNT_UUID` / `OTEL_METRICS_INCLUDE_SESSION_ID` は必要な集計単位でのみtrueにし、個人単位の監視に転用しない方針を文書化する。",
+      "local transcript保持: `settings.json` の `cleanupPeriodDays` を組織方針の日数に短縮し（既定30日）、必要に応じて `CLAUDE_CODE_SKIP_PROMPT_HISTORY` / `--no-session-persistence` を機密作業で使う。保存先は `CLAUDE_CONFIG_DIR` で明示する。",
+      "Codex: `otel.log_user_prompt` を有効化しない、`history.persistence` / `history.max_bytes` で履歴保持を制限する。`otel` はproject `.codex/config.toml` で上書き不可のprotected keyなのでuser/管理者層で設定する（現行docsで確認）。",
+      "transcriptを保存するvolume/archiveのアクセス権と保持期限をレビューし、秘密値はenv fileではなくsecret manager/CI secretsに置いてtool入力に混入しないようにする。"
+    ],
+    "verification": [
+      "content logging系envが有効な端末/CI数 = 0",
+      "transcript保持日数と保存先の設定値を確認（`cleanupPeriodDays`, `history.persistence`）",
+      "telemetry宛先・volumeのaccess review記録"
+    ],
+    "anti_patterns": [
+      "debug用に`OTEL_LOG_RAW_API_BODIES`等を有効化したまま放置",
+      "transcript archiveを無期限保存",
+      "計測を個人評価・監視に転用"
+    ],
+    "applies_when": [
+      "OTel/gateway等でAI利用を計測する",
+      "transcriptをvolume/archiveで永続化する"
+    ],
+    "not_applicable_when": [
+      "telemetryを収集しない運用（それでもlocal transcript保持期間は該当）"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/monitoring-usage",
+      "https://code.claude.com/docs/en/sessions",
+      "https://learn.chatgpt.com/docs/config-file/config-reference"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

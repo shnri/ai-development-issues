@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "plan_schema_version": "1.1",
+  "id": "MNT-20260815T141330Z",
+  "started_at": "2026-08-15T14:13:30Z",
+  "completed_at": null,
+  "mode": "maintain",
+  "plan_mode": "incremental",
+  "catalog_revision_before": 51,
+  "catalog_revision_after": null,
+  "authority_base": {
+    "remote": "origin",
+    "branch": "main",
+    "remote_sha": "787217252c020fde517e7a8599a11cc943910bba",
+    "local_head": "787217252c020fde517e7a8599a11cc943910bba",
+    "recorded_at": "2026-08-15T14:13:30Z",
+    "reachable": true
+  },
+  "plan": {
+    "mode": "incremental",
+    "bootstrap_signals": {
+      "bootstrap_completed_at": null,
+      "problem_count": 179,
+      "never_reviewed": 0,
+      "never_researched": 0,
+      "never_reviewed_ratio": 0.0,
+      "never_researched_ratio": 0.0,
+      "threshold": 0.5
+    },
+    "execution": {
+      "max_parallel_workers": 8,
+      "max_items_per_worker": {
+        "inventory": 20,
+        "research": 10,
+        "discovery": 1
+      },
+      "max_waves_per_run": 3,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null,
+      "worker_max_turns": {
+        "inventory": 24,
+        "research": 20,
+        "discovery": 24
+      }
+    },
+    "capacity": {
+      "inventory": 480,
+      "research": 240,
+      "discovery": 24
+    },
+    "legacy_fixed_limits": false,
+    "inventory_problem_ids": [],
+    "inventory_items": [],
+    "discovery_source_ids": [],
+    "discovery_sources": [],
+    "research_problem_ids": [],
+    "research_items": [],
+    "inventory": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "discovery": {
+      "workers": [],
+      "lookback_days": 21
+    },
+    "research": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "limits": {
+      "inventory": 480,
+      "external_research": 240,
+      "max_parallel_workers": 8,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "max_decision_items": 3,
+      "runnable_work_item_ids": [
+        "WRK-20260815T111513Z-2C9FE6B0",
+        "WRK-20260815T122838Z-5E073CAB",
+        "WRK-20260815T124426Z-194E74F4"
+      ],
+      "open_decision_package_ids": [
+        "DEC-20260815T120045Z-2476DE58",
+        "DEC-20260815T120045Z-7415E4AB",
+        "DEC-20260815T120045Z-1FCB7A9D",
+        "DEC-20260815T120046Z-E87E5C26"
+      ]
+    },
+    "workflow": [
+      "fan out inventory workers (bounded, parallel) and persist each handoff under runs/<run-id>/workers/",
+      "fan out discovery scouts per due source group",
+      "fan out research workers for new/reactivated/material changes first, then the prioritized backlog",
+      "fan in: validate, deduplicate, and batch-apply inventory reviews (apply_inventory_batch.py) and research results (record_research_batch.py) as one logical catalog update",
+      "deduplicate and register discovery candidates",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "reconcile with the remote authority base, then commit/push authority state (safe_commit_state.py) with remote verification",
+      "write a concise catalog and release delta report; list deferred IDs explicitly"
+    ]
+  },
+  "results": {},
+  "status": "planned",
+  "run_record": ".ai-intelligence/ai-development/runs/MNT-20260815T141330Z-maintain.json",
+  "run_dir": ".ai-intelligence/ai-development/runs/MNT-20260815T141330Z",
+  "run_snapshot": ".ai-intelligence/ai-development/catalog/snapshots/20260815T141330Z-r0051-MNT-20260815T141330Z.json"
+}

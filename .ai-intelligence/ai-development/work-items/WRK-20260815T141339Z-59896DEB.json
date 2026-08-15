@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-59896DEB",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "I07",
+    "I09",
+    "I11",
+    "I16"
+  ],
+  "remedy_id": "RMD-I07-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: allow-?list, sandbox"
+  ],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-I07-001 to knowledge-only will reduce I07, I09, I11, I16 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "外部Skill/Plugin/MCPは導入前に静的監査と内容審査を行い、出所をsubmodule確定SHA・publisher allowlistで固定し、更新（SHA bump）のたびに再監査する。静的監査のSAFEは安全保証ではなく、実行時はsandboxとtool call監視で残余riskを受ける。",
+    "steps": [
+      "導入前に静的監査を実行する（例: SkillSpector `skillspector scan --no-llm <path-or-url>`をnpm script化）。監査ツール自体もcommit SHAで固定してインストールする。",
+      "SKILL.md・references・scripts・templateを人がcode-review相当で読む。特にcode例/templateに埋め込まれたcommand、URL、環境変数参照、Base64/難読化文字列を確認する。",
+      "不可視文字（Unicode Tag U+E0000-E007F、zero-width、BiDi制御）をgrepで拒否する: `rg -n \"[\\x{200B}-\\x{200F}\\x{2060}\\x{E0000}-\\x{E007F}]\" <path>`（0件を条件にする）。",
+      "出所を固定する: Git submoduleの確定SHA、marketplace `--ref <tag>`、publisher allowlistのみ。default branch/latest追従、marketplace人気・star数を信頼根拠にしない。",
+      "MCP serverは自作または信頼provider（version固定）だけを登録し、stdio推奨・token passthrough禁止・scope最小化を守る。新規MCPは登録前にtrust verificationを記録する。",
+      "更新手順書に『submodule SHA更新時は変更されたSkillを再監査してから採用する』を明記し、監査結果（tool version、score、日付）を利用文書に残す。",
+      "実行時はsandbox/権限制御を維持し、Skill由来の想定外tool call（外部送信、権限昇格）をtranscript/監査logで事後確認できるようにする。"
+    ],
+    "verification": [
+      "導入済み外部Skill/MCPのうち監査記録（tool version・SHA・結果）があるものの割合が100%",
+      "submodule SHA更新commitに再監査の記録が付随している率",
+      "DO_NOT_INSTALL判定件数と、不可視文字grepの検出0件"
+    ],
+    "anti_patterns": [
+      "静的監査SAFEまたはLLM審査単独で安全と判断する",
+      "marketplace人気やstar数を信頼根拠にする",
+      "submodule/pluginをdefault branchやlatestに追従させる"
+    ],
+    "applies_when": [
+      "外部Skill/Plugin/MCPを導入・更新する",
+      "Skill文書内のcode例やtemplateをAgentが再利用する"
+    ],
+    "not_applicable_when": [
+      "自作Skillのみで外部導入がない（それでもcontext file改変監視は必要）"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/security",
+      "https://modelcontextprotocol.io/specification/2025-06-18/basic/security_best_practices",
+      "https://labs.cloudsecurityalliance.org/research/csa-research-note-skill-md-agent-context-poisoning-20260506/",
+      "https://arxiv.org/abs/2604.03081"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  },
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-I07-001?",
+    "existing_solutions": [
+      {
+        "name": "SkillSpector (--no-llm static scan)",
+        "fit": "採用済み: 導入前静的監査。偽陰性ありのため内容審査と併用"
+      },
+      {
+        "name": "Git submodule 確定SHA + marketplace --ref",
+        "fit": "採用済み: 出所固定"
+      }
+    ],
+    "decision": null,
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

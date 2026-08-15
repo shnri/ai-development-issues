@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-B0E9EAE0",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:16Z",
+  "problem_ids": [
+    "K05",
+    "K07"
+  ],
+  "remedy_id": "RMD-K07-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-K07-001 to consumer-configuration will reduce K05, K07 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:16Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "長時間作業は小さなcommit可能単位＋進捗file＋名前付きsessionをcheckpointにし、rate limit/usage windowで中断しても `--resume` / `codex resume` と要約再開で継続できるようにする。",
+    "steps": [
+      "sessionに `/rename` で名前を付け、`claude --resume <name|id>` / `--continue`、`codex resume --last` で再開できる状態を保つ（resumeはmodel/permission modeを復元、`--mcp-config` 等は再指定）。",
+      "作業を1 session=1 feature程度に区切り、進捗file（例: `claude-progress.txt` 相当）と説明的commitをcheckpointにする。次sessionは進捗file＋git logから開始する。",
+      "seat allowanceの5時間rolling/週次windowを踏まえ、上限が近い場合は未commit差分を残さず区切る。上限到達はmodel切替では回復しない。",
+      "`/rewind`（file snapshot）はversion controlの代替ではなく、bash副作用・subagent編集・外部変更は復元できないことを前提にする。",
+      "設定・認証・sessionの保存先（config dir）を環境再構築でも失われない場所に置く（devcontainerならnamed volume等）。"
+    ],
+    "verification": [
+      "中断後の再開成功率と再開までの時間",
+      "中断時に失われた未commit差分量",
+      "名前付きsession/進捗fileの利用率"
+    ],
+    "anti_patterns": [
+      "/rewindでbash副作用やsubagent編集の巻き戻しを期待",
+      "未commitのまま長時間run",
+      "2端末で同一sessionをresumeしてtranscript混線"
+    ],
+    "applies_when": [
+      "数十分〜数時間の自律作業、subscription window上限下の運用",
+      "複数日にまたがるtask"
+    ],
+    "not_applicable_when": [
+      "短いone-shot作業",
+      "限度到達自体の回避（provider側plan/creditsの領域）"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/sessions",
+      "https://code.claude.com/docs/en/checkpointing",
+      "https://code.claude.com/docs/en/costs",
+      "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "https://learn.chatgpt.com/docs/developer-commands?surface=cli"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

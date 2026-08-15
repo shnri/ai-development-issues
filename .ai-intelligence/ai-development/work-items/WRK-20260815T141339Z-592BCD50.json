@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-592BCD50",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "H03",
+    "H08",
+    "H09"
+  ],
+  "remedy_id": "RMD-H03-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-H03-001 to knowledge-only will reduce H03, H08, H09 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "subagent/teammateへの委任は『目的・出力形式・使用tool/情報源・境界』の4要素をtask記述に含め、結果は要約ではなくartifact（file path、diff、test出力、決定記録）への参照と要点の併記で返す。Orchestrator経由の再転写を避け、非同期に並列実行する。",
+    "steps": [
+      "委任prompt templateを固定する: 1) objective（何を判定/作るか）2) output format（file:line参照、JSON/表など）3) tools・sources（読む文書、実行してよいcommand）4) boundaries（触ってはいけないpath、書込み可否、時間/turn上限）。",
+      "subagent定義（例: `.claude/agents/*.md`のfrontmatter配下）に『出力contract』節を置き、要点＋根拠となるartifact参照（変更file一覧、`git diff`範囲、実行command出力の要点）を必ず返すよう指示する。",
+      "大きな中間成果物は会話履歴に貼らずscratch/作業dirへ書き、下流には path と1-3行の要点だけを渡す。下流には『参照artifactを読んでから判断する』を明記する。",
+      "Orchestrator（main session）は自分で実装を始めず結果を待つ／統合に徹する。複数委任は非同期で並列起動し、最遅subagentへのblockingを避ける。",
+      "上流の前提・制約・未確認事項は『assumptions / not-verified』欄として構造化し、下流へそのまま転記させる。"
+    ],
+    "verification": [
+      "下流で発覚した上流前提の誤り件数（run単位）",
+      "委任promptに4要素が揃っている率（agent定義/commandのreview）",
+      "Orchestrator待ち時間・重複作業の発生数"
+    ],
+    "anti_patterns": [
+      "subagentの結果を要約だけで受け取り、artifactを残さない",
+      "大きなlogやdiffを会話履歴経由でcopyする",
+      "Orchestratorが待てずに自分で実装を始める"
+    ],
+    "applies_when": [
+      "subagent/teammate/別Sessionへの委任",
+      "調査結果や制約を次工程へ渡す"
+    ],
+    "not_applicable_when": [
+      "単一Agentで完結する短task"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "https://code.claude.com/docs/en/agent-teams",
+      "https://learn.chatgpt.com/docs/agent-configuration/subagents.md"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

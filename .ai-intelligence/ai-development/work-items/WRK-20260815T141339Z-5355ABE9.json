@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-5355ABE9",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "E09",
+    "E10"
+  ],
+  "remedy_id": "RMD-E09-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "evaluate-and-adopt-existing-solution",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: scanning"
+  ],
+  "routing": {
+    "reason": "existing solution/tool evaluation precedes any new mechanism",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "tool/dependency without existing asset → solution adoption (evaluate existing solutions first)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-E09-001 to solution-adoption will reduce E09, E10 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "AI生成codeには『secureに書いて』という指示ではなく、SAST・secret scanning・dependency scanningをmerge前の機械gateとして必須化し、認証・権限判断・data flowは人間のsecurity reviewとして残す。",
+    "steps": [
+      "GitHubを使うなら、まずplatform標準を有効化する: code scanning default setup(CodeQL)、secret scanning + push protection、Dependabot alerts。private repositoryではcode scanningにGitHub Code Security licenseが必要なので費用条件を先に確認する。",
+      "licenseが無い/private repoの場合はOSSで代替する: CI workflowにSemgrep OSS(`p/default`等のruleset)とsecret scanner(gitleaks等)を追加し、PRをblockするjobにする。",
+      "dependency層は`npm audit --audit-level=high`(または同等)をCI/pre-push gateに置き、依存追加PRでは必ず実行する。",
+      "gate結果を『AI reviewや自己申告の代替』にしない: 認証・認可・入力境界・data flowの変更はPR templateで人間security reviewを必須項目にする。",
+      "coding agent側には補助として security-reviewer subagent / security review commandをPR前に実行させるが、これはgateではなく事前フィルタとして扱う。",
+      "alert false positive率とPR時alert数を記録し、rulesetをtuneする(gateが無視され始めたら閾値を見直す)。"
+    ],
+    "verification": [
+      "PRごとのSAST/secret alert数と、merge後に発見されるsecurity欠陥数を記録する。",
+      "意図的に脆弱なsample(例: 文字列連結SQL、hardcoded secret)を含むbranchでgateが失敗することを1回確認する。"
+    ],
+    "anti_patterns": [
+      "promptに『安全に書け』とだけ書いてgateを置かない(効果は限定的)。",
+      "AI reviewを人間security reviewの代替にする。",
+      "alertを`|| true`やskipで無効化して通す。"
+    ],
+    "applies_when": [
+      "Web app・API・認証・DB queryを含む生成code",
+      "GitHubでPRを運用"
+    ],
+    "not_applicable_when": [
+      "静的解析が届かないlogic層の権限判断(人間reviewが必要)"
+    ],
+    "official_references": [
+      "https://github.blog/changelog/2026-06-09-security-validation-for-third-party-coding-agents/",
+      "https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning",
+      "https://code.claude.com/docs/en/best-practices",
+      "https://www.veracode.com/blog/spring-2026-genai-code-security/",
+      "https://arxiv.org/html/2603.28592v2"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  },
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-E09-001?",
+    "existing_solutions": [
+      {
+        "name": "GitHub code scanning default setup (CodeQL) + secret scanning/push protection + Dependabot",
+        "fit": "設定のみで有効化でき、third-party agent PRにも既定適用(GA)。JS/TSはCodeQL対応。private repoはCode Security license費が条件。最も低コスト・低保守。"
+      },
+      {
+        "name": "Semgrep OSS / Semgrep CI",
+        "fit": "license不要でCI jobとして追加可能。rulesetのtuneが必要。private repoで無料に済ませる場合の第一候補。"
+      },
+      {
+        "name": "gitleaks (pre-commit / CI)",
+        "fit": "secretのcommit混入検出。GitHub secret scanningが使えない環境の代替、またはpre-commit層の二重化。"
+      },
+      {
+        "name": "npm audit / Dependabot / socket.dev",
+        "fit": "dependency脆弱性・supply chain層のみ。SASTの代替にはならないがAI追加依存のgateとして必須。"
+      },
+      {
+        "name": "Claude Code security-review command / security-reviewer subagent",
+        "fit": "PR前の事前フィルタとして有用だが確率的で監査証跡にならない。gateの代替ではなく補助。"
+      }
+    ],
+    "decision": "GitHub-nativeを第一選択とする(code scanning default setup + secret scanning/push protection + Dependabot)。private repoでlicenseが無い場合はSemgrep OSS + gitleaks + npm auditのCI jobで代替。いずれも人間security review項目を残す。新規mechanismは作らない。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

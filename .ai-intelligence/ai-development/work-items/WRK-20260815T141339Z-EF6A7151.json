@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-EF6A7151",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C03",
+    "C04",
+    "C05"
+  ],
+  "remedy_id": "RMD-C03-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-C03-001 to knowledge-only will reduce C03, C04, C05 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "要求・禁止事項・完了条件・判断理由・未完了事項をcontext外の耐久状態(progress file/feature list/計画dir/git commit)に置き、session開始・compaction後に再読し、compaction前にcheckpointする。恒久規則はcompaction後も再注入されるproject-root指示fileに置く。",
+    "steps": [
+      "長時間taskでは開始時にprogress file(tasklistのpass/fail、残件、判断理由)を作り、各milestoneでgit commitをcheckpointにする。",
+      "session再開・compaction後は`git log`とprogress fileを再読し、baseline検証(test等)から続行する手順を指示に書く。",
+      "恒久的な禁止事項・完了条件はproject-root CLAUDE.md/AGENTS.mdまたはunscoped rulesに置く(会話内指示・paths付rules・nested fileはcompaction後に失われ得る; 現行docsで再注入対象を確認)。",
+      "`/compact <focus>`で保持したい情報(残件・禁止事項・基準commit)を明示し、必要なら`/autocompact`閾値や`/clear`を使い分ける。大量読込はsubagentへ委譲してmain contextを節約する。",
+      "計画dirやprogress fileは完了時にarchive/完了印を付け、古い計画が探索・仕様参照に混入しないようにする。"
+    ],
+    "verification": [
+      "compaction後の再読・重複作業回数、会話内指示の喪失件数をsession traceで記録する。",
+      "完了条件(tasklist)の充足率と『完了と申告したが未完了』件数を比較する。"
+    ],
+    "anti_patterns": [
+      "会話内でだけ禁止事項を伝える(compaction後に消える)。",
+      "compaction要約に判断理由・残件の保持を任せる(要約は不透明で細部が落ちる)。",
+      "checkpoint fileを更新せず古い状態を残す(誤誘導)。"
+    ],
+    "applies_when": [
+      "複数context windowにまたがる長時間task",
+      "自動compactionが起きるharness"
+    ],
+    "not_applicable_when": [
+      "1 session内で終わる小規模task"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "https://code.claude.com/docs/en/context-window",
+      "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "https://developers.openai.com/api/docs/guides/compaction",
+      "https://www.anthropic.com/engineering/managed-agents"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

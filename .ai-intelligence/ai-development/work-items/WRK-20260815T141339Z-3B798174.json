@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-3B798174",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C05",
+    "C10"
+  ],
+  "remedy_id": "RMD-C10-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-C10-001 to consumer-configuration will reduce C05, C10 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "同一repositoryを複数Agent/sessionが同時に変更するときは、Agentごとに分離checkout(例: `claude --worktree <name>`やgit worktree)を持ち、委譲時に基準commit SHAとbranchを明示し、統合前にrebase/差分確認を必須にする。",
+    "steps": [
+      "並列sessionはそれぞれ独立worktree/branchで起動する(Claude Codeでは`claude --worktree <name>`。isolation付きsubagentが使える場合はそれを選ぶ)。同一working treeで複数Agentを同時に走らせない。",
+      "委譲prompt/handoff文書に『基準commit: <SHA> / branch: <name>』を必ず含め、受け手は開始時に`git rev-parse HEAD`で一致を確認する。",
+      "統合前に`git fetch && git rebase <base>`(または`git diff <base>...HEAD`の確認)を実施し、baseが進んでいたら再基準化してから検証を再実行する。",
+      "定期実行(Routine/CI)は開始時にclean worktreeを確認し、`git pull --ff-only`で基点を同期する。相互に並列実行しないRoutineは明文化する。",
+      "devcontainer等で依存installが重い場合は、worktree増加によるdisk/依存重複を許容できるかを事前に確認する(node_modulesはworktreeごとに必要)。"
+    ],
+    "verification": [
+      "merge conflict件数とstale base起因の手戻り件数を、並列作業のあるPR/sessionで記録する。",
+      "handoff文書・委譲promptに基準SHAが含まれている割合をsample確認する。"
+    ],
+    "anti_patterns": [
+      "同一working treeで複数Agentを並列実行する。",
+      "委譲後にmainが進んでも再基準化せず統合する。",
+      "directory名だけを渡してcommit/branchを明示しない。"
+    ],
+    "applies_when": [
+      "複数Agent/複数sessionが同一repositoryを同時に変更"
+    ],
+    "not_applicable_when": [
+      "単一Agentの直列作業"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/common-workflows",
+      "https://www.anthropic.com/engineering/managed-agents",
+      "https://arxiv.org/abs/2604.03551"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

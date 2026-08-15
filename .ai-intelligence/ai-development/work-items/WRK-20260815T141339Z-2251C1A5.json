@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-2251C1A5",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "B01",
+    "B02",
+    "B03",
+    "B08"
+  ],
+  "remedy_id": "RMD-B03-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-B03-001 to knowledge-only will reduce B01, B02, B03, B08 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "実装前に既存機構・pattern・reusable utilityを対象範囲に絞って探索・参照させると同時に、既知の例外・負債箇所を『真似てはいけない例』として文書に明示し、重複実装と負債の複製を防ぐ。",
+    "steps": [
+      "AGENTS.md/CLAUDE.mdの作業原則に『変更前に関係するdocsと既存実装を読み、`rg`で類似pattern・参照箇所を確認し、既存のhelper/設定を再利用する』を1行置く(repository全体の無差別読込は指示しない)。",
+      "既存機構の探索は plan mode か read-only subagent に委譲し、『再利用すべき既存X』の要約だけ受け取る。",
+      "設計文書(development-guidelines/architecture等)に『既知の例外・負債(参照禁止パターン)』節を設け、legacy/暫定回避/ADRで受容した残余リスクを列挙し、『新規実装でこれを標準として模倣しない』と明記する。",
+      "新規依存・新規抽象化を導入する前に、既に使っているlibrary/utilityで代替できないかを確認する手順をworkflowに入れる。",
+      "定期的に重複・逸脱を掃除する'garbage collection' taskを設け、重複率が改善しない場合は機械検査(jscpd等)へ移行する。"
+    ],
+    "verification": [
+      "jscpd等の重複率、同一目的helper/設定の件数を定点観測する。",
+      "review指摘『既存Xを使うべき』の頻度を追跡する。"
+    ],
+    "anti_patterns": [
+      "repository全体を無差別に読ませて探索する(context浪費)。",
+      "既知の例外を文書化せず、Agentが最頻patternを標準と推定する状態を放置する。",
+      "古い例外を『標準』とラベルしたまま残す。"
+    ],
+    "applies_when": [
+      "同種機能・helper・設定が既に存在し得る中規模以上のrepository",
+      "複数fileにまたがる変更",
+      "legacyや暫定回避が残っている"
+    ],
+    "not_applicable_when": [
+      "一文で差分を説明できる小変更",
+      "参照すべきpatternが無い新規repository"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/best-practices",
+      "https://openai.com/index/harness-engineering/"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

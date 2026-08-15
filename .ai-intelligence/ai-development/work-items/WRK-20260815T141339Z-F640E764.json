@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-F640E764",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "H12",
+    "H14"
+  ],
+  "remedy_id": "RMD-H14-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: telemetry"
+  ],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-H14-001 to knowledge-only will reduce H12, H14 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "どのAgent・model・sessionが何を根拠に変更したかを、commit trailer（Co-Authored-By/attribution設定）、PR⇔session link、決定・根拠を残すprogress/steering記録、必要なら内容redaction既定のtelemetry eventで事後追跡できるようにする。prompt/tool内容のloggingは既定redactedのまま保ち、privacyを優先する。",
+    "steps": [
+      "Agentがcommitする場合はtrailerでagent/modelを付与する（Claude Codeは既定でCo-Authored-Byを付与。`attribution`設定で文言変更/無効化可—無効化しない）。他Agent（例: Codex）由来commitにも同形式のtrailerを付ける規約を指示文書に1行書く。",
+      "PRを作る運用ではClaude Codeの`gh pr create`によるsession自動linkと`claude --from-pr <n>`再開を使い、PR本文にsession/根拠へのpointerを残す。",
+      "決定と根拠（なぜその変更か、参照した仕様/文書、実行した検証）はprogress/steering記録またはcommit本文に残す。model/effort/tool versionを記録し、Session跨ぎの挙動比較を可能にする。",
+      "telemetryを使う場合はOpenTelemetry event（session.id・model・tool_name等）のみをexportし、prompt/tool内容のopt-in（OTEL_LOG_*系）は有効化しない。export先・保持期間・閲覧者を明記する（現行docsで設定名を確認）。",
+      "transcript保持期間（cleanupPeriodDays既定30日）を把握し、恒久的な根拠はgit履歴・記録fileへ移す。"
+    ],
+    "verification": [
+      "Agent由来commitのtrailer付与率（`git log --format='%(trailers:key=Co-Authored-By)'`で集計）",
+      "PR→session復元成功率",
+      "根拠不明変更（decision記録もtrailerもない）の件数"
+    ],
+    "anti_patterns": [
+      "監査logだけで予防を期待する",
+      "prompt/tool内容のtelemetry loggingを既定で有効化する（secret/PII露出）",
+      "model/effort/versionを記録せずSession跨ぎで挙動差を比較する"
+    ],
+    "applies_when": [
+      "複数Agent/model/Sessionがrepositoryへcommitする",
+      "監査・回帰原因特定・責任分界が必要"
+    ],
+    "not_applicable_when": [
+      "個人の使い捨て実験repository"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/settings",
+      "https://code.claude.com/docs/en/common-workflows",
+      "https://code.claude.com/docs/en/monitoring-usage",
+      "https://www.anthropic.com/engineering/managed-agents"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

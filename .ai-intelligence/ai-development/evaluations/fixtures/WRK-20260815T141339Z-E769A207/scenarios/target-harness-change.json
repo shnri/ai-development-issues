@@ -1,0 +1,5 @@
+{
+  "id": "SCN-harness-model-change",
+  "situation": "The weekly skill-optimization routine reports that 3 of 12 known evals of the Skill `summarize-incident` now fail. Since the last green run: Claude Code was upgraded 2.1.230 → 2.1.244 (release notes mention a changed default effort for subagents and a system-prompt update), the org's default model alias moved from claude-opus-5 to claude-fable-5, and a teammate rewrote 40 lines of the Skill's SKILL.md two days ago. The Skill's last iteration-summary.json run_config recorded {\"model\": \"opus\", \"effort\": \"high\", \"repetitions\": 1, \"grader\": \"same-assertions-v1\"}.",
+  "task": "You are the optimizer about to run `optimize-skill` in report-only mode. Before creating any variant, state (a) exactly which configuration facts you will record for this run and for the comparison baseline, (b) which runs/experiments you will execute to attribute the failures (model/harness change vs. the Skill rewrite vs. eval/fixture drift), including how you will make baseline and candidate comparable, and (c) your decision rule for whether the Skill itself gets a variant. Do NOT edit files. Return JSON."
+}

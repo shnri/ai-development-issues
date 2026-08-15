@@ -62,7 +62,8 @@
   "notes": [
     "[ai-development-improvement/wrk-20260815t122838z-5e073cab 73d3674] improve(agent-instruction-maintenance): add trigger evals for maintain-agent-instructions (D09/D10/D11 via WRK-20260815T122838Z-5E073CAB)\n 5 files changed, 118 insertions(+), 5 deletions(-)\n create mode 100644 plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/evals/trigger-evals.json",
     "No PR automation available (install and authenticate the GitHub CLI); branch delivery succeeded, open the pull request from compare_url. The release resumes automatically once the branch is merged.",
-    "consolidated into ai-development-improvement/agent-instruction-maintenance-0.1.1 @ 4fce15c7 (agent-instruction-maintenance 0.1.1); PR still pending (no gh); resume detects merge into main"
+    "consolidated into ai-development-improvement/agent-instruction-maintenance-0.1.1 @ 4fce15c7 (agent-instruction-maintenance 0.1.1); PR still pending (no gh); resume detects merge into main",
+    "2026-08-15T14:50Z MNT-20260815T141330Z: the branch conflicts with main (CHANGELOG.md) since v0.8.0/v0.9.0; a merge of main into the branch (merge commit df03341, candidate content unchanged, npm run check passed with node_modules from npm ci) was prepared but its push was not permitted in the controller session — push it (fast-forward of the same branch) or resolve the conflict when opening the PR. main v0.9.0 also tracks a broken node_modules symlink; fix branch fix/untrack-node-modules-symlink @2880fc8 is pushed (PR pending, no gh)."
   ],
   "compare_url": "https://github.com/shnri/shared-agent-plugins/compare/main...ai-development-improvement/agent-instruction-maintenance-0.1.1?expand=1",
   "consolidation": {

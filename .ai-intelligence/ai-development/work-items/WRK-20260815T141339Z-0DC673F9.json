@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-0DC673F9",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "F07",
+    "F19",
+    "F22"
+  ],
+  "remedy_id": "RMD-F22-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: 権限"
+  ],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-F22-001 to knowledge-only will reduce F07, F19, F22 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "最終outcomeとは別に、Agentのtrajectory(tool call列・権限操作・探索量・生成artifact)を定期的にsample監査し、outcome/process/artifact/efficiencyを別軸で評価して、結果だけでは見えない危険な途中操作・無駄探索・oracle攻略を検出する。",
+    "steps": [
+      "trace保存を前提化する: Claude Code session log(JSONL)/Codex rollout等がどこに残るかを確認し、保存期間と秘密値混入(privacy)の扱いを決める。",
+      "月次または大型変更後に、直近sessionからN件(例: 3-5件)をsampleし、(a) 危険操作(rm -rf, force push, 権限/設定変更, protected path書込み)、(b) test/CI/verifierへの書込み、(c) tool call数・token・compaction回数のoutlier、(d) 生成artifactの妥当性、を別軸でチェックする。",
+      "outcome graderとprocess監査を分ける: 手順の厳密一致でgradeせず、危険操作と無駄の有無だけを見る(別解を落とさない)。",
+      "監査結果はfindingsとして記録し、hook/permission/instructionの改善候補へ回す(検出→remedyのloopを閉じる)。",
+      "簡易scriptでtrace集計(command一覧、危険patternのgrep、token/turn数)を自動化し、expert reviewは要約を読む時間に絞る。"
+    ],
+    "verification": [
+      "監査率(session数に対するsample数)と、監査で検出した危険操作数・invalid pass数。",
+      "tool call数/tokenのoutlier検出件数と、それが改善候補へ回った比率。"
+    ],
+    "anti_patterns": [
+      "aggregate score/最終diffだけで採用判断する。",
+      "手順を厳密にgradeして別解を落とす。",
+      "traceに秘密値が残る状態のまま共有・保存する。"
+    ],
+    "applies_when": [
+      "Agent trace/transcriptを保存できる",
+      "権限操作や外部副作用を伴うtask"
+    ],
+    "not_applicable_when": [
+      "traceが保存されない環境(先にobservabilityを整備)"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "https://metr.org/blog/2025-06-05-recent-reward-hacking/",
+      "https://developers.openai.com/blog/eval-skills"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

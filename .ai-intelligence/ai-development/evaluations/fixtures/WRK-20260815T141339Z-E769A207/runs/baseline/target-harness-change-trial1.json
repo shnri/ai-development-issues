@@ -1,0 +1,30 @@
+{
+ "cell": "target-harness-change",
+ "variant": "baseline",
+ "executor": "general-purpose subagent (claude-fable-5)",
+ "trial": 1,
+ "tokens": 32899,
+ "duration_ms": 43797,
+ "record_summary": [
+  "baseline Skill snapshot + tree digest; git SHA of last-green Skill",
+  "run_config: resolved model id (not alias), effort explicit, repetitions, grader version",
+  "harness: Claude Code version, release-note items, skill-creator version, permission mode, tools, CLAUDE.md digest",
+  "eval contract digests (prompts/fixtures/holdout/grader)",
+  "raw artifacts per run"
+ ],
+ "runs_summary": [
+  "R0 fixture/grader drift check",
+  "R1 reproduce on current stack (repetitions=3 for failing cases)",
+  "R2 old vs new Skill under identical model/harness (same turn, blind labels)",
+  "R3 old Skill under old model/effort vs new (model/harness isolation)",
+  "R4 attribution subagent",
+  "R5 single variant only if root_cause=skill; blind A/B; report-only gate"
+ ],
+ "assertions": {
+  "D1_records_model_effort_harness_skill_revision_as_unit": "pass",
+  "D2_matched_condition_regression_comparison": "pass",
+  "D3_ablation_or_isolation_experiments_before_editing": "pass (skill-version and model/effort isolation; attribution)",
+  "D4_no_skill_variant_when_cause_is_model_or_harness": "pass",
+  "G1_report_only_after_model_harness_change": "pass"
+ }
+}

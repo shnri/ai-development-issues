@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-C59179A5",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:16Z",
+  "problem_ids": [
+    "K05",
+    "K07",
+    "K13"
+  ],
+  "remedy_id": "RMD-K05-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-K05-001 to knowledge-only will reduce K05, K07, K13 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:16Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "成功sessionを再現・監査できるよう、公式interfaceで構造化transcript（session ID・model・tool呼出・cost）を保存し、commit/PRとsession IDを対応付ける。JSONL内部形式には依存しない。",
+    "steps": [
+      "非対話runは `claude -p --output-format json`（またはstream-json）/ `codex exec --json` を使い、出力のsession ID・usage・costをrun記録に保存する。",
+      "対話sessionは `/export` かhooksの `SessionEnd`（`transcript_path`）で公式経路からarchiveし、保存先に保持期限とアクセス制御を付ける。",
+      "commit message trailerまたはPR本文にsession ID/名前（`/rename`）を記録し、`--resume <name|id>` / `codex resume` で辿れるようにする。PR起点の再開は `--from-pr <number>` を使う（現行docsで確認）。",
+      "長期作業は進捗file＋説明的commitをcheckpointにして、次sessionは進捗file＋git logから開始する。",
+      "transcriptに秘密が混入しないよう秘密はsecret managerに置き、archive前提でも内容logging既定（非記録）を維持する（RMD-K13-001）。"
+    ],
+    "verification": [
+      "session→commit/PR紐付け率",
+      "公式形式で保存されたtranscript/run記録の割合",
+      "保存transcriptからの再現試行成功率（近似再現）"
+    ],
+    "anti_patterns": [
+      "`~/.claude/projects/*.jsonl` を直接parseする（版で壊れる・非推奨）",
+      "同一transcript=同一結果と期待する（model非決定性）",
+      "無期限・無権限管理のarchive"
+    ],
+    "applies_when": [
+      "前回成功手順の再利用・監査が必要",
+      "PR/commitとAI sessionの対応が必要"
+    ],
+    "not_applicable_when": [
+      "transcript保存自体が禁止される機密環境（→最小化と併用）"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/sessions",
+      "https://learn.chatgpt.com/docs/developer-commands?surface=cli",
+      "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

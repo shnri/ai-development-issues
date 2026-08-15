@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-52D43303",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "A01",
+    "A08",
+    "A10"
+  ],
+  "remedy_id": "RMD-A01-002",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-A01-002 to knowledge-only will reduce A01, A08, A10 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "複数file・複数approachに及ぶ変更では、実装より前に『明確化フェーズ』を分離し、Agentに未確定事項を最大数問だけ質問させ、回答と対象外・検証手順を仕様(spec/requirements)へ記録してから実装セッションを開始する。",
+    "steps": [
+      "実装依頼のワークフロー(command/skill/AGENTS.md)に『着手前に要求文の未確定事項(範囲・データ・UX・非機能・統合・境界・用語・完了条件)を列挙し、判断できないものだけ質問する』手順を1行入れる。",
+      "質問はセッション冒頭に限定し、上限(例: 5問)を明記する。途中で初めて質問する運用はしない。",
+      "回答を仕様ファイルの『## Clarifications / ### Session YYYY-MM-DD』にQ→Aで追記し、該当セクションへ即反映する。仕様には対象file/interface、対象外、end-to-end検証手順を必ず含める。",
+      "vagueな形容詞('robust','intuitive')やTODO placeholderは`[NEEDS CLARIFICATION]`として残し、残数0で実装着手する規約にする。",
+      "Claude Codeではplan mode / AskUserQuestionで実現でき追加設定は不要(現行docsで確認)。Spec Kitの/speckit.clarifyやKiroのrequirements→design→tasksを使う場合はそのtemplateに従う。",
+      "diffを一文で説明できる小変更は明確化フェーズを省く旨も同じ場所に書く。"
+    ],
+    "verification": [
+      "feature単位でclarification記録件数と、実装後のユーザー訂正回数(再作業PR率)を追跡する。",
+      "`[NEEDS CLARIFICATION]`残数0で実装着手した割合を確認する。"
+    ],
+    "anti_patterns": [
+      "'質問せよ'とだけ書いて検出をworkerから分離しない(質問率は上がらない)。",
+      "全taskにplan modeを強制する、または実装途中(mid-trajectory)で初めて質問する。",
+      "spec作成を全面AI任せにして未確認仮定を仕様化する。"
+    ],
+    "applies_when": [
+      "変更が複数file/artifactに及ぶ、approachが複数ある、要求に量的基準や非機能条件がない",
+      "AIにspec/設計書を生成させる場合"
+    ],
+    "not_applicable_when": [
+      "typo/log追加/renameなど一文で説明できる小変更",
+      "探索目的で意図的にvagueなpromptを使う場合"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/best-practices",
+      "https://raw.githubusercontent.com/github/spec-kit/main/templates/commands/clarify.md",
+      "https://kiro.dev/docs/specs/feature-specs/"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

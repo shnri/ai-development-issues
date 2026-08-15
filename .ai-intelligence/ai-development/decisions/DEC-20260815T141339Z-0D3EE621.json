@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T141339Z-0D3EE621",
+  "work_item_id": "WRK-20260815T141339Z-9D8F661C",
+  "problem_ids": [
+    "I03",
+    "I04",
+    "I12",
+    "I17"
+  ],
+  "remedy_id": "RMD-I04-001",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:13:39Z",
+  "status": "open",
+  "title": "不可逆・高影響操作だけを承認対象にし、それ以外はsandboxで自動化して承認疲れを減らす。PreToolUse hookとpermissions.denyで破壊的command（rm -rf、force push、prod deploy/migrate）を機械的に遮断し、branch rulesetsをAgentにも同一適用する",
+  "problem_titles": {
+    "I03": "Shell、GitHub、Cloud、DB、本番への権限が過大",
+    "I04": "誤推論から破壊的Command・Migration・Deployを実行する",
+    "I12": "承認疲れで人間が内容を見ずに許可する",
+    "I17": "AgentがBranch protectionや通常工程を迂回する"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [
+    "R3 operation markers: permissions?\\.(allow|deny), 承認対象, \\bprod(?:uction)? (?:deploy|database|db|data|environment), force push",
+    "R2 operation markers: PreToolUse, sandbox"
+  ],
+  "why_not_autonomous": "R3 operation or structural decision: R3 operation markers: permissions?\\.(allow|deny), 承認対象, \\bprod(?:uction)? (?:deploy|database|db|data|environment), force push; R2 operation markers: PreToolUse, sandbox",
+  "classification": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "owning shared Plugin from remedy_routes: none",
+    "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+    "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+  ],
+  "existing_capabilities": [
+    "Claude Code permissions.deny / permissions.ask prefix rules and PreToolUse hooks (exit 2 or permissionDecision=deny) — official hooks/security docs",
+    "Codex approval_policy (untrusted/on-request/never) × sandbox_mode; .git read-only protection",
+    "GitHub branch rulesets (stacked, strictest wins, explicit bypass list) applied to bots/apps as well as humans",
+    "Claude Code built-in /fewer-permission-prompts for the low-risk allowlist side (see DEC-20260815T120045Z-2476DE58)"
+  ],
+  "options": [
+    "A: per consumer, add a PreToolUse hook (deny list: rm -rf outside scratch, git push --force, prod deploy/migrate, DROP/TRUNCATE) plus permissions.deny for the same prefixes and permissions.ask for git push; keep everything else in sandbox/allowlist; commit .claude/settings.json + hook script under human review",
+    "B: rulesets only (repository side): require PR + status checks on main, no bypass for automation apps; no local hook (weaker: local destructive commands not covered)",
+    "C: A + B together (recommended): local hard block for destructive commands, repository ruleset for main, low-risk allowlist to remove prompt fatigue",
+    "D: status quo (approval prompts on everything, or --dangerously-skip-permissions in long runs) — rejected: either fatigue or no boundary"
+  ],
+  "proposed_action": "C, applied per consumer: (1) settings.json permissions.deny for destructive prefixes and permissions.ask for `git push`; (2) PreToolUse hook script (read-only pattern check, exit 2 on match, patterns tested with a fixture list); (3) branch ruleset on the default branch with an empty bypass list for agent apps; (4) then the low-risk allowlist (other decision package). Not autonomous because permissions.allow/deny and rulesets change the agent authority boundary (R3).",
+  "implementation_target": "consumer .claude/settings.json (+ hook script under scripts/hooks/), consumer .codex/config.toml approval/sandbox, GitHub repository rulesets (repository owner)",
+  "evaluation_plan": "before/after on a fixed replay of routine tasks: approval prompts per session (should drop), hook deny count on a destructive-command fixture (must be 100% denied), zero force-push/direct-main pushes in git reflog for 2 weeks; guardrail: no newly auto-allowed write/network/destructive prefix; rollback = remove hook + deny entries",
+  "decision_owner": "repository owner (security boundary)",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/hooks",
+      "observed_at": "2026-08-15",
+      "summary": "PreToolUse exit 2/permissionDecision denyで確実に遮断、hookは単独でなくpermission systemと併用、ConfigChange hookで設定改変を監査/遮断、project hookはworkspace trust必要",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "Prompt fatigue mitigation: safe commandのallowlist、sandboxで自律範囲を定義しprompt削減、/permissions定期監査、managed settingsで組織強制",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/codex/agent-approvals-security",
+      "observed_at": "2026-08-15",
+      "summary": "approval policy untrusted/on-request/never × sandbox modeの組合せ、.git read-only保護",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets",
+      "observed_at": "2026-08-15",
+      "summary": "rulesetsは複数重畳・最も厳しい規則適用・bypass listで例外を明示管理",
+      "quality": "high"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-risk-approval",
+      "observed_at": "2026-08-11",
+      "summary": "分析/実行分離とrisk-based approval、high",
+      "quality": "medium"
+    },
+    {
+      "kind": "local-mitigation-card",
+      "reference": "MITIGATION-agent-authority-boundary-hard-limits",
+      "observed_at": "2026-08-11",
+      "summary": "tool call監査と反復・予算・時間limit、medium",
+      "quality": "medium"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

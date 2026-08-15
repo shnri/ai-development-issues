@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-F2196D5A",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "F07",
+    "F08",
+    "F18",
+    "F19"
+  ],
+  "remedy_id": "RMD-F08-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: PreToolUse"
+  ],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-F08-001 to consumer-configuration will reduce F07, F08, F18, F19 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "テスト基盤・CI workflow・coverage閾値・verifierをprotected pathとして実装Agentから機械的に遮断し(PreToolUse hook + CODEOWNERS)、『testsが通った』の自己申告ではなくStop hook等の決定論的gateで実際の実行結果を確認し、bug修正には同一testのbefore-fail/after-pass証拠を要求する。",
+    "steps": [
+      "oracle protected pathを定義する: CI workflow、test runner設定(coverage thresholds)、pre-commit hook、test helper/fixture/seed、acceptance/holdout test。実装Agentからの変更はPreToolUse hookでexit 2により遮断(前項の保護path scriptに一覧を追加、副作用なし)。",
+      "Bash matcherで『CIを弱める』patternを遮断する: `.skip(`/`.only(`/`xit(`の追加、`|| true`、`--passWithNoTests`、test fileの`rm`/`git checkout --`、coverage閾値の`sed -i`。正規表現一致でexit 2。",
+      "Stop hookで検証gateを置く: `.claude/settings.json`の`\"Stop\":[{\"hooks\":[{\"type\":\"command\",\"command\":\"node scripts/hooks/stop-verify.mjs\"}]}]`。scriptは`git status --porcelain`でsrc/test変更を検出し、変更があればtest command(短時間suite)を実行して失敗ならexit 2+理由(Agentが停止できず修正へ戻る)。無限loop防止のためstdin JSONの`stop_hook_active`相当flagが真なら即exit 0(field名は現行docsで確認)。",
+      "bug修正の完了報告contract: 『追加/変更したtest名』『修正前の実行結果(fail)』『修正後の実行結果(pass)』をtool結果から引用させる。tests通過の自己申告のみは受理しない。",
+      "GitHub側: CODEOWNERSにoracle pathを登録し、PR templateに『test/CI/coverage変更あり→理由』欄を置く。CIを弱める差分はblocker扱い。",
+      "hookを持たないharness(Codex等)ではCODEOWNERS/CI側でのみ遮断できることを前提に、instruction層に同じ規則を1行置く。"
+    ],
+    "verification": [
+      "hookへ手動JSONを流し、tests設定編集・`.skip`追加・`|| true`がexit 2になることを確認。",
+      "Stop hookがtest失敗時に停止をblockし、成功時に通過することを1回確認。",
+      "未承認oracle変更数、hook deny件数、before-fail evidence添付率を記録。"
+    ],
+    "anti_patterns": [
+      "Agentの『tests passed』自己申告だけを信頼する。",
+      "holdoutを持たずvisible testのみで受け入れる。",
+      "Stop hookで長時間suite/build/deployなど重い・副作用のある処理を回す(短時間testに限定する)。"
+    ],
+    "applies_when": [
+      "Agentが実装とテスト/CIを同じsession・PRで変更できる",
+      "acceptance testやholdoutを実装Agentから分離できる",
+      "GitHub PR flowまたはClaude Code hooksが使える"
+    ],
+    "not_applicable_when": [
+      "テストの正当な更新が仕様変更の一部である場合(別PR/別承認で処理する)",
+      "Codex単独: PreToolUse相当のhookがないためCODEOWNERS/CI側でのみ遮断"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/hooks",
+      "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/",
+      "https://metr.org/blog/2025-06-05-recent-reward-hacking/"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-C5226E2A",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "G04",
+    "G12",
+    "G13"
+  ],
+  "remedy_id": "RMD-G12-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R1",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "context hygiene is mostly harness configuration (output-filter hooks, compact instructions, /clear, subagent isolation) applied per consumer; the one-line limited-reading instruction is project-local; re-routed by the controller from shared-existing-asset to consumer-configuration guidance",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: agent-instruction-maintenance (score 50)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)",
+      "controller re-route (MNT-20260815T141330Z): existing shared asset agent-instruction-maintenance does not own this remedy (not an always-loaded rule) → consumer-configuration"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-G12-001 to shared-existing-asset will reduce G04, G12, G13 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:40:00Z",
+      "from": "scoped",
+      "to": "scoped",
+      "reason": "target re-routed to consumer-configuration by controller: context hygiene is mostly harness configuration (output-filter hooks, compact instructions, /clear, subagent isolation) applied per consumer; the one-line limited-reading instruction is project-local; re-routed by the controller from shared-existing-asset to consumer-configuration guidance",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "Context衛生: 着手時は変更点・入口・依存先だけを読み、大量log/test出力はhookで失敗行だけに絞るかfileへ落として要約だけ保持し、冗長操作はsubagentへ隔離、無関係task間は`/clear`、compact時の保持対象を指示する。",
+    "steps": [
+      "常時指示(AGENTS.md/CLAUDE.md)に限定読取の1行を置く: 『変更前は関係する設計書と該当実装・参照箇所だけを読み、repository全体の走査は要求された場合だけ行う』。CLAUDE.mdは200行以下、手順はSkillへ。",
+      "test runnerの出力を既定で失敗中心にする: vitestはagent環境を検出すると自動で`agent` reporterになるので、`reporters`を明示設定して上書きしていないか確認する。CI等で全量が必要なら`--reporter`で切替える。",
+      "test以外の冗長command(build/lint/長いlog)には、Claude CodeのPreToolUse hook(matcher: Bash)でcommandを`… 2>&1 | grep -A 5 -E '(FAIL|ERROR|error:)' | head -100`へ書き換える公式パターン(hookSpecificOutput.updatedInput.command)を使うか、`> file 2>&1; tail -n 50 file`で全文はfileへ残す。grepの-A行数はerror文脈が消えない値にする。",
+      "log読取・test実行・doc取得など出力が大きい作業はsubagentへ委譲し、親には要約だけ返す(subagent定義に『要約で返す』を明記)。",
+      "compact方針を書く: CLAUDE.md(またはAGENTS.md)に『# Compact instructions』節を置き、保持対象(未完task、変更file、失敗test名、決定事項)を列挙。必要に応じて`/compact Focus on ...`を使い、無関係taskの前に`/clear`する。`autoCompactWindow`/`autoCompactEnabled`はsettingsで調整可能(現行docsで確認)。",
+      "Codex側は`model_auto_compact_token_limit`と`project_doc_max_bytes`で同等の上限を置く(現行docsで確認)。"
+    ],
+    "verification": [
+      "task着手からfirst editまでに読んだfile数/tokenをsession logで比較する。",
+      "`npm test`等の出力token(または行数)がbefore/afterで減っているか、失敗時に原因行が残っているか。",
+      "auto-compact発生回数/sessionと、compact後に必要情報(未完task・変更file)が残っているか。"
+    ],
+    "anti_patterns": [
+      "巨大logを『要約して』と指示するだけで、読込自体は発生させる(hookまたはfile退避で読込前に絞る)。",
+      "grepのfilterを厳しくしすぎてstack traceや失敗test名を落とす。",
+      "CLAUDE.mdにrepository構造や手順を全て書き、常時contextを肥大化させる。"
+    ],
+    "applies_when": [
+      "agentが着手時にrepository全体を読む・大きなlogをそのままcontextに載せる",
+      "同一sessionで無関係taskを続ける"
+    ],
+    "not_applicable_when": [
+      "repositoryが小さくcontext圧が無い",
+      "監査目的で全出力を保持する必要がある"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/costs",
+      "https://vitest.dev/guide/reporters",
+      "https://code.claude.com/docs/en/memory",
+      "https://code.claude.com/docs/en/settings",
+      "https://learn.chatgpt.com/docs/config-file/config-reference"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  },
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-G12-001?",
+    "existing_solutions": [
+      {
+        "name": "vitest agent/minimal reporter(agent環境で自動選択)",
+        "fit": "設定変更なしでtest出力を失敗中心にできる。"
+      },
+      {
+        "name": "Claude Code PreToolUse hook (updatedInput.command 書き換え)",
+        "fit": "test以外の冗長commandも読込前に絞れる。commandを書き換えるためhook policy(R2)扱い。"
+      },
+      {
+        "name": "Subagent隔離 + `# Compact instructions` + `/clear`",
+        "fit": "設定不要で即適用できる運用面の対策。"
+      }
+    ],
+    "decision": null,
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

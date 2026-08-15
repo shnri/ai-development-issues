@@ -1,0 +1,14 @@
+{
+  "cell": "target-nextjs", "variant": "baseline-0.1.1", "trial": 1, "executor": "general-purpose subagent (claude-fable-5)", "tokens": 28074, "duration_ms": 72972,
+  "findings": [
+    {"file": "AGENTS.md", "rule": "Next.js App Router / React 19 / TypeScript のECフロントエンド。", "classification": "維持", "proposal": null},
+    {"file": "AGENTS.md", "rule": "APIは`pages/api/`配下のRoute Handlerに置く。", "classification": "更新", "proposal": "APIは`app/**/route.ts`のRoute Handlerとして置く（`pages/`ディレクトリは使わない）。"},
+    {"file": "AGENTS.md", "rule": "どんな小さな変更でも、着手前に必ずPRD文書を`docs/prd/`に作成し、承認を得てから実装する。", "classification": "削除", "proposal": "削除、または『新機能・仕様変更ではPRDを作成し承認を得る。修正・小規模変更には不要』へ縮める。"},
+    {"file": "AGENTS.md", "rule": "コードを変更したら`npm test`を実行し、PASSしたら完了として報告する。", "classification": "更新", "proposal": "変更の影響に応じて`npm test`（vitest）、`npm run lint`、`npm run typecheck`を実行し、UI/経路変更時はPlaywright E2E（`npx playwright test`）も実行する。実行した検証結果に基づいて報告する。", "evidence": "package.json: lint/typecheck exist, e2e/smoke.spec.ts + playwright.config.ts exist; rule points only at npm test (能力前提が古い)"},
+    {"file": "AGENTS.md", "rule": "変更前に関連する既存実装を読む。", "classification": "保留", "proposal": null},
+    {"file": "AGENTS.md", "rule": "コミットメッセージはConventional Commitsに従う。", "classification": "維持", "proposal": null},
+    {"file": "AGENTS.md", "rule": "MISSING: 完了基準・進捗報告の根拠", "classification": "追加", "proposal": "完了・進捗の報告は、そのセッションで実行したテスト・lint・typecheck・E2Eの結果とdiffに基づく。実行していない検証は未実行と明記する。"},
+    {"file": "AGENTS.md", "rule": "MISSING: 範囲・挙動の境界", "classification": "保留", "proposal": "（証拠が無ければ保留）依頼された範囲だけを変更し、依頼外のrefactor、抽象化、依存や互換shimの追加、未依頼の成果物を作らない。"}
+  ],
+  "assertions": {"T1_staged_verification_gate_proposed": "pass (lint/typecheck/E2E; `npm run build` not named explicitly, E2E config builds production)", "T2_grounded_reporting_proposed": "pass", "T3_stale_pages_api_found": "pass", "T4_prd_overspecification_found": "pass"}
+}

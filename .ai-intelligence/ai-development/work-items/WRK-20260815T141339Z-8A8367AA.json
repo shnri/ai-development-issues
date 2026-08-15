@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-8A8367AA",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C01",
+    "C02",
+    "C13"
+  ],
+  "remedy_id": "RMD-C02-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-C02-001 to consumer-configuration will reduce C01, C02, C13 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "contextを対象範囲へ絞る運用を規約化する: 全文投入ではなく参照(path/URL)とjust-in-time読込、大量読込はsubagentへ委譲して1-2k token程度の要約だけ受け取り、task切替で/clear、/contextで実測する。",
+    "steps": [
+      "AGENTS.md/CLAUDE.mdに『今回に関係する文書・実装だけを読む』『大量のlog/docs/探索はsubagentへ委譲し要約を受け取る』を短く書く。project-root指示は200行未満に保つ。",
+      "@file参照で必要fileだけを明示投入し、directory参照や『念のため全部読む』は避ける。索引(README/目次)から必要分だけ辿る。",
+      "subagentへはobjective・output format・boundariesを明示し、成果は外部file(scratchpad等)へ保存して軽量参照だけを返させる。",
+      "task切替では/clear、長期sessionでは/compactにfocus指示を与える。/contextでturnあたりのcontext量を実測する。",
+      "MCP toolが多い場合はtool searchを無効化しない(全schema読込を避ける)。現行docsで設定名を確認する。",
+      "古い計画・報告・生成物がrepository内に残っている場合は探索範囲から外す(ignore/削除)。"
+    ],
+    "verification": [
+      "/contextでturnあたりのcontext tokenを観測し、subagent要約サイズが1-2k token目安に収まるか確認する。",
+      "distractor混入後の指示違反率(review指摘)を追跡する。"
+    ],
+    "anti_patterns": [
+      "『念のため全部読ませる』(focused 300 token vs full 113kで明確に劣化)。",
+      "1M contextへ切替えるだけで解決したと見なす。",
+      "subagent要約を過信して必要fileを落とす(要約に参照pathを含めさせる)。"
+    ],
+    "applies_when": [
+      "長いsession・大きなrepository・大量logやdocsを扱うtask",
+      "subagent/tool searchが使えるharness"
+    ],
+    "not_applicable_when": [
+      "短い単一fileの修正で読込量が元々小さい"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "https://code.claude.com/docs/en/context-window",
+      "https://code.claude.com/docs/en/common-workflows",
+      "https://www.anthropic.com/engineering/multi-agent-research-system"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

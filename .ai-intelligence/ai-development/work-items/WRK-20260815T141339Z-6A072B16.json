@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-6A072B16",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:16Z",
+  "problem_ids": [
+    "K04",
+    "K05"
+  ],
+  "remedy_id": "RMD-K04-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "evaluate-and-adopt-existing-solution",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: sandbox"
+  ],
+  "routing": {
+    "reason": "existing solution/tool evaluation precedes any new mechanism",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "tool/dependency without existing asset → solution adoption (evaluate existing solutions first)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-K04-001 to solution-adoption will reduce K04, K05 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:16Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "実行環境（container image、devcontainer feature版、Node/npm版、lockfile、sandbox mode）を固定・記録し、agent runの環境差を消す。floating tagのままで「固定済み」と見なさない。",
+    "steps": [
+      "`devcontainer.json` の `image` をfully-versioned tagまたはdigest（`@sha256:...`）で固定し、Featureは `<registry>/<namespace>/<id>:<semver>` で参照する（`:1` のようなmajorのみは半floating）。",
+      "devcontainer CLIの `--experimental-lockfile` で `devcontainer-lock.json` を生成してcommitし、CIでは `--experimental-frozen-lockfile` を使う。更新は `devcontainer upgrade` で明示的に行う（experimental扱いのため現行docsで確認）。",
+      "Node/npm版は `engines`、`.node-version`/`.nvmrc`、CIの `setup-node` の値、devcontainer Featureの `version` を同じmajor（例: `24`）に揃え、`lts`/`latest` を使わない。lockfile（`package-lock.json`）と `npm ci` を使う。",
+      "sandbox/network条件を宣言的に固定する（Codex `sandbox_mode`, `features.network_proxy.domains`; devcontainerを外側境界にする場合はその判断を記録）。",
+      "run記録に環境manifest（image digest、feature版、node/npm版、OS）を残す。OTelを使うなら `OTEL_METRICS_INCLUDE_VERSION` 等で環境属性を付与。pin固定はRenovate/Dependabot（devcontainers ecosystem）等で定期更新する。"
+    ],
+    "verification": [
+      "環境manifest記録率（run記録に含まれる割合）",
+      "devcontainer rebuildの再現成功率（`node --version` 等が期待値一致）",
+      "同一入力での環境起因差分件数"
+    ],
+    "anti_patterns": [
+      "`base:bookworm` / `version: lts` のようなfloating指定のまま固定済みとみなす",
+      "Network/timeout差を無視して結果だけ比較",
+      "pin後に更新経路を持たず脆弱性を残す"
+    ],
+    "applies_when": [
+      "devcontainer/CIで再現性が必要",
+      "agentがbuild/test結果に依存して判断する"
+    ],
+    "not_applicable_when": [
+      "doc-only作業",
+      "host hardware差（CPU/Memory: 記録のみ）"
+    ],
+    "official_references": [
+      "https://containers.dev/implementors/features-distribution/",
+      "https://github.com/devcontainers/cli/issues/1195",
+      "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "https://code.claude.com/docs/en/monitoring-usage"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  },
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-K04-001?",
+    "existing_solutions": [
+      {
+        "name": "devcontainer image digest / fully-versioned tag pinning（devcontainer.json `image`）",
+        "fit": "標準機能・追加tool不要。base image層の再現性を確保。digest更新は手動またはbot任せ。"
+      },
+      {
+        "name": "devcontainer CLI lockfile（`devcontainer-lock.json`, `--experimental-lockfile` / `--experimental-frozen-lockfile`）",
+        "fit": "Feature版とdigestを固定。experimental扱いだが既にlockfileを持つprojectでは追加cost最小。imageは対象外。"
+      },
+      {
+        "name": "Node version pin（Feature `version: \"24\"` + `engines` + CI `setup-node`）",
+        "fit": "toolchain差の主因を除去。設定1行、既存のengines/CI値と整合させるだけ。"
+      },
+      {
+        "name": "Renovate / Dependabot（devcontainers ecosystem）",
+        "fit": "pin後の更新経路。pin固定の副作用（更新遅延）を補う。導入は別作業（supply-chain影響）。"
+      },
+      {
+        "name": "Codex `sandbox_mode` / `network_proxy` 宣言",
+        "fit": "sandbox条件の固定。既にuser層で宣言済み（devcontainerを外側境界とする判断）。"
+      }
+    ],
+    "decision": "既存のdevcontainer-lock.json（Feature digest固定）を維持し、devcontainer.jsonの `image` をfully-versioned tag/digestに、node Featureの `version` を `\"24\"`（engines/CIと一致）に変更する。更新経路としてRenovate/Dependabot devcontainers ecosystemの導入は別work item（supply-chain, R2）で評価する。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-92089391",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "H09",
+    "H13"
+  ],
+  "remedy_id": "RMD-H13-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-H13-001 to consumer-configuration will reduce H09, H13 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "Coder/Reviewerの相互同意を防ぐため、Reviewerは生成側と文脈を共有しないfresh-context subagentとし、仕様と実行証拠（diff、test/typecheck/lint出力）を渡し、反証役として『仕様との差分を探す』指示を与える。決定的oracle（test/typecheck）で判定できる項目にはAgent reviewerを使わない。",
+    "steps": [
+      "Reviewer/verifierを独立subagent定義として持ち（例: `.claude/agents/<reviewer>.md`）、生成側の会話ではなく新規contextで起動する。同一contextでのself-critiqueをreviewとして数えない。",
+      "Reviewerへの入力に必ず含める: 仕様/受け入れ条件の場所、`git diff <base>...HEAD`範囲、実行済み検証commandの出力要点。生成側の説明・要約だけを渡さない。",
+      "Reviewer指示に反証roleを書く: 『仕様に対する欠落・逸脱・未検証点を挙げる。LGTMだけを返さず、根拠となるfile:lineを示す。指摘が無い場合は確認した観点と実行したcommandを列挙する』。",
+      "決定的oracle（test/typecheck/lint、CI）を先に走らせ、その結果をReviewerへ渡す。oracleで判定できる項目はReviewer観点から外す。",
+      "長時間runでは一定間隔（例: milestone毎）に仕様に対する独立verifier検証を挟む。人間reviewの代替にはしない。"
+    ],
+    "verification": [
+      "reviewer指摘のうち実欠陥率（採用/却下を記録）",
+      "独立verifierが差し戻した割合",
+      "人間reviewで後から見つかった欠陥数の推移"
+    ],
+    "anti_patterns": [
+      "同一Contextでのself-critiqueをreviewとして扱う",
+      "Reviewerに要約だけ渡す（diff・実行証拠なし）",
+      "reviewer LGTMを人間reviewやCIの代替にする"
+    ],
+    "applies_when": [
+      "生成と検証を別Agentに分ける構成",
+      "reviewerが同じ会話文脈・同じ前提を共有し得る構成"
+    ],
+    "not_applicable_when": [
+      "決定的testだけで判定可能な変更"
+    ],
+    "official_references": [
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "https://code.claude.com/docs/en/agent-teams"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

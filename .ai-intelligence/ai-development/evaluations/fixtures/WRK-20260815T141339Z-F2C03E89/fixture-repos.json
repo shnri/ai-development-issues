@@ -1,0 +1,27 @@
+{
+ "schema_version": "1.0",
+ "kind": "fixture-file-bundle",
+ "work_item_id": "WRK-20260815T141339Z-F2C03E89",
+ "note": "materialize with: for each key, write the value to <dir>/<key>; kept as JSON because the authority state root allows only JSON/Markdown records",
+ "files": {
+  "adjacent-nextjs-with-gate/AGENTS.md": "# shop-frontend AI指示\n\n## プロジェクト\nNext.js App Router / React 19 / TypeScript のECフロントエンド。APIは`pages/api/`配下のRoute Handlerに置く。\n\n## 作業ルール\n- どんな小さな変更でも、着手前に必ずPRD文書を`docs/prd/`に作成し、承認を得てから実装する。\n- 変更前に関連する既存実装を読む。\n- 検証は変更の影響に応じて`npm run lint`、`npm run typecheck`、`npm test`、`npm run build`を実行し、UI変更ではe2e smoke（`npx playwright test`）まで確認する。実行できなかった検証は未実行と報告する。\n- 依頼範囲外のリファクタや依存追加はしない。完了報告は当該セッションのテスト出力とdiffに基づく。\n- コミットメッセージはConventional Commitsに従う。\n",
+  "adjacent-nextjs-with-gate/app/layout.tsx": "export default function RootLayout({ children }: { children: React.ReactNode }) { return <html><body>{children}</body></html>; }\n",
+  "adjacent-nextjs-with-gate/app/page.tsx": "export default function Page() { return <main>Shop</main>; }\n",
+  "adjacent-nextjs-with-gate/e2e/smoke.spec.ts": "import { test, expect } from '@playwright/test';\ntest('home renders', async ({ page }) => { await page.goto('/'); await expect(page.getByText('Shop')).toBeVisible(); });\n",
+  "adjacent-nextjs-with-gate/package.json": "{\n  \"name\": \"shop-frontend\",\n  \"private\": true,\n  \"scripts\": {\n    \"dev\": \"next dev\",\n    \"build\": \"next build\",\n    \"start\": \"next start\",\n    \"lint\": \"eslint .\",\n    \"typecheck\": \"tsc --noEmit\",\n    \"test\": \"vitest run\"\n  },\n  \"dependencies\": { \"next\": \"16.0.0\", \"react\": \"19.1.0\", \"react-dom\": \"19.1.0\" },\n  \"devDependencies\": { \"typescript\": \"6.0.0\", \"vitest\": \"3.2.0\", \"eslint\": \"9.30.0\", \"@playwright/test\": \"1.55.0\" }\n}\n",
+  "adjacent-nextjs-with-gate/playwright.config.ts": "import { defineConfig } from '@playwright/test';\nexport default defineConfig({ testDir: './e2e', webServer: { command: 'npm run build && npm run start', port: 3000 } });\n",
+  "adjacent-nextjs-with-gate/tsconfig.json": "{ \"compilerOptions\": { \"strict\": true, \"jsx\": \"preserve\", \"moduleResolution\": \"bundler\", \"noEmit\": true }, \"include\": [\"app\", \"lib\"] }\n",
+  "holdout-python/AGENTS.md": "# billing-svc エージェント指示\n\n- FastAPI + Pydantic v2 のサービス。`src/pkg`配下に実装、`tests/`にpytest。\n- コードを整形するときは`black`を使う。\n- 変更後は`pytest`を実行して緑になったら完了。\n- 破壊的なDB操作（DROP、TRUNCATE）は実行前に必ず確認する。\n- 依存を追加する前に既存の依存で代替できないか確認する。\n",
+  "holdout-python/pyproject.toml": "[project]\nname = \"billing-svc\"\nversion = \"0.4.0\"\nrequires-python = \">=3.12\"\ndependencies = [\"fastapi>=0.115\", \"pydantic>=2.9\"]\n\n[tool.pytest.ini_options]\ntestpaths = [\"tests\"]\n\n[tool.ruff]\nline-length = 100\n\n[tool.ruff.format]\nquote-style = \"double\"\n\n[tool.mypy]\nstrict = true\npackages = [\"pkg\"]\n",
+  "holdout-python/src/pkg/__init__.py": "\"\"\"billing service\"\"\"\n",
+  "holdout-python/src/pkg/invoice.py": "from pydantic import BaseModel\n\nclass Invoice(BaseModel):\n    id: str\n    amount_cents: int\n\ndef total(invoices: list[Invoice]) -> int:\n    return sum(i.amount_cents for i in invoices)\n",
+  "holdout-python/tests/test_invoice.py": "from pkg.invoice import Invoice, total\n\ndef test_total():\n    assert total([Invoice(id=\"a\", amount_cents=100)]) == 100\n",
+  "target-nextjs/AGENTS.md": "# shop-frontend AI指示\n\n## プロジェクト\nNext.js App Router / React 19 / TypeScript のECフロントエンド。APIは`pages/api/`配下のRoute Handlerに置く。\n\n## 作業ルール\n- どんな小さな変更でも、着手前に必ずPRD文書を`docs/prd/`に作成し、承認を得てから実装する。\n- コードを変更したら`npm test`を実行し、PASSしたら完了として報告する。\n- 変更前に関連する既存実装を読む。\n- コミットメッセージはConventional Commitsに従う。\n",
+  "target-nextjs/app/layout.tsx": "export default function RootLayout({ children }: { children: React.ReactNode }) { return <html><body>{children}</body></html>; }\n",
+  "target-nextjs/app/page.tsx": "export default function Page() { return <main>Shop</main>; }\n",
+  "target-nextjs/e2e/smoke.spec.ts": "import { test, expect } from '@playwright/test';\ntest('home renders', async ({ page }) => { await page.goto('/'); await expect(page.getByText('Shop')).toBeVisible(); });\n",
+  "target-nextjs/package.json": "{\n  \"name\": \"shop-frontend\",\n  \"private\": true,\n  \"scripts\": {\n    \"dev\": \"next dev\",\n    \"build\": \"next build\",\n    \"start\": \"next start\",\n    \"lint\": \"eslint .\",\n    \"typecheck\": \"tsc --noEmit\",\n    \"test\": \"vitest run\"\n  },\n  \"dependencies\": { \"next\": \"16.0.0\", \"react\": \"19.1.0\", \"react-dom\": \"19.1.0\" },\n  \"devDependencies\": { \"typescript\": \"6.0.0\", \"vitest\": \"3.2.0\", \"eslint\": \"9.30.0\", \"@playwright/test\": \"1.55.0\" }\n}\n",
+  "target-nextjs/playwright.config.ts": "import { defineConfig } from '@playwright/test';\nexport default defineConfig({ testDir: './e2e', webServer: { command: 'npm run build && npm run start', port: 3000 } });\n",
+  "target-nextjs/tsconfig.json": "{ \"compilerOptions\": { \"strict\": true, \"jsx\": \"preserve\", \"moduleResolution\": \"bundler\", \"noEmit\": true }, \"include\": [\"app\", \"lib\"] }\n"
+ }
+}

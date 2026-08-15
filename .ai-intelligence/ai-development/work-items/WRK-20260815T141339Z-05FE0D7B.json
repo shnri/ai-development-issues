@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-05FE0D7B",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "G08",
+    "G09",
+    "G10"
+  ],
+  "remedy_id": "RMD-G08-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R1",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "subagent delegation criteria and per-agent purpose/output/tool boundaries belong in agent/Skill definitions and delegation prompts, not in always-loaded rules audited by agent-instruction-maintenance; re-routed by the controller from shared-existing-asset to knowledge-only guidance",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: agent-instruction-maintenance (score 50)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)",
+      "controller re-route (MNT-20260815T141330Z): existing shared asset agent-instruction-maintenance does not own this remedy (not an always-loaded rule) → knowledge-only"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-G08-001 to shared-existing-asset will reduce G08, G09, G10 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:40:00Z",
+      "from": "scoped",
+      "to": "scoped",
+      "reason": "target re-routed to knowledge-only by controller: subagent delegation criteria and per-agent purpose/output/tool boundaries belong in agent/Skill definitions and delegation prompts, not in always-loaded rules audited by agent-instruction-maintenance; re-routed by the controller from shared-existing-asset to knowledge-only guidance",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "Subagentへの委譲は「独立している・並列可能・要約で返せる」作業に限定し、query複雑度でagent数を段階化する。各subagent定義(agent file / Skill)に委譲条件・担当境界・出力contract・tool制限・turn上限を書き、常時読み込まれるrulesには置かない。",
+    "steps": [
+      "各subagent定義のdescriptionを『何をするか』ではなく『いつ委譲するか』で書く(例: 'Use when the task is self-contained, produces verbose output, and can be returned as a summary; do not use for quick targeted edits or work that shares context with the main task')。",
+      "main conversationに残す条件をworkflow/commandに明記する: 頻繁なやり取りが要る、計画→実装→testが同じcontextを共有する、小さな限定的変更、latency重視。",
+      "agent数の目安を委譲側(command/Skill)に置く: 単純な事実確認=agent 1つ(3〜10 tool call)、比較・二者択一=2〜4 subagent、広い調査のみ>4。実装作業は依存が強いため原則1 agent。",
+      "subagentへのpromptテンプレートを固定する: 目的 / 担当範囲(対象path・対象外) / 使ってよいtool / 期待する出力形式(見出し・件数上限・fileパスは絶対/相対の指定) / 終了条件。並列起動時は担当をpath単位で分けて重複読取を防ぐ。",
+      "Claude Codeではagent frontmatterで境界を機械的にも与える: `tools`(allowlist)/`disallowedTools`、`maxTurns`、`model`(調査・レビュー系はsonnet/haiku)、必要なら`background`。field名は現行docsで再確認する。",
+      "統合を軽くするため、subagentの最終報告に『変更file一覧・実行した検証と結果・未完/阻害要因』の3項目を必須にし、親はそれ以外を再読しない。"
+    ],
+    "verification": [
+      "task当たりのsubagent数が複雑度区分(1 / 2〜4 / >4)に対応しているかをsession logで抽出する。",
+      "並列subagent間で同一fileのRead/Grep重複率(重複件数÷総読取件数)を比較する。",
+      "subagent完了後に親が統合に使ったturn数がbefore/afterで減っているか。"
+    ],
+    "anti_patterns": [
+      "依存する実装工程(設計→実装→test)を別subagentへ分割し、互いの前提を知らないまま衝突させる。",
+      "subagent数の上限だけ決めて担当境界と出力形式を書かない。",
+      "委譲基準をAGENTS.md/CLAUDE.mdなど常時contextへ長文で置き、subagentを使わないsessionにも課金する。"
+    ],
+    "applies_when": [
+      "subagent/agent team機能を使うworkflow",
+      "並列化できる調査・レビューと依存の強い実装が同一project内で混在する",
+      "委譲傾向が強いmodel(公式がFable 5で明示)を使う"
+    ],
+    "not_applicable_when": [
+      "subagentを使わないsession",
+      "全工程が単一contextの共有を要する小変更"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/sub-agents",
+      "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "https://code.claude.com/docs/en/costs"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  },
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-G08-001?",
+    "existing_solutions": [
+      {
+        "name": "Claude Code subagent frontmatter (description/tools/disallowedTools/maxTurns/model/effort/background)",
+        "fit": "委譲条件と境界を定義fileへ機械的に置ける。docs(2026-08-15取得)で確認済み。"
+      },
+      {
+        "name": "Anthropic multi-agent research system の複雑度スケーリング指針",
+        "fit": "agent数の段階基準として流用。"
+      }
+    ],
+    "decision": null,
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

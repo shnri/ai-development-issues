@@ -55,7 +55,8 @@
   "notes": [
     "[ai-development-improvement/wrk-20260815t111513z-2c9fe6b0 3bcd7d0] improve(agent-instruction-maintenance): add 欠落シグナル to audit-criteria (B04/E04/G14/E11/F18 via WRK-20260815T111513Z-2C9FE6B0)\n 4 files changed, 25 insertions(+), 4 deletions(-)\n create mode 100644 plugins/agent-instruction-maintenance/CHANGELOG.md",
     "GitHub CLI unavailable; branch delivery succeeded but PR creation is pending.",
-    "consolidated into ai-development-improvement/agent-instruction-maintenance-0.1.1 @ 4fce15c7 (agent-instruction-maintenance 0.1.1); PR still pending (no gh); resume detects merge into main"
+    "consolidated into ai-development-improvement/agent-instruction-maintenance-0.1.1 @ 4fce15c7 (agent-instruction-maintenance 0.1.1); PR still pending (no gh); resume detects merge into main",
+    "2026-08-15T14:50Z MNT-20260815T141330Z: the branch conflicts with main (CHANGELOG.md) since v0.8.0/v0.9.0; a merge of main into the branch (merge commit df03341, candidate content unchanged, npm run check passed with node_modules from npm ci) was prepared but its push was not permitted in the controller session — push it (fast-forward of the same branch) or resolve the conflict when opening the PR. main v0.9.0 also tracks a broken node_modules symlink; fix branch fix/untrack-node-modules-symlink @2880fc8 is pushed (PR pending, no gh)."
   ],
   "consolidation": {
     "at": "2026-08-15T12:50:00Z",

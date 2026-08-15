@@ -1,0 +1,13 @@
+{
+ "schema_version": "1.0",
+ "kind": "fixture-file-bundle",
+ "work_item_id": "WRK-20260815T141339Z-0282B2A5",
+ "note": "materialize with: for each key, write the value to <dir>/<key>; kept as JSON because the authority state root allows only JSON/Markdown records",
+ "files": {
+  "project/.ai-intelligence-fingerprint.json": "{ \"model\": \"claude-fable-5\", \"surface\": \"Claude Code CLI (routine, unattended, --max-turns 300)\", \"effort\": \"high\", \"context_display\": \"harness shows remaining-context percentage in the status line\", \"note\": \"nightly migration routine runs 2-4 hours\" }\n",
+  "project/.claude/settings.json": "{ \"permissions\": { \"allow\": [\"Bash(pytest *)\", \"Bash(ruff *)\"] }, \"hooks\": {} }\n",
+  "project/AGENTS.md": "# data-pipeline エージェント指示\n\n- Python 3.12 / Airflow DAG群。`dags/`配下にDAG、`tests/`にpytest。\n- 変更後は`pytest`と`ruff check`を実行する。\n- 破壊的なDB操作は実行前に確認する。\n- 長時間の移行作業では、途中経過を`docs/progress.md`に書く。\n",
+  "project/dags/nightly.py": "from airflow import DAG\n",
+  "project/pyproject.toml": "[project]\nname = \"data-pipeline\"\nversion = \"2.3.0\"\nrequires-python = \">=3.12\"\n"
+ }
+}

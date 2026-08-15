@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-C1D1FCF4",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:16Z",
+  "problem_ids": [
+    "K02",
+    "K03",
+    "K09"
+  ],
+  "remedy_id": "RMD-K03-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-K03-001 to knowledge-only will reduce K02, K03, K09 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:16Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "instruction/Skill/tool schema/model/effortの変更は一度に一軸だけ行い、変更ごとにablation付き回帰evalとsoak・段階rolloutを通す。安全・権限規則は削除ablationの対象にしない。",
+    "steps": [
+      "変更単位を1軸（instruction本文、Skill追加/削除、hook、MCP/tool schema、model、effort）に限定し、commit/PRを軸ごとに分ける。",
+      "代表task 10〜30件の回帰suite（ほぼ100% pass期待）とcapability suiteを分け、変更前後で同じsuiteを回して差分を記録する。低リスク変更は最低限のsmoke taskで代替可とする判断基準を書く。",
+      "Skill/instructionのablation（あり/なし/一部削除）で寄与を測り、寄与のないものだけ削る。安全・権限・data保護規則は効率理由の削除対象外。",
+      "外部起因の変更（model update、harness更新、MCP `tools/list_changed`）は変更検知後に同じ回帰suiteで再評価する。",
+      "system prompt級の変更にはsoak期間と段階rollout（先に一部利用者/subagentで運用）を置き、巻き戻し手順を用意する。"
+    ],
+    "verification": [
+      "回帰suite pass率（前後）とcost/latency差",
+      "1変更あたりの同時変更軸数（目標1）",
+      "回帰検出までのlead time"
+    ],
+    "anti_patterns": [
+      "複数軸同時変更の体感評価",
+      "metadata更新だけで実行evalなし",
+      "全Skill一括削除"
+    ],
+    "applies_when": [
+      "AGENTS.md/CLAUDE.md/Skill/hook/MCPを継続保守する",
+      "model・effort・harness更新が外部起因で入る"
+    ],
+    "not_applicable_when": [
+      "安全・権限・data保護規則",
+      "evalを回すtoken予算がない小規模変更（→smoke task）"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/april-23-postmortem",
+      "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "https://modelcontextprotocol.io/specification/2025-06-18/server/tools"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

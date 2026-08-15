@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-0BA6D4EF",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:16Z",
+  "problem_ids": [
+    "K01",
+    "K02",
+    "K09",
+    "K10"
+  ],
+  "remedy_id": "RMD-K01-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-K01-001 to knowledge-only will reduce K01, K02, K09, K10 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:16Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "重要な比較・採否判断は単発runではなくtaskごとに複数trial（pass@k / pass^k）を取り、標準誤差・paired差分・transcript監査つきで読む。",
+    "steps": [
+      "比較したい各task（自Repositoryの代表task）を同一条件でk回（最低3、決定的な差が出るまで逐次追加）実行し、pass@k と pass^k を用途で使い分けて記録する。",
+      "変更前後は同じtask集合でpaired差分（同一task内で比較）を取り、SEM/信頼区間つきで報告する。two-sample比較は避ける。",
+      "各trialに n_turns / n_toolcalls / tokens / latency を併記し、pass率が同じでもcost・loopの差を見る。",
+      "sampleしたtranscriptを人が読み、grader/testの誤り（過剰厳格・曖昧要件・環境ごまかし）によるinvalid passを除外する。約30%のbroken taskが公開benchmarkで見つかった例に留意。",
+      "trial数の決め方（逐次確認: 決定的cellは追加1回、大きな変更は3回以上、不一致時のみ追加）を評価記録に残す。"
+    ],
+    "verification": [
+      "pass@k / pass^k per task と SEM/paired差分が記録されている",
+      "1 runだけで採否判断した変更数 = 0",
+      "監査済みtranscript率とinvalid pass率"
+    ],
+    "anti_patterns": [
+      "aggregate scoreだけで採否判断",
+      "1 runでの'改善した/悪化した'判断",
+      "grader未監査でk回だけ増やす"
+    ],
+    "applies_when": [
+      "model・prompt・Skill・harnessの採用/変更判断を数値で行う",
+      "flakyな結果の原因切り分け"
+    ],
+    "not_applicable_when": [
+      "1回きりの探索作業",
+      "token予算がない場合（sample数を減らしても複数runの原則は維持）"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "https://www.anthropic.com/research/statistical-approach-to-model-evals",
+      "https://openai.com/index/separating-signal-from-noise-coding-evaluations/"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

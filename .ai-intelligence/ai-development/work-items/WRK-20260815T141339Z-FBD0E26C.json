@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-FBD0E26C",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:17:44Z",
+  "problem_ids": [
+    "E03",
+    "E11",
+    "E12"
+  ],
+  "remedy_id": "RMD-E11-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "superseded",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-owner-asset",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: \\bhooks?\\b"
+  ],
+  "routing": {
+    "reason": "instruction/prompt/Skill/CLAUDE.md/AGENTS.md remedies become audit criteria or bounded edits in agent-instruction-maintenance",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: agent-instruction-maintenance (score 50)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-E11-001 to shared-existing-asset will reduce E03, E11, E12 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:17:44Z",
+      "from": "scoped",
+      "to": "superseded",
+      "reason": "superseded by WRK-20260815T111513Z-2C9FE6B0: RMD-E11-001 instruction guidance (scope/behavior boundary; completion and progress reports grounded in session tool results) is carried by the pending shared release of agent-instruction-maintenance 0.1.1 (欠落シグナル section; REL-20260815T112419Z-C340FEFB, branch ai-development-improvement/agent-instruction-maintenance-0.1.1, PR pending). No second candidate is created; the deterministic-gate part (Stop/PreToolUse hooks) is delivered as consumer-configuration guidance under RMD-E08-001 / RMD-F08-001 in this run.",
+      "actor": "controller"
+    }
+  ]
+}

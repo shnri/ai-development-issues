@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-9BE3CFD9",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C06",
+    "C07",
+    "C12"
+  ],
+  "remedy_id": "RMD-C06-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "evaluate-and-adopt-existing-solution",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "existing solution/tool evaluation precedes any new mechanism",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "tool/dependency without existing asset → solution adoption (evaluate existing solutions first)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-C06-001 to solution-adoption will reduce C06, C07, C12 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "対象versionをlockfileで固定し、そのversionと一致する公式docs(package同梱docs、公式サイトの該当version、version指定docs取得tool)を生成前に参照させ、記憶ではなく実環境の型検査・test・buildで裏取りする。",
+    "steps": [
+      "lockfile(package-lock.json等)をcommitし、Agent向け指示に主要dependencyの現行major version(例: framework/UI library/言語)を列挙する。",
+      "frameworkが同梱docsを提供する場合(例: node_modules内のdocs directoryとAGENTS.md自動追記block)はそれを一次参照とし、追記blockを削除・改変しない。",
+      "同梱docsが無いlibraryは公式docsの該当versionページ(WebFetch等)を参照させ、『古い記事・記憶を出典なしで採用しない』を指示に1行書く。全文投入ではなく該当sectionのみ。",
+      "採用前gateとして`typecheck`/`build`/testを実行し、存在しないoption・APIを型とruntimeで検出する(docs参照だけでは4割超が未解決)。",
+      "version指定docs取得tool(Context7等)を使う場合は community-contributedで正確性が保証されない点を認識し、supply-chain審査後に導入し、公式docs・型検査を優先する。",
+      "主要dependencyのmajor更新時に上記参照先(同梱docsのpath、公式URL)を見直す。"
+    ],
+    "verification": [
+      "typecheck/build失敗率と、古いAPI起因のreview指摘数を追跡する。",
+      "version条件付きtask(major更新後の実装)の初回成功率を比較する。"
+    ],
+    "anti_patterns": [
+      "docs retrievalだけで十分と扱い型検査・testを省く。",
+      "docs全文をcontextへ投入する(context肥大)。",
+      "framework自動追記のagent rules blockを差分から消す。"
+    ],
+    "applies_when": [
+      "training cutoff以後に変わったAPI/Framework/CLIを使う",
+      "version一致docsが取得可能"
+    ],
+    "not_applicable_when": [
+      "docsが存在しない/古い内部library(実装読解が代替)"
+    ],
+    "official_references": [
+      "https://arxiv.org/abs/2507.12367",
+      "https://github.com/upstash/context7"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  },
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-C06-001?",
+    "existing_solutions": [
+      {
+        "name": "Framework同梱version一致docs + 自動追記agent rules block(例: Next.js 16の node_modules/next/dist/docs + generate-agent-files)",
+        "fit": "高。install済みversionと完全一致、追加依存・外部通信なし、supply-chain risk無し。対象frameworkに限定される。"
+      },
+      {
+        "name": "lockfile固定 + typecheck/build/test gate(既存script)",
+        "fit": "高。model非依存で存在しないAPI/optionを決定論的に検出。docsが無いlibraryにも効く。GitChameleonでself-debug +10〜20pt。"
+      },
+      {
+        "name": "公式docs直接参照(WebFetch/URLでversion該当page)",
+        "fit": "中。追加toolなし、一次情報。該当section特定はAgent任せでcontext肥大risk、offline不可。"
+      },
+      {
+        "name": "Context7 MCP/CLI(version指定docs取得)",
+        "fit": "低〜中。30+ client対応で便利だが community-contributedで正確性・安全性を保証しない(自ら明記)。MCP追加は供給網・context(tool schema)コストを伴うためR2審査が必要。"
+      }
+    ],
+    "decision": "adopt: 同梱version一致docs(framework提供)+lockfile固定+typecheck/build/test gateを既定とし、同梱docsが無いlibraryは公式docsの該当versionページを参照する。Context7等の外部docs取得toolは今回導入しない(正確性保証なし・R2)。新機構は作らない。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

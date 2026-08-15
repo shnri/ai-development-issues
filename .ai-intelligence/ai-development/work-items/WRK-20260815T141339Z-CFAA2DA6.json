@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-CFAA2DA6",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "F15",
+    "F16"
+  ],
+  "remedy_id": "RMD-F15-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-F15-001 to knowledge-only will reduce F15, F16 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "evalをcapability suite(低pass率で伸び代を測る)とregression suite(≈100%を維持)に分離してownerを置き、production failure・bug tracker・support queueから継続的にケースを追加し、model/Skill比較は複数benchmarkと監査済みsubsetで行う。",
+    "steps": [
+      "eval registryにsuiteごとの種別(capability/regression)、owner、最終更新日、目標pass率を記録する。",
+      "regression suiteは≈100%を維持し、割れたら即修正。capability suiteは低pass率から始め、飽和(≈100%)したらregressionへ移すか難化する。",
+      "production failure/bug tracker/support queueからeval caseを追加するruleを置く(例: 再発防止時に必ず1 case追加)。",
+      "model/Skill比較ではpublic benchmark 1本に依存せず、複数eval+自前の監査済みsubsetで判断する。contamination・broken taskが疑われるbenchmarkは順位比較に使わない。",
+      "四半期ごとにsuiteのtask/test/referenceを再監査し、陳腐化したcaseを退役させる。"
+    ],
+    "verification": [
+      "suite更新頻度とceiling(飽和)率。",
+      "production failure→eval追加率、benchmark数と監査済み比率。"
+    ],
+    "anti_patterns": [
+      "saturated benchmarkのfrontier順位への継続利用。",
+      "regression 100%だけで新能力を測る。",
+      "aggregate scoreだけで採用判断する。"
+    ],
+    "applies_when": [
+      "Skill・prompt・model選択を継続的に評価する",
+      "production failureを記録している"
+    ],
+    "not_applicable_when": [
+      "evalを持たない小規模用途(先に失敗記録から始める)"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/",
+      "https://openai.com/index/separating-signal-from-noise-coding-evaluations/"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

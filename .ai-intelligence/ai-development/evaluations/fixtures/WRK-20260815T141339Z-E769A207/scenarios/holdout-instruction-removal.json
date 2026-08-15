@@ -1,0 +1,5 @@
+{
+  "id": "SCN-instruction-removal",
+  "situation": "A Skill `review-migration` has grown to 220 lines; half of its rules were written for an older model generation. The team wants to remove the rules that are no longer needed now that the executor model is claude-fable-5, without losing quality. All 15 evals pass today.",
+  "task": "You are the optimizer running `optimize-skill` in report-only mode with goal='remove obsolete instructions'. Before editing, state (a) what you record about the current configuration, (b) which experiments you run to decide which rules are removable and how you keep them comparable, and (c) your decision rule for keeping/removing a rule. Do NOT edit files. Return JSON."
+}

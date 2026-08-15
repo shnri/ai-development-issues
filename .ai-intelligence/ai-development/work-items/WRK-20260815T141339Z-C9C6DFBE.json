@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-C9C6DFBE",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:16Z",
+  "problem_ids": [
+    "K01",
+    "K11",
+    "K13"
+  ],
+  "remedy_id": "RMD-K11-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-K11-001 to knowledge-only will reduce K01, K11, K13 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:16Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "成功率だけでなくturn数・tool call数・token・時間・permission拒否/危険操作をrun単位で計測し、trajectory sampleを人が読む運用を回帰監視に組み込む。",
+    "steps": [
+      "非対話runは `claude -p --output-format json` の `num_turns`/`usage`/`total_cost_usd`（field名は現行docsで確認）や `codex exec --json` のeventsを集計し、task別に分布で保存する。",
+      "OTelを使う場合は `claude_code.tool_result` / `claude_code.tool_decision` / `claude_code.api_error` / `claude_code.permission_mode_changed` eventsと `claude_code.code_edit_tool.decision` metricを取り、`prompt.id` でprompt→events相関を取る。tool詳細（`OTEL_LOG_TOOL_DETAILS`）は必要時のみopt-in。",
+      "同一toolの連続反復（loop）、permission拒否、危険操作候補（force push、rm -rf、secret path読取）をrun記録から抽出するcheckを置く。",
+      "評価runごとに少なくとも1 trajectoryを人が読み、invalid pass（test改変・skip・環境ごまかし）を監査結果として記録する。",
+      "計測値を根拠に `--max-turns` / `--max-budget-usd` 等のhard limitを設定し、上限到達回数も指標にする。"
+    ],
+    "verification": [
+      "turns/toolcalls/tokens per task の分布が記録されている",
+      "permission拒否・危険操作候補件数、loop検出件数",
+      "監査済みtrajectory率とinvalid pass率"
+    ],
+    "anti_patterns": [
+      "pass率だけのdashboard",
+      "監査logだけで危険操作を予防したつもりになる",
+      "tool詳細logを常時有効化して秘密を蓄積（K13）"
+    ],
+    "applies_when": [
+      "agentの採用判断・回帰監視・危険操作検知",
+      "探索loopやtoken浪費が疑われる"
+    ],
+    "not_applicable_when": [
+      "telemetry収集不可のprivacy制約環境（→local eval時のみ計測）"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "https://code.claude.com/docs/en/monitoring-usage"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

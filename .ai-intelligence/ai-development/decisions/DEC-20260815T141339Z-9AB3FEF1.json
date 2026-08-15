@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T141339Z-9AB3FEF1",
+  "work_item_id": "WRK-20260815T141339Z-0F0F8729",
+  "problem_ids": [
+    "H04",
+    "H05",
+    "H07",
+    "H08"
+  ],
+  "remedy_id": "RMD-H07-001",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:13:39Z",
+  "status": "open",
+  "title": "並列Agentの分割は、file/module所有を重ねないcohesionの高い単位にし、team規模は3-5、taskは1 deliverable単位に揃え、同一file編集・逐次依存の強い作業は単一Sessionまたはsubagentで行う。",
+  "problem_titles": {
+    "H04": "Agentごとに仕様・Interfaceの解釈が異なる",
+    "H05": "並列変更で通常のMerge conflictが急増する",
+    "H07": "分割単位が悪く、複数Agentが同じModuleを横断する",
+    "H08": "調整Agentが情報・判断のボトルネックになる"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [],
+  "why_not_autonomous": "R3 operation or structural decision: source-of-truth / structural choice requires a human decision",
+  "classification": {
+    "kind": "structural-decision",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "create-implementation-project",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "structural decision → R3 decision package"
+  ],
+  "existing_capabilities": [
+    "Claude Code agent teams / subagents guidance: one owner per file set, 3-5 teammates, self-contained tasks (official docs)",
+    "Codex subagents guidance: no simultaneous editing across agents; read-heavy work to subagents",
+    "Git worktree isolation per parallel implementer (Claude Code Agent isolation: worktree)"
+  ],
+  "options": [
+    "A: adopt a written decomposition rule for parallel implementation: split by file/module ownership (no shared files), 3-5 agents max, one deliverable per agent, worktree isolation for implementers; sequential or single-session for cross-file/dependent edits; record it in the consumer AGENTS.md or the delegation command",
+    "B: keep ad hoc parallelism (status quo) — accept merge conflicts and duplicated reads",
+    "C: forbid parallel implementation entirely; parallelize only read-only research/review — safest but loses throughput on independent modules"
+  ],
+  "proposed_action": "A for consumers that already run parallel implementers (implement/review commands); C for consumers without ownership boundaries. Structural: it changes how work is decomposed across agents (team topology), a project decision rather than a controller edit.",
+  "implementation_target": "consumer delegation commands / agent definitions and a one-line AGENTS.md rule; optionally shared guidance in the agent-instruction-maintenance audit criteria once consumers converge",
+  "evaluation_plan": "on 5 parallel-implementation tasks: files touched by >1 agent (target 0), merge conflicts (target 0), integration turns; adjacent guard: wall-clock not worse than sequential by more than 20% for independent modules",
+  "decision_owner": "project owner",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/agent-teams",
+      "observed_at": "2026-08-15",
+      "summary": "『Two teammates editing the same file leads to overwrites. Break the work so each teammate owns a different set of files.』3-5 teammate開始、taskは self-contained unit、逐次/同一file/依存多の作業はteam不向き。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/subagents.md",
+      "observed_at": "2026-08-15",
+      "summary": "Codex: 『Avoid simultaneous code editing across multiple agents』、read-heavy taskをsubagentへ。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "observed_at": "2025-06-13",
+      "summary": "初期systemでは単純queryへ過剰subagent生成・重複が発生。明確なtask境界で解消。",
+      "quality": "high"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/html/2503.13657v3",
+      "observed_at": "2025-10-26",
+      "summary": "role/workflow修正のみで同一model(GPT-4o)でChatDev成功率+9.4%: 設計（役割・topology）が結果を変える。",
+      "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2607.00041",
+      "observed_at": "2026-06-29",
+      "summary": "ATM: 複数Agentのwrite intentを事前admission（parallel/serialize/fail-closed）で調停する研究。feasibilityのみで比較優位は主張せず。",
+      "quality": "low"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

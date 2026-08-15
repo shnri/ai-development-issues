@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-F2C03E89",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:21:33Z",
+  "problem_ids": [
+    "F18",
+    "F19"
+  ],
+  "remedy_id": "RMD-F18-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-owner-asset",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "instruction/prompt/Skill/CLAUDE.md/AGENTS.md remedies become audit criteria or bounded edits in agent-instruction-maintenance",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: agent-instruction-maintenance (score 50)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-F18-001 to shared-existing-asset will reduce F18, F19 without adjacent regressions.",
+  "baseline_ref": "evaluations/fixtures/WRK-20260815T141339Z-F2C03E89/runs/baseline",
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:21:33Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "RMD-F18-001 is already produced by the existing shared asset: baseline probe (evaluations/fixtures/WRK-20260815T141339Z-F2C03E89, 2/2 blind-free trials on a Next.js fixture whose AGENTS.md ends at 'npm test PASS = done') proposed the staged verification gate (lint/typecheck/E2E, build via playwright webServer) as an 更新 finding from 陳腐化シグナル + package.json evidence, and grounded completion reporting from the pending 0.1.1 欠落シグナル bullet (REL-20260815T112419Z-C340FEFB). No candidate authored (a third signal would duplicate baseline behaviour). Consumers apply the staged-gate/grounded-report guidance as project change; the Stop-hook gate part is consumer-configuration guidance under RMD-F08-001.",
+      "actor": "controller"
+    }
+  ]
+}

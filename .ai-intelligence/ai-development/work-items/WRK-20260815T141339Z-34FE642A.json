@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-34FE642A",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "A01",
+    "A10",
+    "A11",
+    "A12"
+  ],
+  "remedy_id": "RMD-A11-002",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-A11-002 to knowledge-only will reduce A01, A10, A11, A12 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "正解定義(受入基準・テスト・eval)は観測可能な結果(end state・出力・must-pass check)で書き、実装経路や未指定挙動を固定しない。'must'と'should/style'を分離し、テスト・基準は複数の有効解に照らして監査する。",
+    "steps": [
+      "受入基準はEARS等の形式(『WHEN <条件> THE SYSTEM SHALL <観測可能な結果>』)で、最終状態・出力・通過すべきcheckとして書く。実装方法(関数名、内部構造)は書かない。",
+      "各featureで『必須(must-pass; 失敗なら不合格)』と『望ましい/style(rubricで評価)』を分けて列挙し、must-passは小さく保つ(build/typecheck/主要挙動)。",
+      "非機能・運用・移行条件(性能上限、権限、データ移行、ロールバック)を受入項目として明示的に1行以上入れる。",
+      "AIに書かせたテスト/基準は、少なくとも1つの別実装(または手書きの代替解)を通すかを監査し、経路依存assert・全面snapshotなど未指定挙動の固定を除去する。",
+      "手動で直したfalse rejectはeval/test候補として記録し、正解定義を更新する。"
+    ],
+    "verification": [
+      "監査sampleでのfalse reject率(正しい別解を落としたテスト/基準の割合)。",
+      "must-pass check数と通過率、未指定挙動をassertするtest数、feature当たりのNFR受入項目数。"
+    ],
+    "anti_patterns": [
+      "aggregate pass率だけで採否を判断する。",
+      "実装と同じ誤りを共有するテストを正解にする。",
+      "snapshot等で未指定挙動を全て固定する/EARSで書けば内容監査が不要だと考える。"
+    ],
+    "applies_when": [
+      "受入基準/テストをAIに書かせる、またはAI実装をテストで採点する",
+      "非機能・運用条件を受入に含めたい"
+    ],
+    "not_applicable_when": [
+      "探索的prototypeで正解定義がまだ不要"
+    ],
+    "official_references": [
+      "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/",
+      "https://developers.openai.com/blog/eval-skills",
+      "https://code.claude.com/docs/en/best-practices",
+      "https://kiro.dev/docs/specs/feature-specs/",
+      "https://arxiv.org/abs/2605.26321"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

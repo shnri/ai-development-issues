@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T141339Z-131012AE",
+  "work_item_id": "WRK-20260815T141339Z-77362059",
+  "problem_ids": [
+    "I05",
+    "I10",
+    "I16",
+    "I17"
+  ],
+  "remedy_id": "RMD-I10-001",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:13:39Z",
+  "status": "open",
+  "title": "CI上のAgent workflowは、GITHUB_TOKENをcontents:read既定、pull_request_target/workflow_runでのfork checkoutを避け、untrusted入力はenv経由、environment protectionでsecret注入前に承認、first-time contributor gate、action SHA pin、Age",
+  "problem_titles": {
+    "I05": "Secret、Source、顧客Dataを外部へ送信する",
+    "I10": "CI/CD AgentがIssue・PR・Commit内容から乗っ取られる",
+    "I16": "Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される",
+    "I17": "AgentがBranch protectionや通常工程を迂回する"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [
+    "R3 operation markers: secret注入, GITHUB_TOKEN",
+    "R2 operation markers: allow-?list"
+  ],
+  "why_not_autonomous": "R3 operation or structural decision: R3 operation markers: secret注入, GITHUB_TOKEN; R2 operation markers: allow-?list",
+  "classification": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "owning shared Plugin from remedy_routes: none",
+    "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+    "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+  ],
+  "existing_capabilities": [
+    "GitHub Actions: workflow-level `permissions: contents: read` default, environment protection rules (required reviewers before secrets), first-time-contributor approval, full-SHA action pinning, OIDC instead of long-lived secrets — official secure-use guide",
+    "Claude Code GitHub Action / Codex action versions with the comment-and-control fix (Claude Code ≥ 2.1.128 per vendor advisory) and tool allowlists",
+    "Dependabot for the GitHub Actions ecosystem to keep pinned SHAs updated"
+  ],
+  "options": [
+    "A: harden every agent-invoking workflow: least-privilege permissions (contents:read; pull-requests:write only where needed), no pull_request_target/workflow_run fork checkout, untrusted inputs only via env, environment protection for jobs holding secrets, full-SHA pins, agent action version floor, tool allowlist; Dependabot for actions",
+    "B: only pin + permissions (no environment protection) — cheaper but secret injection before approval remains",
+    "C: move agent workflows to a separate repository/app with scoped tokens (larger change, only if A is insufficient)",
+    "D: status quo — rejected while any workflow with secrets can read PR/issue text"
+  ],
+  "proposed_action": "A per consumer repository, one PR per workflow file with the diff shown to the owner; not autonomous because it changes secret exposure and CI permissions (R3: GITHUB_TOKEN, secret injection).",
+  "implementation_target": "consumer .github/workflows/*.yml (+ .github/dependabot.yml, repository Settings → Environments)",
+  "evaluation_plan": "checklist per workflow: permissions block present and minimal; no pull_request_target with fork checkout; secrets only in protected environments; all `uses:` pinned to full SHA; agent action ≥ fixed version. Verify by re-running each workflow once (must pass) and by a negative test: an issue comment containing a prompt-injection string must not reach secret-holding steps. Rollback = revert the workflow file.",
+  "decision_owner": "repository owner (CI/secrets)",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "observed_at": "2026-08-15",
+      "summary": "GITHUB_TOKEN read-only既定、pull_request_target/workflow_runでのfork checkout回避、untrusted inputはenv経由、環境保護でsecretに承認、full SHA pinのみ不変、OIDC推奨。AI agent固有記述なし",
+      "quality": "high"
+    },
+    {
+      "kind": "postmortem",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/",
+      "observed_at": "2026-06-05",
+      "summary": "Comment-and-Control系: PR title/issue body/commentからのinjectionでsecret読出し。修正2.1.128（2026-05-05）。緩和: Rule of Two、key per workflow、tool allowlist、system prompt hardening、token監視・rotation",
+      "quality": "high"
+    },
+    {
+      "kind": "field-report",
+      "reference": "https://labs.cloudsecurityalliance.org/research/csa-research-note-comment-control-github-prompt-injection-20/",
+      "observed_at": "2026-04-15",
+      "summary": "Claude Code Security Review/Gemini CLI Action/Copilot Agentが同一手法で乗っ取り可能と開示、hardened Actions設定（permissions、environment protection、first-time contributor gate）で遮断",
+      "quality": "medium"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/security",
+      "observed_at": "2026-08-15",
+      "summary": "-p headlessではtrust verification無効、network commandは既定非自動許可",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/codex/agent-approvals-security",
+      "observed_at": "2026-08-15",
+      "summary": "CI用途は--sandbox read-only --ask-for-approval never",
+      "quality": "high"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

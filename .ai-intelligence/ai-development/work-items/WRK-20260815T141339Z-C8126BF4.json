@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-C8126BF4",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:35:04Z",
+  "problem_ids": [
+    "G07",
+    "G11"
+  ],
+  "remedy_id": "RMD-G07-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-G07-001 to consumer-configuration will reduce G07, G11 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:35:04Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "作業クラス(routine edit・文書更新・単純調査 vs 難bug・設計判断)ごとにmodelとeffortを振り分け、routine向けsubagent/skill/profileには小さいmodel・低めeffortを固定し、Fable 5系には短いoutcome-first指示を置く。既定effortは維持し、下げる前に作業種別ごとに小規模なbefore/after計測を行う。",
+    "steps": [
+      "作業クラスを2〜3種に分ける(例: routine=定型edit/文書/読み取り調査、standard=通常実装、hard=難bug/設計)。routineに該当するsubagent・skill・commandを列挙する。",
+      "Claude Code subagent frontmatterに`model: haiku`(単純調査・要約)または`model: sonnet`(通常のcoding/review)を明示し、routine用には`effort: medium`(latency重視なら`low`)を追加する。hard用は`model`未指定(inherit)かつ`effort`未指定で既定に任せる。",
+      "session既定effortを下げたい場合のみsettingsに`\"effortLevel\": \"medium\"`を置く(`max`/`ultracode`は不可)。CI/routine runでは`--effort <level>`または`CLAUDE_CODE_EFFORT_LEVEL`で明示し、対話中の`/effort`は非永続な場合がある点を周知する。",
+      "全subagentを一括で小さいmodelへ寄せる`CLAUDE_CODE_SUBAGENT_MODEL=haiku`は、hard用subagentも弱くなるためroutine専用のrun/CI jobに限定する。",
+      "Codexは`~/.codex/config.toml`に`[profiles.routine]`(`model`, `model_reasoning_effort = \"low\"`または`\"medium\"`)を定義し、routine作業だけ`codex --profile routine`で起動する。既定profileは変更しない。",
+      "Fable 5系向け共有指示(AGENTS.md/CLAUDE.md等)に1〜2行の簡潔化指示を置く: 例『Lead with the outcome and the next action; omit rejected alternatives and restated context unless they change the reader's decision. Small tasks need no plan section.』 語数の固定上限は置かない。",
+      "適用前後でroutine task 5件程度のtoken/wall time/最終出力語数/test pass率を記録し、劣化があればそのクラスのeffortを1段戻す。"
+    ],
+    "verification": [
+      "routine task種別ごとのtoken・USD・wall timeがbefore/afterで低下し、test pass率・差戻し率が非劣化",
+      "最終応答の語数と『採用しない選択肢』『計画節』の出現がroutine taskで減少",
+      "session header/`/effort`表示およびsubagent実行logで意図したmodel・effortが適用されている"
+    ],
+    "anti_patterns": [
+      "全作業に一律でlow effortや`CLAUDE_CODE_SUBAGENT_MODEL`上書きを適用し、hardな作業まで弱くする",
+      "出力語数の固定上限や『think less』のような曖昧指示だけで効果を期待する(effort/modelが主制御)",
+      "model変更時にeffortを再調整しない(effort scaleはmodel間で非等価)"
+    ],
+    "applies_when": [
+      "routine作業にも既定high effort・最上位modelを常用している",
+      "subagent/skill/routine run/CIなど用途が固定された実行経路がある",
+      "Claude Fable 5/Opus 5/Sonnet 5系、またはCodexのreasoning effort対応modelを使用している"
+    ],
+    "not_applicable_when": [
+      "capability-sensitiveな作業(難bug、設計判断)のみを扱う",
+      "組織のavailableModels/effort capで選択できない",
+      "routine taskのbaseline計測ができず品質非劣化を確認できない"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/model-config",
+      "https://code.claude.com/docs/en/costs",
+      "https://claude.com/blog/claude-model-and-effort-level-in-claude-code",
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5",
+      "https://learn.chatgpt.com/docs/config-file/config-reference"
+    ],
+    "recorded_at": "2026-08-15T15:00:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

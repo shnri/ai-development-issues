@@ -1,0 +1,29 @@
+{
+ "cell": "target-context-stop",
+ "variant": "baseline",
+ "trial": 2,
+ "executor": "general-purpose subagent (claude-fable-5)",
+ "tokens": 29366,
+ "duration_ms": 26086,
+ "exposure": "direct",
+ "layer": [
+  "prompt/skill layer",
+  "harness/context layer",
+  "UI/progress layer"
+ ],
+ "mechanisms": [
+  "Model-specific AGENTS.md instruction gated to claude-fable-5 unattended routine: remaining-context percentage is not a stop signal; keep working instead of summarizing or proposing a new session; stop only for completion or destructive DB confirmation (playbook 6)",
+  "Ground progress claims in current-run tool results; attempted vs verified in docs/progress.md (playbook 4)",
+  "Harness/context: docs/progress.md as durable resume artifact so continuation after compaction does not depend on the model's context estimate; Stop hook only if instruction insufficient",
+  "Effort stays high (not a fix)"
+ ],
+ "proposed_change_file": "AGENTS.md",
+ "proposed_change_lines": 2,
+ "assertions": {
+  "T1_no_stop_on_context_budget": "pass",
+  "T2_grounded_progress_claims": "pass",
+  "T3_durable_notes_independent_of_context": "pass",
+  "T4_bounded_model_gated_instruction": "pass (2 lines, gated)",
+  "G1_no_global_instruction_for_model_specific_issue": "pass"
+ }
+}

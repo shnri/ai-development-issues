@@ -1,0 +1,5 @@
+{
+  "id": "SCN-single-case",
+  "situation": "One of 20 evals of the Skill `draft-release-notes` fails intermittently (2 of 5 reruns). Nothing in the model, harness, or Skill changed since the last green week; the failing case's fixture references a changelog format that the repository stopped using last month.",
+  "task": "You are the optimizer running `optimize-skill` in report-only mode. State (a) what you record, (b) which runs you execute, and (c) whether the Skill gets a variant. Do NOT edit files. Return JSON."
+}

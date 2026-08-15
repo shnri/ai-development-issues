@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-BED75CC1",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C04",
+    "C05",
+    "C10"
+  ],
+  "remedy_id": "RMD-C05-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-C05-001 to knowledge-only will reduce C04, C05, C10 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "Agent間・session間のhandoffでは自然文要約を伝言せず、成果物(file/commit/issue/JSON)を作業contextの外へ保存して軽量参照(path/SHA/URL)だけを渡す。委譲promptには目的・出力形式・境界・基準commitを明示する。",
+    "steps": [
+      "委譲prompt/subagent定義に固定4項目を必須化する: objective(何を達成するか)、output format(返す構造と保存先)、boundaries(触ってよいpath・禁止操作)、baseline(基準commit SHAとbranch)。",
+      "subagentの返却は『成果物のpathまたはSHA + 1,000〜2,000 token以内の要点』に限定し、詳細はfileへ書かせる(例: `<scratch>/handoffs/<task>.json`、`.steering/<task>/tasklist.md`、commit)。",
+      "handoff文書はrepositoryを汚さない場所(scratchpad/一時dir/issue)へ置き、許可されたOutput先を指示に列挙する。既存artifact(spec/plan/diff/commit)は複製せずpath参照する。",
+      "session跨ぎでは`git log`とprogress note(tasklistのpass/fail)を再読してから続行するよう、次sessionの起動手順に書く。git commitをcheckpointとして扱う。",
+      "reviewer/validator系subagentには出力templateを与え(severity順、対象file:line、再現command)、lead側はartifactを開いて検証する(要約のみで採否を決めない)。"
+    ],
+    "verification": [
+      "handoff後に同じ調査を再実行した回数(再調査回数)をtaskごとに記録し、artifact参照導入前後で比較する。",
+      "subagent返却のうちartifact参照を含む割合(参照率)をtraceからsampleする。"
+    ],
+    "anti_patterns": [
+      "subagentの自然文要約だけを次工程へ渡す(伝言劣化)。",
+      "objective/output format/boundariesを欠いた委譲prompt(重複・欠落・依頼外変更を招く)。",
+      "handoff文書を作業treeへ無制限に増やす(repository汚染、鮮度管理の破綻)。"
+    ],
+    "applies_when": [
+      "subagent委譲やsession跨ぎの引継ぎ",
+      "複数Agentの並列作業"
+    ],
+    "not_applicable_when": [
+      "単一Agentが同一contextで完結する小規模作業"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "https://www.anthropic.com/engineering/managed-agents"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

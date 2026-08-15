@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-92FA2ABB",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C11"
+  ],
+  "remedy_id": "RMD-C11-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-C11-001 to consumer-configuration will reduce C11 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "長期memory(Claude Code auto memory等)は索引ファイルを短く保ち、`modified`日時で鮮度を監査して古い結論を削除・更新し、team共有すべき知識はCLAUDE.md/docsへ昇格して版管理する。不要なら設定で無効化する。",
+    "steps": [
+      "MEMORY.mdは索引のみ(先頭200行/25KB以内が読込対象)にし、詳細は個別memory fileへ分ける。",
+      "定期(release後・大きな構成変更後)に`/memory`でentryを一覧し、`modified`が古い/内容がgit logやdocsと矛盾するentryを削除または更新する。",
+      "複数人・複数環境で共有すべき知識(release手順、正本の所在など)はmemoryに留めずdocs/CLAUDE.mdへ移し、memory側はそのpath参照だけにする。",
+      "memoryを使わない運用にする場合は`autoMemoryEnabled: false`(設定key名は現行docsで確認)で無効化し、必要知識はdocsに置く。",
+      "compaction・session開始時にmemory由来の前提を鵜呑みにせず、`git log`/docsで再確認するよう指示に書く。"
+    ],
+    "verification": [
+      "memory entryのmodified経過日数の最大値/中央値を監査時に記録する。",
+      "memory起因の誤前提件数(sessionでmemoryの記述とrepository実態が食い違った回数)を記録する。"
+    ],
+    "anti_patterns": [
+      "MEMORY.mdに詳細を書き続ける(上限超過分は読み込まれない)。",
+      "memoryをteam共有知識の正本にする(machine-localで版管理されない)。",
+      "古いentryを残したまま新entryを追加して矛盾を放置する。"
+    ],
+    "applies_when": [
+      "Claude Code auto memoryを使う環境",
+      "複数worktree/複数人で同一repositoryを扱う"
+    ],
+    "not_applicable_when": [
+      "auto memory相当機能を持たないsurface"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/memory"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

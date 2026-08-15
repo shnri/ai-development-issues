@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-9D8F661C",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:13:39Z",
+  "problem_ids": [
+    "I03",
+    "I04",
+    "I12",
+    "I17"
+  ],
+  "remedy_id": "RMD-I04-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "decision-required",
+  "track": "decision",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R3"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [
+    "R3 operation markers: permissions?\\.(allow|deny), 承認対象, \\bprod(?:uction)? (?:deploy|database|db|data|environment), force push",
+    "R2 operation markers: PreToolUse, sandbox"
+  ],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-I04-001 to consumer-configuration will reduce I03, I04, I12, I17 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": "DEC-20260815T141339Z-0D3EE621",
+  "next_step": "human-decision",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "decision-required",
+      "reason": "high-risk operation or structural decision requires a human decision: R3 operation markers: permissions?\\.(allow|deny), 承認対象, \\bprod(?:uction)? (?:deploy|database|db|data|environment), force push; R2 operation markers: PreToolUse, sandbox",
+      "actor": "controller"
+    }
+  ]
+}

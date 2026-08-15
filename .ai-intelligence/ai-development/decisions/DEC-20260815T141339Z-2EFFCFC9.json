@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "id": "DEC-20260815T141339Z-2EFFCFC9",
+  "work_item_id": "WRK-20260815T141339Z-90CE5268",
+  "problem_ids": [
+    "K08"
+  ],
+  "remedy_id": "RMD-K08-001",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:13:39Z",
+  "status": "open",
+  "title": "Skill/Pluginは製品固有形式ではなくAgent Skills spec（SKILL.md）とAgent Plugins spec 1.0.0に準拠したportable folderを正本にし、製品別pathはsymlink/thin adapterにする。Sessionは製品固有のためGit成果物（commit・progress file・PR）を正本にする。",
+  "problem_titles": {
+    "K08": "ProviderやAgent製品ごとにSession・Skill形式が分断される"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [],
+  "why_not_autonomous": "R3 operation or structural decision: source-of-truth / structural choice requires a human decision",
+  "classification": {
+    "kind": "structural-decision",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "create-implementation-project",
+    "risk_tier": "R3"
+  },
+  "alternatives_considered": [
+    "existing asset: none (role-owner-ignored)",
+    "structural decision → R3 decision package"
+  ],
+  "existing_capabilities": [
+    "Agent Skills specification (SKILL.md frontmatter, scripts/references/assets, `skills-ref validate`) — agentskills.io",
+    "Agent Plugins spec 1.0.0 (plugin.json, skills/ MUST conform; hooks/agents/commands non-portable in v1)",
+    "shared-agent-plugins already keeps portable plugin folders with .claude-plugin/.codex-plugin adapters and per-product symlinks in consumers"
+  ],
+  "options": [
+    "A: declare the portable folder (Agent Skills + Agent Plugins 1.0.0) the source of truth for every shared Skill/Plugin; product paths (.claude/skills, .agents/skills, .codex) are symlinks/thin adapters only; add `skills-ref validate` (or equivalent) to the shared repository check and to consumer skills:audit; sessions are never a source of truth — Git artifacts (commits, progress files, PRs) are",
+    "B: keep product-native layouts and copy between products — rejected: drift already observed",
+    "C: portable folders without validation tooling — cheaper, but spec drift goes unnoticed"
+  ],
+  "proposed_action": "A. Structural because it fixes the source-of-truth for assets across products and organisations; the shared repository owner decides, then the controller can add the validator as an R1/R2 change to the shared repository check.",
+  "implementation_target": "shared-agent-plugins repository conventions (docs + check script) and each consumer link layout; no autonomous change until decided",
+  "evaluation_plan": "spec validator passes for 100% of shared Skills; product-adapter line count stays flat when a product is added; a consumer adds a new product path with a symlink only (no copied Skill body); Git artifacts (not sessions) suffice to resume a paused task in a smoke test",
+  "decision_owner": "shared-agent-plugins owner",
+  "evidence": [
+    {
+      "kind": "standard",
+      "reference": "https://agentskills.io/specification",
+      "observed_at": "2026-08-15",
+      "summary": "SKILL.md frontmatter（name/description必須、license/compatibility/metadata/allowed-tools任意）、scripts/references/assets、progressive disclosure、`skills-ref validate`。",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://agentskills.io/home",
+      "observed_at": "2026-08-15",
+      "summary": "採用client一覧にClaude Code、ChatGPT & Codex、GitHub Copilot、VS Code、Cursor、Gemini CLI、OpenCode、OpenHands、Goose、Kiro等。'Cross-product reuse: Build a skill once and use it across any skills-compatible agent'。",
+      "quality": "high"
+    },
+    {
+      "kind": "standard",
+      "reference": "https://github.com/agentplugins/agent-plugins-spec/blob/main/spec/1.0.0.md",
+      "observed_at": "2026-08-15",
+      "summary": "Agent Plugins 1.0.0: plugin.json（$schema,name必須）、skills/はAgent Skills specに'MUST conform'、mcp.json（stdio/streamable-http/sse）。hooks/agents/commandsはv1では非portable（client拡張）。",
+      "quality": "high"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sessions",
+      "observed_at": "2026-08-15",
+      "summary": "Claude Code sessionはlocal JSONL・内部形式で製品間互換なし（形式は版で変わる）。",
+      "quality": "medium"
+    }
+  ],
+  "decision": null,
+  "decided_at": null,
+  "decided_by": null,
+  "resolution_note": null,
+  "revisit_after": null,
+  "next_state_on_accept": "scoped"
+}

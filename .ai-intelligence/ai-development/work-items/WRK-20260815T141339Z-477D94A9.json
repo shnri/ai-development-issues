@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-477D94A9",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "E04",
+    "E05",
+    "E08"
+  ],
+  "remedy_id": "RMD-E08-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: default deny, \\bdeny\\b, PreToolUse"
+  ],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-E08-001 to consumer-configuration will reduce E04, E05, E08 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "依存追加・lockfile・migration・CI workflow・環境設定などhigh-impact pathは、advisoryな指示ではなくharness層(Claude Code PreToolUse hook)で決定論的に書込みを遮断し、正当な変更は専用の変更単位として承認付きで通す。",
+    "steps": [
+      "protected path一覧を1つのscriptに集約する(例: package.json, package-lock.json, migrations/**, .github/workflows/**, .devcontainer/**, .husky/**, .claude/settings.json, CI/test設定file)。scriptは標準入力のhook JSON(tool_name, tool_input.file_path / tool_input.command)を読み、一致時はexit 2でstderrに理由を出す(副作用なし)。",
+      "`.claude/settings.json`にhooksを追加する: {\"hooks\":{\"PreToolUse\":[{\"matcher\":\"Edit|Write|MultiEdit\",\"hooks\":[{\"type\":\"command\",\"command\":\"node scripts/hooks/protect-paths.mjs\"}]},{\"matcher\":\"Bash\",\"hooks\":[{\"type\":\"command\",\"command\":\"node scripts/hooks/protect-paths.mjs\"}]}]}}。Bash側は`npm install|npm i |npm add|npm uninstall|npx .* install|pnpm add|yarn add`とprotected pathへのredirect/`sed -i`/`rm`/`mv`を正規表現で捕捉する(Edit/Writeだけ守る失敗modeを避ける)。",
+      "正当な依存更新・migration作業のためのbypassを1つだけ用意する(例: 環境変数`AGENT_ALLOW_PROTECTED_PATHS=1`をsession単位で設定)。bypass時もその変更は専用branch/PRとし、実装差分と混ぜない。",
+      "hookを持たないharness(Codex等)向けにAGENTS.mdへ1行のworking agreementを置く: 「依存追加・lockfile・migration・CI/環境設定の変更は依頼に含まれる場合だけ行い、専用の差分として分離し、報告に明記する。含まれない場合は提案に留める」。",
+      "GitHub側の二重化: CODEOWNERSでprotected pathにowner reviewを要求し、PR templateに『依存/CI/config変更の有無と理由』の欄を置く。coverage閾値変更・test skip・CI無効化はjustificationなしに承認しない。",
+      "hook JSON出力(`permissionDecision: deny`等)の正確なfield名とmatcher仕様は現行docsで確認する。"
+    ],
+    "verification": [
+      "保護pathへのEdit/Write/Bash試行がhookで拒否され、拒否理由がAgentへ返ることをdry-runで確認する(手動でhookへJSONを流す)。",
+      "実装PRのうちpackage.json/lockfile/CI差分を含む比率と、hook deny発火数・正当な例外数を月次で記録する。"
+    ],
+    "anti_patterns": [
+      "Edit/Writeだけを保護しBash経由(npm install, sed -i, heredoc)の書込みを見落とす。",
+      "低riskの変更まで毎回承認にしてapproval fatigueで形骸化させる。",
+      "hook scriptに自動修正・git操作などの副作用を持たせる(遮断と理由通知のみにする)。"
+    ],
+    "applies_when": [
+      "Agentがpackage.json/lockfile、migration、CI workflow、環境設定を編集できるrepository",
+      "自律実行・長時間run"
+    ],
+    "not_applicable_when": [
+      "そのタスク自体が依存更新/migrationである場合(専用PRとして人間承認付きで実行し、bypassを明示する)"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/hooks",
+      "https://code.claude.com/docs/en/best-practices",
+      "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

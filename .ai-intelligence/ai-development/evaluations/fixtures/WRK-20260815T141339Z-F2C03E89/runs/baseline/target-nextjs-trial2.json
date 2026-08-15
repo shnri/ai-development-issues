@@ -1,0 +1,14 @@
+{
+  "cell": "target-nextjs", "variant": "baseline-0.1.1", "trial": 2, "executor": "general-purpose subagent (claude-fable-5)", "tokens": 28310, "duration_ms": 54642,
+  "findings": [
+    {"file": "AGENTS.md", "rule": "Next.js App Router / React 19 / TypeScript のECフロントエンド。", "classification": "維持", "proposal": null},
+    {"file": "AGENTS.md", "rule": "APIは`pages/api/`配下のRoute Handlerに置く。", "classification": "更新", "proposal": "APIは`app/api/**/route.ts`のRoute Handlerに置く（App Router。`pages/`は使わない）。"},
+    {"file": "AGENTS.md", "rule": "どんな小さな変更でも、着手前に必ずPRD文書を`docs/prd/`に作成し、承認を得てから実装する。", "classification": "更新", "proposal": "新機能や仕様変更を伴う変更ではPRDを`docs/prd/`に作成し承認を得る。小規模な修正・低リスクの一段階作業には不要。"},
+    {"file": "AGENTS.md", "rule": "コードを変更したら`npm test`を実行し、PASSしたら完了として報告する。", "classification": "更新", "proposal": "変更の影響に応じて`npm test`（vitest）、`npm run lint`、`npm run typecheck`、必要なら`npm run build`／Playwright e2eを実行し、そのセッションの結果を根拠に報告する。未実行の検証は未実行と明記する。", "evidence": "package.json: test=vitest only; lint/typecheck/build/e2e exist separately (陳腐化シグナル 能力前提が古い) + 欠落シグナル 完了基準・進捗報告の根拠がない"},
+    {"file": "AGENTS.md", "rule": "変更前に関連する既存実装を読む。", "classification": "維持", "proposal": null},
+    {"file": "AGENTS.md", "rule": "コミットメッセージはConventional Commitsに従う。", "classification": "維持", "proposal": null},
+    {"file": "AGENTS.md", "rule": "MISSING: 範囲・挙動の境界", "classification": "追加", "proposal": "依頼された範囲だけを変更し、依頼外のrefactor、抽象化、依存や互換shimの追加、未依頼の成果物を作らない。"},
+    {"file": "AGENTS.md", "rule": "MISSING: 完了・進捗報告の根拠", "classification": "追加", "proposal": "完了・進捗の報告は、そのセッションのテスト出力・diff・コマンド結果に基づかせ、未実行の検証は未実行と明記する。"}
+  ],
+  "assertions": {"T1_staged_verification_gate_proposed": "pass", "T2_grounded_reporting_proposed": "pass", "T3_stale_pages_api_found": "pass", "T4_prd_overspecification_found": "pass"}
+}

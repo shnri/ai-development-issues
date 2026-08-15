@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-832DF480",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "E01",
+    "E02",
+    "E03"
+  ],
+  "remedy_id": "RMD-E03-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-E03-001 to knowledge-only will reduce E01, E02, E03 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "『全ての妥当な入力で正しく動く一般解を書き、testを通すためのhardcode・special-case・test改変をせず、taskやtestが不正なら回避せず報告する』を明示し、held-out testとbefore-fail/after-pass証拠で見えているtestへの過適合を検出する。",
+    "steps": [
+      "project指示(AGENTS.md/CLAUDE.md)の検証節に1-2行を追加する: 「テストケースだけでなく全ての妥当な入力で正しく動く実装にする。テストを通すための固定値・分岐・テスト改変をしない。タスクや既存テストが不正だと判断したら回避せず報告する。」",
+      "bug修正・非自明なlogic変更では『修正前に失敗するテスト』を先に用意し、同一testの変更前fail/変更後passを報告に含める。",
+      "acceptance test/holdout(実装Agentに見せないtest)を1つ以上持ち、visible test通過率との乖離を見る。",
+      "reviewで test削除・`.skip`・`|| true`・coverage閾値低下・expected値の書換えをred flagとして機械的にgrepする。",
+      "Writer/Reviewer分離: 実装したcontextとは別のfresh-context subagentにtest妥当性(hardcode・special-case有無)を確認させる。"
+    ],
+    "verification": [
+      "held-out/acceptance testの通過率とvisible test通過率の乖離。",
+      "PRごとのtest削除/skip/`|| true`件数とbefore-fail evidence欠落率。"
+    ],
+    "anti_patterns": [
+      "visible testのpassだけを完了条件にする。",
+      "Agentが実装とtest/oracleを同一sessionで自由に改変できる状態のまま『通った』を受け入れる。",
+      "『testが不正なら報告』を理由に些細な疑問で毎回停止させる(判断基準を添える)。"
+    ],
+    "applies_when": [
+      "Agentがtestとimplementationの双方を編集できる",
+      "testがdeterministicに再現可能"
+    ],
+    "not_applicable_when": [
+      "flaky/確率的bug(追加evidence必要)",
+      "testが存在しないlegacy領域(先にoracle定義が必要)"
+    ],
+    "official_references": [
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+      "https://code.claude.com/docs/en/best-practices",
+      "https://github.blog/ai-and-ml/generative-ai/agent-pull-requests-are-everywhere-heres-how-to-review-them/"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

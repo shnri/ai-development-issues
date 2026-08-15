@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-03DA3C2F",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "H02",
+    "H11",
+    "H12"
+  ],
+  "remedy_id": "RMD-H12-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": null,
+    "asset_id": null,
+    "action_type": "evaluate-and-adopt-existing-solution",
+    "risk_tier": "R2"
+  },
+  "risk_tier": "R2",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "existing solution/tool evaluation precedes any new mechanism",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "tool/dependency without existing asset → solution adoption (evaluate existing solutions first)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-H12-001 to solution-adoption will reduce H02, H11, H12 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "中断・利用制限・crashに備え、milestone毎の小さなdescriptive commit（またはWIP branch/stash）を作業単位に組み込む。製品側の再開機構（session resume、worktree再入、file checkpoint、PR⇔session link）は補助であり、version controlの代替にしない。",
+    "steps": [
+      "長時間/多段階taskの手順書（command/workflow定義）に『各task完了ごとにfeature単位のdescriptive commitを作る（commit権限がある場合）。commit不可なら`git stash`またはWIP branchで退避する』を追記する。",
+      "Session再開手段を文書化する: Claude Code `claude --continue` / `claude --resume` / `/resume`、PRからは`claude --from-pr <n>`（gh pr create時に自動link）、worktree sessionは同一worktreeへ復帰する（現行docsで確認）。",
+      "file checkpoint（`/rewind`）の限界を明記: file編集tool経由の変更のみ・約30日保持・bash/subagent/外部変更は対象外。復旧はまずgitで行う。",
+      "人間と並行編集されるrepositoryでは作業開始時に`git pull --ff-only`と`git status`でbaselineを固定し、再開時は`git log`と未commit差分を最初に読む。",
+      "Agent設定/transcriptを保持するhome directoryを永続化（container volume等）し、再開に必要なsession dataが環境再構築で消えないようにする。"
+    ],
+    "verification": [
+      "中断後の再作業時間・失われた未commit変更行数（run単位で記録）",
+      "長時間taskにおけるtask数に対するcommit数の比",
+      "session resume成功率（--continue/--from-pr）"
+    ],
+    "anti_patterns": [
+      "/rewind等のfile checkpointだけで復旧しようとする（bash rm/mv・subagent編集は戻らない）",
+      "1つの巨大WIP commitにまとめてbisect/revert価値を失う",
+      "自動再開に過信し人手のcommitを省く"
+    ],
+    "applies_when": [
+      "利用制限・crash・Context枯渇で中断し得る作業",
+      "人間と並行して変更が入るrepository"
+    ],
+    "not_applicable_when": [
+      "commit不可の環境（読取専用調査）"
+    ],
+    "official_references": [
+      "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "https://code.claude.com/docs/en/common-workflows",
+      "https://code.claude.com/docs/en/worktrees",
+      "https://code.claude.com/docs/en/checkpointing",
+      "https://www.anthropic.com/engineering/managed-agents"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  },
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-H12-001?",
+    "existing_solutions": [
+      {
+        "name": "Git milestone commit / WIP branch / stash",
+        "fit": "決定: 主手段。model・tool非依存、bash/subagent変更も含めて復元可、bisect/revert可能。costほぼゼロ"
+      },
+      {
+        "name": "Claude Code session resume (--continue/--resume//resume, --from-pr)",
+        "fit": "補助: 会話文脈の復元。file状態は復元しない。transcript保持期間（cleanupPeriodDays既定30日）に依存"
+      },
+      {
+        "name": "Claude Code checkpoint (/rewind)",
+        "fit": "補助限定: file編集tool経由のみ、bash/subagent/外部変更は対象外、公式に『version controlの代替ではない』"
+      },
+      {
+        "name": "Claude Code worktree session (isolation: worktree)",
+        "fit": "補助: 並行作業の隔離とresume時の同一worktree復帰。commit habitと併用"
+      },
+      {
+        "name": "Codex session resume",
+        "fit": "補助: 会話再開。file復元・compaction後の状態保持は保証されない（現行docsで確認）"
+      },
+      {
+        "name": "Managed Agents durable session (event log)",
+        "fit": "hosted構成向け。CLI/devcontainer中心のprojectには非該当"
+      }
+    ],
+    "decision": "git milestone commit（またはWIP branch/stash）を主手段として作業手順に組み込み、session resume/--from-pr/worktreeを補助、checkpointは最終手段とする。新mechanismは作らない。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

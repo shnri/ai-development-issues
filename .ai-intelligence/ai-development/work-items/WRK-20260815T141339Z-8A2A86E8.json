@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-8A2A86E8",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C03",
+    "C04"
+  ],
+  "remedy_id": "RMD-C03-002",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "setting/harness remedy without owner → consumer configuration guidance (authority records, consumers apply as project change)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-C03-002 to consumer-configuration will reduce C03, C04 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "Claude Codeで永続すべき規則はproject-root CLAUDE.md(200行未満)とunscoped rulesへ置き、compaction前に判断理由・未完了事項をfileへ書き出す運用(必要ならPreCompact hook)と、SKILL.md先頭への重要指示配置で、compaction後の指示喪失を減らす。",
+    "steps": [
+      "禁止事項・検証手順など常時必要な規則はproject-root CLAUDE.md(または@importする単一file)に置き、200行未満に保つ。paths付rules・nested CLAUDE.md・会話内指示はcompaction後に失われる前提で書く。",
+      "長時間sessionでは/compactにfocus指示を与え、/autocompactの閾値を早めに設定する(設定名・既定値は現行docsで確認)。task切替は/clear。",
+      "compaction前に『判断理由・未完了task・禁止事項』をscratchpad/steering等のfileへcheckpointし、compaction後にそのfileを再読する運用を指示に1行書く。自動化する場合はPreCompact hookでcheckpoint保存(hookは実行codeとして保守・審査する)。",
+      "SKILL.mdは重要指示を先頭に置く(再注入は1skill 5,000/合計25,000 tokenで切詰め)。",
+      "CLAUDE.mdは強制装置ではないと理解し、遮断が必要な規則はPreToolUse hookやpermissions.denyで強制する。"
+    ],
+    "verification": [
+      "compaction後の指示違反件数(禁止事項の再違反)を追跡する。",
+      "skill bodyの切詰め発生とcheckpoint fileの生成有無を確認する。"
+    ],
+    "anti_patterns": [
+      "CLAUDE.mdを強制装置と誤解する。",
+      "autocompactを早めすぎて要約回数増による情報欠落を招く。",
+      "hookを追加したまま保守しない。"
+    ],
+    "applies_when": [
+      "Claude Codeでの長時間session"
+    ],
+    "not_applicable_when": [
+      "Codex等、compaction/再読挙動がclient依存の環境(相当機能で代替)"
+    ],
+    "official_references": [
+      "https://code.claude.com/docs/en/context-window",
+      "https://code.claude.com/docs/en/memory"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

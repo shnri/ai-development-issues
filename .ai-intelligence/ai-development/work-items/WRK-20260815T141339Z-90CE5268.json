@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-90CE5268",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:13:39Z",
+  "problem_ids": [
+    "K08"
+  ],
+  "remedy_id": "RMD-K08-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "decision-required",
+  "track": "decision",
+  "scope": "global",
+  "target": {
+    "kind": "structural-decision",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "create-implementation-project",
+    "risk_tier": "R3"
+  },
+  "risk_tier": "R3",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "source-of-truth / structural choice requires a human decision",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "structural decision → R3 decision package"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-K08-001 to structural-decision will reduce K08 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": "DEC-20260815T141339Z-2EFFCFC9",
+  "next_step": "human-decision",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "decision-required",
+      "reason": "high-risk operation or structural decision requires a human decision: source-of-truth / structural choice requires a human decision",
+      "actor": "controller"
+    }
+  ]
+}

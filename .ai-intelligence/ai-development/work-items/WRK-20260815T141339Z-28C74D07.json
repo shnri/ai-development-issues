@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-28C74D07",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "F01",
+    "F03",
+    "F04",
+    "F05",
+    "F11"
+  ],
+  "remedy_id": "RMD-F01-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-F01-001 to knowledge-only will reduce F01, F03, F04, F05, F11 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "テストの期待値は実装ではなく仕様・設計書・fixtureから独立に導出し、テスト作成者(人間またはfresh-context subagent)に生成codeを見せない順序(test-first / blind test authoring)にする。post-hocの『テストを書いて』はfault detectionを下げる。",
+    "steps": [
+      "実装手順に順序を明記する: 受け入れ条件・仕様からテスト(または少なくとも期待値表)を先に書き、その後に実装する。",
+      "AIが実装を書いた後にテストを追加する場合は、実装fileを渡さず仕様と公開interfaceだけを渡した別subagent(fresh context)に書かせる。Claude Codeでは`.claude/agents/`のtest-author agentにread対象を仕様・型定義に限定する指示を置く。",
+      "reviewer subagentは実装者と別contextにし、『assertionが実装の出力を写しただけでないか』『失敗経路・境界値のcaseがあるか』『mockが統合点を隠していないか』を確認項目にする。",
+      "coverage目標だけを与えない。fixture/golden fileがある領域は期待値をfixtureから取る。",
+      "仕様から期待値が一意に決まらない場合はテストを書く前に仕様裁定を行う。"
+    ],
+    "verification": [
+      "mutation score / surviving mutantの推移(部分導入可)。",
+      "review時に発見される『実装追随assertion』件数と、実装から独立して書かれたテスト比率。"
+    ],
+    "anti_patterns": [
+      "実装完成後にAIへ同一contextで『テストを書いて』と依頼する。",
+      "同一contextでの自己批評をverifier代わりにする。",
+      "coverage目標だけを与えて実装を写したテストを増やす。"
+    ],
+    "applies_when": [
+      "AIが実装とテストの両方を書くworkflow",
+      "仕様・設計書・fixtureから期待値を先に確定できる",
+      "subagentやworktreeでcontextを分離できる"
+    ],
+    "not_applicable_when": [
+      "期待値が仕様から一意に決まらない(先に仕様裁定が必要)",
+      "exploratory prototypeで正解が未定"
+    ],
+    "official_references": [
+      "https://arxiv.org/abs/2607.05139",
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260815T141339Z-66A373C2",
+  "created_at": "2026-08-15T14:13:39Z",
+  "updated_at": "2026-08-15T14:24:17Z",
+  "problem_ids": [
+    "C06",
+    "C08",
+    "C12"
+  ],
+  "remedy_id": "RMD-C12-001",
+  "source_run_id": "MNT-20260815T141330Z",
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "risk_reasons": [],
+  "routing": {
+    "reason": "no reusable shared asset applies; record the guidance for consumers and revisit when an owning asset exists",
+    "alternatives_considered": [
+      "existing asset: none (role-owner-ignored)",
+      "owning shared Plugin from remedy_routes: none",
+      "new shared Skill/Plugin: not selected (no new_asset_justification; last resort)",
+      "process/test-strategy/observability remedy without owner or asset → knowledge-only guidance"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-C12-001 to knowledge-only will reduce C06, C08, C12 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-15T14:13:39Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-15T14:24:17Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "guidance": {
+    "summary": "存在しないpackage/API/optionを採用前に実環境で決定論的に検証する: install前のregistry/publisher確認、typecheck/build/testの実行、CLI `--help`や環境変数の実値確認をコード採用の前提gateとして規約化する。",
+    "steps": [
+      "依存追加前に`npm view <pkg> version`(またはregistry APIで存在・publisher・公開日)を確認し、名前のもっともらしさだけで採用しない旨をAgent指示に1行書く。",
+      "API/optionは記憶で書かず、型定義(node_modules内の.d.ts)や`<cli> --help`の実出力で存在確認する。",
+      "採用後は`typecheck`→`lint`→`test`→`build`の順で検証を必ず実行し、失敗時は原因を修正してから再実行する。",
+      "環境変数・feature flag・runtime差は`.env.example`/設定docsと実値(`printenv`等、秘密値は伏せる)で確認し、推測で分岐を書かない。",
+      "検証commandが実行できない環境では、その事実と未検証範囲を報告して人間確認に回す。"
+    ],
+    "verification": [
+      "hallucinated import/option件数(typecheck/build失敗のうち存在しないAPI起因)を追跡する。",
+      "install前拒否件数とself-debug後の成功率差を記録する。"
+    ],
+    "anti_patterns": [
+      "名前のもっともらしさや古い記事だけで依存を承認する。",
+      "lockfileだけで安心する(悪い解決を固定するだけ)。",
+      "検証を省いて『動くはず』と報告する。"
+    ],
+    "applies_when": [
+      "Agentがdependency追加やAPI/CLI option選択を行う",
+      "型検査・testが動く環境"
+    ],
+    "not_applicable_when": [
+      "検証commandが実行できない環境(報告して人間確認)"
+    ],
+    "official_references": [
+      "https://arxiv.org/abs/2507.12367"
+    ],
+    "recorded_at": "2026-08-15T14:40:00Z",
+    "recorded_by": "ai-development-improvement maintain MNT-20260815T141330Z (bootstrap remediation; drafted by read-only guidance specialist, reviewed by controller)"
+  }
+}
