@@ -33,7 +33,7 @@
       "auto_implement": true,
       "auto_evaluate": true,
       "auto_promote": false,
-      "release_strategy": "pull-request",
+      "release_strategy": "target-default",
       "max_changed_files": 30,
       "max_changed_lines": 1500
     },
@@ -47,7 +47,7 @@
   },
   "release": {
     "enabled": true,
-    "allow_direct_push": false,
+    "allow_direct_push": true,
     "allow_force_push": false,
     "allow_branch_delete": false,
     "allow_merge_bypass": false,

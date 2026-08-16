@@ -108,7 +108,7 @@
         "npm run check"
       ],
       "release": {
-        "strategy": "pull-request",
+        "strategy": "direct",
         "remote": "origin",
         "base_branch": "main",
         "branch_prefix": "ai-development-improvement/"

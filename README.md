@@ -44,7 +44,7 @@ ai-development-issues (role: authority)
 
 ```text
 棚卸し（inventory） → 新規問題探索（discover） → 必要なresearch → 改善候補化（work item）
-→ 実装・独立評価（optimize/evaluate） → promotion → shared-agent-plugins等へのrelease（PR）
+→ 実装・独立評価（optimize/evaluate） → promotion → shared-agent-plugins等への設定済みstrategyでのrelease
 → Consumer propagation event → Catalog更新 → validation → commit・push
 ```
 
@@ -52,7 +52,7 @@ ai-development-issues (role: authority)
 - 手順: `AGENTS.md`（`CLAUDE.md`から参照）
 - 検証: `python3 scripts/check_authority.py`（catalog integrity、record schema、public boundary、maintain plan dry-run）
 - Authority stateのcommit／pushは`automation-policy.json`の`release.authority_state_strategy=direct`に従い、validation通過後にのみ`safe_commit_state.py`が`main`へ行う。
-- 共有Skill／Pluginへの変更は`target-registry.json`の`shared-agent-plugins` target（`git-clone`→`.ai-intelligence/ai-development/workspaces/`、release strategy `pull-request`、validation `npm run check`）を通し、`shared-agent-plugins`側のrelease policyとR0–R3 Risk gateを守る。
+- 共有Skill／Pluginへの変更は`target-registry.json`の`shared-agent-plugins` target（`git-clone`→`.ai-intelligence/ai-development/workspaces/`、release strategy `direct`、validation `npm run check`）を通し、`shared-agent-plugins`側のrelease policyとR0–R3 Risk gateを守る。独立reviewとvalidationは必須だが、PRやhuman reviewは必須ではない。
 
 ## Public Repositoryへ保存してよい情報／いけない情報
 
@@ -77,7 +77,7 @@ Consumerの観測に由来する記録は、`origin`／`source_refs`にproject�
 .ai-intelligence/ai-development/
 ├── project-profile.json      # role: authority
 ├── automation-policy.json    # closed-loop、authority stateはmainへdirect commit/push
-├── target-registry.json      # current-project(authority) / shared-agent-plugins(git-clone, pull-request)
+├── target-registry.json      # current-project(authority) / shared-agent-plugins(git-clone, reviewed direct release)
 ├── catalog/                  # catalog.json, sources, candidates, reviews, events, snapshots, reports
 ├── remedies/                 # 再利用可能な改善策
 ├── work-items/ implementations/ evaluations/ promotions/ releases/ propagation/ capabilities/
