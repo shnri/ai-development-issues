@@ -3,8 +3,8 @@
   "catalog_id": "ai-development-problems",
   "role": "authority",
   "created_at": "2026-08-15T09:26:24Z",
-  "updated_at": "2026-08-16T09:16:57Z",
-  "revision": 54,
+  "updated_at": "2026-08-16T09:13:26Z",
+  "revision": 53,
   "problem_count": 180,
   "source_snapshots": [
     {
@@ -18037,12 +18037,12 @@
         "F2"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "Two comparative research publications across March and August 2026 plus a separate field benchmark repeatedly observe Skill-induced resource regressions. The August differential study identifies excessive procedure rather than prompt length alone, distinguishing this cause from D04, G22, and K11.",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-16",
       "last_seen": "2026-08-16",
-      "last_reviewed": "2026-08-16",
-      "next_review_due": "2026-11-16",
+      "last_reviewed": null,
+      "next_review_due": "2026-08-16",
       "last_researched_at": null,
       "research_status": "required",
       "confidence": "low",
@@ -18078,13 +18078,6 @@
           "summary": "A vendor field benchmark across 880 evaluations reports materially higher input-token use when Skills are enabled, providing operational corroboration outside the research benchmarks.",
           "quality": "user-provided-public-source",
           "origin": "user-submission"
-        },
-        {
-          "kind": "problem-dossier",
-        "reference": ".ai-intelligence/ai-development/catalog/reports/2026-08-16-skill-induced-efficiency-regression.md",
-          "observed_at": "2026-08-16",
-          "summary": "Targeted maturity assessment records repeated comparative evidence, boundaries, counterevidence, and revalidation triggers.",
-          "quality": "reviewed-primary-and-field-evidence"
         }
       ],
       "source_refs": [
@@ -18109,16 +18102,11 @@
       "conditions": {
         "scope": "agent-skills",
         "task_kind": "software-engineering",
-        "comparison": "with-skill-vs-without-or-matched-skill",
-        "last_inventory_model_assessment": {
-          "scope": "Multiple agent and model configurations are represented, but incidence remains model, harness, task, and Skill dependent.",
-          "expected_future": "The issue may change with runtime and model behavior but is not expected to disappear solely through larger context windows."
-        },
-        "last_inventory_remedy_assessment": {}
+        "comparison": "with-skill-vs-without-or-matched-skill"
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 2
+      "revision": 1
     }
   ]
 }

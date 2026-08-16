@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260816T091326Z-0053-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-08-16T09:13:26Z",
+  "catalog_revision_before": 52,
+  "catalog_revision_after": 53,
+  "details": {
+    "candidate_id": "CND-USER-20260816-EEC747165A",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260816-66F0FD78"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "id": "CND-USER-20260816-EEC747165A",
+  "title": "Skillが過剰手順を誘発し、品質向上に見合わないToken・時間・Tool Callを増やす",
+  "summary": "関連するAgent Skillを有効にしても成功率や成果品質がほとんど改善しない一方、追加の検証、探索、実装工程によってToken使用量、所要時間、Tool Callが大幅に増える効率回帰が反復観測されている。これはSkill本文の長さだけでなく、Skillが誘発する過剰手順にも起因する。",
+  "discovered_at": "2026-08-16",
+  "detected_by": "user-submission",
+  "evidence": [
+    {
+      "kind": "user-observation",
+      "reference": "user-submission:CND-USER-20260816-EEC747165A",
+      "observed_at": "2026-08-16",
+      "summary": "関連するAgent Skillを有効にしても成功率や成果品質がほとんど改善しない一方、追加の検証、探索、実装工程によってToken使用量、所要時間、Tool Callが大幅に増える効率回帰が反復観測されている。これはSkill本文の長さだけでなく、Skillが誘発する過剰手順にも起因する。",
+      "quality": "unverified-user-report",
+      "origin": "user-submission"
+    },
+    {
+      "kind": "primary-research",
+      "reference": "https://arxiv.org/abs/2608.11888",
+      "observed_at": "2026-08-16",
+      "summary": "Differential Skill evaluation reports 182 Skill-induced efficiency regressions and identifies excessive verification and heavy implementation pipelines as major causes.",
+      "quality": "user-provided-public-source",
+      "origin": "user-submission"
+    },
+    {
+      "kind": "primary-research",
+      "reference": "https://arxiv.org/abs/2603.15401",
+      "observed_at": "2026-08-16",
+      "summary": "A paired benchmark of repository-level Agent Skills reports that most Skills do not improve pass rate and that token overhead can rise substantially without better outcomes.",
+      "quality": "user-provided-public-source",
+      "origin": "user-submission"
+    },
+    {
+      "kind": "field-benchmark",
+      "reference": "https://tessl.io/blog/anthropic-openai-or-cursor-model-for-your-agent-skills-7-learnings-from-running-880-evals-including-opus-47/",
+      "observed_at": "2026-08-16",
+      "summary": "A vendor field benchmark across 880 evaluations reports materially higher input-token use when Skills are enabled, providing operational corroboration outside the research benchmarks.",
+      "quality": "user-provided-public-source",
+      "origin": "user-submission"
+    }
+  ],
+  "source_refs": [
+    {
+      "kind": "user-provided-public-source",
+      "reference": "https://arxiv.org/abs/2608.11888",
+      "observed_at": "2026-08-16"
+    },
+    {
+      "kind": "user-provided-public-source",
+      "reference": "https://arxiv.org/abs/2603.15401",
+      "observed_at": "2026-08-16"
+    },
+    {
+      "kind": "user-provided-public-source",
+      "reference": "https://tessl.io/blog/anthropic-openai-or-cursor-model-for-your-agent-skills-7-learnings-from-running-880-evals-including-opus-47/",
+      "observed_at": "2026-08-16"
+    }
+  ],
+  "affected_scope": {
+    "scope": "agent-skills",
+    "task_kind": "software-engineering",
+    "comparison": "with-skill-vs-without-or-matched-skill"
+  },
+  "confidence": "low",
+  "status": "accepted",
+  "related_problem_ids": [
+    "D04",
+    "G22",
+    "K11"
+  ],
+  "submission_provenance": {
+    "submitted_by": "user",
+    "data_classification": "public",
+    "consent_to_store": true
+  },
+  "review_required": true,
+  "notes": "User submission is evidence for review, not an active-problem determination.",
+  "proposed_category": "実行効率",
+  "problem_type": [
+    "運用摩擦型",
+    "増幅型"
+  ],
+  "priority_lanes": [
+    "Q1",
+    "F2"
+  ],
+  "target_problem_id": null
+}

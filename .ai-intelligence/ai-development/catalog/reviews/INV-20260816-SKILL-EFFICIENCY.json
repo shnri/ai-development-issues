@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "id": "INV-20260816-SKILL-EFFICIENCY",
+  "problem_id": "P-20260816-66F0FD78",
+  "reviewed_at": "2026-08-16T09:15:33Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "Two comparative research publications across March and August 2026 plus a separate field benchmark repeatedly observe Skill-induced resource regressions. The August differential study identifies excessive procedure rather than prompt length alone, distinguishing this cause from D04, G22, and K11.",
+  "evidence": [
+    {
+      "kind": "problem-dossier",
+      "reference": ".ai-intelligence/ai-development/catalog/reports/2026-08-16-skill-induced-efficiency-regression.md",
+      "observed_at": "2026-08-16",
+      "summary": "Targeted maturity assessment records repeated comparative evidence, boundaries, counterevidence, and revalidation triggers.",
+      "quality": "reviewed-primary-and-field-evidence"
+    }
+  ],
+  "model_assessment": {
+    "scope": "Multiple agent and model configurations are represented, but incidence remains model, harness, task, and Skill dependent.",
+    "expected_future": "The issue may change with runtime and model behavior but is not expected to disappear solely through larger context windows."
+  },
+  "research_required": true,
+  "next_review_days": 92,
+  "reviewer": "research-established-development-problems"
+}

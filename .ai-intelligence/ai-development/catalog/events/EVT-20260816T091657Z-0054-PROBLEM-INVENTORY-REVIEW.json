@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260816T091657Z-0054-PROBLEM-INVENTORY-REVIEW",
+  "event_type": "problem-inventory-review",
+  "occurred_at": "2026-08-16T09:16:57Z",
+  "catalog_revision_before": 53,
+  "catalog_revision_after": 54,
+  "details": {
+    "review_id": "INV-20260816-SKILL-EFFICIENCY",
+    "problem_id": "P-20260816-66F0FD78",
+    "previous_status": "provisional",
+    "new_status": "active",
+    "research_required": true,
+    "reviewed_at": "2026-08-16T09:15:33Z"
+  }
+}
