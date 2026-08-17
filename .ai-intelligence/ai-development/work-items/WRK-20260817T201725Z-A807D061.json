@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260817T201725Z-A807D061",
+  "created_at": "2026-08-17T20:17:25Z",
+  "updated_at": "2026-08-17T20:19:15Z",
+  "problem_ids": [
+    "B07",
+    "B11"
+  ],
+  "remedy_id": "RMD-B11-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": "https://github.com/obra/superpowers",
+    "asset_id": "obra/verification-before-completion",
+    "action_type": "evaluate-and-adopt-existing-skill",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [],
+  "decision": null,
+  "routing": {
+    "reason": "a public Skill implements this remedy; consumers audit it before adoption",
+    "alternatives_considered": [
+      "existing asset: obra/verification-before-completion (explicit-existing-asset)",
+      "existing public-skill (public) implements the remedy → solution adoption (adopt the Skill instead of re-describing it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-B11-001 to solution-adoption will reduce B07, B11 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-17T20:17:25Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-17T20:19:15Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-B11-001 (ground completion/progress claims in in-session tool results; fresh-context verification gate)?",
+    "existing_solutions": [
+      {
+        "name": "obra/superpowers verification-before-completion (public skill)",
+        "fit": "決定: 主手段。『evidence before claims』の同一mechanismを実装する確立済み公開Skill（obra/superpowers、skills.sh 178.2K installs、Trust Hub/Socket/Snyk Pass、2026-08-12時点で活発に更新）。reader_facing可"
+      },
+      {
+        "name": "CLAUDE.md / AGENTS.md への接地指示の直接記述",
+        "fit": "補助: Skill未導入のconsumer向けにremedyのmechanism（完了条件の成果物種別明記、diff・テスト出力への接地）をguidanceとして保持"
+      },
+      {
+        "name": "Stop hook / 最終gateでのfresh-context検証subagent",
+        "fit": "補助: harness側の裏取りgate。skillと併用可、単独ではreport文言の接地を強制しない"
+      }
+    ],
+    "decision": "確立済み公開Skill obra/verification-before-completion の採用を第一候補とし、guidanceはmechanismを保持する。公開Skillのためconsumerは採用前にSkill監査gate（consumer_risk_tier R2）を通す。新mechanismは作らない。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-SKILLEFF-001",
+  "problem_ids": [
+    "P-20260816-66F0FD78"
+  ],
+  "summary": "Author skills so procedure is conditional rather than mandatory, following Anthropic's official skill authoring best practices: match 'degrees of freedom' to task fragility (reserve exact step sequences for fragile operations only), use the conditional-workflow pattern with explicit decision points instead of unconditional checklists, phrase verification and pipeline steps as applicable-when rather than always-do, keep SKILL.md concise (every line is a recurring per-turn token cost; body under 500 lines), and move task-specific checklists, examples, and heavy recipes into lazy-loaded reference files via progressive disclosure. This directly targets the causal mechanism identified in arXiv 2608.11888 — skills turning optional validation checklists and construction recipes into mandatory work — and the paper's cost-aware packaging recommendation ('move task-specific examples or checklists to lazy-loaded references') matches the official guidance. Scoping activation (specific when-to-use descriptions; `paths` frontmatter in Claude Code) further limits the tasks on which the procedure loads at all.",
+  "remedy_type": "instruction",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "observed_at": "2026-08-17",
+      "summary": "Prescribes conciseness ('Does this paragraph justify its token cost?'), degrees of freedom matched to fragility, conditional workflow pattern, progressive disclosure with <500-line SKILL.md and one-level-deep references, and flexible vs strict templates."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-17",
+      "summary": "States loaded skill content is a recurring token cost per turn; documents `paths` frontmatter to restrict automatic activation to matching files."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2608.11888",
+      "observed_at": "2026-08-17",
+      "summary": "Identifies mandatory-ification of optional checklists as a main efficiency-regression cause and recommends lazy-loaded references and preventing optional guidance from becoming mandatory work — converging with the official authoring guidance."
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/obra/superpowers/blob/main/skills/writing-skills/anthropic-best-practices.md",
+      "observed_at": "2026-08-17",
+      "summary": "Community skill collections operationalize the same guidance as skill-authoring review material (hypothesis-level corroboration)."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "authoring or reviewing Agent Skills whose body contains procedures, checklists, or verification steps",
+      "ability to edit the skill source"
+    ],
+    "not_for": [
+      "fragile operations where a fixed sequence is genuinely required (official guidance assigns these low freedom deliberately)",
+      "regressions caused purely by wrong-skill triggering rather than skill content"
+    ]
+  },
+  "expected_effect": {
+    "tokens_per_task_with_skill": "decrease",
+    "tool_calls_per_task_with_skill": "decrease",
+    "task_duration_with_skill": "decrease",
+    "task_success_rate": "maintain"
+  },
+  "revalidate_when": [
+    "Anthropic materially updates skill authoring best practices",
+    "Agent Skill runtime changes how skill bodies persist in context",
+    "new research contradicts conditional phrasing as a mitigation"
+  ],
+  "risks": [
+    "No quantitative published measurement of how much conditional phrasing reduces regression incidence; effect on a given skill must be confirmed by RMD-SKILLEFF-002-style evaluation",
+    "Over-relaxing steps can reintroduce quality failures the procedure was meant to prevent"
+  ],
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-17"
+}

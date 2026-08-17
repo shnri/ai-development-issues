@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260817T201706Z-0055-PROBLEM-RESEARCH-COMPLETED-BATCH",
+  "event_type": "problem-research-completed-batch",
+  "occurred_at": "2026-08-17T20:17:06Z",
+  "catalog_revision_before": 54,
+  "catalog_revision_after": 55,
+  "details": {
+    "run_id": "MNT-20260817T200951Z",
+    "problem_ids": [
+      "P-20260816-66F0FD78"
+    ],
+    "outcomes": {
+      "P-20260816-66F0FD78": "remedy-found"
+    },
+    "remedy_ids": [
+      "RMD-SKILLEFF-001",
+      "RMD-SKILLEFF-002",
+      "RMD-SKILLEFF-003"
+    ],
+    "provider_fixed": [],
+    "conflicts_skipped": [],
+    "invalid_count": 0,
+    "researched_at": "2026-08-17T20:17:06Z"
+  }
+}

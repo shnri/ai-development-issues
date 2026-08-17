@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260817T201725Z-A13ED829",
+  "created_at": "2026-08-17T20:17:25Z",
+  "updated_at": "2026-08-17T20:19:15Z",
+  "problem_ids": [
+    "E04",
+    "E05",
+    "E07",
+    "E10"
+  ],
+  "remedy_id": "RMD-E04-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": "https://github.com/dietrichgebert/ponytail",
+    "asset_id": "ponytail",
+    "action_type": "evaluate-and-adopt-existing-skill",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [],
+  "decision": null,
+  "routing": {
+    "reason": "a public Skill implements this remedy; consumers audit it before adoption",
+    "alternatives_considered": [
+      "existing asset: ponytail (explicit-existing-asset)",
+      "existing public-skill (public) implements the remedy → solution adoption (adopt the Skill instead of re-describing it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-E04-001 to solution-adoption will reduce E04, E05, E07, E10 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-17T20:17:25Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-17T20:19:15Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-E04-001 (suppress model scope creep with short boundary instructions at the prompt layer)?",
+    "existing_solutions": [
+      {
+        "name": "ponytail (public skill, dietrichgebert/ponytail)",
+        "fit": "決定: 主手段。persistent prompt-layerの境界指示（refactor・抽象化・依存追加・一時ファイルの禁止/要確認）を実装する確立済み公開Skill（GitHub 103.3k stars、skills.sh 36.0K installs、Trust Hub/Socket/Snyk Pass、2026-08時点で活発）"
+      },
+      {
+        "name": "CLAUDE.md / AGENTS.md への境界指示の直接記述",
+        "fit": "補助: Skill未導入のconsumer向けにremedyの境界指示mechanismをguidanceとして保持。項目が増えると効果が薄れるため短文維持が条件"
+      },
+      {
+        "name": "permission deny / plan-mode確認",
+        "fit": "補助: 依存追加・大規模変更の物理gate。文言レベルのscope creepは防げない"
+      }
+    ],
+    "decision": "確立済み公開Skill ponytail の採用を第一候補とし、guidanceはmechanismを保持する。consumerは採用前にSkill監査gate（consumer_risk_tier R2）を通す。新mechanismは作らない。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260817T201725Z-949DACC3",
+  "created_at": "2026-08-17T20:17:25Z",
+  "updated_at": "2026-08-17T20:19:15Z",
+  "problem_ids": [
+    "E03",
+    "E11",
+    "E12"
+  ],
+  "remedy_id": "RMD-E11-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": "https://github.com/obra/superpowers",
+    "asset_id": "obra/superpowers@verification-before-completion",
+    "action_type": "evaluate-and-adopt-existing-skill",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: \\bhooks?\\b"
+  ],
+  "decision": null,
+  "routing": {
+    "reason": "a public Skill implements this remedy; consumers audit it before adoption",
+    "alternatives_considered": [
+      "existing asset: obra/superpowers@verification-before-completion (explicit-existing-asset)",
+      "existing public-skill (public) implements the remedy → solution adoption (adopt the Skill instead of re-describing it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-E11-001 to solution-adoption will reduce E03, E11, E12 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-17T20:17:25Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-17T20:19:15Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ],
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-E11-001 (stop facade-only completion reports; ground reports in real state)?",
+    "existing_solutions": [
+      {
+        "name": "obra/superpowers verification-before-completion (public skill)",
+        "fit": "決定: 主手段。完了報告をtool結果（test出力、diff、command結果）へ接地させる『Iron Law』mechanismを実装する確立済み公開Skill。RMD-B11-001と同一資産だが対象問題（E03/E11/E12: 看板だけの完了）への適用として別work itemで追跡"
+      },
+      {
+        "name": "Stop hook / /goal などの実状態gate",
+        "fit": "補助: harness側で『完了』宣言時に実状態を照合。skillが無い環境の代替"
+      },
+      {
+        "name": "fresh-context verifier subagent",
+        "fit": "補助: 独立文脈での裏取り。コスト増のため最終gate限定"
+      }
+    ],
+    "decision": "確立済み公開Skill obra/superpowers@verification-before-completion の採用を第一候補とし、guidanceはmechanismを保持する。consumerは採用前にSkill監査gate（consumer_risk_tier R2）を通す。新mechanismは作らない。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

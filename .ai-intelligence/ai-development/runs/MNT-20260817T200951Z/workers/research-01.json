@@ -1,0 +1,359 @@
+{
+  "contract": "specialist-handoff-v1",
+  "status": "complete",
+  "role": "researcher",
+  "worker_id": "research-01",
+  "problem_ids": [
+    "P-20260816-66F0FD78"
+  ],
+  "work_item_id": null,
+  "facts": [
+    "Anthropic official skill authoring best practices (platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices, read 2026-08-17) prescribe 'Concise is key' (challenge every token; 'Does this paragraph justify its token cost?'), 'Set appropriate degrees of freedom' (high freedom for context-dependent tasks, low freedom only for fragile operations), a 'Conditional workflow pattern' (decision points instead of unconditional steps), progressive disclosure with SKILL.md under 500 lines and one-level-deep references, and flexible templates ('use your best judgment') versus strict templates only for fragile formats.",
+    "The same official page prescribes evaluation-driven skill development: establish a no-skill baseline first, write minimal instructions to close observed gaps, and require at least three evaluations before sharing a skill; it notes no built-in runner exists on the platform side and evals are 'your source of truth'.",
+    "Claude Code documentation (code.claude.com/docs/en/skills, read 2026-08-17) states skill bodies stay in context across turns so 'every line is a recurring token cost', supports a `paths` frontmatter to restrict automatic activation, and documents skill-creator eval features that record token count and duration per isolated run and a Benchmark mode that 'aggregates pass rate, time, and tokens for with-skill versus without-skill into benchmark.json so you can compare the pass-rate improvement against the token and time overhead'.",
+    "arXiv 2608.11888 (Agent Skills Can Be Harmful, 2026-08-12; HTML read 2026-08-17) recommends three mitigations: skill-task compatibility checks; cost-aware skill packaging and selection (estimate marginal context cost, 'move task-specific examples or checklists to lazy-loaded references', predict extra exploration/verification work before selecting a skill); and budget-aware execution policies that adapt 'verification scope and implementation-pipeline depth to task uncertainty ... and remaining token or execution-time budget', explicitly 'preventing optional guidance from becoming mandatory work on every task'.",
+    "arXiv 2603.15401 (SWE-Skills-Bench, abstract read 2026-08-17) supports a measurement-first adoption posture: paired with/without-skill testing before deployment, since only 7 of 49 skills produced meaningful gains, 3 degraded performance, and token overhead reached +451% without pass-rate improvement; skills are 'a narrow intervention whose utility depends strongly on domain fit'.",
+    "Local shared plugin skill-optimization (vendor/shared-agent-plugins/plugins/skill-optimization, v0.2.0, public origin https://github.com/shnri/shared-agent-plugins) implements a FAPO-style loop (Evaluate→Attribute→Propose→Review→Compare→Iterate) using Anthropic's official skill-creator as eval engine, with promotion gates in skill-optimization.config.json including max_token_regression_ratio 0.25 and max_duration_regression_ratio 0.35, plus blind A/B, holdout no-regression, and independent variant review.",
+    "skill-optimization's promotion-policy.md states token or duration increases do not fail the gate by default 'because quality may justify cost' but both deltas must be reported and target owners may set explicit budgets before a run; the mechanism compares old-vs-candidate skill variants, not skill-vs-no-skill adoption, and does not explicitly count tool calls.",
+    "Anthropic engineering blog 'Equipping agents for the real world with Agent Skills' was published 2025-10-16 and frames skills as dynamically discovered/loaded folders (progressive disclosure); no separate 2026 Anthropic engineering post specifically on skill efficiency regressions was found.",
+    "Community skill collections (e.g. obra/superpowers writing-skills/anthropic-best-practices.md) redistribute the same Anthropic authoring guidance; treated as hypothesis-level corroboration only."
+  ],
+  "inferences": [],
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "observed_at": "2026-08-17",
+      "summary": "Official skill authoring best practices: conciseness (token-cost test per paragraph), degrees of freedom matched to task fragility, conditional workflow pattern, progressive disclosure (<500 lines, one-level references), flexible templates, and evaluation-first development with a no-skill baseline."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-17",
+      "summary": "Claude Code skills docs: skill body is a recurring per-turn token cost; `paths` frontmatter scopes activation; skill-creator provides isolated eval runs recording tokens and duration and a with-skill-vs-without-skill benchmark (benchmark.json) comparing pass-rate gain against token/time overhead."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2608.11888",
+      "observed_at": "2026-08-17",
+      "summary": "Mitigation section recommends skill-task compatibility checks, cost-aware skill packaging/selection (lazy-loaded checklists, marginal context cost estimation), and budget-aware execution policies so optional guidance does not become mandatory work."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2603.15401",
+      "observed_at": "2026-08-17",
+      "summary": "SWE-Skills-Bench implies measurement-first, paired with/without evaluation before skill adoption; most skills gave no pass-rate gain while token overhead rose up to 451%."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://tessl.io/blog/anthropic-openai-or-cursor-model-for-your-agent-skills-7-learnings-from-running-880-evals-including-opus-47/",
+      "observed_at": "2026-08-17",
+      "summary": "Field benchmark practice of running per-skill evals across models measuring cost, input tokens, and turns; demonstrates operational feasibility of resource-aware skill evaluation."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/SKILL.md",
+      "observed_at": "2026-08-17",
+      "summary": "Shared plugin skill-optimization v0.2.0: FAPO loop over skill variants with promotion gates including max_token_regression_ratio 0.25 and max_duration_regression_ratio 0.35, blind A/B, independent review; uses Anthropic skill-creator as eval engine; public origin github.com/shnri/shared-agent-plugins."
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/obra/superpowers/blob/main/skills/writing-skills/anthropic-best-practices.md",
+      "observed_at": "2026-08-17",
+      "summary": "Community redistribution of Anthropic authoring best practices inside a skill-writing skill; hypothesis-level corroboration that the guidance is operationalized as reviewable checklists."
+    }
+  ],
+  "files_written": [],
+  "checks_run": [],
+  "risks": [
+    "Neither official guidance nor the papers provide a validated quantitative threshold trading quality gain against token/time/tool-call increase; adoption gates require locally chosen budgets.",
+    "skill-creator benchmark measures tokens and time but tool-call counts are not explicitly documented as a benchmark metric; tool-call regression detection may need harness-side telemetry.",
+    "skill-optimization compares skill versions (old vs candidate), not with-vs-without adoption; using it alone would miss regressions introduced by adopting a net-negative skill in the first place."
+  ],
+  "recommended_action": "catalog-update",
+  "next_gate": "controller",
+  "records": [
+    {
+      "problem_id": "P-20260816-66F0FD78",
+      "outcome": "remedy-found",
+      "remedy_ids": [
+        "RMD-SKILLEFF-001",
+        "RMD-SKILLEFF-002",
+        "RMD-SKILLEFF-003"
+      ],
+      "evidence": [
+        {
+          "kind": "official-guidance",
+          "reference": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+          "observed_at": "2026-08-17",
+          "summary": "Official authoring guidance directly targeting over-procedure: degrees of freedom, conditional workflows, conciseness, progressive disclosure, eval-first development."
+        },
+        {
+          "kind": "official-guidance",
+          "reference": "https://code.claude.com/docs/en/skills",
+          "observed_at": "2026-08-17",
+          "summary": "Official skill-creator benchmark compares pass rate, time, and tokens with-skill vs without-skill; `paths` scoping and recurring-token-cost warning."
+        },
+        {
+          "kind": "research-paper",
+          "reference": "https://arxiv.org/abs/2608.11888",
+          "observed_at": "2026-08-17",
+          "summary": "Authors' mitigations: compatibility checks, cost-aware packaging/selection, budget-aware execution policies preventing optional guidance from becoming mandatory work."
+        },
+        {
+          "kind": "research-paper",
+          "reference": "https://arxiv.org/abs/2603.15401",
+          "observed_at": "2026-08-17",
+          "summary": "Paired with/without measurement before adoption; most skills show no gain with large token overhead."
+        },
+        {
+          "kind": "existing-skill",
+          "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/SKILL.md",
+          "observed_at": "2026-08-17",
+          "summary": "Existing shared plugin with token/duration regression promotion gates over skill variants."
+        }
+      ],
+      "researched_at": "2026-08-17"
+    }
+  ],
+  "remedy_drafts": [
+    {
+      "schema_version": "1.0",
+      "id": "RMD-SKILLEFF-001",
+      "problem_ids": [
+        "P-20260816-66F0FD78"
+      ],
+      "summary": "Author skills so procedure is conditional rather than mandatory, following Anthropic's official skill authoring best practices: match 'degrees of freedom' to task fragility (reserve exact step sequences for fragile operations only), use the conditional-workflow pattern with explicit decision points instead of unconditional checklists, phrase verification and pipeline steps as applicable-when rather than always-do, keep SKILL.md concise (every line is a recurring per-turn token cost; body under 500 lines), and move task-specific checklists, examples, and heavy recipes into lazy-loaded reference files via progressive disclosure. This directly targets the causal mechanism identified in arXiv 2608.11888 — skills turning optional validation checklists and construction recipes into mandatory work — and the paper's cost-aware packaging recommendation ('move task-specific examples or checklists to lazy-loaded references') matches the official guidance. Scoping activation (specific when-to-use descriptions; `paths` frontmatter in Claude Code) further limits the tasks on which the procedure loads at all.",
+      "remedy_type": "knowledge",
+      "maturity": "official",
+      "status": "active",
+      "evidence": [
+        {
+          "kind": "official-guidance",
+          "reference": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+          "observed_at": "2026-08-17",
+          "summary": "Prescribes conciseness ('Does this paragraph justify its token cost?'), degrees of freedom matched to fragility, conditional workflow pattern, progressive disclosure with <500-line SKILL.md and one-level-deep references, and flexible vs strict templates."
+        },
+        {
+          "kind": "official-guidance",
+          "reference": "https://code.claude.com/docs/en/skills",
+          "observed_at": "2026-08-17",
+          "summary": "States loaded skill content is a recurring token cost per turn; documents `paths` frontmatter to restrict automatic activation to matching files."
+        },
+        {
+          "kind": "research-paper",
+          "reference": "https://arxiv.org/abs/2608.11888",
+          "observed_at": "2026-08-17",
+          "summary": "Identifies mandatory-ification of optional checklists as a main efficiency-regression cause and recommends lazy-loaded references and preventing optional guidance from becoming mandatory work — converging with the official authoring guidance."
+        },
+        {
+          "kind": "community",
+          "reference": "https://github.com/obra/superpowers/blob/main/skills/writing-skills/anthropic-best-practices.md",
+          "observed_at": "2026-08-17",
+          "summary": "Community skill collections operationalize the same guidance as skill-authoring review material (hypothesis-level corroboration)."
+        }
+      ],
+      "applicability": {
+        "requires": [
+          "authoring or reviewing Agent Skills whose body contains procedures, checklists, or verification steps",
+          "ability to edit the skill source"
+        ],
+        "not_for": [
+          "fragile operations where a fixed sequence is genuinely required (official guidance assigns these low freedom deliberately)",
+          "regressions caused purely by wrong-skill triggering rather than skill content"
+        ]
+      },
+      "expected_effect": {
+        "tokens_per_task_with_skill": "decrease",
+        "tool_calls_per_task_with_skill": "decrease",
+        "task_duration_with_skill": "decrease",
+        "task_success_rate": "maintain"
+      },
+      "revalidate_when": [
+        "Anthropic materially updates skill authoring best practices",
+        "Agent Skill runtime changes how skill bodies persist in context",
+        "new research contradicts conditional phrasing as a mitigation"
+      ],
+      "risks": [
+        "No quantitative published measurement of how much conditional phrasing reduces regression incidence; effect on a given skill must be confirmed by RMD-SKILLEFF-002-style evaluation",
+        "Over-relaxing steps can reintroduce quality failures the procedure was meant to prevent"
+      ],
+      "fix_effort": 2,
+      "reversible": true,
+      "last_verified_at": "2026-08-17"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "RMD-SKILLEFF-002",
+      "problem_ids": [
+        "P-20260816-66F0FD78"
+      ],
+      "summary": "Gate skill adoption on a resource-aware paired evaluation: before enabling a skill, run the same task set with-skill vs without-skill in isolated runs and compare pass-rate improvement against token, time (and where measurable, tool-call/turn) overhead; adopt only when the quality gain justifies the resource delta under a pre-declared budget. This is directly supported by official tooling — Anthropic's skill-creator provides isolated per-case eval runs recording token count and duration, and a Benchmark mode aggregating pass rate, time, and tokens for with-skill versus without-skill into benchmark.json 'so you can compare the pass-rate improvement against the token and time overhead' — and by both papers: SWE-Skills-Bench demonstrates that only paired measurement distinguishes the minority of net-positive skills (7/49) from no-gain/high-overhead ones, and arXiv 2608.11888 recommends cost-aware skill selection that predicts extra exploration/verification/implementation work before choosing a skill. Tessl's 880-eval field benchmark shows the practice is operationally feasible at scale.",
+      "remedy_type": "test-strategy",
+      "maturity": "candidate",
+      "status": "active",
+      "evidence": [
+        {
+          "kind": "official-guidance",
+          "reference": "https://code.claude.com/docs/en/skills",
+          "observed_at": "2026-08-17",
+          "summary": "skill-creator eval features: isolated subagent runs recording token count and duration; Benchmark aggregates pass rate, time, and tokens for with-skill vs without-skill into benchmark.json for gain-vs-overhead comparison."
+        },
+        {
+          "kind": "official-guidance",
+          "reference": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+          "observed_at": "2026-08-17",
+          "summary": "'Build evaluations first': establish a no-skill baseline, write minimal instructions, require at least three evaluations; evals are 'your source of truth for measuring Skill effectiveness'."
+        },
+        {
+          "kind": "research-paper",
+          "reference": "https://arxiv.org/abs/2603.15401",
+          "observed_at": "2026-08-17",
+          "summary": "Paired with/without benchmark shows 39/49 skills give no pass-rate gain while token overhead reaches +451%; supports measurement-first, domain-fit-specific adoption decisions."
+        },
+        {
+          "kind": "research-paper",
+          "reference": "https://arxiv.org/abs/2608.11888",
+          "observed_at": "2026-08-17",
+          "summary": "Recommends cost-aware skill packaging and selection: estimate marginal context cost and predict extra exploration, implementation, verification work before selecting a skill."
+        },
+        {
+          "kind": "industry-guide",
+          "reference": "https://tessl.io/blog/anthropic-openai-or-cursor-model-for-your-agent-skills-7-learnings-from-running-880-evals-including-opus-47/",
+          "observed_at": "2026-08-17",
+          "summary": "880-eval field benchmark measuring cost, input tokens, and turns per skill/model configuration demonstrates operational feasibility of resource-aware skill evaluation."
+        }
+      ],
+      "applicability": {
+        "requires": [
+          "representative task set for the skill's domain",
+          "harness able to run isolated with/without comparisons and record tokens and duration (e.g. Anthropic skill-creator eval/benchmark)",
+          "a pre-declared adoption budget for acceptable resource overhead per unit of quality gain"
+        ],
+        "not_for": [
+          "skills whose value is non-quantifiable compliance/safety behavior where resource cost is accepted by policy",
+          "environments unable to run repeated evals (cost of evaluation itself must stay proportionate)"
+        ]
+      },
+      "expected_effect": {
+        "skill_adoption_false_positives": "decrease",
+        "tokens_per_task_with_skill": "decrease",
+        "cost_benefit_visibility_of_skills": "increase",
+        "task_success_rate": "maintain-or-increase"
+      },
+      "revalidate_when": [
+        "skill-creator eval/benchmark feature set changes",
+        "a standard adoption threshold trading quality vs resource overhead is published",
+        "major model generation change alters skill cost/benefit profiles"
+      ],
+      "risks": [
+        "Eval task sets may not represent production task mix; a skill can pass the gate yet regress on unmeasured task types",
+        "Tool-call counts are not an explicitly documented skill-creator benchmark metric; may require additional harness telemetry",
+        "Model variance requires repeated runs for stable deltas, adding eval cost"
+      ],
+      "existing_asset": {
+        "kind": "skill",
+        "asset_id": "anthropic-skill-creator",
+        "source": "anthropics/skills (bundled with Claude Code)",
+        "url": "https://code.claude.com/docs/en/skills",
+        "availability": "public",
+        "matched_on": "documented eval features: isolated runs recording token count and duration; with-skill vs without-skill benchmark aggregating pass rate, time, and tokens",
+        "reputation": {
+          "level": "official-provider",
+          "evidence": [
+            "Documented in official Claude Code docs as the skill creation/eval tooling",
+            "Used as eval engine by the shared skill-optimization plugin"
+          ]
+        }
+      },
+      "fix_effort": 3,
+      "reversible": true,
+      "last_verified_at": "2026-08-17"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "RMD-SKILLEFF-003",
+      "problem_ids": [
+        "P-20260816-66F0FD78"
+      ],
+      "summary": "For skills already in use, run a guarded skill-optimization loop with explicit resource-regression promotion gates so that fixes and iterations never silently increase resource use: evaluate old vs candidate skill variants under identical conditions, attribute failures (including efficiency regressions) to skill design, make one scoped change per iteration, and only promote candidates that pass numeric gates on pass rate plus token and duration regression ratios along with blind A/B and independent review. The org's shared plugin `skill-optimization` (public origin github.com/shnri/shared-agent-plugins, v0.2.0) already implements this mechanism: its config enforces max_token_regression_ratio 0.25 and max_duration_regression_ratio 0.35, requires holdout no-regression and blind A/B, and uses Anthropic's official skill-creator as the isolated eval engine; its policy requires reporting both token and duration deltas and lets target owners set stricter pre-declared budgets. Coverage caveat: it detects resource regressions between skill versions (tokens, duration; not tool-call counts explicitly), so it complements rather than replaces the with-vs-without adoption gate of RMD-SKILLEFF-002. This matches arXiv 2608.11888's call for cost-aware tooling and safer skill reuse.",
+      "remedy_type": "tool",
+      "maturity": "candidate",
+      "status": "active",
+      "evidence": [
+        {
+          "kind": "existing-skill",
+          "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/SKILL.md",
+          "observed_at": "2026-08-17",
+          "summary": "FAPO-style loop (isolated eval, failure attribution, one-change variants, independent review, blind A/B, promotion gate) using Anthropic skill-creator as eval engine."
+        },
+        {
+          "kind": "existing-skill",
+          "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skill-optimization.config.json",
+          "observed_at": "2026-08-17",
+          "summary": "Numeric promotion gates include max_token_regression_ratio 0.25 and max_duration_regression_ratio 0.35, min_pass_rate_delta 0.02, holdout no-regression, blind A/B win rate 0.6, mandatory variant review."
+        },
+        {
+          "kind": "existing-skill",
+          "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/references/promotion-policy.md",
+          "observed_at": "2026-08-17",
+          "summary": "Token/duration increases must be reported as deltas; owners may set explicit budgets before a run but must not invent them after seeing a candidate."
+        },
+        {
+          "kind": "research-paper",
+          "reference": "https://arxiv.org/abs/2608.11888",
+          "observed_at": "2026-08-17",
+          "summary": "Recommends tooling improvements for cost-aware skill reuse, which this mechanism partially implements (resource metrics in the skill iteration gate)."
+        }
+      ],
+      "applicability": {
+        "requires": [
+          "Claude Code environment able to run the shared skill-optimization plugin (nested subagents, skill-creator available)",
+          "an existing skill under maintenance with an eval set",
+          "willingness to pre-declare token/duration budgets per target"
+        ],
+        "not_for": [
+          "initial adopt-or-not decisions for a new skill (needs with-vs-without comparison, see RMD-SKILLEFF-002)",
+          "detecting tool-call-count regressions specifically (not an explicit gate metric)",
+          "one-off skills not worth an optimization loop's eval cost"
+        ]
+      },
+      "expected_effect": {
+        "undetected_resource_regressions_in_skill_iterations": "decrease",
+        "tokens_per_task_with_skill": "decrease-or-bounded",
+        "task_duration_with_skill": "decrease-or-bounded",
+        "skill_iteration_quality": "increase"
+      },
+      "revalidate_when": [
+        "skill-optimization plugin releases a new major/minor version changing gate semantics",
+        "skill-creator eval engine interface changes",
+        "evidence emerges that variant-level gates miss adoption-level regressions in practice"
+      ],
+      "risks": [
+        "Default policy does not hard-fail on token/duration increases (quality may justify cost), so without owner-declared budgets regressions within the ratio caps can still be promoted",
+        "Old-vs-candidate comparison cannot detect that the skill as a whole is net-negative versus no skill",
+        "Plugin is org-adapted from a starter kit; independent external validation of its gates against this specific problem is not published"
+      ],
+      "existing_asset": {
+        "kind": "shared-plugin",
+        "asset_id": "skill-optimization",
+        "source": "shared-agent-plugins",
+        "path": "vendor/shared-agent-plugins/plugins/skill-optimization",
+        "url": "https://github.com/shnri/shared-agent-plugins",
+        "availability": "public",
+        "matched_on": "promotion gate measures token and duration regression ratios (0.25/0.35) with blind A/B and independent review over skill variants; uses official skill-creator as eval engine",
+        "reputation": {
+          "level": "org-maintained",
+          "evidence": [
+            "v0.2.0 with provenance manifest and checksum-tracked migration from claude-skill-optimization-starter 0.1.0",
+            "declared public repository https://github.com/shnri/shared-agent-plugins in plugin.json"
+          ]
+        }
+      },
+      "implementation_owner": "shared-agent-plugins maintainers",
+      "fix_effort": 2,
+      "reversible": true,
+      "last_verified_at": "2026-08-17"
+    }
+  ]
+}

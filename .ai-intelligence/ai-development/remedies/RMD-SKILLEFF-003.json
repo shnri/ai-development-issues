@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-SKILLEFF-003",
+  "problem_ids": [
+    "P-20260816-66F0FD78"
+  ],
+  "summary": "For skills already in use, run a guarded skill-optimization loop with explicit resource-regression promotion gates so that fixes and iterations never silently increase resource use: evaluate old vs candidate skill variants under identical conditions, attribute failures (including efficiency regressions) to skill design, make one scoped change per iteration, and only promote candidates that pass numeric gates on pass rate plus token and duration regression ratios along with blind A/B and independent review. The org's shared plugin `skill-optimization` (public origin github.com/shnri/shared-agent-plugins, v0.2.0) already implements this mechanism: its config enforces max_token_regression_ratio 0.25 and max_duration_regression_ratio 0.35, requires holdout no-regression and blind A/B, and uses Anthropic's official skill-creator as the isolated eval engine; its policy requires reporting both token and duration deltas and lets target owners set stricter pre-declared budgets. Coverage caveat: it detects resource regressions between skill versions (tokens, duration; not tool-call counts explicitly), so it complements rather than replaces the with-vs-without adoption gate of RMD-SKILLEFF-002. This matches arXiv 2608.11888's call for cost-aware tooling and safer skill reuse.",
+  "remedy_type": "tool",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "existing-skill",
+      "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/SKILL.md",
+      "observed_at": "2026-08-17",
+      "summary": "FAPO-style loop (isolated eval, failure attribution, one-change variants, independent review, blind A/B, promotion gate) using Anthropic skill-creator as eval engine."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skill-optimization.config.json",
+      "observed_at": "2026-08-17",
+      "summary": "Numeric promotion gates include max_token_regression_ratio 0.25 and max_duration_regression_ratio 0.35, min_pass_rate_delta 0.02, holdout no-regression, blind A/B win rate 0.6, mandatory variant review."
+    },
+    {
+      "kind": "existing-skill",
+      "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/references/promotion-policy.md",
+      "observed_at": "2026-08-17",
+      "summary": "Token/duration increases must be reported as deltas; owners may set explicit budgets before a run but must not invent them after seeing a candidate."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2608.11888",
+      "observed_at": "2026-08-17",
+      "summary": "Recommends tooling improvements for cost-aware skill reuse, which this mechanism partially implements (resource metrics in the skill iteration gate)."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "Claude Code environment able to run the shared skill-optimization plugin (nested subagents, skill-creator available)",
+      "an existing skill under maintenance with an eval set",
+      "willingness to pre-declare token/duration budgets per target"
+    ],
+    "not_for": [
+      "initial adopt-or-not decisions for a new skill (needs with-vs-without comparison, see RMD-SKILLEFF-002)",
+      "detecting tool-call-count regressions specifically (not an explicit gate metric)",
+      "one-off skills not worth an optimization loop's eval cost"
+    ]
+  },
+  "expected_effect": {
+    "undetected_resource_regressions_in_skill_iterations": "decrease",
+    "tokens_per_task_with_skill": "decrease-or-bounded",
+    "task_duration_with_skill": "decrease-or-bounded",
+    "skill_iteration_quality": "increase"
+  },
+  "revalidate_when": [
+    "skill-optimization plugin releases a new major/minor version changing gate semantics",
+    "skill-creator eval engine interface changes",
+    "evidence emerges that variant-level gates miss adoption-level regressions in practice"
+  ],
+  "risks": [
+    "Default policy does not hard-fail on token/duration increases (quality may justify cost), so without owner-declared budgets regressions within the ratio caps can still be promoted",
+    "Old-vs-candidate comparison cannot detect that the skill as a whole is net-negative versus no skill",
+    "Plugin is org-adapted from a starter kit; independent external validation of its gates against this specific problem is not published"
+  ],
+  "existing_asset": {
+    "kind": "shared-plugin",
+    "asset_id": "skill-optimization",
+    "source": "shared-agent-plugins",
+    "path": "vendor/shared-agent-plugins/plugins/skill-optimization",
+    "url": "https://github.com/shnri/shared-agent-plugins",
+    "availability": "public",
+    "matched_on": [
+      "promotion gate measures token and duration regression ratios (0.25/0.35)",
+      "blind A/B and independent review over skill variants",
+      "uses official skill-creator as eval engine"
+    ],
+    "reputation": {
+      "verdict": "emerging",
+      "evidence": [
+        "v0.2.0 with provenance manifest and checksum-tracked migration from claude-skill-optimization-starter 0.1.0",
+        "declared public repository https://github.com/shnri/shared-agent-plugins in plugin.json",
+        "org-maintained; no third-party adoption evidence yet"
+      ],
+      "checked_at": "2026-08-17"
+    },
+    "public_url": "https://github.com/shnri/shared-agent-plugins",
+    "reader_facing": false,
+    "confirmed_by": "read SKILL.md, skill-optimization.config.json, and promotion-policy.md in the shared checkout"
+  },
+  "implementation_owner": "shared-agent-plugins maintainers",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-08-17"
+}

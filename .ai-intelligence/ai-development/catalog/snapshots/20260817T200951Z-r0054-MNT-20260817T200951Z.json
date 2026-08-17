@@ -3,8 +3,8 @@
   "catalog_id": "ai-development-problems",
   "role": "authority",
   "created_at": "2026-08-15T09:26:24Z",
-  "updated_at": "2026-08-17T20:17:06Z",
-  "revision": 55,
+  "updated_at": "2026-08-16T09:16:57Z",
+  "revision": 54,
   "problem_count": 180,
   "source_snapshots": [
     {
@@ -18042,9 +18042,9 @@
       "first_seen": "2026-08-16",
       "last_seen": "2026-08-16",
       "last_reviewed": "2026-08-16",
-      "next_review_due": "2026-09-16",
-      "last_researched_at": "2026-08-17",
-      "research_status": "current",
+      "next_review_due": "2026-11-16",
+      "last_researched_at": null,
+      "research_status": "required",
       "confidence": "low",
       "evidence": [
         {
@@ -18085,36 +18085,6 @@
           "observed_at": "2026-08-16",
           "summary": "Targeted maturity assessment records repeated comparative evidence, boundaries, counterevidence, and revalidation triggers.",
           "quality": "reviewed-primary-and-field-evidence"
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
-          "observed_at": "2026-08-17",
-          "summary": "Official authoring guidance directly targeting over-procedure: degrees of freedom, conditional workflows, conciseness, progressive disclosure, eval-first development."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://code.claude.com/docs/en/skills",
-          "observed_at": "2026-08-17",
-          "summary": "Official skill-creator benchmark compares pass rate, time, and tokens with-skill vs without-skill; `paths` scoping and recurring-token-cost warning."
-        },
-        {
-          "kind": "research-paper",
-          "reference": "https://arxiv.org/abs/2608.11888",
-          "observed_at": "2026-08-17",
-          "summary": "Authors' mitigations: compatibility checks, cost-aware packaging/selection, budget-aware execution policies preventing optional guidance from becoming mandatory work."
-        },
-        {
-          "kind": "research-paper",
-          "reference": "https://arxiv.org/abs/2603.15401",
-          "observed_at": "2026-08-17",
-          "summary": "Paired with/without measurement before adoption; most skills show no gain with large token overhead."
-        },
-        {
-          "kind": "existing-skill",
-          "reference": "vendor/shared-agent-plugins/plugins/skill-optimization/skills/optimize-skill/SKILL.md",
-          "observed_at": "2026-08-17",
-          "summary": "Existing shared plugin with token/duration regression promotion gates over skill variants."
         }
       ],
       "source_refs": [
@@ -18134,11 +18104,7 @@
           "observed_at": "2026-08-16"
         }
       ],
-      "remedy_refs": [
-        "RMD-SKILLEFF-001",
-        "RMD-SKILLEFF-002",
-        "RMD-SKILLEFF-003"
-      ],
+      "remedy_refs": [],
       "aliases": [],
       "conditions": {
         "scope": "agent-skills",
@@ -18152,8 +18118,7 @@
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
-      "research_deferred_count": 0
+      "revision": 2
     }
   ]
 }

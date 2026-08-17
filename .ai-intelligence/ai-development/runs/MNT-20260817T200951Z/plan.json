@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0",
+  "plan_schema_version": "1.1",
+  "id": "MNT-20260817T200951Z",
+  "started_at": "2026-08-17T20:09:51Z",
+  "completed_at": null,
+  "mode": "maintain",
+  "plan_mode": "incremental",
+  "catalog_revision_before": 54,
+  "catalog_revision_after": null,
+  "authority_base": {
+    "remote": "origin",
+    "branch": "claude/zen-carson-bt3bjc",
+    "remote_sha": null,
+    "local_head": "33c0f655d6511062df76cdc6f646fa9958831996",
+    "recorded_at": "2026-08-17T20:09:51Z",
+    "reachable": false
+  },
+  "plan": {
+    "mode": "incremental",
+    "bootstrap_signals": {
+      "bootstrap_completed_at": null,
+      "problem_count": 180,
+      "never_reviewed": 0,
+      "never_researched": 0,
+      "never_reviewed_ratio": 0.0,
+      "never_researched_ratio": 0.0,
+      "threshold": 0.5
+    },
+    "execution": {
+      "max_parallel_workers": 8,
+      "max_items_per_worker": {
+        "inventory": 20,
+        "research": 10,
+        "discovery": 1
+      },
+      "max_waves_per_run": 3,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null,
+      "worker_max_turns": {
+        "inventory": 24,
+        "research": 20,
+        "discovery": 24
+      }
+    },
+    "capacity": {
+      "inventory": 480,
+      "research": 240,
+      "discovery": 24
+    },
+    "legacy_fixed_limits": false,
+    "inventory_problem_ids": [],
+    "inventory_items": [],
+    "discovery_source_ids": [],
+    "discovery_sources": [],
+    "research_problem_ids": [
+      "P-20260816-66F0FD78"
+    ],
+    "research_items": [
+      {
+        "id": "P-20260816-66F0FD78",
+        "title": "Skillが過剰手順を誘発し、品質向上に見合わないToken・時間・Tool Callを増やす",
+        "event": "material-change",
+        "status": "active",
+        "research_status": "required",
+        "category_id": null,
+        "priority_lane": "Q1",
+        "priority_score": 63.07,
+        "priority_factors": {
+          "lane": "Q1",
+          "event": "material-change",
+          "evidence_age_days": 1,
+          "refs": 3,
+          "deferred_count": 0,
+          "starvation_boost": false
+        }
+      }
+    ],
+    "inventory": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "discovery": {
+      "workers": [],
+      "lookback_days": 21
+    },
+    "research": {
+      "workers": [
+        {
+          "group": "misc",
+          "item_ids": [
+            "P-20260816-66F0FD78"
+          ],
+          "items": [
+            {
+              "id": "P-20260816-66F0FD78",
+              "title": "Skillが過剰手順を誘発し、品質向上に見合わないToken・時間・Tool Callを増やす",
+              "event": "material-change",
+              "status": "active",
+              "research_status": "required",
+              "category_id": null,
+              "priority_lane": "Q1",
+              "priority_score": 63.07,
+              "priority_factors": {
+                "lane": "Q1",
+                "event": "material-change",
+                "evidence_age_days": 1,
+                "refs": 3,
+                "deferred_count": 0,
+                "starvation_boost": false
+              }
+            }
+          ],
+          "worker_id": "research-01",
+          "wave": 1,
+          "max_turns": 20
+        }
+      ],
+      "deferred": [],
+      "total_due": 1
+    },
+    "limits": {
+      "inventory": 480,
+      "external_research": 240,
+      "max_parallel_workers": 8,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "max_decision_items": 3,
+      "runnable_work_item_ids": [],
+      "open_decision_package_ids": [
+        "DEC-20260815T120045Z-7415E4AB"
+      ]
+    },
+    "workflow": [
+      "fan out inventory workers (bounded, parallel) and persist each handoff under runs/<run-id>/workers/",
+      "fan out discovery scouts per due source group",
+      "fan out research workers for new/reactivated/material changes first, then the prioritized backlog",
+      "fan in: validate, deduplicate, and batch-apply inventory reviews (apply_inventory_batch.py) and research results (record_research_batch.py) as one logical catalog update",
+      "deduplicate and register discovery candidates",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "reconcile with the remote authority base, then commit/push authority state (safe_commit_state.py) with remote verification",
+      "write a concise catalog and release delta report; list deferred IDs explicitly"
+    ]
+  },
+  "results": {},
+  "status": "planned",
+  "run_record": ".ai-intelligence/ai-development/runs/MNT-20260817T200951Z-maintain.json",
+  "run_dir": ".ai-intelligence/ai-development/runs/MNT-20260817T200951Z",
+  "run_snapshot": ".ai-intelligence/ai-development/catalog/snapshots/20260817T200951Z-r0054-MNT-20260817T200951Z.json"
+}

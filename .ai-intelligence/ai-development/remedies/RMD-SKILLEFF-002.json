@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-SKILLEFF-002",
+  "problem_ids": [
+    "P-20260816-66F0FD78"
+  ],
+  "summary": "Gate skill adoption on a resource-aware paired evaluation: before enabling a skill, run the same task set with-skill vs without-skill in isolated runs and compare pass-rate improvement against token, time (and where measurable, tool-call/turn) overhead; adopt only when the quality gain justifies the resource delta under a pre-declared budget. This is directly supported by official tooling — Anthropic's skill-creator provides isolated per-case eval runs recording token count and duration, and a Benchmark mode aggregating pass rate, time, and tokens for with-skill versus without-skill into benchmark.json 'so you can compare the pass-rate improvement against the token and time overhead' — and by both papers: SWE-Skills-Bench demonstrates that only paired measurement distinguishes the minority of net-positive skills (7/49) from no-gain/high-overhead ones, and arXiv 2608.11888 recommends cost-aware skill selection that predicts extra exploration/verification/implementation work before choosing a skill. Tessl's 880-eval field benchmark shows the practice is operationally feasible at scale.",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/skills",
+      "observed_at": "2026-08-17",
+      "summary": "skill-creator eval features: isolated subagent runs recording token count and duration; Benchmark aggregates pass rate, time, and tokens for with-skill vs without-skill into benchmark.json for gain-vs-overhead comparison."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "observed_at": "2026-08-17",
+      "summary": "'Build evaluations first': establish a no-skill baseline, write minimal instructions, require at least three evaluations; evals are 'your source of truth for measuring Skill effectiveness'."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2603.15401",
+      "observed_at": "2026-08-17",
+      "summary": "Paired with/without benchmark shows 39/49 skills give no pass-rate gain while token overhead reaches +451%; supports measurement-first, domain-fit-specific adoption decisions."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2608.11888",
+      "observed_at": "2026-08-17",
+      "summary": "Recommends cost-aware skill packaging and selection: estimate marginal context cost and predict extra exploration, implementation, verification work before selecting a skill."
+    },
+    {
+      "kind": "industry-guide",
+      "reference": "https://tessl.io/blog/anthropic-openai-or-cursor-model-for-your-agent-skills-7-learnings-from-running-880-evals-including-opus-47/",
+      "observed_at": "2026-08-17",
+      "summary": "880-eval field benchmark measuring cost, input tokens, and turns per skill/model configuration demonstrates operational feasibility of resource-aware skill evaluation."
+    }
+  ],
+  "applicability": {
+    "requires": [
+      "representative task set for the skill's domain",
+      "harness able to run isolated with/without comparisons and record tokens and duration (e.g. Anthropic skill-creator eval/benchmark)",
+      "a pre-declared adoption budget for acceptable resource overhead per unit of quality gain"
+    ],
+    "not_for": [
+      "skills whose value is non-quantifiable compliance/safety behavior where resource cost is accepted by policy",
+      "environments unable to run repeated evals (cost of evaluation itself must stay proportionate)"
+    ]
+  },
+  "expected_effect": {
+    "skill_adoption_false_positives": "decrease",
+    "tokens_per_task_with_skill": "decrease",
+    "cost_benefit_visibility_of_skills": "increase",
+    "task_success_rate": "maintain-or-increase"
+  },
+  "revalidate_when": [
+    "skill-creator eval/benchmark feature set changes",
+    "a standard adoption threshold trading quality vs resource overhead is published",
+    "major model generation change alters skill cost/benefit profiles"
+  ],
+  "risks": [
+    "Eval task sets may not represent production task mix; a skill can pass the gate yet regress on unmeasured task types",
+    "Tool-call counts are not an explicitly documented skill-creator benchmark metric; may require additional harness telemetry",
+    "Model variance requires repeated runs for stable deltas, adding eval cost"
+  ],
+  "existing_asset": {
+    "kind": "public-skill",
+    "asset_id": "anthropic-skill-creator",
+    "source": "anthropics/skills (bundled with Claude Code)",
+    "url": "https://code.claude.com/docs/en/skills",
+    "availability": "public",
+    "matched_on": [
+      "documented eval features: isolated runs recording token count and duration",
+      "with-skill vs without-skill benchmark aggregating pass rate, time, and tokens"
+    ],
+    "reputation": {
+      "verdict": "established",
+      "evidence": [
+        "Documented in official Claude Code docs as the skill creation/eval tooling (Anthropic, provider-official)",
+        "Used as eval engine by the shared skill-optimization plugin"
+      ],
+      "checked_at": "2026-08-17"
+    },
+    "public_url": "https://code.claude.com/docs/en/skills",
+    "reader_facing": true,
+    "confirmed_by": "read official Claude Code skills documentation describing eval and benchmark mechanism"
+  },
+  "fix_effort": 3,
+  "reversible": true,
+  "last_verified_at": "2026-08-17"
+}
