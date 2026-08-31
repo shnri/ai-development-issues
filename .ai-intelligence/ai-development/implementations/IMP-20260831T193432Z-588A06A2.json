@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "IMP-20260831T193432Z-588A06A2",
+  "work_item_id": "WRK-20260831T191822Z-E9C9E949",
+  "created_at": "2026-08-31T19:34:32Z",
+  "target_repository_id": "shared-agent-plugins",
+  "target_path": ".ai-intelligence/ai-development/workspaces/shared-agent-plugins",
+  "artifact_kind": "shared-existing-asset",
+  "action_type": "update-owner-asset",
+  "author_role": "candidate-author-subagent",
+  "baseline_ref": "runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/eval-plan.json",
+  "candidate_ref": "58b3873f9dfae7951f8b6332aa2e7cc691f52a932e963117786c31ad8049eeb2",
+  "base_revision": "bc8512fcc88bbc7292130b37e7f371d9cd071dd0",
+  "branch": "main",
+  "changed_files": [
+    "CHANGELOG.md",
+    "docs/skill-index/inventory.json",
+    "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+    "plugins/agent-instruction-maintenance/plugin.json",
+    "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+    "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+  ],
+  "diff_stats": {
+    "files": 6,
+    "insertions": 13,
+    "deletions": 4
+  },
+  "reversible": true,
+  "checks_run": [],
+  "scope_validation": {
+    "passed": true,
+    "changed_files": [
+      "CHANGELOG.md",
+      "docs/skill-index/inventory.json",
+      "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+      "plugins/agent-instruction-maintenance/plugin.json",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+    ],
+    "diff_stats": {
+      "files": 6,
+      "insertions": 13,
+      "deletions": 4
+    },
+    "binary_changes": [],
+    "reasons": []
+  },
+  "status": "ready"
+}

@@ -1,0 +1,26 @@
+{
+ "graded_at": "2026-08-31T19:32:00Z",
+ "key": "fixtures-key.json",
+ "trials": [
+  {
+   "trial": 1,
+   "evaluator": "evaluator-01 (revision 1)",
+   "candidate_positives": "3/3 (FX-1, FX-3, FX-4)",
+   "candidate_false_positives": "0/3",
+   "baseline_positives": "2/3 (FX-4 missed)",
+   "mechanism_coverage": "baseline 1/5, candidate 5/5",
+   "guardrails": "kept_signals_intact, fragile_exception_present"
+  },
+  {
+   "trial": 2,
+   "evaluator": "evaluator-02 (revision 2, post-review confirmation)",
+   "candidate_positives": "3/3 (FX-1, FX-3, FX-4)",
+   "candidate_false_positives": "0/3",
+   "baseline_positives": "2/3 (FX-4 missed)",
+   "mechanism_coverage": "baseline 1/5, candidate 5/5",
+   "guardrails": "kept_signals_intact, fragile_exception_present, safety_checklist_exempted, paths_qualified_claude_code"
+  }
+ ],
+ "target_validation": "npm ci && npm run check passed in shared-agent-plugins workspace with candidate applied (both revisions)",
+ "result": "pass"
+}

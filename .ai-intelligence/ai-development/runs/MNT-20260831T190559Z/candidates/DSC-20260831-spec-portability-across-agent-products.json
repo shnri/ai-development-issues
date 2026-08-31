@@ -1,0 +1,44 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-spec-portability-across-agent-products",
+ "title": "ある製品向けに書かれた仕様がAgent製品を跨ぐと成立せず、実装品質が製品依存で崩壊する",
+ "summary": "Spec-driven開発で作成した仕様Artifactは、作成元のAgent製品に暗黙適合しており、別製品のAgentへ持ち込むと大幅な品質劣化を起こす。5製品(Kiro/Gemini/Copilot/Claude Code/Cursor)を跨いだ実測で、Kiro由来仕様をGeminiに投入した最悪ケースはToken F1 0.035、SQL構文妥当性2.33%まで落ちた。仕様のサイズ自体は実装品質を予測せず、仕様の書き直しは改善する一方、圧縮の効果は製品間で一貫しない。「仕様はVendor中立な資産」という前提が成り立たないことを示す。",
+ "proposed_category": "要求・仕様・正解定義",
+ "problem_type": [
+  "構造"
+ ],
+ "priority_lanes": [
+  "W3"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+ "evidence": [
+  {
+   "url": "https://arxiv.org/abs/2608.21208",
+   "title": "Specification Portability Across LLM Development Agents: Cross-Agent Compatibility in Specification-Driven Software Migration",
+   "published_at": "2026-08-21",
+   "summary": "Two-stage study: 1,006 PL/SQL files (623 regenerated, 380 executed in PostgreSQL 16), then 1,802 Oracle scripts across five agents. Cross-agent transfer produces substantial agent-dependent degradation; specification size alone does not predict implementation quality; rewriting substantially improves performance while compression gives inconsistent benefits."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "primary-software-engineering-research"
+  }
+ ],
+ "affected_scope": {
+  "artifacts": [
+   "specification documents",
+   "spec-driven development pipelines"
+  ],
+  "activities": [
+   "agent/tool migration",
+   "spec authoring",
+   "large-scale code migration"
+  ]
+ },
+ "confidence": "medium",
+ "material_change": false,
+ "status": "candidate",
+ "target_problem_id": null,
+ "notes": "Checked against H04 (agents interpret the same spec/interface differently) and K08 (session/skill formats fragmented per provider), D15 (skill owner/model/runtime unknown). H04 concerns concurrent divergent interpretation inside one project; K08 concerns session and skill format fragmentation, not spec-artifact fidelity. This is spec-artifact non-portability at handoff/migration time with a distinct response (renormalize or rewrite specs when switching agent products, and measure rather than assume transfer). Confidence held at medium because the study domain is narrow (Oracle-to-PostgreSQL SQL migration)."
+}

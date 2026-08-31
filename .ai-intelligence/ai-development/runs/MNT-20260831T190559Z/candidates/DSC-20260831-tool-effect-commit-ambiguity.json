@@ -1,0 +1,44 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-tool-effect-commit-ambiguity",
+ "title": "ツール応答の消失により、外部副作用が確定したか未確定かをAgentが判別できない",
+ "summary": "Agentがツールを呼び出し、外部システム側の副作用は確定したのに応答だけが失われた場合、確定状態と未確定状態がAgentから見て区別できなくなる。両者は本来まったく異なる継続動作(再試行 vs 前進)を要求するため、Agentは重複実行か停止のどちらかに倒れる。呼び出しがスキーマ的に妥当(callable)であることと、結果状態を判定して安全に継続できること(operable)は別物であり、失敗はモデル能力ではなくツールInterface設計に起因する。AFT-Benchはタスク・Backend・初期状態・注入する障害・Agent・Modelを固定しInterfaceのみを変える統制実験でこれを分離した。",
+ "proposed_category": "運用・費用・測定・再現性",
+ "problem_type": [
+  "構造"
+ ],
+ "priority_lanes": [
+  "F2"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+ "evidence": [
+  {
+   "url": "https://arxiv.org/abs/2608.23628",
+   "title": "Callability Is Not Operability: Controlled Interface Interventions for LLM Agents",
+   "published_at": "2026-08-23",
+   "summary": "Introduces AFT-Bench, a controlled interface-intervention framework, and shows a tool call can be perfectly valid yet leave the agent unable to determine what to do next; committed and uncommitted states become indistinguishable when external effects commit but responses are lost. Proposes Agent-First Tooling: selective capability discovery, execution lifecycle and recovery, explicit external-effect semantics, machine-readable results, postcondition verification."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "primary-software-engineering-research"
+  }
+ ],
+ "affected_scope": {
+  "artifacts": [
+   "tool/MCP interface definitions",
+   "agent harness recovery logic"
+  ],
+  "activities": [
+   "tool invocation",
+   "failure recovery",
+   "retry decisions"
+  ]
+ },
+ "confidence": "medium",
+ "material_change": false,
+ "status": "candidate",
+ "target_problem_id": null,
+ "notes": "Checked against K14 (external side effects not reversible by code rollback), I04 (destructive command from bad inference), C08 (env/flag/runtime differences overlooked), G06 (blind command retry). All four presume the agent knows what happened; this is the prior epistemic failure where commit status itself is unobservable. Practical response also differs: interface-level postcondition verification and explicit effect semantics rather than permission gating or rollback planning."
+}

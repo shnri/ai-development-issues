@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260831-workflow-prompt-footprint-fix",
+  "title": "Provider fix: 常時Contextに載っていたTool説明をon-demand skillへ移し、5.7k→1k tokensへ削減",
+  "summary": "Claude Code v2.1.248 cut the Workflow tool's prompt footprint from about 5.7k tokens to about 1k by moving the script-writing reference out of the always-loaded tool description and into a bundled workflow-authoring skill that loads only when authoring is actually happening. This is first-party confirmation of the catalogued mechanism that task-specific procedure text kept permanently in context is a standing token tax, and it demonstrates the standard remedy - split reference material into a conditionally-loaded skill rather than trimming prose.",
+  "proposed_category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "problem_type": [
+    "context-budget",
+    "provider-fix"
+  ],
+  "priority_lanes": [
+    "efficiency"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "title": "claude-code CHANGELOG v2.1.248",
+      "published_at": "2026-08-27",
+      "summary": "'Improved the Workflow tool's prompt footprint: its description is now about 1k tokens instead of 5.7k, with the script-writing reference moved into a bundled workflow-authoring skill.'"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code",
+      "Workflow tool",
+      "skills"
+    ],
+    "models": []
+  },
+  "confidence": "high",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "D06",
+  "notes": "Vendor-side validation of D06 (task-specific procedures kept permanently in context) and closely related to P-20260816-66F0FD78 (skills inducing token/time cost out of proportion to quality gain). No new mechanism - recorded so both entries can cite a quantified first-party before/after (5.7k -> 1k tokens) and the split-into-conditional-skill remedy."
+}

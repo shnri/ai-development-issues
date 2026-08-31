@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191641Z-0069-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-08-31T19:16:41Z",
+  "catalog_revision_before": 68,
+  "catalog_revision_after": 69,
+  "details": {
+    "candidate_id": "DSC-20260831-failed-call-surface-form-repetition",
+    "decision": "update",
+    "target_problem_id": "G06"
+  }
+}

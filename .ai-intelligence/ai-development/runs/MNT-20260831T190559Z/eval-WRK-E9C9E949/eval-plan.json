@@ -1,0 +1,50 @@
+{
+ "work_item_id": "WRK-20260831T191822Z-E9C9E949",
+ "remedy_id": "RMD-SKILLEFF-001",
+ "problem_ids": [
+  "P-20260816-66F0FD78"
+ ],
+ "frozen_at": "2026-08-31T19:25:00Z",
+ "target": {
+  "repository_id": "shared-agent-plugins",
+  "base_sha": "bc8512f",
+  "asset": "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions",
+  "files_allowed": [
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md",
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+   "plugins/agent-instruction-maintenance/plugin.json",
+   "plugins/agent-instruction-maintenance/CHANGELOG.md",
+   "CHANGELOG.md"
+  ]
+ },
+ "hypothesis": "Adding skill-efficiency audit signals (conditional-procedure authoring per RMD-SKILLEFF-001) to the maintain-agent-instructions audit criteria lets an auditor following the criteria flag mandatory-ified skill procedures that the baseline criteria miss, without weakening safety-boundary guidance or bloating the skill itself.",
+ "metrics": {
+  "mechanism_coverage": "how many of the 5 remedy mechanisms are expressible as audit signals from the criteria doc alone: (1) degrees of freedom matched to task fragility, (2) conditional workflow / applicable-when phrasing instead of unconditional checklists, (3) SKILL.md conciseness as recurring token cost (<500 lines), (4) progressive disclosure / lazy-loaded references, (5) activation scoping (description/paths). baseline expected 1-2/5 (generic length/description signals only), candidate target >=4/5",
+  "fixture_classification": "an evaluator applying ONLY the criteria doc classifies 6 fixture skill excerpts; positives must be flaggable by citing a specific criteria line. baseline expected <=1/3 positives flagged, candidate target 3/3 positives and 0/3 false positives on negatives",
+  "guardrails": [
+   "保護境界 section of SKILL.md byte-identical",
+   "no existing 維持すべきシグナル bullet removed or weakened",
+   "audit-criteria.md stays a reference file; SKILL.md body stays under 60 lines",
+   "total diff (excluding changelog/manifest) <= 40 changed lines, <= 3 files",
+   "the added criteria themselves are phrased as conditional audit signals, not new mandatory steps",
+   "npm run check passes in the target workspace"
+  ]
+ },
+ "roles": {
+  "candidate_author": "subagent fresh-context (candidate-author)",
+  "evaluator": "subagent fresh-context (evaluator), does not author",
+  "independent_reviewer": "subagent fresh-context (reviewer), distinct from author and evaluator",
+  "controller": "main session applies gates only"
+ },
+ "holdout_policy": "candidate author never sees fixtures; evaluator sees all 6 (3 visible + 3 holdout ids listed below); no tuning against holdout (single candidate iteration planned, max 2 per policy)",
+ "visible_fixtures": [
+  "FX-1",
+  "FX-2",
+  "FX-3"
+ ],
+ "holdout_fixtures": [
+  "FX-4",
+  "FX-5",
+  "FX-6"
+ ]
+}

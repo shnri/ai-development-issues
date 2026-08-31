@@ -1,0 +1,44 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-sdk-removed-params-stale-knowledge",
+ "title": "Anthropic Python SDK v1.0がtemperature/top_p/top_kを削除し、学習済みModelが出し続ける古い引数が実行時に失敗する",
+ "summary": "Anthropic Python SDK v1.0 (2026-08-20) removed long-deprecated surface including the legacy Text Completions API and the temperature, top_p and top_k parameters on Messages methods, moved the HTTP layer from httpx to httpx2, required await response.parse() for async .with_raw_response, and made AnthropicBedrock raise when no AWS region is configured instead of defaulting to us-east-1. Every model trained before this date will keep generating the removed parameters when asked to write Anthropic client code, and the resulting failure appears at runtime rather than at lint or type-check time.",
+ "proposed_category": "知識・Context・Freshness",
+ "problem_type": [
+  "stale-api-knowledge",
+  "breaking-sdk-change"
+ ],
+ "priority_lanes": [
+  "correctness"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+ "evidence": [
+  {
+   "url": "https://platform.claude.com/docs/en/release-notes/api",
+   "title": "Claude Platform release notes, 2026-08-20",
+   "published_at": "2026-08-20",
+   "summary": "'v1.0 requires Python 3.10 or later and removes long-deprecated surface, including the legacy Text Completions API, the temperature, top_p, and top_k parameters on Messages methods, and the tool runner's client-side compaction_control.' Async .with_raw_response now needs await response.parse(); AnthropicBedrock raises without a region."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "official-model-and-agent-providers"
+  }
+ ],
+ "affected_scope": {
+  "tools": [
+   "anthropic-sdk-python v1.0",
+   "httpx2",
+   "AnthropicBedrock"
+  ],
+  "models": [
+   "all models with training cutoff before 2026-08-20"
+  ]
+ },
+ "confidence": "high",
+ "material_change": false,
+ "status": "update",
+ "target_problem_id": "C06",
+ "notes": "Textbook instance of C06 (agent uses outdated knowledge of an external API/framework/CLI); mechanism, artifact and response (pin docs, verify against current SDK) are unchanged, so it is an update, not a new problem. Worth attaching because it is a high-frequency, recently-dated trigger that will affect any agent writing Anthropic client code."
+}

@@ -1,0 +1,44 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-llm-assist-degrades-requirements-inspection",
+ "title": "LLMを検査支援に使うと、要求文書のSmell検出精度がかえって下がる",
+ "summary": "人間が書いた要求仕様のInspectionでLLM支援を併用すると、欠陥(Requirements smell)の検出精度が有意に低下する。分類精度と作業時間には有意差がないため、時間短縮と引き換えでもない純粋な検出漏れである。LLMが指摘しなかった箇所を「問題なし」と読む false assurance が働き、検査者の探索が早期に打ち切られる。さらに最初からLLM支援ありで学習した被験者は学習効果自体が減衰しており、初学者の検査技能獲得を遅らせる。",
+ "proposed_category": "人間・Team・Ownership",
+ "problem_type": [
+  "増幅"
+ ],
+ "priority_lanes": [
+  "C1"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+ "evidence": [
+  {
+   "url": "https://arxiv.org/abs/2608.21298",
+   "title": "Human-AI Collaboration in Requirements Engineering: Evidence of the Negative Effect of LLMs on Requirements Inspection",
+   "published_at": "2026-08-21",
+   "summary": "Controlled crossover experiment with 34 participants inspecting textual specifications with and without LLM assistance. LLM support significantly reduced smell-detection accuracy with no significant effect on classification or task duration; learning effects were present across periods but reduced when LLM support was used from the beginning."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "primary-software-engineering-research"
+  }
+ ],
+ "affected_scope": {
+  "artifacts": [
+   "requirements documents",
+   "specifications under inspection"
+  ],
+  "activities": [
+   "requirements inspection",
+   "review",
+   "onboarding of novice engineers"
+  ]
+ },
+ "confidence": "medium",
+ "material_change": false,
+ "status": "candidate",
+ "target_problem_id": null,
+ "notes": "Checked against J05 (over-trusting AI and missing plausible errors), J04 (review degenerating into formal approval), J08 (skill atrophy), J09 (juniors losing learning opportunities). J04/J05 concern humans reviewing AI-produced output; here the artifact under inspection is human-authored and the AI is the review aid, so the failure is AI silence read as clearance - the opposite direction, with a different response (keep an unaided inspection pass, and do not introduce LLM aids to novices before baseline skill is established). Overlaps J08/J09 on the learning-effect finding; controller may prefer to split that half into an update on J09."
+}

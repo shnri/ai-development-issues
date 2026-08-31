@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191641Z-0075-PROBLEM-EVIDENCE-ADDED",
+  "event_type": "problem-evidence-added",
+  "occurred_at": "2026-08-31T19:16:41Z",
+  "catalog_revision_before": 74,
+  "catalog_revision_after": 75,
+  "details": {
+    "candidate_id": "DSC-20260831-ai-gateway-in-ci-credential-cascade",
+    "decision": "duplicate",
+    "target_problem_id": "I16"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "PRP-20260831T191906Z-A8983AA9",
+  "work_item_id": "WRK-20260831T191822Z-4099C2EF",
+  "release_id": null,
+  "created_at": "2026-08-31T19:19:06Z",
+  "problem_ids": [
+    "G14",
+    "G19",
+    "G20",
+    "G24"
+  ],
+  "practice_ids": [],
+  "asset": {
+    "kind": "guidance",
+    "guidance_kind": "solution-adoption",
+    "remedy_id": "RMD-G14-001",
+    "repository_id": null,
+    "version": null,
+    "distribution": "project-local",
+    "consumer_risk_tier": "R2",
+    "decision": null,
+    "note": "no shared asset was released; consumers apply the remedy guidance as a project change and audit the effect"
+  },
+  "consumer_actions": [],
+  "auto_update_consumers": false,
+  "status": "available",
+  "notes": []
+}

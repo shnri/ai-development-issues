@@ -1,0 +1,48 @@
+{
+  "id": "DSC-20260831-skill-registry-scanner-false-assurance",
+  "schema_version": "1.0",
+  "title": "Skill/Plugin scannerの合格判定が、機能しない承認ゲートを機能しているように見せる",
+  "summary": "OWASP AST08は、Skill registryのbehavioral scannerがpattern-matcher回避で突破される構造的限界を指摘し、全scannerが合格判定を出したまま26,000以上のagentへ到達した研究者PoC、1,184 skillを汚染したClawHavoc campaign、走査済みskillの36.82%に欠陥という調査を挙げる。人間は承認前に『scan済み』表示を確認しているため手続き上は正しく見えるが、そのsignalは当該攻撃クラスを原理的に検出できず、高権限Skillの導入判断が実質的に無検証のまま進む。承認疲れとは異なり、確認行為自体は行われている点が問題を見えにくくする。",
+  "proposed_category": "Security・Privacy・Supply Chain・法務",
+  "problem_type": [
+    "構造"
+  ],
+  "priority_lanes": [
+    "S0"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-03 (standards-security-and-risk scout)",
+  "evidence": [
+    {
+      "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+      "title": "OWASP Agentic Skills Top 10 (AST10) — AST08 Insufficient behavioral scanning (pattern-matcher bypass)",
+      "published_at": "2026-03-01",
+      "summary": "Air Security PoCのskillが全scanner合格のまま26,000+ agentへ到達、ClawHavocが1,184 skillを汚染、Snyk ToxicSkills(2026-02)で走査対象skillの36.82%に欠陥。統計はいずれも第三者からの引用。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "standards-security-and-risk"
+    }
+  ],
+  "affected_scope": {
+    "artifacts": [
+      "skill registry",
+      "plugin marketplace",
+      "MCP server listing"
+    ],
+    "roles": [
+      "platform owner",
+      "security reviewer"
+    ],
+    "lifecycle": [
+      "skill adoption",
+      "dependency review"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "照合済み: I12(承認疲れで人間が内容を見ずに許可する)は確認行為が省略される機構だが、本件は確認行為が実施された上で参照signalが無効という点が異なり、対策も『人間の負荷軽減』ではなく『scan合格を承認根拠にしない、実行時isolationへ移す』となる。I07は悪意あるSkillの存在そのもの、D15はSkillのOwner/Version不明。本件は検出手段への過信という別レイヤ。公開はwindow外(2026-03)のためcatalog gapとしての報告。"
+}

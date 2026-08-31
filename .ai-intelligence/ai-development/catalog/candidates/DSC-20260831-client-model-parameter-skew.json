@@ -1,0 +1,54 @@
+{
+  "id": "DSC-20260831-client-model-parameter-skew",
+  "schema_version": "1.0",
+  "title": "Agent CLIが新モデルの非対応リクエストパラメータを送り続け、全ターンが失敗する",
+  "summary": "Codex CLI 0.148.0はprompt_cache_retentionを無条件に送信するが、gpt-5.6-solはこれを拒否するため、ツール呼び出しの有無に関わらず全ターンがエラーになる(0.147.0では45ターン0エラー、0.148.0では3ターン3エラー)。Agent Harnessのリリース周期とProvider側のモデル能力面が独立に動くため、モデル側のロールアウトだけでクライアントの前提が無効化され、品質低下ではなく完全停止として現れる。修正はモデル能力表によるパラメータのゲーティングが必要で、利用者側の当座の対処はバージョンの固定に限られる。",
+  "proposed_category": "再現性・コスト・運用",
+  "problem_type": [
+    "version-skew",
+    "provider-client-compatibility",
+    "hard-failure"
+  ],
+  "priority_lanes": [
+    "ops"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-05 (community-and-issue-signals scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/openai/codex/issues/39397",
+      "title": "0.148.0 sends prompt_cache_retention on gpt-5.6-sol; every turn fails",
+      "published_at": "2026-08-19",
+      "summary": "クライアントが無条件送信するパラメータを新モデルが拒否し、毎ターン失敗。0.147.0との定量比較あり。共有能力表によるゲーティングが提案されている。"
+    },
+    {
+      "url": "https://github.com/openai/codex/issues/39392",
+      "title": "Codex App with gpt-5.6-sol aborts with unsupported prompt_cache_retention",
+      "published_at": "2026-08-19",
+      "summary": "同日の独立報告。Desktop App経路でも同一エラーで中断する。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "community-and-issue-signals"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "OpenAI Codex CLI 0.148.0",
+      "Codex Desktop"
+    ],
+    "artifacts": [
+      "agent session",
+      "CI/automation using the CLI"
+    ],
+    "roles": [
+      "agent operator"
+    ]
+  },
+  "confidence": "low",
+  "material_change": false,
+  "status": "duplicate",
+  "target_problem_id": "K02",
+  "notes": "K02(Model更新だけで品質・速度・Tool利用が変わる)と同じ機構だが、品質劣化ではなくリクエストパラメータの互換性喪失による全面停止という鋭い変種。K03(Harness側変更)とも隣接。単独の新規問題として立てるほどの独立性はないと判断し、K02への更新素材として提出する。"
+}

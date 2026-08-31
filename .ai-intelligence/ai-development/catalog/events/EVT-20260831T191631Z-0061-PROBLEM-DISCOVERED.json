@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191631Z-0061-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-08-31T19:16:31Z",
+  "catalog_revision_before": 60,
+  "catalog_revision_after": 61,
+  "details": {
+    "candidate_id": "DSC-20260831-eval-unsolvable-task-reward-hacking",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260831-0F6DC4B3"
+  }
+}

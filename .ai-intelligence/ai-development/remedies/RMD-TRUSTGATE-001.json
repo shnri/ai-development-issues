@@ -1,0 +1,67 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-TRUSTGATE-001",
+ "problem_ids": [
+  "P-20260831-044EBDC6"
+ ],
+ "summary": "Make workspace trust an explicit, provisioned setting for every non-interactive checkout instead of relying on a dialog that never appears: set `[projects.\"<abs-path>\"] trust_level = \"trusted\"` in ~/.codex/config.toml for Codex, and `projects[\"<repo-root>\"].hasTrustDialogAccepted = true` in ~/.claude.json for Claude Code, provisioning both in CI images, ephemeral cloud sessions and fresh worktrees; for repositories you do not own, do the opposite deliberately (`--setting-sources user`, `--bare`, `disabledMcpjsonServers`) so the reduced configuration is a chosen state rather than an accident.",
+ "remedy_type": "setting",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/permissions",
+   "observed_at": "2026-08-31",
+   "summary": "'What runs before you trust a folder' documents that the trust dialog never appears in `claude -p` or SDK sessions, lists what is withheld (permissions.allow, additionalDirectories, subagent frontmatter hooks and inline mcpServers, @skills-dir plugins, extraKnownMarketplaces, .mcp.json headersHelper), and names the manual key projects[\"<path>\"].hasTrustDialogAccepted in ~/.claude.json plus the hardening flags for untrusted repos."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+   "observed_at": "2026-08-31",
+   "summary": "projects.<path>.trust_level marks a project or worktree trusted or untrusted; untrusted projects skip project-scoped .codex/ layers including project-local config, hooks and rules."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://learn.chatgpt.com/docs/changelog",
+   "observed_at": "2026-08-20",
+   "summary": "2026-08-20 Codex changelog: untrusted projects no longer supply project-level AGENTS.md instructions."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/issues/12737",
+   "observed_at": "2026-08-31",
+   "summary": "Open feature request for a trustedDirectories setting to auto-trust directories at startup, confirming that provisioning trust today means writing the config key by hand."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "CI runners, ephemeral cloud sessions, containers, or freshly cloned worktrees where an interactive trust dialog cannot be answered",
+   "Repositories the operator owns and whose committed configuration is reviewed",
+   "Surfaces: Claude Code (v2.1.238+ behavior for headersHelper and inline mcpServers) and OpenAI Codex (2026-08-20 onward)"
+  ],
+  "not_applicable_when": [
+   "Repositories from untrusted third parties — trusting them grants repository-controlled hooks, MCP servers and helper commands execution on your machine",
+   "Interactive local sessions where the dialog is answered once and persists",
+   "Organizations that deliberately run agents in reduced-configuration mode as a security posture"
+  ]
+ },
+ "expected_effect": {
+  "primary": "The same repository and prompt produce the same loaded configuration in every environment, so convention violations stop being misdiagnosed as ignored instructions and instruction files stop being rewritten to fix a loading problem.",
+  "confidence": "official"
+ },
+ "risks": [
+  "Pre-trusting is a real security-boundary decision: repository-supplied hooks, MCP servers, env blocks and helper commands then run without prompting",
+  "Blanket-trusting a parent directory does not satisfy the per-folder rows and gives false confidence",
+  "Trust semantics changed at v2.1.207/2.1.238/2.1.246 and on Codex at 2026-08-20; a provisioned key may need updating",
+  "Writing ~/.claude.json or ~/.codex/config.toml from automation can conflict with the CLI's own writes"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 1,
+ "reversible": true,
+ "revalidate_when": [
+  "Claude Code ships a first-class trustedDirectories setting (issue #12737)",
+  "Either surface changes which artifacts trust gates",
+  "A new agent product adopts a trust flag over project instruction files"
+ ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "id": "IMP-20260831T192226Z-CF30DA68",
+  "work_item_id": "WRK-20260831T191822Z-E9C9E949",
+  "created_at": "2026-08-31T19:22:26Z",
+  "target_repository_id": "shared-agent-plugins",
+  "target_path": ".ai-intelligence/ai-development/workspaces/shared-agent-plugins",
+  "artifact_kind": "shared-existing-asset",
+  "action_type": "update-owner-asset",
+  "author_role": "candidate-author-subagent",
+  "baseline_ref": "runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/eval-plan.json",
+  "candidate_ref": "4dc4737171f8c0bfaa0e3fbdcde04cb2e1754efb2d2540ad3e2801087d199a9a",
+  "base_revision": "bc8512fcc88bbc7292130b37e7f371d9cd071dd0",
+  "branch": "main",
+  "changed_files": [
+    "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+    "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+  ],
+  "diff_stats": {
+    "files": 2,
+    "insertions": 5,
+    "deletions": 0
+  },
+  "reversible": true,
+  "checks_run": [],
+  "scope_validation": {
+    "passed": true,
+    "changed_files": [
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+      "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+    ],
+    "diff_stats": {
+      "files": 2,
+      "insertions": 5,
+      "deletions": 0
+    },
+    "binary_changes": [],
+    "reasons": []
+  },
+  "status": "ready"
+}

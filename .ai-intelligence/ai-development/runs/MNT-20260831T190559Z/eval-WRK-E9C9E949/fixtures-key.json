@@ -1,0 +1,26 @@
+{
+ "FX-1": {
+  "expected": "flag",
+  "label": "mandatory-ified optional verification"
+ },
+ "FX-2": {
+  "expected": "pass",
+  "label": "legitimately strict fragile operation"
+ },
+ "FX-3": {
+  "expected": "flag",
+  "label": "heavy always-loaded recipe body"
+ },
+ "FX-4": {
+  "expected": "flag",
+  "label": "unconditional pipeline in conditional domain"
+ },
+ "FX-5": {
+  "expected": "pass",
+  "label": "conditional workflow with decision points"
+ },
+ "FX-6": {
+  "expected": "pass",
+  "label": "safety boundary must not be flagged"
+ }
+}

@@ -1,0 +1,505 @@
+{
+  "schema_version": "1.0",
+  "plan_schema_version": "1.1",
+  "id": "MNT-20260831T190559Z",
+  "started_at": "2026-08-31T19:05:59Z",
+  "completed_at": "2026-08-31T19:37:03Z",
+  "mode": "maintain",
+  "plan_mode": "incremental",
+  "catalog_revision_before": 55,
+  "catalog_revision_after": 83,
+  "authority_base": {
+    "remote": "origin",
+    "branch": "claude/zen-carson-v4auwl",
+    "remote_sha": null,
+    "local_head": "e7ae4363b1ac34ffa6b033a49659abc41273e7f2",
+    "recorded_at": "2026-08-31T19:05:59Z",
+    "reachable": false
+  },
+  "plan": {
+    "mode": "incremental",
+    "bootstrap_signals": {
+      "bootstrap_completed_at": null,
+      "problem_count": 180,
+      "never_reviewed": 0,
+      "never_researched": 0,
+      "never_reviewed_ratio": 0.0,
+      "never_researched_ratio": 0.0,
+      "threshold": 0.5
+    },
+    "execution": {
+      "max_parallel_workers": 8,
+      "max_items_per_worker": {
+        "inventory": 20,
+        "research": 10,
+        "discovery": 1
+      },
+      "max_waves_per_run": 3,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null,
+      "worker_max_turns": {
+        "inventory": 24,
+        "research": 20,
+        "discovery": 24
+      }
+    },
+    "capacity": {
+      "inventory": 480,
+      "research": 240,
+      "discovery": 24
+    },
+    "legacy_fixed_limits": false,
+    "inventory_problem_ids": [],
+    "inventory_items": [],
+    "discovery_source_ids": [
+      "official-model-and-agent-providers",
+      "primary-software-engineering-research",
+      "standards-security-and-risk",
+      "empirical-agent-engineering",
+      "community-and-issue-signals",
+      "local-project-evidence"
+    ],
+    "discovery_sources": [
+      {
+        "id": "official-model-and-agent-providers",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "openai.com",
+          "developers.openai.com",
+          "anthropic.com",
+          "docs.anthropic.com",
+          "google.com",
+          "github.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent release notes",
+          "model behavior changes",
+          "agent tools and permissions",
+          "skills plugins instructions"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-15T09:29:50Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "primary-software-engineering-research",
+        "kind": "web",
+        "evidence_tier": "research",
+        "domains": [
+          "arxiv.org",
+          "dl.acm.org",
+          "ieeexplore.ieee.org",
+          "openreview.net"
+        ],
+        "paths": [],
+        "query_themes": [
+          "AI-assisted software engineering failure modes",
+          "coding agent testing evaluation",
+          "multi-agent software development",
+          "specification drift AI coding"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-15T09:29:50Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "standards-security-and-risk",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "nist.gov",
+          "owasp.org",
+          "mitre.org"
+        ],
+        "paths": [],
+        "query_themes": [
+          "generative AI risk updates",
+          "agent security prompt injection",
+          "AI software supply chain"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-15T09:29:50Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "empirical-agent-engineering",
+        "kind": "web",
+        "evidence_tier": "empirical",
+        "domains": [
+          "metr.org",
+          "dora.dev"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent productivity empirical",
+          "agent evaluation infrastructure",
+          "AI development delivery performance"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-15T09:29:50Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "community-and-issue-signals",
+        "kind": "web",
+        "evidence_tier": "community",
+        "domains": [
+          "github.com",
+          "reddit.com",
+          "news.ycombinator.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent recurring issue",
+          "AI generated code workflow problem",
+          "Claude Code Codex agent regression"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-15T09:29:50Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "local-project-evidence",
+        "kind": "repository",
+        "evidence_tier": "local",
+        "domains": [],
+        "paths": [
+          ".ai-intelligence/ai-development/findings",
+          ".ai-intelligence/ai-development/runs"
+        ],
+        "query_themes": [
+          "unmapped recurring failure",
+          "unexplained time or token loss",
+          "new specification or test inconsistency"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-15T09:29:50Z",
+        "last_backfill_at": null,
+        "backfill": false
+      }
+    ],
+    "research_problem_ids": [],
+    "research_items": [],
+    "inventory": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "discovery": {
+      "workers": [
+        {
+          "worker_id": "discovery-01",
+          "group": "official-model-and-agent-providers",
+          "item_ids": [
+            "official-model-and-agent-providers"
+          ],
+          "items": [
+            {
+              "id": "official-model-and-agent-providers",
+              "kind": "web",
+              "evidence_tier": "official",
+              "domains": [
+                "openai.com",
+                "developers.openai.com",
+                "anthropic.com",
+                "docs.anthropic.com",
+                "google.com",
+                "github.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent release notes",
+                "model behavior changes",
+                "agent tools and permissions",
+                "skills plugins instructions"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-15T09:29:50Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-02",
+          "group": "primary-software-engineering-research",
+          "item_ids": [
+            "primary-software-engineering-research"
+          ],
+          "items": [
+            {
+              "id": "primary-software-engineering-research",
+              "kind": "web",
+              "evidence_tier": "research",
+              "domains": [
+                "arxiv.org",
+                "dl.acm.org",
+                "ieeexplore.ieee.org",
+                "openreview.net"
+              ],
+              "paths": [],
+              "query_themes": [
+                "AI-assisted software engineering failure modes",
+                "coding agent testing evaluation",
+                "multi-agent software development",
+                "specification drift AI coding"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-15T09:29:50Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-03",
+          "group": "standards-security-and-risk",
+          "item_ids": [
+            "standards-security-and-risk"
+          ],
+          "items": [
+            {
+              "id": "standards-security-and-risk",
+              "kind": "web",
+              "evidence_tier": "official",
+              "domains": [
+                "nist.gov",
+                "owasp.org",
+                "mitre.org"
+              ],
+              "paths": [],
+              "query_themes": [
+                "generative AI risk updates",
+                "agent security prompt injection",
+                "AI software supply chain"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-15T09:29:50Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-04",
+          "group": "empirical-agent-engineering",
+          "item_ids": [
+            "empirical-agent-engineering"
+          ],
+          "items": [
+            {
+              "id": "empirical-agent-engineering",
+              "kind": "web",
+              "evidence_tier": "empirical",
+              "domains": [
+                "metr.org",
+                "dora.dev"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent productivity empirical",
+                "agent evaluation infrastructure",
+                "AI development delivery performance"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-15T09:29:50Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-05",
+          "group": "community-and-issue-signals",
+          "item_ids": [
+            "community-and-issue-signals"
+          ],
+          "items": [
+            {
+              "id": "community-and-issue-signals",
+              "kind": "web",
+              "evidence_tier": "community",
+              "domains": [
+                "github.com",
+                "reddit.com",
+                "news.ycombinator.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent recurring issue",
+                "AI generated code workflow problem",
+                "Claude Code Codex agent regression"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-15T09:29:50Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-06",
+          "group": "local-project-evidence",
+          "item_ids": [
+            "local-project-evidence"
+          ],
+          "items": [
+            {
+              "id": "local-project-evidence",
+              "kind": "repository",
+              "evidence_tier": "local",
+              "domains": [],
+              "paths": [
+                ".ai-intelligence/ai-development/findings",
+                ".ai-intelligence/ai-development/runs"
+              ],
+              "query_themes": [
+                "unmapped recurring failure",
+                "unexplained time or token loss",
+                "new specification or test inconsistency"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-15T09:29:50Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        }
+      ],
+      "lookback_days": 21
+    },
+    "research": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "limits": {
+      "inventory": 480,
+      "external_research": 240,
+      "max_parallel_workers": 8,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "max_decision_items": 3,
+      "runnable_work_item_ids": [],
+      "open_decision_package_ids": [
+        "DEC-20260815T120045Z-7415E4AB"
+      ]
+    },
+    "workflow": [
+      "fan out inventory workers (bounded, parallel) and persist each handoff under runs/<run-id>/workers/",
+      "fan out discovery scouts per due source group",
+      "fan out research workers for new/reactivated/material changes first, then the prioritized backlog",
+      "fan in: validate, deduplicate, and batch-apply inventory reviews (apply_inventory_batch.py) and research results (record_research_batch.py) as one logical catalog update",
+      "deduplicate and register discovery candidates",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "reconcile with the remote authority base, then commit/push authority state (safe_commit_state.py) with remote verification",
+      "write a concise catalog and release delta report; list deferred IDs explicitly"
+    ]
+  },
+  "results": {
+    "new": 13,
+    "reactivated": 0,
+    "inactive": 0,
+    "obsolete": 0,
+    "updated": 14,
+    "quick_wins": 0,
+    "work_items_created": 2,
+    "candidates": 1,
+    "promoted": 1,
+    "released": 1,
+    "propagated": 2,
+    "decision_required": 0,
+    "blocked_items": 0,
+    "rejected": 0,
+    "notes": "Incremental run: 6 discovery scouts (all due source groups), 27 candidate records fanned in (13 new problems, 6 material updates, 8 evidence additions, 1 within-batch duplicate merged); 18 problems researched in 2 worker batches, 18 remedies recorded (1 honest no-established-remedy on P-20260831-ED2DC8D6). Action loop: RMD-G14-001 completed as solution adoption (mattpocock/skills@triage, propagation PRP-20260831T191906Z-A8983AA9); RMD-SKILLEFF-001 released as agent-instruction-maintenance 0.2.2 (commit c241353, direct to main, remote verified, propagation PRP-20260831T193625Z-7BA9185C). Open decision package DEC-20260815T120045Z-7415E4AB still awaits its human owner.",
+    "catalog_summary": {
+      "catalog_id": "ai-development-problems",
+      "revision": 83,
+      "updated_at": "2026-08-31T19:30:27Z",
+      "problem_count": 193,
+      "by_status": {
+        "active": 180,
+        "provisional": 13
+      },
+      "by_research_status": {
+        "current": 193
+      }
+    },
+    "metrics": {
+      "discovery": {
+        "sources_scanned": 6,
+        "candidates": 27,
+        "new_problems": 13,
+        "material_updates": 6,
+        "evidence_added": 8,
+        "within_batch_merges": 1
+      },
+      "research": {
+        "problems_researched": 18,
+        "remedy_drafts_recorded": 18,
+        "outcomes": {
+          "remedy-found": 17,
+          "no-established-remedy": 1
+        }
+      },
+      "action_loop": {
+        "work_items_created": 2,
+        "completed": 2,
+        "solution_adoptions": 1,
+        "shared_releases": 1
+      },
+      "release": {
+        "target": "shared-agent-plugins",
+        "plugin": "agent-instruction-maintenance",
+        "version": "0.2.2",
+        "commit": "c241353366a4af9173f6c993f98c956376889ee7",
+        "strategy": "direct",
+        "remote_verified": true
+      },
+      "evaluation": {
+        "trials": 2,
+        "fixtures": 6,
+        "holdout": 3,
+        "guardrail_regressions": 0,
+        "independent_review": "approve-with-notes; 4 required changes applied and confirmed"
+      },
+      "notable": [
+        "authority push capability restored mid-run by adding shnri/shared-agent-plugins to the session's authorized repository set (push access) after an initial 403",
+        "P-20260831-FB4523EC (unverifiable authority publication) discovered from local run evidence and researched (RMD-SANDBOXEGRESS-001 human-owned R3; RMD-AUTHGATE-001 fail-closed gate candidate)"
+      ]
+    },
+    "deferred": {
+      "research": [],
+      "inventory": []
+    },
+    "bootstrap_completed": false
+  },
+  "status": "completed",
+  "run_record": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z-maintain.json",
+  "run_dir": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z",
+  "run_snapshot": ".ai-intelligence/ai-development/catalog/snapshots/20260831T190559Z-r0055-MNT-20260831T190559Z.json"
+}

@@ -1,0 +1,1262 @@
+[
+ {
+  "id": "A01",
+  "title": "要求が曖昧なまま、AIが暗黙の前提を補って実装する",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "要求が曖昧なまま、AIが暗黙の前提を補って実装する"
+ },
+ {
+  "id": "A02",
+  "title": "複数の設計書が互いに矛盾する",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "複数の設計書が互いに矛盾する"
+ },
+ {
+  "id": "A03",
+  "title": "同じ仕様を複数文書に重複記載し、更新時に分岐する",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "同じ仕様を複数文書に重複記載し、更新時に分岐する"
+ },
+ {
+  "id": "A04",
+  "title": "設計書、Issue、コード、テスト、会話のどれが正本か不明",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "設計書、Issue、コード、テスト、会話のどれが正本か不明"
+ },
+ {
+  "id": "A05",
+  "title": "各設計書は単体で正しいが、組み合わせると成立しない",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "各設計書は単体で正しいが、組み合わせると成立しない"
+ },
+ {
+  "id": "A06",
+  "title": "古い設計書をAIが現行仕様として採用する",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "古い設計書をAIが現行仕様として採用する"
+ },
+ {
+  "id": "A07",
+  "title": "一つの要求変更が関連設計・API・DB・テストへ反映されない",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "一つの要求変更が関連設計・API・DB・テストへ反映されない"
+ },
+ {
+  "id": "A08",
+  "title": "AIが生成した設計書が権威的に見え、未確認の仮定が仕様化する",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "AIが生成した設計書が権威的に見え、未確認の仮定が仕様化する"
+ },
+ {
+  "id": "A09",
+  "title": "仕様が過剰に詳細化され、人間もAIも全体を把握できない",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "仕様が過剰に詳細化され、人間もAIも全体を把握できない"
+ },
+ {
+  "id": "A10",
+  "title": "非機能要件、運用条件、移行条件が機能仕様から抜ける",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "非機能要件、運用条件、移行条件が機能仕様から抜ける"
+ },
+ {
+  "id": "A11",
+  "title": "仕様が狭すぎて正しい別解を不合格にする",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "仕様が狭すぎて正しい別解を不合格にする"
+ },
+ {
+  "id": "A12",
+  "title": "仕様が広すぎて未指定の挙動までテスト対象になる",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "仕様が広すぎて未指定の挙動までテスト対象になる"
+ },
+ {
+  "id": "A13",
+  "title": "「なぜこの仕様か」が失われ、後から変更判断できない",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "「なぜこの仕様か」が失われ、後から変更判断できない"
+ },
+ {
+  "id": "A14",
+  "title": "仕様の作成時点・対象バージョン・出典が分からない",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "仕様の作成時点・対象バージョン・出典が分からない"
+ },
+ {
+  "id": "A15",
+  "title": "AIが作りやすい仕様へ問題設定自体が歪む",
+  "status": "active",
+  "category": "要求・仕様・正解定義",
+  "mechanism": "AIが作りやすい仕様へ問題設定自体が歪む"
+ },
+ {
+  "id": "B01",
+  "title": "局所的には正しい変更が全体Architectureを崩す",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "局所的には正しい変更が全体Architectureを崩す"
+ },
+ {
+  "id": "B02",
+  "title": "Agentごとに異なる設計原則を採用する",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "Agentごとに異なる設計原則を採用する"
+ },
+ {
+  "id": "B03",
+  "title": "同じ目的の実装・抽象化・設定が重複して増える",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "同じ目的の実装・抽象化・設定が重複して増える"
+ },
+ {
+  "id": "B04",
+  "title": "AIが小さな変更に過剰なLayer・Interfaceを追加する",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "AIが小さな変更に過剰なLayer・Interfaceを追加する"
+ },
+ {
+  "id": "B05",
+  "title": "将来拡張を過剰に先取りし、YAGNI違反になる",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "将来拡張を過剰に先取りし、YAGNI違反になる"
+ },
+ {
+  "id": "B06",
+  "title": "逆にHappy Pathだけで、運用・障害・移行設計がない",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "逆にHappy Pathだけで、運用・障害・移行設計がない"
+ },
+ {
+  "id": "B07",
+  "title": "変更影響の追跡が文書・コード・テスト間で切れる",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "変更影響の追跡が文書・コード・テスト間で切れる"
+ },
+ {
+  "id": "B08",
+  "title": "AIが既存の例外・負債を「標準パターン」と誤認して複製する",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "AIが既存の例外・負債を「標準パターン」と誤認して複製する"
+ },
+ {
+  "id": "B09",
+  "title": "Design DecisionがChatだけに残り、Repositoryに残らない",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "Design DecisionがChatだけに残り、Repositoryに残らない"
+ },
+ {
+  "id": "B10",
+  "title": "生成量増加によりArchitecture reviewが追いつかない",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "生成量増加によりArchitecture reviewが追いつかない"
+ },
+ {
+  "id": "B11",
+  "title": "文書を更新しただけで実装済みと誤認する",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "文書を更新しただけで実装済みと誤認する"
+ },
+ {
+  "id": "B12",
+  "title": "既存互換性・移行順序を無視して理想設計へ置換する",
+  "status": "active",
+  "category": "設計・Architecture・変更整合性",
+  "mechanism": "既存互換性・移行順序を無視して理想設計へ置換する"
+ },
+ {
+  "id": "C01",
+  "title": "必要なファイル・設計書を取得できず、不完全な前提で進める",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "必要なファイル・設計書を取得できず、不完全な前提で進める"
+ },
+ {
+  "id": "C02",
+  "title": "無関係なContextが重要な制約を押し流す",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "無関係なContextが重要な制約を押し流す"
+ },
+ {
+  "id": "C03",
+  "title": "長いSessionで初期要求・禁止事項を忘れる",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "長いSessionで初期要求・禁止事項を忘れる"
+ },
+ {
+  "id": "C04",
+  "title": "Context圧縮で判断理由・未完了事項が落ちる",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "Context圧縮で判断理由・未完了事項が落ちる"
+ },
+ {
+  "id": "C05",
+  "title": "Handoffで「伝言ゲーム」が起きる",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "Handoffで「伝言ゲーム」が起きる"
+ },
+ {
+  "id": "C06",
+  "title": "外部API・Framework・CLIに古い知識を使う",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "外部API・Framework・CLIに古い知識を使う"
+ },
+ {
+  "id": "C07",
+  "title": "公式情報と古い記事・記憶の区別が付かない",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "公式情報と古い記事・記憶の区別が付かない"
+ },
+ {
+  "id": "C08",
+  "title": "環境変数、Feature Flag、Runtime差を見落とす",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "環境変数、Feature Flag、Runtime差を見落とす"
+ },
+ {
+  "id": "C09",
+  "title": "Repository固有の暗黙ルールを一般則で上書きする",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "Repository固有の暗黙ルールを一般則で上書きする"
+ },
+ {
+  "id": "C10",
+  "title": "複数Agentが異なる時点のRepositoryを見て作業する",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "複数Agentが異なる時点のRepositoryを見て作業する"
+ },
+ {
+  "id": "C11",
+  "title": "長期Memoryに古い知識・誤った結論が残る",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "長期Memoryに古い知識・誤った結論が残る"
+ },
+ {
+  "id": "C12",
+  "title": "Agentが存在しないPackage・API・Optionをもっともらしく提示する",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "Agentが存在しないPackage・API・Optionをもっともらしく提示する"
+ },
+ {
+  "id": "C13",
+  "title": "必要情報を追加するほどContextが増え、かえって精度が落ちる",
+  "status": "active",
+  "category": "知識・Context・Freshness",
+  "mechanism": "必要情報を追加するほどContextが増え、かえって精度が落ちる"
+ },
+ {
+  "id": "D01",
+  "title": "Skill・Prompt・Agent設定が古くなる",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "Skill・Prompt・Agent設定が古くなる"
+ },
+ {
+  "id": "D02",
+  "title": "旧モデル向けWorkaroundが新モデルでは逆効果になる",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "旧モデル向けWorkaroundが新モデルでは逆効果になる"
+ },
+ {
+  "id": "D03",
+  "title": "System、Project、Skill、User指示が矛盾する",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "System、Project、Skill、User指示が矛盾する"
+ },
+ {
+  "id": "D04",
+  "title": "指示ファイルが肥大化し、重要事項が埋もれる",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "指示ファイルが肥大化し、重要事項が埋もれる"
+ },
+ {
+  "id": "D05",
+  "title": "LinterやFormatterが担う規則を指示にも重複記載する",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "LinterやFormatterが担う規則を指示にも重複記載する"
+ },
+ {
+  "id": "D06",
+  "title": "特定作業だけの手順を常時Contextへ入れる",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "特定作業だけの手順を常時Contextへ入れる"
+ },
+ {
+  "id": "D07",
+  "title": "初期構築手順が残り、通常作業でも毎回実行される",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "初期構築手順が残り、通常作業でも毎回実行される"
+ },
+ {
+  "id": "D08",
+  "title": "参照先が循環・欠落・古い",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "参照先が循環・欠落・古い"
+ },
+ {
+  "id": "D09",
+  "title": "Skillが必要な場面で発火しない",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "Skillが必要な場面で発火しない"
+ },
+ {
+  "id": "D10",
+  "title": "不要な場面でSkillが誤発火する",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "不要な場面でSkillが誤発火する"
+ },
+ {
+  "id": "D11",
+  "title": "Skill同士が競合し、順番で結果が変わる",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "Skill同士が競合し、順番で結果が変わる"
+ },
+ {
+  "id": "D12",
+  "title": "事故対策を追加し続け、Instruction Debtになる",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "事故対策を追加し続け、Instruction Debtになる"
+ },
+ {
+  "id": "D13",
+  "title": "「必ず全テスト」など過剰な絶対規則が毎回の無駄を生む",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "「必ず全テスト」など過剰な絶対規則が毎回の無駄を生む"
+ },
+ {
+  "id": "D14",
+  "title": "Model／System Prompt更新だけで品質が回帰する",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "Model／System Prompt更新だけで品質が回帰する"
+ },
+ {
+  "id": "D15",
+  "title": "SkillのOwner、対応Model、Runtime、依存Versionが不明",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "SkillのOwner、対応Model、Runtime、依存Versionが不明"
+ },
+ {
+  "id": "D16",
+  "title": "Skill改善が対象Evalへの過適合になる",
+  "status": "active",
+  "category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "mechanism": "Skill改善が対象Evalへの過適合になる"
+ },
+ {
+  "id": "E01",
+  "title": "自然で読みやすいが意味的に誤ったコードを生成する",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "自然で読みやすいが意味的に誤ったコードを生成する"
+ },
+ {
+  "id": "E02",
+  "title": "境界値、失敗経路、Concurrency、権限条件が抜ける",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "境界値、失敗経路、Concurrency、権限条件が抜ける"
+ },
+ {
+  "id": "E03",
+  "title": "見えているテストを満たすだけのHardcodeを入れる",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "見えているテストを満たすだけのHardcodeを入れる"
+ },
+ {
+  "id": "E04",
+  "title": "依頼範囲外のRefactor・Cleanupを混ぜる",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "依頼範囲外のRefactor・Cleanupを混ぜる"
+ },
+ {
+  "id": "E05",
+  "title": "不要なDependency・Framework・抽象化を追加する",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "不要なDependency・Framework・抽象化を追加する"
+ },
+ {
+  "id": "E06",
+  "title": "既存機能の互換性を壊して新仕様だけを満たす",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "既存機能の互換性を壊して新仕様だけを満たす"
+ },
+ {
+  "id": "E07",
+  "title": "Temporary code、Debug出力、未使用Fileが残る",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "Temporary code、Debug出力、未使用Fileが残る"
+ },
+ {
+  "id": "E08",
+  "title": "Migration、Config、Dependency更新を不用意に含める",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "Migration、Config、Dependency更新を不用意に含める"
+ },
+ {
+  "id": "E09",
+  "title": "Security上危険でも「動くコード」を採用する",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "Security上危険でも「動くコード」を採用する"
+ },
+ {
+  "id": "E10",
+  "title": "AI生成量に比例してTechnical Debtが速く蓄積する",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "AI生成量に比例してTechnical Debtが速く蓄積する"
+ },
+ {
+  "id": "E11",
+  "title": "実装途中なのに完了と報告する",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "実装途中なのに完了と報告する"
+ },
+ {
+  "id": "E12",
+  "title": "Code commentや説明が実装とずれる",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "Code commentや説明が実装とずれる"
+ },
+ {
+  "id": "E13",
+  "title": "同じ誤解を複数Moduleへ一貫して展開してしまう",
+  "status": "active",
+  "category": "実装・コード生成",
+  "mechanism": "同じ誤解を複数Moduleへ一貫して展開してしまう"
+ },
+ {
+  "id": "F01",
+  "title": "誤った実装を見たAIが、その誤りに整合するテストを書く",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "誤った実装を見たAIが、その誤りに整合するテストを書く"
+ },
+ {
+  "id": "F02",
+  "title": "設計書の矛盾によりテストの正解が一意に決まらない",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "設計書の矛盾によりテストの正解が一意に決まらない"
+ },
+ {
+  "id": "F03",
+  "title": "Assertionが弱く、実行しただけでPASSする",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Assertionが弱く、実行しただけでPASSする"
+ },
+ {
+  "id": "F04",
+  "title": "Happy Path中心で失敗・境界条件を検証しない",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Happy Path中心で失敗・境界条件を検証しない"
+ },
+ {
+  "id": "F05",
+  "title": "Mockが多すぎて実際の統合を検証しない",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Mockが多すぎて実際の統合を検証しない"
+ },
+ {
+  "id": "F06",
+  "title": "Coverageが高いことを品質と誤認する",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Coverageが高いことを品質と誤認する"
+ },
+ {
+  "id": "F07",
+  "title": "Visible testへ過適合し、仕様外の抜け道を使う",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Visible testへ過適合し、仕様外の抜け道を使う"
+ },
+ {
+  "id": "F08",
+  "title": "Agentがテスト・Verifier側を変更してPASSさせる",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Agentがテスト・Verifier側を変更してPASSさせる"
+ },
+ {
+  "id": "F09",
+  "title": "テストが実装詳細を強制し、正しい別解を拒否する",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "テストが実装詳細を強制し、正しい別解を拒否する"
+ },
+ {
+  "id": "F10",
+  "title": "テストが仕様にない機能まで要求する",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "テストが仕様にない機能まで要求する"
+ },
+ {
+  "id": "F11",
+  "title": "AI Reviewerも実装AIと同じ前提を誤る",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "AI Reviewerも実装AIと同じ前提を誤る"
+ },
+ {
+  "id": "F12",
+  "title": "AI Reviewerが過剰修正・False Positiveを増やす",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "AI Reviewerが過剰修正・False Positiveを増やす"
+ },
+ {
+  "id": "F13",
+  "title": "一度の成功を安定性と見なす",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "一度の成功を安定性と見なす"
+ },
+ {
+  "id": "F14",
+  "title": "Flaky testを実装失敗・Model回帰と誤認する",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Flaky testを実装失敗・Model回帰と誤認する"
+ },
+ {
+  "id": "F15",
+  "title": "Eval自体が古くなり、現在の実務を測らない",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Eval自体が古くなり、現在の実務を測らない"
+ },
+ {
+  "id": "F16",
+  "title": "Benchmark汚染・飽和でModel比較が無意味になる",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Benchmark汚染・飽和でModel比較が無意味になる"
+ },
+ {
+  "id": "F17",
+  "title": "実行環境差・CPU競合・Timeoutを能力差と誤認する",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "実行環境差・CPU競合・Timeoutを能力差と誤認する"
+ },
+ {
+  "id": "F18",
+  "title": "Test PASSでもBuild・Runtime・UI・Integrationが壊れている",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "Test PASSでもBuild・Runtime・UI・Integrationが壊れている"
+ },
+ {
+  "id": "F19",
+  "title": "「実行した」との自己申告だけで、実際の結果を確認しない",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "「実行した」との自己申告だけで、実際の結果を確認しない"
+ },
+ {
+  "id": "F20",
+  "title": "テストが大量生成され、重複・低価値ケースが増える",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "テストが大量生成され、重複・低価値ケースが増える"
+ },
+ {
+  "id": "F21",
+  "title": "旧仕様向けテストが新仕様変更を妨げる",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "旧仕様向けテストが新仕様変更を妨げる"
+ },
+ {
+  "id": "F22",
+  "title": "最終結果だけを見て、無駄な探索・危険な途中操作を見逃す",
+  "status": "active",
+  "category": "Test・Eval・検証",
+  "mechanism": "最終結果だけを見て、無駄な探索・危険な途中操作を見逃す"
+ },
+ {
+  "id": "G01",
+  "title": "変更確認のたびに数分かかる全テストを実行する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "変更確認のたびに数分かかる全テストを実行する"
+ },
+ {
+  "id": "G02",
+  "title": "毎回Lint・Typecheck・Build・全Testを一括実行する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "毎回Lint・Typecheck・Build・全Testを一括実行する"
+ },
+ {
+  "id": "G03",
+  "title": "変更と無関係なPackage・Workspaceまで確認する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "変更と無関係なPackage・Workspaceまで確認する"
+ },
+ {
+  "id": "G04",
+  "title": "同じFile・設計書・Logを何度も読み直す",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "同じFile・設計書・Logを何度も読み直す"
+ },
+ {
+  "id": "G05",
+  "title": "同じ検索を言い換えて延々繰り返す",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "同じ検索を言い換えて延々繰り返す"
+ },
+ {
+  "id": "G06",
+  "title": "同じCommand failureを原因分析せず再実行する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "同じCommand failureを原因分析せず再実行する"
+ },
+ {
+  "id": "G07",
+  "title": "小さな作業にも長い計画・説明を生成する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "小さな作業にも長い計画・説明を生成する"
+ },
+ {
+  "id": "G08",
+  "title": "独立していない作業までSubagentへ分割する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "独立していない作業までSubagentへ分割する"
+ },
+ {
+  "id": "G09",
+  "title": "Subagentを増やしすぎ、統合コストが作業時間を上回る",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Subagentを増やしすぎ、統合コストが作業時間を上回る"
+ },
+ {
+  "id": "G10",
+  "title": "複数Agentが同じ調査・実装を重複して行う",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "複数Agentが同じ調査・実装を重複して行う"
+ },
+ {
+  "id": "G11",
+  "title": "Routine作業にも常に高価なModelを使う",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Routine作業にも常に高価なModelを使う"
+ },
+ {
+  "id": "G12",
+  "title": "Repository全体を最初から読み、Tokenと時間を消費する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Repository全体を最初から読み、Tokenと時間を消費する"
+ },
+ {
+  "id": "G13",
+  "title": "大量のLogをContextへ保持し続ける",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "大量のLogをContextへ保持し続ける"
+ },
+ {
+  "id": "G14",
+  "title": "完了条件がなく、改善・Refactorを続ける",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "完了条件がなく、改善・Refactorを続ける"
+ },
+ {
+  "id": "G15",
+  "title": "Context枯渇を恐れて未完のまま早期終了する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Context枯渇を恐れて未完のまま早期終了する"
+ },
+ {
+  "id": "G16",
+  "title": "毎SessionでInstall・Build・初期調査をやり直す",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "毎SessionでInstall・Build・初期調査をやり直す"
+ },
+ {
+  "id": "G17",
+  "title": "安全な読取操作にも毎回承認が必要でPermission fatigueになる",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "安全な読取操作にも毎回承認が必要でPermission fatigueになる"
+ },
+ {
+  "id": "G18",
+  "title": "Test並列数が多すぎ、CPU競合で全体が遅くなる",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Test並列数が多すぎ、CPU競合で全体が遅くなる"
+ },
+ {
+  "id": "G19",
+  "title": "最終検証を変更なしで何度も繰り返す",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "最終検証を変更なしで何度も繰り返す"
+ },
+ {
+  "id": "G20",
+  "title": "依頼外の文書・Backup・Temporary artifactを生成する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "依頼外の文書・Backup・Temporary artifactを生成する"
+ },
+ {
+  "id": "G21",
+  "title": "失敗時に全工程を最初からやり直す",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "失敗時に全工程を最初からやり直す"
+ },
+ {
+  "id": "G22",
+  "title": "Cost・Token・Turnに上限がなく、改善効果より費用が膨らむ",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Cost・Token・Turnに上限がなく、改善効果より費用が膨らむ"
+ },
+ {
+  "id": "G23",
+  "title": "Flaky testを無条件で何度も再実行する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Flaky testを無条件で何度も再実行する"
+ },
+ {
+  "id": "G24",
+  "title": "Agentが終了を自己判断できず、人間が常時監視する",
+  "status": "active",
+  "category": "Agent実行効率・Quick Win",
+  "mechanism": "Agentが終了を自己判断できず、人間が常時監視する"
+ },
+ {
+  "id": "H01",
+  "title": "長時間作業でContextの一貫性が崩れる",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "長時間作業でContextの一貫性が崩れる"
+ },
+ {
+  "id": "H02",
+  "title": "Sessionを跨ぐと途中状態・未完了点を誤認する",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "Sessionを跨ぐと途中状態・未完了点を誤認する"
+ },
+ {
+  "id": "H03",
+  "title": "Handoff要約から例外・根拠・制約が消える",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "Handoff要約から例外・根拠・制約が消える"
+ },
+ {
+  "id": "H04",
+  "title": "Agentごとに仕様・Interfaceの解釈が異なる",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "Agentごとに仕様・Interfaceの解釈が異なる"
+ },
+ {
+  "id": "H05",
+  "title": "並列変更で通常のMerge conflictが急増する",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "並列変更で通常のMerge conflictが急増する"
+ },
+ {
+  "id": "H06",
+  "title": "Gitが検知できないSemantic conflictが起きる",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "Gitが検知できないSemantic conflictが起きる"
+ },
+ {
+  "id": "H07",
+  "title": "分割単位が悪く、複数Agentが同じModuleを横断する",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "分割単位が悪く、複数Agentが同じModuleを横断する"
+ },
+ {
+  "id": "H08",
+  "title": "調整Agentが情報・判断のボトルネックになる",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "調整Agentが情報・判断のボトルネックになる"
+ },
+ {
+  "id": "H09",
+  "title": "上流Agentの誤解が下流Agentへ連鎖する",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "上流Agentの誤解が下流Agentへ連鎖する"
+ },
+ {
+  "id": "H10",
+  "title": "各担当は成功しても、統合時に全体が壊れる",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "各担当は成功しても、統合時に全体が壊れる"
+ },
+ {
+  "id": "H11",
+  "title": "Agent作業中に人間が同じ箇所を変更し、基準状態がずれる",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "Agent作業中に人間が同じ箇所を変更し、基準状態がずれる"
+ },
+ {
+  "id": "H12",
+  "title": "Session中断・利用制限・Crashで文脈と作業を失う",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "Session中断・利用制限・Crashで文脈と作業を失う"
+ },
+ {
+  "id": "H13",
+  "title": "Coder AgentとReviewer Agentが相互に同意するだけになる",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "Coder AgentとReviewer Agentが相互に同意するだけになる"
+ },
+ {
+  "id": "H14",
+  "title": "どのAgentが何を根拠に変更したか追跡できない",
+  "status": "active",
+  "category": "長時間Agent・Multi-Agent・統合",
+  "mechanism": "どのAgentが何を根拠に変更したか追跡できない"
+ },
+ {
+  "id": "I01",
+  "title": "README、Issue、Comment、Web、Log内の文を命令として実行する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "README、Issue、Comment、Web、Log内の文を命令として実行する"
+ },
+ {
+  "id": "I02",
+  "title": "Prompt InjectionでAgentの目的が乗っ取られる",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Prompt InjectionでAgentの目的が乗っ取られる"
+ },
+ {
+  "id": "I03",
+  "title": "Shell、GitHub、Cloud、DB、本番への権限が過大",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Shell、GitHub、Cloud、DB、本番への権限が過大"
+ },
+ {
+  "id": "I04",
+  "title": "誤推論から破壊的Command・Migration・Deployを実行する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "誤推論から破壊的Command・Migration・Deployを実行する"
+ },
+ {
+  "id": "I05",
+  "title": "Secret、Source、顧客Dataを外部へ送信する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Secret、Source、顧客Dataを外部へ送信する"
+ },
+ {
+  "id": "I06",
+  "title": "Prompt、Trace、LogにSecretや個人情報が残る",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Prompt、Trace、LogにSecretや個人情報が残る"
+ },
+ {
+  "id": "I07",
+  "title": "悪意あるSkill・Plugin・MCPが命令と権限を持つ",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "悪意あるSkill・Plugin・MCPが命令と権限を持つ"
+ },
+ {
+  "id": "I08",
+  "title": "AIが存在しないPackage名を提案し、攻撃者のPackageを取得する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "AIが存在しないPackage名を提案し、攻撃者のPackageを取得する"
+ },
+ {
+  "id": "I09",
+  "title": "Skill文書内のCode例・TemplateにPayloadが埋め込まれる",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Skill文書内のCode例・TemplateにPayloadが埋め込まれる"
+ },
+ {
+  "id": "I10",
+  "title": "CI/CD AgentがIssue・PR・Commit内容から乗っ取られる",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "CI/CD AgentがIssue・PR・Commit内容から乗っ取られる"
+ },
+ {
+  "id": "I11",
+  "title": "Agent間通信・Shared memoryが汚染される",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Agent間通信・Shared memoryが汚染される"
+ },
+ {
+  "id": "I12",
+  "title": "承認疲れで人間が内容を見ずに許可する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "承認疲れで人間が内容を見ずに許可する"
+ },
+ {
+  "id": "I13",
+  "title": "AI生成コードの出典・License・著作権リスクが不明",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "AI生成コードの出典・License・著作権リスクが不明"
+ },
+ {
+  "id": "I14",
+  "title": "Data residency、保持期間、学習利用条件に違反する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Data residency、保持期間、学習利用条件に違反する"
+ },
+ {
+  "id": "I15",
+  "title": "AI利用が監査証跡に残らず、後から説明できない",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "AI利用が監査証跡に残らず、後から説明できない"
+ },
+ {
+  "id": "I16",
+  "title": "Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される"
+ },
+ {
+  "id": "I17",
+  "title": "AgentがBranch protectionや通常工程を迂回する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "AgentがBranch protectionや通常工程を迂回する"
+ },
+ {
+  "id": "I18",
+  "title": "AIが安全対策コードを「不要」と判断して削除する",
+  "status": "active",
+  "category": "Security・Privacy・Supply Chain・法務",
+  "mechanism": "AIが安全対策コードを「不要」と判断して削除する"
+ },
+ {
+  "id": "J01",
+  "title": "コードを書いた人間が存在せず、設計理由を誰も説明できない",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "コードを書いた人間が存在せず、設計理由を誰も説明できない"
+ },
+ {
+  "id": "J02",
+  "title": "動くが人間が修正できないKnowledge／Epistemic Debtが増える",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "動くが人間が修正できないKnowledge／Epistemic Debtが増える"
+ },
+ {
+  "id": "J03",
+  "title": "AI生成量が人間の理解・レビュー速度を超える",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "AI生成量が人間の理解・レビュー速度を超える"
+ },
+ {
+  "id": "J04",
+  "title": "Reviewが品質保証ではなく形式的承認になる",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "Reviewが品質保証ではなく形式的承認になる"
+ },
+ {
+  "id": "J05",
+  "title": "AIを過信し、もっともらしい誤りを見逃す",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "AIを過信し、もっともらしい誤りを見逃す"
+ },
+ {
+  "id": "J06",
+  "title": "AIを信用できず、すべて再確認してVerification taxが増える",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "AIを信用できず、すべて再確認してVerification taxが増える"
+ },
+ {
+  "id": "J07",
+  "title": "AI利用者本人の生産性実感と実測がずれる",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "AI利用者本人の生産性実感と実測がずれる"
+ },
+ {
+  "id": "J08",
+  "title": "コーディング・Debug・設計技能が衰える",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "コーディング・Debug・設計技能が衰える"
+ },
+ {
+  "id": "J09",
+  "title": "Juniorが試行錯誤・Reviewを通じて学ぶ機会が減る",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "Juniorが試行錯誤・Reviewを通じて学ぶ機会が減る"
+ },
+ {
+  "id": "J10",
+  "title": "「AIが書いた」で責任主体が曖昧になる",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "「AIが書いた」で責任主体が曖昧になる"
+ },
+ {
+  "id": "J11",
+  "title": "Reviewが担っていたTeam内の知識伝播が失われる",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "Reviewが担っていたTeam内の知識伝播が失われる"
+ },
+ {
+  "id": "J12",
+  "title": "個人の生成速度向上がTeam全体のDelivery改善につながらない",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "個人の生成速度向上がTeam全体のDelivery改善につながらない"
+ },
+ {
+  "id": "J13",
+  "title": "LOC、PR数、Token量を生産性と誤認する",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "LOC、PR数、Token量を生産性と誤認する"
+ },
+ {
+  "id": "J14",
+  "title": "AI利用Skillの差でTeam内の品質がばらつく",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "AI利用Skillの差でTeam内の品質がばらつく"
+ },
+ {
+  "id": "J15",
+  "title": "Human-in-the-loopが生成量に対してScaleしない",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "Human-in-the-loopが生成量に対してScaleしない"
+ },
+ {
+  "id": "J16",
+  "title": "Architecture OwnerやDomain Ownerの責任が弱まる",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "Architecture OwnerやDomain Ownerの責任が弱まる"
+ },
+ {
+  "id": "J17",
+  "title": "AIが既存の悪い工程・組織習慣まで高速化する",
+  "status": "active",
+  "category": "人間・Team・Ownership",
+  "mechanism": "AIが既存の悪い工程・組織習慣まで高速化する"
+ },
+ {
+  "id": "K01",
+  "title": "同じ入力・Repositoryでも結果が毎回変わる",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "同じ入力・Repositoryでも結果が毎回変わる"
+ },
+ {
+  "id": "K02",
+  "title": "Model更新だけで品質・速度・Tool利用が変わる",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "Model更新だけで品質・速度・Tool利用が変わる"
+ },
+ {
+  "id": "K03",
+  "title": "System Prompt、Harness、Tool schema変更で回帰する",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "System Prompt、Harness、Tool schema変更で回帰する"
+ },
+ {
+  "id": "K04",
+  "title": "OS、CPU、Memory、Network、Sandbox差で結果が変わる",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "OS、CPU、Memory、Network、Sandbox差で結果が変わる"
+ },
+ {
+  "id": "K05",
+  "title": "過去の成功Sessionを再現できない",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "過去の成功Sessionを再現できない"
+ },
+ {
+  "id": "K06",
+  "title": "Token、推論時間、外部Tool費用が予測しにくい",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "Token、推論時間、外部Tool費用が予測しにくい"
+ },
+ {
+  "id": "K07",
+  "title": "Rate limit・利用制限で長時間作業が中断する",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "Rate limit・利用制限で長時間作業が中断する"
+ },
+ {
+  "id": "K08",
+  "title": "ProviderやAgent製品ごとにSession・Skill形式が分断される",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "ProviderやAgent製品ごとにSession・Skill形式が分断される"
+ },
+ {
+  "id": "K09",
+  "title": "Model、Prompt、Skill、Tool、Testのどれが原因か特定しにくい",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "Model、Prompt、Skill、Tool、Testのどれが原因か特定しにくい"
+ },
+ {
+  "id": "K10",
+  "title": "Benchmark性能と自Repositoryでの実務性能が一致しない",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "Benchmark性能と自Repositoryでの実務性能が一致しない"
+ },
+ {
+  "id": "K11",
+  "title": "成功率だけでは、探索Loop・Token浪費・危険操作が見えない",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "成功率だけでは、探索Loop・Token浪費・危険操作が見えない"
+ },
+ {
+  "id": "K12",
+  "title": "Codingの時間短縮がReview・Test・Releaseへ負荷移転する",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "Codingの時間短縮がReview・Test・Releaseへ負荷移転する"
+ },
+ {
+  "id": "K13",
+  "title": "AI利用Telemetry自体がPrivacy・機密リスクになる",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "AI利用Telemetry自体がPrivacy・機密リスクになる"
+ },
+ {
+  "id": "K14",
+  "title": "外部Systemへの副作用があり、Code rollbackだけでは戻らない",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "外部Systemへの副作用があり、Code rollbackだけでは戻らない"
+ },
+ {
+  "id": "K15",
+  "title": "AI導入前のBaselineがなく、改善か悪化か判断できない",
+  "status": "active",
+  "category": "運用・費用・測定・再現性",
+  "mechanism": "AI導入前のBaselineがなく、改善か悪化か判断できない"
+ },
+ {
+  "id": "P-20260816-66F0FD78",
+  "title": "Skillが過剰手順を誘発し、品質向上に見合わないToken・時間・Tool Callを増やす",
+  "status": "active",
+  "category": "実行効率",
+  "mechanism": "関連するAgent Skillを有効にしても成功率や成果品質がほとんど改善しない一方、追加の検証、探索、実装工程によってToken使用量、所要時間、Tool Callが大幅に増える効率回帰が反復観測されている。これはSkill本文の長さだけでなく、Skillが誘発する過剰手順にも"
+ }
+]

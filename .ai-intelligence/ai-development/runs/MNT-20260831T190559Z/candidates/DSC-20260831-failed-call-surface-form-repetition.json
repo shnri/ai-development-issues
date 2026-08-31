@@ -1,0 +1,44 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-failed-call-surface-form-repetition",
+ "title": "失敗したCommandをTranscriptに残すこと自体が、同一失敗の再実行を誘発する",
+ "summary": "失敗したツール呼び出しとError messageを文脈に残す標準的なやり方が、同じ呼び出しの再生成確率を押し上げる。原因はError messageの意味理解の失敗ではなく、失敗した呼び出しの表層形が文脈内で顕著になり再生成されやすくなることにある。損害の83%は表層形に帰属し、失敗という意味付けの寄与は一貫しない。対策も「原因分析してから再試行せよ」という指示ではなく、逐語のCommandをRuntime生成の説明文へ置換する(損害の76%除去)、あるいはDecoder側で既失敗文字列を禁止する、というTranscript衛生の側に移る。",
+ "proposed_category": "",
+ "problem_type": [
+  "retry-loop",
+  "context-hygiene",
+  "agent-harness"
+ ],
+ "priority_lanes": [],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+ "evidence": [
+  {
+   "url": "https://arxiv.org/abs/2608.23651",
+   "title": "Feedback That Backfires: Why Small Language Model Agents Repeat the Call They Just Watched Fail",
+   "published_at": "2026-08-24",
+   "summary": "Six model checkpoints (135M-1.7B) across four families, in simulated tool calling and MBPP program repair. Corrective gain was negative across all models (about -1.03 nats/token), yet repetition probability rose from 0.06 to 0.54 under greedy decoding on fixed candidate sets; greedy decoding reproduced failed calls token-for-token on 19% of items post-failure vs 0% before. Failed-call surface form accounts for 83% of the effect; replacing verbatim calls with runtime-generated descriptions removes 76%."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "primary-software-engineering-research"
+  }
+ ],
+ "affected_scope": {
+  "artifacts": [
+   "agent transcript/context",
+   "harness retry policy"
+  ],
+  "activities": [
+   "command retry",
+   "error recovery",
+   "context construction"
+  ]
+ },
+ "confidence": "low",
+ "material_change": true,
+ "status": "update",
+ "target_problem_id": "G06",
+ "notes": "Symptom is exactly catalog G06 (re-running the same failed command without root-cause analysis), so this is not a new problem. It is an update because the mechanism is relocated from 'agent skipped analysis' to 'verbatim failed call in context is mechanically more likely to be regenerated', which changes the recommended response from instruction-level (analyze before retry) to harness-level transcript hygiene and decoder-level suppression. Confidence low because the evidence covers only 135M-1.7B parameter models; frontier coding-agent generalization is untested and should be stated as a limitation in any catalog text."
+}

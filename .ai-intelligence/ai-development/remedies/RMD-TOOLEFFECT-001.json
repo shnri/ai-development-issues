@@ -1,0 +1,73 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-TOOLEFFECT-001",
+ "problem_ids": [
+  "P-20260831-3039ED15"
+ ],
+ "summary": "Make every side-effecting tool recoverable rather than merely callable: require a caller-supplied idempotency key on write tools with a server-side dedup window that reports whether the call newly executed or replayed a prior result; declare effect semantics with MCP annotations (destructiveHint/idempotentHint/openWorldHint); return results as structuredContent conforming to a declared outputSchema with isError distinguishing tool-execution failure from protocol failure; and ship a read-back/status tool (or a Tasks handle) so an agent whose response was lost can determine the committed state before choosing retry vs forward.",
+ "remedy_type": "tool",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+   "observed_at": "2026-08-31",
+   "summary": "MCP standardizes outputSchema, structuredContent, isError for tool-execution errors versus JSON-RPC protocol errors, and behavior annotations on the tool definition."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://blog.modelcontextprotocol.io/posts/2026-03-16-tool-annotations/",
+   "observed_at": "2026-08-31",
+   "summary": "idempotentHint defaults to false and openWorldHint to true; annotations drive confirmation and policy but are advisory and untrusted servers can lie, so recovery must not rest on hints alone."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+   "observed_at": "2026-08-31",
+   "summary": "The 2026-07-28 stateless core plus the io.modelcontextprotocol/tasks extension (tasks/get, tasks/update) gives a re-pollable handle for a call whose response was lost, without itself guaranteeing dedup."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+   "observed_at": "2026-08-31",
+   "summary": "Anthropic tool-design guidance: build high-leverage tools that return meaningful, agent-consumable context instead of thin API wrappers, with response_format control over verbosity."
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2608.23628",
+   "observed_at": "2026-08-31",
+   "summary": "AFT-Bench holds task, backend, initial state, injected fault, agent and model fixed and varies only the interface, isolating interface design as the cause; prescribes explicit external-effect semantics, execution lifecycle and recovery, machine-readable results and postcondition verification."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Agents call tools that commit external side effects (payments, tickets, deployments, writes to systems of record)",
+   "Tool or MCP server is under your control, or the vendor exposes an idempotency-key parameter",
+   "Failures include timeouts, dropped streams, or context truncation where the response can be lost after commit"
+  ],
+  "not_applicable_when": [
+   "Read-only tools with no external effect (declare readOnlyHint and stop there)",
+   "Third-party tools you cannot modify and that expose no status/read-back call — mitigate at the harness by recording attempted calls and requiring human adjudication instead",
+   "Effects that are inherently non-queryable after the fact (e.g. fire-and-forget notifications with no receipt)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "After a lost tool response the agent can distinguish committed from uncommitted state and choose retry or forward deterministically, so duplicate external executions and spurious mid-task stalls both fall; retries become safe by construction rather than by model judgment.",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "Dedup windows have a horizon (commonly ~24h); a retry outside the window re-executes",
+  "Annotations are unverifiable metadata and must not be treated as enforcement",
+  "Adding keys and status tools widens the tool surface and the token cost of each definition",
+  "Read-back tools can leak state the agent should not see if not access-scoped"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "MCP publishes idempotency or dedup semantics in the core spec or the Tasks extension",
+  "Provider SDKs add first-class idempotency-key support to tool definitions",
+  "AFT-Bench or an independent reproduction reports which of the five interventions carries the effect"
+ ]
+}

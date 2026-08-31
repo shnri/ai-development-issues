@@ -1,0 +1,154 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-06",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [],
+ "work_item_id": null,
+ "facts": [
+  "The path .ai-intelligence/ai-development/findings/ declared in the local-project-evidence discovery source does not exist in the repository; only .ai-intelligence/ai-development/runs/ was scannable.",
+  "authority_base.reachable is true only in MNT-20260815T141330Z (branch main, remote_sha == local_head 7872172); it is false with remote_sha null in both MNT-20260817T200951Z and MNT-20260831T190559Z, which ran on ephemeral session branches claude/zen-carson-bt3bjc and claude/zen-carson-v4auwl. The four earliest 2026-08-15 runs carry no authority_base field at all.",
+  "MNT-20260815T111324Z-maintain.json records the blocker 'PR pending: gh unavailable; merge intentionally left to human review' and status 'partial' with blocked_items 1.",
+  "Git commit 33c0f65 (2026-08-16, 'chore: release shared assets without mandatory PRs') flipped automation-policy release.allow_direct_push from false to true, removed the mandatory pull-request release strategy from AGENTS.md/README.md, and added scripts/check_authority.py plus tests asserting independent review, no force push and no protection bypass remain required.",
+  "The MNT-20260831T190559Z run record, run dir and catalog snapshot are present but untracked in git as of this scan; run status is 'planned' with empty results.",
+  "In MNT-20260815T141330Z-maintain.json, results.candidates is 0 while results.metrics.candidates is 3, and results.deferred is an object {research, inventory} while results.metrics.deferred is a list of four work-item IDs.",
+  "schema_version stays '1.0' across run records whose results object grew from 8 keys (2026-08-15 09:26) to 16 keys (11:13) to 20 keys (14:13); plan_schema_version 1.1 and authority_base appear only from 14:13 onward.",
+  "Every plan in the window sets token_budget_per_run: null and time_budget_minutes: null, and no run record contains measured token or wall-clock actuals.",
+  "MNT-20260817T200951Z deferred RMD-G14-001 and RMD-SKILLEFF-001 with reason 'run action cap (max_action_items_per_run=3) reached'; MNT-20260815T141330Z notes action caps were 'overridden to 100 by explicit user request'.",
+  "MNT-20260815T120030Z-maintain.json lists controller fixes discovered: model_conditions text scope, guidance propagation without release, promotion gate for deterministic changes, adjacent-cell trial inflation, no candidate-revision path before evaluation, and version collision across pending releases (0.1.1 vs 0.1.2).",
+  "MNT-20260815T141330Z remediation_status shows techlog consumer outcomes of unresolved for RMD-F03-001 and RMD-G22-001, and decision-required for RMD-I14-001, RMD-K06-001 and RMD-K13-001; DEC-20260815T120045Z-7415E4AB (I05/I14) is still listed as an open decision package in the 2026-08-31 plan, 16 days after creation.",
+  "All six previously registered discovery candidates (CND-20260815-001..006) were classified duplicate against I16, I02, K03, J07, A01 and K02; the bootstrap run notes state the local-project-evidence source produced no candidates in its only prior scan (2026-08-15T09:29:50Z).",
+  "The four deferred controller self-update work items WRK-20260815T124426Z-194E74F4/A307F153/DF7F2470/E4C69876 are already mapped to catalog problems K11, H02, K01 and E05 respectively, and are all in state 'completed'."
+ ],
+ "inferences": [
+  "The unreachable authority base is a recurring condition (2 of the 3 runs that record it, spanning 2026-08-17 to 2026-08-31), not a one-off: it means the declared workflow step 'reconcile with the remote authority base, then commit/push authority state with remote verification' cannot execute, so each run plans from an unverified local head and the ledger's released/pushed states are not externally confirmable.",
+  "The gh-unavailable blocker on 2026-08-15 plausibly motivated the 2026-08-16 policy change to reviewed direct release; the adaptation to a missing sandbox capability was to relax the delivery gate rather than to gate on capability availability. The change was guarded (check_authority.py + tests), so this is a controlled relaxation rather than an I17-style bypass.",
+  "The results/metrics counter divergence and the frozen schema_version are the same duplication-diverges-on-update mechanism as catalog A03 (with A14 for the unbumped version), applied to a machine-readable state record instead of a design document; the practical response (single source of truth, derive one view from the other) is identical, so it is a duplicate rather than a new problem.",
+  "Absence of token/time budgets and actuals means the 'unexplained time or token loss' theme cannot be evidenced from local run data at all — this is itself covered by G22/K06/K11 and does not warrant a new entry.",
+  "The fixed per-run action cap with recurring identical deferral reasons, and the 16-day-old open decision package, are throughput/oversight-bandwidth symptoms already carried by J15, J03 and G14."
+ ],
+ "evidence": [
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z-maintain.json",
+   "note": "authority_base reachable false, remote_sha null, branch claude/zen-carson-v4auwl; status planned; local-project-evidence source paths include a findings/ directory that does not exist"
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260817T200951Z-maintain.json",
+   "note": "authority_base reachable false, remote_sha null; action cap deferrals for RMD-G14-001 and RMD-SKILLEFF-001"
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260815T141330Z-maintain.json",
+   "note": "only run with reachable true (branch main, remote_sha == local_head); results.candidates 0 vs results.metrics.candidates 3; deferred key holds an object at one level and a list at the other; remediation_status ledger with unresolved/decision-required consumer outcomes"
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260815T111324Z-maintain.json",
+   "note": "status partial; 'PR pending: gh unavailable; merge intentionally left to human review'; controller self-fixes including target==authority conflict"
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260815T120030Z-maintain.json",
+   "note": "controller fixes list including version collision across pending releases 0.1.1 vs 0.1.2 and adjacent-cell trial inflation"
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260817T200951Z/workers/research-01.json",
+   "note": "prior discovery/research handoff; skill-optimization gate covers variant-vs-variant only, tool-call counts not gated — remedy limitation of P-20260816-66F0FD78"
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/catalog-index.json",
+   "note": "180-problem living catalog used for deduplication (id/title/category/mechanism)"
+  },
+  {
+   "path": ".ai-intelligence/ai-development/automation-policy.json",
+   "note": "release.allow_direct_push now true; changed by commit 33c0f65 which removed the mandatory-PR release strategy"
+  }
+ ],
+ "files_written": [],
+ "checks_run": [
+  "enumerated .ai-intelligence/ai-development/runs/ (7 maintain records, 3 run dirs, 1 merge record) and confirmed findings/ is absent",
+  "read all 7 maintain run records' results, notes, metrics, deferred and remediation_status blocks",
+  "read MNT-20260831T190559Z/plan.json and the local-project-evidence discovery source definition (paths, query themes, last_scanned_at 2026-08-15T09:29:50Z)",
+  "read the only prior worker handoff, MNT-20260817T200951Z/workers/research-01.json",
+  "loaded the 180-entry catalog-index.json and reviewed every id/title/category for mechanism overlap",
+  "cross-checked catalog/candidates/ (7 files, 6 duplicates + 1 accepted) to avoid re-raising known candidates",
+  "inspected the 4 deferred controller work items WRK-20260815T124426Z-* and open decision DEC-20260815T120045Z-7415E4AB",
+  "diffed run-record schemas programmatically to find duplicated/diverging counters and unbumped schema_version",
+  "grepped runs/ for failure, regression, conflict, drift, collision, unverified and inconsistency keywords",
+  "checked git log, remote and working-tree status to corroborate the reachability and release-policy signals"
+ ],
+ "risks": [
+  "Only three run records carry an authority_base field, so 'reachable false in 2 of 3' is a small sample; the condition may reflect this sandbox rather than a persistent deployment property.",
+  "The discovery source declares a findings/ path that has never existed, so any evidence intended to be deposited there is invisible to this and every prior local scan — the local-evidence channel may be under-reporting.",
+  "The single candidate concerns the maintenance system's own operation; the controller must judge whether it generalizes to AI development at large before promoting it into the catalog.",
+  "The 2026-08-31 run artifacts are untracked, so this scan's inputs may change before the run is committed."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "controller",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-unverifiable-authority-publication",
+   "title": "Agentの成果公開・検証leg（remote到達、PR作成）がsandboxで利用できず、未検証のlocal headのまま完了状態が記録される",
+   "summary": "Agentの運用workflowは『remote authority baseと突き合わせ、remote検証付きでcommit/pushする』ことを前提にしているが、実行sandboxからoriginへ到達できない運転が続いており（2026-08-17と2026-08-31はreachable false／remote_sha null、2026-08-15のみtrue）、runは検証不能なlocal headを基準に計画・記録される。gh CLIが使えずPRを作れなかった事象も同時に記録されており、成果は『released／pushed』としてledgerに残る一方で、外部からその状態を確認する手段がない。観測された適応はcapability不足をgateするのではなく、mandatory PRを外してdirect releaseを許可する方向へ配送gateを緩めることだった。結果として、実行環境のcapability欠落が、成果の可視性とreview gateの強度を静かに切り下げる。",
+   "proposed_category": "運用・費用・測定・再現性",
+   "problem_type": [
+    "operations",
+    "governance",
+    "reproducibility"
+   ],
+   "priority_lanes": [],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-06 (local-project-evidence scout)",
+   "evidence": [
+    {
+     "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z-maintain.json",
+     "summary": "authority_base: reachable false, remote_sha null, branch claude/zen-carson-v4auwl, local_head e7ae436; run status planned and its artifacts untracked in git"
+    },
+    {
+     "path": ".ai-intelligence/ai-development/runs/MNT-20260817T200951Z-maintain.json",
+     "summary": "authority_base: reachable false, remote_sha null, branch claude/zen-carson-bt3bjc — second consecutive unreachable run, 14 days apart"
+    },
+    {
+     "path": ".ai-intelligence/ai-development/runs/MNT-20260815T141330Z-maintain.json",
+     "summary": "the one run with reachable true (branch main, remote_sha == local_head), establishing that unreachability is a change of condition rather than the baseline"
+    },
+    {
+     "path": ".ai-intelligence/ai-development/runs/MNT-20260815T111324Z-maintain.json",
+     "summary": "status partial with blocked_items 1: 'PR pending: gh unavailable; merge intentionally left to human review'"
+    },
+    {
+     "path": ".ai-intelligence/ai-development/automation-policy.json",
+     "summary": "release.allow_direct_push is now true; git commit 33c0f65 (2026-08-16) removed the mandatory pull-request release strategy from AGENTS.md/README.md and added check_authority.py guards in its place"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "local-project-evidence"
+    }
+   ],
+   "affected_scope": {
+    "artifacts": [
+     "maintenance run records",
+     "catalog snapshots",
+     "shared-asset releases",
+     "automation policy"
+    ],
+    "actors": [
+     "maintenance controller",
+     "authority repository owner"
+    ],
+    "environments": [
+     "sandboxed agent sessions without network egress to origin or without gh CLI"
+    ],
+    "lifecycle_stages": [
+     "release",
+     "propagation",
+     "state persistence"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "Checked against K04（環境差で結果が変わる: 原因が同じ環境差でも、対象は出力の非決定性であり、公開・検証legの欠落ではない）、K07（Rate limit・利用制限で中断: providerの制限であって到達性ではなく、こちらは中断せず未検証のまま完了記録が進む）、F19（実行したとの自己申告のみで結果未確認: runはreachable falseを正直に記録しており、mechanismはagentの怠慢ではなく実行環境のcapability欠落）、I17（Branch protection迂回: 今回はguard付きでpolicyを正式変更しており迂回ではない）、H12（Session中断で文脈喪失: 文脈は失われていない）、B11（文書更新を実装済みと誤認）。いずれもmechanism・affected artifact・practical responseの3点が一致しない。実務対応（run前にauthority到達性とCLI可用性をpreflightし、不可なら release/propagation state transitionを禁止して run status を unverified と明示する）は既存180問のどれからも導かれない。"
+  }
+ ]
+}

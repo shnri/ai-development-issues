@@ -1,0 +1,75 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-REPOCONFIGEXEC-001",
+ "problem_ids": [
+  "P-20260831-91BDEAD5"
+ ],
+ "summary": "リポジトリ同梱の設定・metadata を『実行コード』として扱い、信頼確認より前に効かせない: 未知リポジトリは managed settings のみを読む隔離セッション (Claude Code --restricted、v2.1.248+) か使い捨てコンテナで開き、user/project/local settings・hooks・MCP 定義を読み込ませない。組織標準は managed settings に置いてリポジトリ側から上書き不能にし、skill/plugin は content hash で pin する。最低バージョンを CVE 修正版以上に固定する運用 (Claude Code は 1.0.111 以上、Gemini CLI は 0.39.1 / run-gemini-cli 0.1.22 以上) を CI で強制する。",
+ "remedy_type": "setting",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://owasp.org/www-project-agentic-skills-top-10/ast02",
+   "observed_at": "2026-08-31",
+   "summary": "AST02: repository config files を trust gate 必須の実行コードとして扱う。config-file hijacking は project open 時に発火し、nested dependency は immutable SHA256 で pin する。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://www.sentinelone.com/vulnerability-database/cve-2025-59536/",
+   "observed_at": "2026-08-31",
+   "summary": "CVE-2025-59536 (CVSS 8.7): startup trust dialog 完了前に project の hooks / MCP settings が実行され silent RCE。Claude Code 1.0.111 で修正。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/cli-reference",
+   "observed_at": "2026-08-31",
+   "summary": "--restricted は managed settings と --settings のみを読み、コマンド実行系ツールと WebFetch を外し、file tool を working directories に限定し、bypassPermissions を拒否する (v2.1.248+)。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-08-31",
+   "summary": "同一面の継続的 hardening: v2.1.232 nested repo の trust 継承修正、v2.1.246 project/local settings の credentials entry 無効化、v2.1.248 project settings の env が CLAUDE_CONFIG_DIR を設定不可に。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://novee.security/vulnerabilities/update-to-gemini-cli-and-run-gemini-cli-trust-model/",
+   "observed_at": "2026-08-31",
+   "summary": "Gemini CLI 0.39.1 は workspace trust を明示必須にする breaking change を導入 (headless CI の自動 trust が .gemini/.env 経由の sandbox 前ホスト実行を許していた)。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "外部・未レビューのリポジトリを agent で開く運用がある",
+   "リポジトリに .claude/settings.json、hooks、MCP 定義、skill/plugin manifest が同梱されうる",
+   "headless CI で agent がリポジトリを checkout して起動する",
+   "Claude Code v2.1.248+ が利用可能 (--restricted を使う場合)"
+  ],
+  "not_applicable_when": [
+   "自組織が全 commit をレビューする信頼済みリポジトリのみを扱う",
+   "設定ファイル読み込み自体を持たない agent surface",
+   "ビルド・テスト実行が必要な作業 (--restricted はコマンド実行系ツールを外すため、隔離コンテナ側で担保する)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "『未知リポジトリを開いて読む』が実行にならない。指標: 未知リポジトリを非隔離セッションで開いた回数 (目標0)、project/local settings 由来で有効化された hook/MCP の数、CVE 修正版未満のバージョンで動く環境数 (目標0)、pin されていない skill/plugin の割合。",
+  "confidence": "official"
+ },
+ "risks": [
+  "--restricted はコマンド実行系ツールを外すため、そのままでは調査以上の作業ができない",
+  "managed settings の配布・維持に管理基盤 (MDM 等) が要る",
+  "CVE 単位の修正は将来の同種欠陥を保証しない。trust gate は運用側で持ち続ける必要がある",
+  "hash pin は更新負荷を上げ、放置すると古い脆弱版に固定されうる"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 1,
+ "reversible": true,
+ "revalidate_when": [
+  "Claude Code の trust dialog / settings precedence / --restricted 仕様変更",
+  "Gemini CLI・Codex 等の workspace trust モデル変更",
+  "OWASP AST10 の改訂",
+  "設定ファイル経由の新規 CVE 公表"
+ ]
+}

@@ -1,0 +1,68 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-I03-002",
+ "problem_ids": [
+  "I03"
+ ],
+ "summary": "セッション単位で能力そのものを落とす起動モードを使う: Claude Code v2.1.248+ の --restricted (CLAUDE_CODE_RESTRICTED=1) は、コマンド・コード実行系の built-in tool と WebFetch を除去し (--tools で個別指定した場合を除く)、built-in file tool を working directory に限定し、managed settings と --settings 以外を読まず、bypassPermissions と cloud session を拒否する。未知リポジトリの調査、eval harness からの起動、共有マシン上の実行など『権限を渡す理由がない』run の既定にする。RMD-I03-001 (credential 分離) と RMD-I04-001 (承認ゲート) の代替ではなく、権限を与えないで済む run を切り分けるための追加レイヤ。",
+ "remedy_type": "setting",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/cli-reference",
+   "observed_at": "2026-08-31",
+   "summary": "--restricted の公式仕様。'Use it when an evaluation harness drives claude on a shared machine and Claude Code must not run commands or read that machine's user and project settings'。要 v2.1.248 以降。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/permission-modes",
+   "observed_at": "2026-08-31",
+   "summary": "--restricted セッションでは auto mode の classifier が protected-path write を承認できず、bypassPermissions も拒否される。model 側にも operator 側にも効く制限。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-08-31",
+   "summary": "v2.1.248 (2026-08-27) で追加。既存 remedy が扱っていなかった『session 全体を低権限で起動する』レバー。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://learn.chatgpt.com/docs/changelog",
+   "observed_at": "2026-08-31",
+   "summary": "2026-08-20 Codex 側の 'Notify clients when Guardian requires strict review'。session 単位のレビュー要求強化という同方向の動きで、ベンダ横断の傾向を示す。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Claude Code v2.1.248 以降",
+   "未知・未レビューのリポジトリを読む、eval harness から起動する、共有マシンで動かす run がある",
+   "組織標準を managed settings で配布している (--restricted は user/project/local settings を読まないため)"
+  ],
+  "not_applicable_when": [
+   "build / test / git 操作などコマンド実行が本質的に必要な作業",
+   "WebFetch や cloud session が前提のワークフロー",
+   "v2.1.248 未満の環境 (この場合は RMD-I03-001 / RMD-I04-001 と sandbox 設定で代替)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "権限が不要な run から実行系能力を構造的に外し、blast radius をセッション単位で0に近づける。指標: 未知リポジトリ調査を非 restricted で行った回数 (目標0)、eval harness 起動のうち --restricted 比率、restricted セッションで発生した権限 prompt 数、bypassPermissions 使用回数。",
+  "confidence": "official"
+ },
+ "risks": [
+  "対象 run の選別を誤ると作業が進まず、開発者が既定に戻して形骸化する",
+  "user/project settings を読まないため、既存の hook や MCP 前提のワークフローが静かに動かなくなる",
+  "『restricted で起動した』ことが monitoring に出ないと、運用実態が確認できない",
+  "restricted 単独では sandbox / credential 分離の代替にならない"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 1,
+ "reversible": true,
+ "revalidate_when": [
+  "--restricted の対象ツール・設定読み込み仕様の変更",
+  "他 surface (Codex, Gemini CLI) に同等モードが追加された場合",
+  "managed settings の配布方式変更",
+  "Claude Code の major update"
+ ]
+}

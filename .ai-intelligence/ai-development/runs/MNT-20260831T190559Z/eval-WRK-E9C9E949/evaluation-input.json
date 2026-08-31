@@ -1,0 +1,84 @@
+{
+ "evaluator_role": "evaluator-subagent",
+ "change_kind": "deterministic",
+ "trial_count": 2,
+ "trial_plan": {
+  "change_kind": "deterministic",
+  "risk_tier": "R1",
+  "cells": [
+   "fixture-classification",
+   "mechanism-coverage"
+  ],
+  "trials_required": 1,
+  "trials_done": 2,
+  "stop_rule": "deterministic: one passing run of the covering tests",
+  "plan_path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/trial-plan.json"
+ },
+ "baseline": {
+  "ref": "shared-agent-plugins@bc8512f",
+  "fixture_positives": "2/3",
+  "mechanism_coverage": "1/5"
+ },
+ "candidate": {
+  "implementation_id": "IMP-20260831T193432Z-588A06A2",
+  "fixture_positives": "3/3",
+  "false_positives": "0/3",
+  "mechanism_coverage": "5/5"
+ },
+ "test_sets": [
+  {
+   "id": "visible",
+   "kind": "fixture",
+   "cases": [
+    "FX-1",
+    "FX-2",
+    "FX-3"
+   ]
+  },
+  {
+   "id": "holdout",
+   "kind": "holdout",
+   "held_out": true,
+   "cases": [
+    "FX-4",
+    "FX-5",
+    "FX-6"
+   ],
+   "note": "candidate author never saw any fixture; evaluator classified blind (no labels); controller graded against fixtures-key.json"
+  }
+ ],
+ "guardrail_regressions": 0,
+ "infrastructure_failures": 0,
+ "independent_review": {
+  "reviewer_role": "independent-reviewer-subagent",
+  "status": "pass",
+  "notes": "approve-with-notes; 4 required content changes (safety carve-out on checklist bullet, Claude Code qualifier on paths + dedup into existing description line, 分類-table verb, drop rationale sentence) applied in revision 2 and confirmed by evaluator-02; release prep (version bump + changelog) handled by controller at release stage"
+ },
+ "roles": {
+  "candidate_author": "candidate-author-subagent",
+  "evaluator": "evaluator-subagent",
+  "reviewer": "independent-reviewer-subagent",
+  "controller": "main-session"
+ },
+ "artifacts": {
+  "eval_plan": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/eval-plan.json",
+  "fixtures": [
+   ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/fixtures.json",
+   ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/fixtures-blind.json"
+  ],
+  "holdout_manifest": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/fixtures-key.json",
+  "grading": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/grading.json",
+  "blind_mapping": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/fixtures-key.json",
+  "runs": [
+   ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/trial-plan.json"
+  ]
+ },
+ "metrics": {
+  "mechanism_coverage_delta": "+4 (1/5 -> 5/5)",
+  "fixture_classification_delta": "+1 positive (FX-4), 0 false positives",
+  "diff_size": "6 insertions, 1 deletion, 2 files"
+ },
+ "decision": "pass",
+ "reason": "Candidate meets frozen targets: mechanism coverage 5/5 (target >=4/5), fixture classification 3/3 positives with 0 false positives on negatives including holdout, all guardrails intact (保護境界 byte-identical, 維持すべきシグナル untouched, safety/fragile carve-outs present), target validation green. Reviewer-noted caveat recorded: mechanism-coverage metric is near-tautological; load-bearing evidence is the FX-4 holdout delta plus guardrail preservation. Re-recorded against IMP-20260831T193432Z-588A06A2, which adds only deterministic release-preparation files (plugin.json 0.2.2, .codex-plugin/plugin.json, root CHANGELOG.md entry, regenerated docs/skill-index/inventory.json) to the content diff evaluated as IMP-20260831T193036Z-B6660DD7; npm run check green on the full tree.",
+ "notes": "supersedes EVL-20260831T193236Z-A212689E only in implementation reference; substantive evaluation identical"
+}

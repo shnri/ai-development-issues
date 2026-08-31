@@ -1,0 +1,68 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-bash-channel-edits-escape-harness-instrumentation",
+ "title": "Agentがシェル経由でファイルを書き換え、Checkpoint・Hook・権限判定・差分レビューの計測対象から外れる",
+ "summary": "Claude Code auto modeのシステムプロンプトが、Edit/Writeツールではなくsed・heredoc・短いスクリプトでの編集を指示するため、ファイル変更がBashという不透明な経路を通る。Checkpoint、PreToolUse Hook、acceptEdits等の権限判定、編集監査はいずれも「編集ツールの呼び出し」を鍵に実装されているため、同じ副作用でも経路が変わるだけで一斉に盲点化する。結果として/rewindは成功を報告しながら変更をディスク上に残し、利用者は却下したはずのコードの上でAgentが作業を続けていることに気付けない。敵対的な動作ではなくベンダ側のプロンプト変更が引き金であり、Hook等のツール名マッチで書かれた組織側のガードレール全般が、Harness更新のたびに黙って失効し得ることを示す。",
+ "proposed_category": "Security・Privacy・Supply Chain・法務",
+ "problem_type": [
+  "構造"
+ ],
+ "priority_lanes": [
+  "S0"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-05 (community-and-issue-signals scout)",
+ "evidence": [
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/87575",
+   "title": "Auto mode system prompt causes /rewind to silently fail on Bash-edited files",
+   "published_at": "2026-08-18",
+   "summary": "Checkpointは専用ツール経由の変更しか追跡しないため、/rewindが成功を報告しつつBash由来の変更が全て残る。has reproラベル付き。却下したコードが生き残り、モデルがその上に実装を重ねた事例。"
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/88041",
+   "title": "Auto-mode \"bashFirst\" system prompt instructs sed/heredoc file edits instead of Edit/Write tools",
+   "published_at": "2026-08-19",
+   "summary": "バイナリ内のプロンプト文面と有効化条件(Bash所持かつEdit/Write所持)を提示。無効化する設定キー・環境変数が存在しない。"
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/87971",
+   "title": "Claude abuses bash tools for reads, writes, and edits in Auto Mode",
+   "published_at": "2026-08-19",
+   "summary": "同一挙動の3件目の独立報告。読み取り・書き込み・編集の全てがbashに流れる。"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/permission-modes",
+   "title": "Choose a permission mode - Claude Code Docs",
+   "published_at": "2026-08-31",
+   "summary": "権限モードとHookがツール単位で定義されることを示す公式資料。acceptEditsはファイル操作ツールを対象とし、PreToolUseはmatcherでツール名を指定する。"
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "community-and-issue-signals"
+  }
+ ],
+ "affected_scope": {
+  "tools": [
+   "Claude Code (auto mode, 2.1.234-2.1.243)"
+  ],
+  "artifacts": [
+   "checkpoint/rewind state",
+   "PreToolUse hooks",
+   "permission rules",
+   "edit audit trail",
+   "diff review"
+  ],
+  "roles": [
+   "agent operator",
+   "platform/tooling owner"
+  ],
+  "generalizes_to": "ツール名で表現された任意のガードレール(Hook, deny rule, 監査, レビューゲート)"
+ },
+ "confidence": "medium",
+ "material_change": false,
+ "status": "candidate",
+ "target_problem_id": null,
+ "notes": "K03(System Prompt/Harness/Tool schema変更で回帰する)は引き金を、I17(通常工程の迂回)とH14(誰が何を根拠に変更したか追跡できない)は結果の一部を覆うが、いずれも『安全機能がツール呼び出しを鍵に実装されているため、同一副作用の経路変更で一斉に失効する』という機構と、その対処(ガードレールを効果ベースで検証し、bash経路でもHook・undo・監査が効くか実測する)を述べていない。E07/F08とも別物(意図的な検証迂回ではない)。in-window独立3件+再現手順あり。"
+}

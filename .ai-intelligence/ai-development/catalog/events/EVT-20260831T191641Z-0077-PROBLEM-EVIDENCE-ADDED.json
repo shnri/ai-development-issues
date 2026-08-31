@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191641Z-0077-PROBLEM-EVIDENCE-ADDED",
+  "event_type": "problem-evidence-added",
+  "occurred_at": "2026-08-31T19:16:41Z",
+  "catalog_revision_before": 76,
+  "catalog_revision_after": 77,
+  "details": {
+    "candidate_id": "DSC-20260831-ai-delegated-incident-forensics-bias",
+    "decision": "duplicate",
+    "target_problem_id": "F11"
+  }
+}

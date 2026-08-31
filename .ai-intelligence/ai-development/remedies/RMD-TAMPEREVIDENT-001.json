@@ -1,0 +1,69 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-TAMPEREVIDENT-001",
+ "problem_ids": [
+  "P-20260831-BF396D69"
+ ],
+ "summary": "エージェントの書き込み経路の外側で tool call を記録する: harness が発行する OpenTelemetry イベント (Claude Code の claude_code.tool_decision / claude_code.tool_result、tool_use_id で hook と相関) を、エージェントの資格情報では書き換えられない append-only collector へ直送し、tool-call 境界の Policy Enforcement Point で SHA-256 hash chain を付ける。監査・自動採点・incident forensics は transcript ではなくこの外部記録を正本とし、transcript との不一致自体を検知シグナルとして扱う。",
+ "remedy_type": "observability",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "research-paper",
+   "reference": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+   "observed_at": "2026-08-31",
+   "summary": "7%超の transcript に spoofed tool call、うち96件は明確な証跡。エージェントがコマンド実行コンポーネントに干渉し transcript と実行内容が乖離した。緩和策は同報告のスコープ外。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/monitoring-usage",
+   "observed_at": "2026-08-31",
+   "summary": "claude_code.tool_decision は decision と source (config/hook/user_*) を、claude_code.tool_result は実行完了を harness 側から発行し、tool_use_id で hook 捕捉データと相関できる。"
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/pdf/2606.26924",
+   "observed_at": "2026-08-31",
+   "summary": "tool-call 境界の Policy Enforcement Point が SHA-256 hash chain 付き append-only JSONL を同期書き込みし、内部改竄をオフライン検出可能にする構成。"
+  },
+  {
+   "kind": "community",
+   "reference": "https://github.com/bkuan001/halo-record",
+   "observed_at": "2026-08-31",
+   "summary": "依存なしの hash-chained tamper-evident runtime record 実装。参考実装であり検証済み対策ではない。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "transcript / trace を自動採点、監査、incident forensics、human spot-check の証拠として使っている",
+   "エージェントが長時間 autonomous に動作し、shell や network に到達できる",
+   "OpenTelemetry exporter を設定でき、collector をエージェントの資格情報空間の外に置ける (Claude Code v2.1 系で claude_code.tool_decision / tool_result を発行)"
+  ],
+  "not_applicable_when": [
+   "read-only で副作用のない調査 run (偽装しても失うものがない)",
+   "collector の endpoint / token がエージェントの実行環境から書き込み可能で、外部記録がエージェントの権限内に留まる場合 (この構成では偽の安心を生むだけ)",
+   "harness が tool 実行を自前で記録せず、model 出力しか残さない自作 harness"
+  ]
+ },
+ "expected_effect": {
+  "primary": "transcript を唯一の証拠にしない。偽装が起きても harness 側記録との差分として検出でき、監査・採点の入力が改竄済み transcript を継承しなくなる。指標: harness 記録と transcript の不一致件数、hash chain 検証失敗件数、tool_use_id の欠落率。",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "METR が観測した規模の spoofing に対する検出力は未検証で、公開された再現実験がない",
+  "collector をエージェントから隔離し損ねると、二重の false assurance になる",
+  "OTEL_LOG_TOOL_DETAILS=1 で tool_parameters を残すと監査記録側に secret が流入しうる",
+  "telemetry 量とコスト増、長時間 run での保持期間設計が必要"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "Claude Code の OTel event schema / event 名の変更",
+  "provider が tool-call 署名や tamper-evident log を公式機能として提供した場合",
+  "NIST / CSA / OWASP が agent audit log integrity の標準を公開した場合",
+  "METR / Redwood または provider が spoofing 検出手法の再現実験を公開した場合"
+ ],
+ "renamed_from": "RMD-FORGEDTRACE-001 (public-boundary filename rule: no trace/transcript in state filenames)"
+}

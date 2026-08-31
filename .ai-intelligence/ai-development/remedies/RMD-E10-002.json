@@ -1,0 +1,61 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-E10-002",
+ "problem_ids": [
+  "E10"
+ ],
+ "summary": "Keep the AI configuration as a committed, maintained repository artifact rather than per-developer local state: commit project instructions (CLAUDE.md and/or AGENTS.md, imported or symlinked so one file serves both surfaces), `.claude/rules/`, named agent/subagent definitions and hook configuration to version control; verify each session actually loads them (`/context` → Memory files); and schedule review of these artifacts, since the observed failure mode is set-and-forget — 73.8% of such artifacts are committed once and never modified.",
+ "remedy_type": "process",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2608.25241",
+   "observed_at": "2026-08-31",
+   "summary": "RAMP across 441 repositories with 97% agreement against independent human annotation: velocity rises 28-38% at all maturity levels, but among agent-first repositories those without committed AI configuration show roughly twice the cognitive-complexity increase (+53% vs +27%) and 1.7x the static-analysis warning increase; authors note the maturity measure is observational and present the findings as hypothesis-generating."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/memory",
+   "observed_at": "2026-08-31",
+   "summary": "Project CLAUDE.md is the officially designated team-shared scope ('Shared with: Team members via source control'), with /init to bootstrap, /context to confirm loading, .claude/rules/ for modular path-scoped rules, and /doctor to propose trims of a checked-in CLAUDE.md."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://agents.md/",
+   "observed_at": "2026-08-31",
+   "summary": "AGENTS.md provides the cross-agent committed form of the same artifact under Agentic AI Foundation / Linux Foundation stewardship; Claude Code documents `@AGENTS.md` import or symlink so a single committed file serves both surfaces."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Repositories where coding agents author a material share of commits",
+   "Teams that currently rely on per-developer local instructions, chat-only conventions, or ungoverned agent settings",
+   "Projects already tracking complexity or static-analysis warning trends, so the effect is observable"
+  ],
+  "not_applicable_when": [
+   "Solo throwaway or spike repositories with no shared quality signal",
+   "Repositories that already commit AI configuration — there the next step is reviewing it for staleness (see RMD-E04-001 for content and the agent-instruction-maintenance skill for auditing), not adding more",
+   "Contexts where committed instructions would leak secrets or environment-specific paths (use CLAUDE.local.md, gitignored)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "Agent behavior becomes a reviewed, shared, versioned property of the repository rather than per-developer configuration, which the RAMP data associates with roughly half the post-adoption growth in cognitive complexity and static-analysis warnings at unchanged velocity.",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "Association is observational; correlated engineering discipline or model capability may explain part of the gap, so the effect must not be presented as causal",
+  "Committed configuration decays — 73.8% of artifacts are never modified after their first commit, so a stale file can license outdated conventions",
+  "Growing instruction files consume context and reduce adherence (Claude Code targets under 200 lines per file)",
+  "Climbing RAMP levels (named agents, multi-agent orchestration) adds operational surface that is not itself evidenced as beneficial"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 1,
+ "reversible": true,
+ "revalidate_when": [
+  "An independent or causal (non-observational) replication of the RAMP effect",
+  "A provider changes where project instructions or agent definitions are expected to live",
+  "The repository's own complexity/warning trend fails to respond after adoption"
+ ]
+}

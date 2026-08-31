@@ -1,0 +1,556 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-01",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [
+  "I03",
+  "I07",
+  "I16",
+  "C06",
+  "D06",
+  "K02",
+  "K03",
+  "K08"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "Claude Code v2.1.251 (2026-08-28): 'Fixed Bash permission checks auto-approving commands that assign an arithmetic expression to an integer shell variable (e.g. OPTIND=1/0)' (anthropics/claude-code CHANGELOG).",
+  "Claude Code v2.1.246 (2026-08-25): 'Fixed Bash permission checks to always require approval for malformed commands with a dangling && or || operator' and added a startup warning for allow rules with a wildcard before the subcommand (e.g. Bash(git * main)) 'since they also match options'.",
+  "Claude Code v2.1.238 (2026-08-20): 'Improved Bash tool permission checking for zsh-specific syntax in shell conditionals'.",
+  "Codex changelog 2026-08-20: 'Require approval for commands with dynamic shell words'.",
+  "Codex changelog 2026-08-20: 'Untrusted projects no longer supply project-level AGENTS.md instructions' and 'managed deny-read rules remain enforced after permission changes'.",
+  "Codex changelog 2026-08-20: 'Notify clients when Guardian requires strict review'.",
+  "Codex changelog 2026-08-24: 'The codex mcp-server command is now deprecated. Use the Codex app server instead.' Docs direct Claude Code users to the Codex plugin for Claude Code instead.",
+  "Codex changelog 2026-08-29: 'Extensions can now inspect or replace MCP tool results before they reach the model'.",
+  "Codex changelog 2026-08-27: remote compaction now counts retained images toward its token budget by default, trimming older images as needed.",
+  "Claude Code v2.1.251: 'Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check'; also fixed Grep/Glob not applying Read(...) deny rules through symlinked search paths, and 'Fixed the Workflow tool reading (and quoting in errors) a scriptPath outside what the session may read before the permission check ran'.",
+  "Claude Code v2.1.251: plugin marketplace hardening - plugin commands pointing outside the plugin directory via path traversal fixed; marketplace names with control/invisible characters rejected; /plugin output made escape-safe.",
+  "Claude Code v2.1.248 (2026-08-27): added --restricted / CLAUDE_CODE_RESTRICTED=1, which 'removes the built-in tools that run commands or code and WebFetch', restricts file access to the working directory, refuses bypassPermissions, and ignores user/project/local settings.",
+  "Claude Code v2.1.251: 'Changed CLAUDE_CODE_SUBAGENT_MODEL to set the default subagent model rather than override everything: an agent definition's model: and an explicit per-spawn model now take precedence'.",
+  "Claude Code v2.1.251: 'Added PreModelSwitch and PostModelSwitch hook events (block, confirm, or annotate a model switch)'.",
+  "Claude Code v2.1.248: 'Improved the Workflow tool's prompt footprint: its description is now about 1k tokens instead of 5.7k, with the script-writing reference moved into a bundled workflow-authoring skill'.",
+  "Claude Code v2.1.238: MCP headersHelper declared in a project .mcp.json, plugin, or agent file now requires folder trust; headersHelper runs without inherited credential env vars; claude plugin install prompts [y/N] before executing a headersHelper.",
+  "Anthropic API release notes 2026-08-20: Python SDK v1.0 removes long-deprecated surface including the legacy Text Completions API and the temperature, top_p and top_k parameters on Messages methods; moves httpx to httpx2; async .with_raw_response now needs await response.parse(); AnthropicBedrock raises an error when no AWS region is configured instead of defaulting to us-east-1.",
+  "Anthropic API release notes 2026-08-27: across Python/TypeScript/Go/Java/Ruby/C# SDKs, client.beta.files and client.beta.skills stop sending the files-api-2025-04-14 and skills-2025-10-02 beta headers; 'client.beta.skills.delete() deletes a Skill together with all of its versions', and BetaSkill is renamed BetaContainerSkill.",
+  "Anthropic API release notes 2026-08-19: computer use (computer_toolset_20260801) is out of beta and 'Upgrading an existing integration changes the request shape and tool handling'; Agent Skills / Skills API and the Files API also left beta.",
+  "GitHub Changelog 2026-08-12: Agent Plugins 1.0 published 2026-08-06 as a multi-vendor open standard (AWS, Anysphere, Microsoft, OpenAI, Vercel, Google); 'Existing GitHub Copilot plugins that don't target Agent Plugins 1.0 remain supported, with no migration required.'",
+  "GitHub Changelog (announced 2026-07-31, effective 2026-09-01): six Copilot models retired (Gemini 3.1 Pro, Claude Opus 4.5, Opus 4.6, Sonnet 4.5, Sonnet 4.6, Raptor Mini); 'Please update your workflows and integrations to use the supported model before these dates'; administrators must enable alternative models via policy before they appear in selectors.",
+  "Gemini API changelog in-window entries (2026-08-13 Gemini 3.7 Flash GA, 2026-08-26 Gemini 3.5 Transcribe GA, 2026-08-27 Gemini Omni Flash GA) contain no agent-breaking or permission-model change; the temperature/top_p/top_k sampling deprecation is dated 2026-07-21, outside the window."
+ ],
+ "inferences": [
+  "Two independent vendors patching shell allow-rule parsing in the same 21-day window indicates a systemic class, not a one-off bug: the permission rule language is a lexical matcher over a command string, while the shell that ultimately executes has richer semantics (arithmetic assignment, dangling operators, dynamic word expansion, zsh conditionals, options matching a wildcard). Any team that hand-wrote Bash allow rules before 2026-08-20 should assume their effective permission surface is wider than intended.",
+  "Trust-gated instruction loading is a reproducibility hazard rather than only a security feature: an agent run in an untrusted checkout gets no project AGENTS.md, produces off-convention output, and gives no signal that repo rules were withheld - the operator sees 'the agent ignored our rules', not 'the harness suppressed them'.",
+  "The 2026-08-27 SDK beta-namespace unification widens the blast radius of an unchanged call site: code calling client.beta.skills.delete() deletes all versions after the SDK bump. This is the failure shape most likely to slip past an AI-driven dependency upgrade, since the call site diff is empty.",
+  "Anthropic Python SDK v1.0 removing temperature/top_p/top_k is a near-certain generator of C06 failures: every model trained before 2026-08-20 will keep emitting those kwargs for the Anthropic SDK, and the failure appears at runtime, not at lint time.",
+  "Claude Code --restricted and Codex's Guardian strict-review notification are converging vendor answers to over-broad agent authority (I03): the response is shifting from 'grant narrowly' to 'run the whole agent in a reduced-capability mode', which also neutralises the settings-file escalation path since --restricted ignores user/project/local settings.",
+  "The codex mcp-server deprecation pushes cross-agent interop from a neutral protocol endpoint toward vendor-specific plugins (the Codex plugin for Claude Code), pulling in the K08 direction, while Agent Plugins 1.0 pushes the opposite way; the net effect on fragmentation in this window is ambiguous.",
+  "Codex extensions being able to 'inspect or replace MCP tool results before they reach the model' creates a trusted-path interception point: an extension can rewrite tool output the model reasons over, without touching the MCP server or the prompt. This expands the I07 surface from 'malicious server' to 'malicious result rewriter'."
+ ],
+ "evidence": [
+  {
+   "url": "https://learn.chatgpt.com/docs/changelog",
+   "title": "ChatGPT & Codex changelog",
+   "published_at": "2026-08-20",
+   "note": "Aug 20: untrusted projects no longer supply project-level AGENTS.md; managed deny-read rules remain enforced after permission changes; require approval for commands with dynamic shell words; notify clients when Guardian requires strict review. Aug 24: codex mcp-server deprecated. Aug 27: remote compaction counts retained images toward token budget. Aug 29: extensions can inspect or replace MCP tool results before they reach the model."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "title": "claude-code CHANGELOG.md (v2.1.238 - v2.1.251)",
+   "published_at": "2026-08-28",
+   "note": "Bash permission parser fixes (arithmetic assignment auto-approval, dangling &&/||, wildcard-before-subcommand warning, zsh conditionals); symlink-swap-after-permission-check on Read/Write/Edit; Grep/Glob deny rules through symlinks; Workflow scriptPath read before permission check; --restricted mode; CLAUDE_CODE_SUBAGENT_MODEL override->default; PreModelSwitch/PostModelSwitch hooks; Workflow prompt 5.7k->1k via bundled workflow-authoring skill; headersHelper folder-trust requirement."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/releases",
+   "title": "Releases - anthropics/claude-code",
+   "published_at": "2026-08-28",
+   "note": "Dates the above bullets to 2026-08-20 through 2026-08-28, confirming they fall inside the lookback window."
+  },
+  {
+   "url": "https://platform.claude.com/docs/en/release-notes/api",
+   "title": "Claude Platform release notes",
+   "published_at": "2026-08-27",
+   "note": "Aug 20: Python SDK v1.0 removes temperature/top_p/top_k on Messages methods and legacy Text Completions, httpx->httpx2, async with_raw_response await change, Bedrock region error. Aug 27: beta.skills/beta.files namespace unification; client.beta.skills.delete() now deletes a Skill together with all its versions; BetaSkill renamed BetaContainerSkill. Aug 19: computer use out of beta, upgrading changes request shape and tool handling; Skills API and Files API out of beta."
+  },
+  {
+   "url": "https://github.blog/changelog/2026-08-12-agent-plugins-1-0-in-vs-code-copilot-cli-and-the-copilot-app/",
+   "title": "Agent Plugins 1.0 in VS Code, Copilot CLI, and the Copilot app",
+   "published_at": "2026-08-12",
+   "note": "Multi-vendor plugin standard packaging skills + MCP servers; explicitly no migration required and existing plugins stay supported, so no breakage - relevant to fragmentation (K08) rather than as a new failure."
+  },
+  {
+   "url": "https://github.blog/changelog/2026-07-31-upcoming-august-2026-model-deprecations-in-github-copilot/",
+   "title": "Upcoming August 2026 model deprecations in GitHub Copilot",
+   "published_at": "2026-07-31",
+   "note": "Six models retired 2026-09-01 across all Copilot surfaces; workflows and integrations referencing specific model IDs must be updated, and admins must enable replacements by policy before they appear in selectors. Announced just before the window, effective at its edge."
+  },
+  {
+   "url": "https://ai.google.dev/gemini-api/docs/changelog",
+   "title": "Gemini API release notes",
+   "published_at": "2026-08-27",
+   "note": "Negative finding: in-window entries are model GA launches (3.7 Flash Aug 13, 3.5 Transcribe Aug 26, Omni Flash Aug 27 with preview endpoint deprecation dated 2026-09-30). Sampling-parameter deprecation is 2026-07-21, outside window."
+  }
+ ],
+ "files_written": [],
+ "checks_run": [
+  "WebSearch: Claude Code changelog August 2026 breaking change permissions (anthropic.com, docs.anthropic.com, docs.claude.com, github.com)",
+  "WebSearch: OpenAI Codex changelog August 2026 agent behavior change deprecation (openai.com, developers.openai.com, platform.openai.com, help.openai.com)",
+  "WebSearch: GitHub Copilot changelog August 2026 coding agent breaking change (github.blog, docs.github.com, github.com)",
+  "WebSearch: Anthropic API release notes August 2026 deprecation model behavior change (docs.claude.com, docs.anthropic.com, anthropic.com)",
+  "WebSearch: Gemini API release notes August 2026 deprecation Gemini CLI agent changelog (ai.google.dev, developers.google.com, cloud.google.com, blog.google, github.com)",
+  "WebFetch: developers.openai.com/codex/changelog -> learn.chatgpt.com/docs/changelog (dated entries 08-10..08-31)",
+  "WebFetch: learn.chatgpt.com/docs/changelog (verbatim Aug 20 / Aug 24 / Aug 29 bullets)",
+  "WebFetch: raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md (x2; second pass for verbatim v2.1.238-v2.1.251 bullets)",
+  "WebFetch: github.com/anthropics/claude-code/releases (publish dates for v2.1.238-v2.1.251)",
+  "WebFetch: platform.claude.com/docs/en/release-notes/api (August 2026 entries)",
+  "WebFetch: ai.google.dev/gemini-api/docs/changelog.md.txt (dated entries 08-10..08-31)",
+  "WebFetch: github.blog Copilot model deprecation changelog",
+  "WebFetch: github.blog Agent Plugins 1.0 changelog",
+  "Read: catalog-index.json (180 entries; category labels and mechanisms for C06, D06, D09, E08, I03, I07, I16, K02, K03, K08)"
+ ],
+ "risks": [
+  "The anthropics/claude-code CHANGELOG.md is undated; version-to-date mapping came from the GitHub releases page. A version could straddle the 08-10 boundary - v2.1.238 (Aug 20) is the earliest included and is safely inside.",
+  "The GitHub Copilot model retirement was announced 2026-07-31, outside the lookback window; only its effective date (2026-09-01, adjacent to window close) is in scope. Controller may choose to exclude it.",
+  "Codex changelog content was retrieved via a WebFetch summarizer against a redirected host (learn.chatgpt.com); bullets are quoted but full surrounding entry context was not read line-by-line.",
+  "Gemini coverage relied on the public Gemini API changelog; Gemini CLI / Antigravity / Jules agent-specific release notes were not separately enumerated within the operation budget, so a Google-side agent permission change could have been missed.",
+  "DSC-20260831-permission-rule-parser-evasion overlaps I16 (agent's own vulnerability). It is proposed as new because the practical response differs - users must re-audit self-authored allow rules, not merely upgrade the agent - but the controller may prefer to fold it into I16."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "controller",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-permission-rule-parser-evasion",
+   "title": "Shell許可ルールの解釈が実際のシェル意味論とずれ、書いた権限境界と実効境界が一致しない",
+   "summary": "Agent harnesses match Bash allow/deny rules lexically against a command string, while the shell that executes it has richer semantics. In this window both vendors patched divergences: Claude Code auto-approved arithmetic assignments such as OPTIND=1/0, mis-handled dangling && / || operators, and warned that an allow rule like Bash(git * main) also matches arbitrary options; Codex began requiring approval for commands containing dynamic shell words. The failure is silent - the operator believes a narrow rule is in force while a crafted or merely malformed command slips past the classifier. Unlike a harness vulnerability, the remediation lands on the user: every hand-written Bash allow rule predating 2026-08-20 must be re-audited, not just upgraded past.",
+   "proposed_category": "Security・Privacy・Supply Chain・法務",
+   "problem_type": [
+    "permission-model",
+    "silent-bypass",
+    "config-semantics"
+   ],
+   "priority_lanes": [
+    "security",
+    "agent-permissions"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.251 / v2.1.246 / v2.1.238",
+     "published_at": "2026-08-28",
+     "summary": "v2.1.251 'Fixed Bash permission checks auto-approving commands that assign an arithmetic expression to an integer shell variable (e.g. OPTIND=1/0)'; v2.1.246 'always require approval for malformed commands with a dangling && or || operator' plus a startup warning that wildcard-before-subcommand allow rules 'also match options'; v2.1.238 improved checking for zsh-specific conditional syntax."
+    },
+    {
+     "url": "https://learn.chatgpt.com/docs/changelog",
+     "title": "ChatGPT & Codex changelog, 2026-08-20",
+     "published_at": "2026-08-20",
+     "summary": "'Require approval for commands with dynamic shell words' - independent vendor patching the same class of allowlist evasion in the same window."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code",
+     "OpenAI Codex CLI",
+     "agent Bash/shell tools",
+     "settings.json permissions.allow"
+    ],
+    "models": []
+   },
+   "confidence": "high",
+   "material_change": true,
+   "status": "candidate",
+   "notes": "Checked I03 (permissions granted too broadly), I12 (approval fatigue), I16 (harness vulnerability), I17 (agent bypasses normal process). I03 assumes the grant itself is wide; here the grant is correctly narrow and the matcher is wrong. I16 is the closest but its practical response is 'upgrade the agent', whereas this requires auditing user-authored allow rules whose meaning was never what the author intended. Two independent vendors in one 21-day window supports treating it as a class."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-trust-gated-instruction-loading",
+   "title": "Workspace trust状態がAGENTS.md/MCP設定の読み込みを無言で左右し、同じRepositoryでもAgentの挙動が変わる",
+   "summary": "Harnesses now gate which project-level instruction and configuration files load on a workspace trust flag. Codex stopped supplying project-level AGENTS.md instructions in untrusted projects on 2026-08-20; Claude Code v2.1.238 made a headersHelper declared in a project .mcp.json, plugin, or agent file require folder trust. The agent gives no visible signal that repo rules were withheld, so the same repository and the same prompt produce convention-violating output in a fresh or untrusted checkout - CI runners, ephemeral cloud sessions, and newly cloned worktrees being the common triggers. Operators diagnose it as 'the agent ignored our CLAUDE.md/AGENTS.md' and start rewriting instructions that were never read.",
+   "proposed_category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+   "problem_type": [
+    "instruction-loading",
+    "environment-variance",
+    "silent-degradation"
+   ],
+   "priority_lanes": [
+    "reproducibility",
+    "instructions"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://learn.chatgpt.com/docs/changelog",
+     "title": "ChatGPT & Codex changelog, 2026-08-20",
+     "published_at": "2026-08-20",
+     "summary": "'Untrusted projects no longer supply project-level AGENTS.md instructions'; 'managed deny-read rules remain enforced after permission changes'."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.238",
+     "published_at": "2026-08-20",
+     "summary": "An MCP headersHelper coming from a project .mcp.json, a plugin, or an agent file now requires folder trust; claude plugin install prompts [y/N] before running a marketplace headersHelper."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "OpenAI Codex",
+     "Claude Code",
+     "AGENTS.md",
+     "CLAUDE.md",
+     ".mcp.json"
+    ],
+    "models": []
+   },
+   "confidence": "medium",
+   "material_change": true,
+   "status": "candidate",
+   "notes": "Checked D08 (references circular/missing/stale), D09 (skill fails to fire when needed), C08 (env var / feature flag / runtime differences missed), C09 (repo-specific rules overridden by general rules), K04 (OS/sandbox differences change results). D09 is about matching/triggering failure; this is a trust gate that suppresses a file that would otherwise load unconditionally. C08/K04 concern the code's environment, not the harness's instruction-loading policy. Distinct enough to propose; controller may prefer to attach it to D09 as a sub-mechanism."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-beta-ga-semantic-widening",
+   "title": "beta→GA昇格やSDK major更新で、呼び出し側を変更していないAPIの破壊範囲・必須引数が黙って変わる",
+   "summary": "When a provider graduates an API out of beta or ships an SDK major version, call sites that did not change can change meaning. On 2026-08-27 Anthropic unified the beta and stable SDK namespaces, and client.beta.skills.delete() went from deleting one Skill to deleting 'a Skill together with all of its versions'; BetaSkill was renamed BetaContainerSkill. On 2026-08-20 Python SDK v1.0 removed temperature, top_p and top_k from Messages methods and made AnthropicBedrock error rather than default to us-east-1. The diff at the call site is empty, so neither code review nor an AI-driven dependency upgrade sees anything to flag - the widened blast radius surfaces only at runtime, on real data.",
+   "proposed_category": "実装・コード生成",
+   "problem_type": [
+    "dependency-upgrade",
+    "semantic-drift",
+    "destructive-operation"
+   ],
+   "priority_lanes": [
+    "correctness",
+    "supply-chain"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://platform.claude.com/docs/en/release-notes/api",
+     "title": "Claude Platform release notes, 2026-08-27",
+     "published_at": "2026-08-27",
+     "summary": "'client.beta.files and client.beta.skills no longer send the files-api-2025-04-14 and skills-2025-10-02 beta headers and return the same shapes as client.files and client.skills. With this change, client.beta.skills.delete() deletes a Skill together with all of its versions, and the beta Messages type BetaSkill ... is renamed BetaContainerSkill.'"
+    },
+    {
+     "url": "https://platform.claude.com/docs/en/release-notes/api",
+     "title": "Claude Platform release notes, 2026-08-20 and 2026-08-19",
+     "published_at": "2026-08-20",
+     "summary": "Python SDK v1.0 removes temperature/top_p/top_k on Messages methods and the legacy Text Completions API; AnthropicBedrock raises instead of defaulting to us-east-1. Separately, computer use leaving beta means 'Upgrading an existing integration changes the request shape and tool handling'."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "anthropic-sdk-python",
+     "anthropic-sdk-typescript",
+     "Skills API",
+     "Files API",
+     "computer use toolset"
+    ],
+    "models": [
+     "claude-opus-5",
+     "claude-sonnet-5",
+     "claude-opus-4-8"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": true,
+   "status": "candidate",
+   "notes": "Checked E08 (dependency/migration changes included carelessly by AI), C06 (stale API knowledge), I04 (destructive command from misinference). E08 is about the AI adding an unrequested upgrade; C06 is about the AI using outdated knowledge. Neither covers 'the same unchanged call now destroys more', which is invisible to diff-based review and is the specific hazard when an agent performs the upgrade. Lower confidence because the observed instance is single-vendor."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-permission-check-toctou",
+   "title": "権限チェック後にpathが差し替わる／checkより先に読むことで、deny規則が実効しない",
+   "summary": "Claude Code v2.1.251 fixed a cluster of bypasses in which the permission decision and the filesystem access referred to different objects: Read/Write/Edit followed a symlink swapped inside the working directory after the permission check; Grep and Glob did not apply Read(...) deny rules through symlinked search paths; the Workflow tool read (and quoted in error text) a scriptPath outside the readable set before the permission check ran; and plugin commands could point outside the plugin directory via path traversal. Configured deny rules such as **/.env were therefore advisory rather than enforced for some tool paths.",
+   "proposed_category": "Security・Privacy・Supply Chain・法務",
+   "problem_type": [
+    "toctou",
+    "deny-rule-bypass",
+    "harness-vulnerability"
+   ],
+   "priority_lanes": [
+    "security"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.251",
+     "published_at": "2026-08-28",
+     "summary": "'Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check'; Grep/Glob not applying Read(...) deny rules through symlinked search paths; 'Fixed the Workflow tool reading (and quoting in errors) a scriptPath outside what the session may read before the permission check ran'; plugin commands pointing outside the plugin directory via path traversal."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code",
+     "Read/Write/Edit",
+     "Grep",
+     "Glob",
+     "Workflow tool",
+     "plugins"
+    ],
+    "models": []
+   },
+   "confidence": "high",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "I16",
+   "notes": "Same mechanism, artifact and practical response as I16 (intrusion via a vulnerability in the sandbox / extension / agent itself): the fix is to upgrade to v2.1.251+. Filed as an update rather than a new problem, but worth recording on I16 that deny rules were demonstrably non-enforcing for symlinked and pre-check read paths before 2026-08-28, so any team that relied on **/.env-style deny rules for secret protection should treat pre-2.1.251 sessions as having had unverified access."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-restricted-mode-mitigation",
+   "title": "Provider fix: Agent全体を低権限モードで起動する選択肢（--restricted）が追加された",
+   "summary": "Claude Code v2.1.248 added --restricted / CLAUDE_CODE_RESTRICTED=1, which removes the built-in tools that run commands or code plus WebFetch, restricts file access to the working directory, refuses bypassPermissions, and ignores user, project and local settings. Codex added client notification when Guardian requires strict review. This shifts the answer to over-broad agent authority from per-rule narrowing toward a whole-session capability floor, and notably closes the settings-file escalation path because --restricted ignores settings entirely - which also makes it a workaround-obsoleting change for teams that previously wrapped agents in external sandboxes just to strip execution tools.",
+   "proposed_category": "Security・Privacy・Supply Chain・法務",
+   "problem_type": [
+    "permission-model",
+    "provider-mitigation"
+   ],
+   "priority_lanes": [
+    "security",
+    "agent-permissions"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.248",
+     "published_at": "2026-08-27",
+     "summary": "'Added --restricted (or CLAUDE_CODE_RESTRICTED=1): removes the built-in tools that run commands or code and WebFetch', restricts file access to the working directory, refuses bypassPermissions, and ignores user/project/local settings."
+    },
+    {
+     "url": "https://learn.chatgpt.com/docs/changelog",
+     "title": "ChatGPT & Codex changelog, 2026-08-20",
+     "published_at": "2026-08-20",
+     "summary": "'Notify clients when Guardian requires strict review' - equivalent move toward session-level escalation of review requirements."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code",
+     "OpenAI Codex"
+    ],
+    "models": []
+   },
+   "confidence": "high",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "I03",
+   "notes": "Not a new problem - it is a provider-side mitigation for I03 (excessive shell/GitHub/cloud/DB/production authority). Recorded as an update so the catalog's recommended response for I03 can cite a first-party low-privilege mode instead of only external sandboxing."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-subagent-model-env-semantics",
+   "title": "CLAUDE_CODE_SUBAGENT_MODELの意味がoverrideからdefaultへ変更され、既存設定のsubagent modelが黙って変わる",
+   "summary": "Claude Code v2.1.251 changed CLAUDE_CODE_SUBAGENT_MODEL to set the default subagent model rather than override everything, so an agent definition's model: field and an explicit per-spawn model now take precedence. Teams that set the env var to force every subagent onto a cheap model - a common cost-control workaround - silently lose that guarantee on upgrade wherever an agent file pins a model, changing both spend and output quality with no config edit and no error. The same release added PreModelSwitch and PostModelSwitch hooks that can block, confirm, or annotate a model switch, which is the new supported control point.",
+   "proposed_category": "運用・費用・測定・再現性",
+   "problem_type": [
+    "harness-config-semantics",
+    "cost-regression",
+    "silent-behavior-change"
+   ],
+   "priority_lanes": [
+    "cost",
+    "reproducibility"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.251",
+     "published_at": "2026-08-28",
+     "summary": "'Changed CLAUDE_CODE_SUBAGENT_MODEL to set the default subagent model rather than override everything: an agent definition's model: and an explicit per-spawn model now take precedence'; 'Added PreModelSwitch and PostModelSwitch hook events (block, confirm, or annotate a model switch)'."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code",
+     "subagents",
+     "CLAUDE_CODE_SUBAGENT_MODEL"
+    ],
+    "models": [
+     "claude-opus-5",
+     "claude-sonnet-5"
+    ]
+   },
+   "confidence": "high",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "K03",
+   "notes": "Concrete in-window instance of K03 (regression caused by system prompt / harness / tool schema change) with a cost dimension touching G11. Filed as an update rather than a new problem because mechanism and response (re-verify harness config semantics after upgrade) are identical; the value is the worked example plus the newly available PreModelSwitch/PostModelSwitch mitigation."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-workflow-prompt-footprint-fix",
+   "title": "Provider fix: 常時Contextに載っていたTool説明をon-demand skillへ移し、5.7k→1k tokensへ削減",
+   "summary": "Claude Code v2.1.248 cut the Workflow tool's prompt footprint from about 5.7k tokens to about 1k by moving the script-writing reference out of the always-loaded tool description and into a bundled workflow-authoring skill that loads only when authoring is actually happening. This is first-party confirmation of the catalogued mechanism that task-specific procedure text kept permanently in context is a standing token tax, and it demonstrates the standard remedy - split reference material into a conditionally-loaded skill rather than trimming prose.",
+   "proposed_category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+   "problem_type": [
+    "context-budget",
+    "provider-fix"
+   ],
+   "priority_lanes": [
+    "efficiency"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.248",
+     "published_at": "2026-08-27",
+     "summary": "'Improved the Workflow tool's prompt footprint: its description is now about 1k tokens instead of 5.7k, with the script-writing reference moved into a bundled workflow-authoring skill.'"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code",
+     "Workflow tool",
+     "skills"
+    ],
+    "models": []
+   },
+   "confidence": "high",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "D06",
+   "notes": "Vendor-side validation of D06 (task-specific procedures kept permanently in context) and closely related to P-20260816-66F0FD78 (skills inducing token/time cost out of proportion to quality gain). No new mechanism - recorded so both entries can cite a quantified first-party before/after (5.7k -> 1k tokens) and the split-into-conditional-skill remedy."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-sdk-removed-params-stale-knowledge",
+   "title": "Anthropic Python SDK v1.0がtemperature/top_p/top_kを削除し、学習済みModelが出し続ける古い引数が実行時に失敗する",
+   "summary": "Anthropic Python SDK v1.0 (2026-08-20) removed long-deprecated surface including the legacy Text Completions API and the temperature, top_p and top_k parameters on Messages methods, moved the HTTP layer from httpx to httpx2, required await response.parse() for async .with_raw_response, and made AnthropicBedrock raise when no AWS region is configured instead of defaulting to us-east-1. Every model trained before this date will keep generating the removed parameters when asked to write Anthropic client code, and the resulting failure appears at runtime rather than at lint or type-check time.",
+   "proposed_category": "知識・Context・Freshness",
+   "problem_type": [
+    "stale-api-knowledge",
+    "breaking-sdk-change"
+   ],
+   "priority_lanes": [
+    "correctness"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://platform.claude.com/docs/en/release-notes/api",
+     "title": "Claude Platform release notes, 2026-08-20",
+     "published_at": "2026-08-20",
+     "summary": "'v1.0 requires Python 3.10 or later and removes long-deprecated surface, including the legacy Text Completions API, the temperature, top_p, and top_k parameters on Messages methods, and the tool runner's client-side compaction_control.' Async .with_raw_response now needs await response.parse(); AnthropicBedrock raises without a region."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "anthropic-sdk-python v1.0",
+     "httpx2",
+     "AnthropicBedrock"
+    ],
+    "models": [
+     "all models with training cutoff before 2026-08-20"
+    ]
+   },
+   "confidence": "high",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "C06",
+   "notes": "Textbook instance of C06 (agent uses outdated knowledge of an external API/framework/CLI); mechanism, artifact and response (pin docs, verify against current SDK) are unchanged, so it is an update, not a new problem. Worth attaching because it is a high-frequency, recently-dated trigger that will affect any agent writing Anthropic client code."
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-mcp-interop-fragmentation",
+   "title": "codex mcp-server廃止でAgent間のMCP接続がvendor固有pluginへ寄り、一方でAgent Plugins 1.0は共通化を進める",
+   "summary": "On 2026-08-24 the codex mcp-server command was deprecated in favour of the Codex app server, with cross-agent users directed to a vendor-specific Codex plugin for Claude Code instead of a neutral MCP endpoint - breaking existing agent-to-agent wiring. Pulling the other way, Agent Plugins 1.0 (published 2026-08-06, announced for Copilot 2026-08-12) is a multi-vendor standard packaging skills and MCP servers into one installable plugin, explicitly requiring no migration for existing plugins. Codex also began letting extensions inspect or replace MCP tool results before they reach the model on 2026-08-29, a new interception point in the tool-result path.",
+   "proposed_category": "運用・費用・測定・再現性",
+   "problem_type": [
+    "interop",
+    "deprecation",
+    "vendor-lock"
+   ],
+   "priority_lanes": [
+    "portability"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://learn.chatgpt.com/docs/changelog",
+     "title": "ChatGPT & Codex changelog, 2026-08-24 and 2026-08-29",
+     "published_at": "2026-08-24",
+     "summary": "'The codex mcp-server command is now deprecated. Use the Codex app server instead.' Cross-agent guidance points to the Codex plugin for Claude Code. On 2026-08-29: 'Extensions can now inspect or replace MCP tool results before they reach the model.'"
+    },
+    {
+     "url": "https://github.blog/changelog/2026-08-12-agent-plugins-1-0-in-vs-code-copilot-cli-and-the-copilot-app/",
+     "title": "Agent Plugins 1.0 in VS Code, Copilot CLI, and the Copilot app",
+     "published_at": "2026-08-12",
+     "summary": "Open standard packaging agent skills and MCP servers, backed by AWS, Anysphere, Microsoft, OpenAI, Vercel and Google; 'Existing GitHub Copilot plugins that don't target Agent Plugins 1.0 remain supported, with no migration required.'"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "OpenAI Codex",
+     "Claude Code",
+     "GitHub Copilot",
+     "MCP",
+     "Agent Plugins 1.0"
+    ],
+    "models": []
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "K08",
+   "notes": "Mixed-direction evidence for K08 (session and skill formats fragmented per provider/product): the mcp-server deprecation worsens it, Agent Plugins 1.0 improves it. No new mechanism. The extension-rewrites-tool-results capability is separately relevant to I07 (malicious skill/plugin/MCP holding instructions and authority) as a widened interception surface - controller may wish to note it there as well."
+  }
+ ]
+}

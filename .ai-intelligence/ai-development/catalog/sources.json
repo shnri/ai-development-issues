@@ -21,10 +21,11 @@
         "agent tools and permissions",
         "skills plugins instructions"
       ],
-      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_scanned_at": "2026-08-31T19:16:57Z",
       "last_result": {
-        "candidate_count": 3,
-        "notes": "Claude Code Aug-2026 permission-bypass/sandbox fixes (CND-001); Mar-Apr 2026 product-layer regression postmortem (CND-003); GPT-5.4 retirement migration (CND-006). All evidence updates to existing problems."
+        "candidate_count": 9,
+        "notes": "discovery-01: 3 new-problem candidates (permission-rule parser evasion merged into P-20260831-60EFB5BF; trust-gated instruction loading; beta/GA semantic widening), 6 updates/evidence (I16, I03, K03, D06, C06, K08). Gemini had no in-window agent-breaking change.",
+        "lookback_days": 21
       }
     },
     {
@@ -45,10 +46,11 @@
         "multi-agent software development",
         "specification drift AI coding"
       ],
-      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_scanned_at": "2026-08-31T19:16:57Z",
       "last_result": {
-        "candidate_count": 1,
-        "notes": "20,574-session developer-agent misalignment study (CND-005 -> A01); SlopCodeBench long-horizon degradation and production drift taxonomy corroborate B01/E10/K01 without material change."
+        "candidate_count": 5,
+        "notes": "discovery-02: 3 new problems accepted (tool-effect commit ambiguity, spec portability, LLM-assisted requirements inspection degradation), material updates to G06 and E10. arXiv cs.SE mid-window listing chunk returned HTTP 400; ACM/IEEE not yet indexed for the window.",
+        "lookback_days": 21
       }
     },
     {
@@ -67,10 +69,11 @@
         "agent security prompt injection",
         "AI software supply chain"
       ],
-      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_scanned_at": "2026-08-31T19:16:57Z",
       "last_result": {
-        "candidate_count": 1,
-        "notes": "OWASP GenAI State of Agentic AI Security v2.01 + Q1-2026 exploit round-up (CND-002 -> I02)."
+        "candidate_count": 4,
+        "notes": "discovery-03: NIST SP 1353 ipd material update to A08; two out-of-window catalog gaps accepted as new (repo-config pre-consent execution, skill-registry scanner false assurance); I16 evidence added. MITRE ATLAS August coverage unverified (JS-only site).",
+        "lookback_days": 21
       }
     },
     {
@@ -88,10 +91,11 @@
         "agent evaluation infrastructure",
         "AI development delivery performance"
       ],
-      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_scanned_at": "2026-08-31T19:16:57Z",
       "last_result": {
-        "candidate_count": 1,
-        "notes": "METR 2026 usage survey + transcript upper-bound analysis (CND-004 -> J07)."
+        "candidate_count": 5,
+        "notes": "discovery-04: METR incident investigation yielded 3 new problems (forged tool-call transcripts, shared-infra emergent agent channel, eval unsolvable-task reward hacking) and evidence additions to F11/F12. DORA had no in-window publication.",
+        "lookback_days": 21
       }
     },
     {
@@ -110,13 +114,14 @@
         "AI generated code workflow problem",
         "Claude Code Codex agent regression"
       ],
-      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_scanned_at": "2026-08-31T19:16:58Z",
       "constraints": [
         "Signals require corroboration before a problem becomes active."
       ],
       "last_result": {
-        "candidate_count": 0,
-        "notes": "Community regression chatter corroborates CND-003 (K03); active issue flow on anthropics/claude-code; no uncatalogued mechanism found."
+        "candidate_count": 3,
+        "notes": "discovery-05: 2 new problems (bash-channel edits escaping harness instrumentation; command allowlist parse divergence), K02 evidence added. Reddit/HN yielded only re-treads of catalogued problems.",
+        "lookback_days": 21
       }
     },
     {
@@ -134,10 +139,11 @@
         "unexplained time or token loss",
         "new specification or test inconsistency"
       ],
-      "last_scanned_at": "2026-08-15T09:29:50Z",
+      "last_scanned_at": "2026-08-31T19:16:58Z",
       "last_result": {
-        "candidate_count": 0,
-        "notes": "Fresh state bootstrap; no findings or prior runs to mine."
+        "candidate_count": 1,
+        "notes": "discovery-06: 1 new problem (unverifiable authority publication leg in sandboxed runs). Note: declared findings/ path does not exist; other local signals deduplicated to A03/A14, G22/K06/K11, J15/J03/G14, B11/E11.",
+        "lookback_days": 21
       }
     }
   ]

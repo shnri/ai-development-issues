@@ -1,0 +1,69 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-K03-002",
+ "problem_ids": [
+  "K03"
+ ],
+ "summary": "model routing の暗黙変更を『変わった瞬間』に捕まえる: subagent の model は agent 定義の model: と spawn 時指定で明示 pin し、環境変数 (CLAUDE_CODE_SUBAGENT_MODEL) の既定値解釈に依存しない。PostModelSwitch hook で harness 自身による切替を含む全ての model 変更を run log に記録し、PreModelSwitch hook で想定外の model への切替を block または confirm する。CLI 更新のたびに『環境変数の意味が変わっていないか』を回帰項目として検査する (v2.1.251 で CLAUDE_CODE_SUBAGENT_MODEL が override から default に変更された前例)。RMD-K02-001 の run manifest を事後記録から即時検知へ補強する位置づけ。",
+ "remedy_type": "harness",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/hooks",
+   "observed_at": "2026-08-31",
+   "summary": "PreModelSwitch は適用前の切替を block でき、PostModelSwitch は 'including changes Claude Code makes on its own' を含む切替後に発火。matcher は切替先 model の canonical 名。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-08-31",
+   "summary": "v2.1.251 (2026-08-28): CLAUDE_CODE_SUBAGENT_MODEL は override ではなく default になり、agent 定義の model: と per-spawn 指定が優先される。既存設定の subagent model が黙って変わる典型例。同リリースで PreModelSwitch / PostModelSwitch を追加。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/monitoring-usage",
+   "observed_at": "2026-08-31",
+   "summary": "harness 発行の OTel event により、解決後の model を含む run 単位の記録を推測ではなく telemetry から埋められる。"
+  },
+  {
+   "kind": "community",
+   "reference": "https://www.buildthisnow.com/blog/models/claude-code-quality-regression-2026",
+   "observed_at": "2026-08-31",
+   "summary": "既存 K03 evidence: product-layer の変更で6週間の品質回帰が発生し provider postmortem に至った事例。変更検知の遅さがコスト。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Claude Code v2.1.251 以降で PreModelSwitch / PostModelSwitch が使える",
+   "subagent や agent team を使い、model 指定を環境変数・設定・agent 定義に分散させている",
+   "model / effort の差が結果品質やコストに効く eval・本番ワークフローがある"
+  ],
+  "not_applicable_when": [
+   "単一 model・単一 agent で subagent を使わない運用",
+   "provider 側の非公開な product-layer 変更 (記録はできても hook では検知・制御できない)",
+   "v2.1.251 未満の環境 (RMD-K02-001 の run manifest で事後検知に留める)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "harness 更新による model routing の暗黙変化を、回帰 eval の結果ではなく発生時点で検知できる。指標: 想定外 model への切替検知件数、run manifest における解決済み model の記録率、CLI 更新後に環境変数意味変更を検出するまでの lead time、model 起因と特定できた回帰の割合。",
+  "confidence": "official"
+ },
+ "risks": [
+  "PreModelSwitch での block は正当な fallback (overload 時の切替等) まで止め、run を失敗させうる",
+  "hook 自体が harness 更新で仕様変更されうる (ツール名・event 名依存の脆さは P-20260831-AE8A3EE7 と同型)",
+  "hook の追加は全 run にオーバーヘッドと失敗点を足す",
+  "provider 内部の非公開変更は依然として検知できない"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 1,
+ "reversible": true,
+ "revalidate_when": [
+  "PreModelSwitch / PostModelSwitch の仕様変更",
+  "CLAUDE_CODE_SUBAGENT_MODEL など model 関連環境変数の意味変更",
+  "subagent の既定 model / effort 変更",
+  "Claude Code の major update ごと",
+  "watch-official-guidance ledger が hooks / settings reference の改訂を検出した場合"
+ ]
+}

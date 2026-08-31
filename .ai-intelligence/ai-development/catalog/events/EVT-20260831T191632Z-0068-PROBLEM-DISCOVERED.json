@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191632Z-0068-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-08-31T19:16:32Z",
+  "catalog_revision_before": 67,
+  "catalog_revision_after": 68,
+  "details": {
+    "candidate_id": "DSC-20260831-unverifiable-authority-publication",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260831-FB4523EC"
+  }
+}

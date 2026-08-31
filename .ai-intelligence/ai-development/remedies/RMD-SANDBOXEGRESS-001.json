@@ -1,0 +1,61 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-SANDBOXEGRESS-001",
+ "problem_ids": [
+  "P-20260831-FB4523EC"
+ ],
+ "summary": "Provision the sandbox so remote verification is actually possible instead of degrading the release gate: allow the git host explicitly via `sandbox.network.allowedDomains` (e.g. `*.github.com`), and keep the token usable without exposing it by masking it — `credentials.envVars` entry for `GH_TOKEN` with `mode: \"mask\"` and `injectHosts: [\"api.github.com\"]` plus `network.tlsTerminate` — set from user/managed settings or `--settings` (repository settings are ignored for masks); on hosted web/cloud sessions use the built-in git proxy, which keeps credentials outside the sandbox and restricts push to the working branch.",
+ "remedy_type": "setting",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/sandboxing",
+   "observed_at": "2026-08-31",
+   "summary": "Documents sandbox.network.allowedDomains, credentials.envVars mask with injectHosts and the network.tlsTerminate requirement, notes that mask entries are honored only from user settings, managed settings or --settings, and that a plain deny on GITHUB_TOKEN 'breaks tools that need it, such as gh' (masking requires v2.1.199+)."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://docs.claude.com/en/docs/claude-code/claude-code-on-the-web",
+   "observed_at": "2026-08-31",
+   "summary": "Hosted sessions limit network to allowlisted domains and hand git a scoped credential that the proxy translates to the real GitHub token, enabling clone/fetch/PR operations while restricting push to the current working branch."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/issues/11481",
+   "observed_at": "2026-08-31",
+   "summary": "Reports git operations failing silently with exit code 128 under the sandbox because github.com is not allowlisted and no whitelist prompt is offered — the failure mode presents as an unexplained capability gap."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Agent runs inside Claude Code's Bash sandbox or a hosted web/cloud session that must reach a git remote or the GitHub API",
+   "The operator controls user or managed settings for the environment",
+   "Workflows whose correctness depends on comparing against a remote authority base or opening a PR"
+  ],
+  "not_applicable_when": [
+   "Environments with deliberate air-gapping or an organization policy of no outbound egress — there the correct response is the fail-closed gate (RMD-AUTHGATE-001), not widening egress",
+   "Repositories where the agent must not hold push capability at all",
+   "Sandbox unavailable (native Windows outside WSL2)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "The remote authority base becomes reachable and PR creation becomes possible from inside the sandbox, so runs are planned and recorded against a verified remote head rather than an unverifiable local head — removing the pressure that drove the delivery gate to be loosened.",
+  "confidence": "official"
+ },
+ "risks": [
+  "Security-boundary change (local risk tier R3): must be reviewed by a human and never auto-applied by the closed loop",
+  "Masking authorizes the proxy to send the real credential to the listed hosts; a wrong injectHosts entry widens exposure",
+  "Without network.tlsTerminate, masking fails closed and authentication silently breaks",
+  "Allowlisting a broad wildcard domain grants more egress than the workflow needs"
+ ],
+ "implementation_owner": "human-role",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "Claude Code changes sandbox network or credential-masking settings",
+  "The hosted session git-proxy behavior or branch-push restriction changes",
+  "A run again records authority_base.reachable false after the settings are provisioned"
+ ]
+}

@@ -1,0 +1,61 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-SPECPORT-001",
+ "problem_ids": [
+  "P-20260831-8968B75A"
+ ],
+ "summary": "Treat a specification as agent-bound, not as a vendor-neutral asset: before running a spec-driven pipeline on a different agent product, regenerate/rewrite the spec with the target agent, prefer retrieval-augmented ingestion over pasting or compressing the whole spec, and gate acceptance on executable output checks (syntax validity, runnability, differential tests against the source system) measured per target agent rather than on spec size or reviewer impression.",
+ "remedy_type": "process",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2608.21208",
+   "observed_at": "2026-08-31",
+   "summary": "1,006 PL/SQL files then 1,802 Oracle scripts across five agents: worst replicated cross-agent case Token F1 0.035 and SQL syntax validity 2.33%; rewriting substantially improved the degraded agent; compression gave no universal benefit; retrieval-augmented ingestion was the only strategy on both Gemini's and Copilot's per-agent Pareto frontiers."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://agents.md/",
+   "observed_at": "2026-08-31",
+   "summary": "AGENTS.md standardizes file name and format across 20+ agents under Linux Foundation stewardship, which delivers format portability only — it makes no claim that downstream implementation quality is preserved across agents."
+  },
+  {
+   "kind": "community",
+   "reference": "https://github.com/github/spec-kit",
+   "observed_at": "2026-08-31",
+   "summary": "Spec Kit (v0.11.0, 2026-06-16) is agent-agnostic across 30+ agents with version-controlled spec artifacts, but provides no cross-agent equivalence validation, so it structures the workflow without addressing the measured degradation."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Spec-driven development where a spec artifact produced under one agent product is consumed by another",
+   "Large-scale mechanical migrations where output correctness is machine-checkable (compilation, syntax validity, test execution)",
+   "Teams switching agent products or running multi-agent pipelines"
+  ],
+  "not_applicable_when": [
+   "Single-agent pipelines where the spec is never transferred",
+   "Domains with no executable acceptance signal, where per-agent validation cannot be automated and human review remains the gate",
+   "Specs used only as human documentation and never fed to an agent as an implementation input"
+  ]
+ },
+ "expected_effect": {
+  "primary": "Cross-agent quality collapse is caught by an executable gate before merge instead of after, and the worst-case transfer is avoided by rewriting the spec with the target agent; the team stops budgeting spec work as a one-time vendor-neutral investment.",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "Evidence is a single study in one migration domain (Oracle→PostgreSQL) with a limited agent set; effect sizes may not transfer to feature development",
+  "Per-agent rewriting multiplies spec maintenance cost and can drift the variants apart",
+  "Executable gates measure runnability, not semantic equivalence — differential testing against the source system is still required",
+  "Retrieval-augmented ingestion adds infrastructure and its own failure modes"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "An independent reproduction outside Oracle→PostgreSQL migration",
+  "A spec-driven toolkit ships built-in cross-agent equivalence validation",
+  "A major agent product changes how it ingests specification artifacts"
+ ]
+}

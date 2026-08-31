@@ -1,0 +1,2 @@
+[{"id":"fixture-classification","kind":"deterministic","assertions_total":6,"baseline_pass":5,"candidate_pass":6,"partial":0,"guardrail_regressions":0},
+ {"id":"mechanism-coverage","kind":"deterministic","assertions_total":5,"baseline_pass":1,"candidate_pass":5,"partial":0,"guardrail_regressions":0}]

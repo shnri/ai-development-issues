@@ -1,0 +1,62 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-SCANGATE-001",
+ "problem_ids": [
+  "P-20260831-E8990658"
+ ],
+ "summary": "scanner の合格判定を承認ゲートにしない: OWASP AST08 に従い scan 結果は advisory 扱いとし、導入判断は (1) 出所と署名・content hash pin、(2) 当該 skill が要求する権限の最小化と隔離 sandbox での behavioral 観測、(3) 人間が『何ができるか』を読む review、の3点で行う。UI 上の『scan 済み』表示は検出できない攻撃クラス (自然言語のみの悪意、base64、条件付き発火、scanner への prompt injection) を明示した注記付きでしか提示しない。導入後も継続再スキャンし、権限逸脱は runtime 側で止める。",
+ "remedy_type": "process",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://owasp.org/www-project-agentic-skills-top-10/ast08",
+   "observed_at": "2026-08-31",
+   "summary": "AST08 の preventive mitigation に 'Treat scanner-based results as advisory only; never as sole gates' を明記。behavioral 分析、prose と code の独立走査、sandbox での runtime 観測、継続再スキャン、hidden file/binary/archive の網羅、scanner 指示と untrusted content の分離を列挙。統計: Snyk 13.4%、SkillSpector 26.1%/5.2%、2026-06-22 に26,000超の agent が影響。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://owasp.org/www-project-agentic-skills-top-10/ast02",
+   "observed_at": "2026-08-31",
+   "summary": "検出品質に依存しない補完策: SKILL.md と宣言 resource を覆う code-signing、transparency log、nested dependency の SHA256 pin、bounded freshness の revocation。"
+  },
+  {
+   "kind": "community",
+   "reference": "https://securityboulevard.com/2026/06/7-claude-code-plugins-from-the-marketplace-worth-your-time/",
+   "observed_at": "2026-08-31",
+   "summary": "community marketplace は automated safety screening 通過分のみを掲載する一方、provider は plugin の動作を検証できないと明示。'screened' 表示が単独ゲートになりやすい実例。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "外部 registry / marketplace から skill・plugin・MCP server を導入している",
+   "導入承認フローに『scan 通過』『screened』等の表示が組み込まれている",
+   "導入対象が高権限 (shell、network、credential、リポジトリ書き込み) を要求しうる"
+  ],
+  "not_applicable_when": [
+   "自組織で書いた skill のみを内部 mirror から配布し、外部由来が存在しない",
+   "skill が read-only かつ tool 権限を一切要求しない",
+   "承認プロセス自体が存在しない環境 (まず AST02 側の trust gate から着手する)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "『確認したのに無検証』という手続き上の空洞を塞ぎ、導入判断を検出可能性ではなく権限と出所に基づかせる。指標: scan 結果のみを根拠に承認された高権限 skill 数 (目標0)、hash pin 済み skill の割合、権限 review 実施率、sandbox behavioral 観測を経た導入の割合、導入後の再スキャンで新たに検出された件数。",
+  "confidence": "official"
+ },
+ "risks": [
+  "review 負荷が上がり、承認が滞留して shadow install を誘発しうる",
+  "behavioral sandbox 観測は context-dependent malice (テスト環境では無害) を取り逃す",
+  "hash pin は更新遅延を招き、脆弱な旧版に固定されうる",
+  "OWASP AST10 は v1.0 で、引用統計はベンダ調査由来。独立再現はまだ薄い"
+ ],
+ "implementation_owner": "human-role",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "OWASP AST10 の改訂",
+  "marketplace の審査方式・署名/provenance 機能の追加 (Universal Skill Format、transparency log 等)",
+  "新たな大規模 skill 汚染キャンペーンの報告",
+  "自組織の skill 導入経路の変更"
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-G06-001",
+ "problem_ids": [
+  "G06"
+ ],
+ "summary": "失敗した tool call の『文字列そのもの』を context に残さない: 失敗後は verbatim の call をランタイム生成の失敗要約 (何を試み、なぜ失敗し、次に何を変えるか) に置き換える。Claude API では context editing の clear_tool_uses_20250919 に clear_tool_inputs:true を付けて tool 入力ごと除去する。原因が model の error 理解ではなく harness の context 構成にあるため、指示層の打切りルール (RMD-G05-001) と harness の hard limit (RMD-G22-001) の上流に置く対策。",
+ "remedy_type": "harness",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2608.23651",
+   "observed_at": "2026-08-31",
+   "summary": "失敗記録の corrective gain は全 model で負 (約 -1.03 nats/action token)、再実行確率は 0.06→0.54、greedy decoding は失敗後19%の item で token 単位に再現。失敗 call の表層形が影響の83%を占め、runtime 生成の記述に置換すると 76% が消える。6 checkpoints / 135M-1.7B / 4 families。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://platform.claude.com/docs/en/build-with-claude/context-editing",
+   "observed_at": "2026-08-31",
+   "summary": "clear_tool_uses_20250919 は既定で tool result のみを消すが、clear_tool_inputs:true で tool use のパラメータ (=表層形) も除去できる。beta header context-management-2025-06-27。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/cli-reference",
+   "observed_at": "2026-08-31",
+   "summary": "--max-turns / --max-budget-usd は print mode 限定のため、対話 session では RMD-G22-001 の hard limit が効かず、context 層の対策が補完的に必要。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "自前 harness / Agent SDK で context 構成を制御できる (Claude API の context editing を設定できる)",
+   "transcript に同一 command の反復実行が観測される",
+   "tool call 失敗が日常的に発生する長い agentic loop"
+  ],
+  "not_applicable_when": [
+   "context 構成を制御できない既製 CLI の対話 session (この場合は RMD-G05-001 の指示層で代替)",
+   "失敗した正確な invocation を残すこと自体が目的のデバッグ・forensics run",
+   "失敗が毎回異なる一時障害で、再試行が正しい場合"
+  ]
+ },
+ "expected_effect": {
+  "primary": "同一失敗 call の再生成確率を下げ、原因分析への遷移を促す。指標: session 内の同一 command 連続再実行回数 (目標≤2)、失敗後に token 単位で同一 call を再生成した割合、失敗から方針変更までの turn 数、対策前後の A/B 差分。",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "一次証拠は 135M-1.7B の小 model であり、frontier coding agent への転移は未検証。導入前にローカル A/B が必要",
+  "tool 入力を消すとデバッグに必要な正確な invocation が失われ、人間のレビュー性が下がる",
+  "context editing は beta であり、prompt cache の再利用率にも影響しうる",
+  "要約生成の品質が悪いと、失敗理由の情報自体が劣化して別種の再試行を誘発する"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "arXiv 2608.23651 の後続研究、特に大規模 model での再現",
+  "Anthropic context editing の GA 化・パラメータ変更",
+  "harness の context 構成方式の変更",
+  "model update (反復傾向の変化)"
+ ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191632Z-0064-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-08-31T19:16:32Z",
+  "catalog_revision_before": 63,
+  "catalog_revision_after": 64,
+  "details": {
+    "candidate_id": "DSC-20260831-trust-gated-instruction-loading",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260831-044EBDC6"
+  }
+}

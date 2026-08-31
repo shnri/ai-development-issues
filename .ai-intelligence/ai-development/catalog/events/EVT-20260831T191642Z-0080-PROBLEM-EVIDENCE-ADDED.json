@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191642Z-0080-PROBLEM-EVIDENCE-ADDED",
+  "event_type": "problem-evidence-added",
+  "occurred_at": "2026-08-31T19:16:42Z",
+  "catalog_revision_before": 79,
+  "catalog_revision_after": 80,
+  "details": {
+    "candidate_id": "DSC-20260831-workflow-prompt-footprint-fix",
+    "decision": "duplicate",
+    "target_problem_id": "D06"
+  }
+}

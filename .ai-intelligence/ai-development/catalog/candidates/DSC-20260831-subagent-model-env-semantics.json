@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260831-subagent-model-env-semantics",
+  "title": "CLAUDE_CODE_SUBAGENT_MODELの意味がoverrideからdefaultへ変更され、既存設定のsubagent modelが黙って変わる",
+  "summary": "Claude Code v2.1.251 changed CLAUDE_CODE_SUBAGENT_MODEL to set the default subagent model rather than override everything, so an agent definition's model: field and an explicit per-spawn model now take precedence. Teams that set the env var to force every subagent onto a cheap model - a common cost-control workaround - silently lose that guarantee on upgrade wherever an agent file pins a model, changing both spend and output quality with no config edit and no error. The same release added PreModelSwitch and PostModelSwitch hooks that can block, confirm, or annotate a model switch, which is the new supported control point.",
+  "proposed_category": "運用・費用・測定・再現性",
+  "problem_type": [
+    "harness-config-semantics",
+    "cost-regression",
+    "silent-behavior-change"
+  ],
+  "priority_lanes": [
+    "cost",
+    "reproducibility"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "title": "claude-code CHANGELOG v2.1.251",
+      "published_at": "2026-08-28",
+      "summary": "'Changed CLAUDE_CODE_SUBAGENT_MODEL to set the default subagent model rather than override everything: an agent definition's model: and an explicit per-spawn model now take precedence'; 'Added PreModelSwitch and PostModelSwitch hook events (block, confirm, or annotate a model switch)'."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code",
+      "subagents",
+      "CLAUDE_CODE_SUBAGENT_MODEL"
+    ],
+    "models": [
+      "claude-opus-5",
+      "claude-sonnet-5"
+    ]
+  },
+  "confidence": "high",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "K03",
+  "notes": "Concrete in-window instance of K03 (regression caused by system prompt / harness / tool schema change) with a cost dimension touching G11. Filed as an update rather than a new problem because mechanism and response (re-verify harness config semantics after upgrade) are identical; the value is the worked example plus the newly available PreModelSwitch/PostModelSwitch mitigation."
+}

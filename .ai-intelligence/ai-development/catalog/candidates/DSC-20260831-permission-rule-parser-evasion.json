@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260831-permission-rule-parser-evasion",
+  "title": "Shell許可ルールの解釈が実際のシェル意味論とずれ、書いた権限境界と実効境界が一致しない",
+  "summary": "Agent harnesses match Bash allow/deny rules lexically against a command string, while the shell that executes it has richer semantics. In this window both vendors patched divergences: Claude Code auto-approved arithmetic assignments such as OPTIND=1/0, mis-handled dangling && / || operators, and warned that an allow rule like Bash(git * main) also matches arbitrary options; Codex began requiring approval for commands containing dynamic shell words. The failure is silent - the operator believes a narrow rule is in force while a crafted or merely malformed command slips past the classifier. Unlike a harness vulnerability, the remediation lands on the user: every hand-written Bash allow rule predating 2026-08-20 must be re-audited, not just upgraded past.",
+  "proposed_category": "Security・Privacy・Supply Chain・法務",
+  "problem_type": [
+    "permission-model",
+    "silent-bypass",
+    "config-semantics"
+  ],
+  "priority_lanes": [
+    "security",
+    "agent-permissions"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "title": "claude-code CHANGELOG v2.1.251 / v2.1.246 / v2.1.238",
+      "published_at": "2026-08-28",
+      "summary": "v2.1.251 'Fixed Bash permission checks auto-approving commands that assign an arithmetic expression to an integer shell variable (e.g. OPTIND=1/0)'; v2.1.246 'always require approval for malformed commands with a dangling && or || operator' plus a startup warning that wildcard-before-subcommand allow rules 'also match options'; v2.1.238 improved checking for zsh-specific conditional syntax."
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/changelog",
+      "title": "ChatGPT & Codex changelog, 2026-08-20",
+      "published_at": "2026-08-20",
+      "summary": "'Require approval for commands with dynamic shell words' - independent vendor patching the same class of allowlist evasion in the same window."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code",
+      "OpenAI Codex CLI",
+      "agent Bash/shell tools",
+      "settings.json permissions.allow"
+    ],
+    "models": []
+  },
+  "confidence": "high",
+  "material_change": true,
+  "status": "update",
+  "notes": "Checked I03 (permissions granted too broadly), I12 (approval fatigue), I16 (harness vulnerability), I17 (agent bypasses normal process). I03 assumes the grant itself is wide; here the grant is correctly narrow and the matcher is wrong. I16 is the closest but its practical response is 'upgrade the agent', whereas this requires auditing user-authored allow rules whose meaning was never what the author intended. Two independent vendors in one 21-day window supports treating it as a class.",
+  "target_problem_id": "P-20260831-60EFB5BF"
+}

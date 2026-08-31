@@ -1,0 +1,11 @@
+{
+ "discovery": {"sources_scanned": 6, "candidates": 27, "new_problems": 13, "material_updates": 6, "evidence_added": 8, "within_batch_merges": 1},
+ "research": {"problems_researched": 18, "remedy_drafts_recorded": 18, "outcomes": {"remedy-found": 17, "no-established-remedy": 1}},
+ "action_loop": {"work_items_created": 2, "completed": 2, "solution_adoptions": 1, "shared_releases": 1},
+ "release": {"target": "shared-agent-plugins", "plugin": "agent-instruction-maintenance", "version": "0.2.2", "commit": "c241353366a4af9173f6c993f98c956376889ee7", "strategy": "direct", "remote_verified": true},
+ "evaluation": {"trials": 2, "fixtures": 6, "holdout": 3, "guardrail_regressions": 0, "independent_review": "approve-with-notes; 4 required changes applied and confirmed"},
+ "notable": [
+  "authority push capability restored mid-run by adding shnri/shared-agent-plugins to the session's authorized repository set (push access) after an initial 403",
+  "P-20260831-FB4523EC (unverifiable authority publication) discovered from local run evidence and researched (RMD-SANDBOXEGRESS-001 human-owned R3; RMD-AUTHGATE-001 fail-closed gate candidate)"
+ ]
+}

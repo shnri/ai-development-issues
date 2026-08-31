@@ -1,0 +1,49 @@
+{
+  "id": "DSC-20260831-repo-config-as-preconsent-execution-layer",
+  "schema_version": "1.0",
+  "title": "Repository内のAgent設定ファイルが、承認前に実行される経路になる",
+  "summary": "OWASP Agentic Skills Top 10のAST02は、.claude/settings.jsonやmanifest.json等のRepository同梱設定・metadataが単なる宣言ではなく実行層として扱われ、利用者の同意プロンプトより前に動作する点を指摘する(CVE-2025-59536, CVSS 8.7が silent code execution via project configuration files として該当)。結果として『Agentで未知のRepositoryを開いて読むだけ』が既にコード実行になり、Skillのinstallやtool承認を境界と考える運用モデルが成立しない。AST04はさらに、frontmatterのYAML/JSON parse自体が攻撃面であることを示す。",
+  "proposed_category": "Security・Privacy・Supply Chain・法務",
+  "problem_type": [
+    "構造"
+  ],
+  "priority_lanes": [
+    "S0"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-03 (standards-security-and-risk scout)",
+  "evidence": [
+    {
+      "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+      "title": "OWASP Agentic Skills Top 10 (AST10) — AST02 Supply chain compromise / AST04 Insecure metadata parsing",
+      "published_at": "2026-03-01",
+      "summary": "Repository configuration files now trigger execution before user consent と明記。CVE-2025-59536(CVSS 8.7)、SOUL.md/MEMORY.mdへの書き込みによるsession跨ぎ持続化に言及。ページ記載は『Published March 2026』で日付は不明、Q3 2026にAST07-AST10完成予定。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "standards-security-and-risk"
+    }
+  ],
+  "affected_scope": {
+    "artifacts": [
+      ".claude/settings.json",
+      "manifest.json",
+      "hooks",
+      "skill frontmatter"
+    ],
+    "roles": [
+      "developer",
+      "platform owner"
+    ],
+    "lifecycle": [
+      "repository clone",
+      "agent session start"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "照合済み: I01は散文が命令として解釈される機構で、対象artifactがREADME/Issue/Log。I07は悪意あるSkill/Plugin/MCPが『命令と権限を持つ』もので、installという能動的行為を前提とする。I09はSkill文書内のCode例へのPayload埋め込み。I16はSandbox/IDE拡張/Agent自体の脆弱性。本件はRepository同梱のdotfile/設定が対象artifactであり、trigger がclone/openという受動的行為、実務対応が untrusted-repo cold-openポリシーとconfig信頼ゲートである点で、いずれとも affected artifact と practical response が異なる。ただし公開はwindow外(2026-03)であり、window内discoveryではなくcatalog gapとして報告する。"
+}

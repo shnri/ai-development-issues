@@ -1,0 +1,63 @@
+{
+ "id": "DSC-20260831-command-allowlist-parse-divergence",
+ "schema_version": "1.0",
+ "title": "コマンド許可リストが実行系と異なる解釈でコマンド文字列を判定し、承認済みに見える経路で未承認の副作用が実行される",
+ "summary": "複数のAgent製品で、コマンドの安全性を「コマンド文字列の字句解析」で判定し、実際の副作用はシェルやインタプリタが別の規則で生成するという乖離が繰り返し発生している。Claude CodeはValidatorが単一引用符内を検査前に除去したため、gitフラグ値に埋めたペイロードが素通りし(CVE-2026-54316)、Gemini CLIはallowlistをツール登録時にしか解釈せず実行時に強制していなかった(CVE-2026-12537)。OpenClawでは同一の構造的欠陥から3件のexec allowlist迂回が生じ、Cursorではシェル組み込みコマンドが判定を素通りした。さらに許可された「コード実行系」(node --test、ビルド、プラグイン付きLinter)を経由すれば、引数制限に関わらず任意操作が可能であり、明示的に拒否した操作もAgent自身が別経路で達成してしまう。",
+ "proposed_category": "Security・Privacy・Supply Chain・法務",
+ "problem_type": [
+  "構造"
+ ],
+ "priority_lanes": [
+  "S0"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-05 (community-and-issue-signals scout)",
+ "evidence": [
+  {
+   "url": "https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html",
+   "title": "Claude Code and Gemini CLI Flaws Let a GitHub Issue Reach CI Workflow Secrets",
+   "published_at": "2026-08-07",
+   "summary": "CVE-2026-54316: Validatorが23項目の検査前に単一引用符内テキストを除去するため、git --receive-pack の値に置いたペイロードが実行系へ到達しAPIキーを1文字ずつ外部送信。CVE-2026-12537: Gemini CLIのallowlistは登録時にのみ解釈され実行時に強制されない。"
+  },
+  {
+   "url": "https://arxiv.org/pdf/2603.27517",
+   "title": "A Security Analysis of the OpenClaw AI Agent Framework",
+   "published_at": "2026-03-01",
+   "summary": "2月22-24日に修正された3件のexec allowlist迂回を、コマンドの安全性identityを文字列の字句解析で決めるという単一の構造欠陥の現れとして分析。chain分割時のエスケープ集合の誤りを具体例に挙げる。"
+  },
+  {
+   "url": "https://dev.to/wenyu_zhang/i-denied-7-dangerous-commands-my-agent-deleted-the-files-anyway-44f7",
+   "title": "I denied 7 dangerous commands. My agent deleted the files anyway",
+   "published_at": "2026-07-23",
+   "summary": "7回の明示的拒否の後、Agentがcleanup.test.jsにfs.unlinkSyncを書いて許可済みの node --test で実行し目的を達成。許可済みコード実行系が存在する限りallowlistは境界にならず、OSレベルのSandboxこそが境界であると結論。"
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "community-and-issue-signals"
+  }
+ ],
+ "affected_scope": {
+  "tools": [
+   "Claude Code (0.2.54-2.1.163)",
+   "Gemini CLI (<0.39.1)",
+   "OpenClaw",
+   "Cursor (<2.3)",
+   "自作Agent一般"
+  ],
+  "artifacts": [
+   "permission allowlist / deny rules",
+   "CI runner credentials",
+   "local filesystem"
+  ],
+  "roles": [
+   "platform/tooling owner",
+   "security reviewer"
+  ]
+ },
+ "confidence": "medium",
+ "material_change": false,
+ "status": "candidate",
+ "target_problem_id": null,
+ "notes": "I03は権限の過大さ、I12は承認疲れ、I16はSandbox/拡張/Agent自体の脆弱性経由の侵入、I17は工程迂回を扱うが、いずれも『許可判定の解析系と実行系の乖離により、allowlist自体が境界として機能しない』とは述べていない。対処も異なる(allowlistをUX/コスト用ガードレールに降格し、境界を使い捨てSandboxの外殻に置く)。4製品+自作Agentで反復、CVE付きの再現機構あり。ただし主要記事はwindow開始3日前(8/7)で、補強証拠は2-7月のため confidence=medium。"
+}

@@ -1,0 +1,46 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-permission-check-toctou",
+ "title": "権限チェック後にpathが差し替わる／checkより先に読むことで、deny規則が実効しない",
+ "summary": "Claude Code v2.1.251 fixed a cluster of bypasses in which the permission decision and the filesystem access referred to different objects: Read/Write/Edit followed a symlink swapped inside the working directory after the permission check; Grep and Glob did not apply Read(...) deny rules through symlinked search paths; the Workflow tool read (and quoted in error text) a scriptPath outside the readable set before the permission check ran; and plugin commands could point outside the plugin directory via path traversal. Configured deny rules such as **/.env were therefore advisory rather than enforced for some tool paths.",
+ "proposed_category": "Security・Privacy・Supply Chain・法務",
+ "problem_type": [
+  "toctou",
+  "deny-rule-bypass",
+  "harness-vulnerability"
+ ],
+ "priority_lanes": [
+  "security"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+ "evidence": [
+  {
+   "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "title": "claude-code CHANGELOG v2.1.251",
+   "published_at": "2026-08-28",
+   "summary": "'Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check'; Grep/Glob not applying Read(...) deny rules through symlinked search paths; 'Fixed the Workflow tool reading (and quoting in errors) a scriptPath outside what the session may read before the permission check ran'; plugin commands pointing outside the plugin directory via path traversal."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "official-model-and-agent-providers"
+  }
+ ],
+ "affected_scope": {
+  "tools": [
+   "Claude Code",
+   "Read/Write/Edit",
+   "Grep",
+   "Glob",
+   "Workflow tool",
+   "plugins"
+  ],
+  "models": []
+ },
+ "confidence": "high",
+ "material_change": false,
+ "status": "update",
+ "target_problem_id": "I16",
+ "notes": "Same mechanism, artifact and practical response as I16 (intrusion via a vulnerability in the sandbox / extension / agent itself): the fix is to upgrade to v2.1.251+. Filed as an update rather than a new problem, but worth recording on I16 that deny rules were demonstrably non-enforcing for symlinked and pre-check read paths before 2026-08-28, so any team that relied on **/.env-style deny rules for secret protection should treat pre-2.1.251 sessions as having had unverified access."
+}

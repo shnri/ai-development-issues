@@ -1,0 +1,54 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-ai-finding-volume-vs-realized-risk",
+ "title": "AI由来の脆弱性・欠陥報告が急増する一方、実害指標は伴わずTriage負荷だけが増える",
+ "summary": "AI-generated vulnerability and defect findings grow far faster than any corresponding measure of realized risk, so human triage capacity absorbs the difference. METR's discovery-rate note records AI-attributed CVEs rising roughly four-fold in several projects (cURL 9 to 36, OpenSSL 6 to 39, with 42-46% AI-marked) while databases tracking exploited vulnerabilities show significantly lower year-over-year growth and low-severity findings accelerate faster than high-severity ones. The volume is real but its value density is falling, which is the same economics as AI reviewer false positives measured at ecosystem scale rather than per-PR.",
+ "proposed_category": "Test・Eval・検証",
+ "problem_type": [
+  "triage-load",
+  "false-positive",
+  "measurement-validity"
+ ],
+ "priority_lanes": [
+  "security",
+  "human-review"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-04 (empirical-agent-engineering scout)",
+ "evidence": [
+  {
+   "url": "https://metr.org/notes/2026-08-14-llm-contribution-to-discoveries/",
+   "title": "Have We Seen an Acceleration in Discoveries?",
+   "published_at": "2026-08-14",
+   "summary": "cURL CVEs 9 in 2025 to 36 through mid-2026 (42% AI-marked); OpenSSL 6 to 39 through Aug 2026 (46% AI-attributed); Firefox 210 to 342 (11% AI-marked); Microsoft annualizing to 2.5x the 2025 rate; databases tracking exploited vulnerabilities show significantly lower year-over-year growth; low-severity vulnerabilities show higher AI acceleration than high-severity ones; authors flag disclosure and measurement lag as confounds."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "empirical-agent-engineering"
+  }
+ ],
+ "affected_scope": {
+  "artifacts": [
+   "vulnerability report",
+   "review queue",
+   "CVE record"
+  ],
+  "stages": [
+   "review",
+   "triage",
+   "security-response"
+  ],
+  "actors": [
+   "maintainer",
+   "security triage",
+   "AI reviewer"
+  ],
+  "evidence_setting": "public CVE and vulnerability databases across major OSS projects and one vendor"
+ },
+ "confidence": "low",
+ "material_change": false,
+ "status": "update",
+ "target_problem_id": "F12",
+ "notes": "Mechanism and response match F12 (AI reviewer increases over-correction and false positives, consuming human verification without proportional value); this supplies an ecosystem-scale empirical anchor rather than a new mechanism. Also relates to K12 (time saved in coding shifts load onto review, test and release) and E10 (debt accumulating in proportion to generated volume), but adds nothing those do not already state. Confidence held at low: METR names disclosure lag, exploited-vulnerability record lag of months to years, and severity selection bias as confounds, and the note's own data was gathered by agents with acknowledged residual errors, so the gap between finding volume and realized risk may narrow as records catch up."
+}

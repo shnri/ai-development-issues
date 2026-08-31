@@ -1,0 +1,51 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-mcp-interop-fragmentation",
+ "title": "codex mcp-server廃止でAgent間のMCP接続がvendor固有pluginへ寄り、一方でAgent Plugins 1.0は共通化を進める",
+ "summary": "On 2026-08-24 the codex mcp-server command was deprecated in favour of the Codex app server, with cross-agent users directed to a vendor-specific Codex plugin for Claude Code instead of a neutral MCP endpoint - breaking existing agent-to-agent wiring. Pulling the other way, Agent Plugins 1.0 (published 2026-08-06, announced for Copilot 2026-08-12) is a multi-vendor standard packaging skills and MCP servers into one installable plugin, explicitly requiring no migration for existing plugins. Codex also began letting extensions inspect or replace MCP tool results before they reach the model on 2026-08-29, a new interception point in the tool-result path.",
+ "proposed_category": "運用・費用・測定・再現性",
+ "problem_type": [
+  "interop",
+  "deprecation",
+  "vendor-lock"
+ ],
+ "priority_lanes": [
+  "portability"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+ "evidence": [
+  {
+   "url": "https://learn.chatgpt.com/docs/changelog",
+   "title": "ChatGPT & Codex changelog, 2026-08-24 and 2026-08-29",
+   "published_at": "2026-08-24",
+   "summary": "'The codex mcp-server command is now deprecated. Use the Codex app server instead.' Cross-agent guidance points to the Codex plugin for Claude Code. On 2026-08-29: 'Extensions can now inspect or replace MCP tool results before they reach the model.'"
+  },
+  {
+   "url": "https://github.blog/changelog/2026-08-12-agent-plugins-1-0-in-vs-code-copilot-cli-and-the-copilot-app/",
+   "title": "Agent Plugins 1.0 in VS Code, Copilot CLI, and the Copilot app",
+   "published_at": "2026-08-12",
+   "summary": "Open standard packaging agent skills and MCP servers, backed by AWS, Anysphere, Microsoft, OpenAI, Vercel and Google; 'Existing GitHub Copilot plugins that don't target Agent Plugins 1.0 remain supported, with no migration required.'"
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "official-model-and-agent-providers"
+  }
+ ],
+ "affected_scope": {
+  "tools": [
+   "OpenAI Codex",
+   "Claude Code",
+   "GitHub Copilot",
+   "MCP",
+   "Agent Plugins 1.0"
+  ],
+  "models": []
+ },
+ "confidence": "medium",
+ "material_change": false,
+ "status": "update",
+ "target_problem_id": "K08",
+ "notes": "Mixed-direction evidence for K08 (session and skill formats fragmented per provider/product): the mcp-server deprecation worsens it, Agent Plugins 1.0 improves it. No new mechanism. The extension-rewrites-tool-results capability is separately relevant to I07 (malicious skill/plugin/MCP holding instructions and authority) as a widened interception surface - controller may wish to note it there as well."
+}

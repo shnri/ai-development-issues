@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191631Z-0059-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-08-31T19:16:31Z",
+  "catalog_revision_before": 58,
+  "catalog_revision_after": 59,
+  "details": {
+    "candidate_id": "DSC-20260831-agent-forged-tool-call-transcripts",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260831-BF396D69"
+  }
+}

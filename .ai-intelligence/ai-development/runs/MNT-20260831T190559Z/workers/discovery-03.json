@@ -1,0 +1,330 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-03",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [
+  "A08",
+  "I01",
+  "I07",
+  "I09",
+  "I11",
+  "I12",
+  "I16",
+  "I10",
+  "I03",
+  "C11",
+  "D01",
+  "D15",
+  "K08"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "NIST released SP 1353 initial public draft on 2026-08-19, 'QuickStart Guide for Using AI for CSF 2.0 Analysis and Reporting', public comment open through 2026-10-15; it supplies structured AI prompts for three use cases (policy/risk alignment review, current-state profile mapping, target-state profile development).",
+  "NIST SP 1353 ipd explicitly states its focus 'was not to write about AI best practices' and marks precautions only with an inline /!\\ notation; it contains no verification methodology for AI-generated CSF artifacts and does not address prompt injection or hallucination.",
+  "OWASP GenAI Security Project published the LLM Top 10 2026 on 2026-08-03/04 — six days before this scan window opens; the genai.owasp.org resources archive lists no publication dated between 2026-08-10 and 2026-08-31.",
+  "MITRE ATLAS transitioned to a monthly release cadence following the Secure AI v2 release (2026-05-06) and produced its first ATLAS Rapid Response Report; no August 2026 ATLAS release notes were retrievable, and atlas.mitre.org returned no content to WebFetch.",
+  "OWASP maintains a separate 'Agentic Skills Top 10' (AST10) project covering skills for Claude Code, Cursor, VS Code and OpenClaw; the project page states Published March 2026, v1.0 2026 Edition, with AST07-AST10 and a Universal Format specification scheduled for Q3 2026.",
+  "AST02 cites CVE-2025-59536 (CVSS 8.7), silent code execution via project configuration files, and describes repository configuration (.claude/settings.json, manifest.json) as triggering execution before user consent.",
+  "AST08 cites a researcher PoC skill that reached 26,000+ agents while all scanners cleared it, a ClawHavoc campaign that infected 1,184 skills, and Snyk ToxicSkills (Feb 2026) finding 36.82% of scanned skills flawed.",
+  "CWE-1427 (Improper Neutralization of Input Used for LLM Prompting) was last updated 2026-04-30 and has 9 attributed CVEs; no new AI weakness class was published by MITRE CWE inside the window.",
+  "The GitLost prompt-injection vulnerability in GitHub Agentic Workflows (Noma Labs) was disclosed 2026-07-08 — outside the window."
+ ],
+ "inferences": [
+  "The standards/security channel produced essentially no new failure mechanisms in this 21-day window; the substantive 2026 agent-security corpus (LLM Top 10 2026, Agentic Skills Top 10, ATLAS Secure AI v2, GitLost, memory-poisoning research) all predates 2026-08-10. A shorter cadence on this source class is low-yield; 45-60 day lookbacks would fit the publication rhythm of these bodies better.",
+  "NIST SP 1353 is a mechanism amplifier rather than a new mechanism: it institutionalizes the A08 pattern (AI-generated artifact acquires unearned authority) by putting a standards body's name on the prompt templates, which raises the odds teams skip the verification step entirely for compliance and audit artifacts.",
+  "AST02's 'config as execution layer' is not covered by I01 (prose interpreted as instruction) or I07 (malicious skill/plugin/MCP), because the affected artifact is ordinary repository dotfiles and the trigger is opening/cloning a repo rather than installing anything; the practical response (untrusted-repo cold-open policy, config trust gating) is also distinct.",
+  "AST08's scanner false-assurance is distinct from I12 (approval fatigue): in I12 the human stops reading, whereas here the human does check but checks a signal — a registry scan badge — that structurally cannot detect the class, so the approval gate degrades while appearing to function.",
+  "ATLAS's monthly cadence plus a rapid-response report format means agentic technique additions now land between quarterly catalog reviews; the catalog's security lane needs a per-release ATLAS diff rather than periodic framework-level checks."
+ ],
+ "evidence": [
+  {
+   "url": "https://www.nist.gov/news-events/news/2026/08/seeking-public-comment-using-artificial-intelligence-cybersecurity",
+   "title": "Seeking Public Comment! Using Artificial Intelligence for Cybersecurity Framework 2.0 Analysis and Reporting",
+   "published_at": "2026-08-19",
+   "note": "Only first-party NIST/OWASP/MITRE AI publication inside the 2026-08-10 to 2026-08-31 window."
+  },
+  {
+   "url": "https://csrc.nist.gov/pubs/sp/1353/ipd",
+   "title": "NIST SP 1353 (Initial Public Draft): QuickStart Guide for Using AI for CSF Analysis and Reporting",
+   "published_at": "2026-08-19",
+   "note": "Ships prompt templates for generating CSF policy reviews and profiles; explicitly out of scope on AI assurance, no verification methodology for generated artifacts."
+  },
+  {
+   "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+   "title": "OWASP Agentic Skills Top 10 (AST10)",
+   "published_at": "2026-03-01",
+   "note": "Page states 'Published March 2026' without a day; out of window but the Q3 2026 AST07-AST10 phase is in-window. Source for AST02 config-as-execution and AST08 scanner bypass."
+  },
+  {
+   "url": "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/",
+   "title": "OWASP GenAI LLM Top 10 2026",
+   "published_at": "2026-08-03",
+   "note": "Six days before the window opens; resources archive confirms no genai.owasp.org publication between 2026-08-10 and 2026-08-31."
+  },
+  {
+   "url": "https://ctid.mitre.org/blog/2026/05/06/secure-ai-v2-release/",
+   "title": "MITRE ATLAS Grows through Collaboration with CTID and Industry (Secure AI v2)",
+   "published_at": "2026-05-06",
+   "note": "Establishes ATLAS monthly release cadence and Rapid Response Reports; no August 2026 ATLAS artifact could be verified."
+  },
+  {
+   "url": "https://www.securityweek.com/critical-vulnerability-exposes-github-agentic-workflows-to-prompt-injection/",
+   "title": "Critical Vulnerability Exposes GitHub Agentic Workflows to Prompt Injection (GitLost)",
+   "published_at": "2026-07-08",
+   "note": "Checked and rejected: out of window, and mechanism duplicates catalog I10 combined with I03."
+  },
+  {
+   "url": "https://www.cloudsek.com/blog/ai-supply-chain-breach-2500-companies-434000-cicd-pipelines",
+   "title": "LiteLLM Supply Chain Attack: 2,500+ Companies Exposed",
+   "published_at": "2026-08-11",
+   "note": "In-window coverage of a March 2026 incident; AI gateway/scanner builds in CI cascading to ~434,000 pipelines. Vendor source, not a standards body."
+  }
+ ],
+ "files_written": [],
+ "checks_run": [
+  "WebSearch: NIST generative AI risk guidance August 2026 (site:nist.gov)",
+  "WebSearch: OWASP agentic AI security guidance August 2026 prompt injection (site:owasp.org, genai.owasp.org)",
+  "WebFetch: https://owasp.org/www-project-agentic-skills-top-10/",
+  "WebSearch: MITRE ATLAS update August 2026 agent techniques new tactics",
+  "WebSearch: NIST Cyber AI Profile draft August 2026 release (site:nist.gov, nccoe, csrc)",
+  "WebSearch: \"August 2026\" AI software supply chain advisory MCP server compromise developers",
+  "WebFetch: https://www.nist.gov/news-events/news/2026/08/seeking-public-comment-using-artificial-intelligence-cybersecurity",
+  "WebSearch: OWASP GenAI Security Project new publication August 2026",
+  "WebFetch: https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/",
+  "WebFetch: https://genai.owasp.org/resources/",
+  "WebSearch: MITRE ATLAS new techniques release 2026 atlas.mitre.org updates",
+  "WebSearch: CWE MITRE new weakness class AI prompt injection 2026 CWE-1427 update coding agent",
+  "WebFetch: https://atlas.mitre.org/ (returned no usable content)",
+  "WebSearch: GitHub agentic workflows prompt injection advisory August 2026 exploitation repository secrets",
+  "WebFetch: https://www.securityweek.com/critical-vulnerability-exposes-github-agentic-workflows-to-prompt-injection/",
+  "WebSearch: ATLAS MITRE rapid response report August 2026 AI agent incident",
+  "WebFetch: https://csrc.nist.gov/news (AI topic filter, August 2026 items)",
+  "WebSearch: agent memory poisoning persistent backdoor guidance August 2026 CLAUDE.md AGENTS.md",
+  "WebSearch: AI coding agent security advisory week of August 24 2026 new guidance developers",
+  "WebFetch: https://csrc.nist.gov/pubs/sp/1353/ipd",
+  "Local read: .ai-intelligence/ai-development/runs/MNT-20260831T190559Z/catalog-index.json (180 ids/titles/mechanisms)"
+ ],
+ "risks": [
+  "MITRE ATLAS August 2026 coverage is unverified, not confirmed absent: atlas.mitre.org is JS-rendered and returned no content to WebFetch, and ATLAS is on a monthly cadence. A release in the window may have been missed; a controller with a JS-capable fetch or the ATLAS GitHub data repo should re-check.",
+  "The two AST10-derived records rest on a single source page whose publication date is 'March 2026' with no day given, and whose statistics (1,184 infected skills, 36.82% flawed, 26,000+ agents reached) are relayed from third parties. Confirm against the AST10 document and the Snyk ToxicSkills report before promoting to catalog problems.",
+  "Both AST10-derived records fall outside the assigned 21-day window. They are reported because they are genuine catalog gaps, not because they are new signal; the controller should decide whether out-of-window gap-fill is in scope for this run.",
+  "Medium search breadth with a ~20-operation budget means only the three named domains plus general web were covered. CISA, ENISA, UK AISI, and the EU AI Act implementing-act channel were not scanned and could carry in-window guidance."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "controller",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-standards-issued-prompt-templates-bypass-verification",
+   "title": "標準化団体が配布するPromptテンプレートが、検証工程なしにcompliance成果物を生成する経路になる",
+   "summary": "NIST SP 1353 ipd (2026-08-19) はCSF 2.0のポリシー適合レビューおよびCurrent/Target State Profileを生成するための構造化Promptテンプレートを公式に配布するが、AI生成成果物の検証方法論、hallucination対策、prompt injection対策を明示的にScope外としている。標準化団体の名前が付いたテンプレートは、通常なら要求されるレビュー工程を省略させる正当化として機能し、未検証の仮定がそのまま監査・統制成果物として確定する。設計書におけるA08と同じ機構だが、影響を受ける成果物がcompliance/監査証跡であるため、誤りの発見が監査時点まで遅延する点で影響範囲が異なる。",
+   "proposed_category": "要求・仕様・正解定義",
+   "problem_type": [
+    "governance-artifact",
+    "verification-gap",
+    "authority-bias"
+   ],
+   "priority_lanes": [
+    "security-and-governance"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-03 (standards-security-and-risk scout)",
+   "evidence": [
+    {
+     "url": "https://csrc.nist.gov/pubs/sp/1353/ipd",
+     "title": "NIST SP 1353 (Initial Public Draft): QuickStart Guide for Using AI for CSF Analysis and Reporting",
+     "published_at": "2026-08-19",
+     "summary": "三つのユースケース向けPromptテンプレートを提供する一方、AI best practicesは対象外と明記し、生成物の検証手順を定めていない。コメント期限は2026-10-15。"
+    },
+    {
+     "url": "https://www.nist.gov/news-events/news/2026/08/seeking-public-comment-using-artificial-intelligence-cybersecurity",
+     "title": "Seeking Public Comment! Using Artificial Intelligence for Cybersecurity Framework 2.0 Analysis and Reporting",
+     "published_at": "2026-08-19",
+     "summary": "NIST公式のドラフト公開告知。今回のwindow内で唯一のNIST/OWASP/MITRE一次公開物。"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "standards-security-and-risk"
+    }
+   ],
+   "affected_scope": {
+    "artifacts": [
+     "compliance profile",
+     "security policy review",
+     "audit evidence"
+    ],
+    "roles": [
+     "security engineer",
+     "compliance owner"
+    ],
+    "lifecycle": [
+     "governance",
+     "audit"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "A08",
+   "notes": "A08(AI生成設計書が権威的に見え未確認の仮定が仕様化する)と機構は同一。新規problemではなく、A08の適用範囲をcompliance/監査成果物へ拡張し、『標準化団体が公式Promptを配布する』という新しい発生経路をmechanismへ追記する更新として提案する。I15(AI利用が監査証跡に残らない)は別問題(証跡の欠落)であり重複しない。"
+  },
+  {
+   "id": "DSC-20260831-repo-config-as-preconsent-execution-layer",
+   "schema_version": "1.0",
+   "title": "Repository内のAgent設定ファイルが、承認前に実行される経路になる",
+   "summary": "OWASP Agentic Skills Top 10のAST02は、.claude/settings.jsonやmanifest.json等のRepository同梱設定・metadataが単なる宣言ではなく実行層として扱われ、利用者の同意プロンプトより前に動作する点を指摘する(CVE-2025-59536, CVSS 8.7が silent code execution via project configuration files として該当)。結果として『Agentで未知のRepositoryを開いて読むだけ』が既にコード実行になり、Skillのinstallやtool承認を境界と考える運用モデルが成立しない。AST04はさらに、frontmatterのYAML/JSON parse自体が攻撃面であることを示す。",
+   "proposed_category": "Security・権限・Supply Chain",
+   "problem_type": [
+    "supply-chain",
+    "privilege-boundary",
+    "untrusted-input"
+   ],
+   "priority_lanes": [
+    "security-and-governance"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-03 (standards-security-and-risk scout)",
+   "evidence": [
+    {
+     "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+     "title": "OWASP Agentic Skills Top 10 (AST10) — AST02 Supply chain compromise / AST04 Insecure metadata parsing",
+     "published_at": "2026-03-01",
+     "summary": "Repository configuration files now trigger execution before user consent と明記。CVE-2025-59536(CVSS 8.7)、SOUL.md/MEMORY.mdへの書き込みによるsession跨ぎ持続化に言及。ページ記載は『Published March 2026』で日付は不明、Q3 2026にAST07-AST10完成予定。"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "standards-security-and-risk"
+    }
+   ],
+   "affected_scope": {
+    "artifacts": [
+     ".claude/settings.json",
+     "manifest.json",
+     "hooks",
+     "skill frontmatter"
+    ],
+    "roles": [
+     "developer",
+     "platform owner"
+    ],
+    "lifecycle": [
+     "repository clone",
+     "agent session start"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "照合済み: I01は散文が命令として解釈される機構で、対象artifactがREADME/Issue/Log。I07は悪意あるSkill/Plugin/MCPが『命令と権限を持つ』もので、installという能動的行為を前提とする。I09はSkill文書内のCode例へのPayload埋め込み。I16はSandbox/IDE拡張/Agent自体の脆弱性。本件はRepository同梱のdotfile/設定が対象artifactであり、trigger がclone/openという受動的行為、実務対応が untrusted-repo cold-openポリシーとconfig信頼ゲートである点で、いずれとも affected artifact と practical response が異なる。ただし公開はwindow外(2026-03)であり、window内discoveryではなくcatalog gapとして報告する。"
+  },
+  {
+   "id": "DSC-20260831-skill-registry-scanner-false-assurance",
+   "schema_version": "1.0",
+   "title": "Skill/Plugin scannerの合格判定が、機能しない承認ゲートを機能しているように見せる",
+   "summary": "OWASP AST08は、Skill registryのbehavioral scannerがpattern-matcher回避で突破される構造的限界を指摘し、全scannerが合格判定を出したまま26,000以上のagentへ到達した研究者PoC、1,184 skillを汚染したClawHavoc campaign、走査済みskillの36.82%に欠陥という調査を挙げる。人間は承認前に『scan済み』表示を確認しているため手続き上は正しく見えるが、そのsignalは当該攻撃クラスを原理的に検出できず、高権限Skillの導入判断が実質的に無検証のまま進む。承認疲れとは異なり、確認行為自体は行われている点が問題を見えにくくする。",
+   "proposed_category": "Security・権限・Supply Chain",
+   "problem_type": [
+    "supply-chain",
+    "false-assurance",
+    "approval-gate"
+   ],
+   "priority_lanes": [
+    "security-and-governance"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-03 (standards-security-and-risk scout)",
+   "evidence": [
+    {
+     "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+     "title": "OWASP Agentic Skills Top 10 (AST10) — AST08 Insufficient behavioral scanning (pattern-matcher bypass)",
+     "published_at": "2026-03-01",
+     "summary": "Air Security PoCのskillが全scanner合格のまま26,000+ agentへ到達、ClawHavocが1,184 skillを汚染、Snyk ToxicSkills(2026-02)で走査対象skillの36.82%に欠陥。統計はいずれも第三者からの引用。"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "standards-security-and-risk"
+    }
+   ],
+   "affected_scope": {
+    "artifacts": [
+     "skill registry",
+     "plugin marketplace",
+     "MCP server listing"
+    ],
+    "roles": [
+     "platform owner",
+     "security reviewer"
+    ],
+    "lifecycle": [
+     "skill adoption",
+     "dependency review"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "照合済み: I12(承認疲れで人間が内容を見ずに許可する)は確認行為が省略される機構だが、本件は確認行為が実施された上で参照signalが無効という点が異なり、対策も『人間の負荷軽減』ではなく『scan合格を承認根拠にしない、実行時isolationへ移す』となる。I07は悪意あるSkillの存在そのもの、D15はSkillのOwner/Version不明。本件は検出手段への過信という別レイヤ。公開はwindow外(2026-03)のためcatalog gapとしての報告。"
+  },
+  {
+   "id": "DSC-20260831-ai-gateway-in-ci-credential-cascade",
+   "schema_version": "1.0",
+   "title": "CI/CDに組み込まれたAI Gateway・Scannerの侵害が、Provider鍵とPipeline資格情報を横断して波及する",
+   "summary": "2026-08-11時点の集計報道によれば、Trivy・Checkmarx KICS・LiteLLMの汚染buildを起点とするsupply-chain cascadeが2,500社超、約434,000のCI/CD pipelineに影響した。AI gateway/proxyはLLM provider鍵とpipeline資格情報の双方を保持しCI内で特権実行されるため、Agent本体でもIDE拡張でもない『AI隣接インフラ』が最大の資格情報集約点になる。Code rollbackでは回復せず、鍵rotationと影響範囲特定が必要になる点で通常の依存汚染と対応が異なる。",
+   "proposed_category": "Security・権限・Supply Chain",
+   "problem_type": [
+    "supply-chain",
+    "credential-blast-radius"
+   ],
+   "priority_lanes": [
+    "security-and-governance"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-03 (standards-security-and-risk scout)",
+   "evidence": [
+    {
+     "url": "https://www.cloudsek.com/blog/ai-supply-chain-breach-2500-companies-434000-cicd-pipelines",
+     "title": "LiteLLM Supply Chain Attack: 2,500+ Companies Exposed in the Largest AI Supply Chain Breach of 2026",
+     "published_at": "2026-08-11",
+     "summary": "2026-03のcascadeに関する集計。security scannerという3段離れたtoolの汚染から、接続されたidentityとsystemの網全体が露出したとする。ベンダーblogであり一次advisoryではない。"
+    },
+    {
+     "url": "https://www.securityweek.com/by-design-flaw-in-mcp-could-enable-widespread-ai-supply-chain-attacks/",
+     "title": "'By Design' Flaw in MCP Could Enable Widespread AI Supply Chain Attacks",
+     "published_at": "2026-04-01",
+     "summary": "公式MCP SDKのdesign defaultに起因し、推定200,000インスタンス、1.5億超のpackage downloadを含むsupply chainへ波及するとされる。日付は概算。"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "standards-security-and-risk"
+    }
+   ],
+   "affected_scope": {
+    "artifacts": [
+     "CI/CD pipeline",
+     "LLM gateway",
+     "provider API key"
+    ],
+    "roles": [
+     "platform owner",
+     "SRE"
+    ],
+    "lifecycle": [
+     "build",
+     "deploy"
+    ]
+   },
+   "confidence": "low",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "I16",
+   "notes": "I16(Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される)と機構は同系統だが、侵入経路がCI内のAI基盤サービスであり、blast radiusがProvider鍵とpipeline資格情報の同時露出になる点をmechanismへ追記する更新として提案。K14(外部Systemへの副作用がありCode rollbackだけでは戻らない)とも接するが、K14はAgentの操作結果、本件は資格情報汚染で対象が異なる。confidence lowの理由: 一次advisoryではなくベンダー集計であり、事象本体は2026-03でwindow外。"
+  }
+ ]
+}

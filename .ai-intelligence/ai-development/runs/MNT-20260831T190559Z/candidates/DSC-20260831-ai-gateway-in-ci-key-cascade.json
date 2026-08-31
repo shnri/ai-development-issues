@@ -1,0 +1,56 @@
+{
+ "id": "DSC-20260831-ai-gateway-in-ci-key-cascade",
+ "schema_version": "1.0",
+ "title": "CI/CDに組み込まれたAI Gateway・Scannerの侵害が、Provider鍵とPipeline資格情報を横断して波及する",
+ "summary": "2026-08-11時点の集計報道によれば、Trivy・Checkmarx KICS・LiteLLMの汚染buildを起点とするsupply-chain cascadeが2,500社超、約434,000のCI/CD pipelineに影響した。AI gateway/proxyはLLM provider鍵とpipeline資格情報の双方を保持しCI内で特権実行されるため、Agent本体でもIDE拡張でもない『AI隣接インフラ』が最大の資格情報集約点になる。Code rollbackでは回復せず、鍵rotationと影響範囲特定が必要になる点で通常の依存汚染と対応が異なる。",
+ "proposed_category": "Security・権限・Supply Chain",
+ "problem_type": [
+  "supply-chain",
+  "credential-blast-radius"
+ ],
+ "priority_lanes": [
+  "security-and-governance"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-03 (standards-security-and-risk scout)",
+ "evidence": [
+  {
+   "url": "https://www.cloudsek.com/blog/ai-supply-chain-breach-2500-companies-434000-cicd-pipelines",
+   "title": "LiteLLM Supply Chain Attack: 2,500+ Companies Exposed in the Largest AI Supply Chain Breach of 2026",
+   "published_at": "2026-08-11",
+   "summary": "2026-03のcascadeに関する集計。security scannerという3段離れたtoolの汚染から、接続されたidentityとsystemの網全体が露出したとする。ベンダーblogであり一次advisoryではない。"
+  },
+  {
+   "url": "https://www.securityweek.com/by-design-flaw-in-mcp-could-enable-widespread-ai-supply-chain-attacks/",
+   "title": "'By Design' Flaw in MCP Could Enable Widespread AI Supply Chain Attacks",
+   "published_at": "2026-04-01",
+   "summary": "公式MCP SDKのdesign defaultに起因し、推定200,000インスタンス、1.5億超のpackage downloadを含むsupply chainへ波及するとされる。日付は概算。"
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "standards-security-and-risk"
+  }
+ ],
+ "affected_scope": {
+  "artifacts": [
+   "CI/CD pipeline",
+   "LLM gateway",
+   "provider API key"
+  ],
+  "roles": [
+   "platform owner",
+   "SRE"
+  ],
+  "lifecycle": [
+   "build",
+   "deploy"
+  ]
+ },
+ "confidence": "low",
+ "material_change": false,
+ "status": "update",
+ "target_problem_id": "I16",
+ "notes": "I16(Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される)と機構は同系統だが、侵入経路がCI内のAI基盤サービスであり、blast radiusがProvider鍵とpipeline資格情報の同時露出になる点をmechanismへ追記する更新として提案。K14(外部Systemへの副作用がありCode rollbackだけでは戻らない)とも接するが、K14はAgentの操作結果、本件は資格情報汚染で対象が異なる。confidence lowの理由: 一次advisoryではなくベンダー集計であり、事象本体は2026-03でwindow外。",
+ "renamed_from": "DSC-20260831-ai-gateway-in-ci-credential-cascade (authority protected-path filename pattern **/*credential*)"
+}

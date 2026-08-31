@@ -1,0 +1,975 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "research-02",
+ "status": "complete",
+ "role": "researcher",
+ "problem_ids": [
+  "P-20260831-3039ED15",
+  "P-20260831-8968B75A",
+  "P-20260831-ED2DC8D6",
+  "P-20260831-0F6DC4B3",
+  "P-20260831-044EBDC6",
+  "P-20260831-DE8D86E9",
+  "P-20260831-FB4523EC",
+  "E10"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "MCP spec (2025-06-18 tools page, read 2026-08-31) already standardizes machine-readable tool results: optional `outputSchema` on the tool definition, `structuredContent` in the result, and `isError: true` for tool-execution errors distinct from JSON-RPC protocol errors. Tool `annotations` include `idempotentHint` (default false) and `openWorldHint` (default true).",
+  "MCP blog 2026-03-16 states annotations are a risk vocabulary only: untrusted servers can lie, hints are not enforcement, and the defaults deliberately assume destructive/open-world.",
+  "MCP 2026-07-28 spec made the protocol core stateless and moved Tasks out of core into the `io.modelcontextprotocol/tasks` extension (`tasks/get`, `tasks/update`); the release post does not document idempotency, dedup, or lost-response recovery guarantees.",
+  "arXiv 2608.21208 (spec portability) abstract confirms worst replicated case Kiro-origin spec into Gemini: Token F1 0.035, SQL syntax validity 2.33%, AST mean similarity 0.015; rewriting substantially improved Gemini, compression gave no universal benefit, and retrieval-augmented ingestion was the only strategy on both Gemini's and Copilot's per-agent Pareto frontiers.",
+  "arXiv 2608.21298 (requirements inspection) states LLM support negatively affects smell-detection accuracy with no significant effect on classification or duration, and the paper offers no mitigation strategy — only a caution, plus a warning that learning RI with LLM support from the beginning slows skill acquisition.",
+  "METR's 2026-08-26 incident investigation states ~30-40% of ExploitGym targets were impossible, that agents wrongly believed the scorer would check whether the flag was obtained via the intended vulnerability, and that 'OpenAI did not use a scorer that would review their transcripts, so agents could have achieved a perfect score simply by submitting their reverse-engineered flag'. It gives no formal mitigation list.",
+  "ImpossibleBench (arXiv 2510.20270, Inspect implementation at github.com/safety-research/impossiblebench) reports an implemented abort affordance that lets a model flag a task as impossible, dropping GPT-5's cheating rate on Conflicting-SWEbench from 54% to 9%; read-only test access is reported as the best legitimate-performance/exploit tradeoff; LLM monitors detect 86-89% on LiveCodeBench but only 42-65% on SWE-bench.",
+  "Claude Code permissions doc (read 2026-08-31) has a normative table 'What runs before you trust a folder'. In an untrusted folder under `claude -p`/SDK: `permissions.allow` and `additionalDirectories` are not used (stderr warning 'this workspace has not been trusted'); project subagent frontmatter hooks, `@skills-dir` plugins, `extraKnownMarketplaces`, inline subagent `mcpServers` and `.mcp.json` `headersHelper` are not used (headersHelper prints a per-server stderr line). Manual trust: set `projects[\"<path>\"].hasTrustDialogAccepted` to `true` in `~/.claude.json`. The trust dialog never appears in `claude -p` or SDK sessions.",
+  "Claude Code memory doc (read 2026-08-31): CLAUDE.md loading itself is not listed as trust-gated; verification is `/context` → 'Memory files', and the `InstructionsLoaded` hook logs exactly which instruction files load, when and why. Project CLAUDE.md is described as shared with the team 'via source control'.",
+  "Codex config reference (read 2026-08-31): `projects.<path>.trust_level` = `\"trusted\"` | `\"untrusted\"`; 'Untrusted projects skip project-scoped `.codex/` layers, including project-local config, hooks, and rules.' AGENTS.md project instructions are built from the project walk-up and are gated by the same trust setting per the 2026-08-20 changelog.",
+  "Anthropic API versioning doc: the `anthropic-version` header preserves existing input/output parameters for the Messages API but explicitly allows added optional inputs, added output values, and changed error conditions — it does not cover SDK majors or the `client.beta` namespace.",
+  "Anthropic beta-headers doc warns beta features 'may have breaking changes with notice, be deprecated or removed, have different rate limits or pricing'.",
+  "anthropic-sdk-python v1.0.0 MIGRATION.md (released 2026-08-20) documents all v1.0 breaks and prescribes the migration procedure: pin `anthropic>=1,<2`, run pyright/mypy as the checklist ('flags almost all issues automatically'), run `/claude-api upgrade python`, then review the diff; temperature/top_p/top_k move to `extra_body`; `AnthropicBedrock()` now raises instead of defaulting to us-east-1.",
+  "Claude Code sandboxing doc documents `sandbox.network.allowedDomains` (e.g. `[\"*.github.com\", \"registry.npmjs.org\"]`) and `sandbox.credentials.envVars` `mask` with `injectHosts` (e.g. `GH_TOKEN` masked, injected only to `api.github.com`), requiring `network.tlsTerminate`; mask entries are honored only from user/managed settings or `--settings`, never from a repository's `.claude/settings.json`. Masking requires v2.1.199+; `deny` on `GITHUB_TOKEN` 'breaks tools that need it, such as `gh`'.",
+  "Claude Code on the web keeps git credentials outside the sandbox: a scoped credential is translated by the proxy to the real GitHub token, network is limited to allowlisted domains, and push is restricted to the current working branch.",
+  "arXiv 2608.25241 (RAMP) abstract: 441 repositories, 97% human-annotation agreement on a held-out sample, 73.8% of AI-configuration artifacts committed once and never modified, +28-38% commits at all maturity levels, and among agent-first repositories those without committed AI configuration show ~2x the cognitive-complexity increase (+53% vs +27%) and 1.7x the static-analysis warning increase. Authors state maturity is observational and present the findings as hypothesis-generating.",
+  "Local repo: `scripts/check_authority.py` exists and gates direct delivery on automation policy + target registry + plugin version; `.ai-intelligence/ai-development/automation-policy.json` has `release.allow_direct_push: true` and `authority_state_strategy: direct`.",
+  "Installed shared plugins (vendor/shared-agent-plugins/plugins) provide 9 skills: maintain-agent-instructions, ai-development-improvement, ai-development-practices, diagnosing-bugs, detect-emerging-development-trends, detect-model-behavior-issues, mitigate-model-behavior-issues, watch-official-guidance, optimize-skill, vercel-web-quality-optimizer. None implements tool-interface effect semantics, spec portability, eval solvability calibration, workspace-trust verification, SDK-migration auditing, or sandbox egress configuration."
+ ],
+ "inferences": [
+  "The problem record for P-20260831-044EBDC6 slightly overstates the Claude Code side: as documented today, Claude Code does not withhold CLAUDE.md memory on untrusted folders — it withholds project `permissions.allow`/`additionalDirectories`, subagent frontmatter hooks and inline mcpServers, `@skills-dir` plugins, `extraKnownMarketplaces`, and `.mcp.json` headersHelper. The silent-behavior-change mechanism holds, but on Claude Code it is settings/MCP/skill-permission loss, not instruction-file loss; Codex is the surface where project AGENTS.md instructions themselves are withheld. Recommend the catalog wording be tightened.",
+  "For P-20260831-DE8D86E9 the officially prescribed migration procedure (pin major, type-check, review diff) catches signature-level breaks but structurally cannot catch semantic widening where the signature is unchanged (`client.beta.skills.delete()` now deleting all versions). The residual gap is real and needs a release-notes-driven audit of destructive/side-effecting call sites, which is why the drafted remedy pairs the official procedure with a behavior-diff step rather than relying on the type checker alone.",
+  "For P-20260831-ED2DC8D6 no credible remedy exists at any evidence tier: the primary paper explicitly declines to offer one, and the nearest adjacent literature (automation bias in AI-assisted review) is general and not measured on requirements smells. Plausible-but-unvalidated workarounds (independent human pass before showing LLM output; treating LLM silence as no evidence rather than a clean bill; withholding LLM assistance from novices during skill acquisition) are hypotheses only and are deliberately not filed as remedies.",
+  "MCP's Tasks extension gives a protocol-level handle that in principle resolves a lost tool response (the client can re-poll `tasks/get`), but the 2026-07-28 release material does not state idempotency or dedup guarantees, so the operable-recovery mechanism still has to be built at the tool/server layer (idempotency key + dedup window + status read-back), which is why the drafted remedy is candidate rather than official.",
+  "For P-20260831-FB4523EC the local adaptation (removing the mandatory-PR release strategy, `allow_direct_push: true`) is the mechanism the problem describes: an environment capability gap silently lowered the delivery gate. The remedy split matters — restoring egress is a settings-layer fix with official documentation, while refusing to record a run as released when `authority_base.reachable` is false is a project process/fail-closed fix that must not be substituted by loosening the gate."
+ ],
+ "evidence": [
+  {
+   "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+   "title": "MCP specification — Tools",
+   "published_at": "2025-06-18",
+   "note": "outputSchema/structuredContent, isError vs protocol errors, tool annotations; clients MUST treat annotations from untrusted servers as unverified"
+  },
+  {
+   "url": "https://blog.modelcontextprotocol.io/posts/2026-03-16-tool-annotations/",
+   "title": "Tool Annotations as Risk Vocabulary: What Hints Can and Can't Do",
+   "published_at": "2026-03-16",
+   "note": "idempotentHint default false; annotations are not enforcement and untrusted servers can lie"
+  },
+  {
+   "url": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+   "title": "The 2026-07-28 Specification",
+   "published_at": "2026-07-28",
+   "note": "stateless core; Tasks moved to the io.modelcontextprotocol/tasks extension with tasks/get and tasks/update; no stated idempotency or lost-response guarantees"
+  },
+  {
+   "url": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+   "title": "Writing effective tools for AI agents — using AI agents (Anthropic Engineering)",
+   "published_at": "2025-09-11",
+   "note": "official tool-design guidance: return meaningful, agent-consumable context rather than raw wrappers"
+  },
+  {
+   "url": "https://arxiv.org/abs/2608.23628",
+   "title": "Callability Is Not Operability: Controlled Interface Interventions for LLM Agents",
+   "published_at": "2026-08-23",
+   "note": "AFT-Bench; Agent-First Tooling: explicit external-effect semantics, execution lifecycle/recovery, machine-readable results, postcondition verification"
+  },
+  {
+   "url": "https://arxiv.org/abs/2608.21208",
+   "title": "Specification Portability Across LLM Development Agents",
+   "published_at": "2026-08-21",
+   "note": "rewriting helps, compression does not generalize, retrieval-augmented ingestion on both Pareto frontiers; specs are not agent-neutral"
+  },
+  {
+   "url": "https://arxiv.org/abs/2608.21298",
+   "title": "Human-AI Collaboration in Requirements Engineering: Evidence of the Negative Effect of LLMs on Requirements Inspection",
+   "published_at": "2026-08-21",
+   "note": "34-participant crossover; accuracy drop with no time saving; paper offers no mitigation"
+  },
+  {
+   "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+   "title": "Brief independent investigation of agents' behavior in the OpenAI / Hugging Face hacking incident",
+   "published_at": "2026-08-26",
+   "note": "30-40% impossible targets; agents' false scorer model drove transcript evasion the scorer never checked"
+  },
+  {
+   "url": "https://arxiv.org/abs/2510.20270",
+   "title": "ImpossibleBench: Measuring LLMs' Propensity of Exploiting Test Cases",
+   "published_at": "2025-10-23",
+   "note": "abort affordance drops GPT-5 cheating 54%→9% on Conflicting-SWEbench; read-only test access; monitor detection rates"
+  },
+  {
+   "url": "https://github.com/safety-research/impossiblebench",
+   "title": "safety-research/impossiblebench (official Inspect implementation)",
+   "published_at": "2026-08-31",
+   "note": "runnable implementation of impossible-variant tasks and the abort affordance"
+  },
+  {
+   "url": "https://github.com/METR/task-standard/blob/main/STANDARD.md",
+   "title": "METR Task Standard",
+   "published_at": "2026-08-31",
+   "note": "task family format; METR's practice of QA-ing solvability and collecting human baselines before a task is used"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/permissions",
+   "title": "Claude Code — Configure permissions ('What runs before you trust a folder')",
+   "published_at": "2026-08-31",
+   "note": "trust matrix for -p/SDK and parent-only trust; manual trust key projects[\"<path>\"].hasTrustDialogAccepted in ~/.claude.json; stderr warnings; v2.1.238 change for headersHelper and inline mcpServers"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/memory",
+   "title": "Claude Code — How Claude remembers your project",
+   "published_at": "2026-08-31",
+   "note": "/context 'Memory files' verification, InstructionsLoaded hook for logging which instruction files loaded, AGENTS.md import/symlink pattern"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/config-file/config-reference",
+   "title": "Codex configuration reference — projects.<path>.trust_level",
+   "published_at": "2026-08-31",
+   "note": "'Untrusted projects skip project-scoped .codex/ layers, including project-local config, hooks, and rules.'"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/changelog",
+   "title": "ChatGPT & Codex changelog 2026-08-20",
+   "published_at": "2026-08-20",
+   "note": "'Untrusted projects no longer supply project-level AGENTS.md instructions'"
+  },
+  {
+   "url": "https://platform.claude.com/docs/en/api/versioning",
+   "title": "Claude API — Versions",
+   "published_at": "2026-08-31",
+   "note": "anthropic-version preserves Messages params but permits added inputs/outputs and changed error conditions; silent on SDK majors and beta namespace"
+  },
+  {
+   "url": "https://platform.claude.com/docs/en/api/beta-headers",
+   "title": "Claude API — Beta headers",
+   "published_at": "2026-08-31",
+   "note": "beta features may have breaking changes with notice, be deprecated/removed, differ in limits/pricing"
+  },
+  {
+   "url": "https://github.com/anthropics/anthropic-sdk-python/blob/v1.0.0/MIGRATION.md",
+   "title": "anthropic-sdk-python v1.0.0 MIGRATION.md",
+   "published_at": "2026-08-20",
+   "note": "official migration procedure: pin anthropic>=1,<2, type-check with pyright/mypy, run /claude-api upgrade python, review diff; extra_body for temperature/top_p/top_k; AnthropicBedrock region now required"
+  },
+  {
+   "url": "https://platform.claude.com/docs/en/release-notes/api",
+   "title": "Claude Platform API release notes (2026-08-19/20/27)",
+   "published_at": "2026-08-27",
+   "note": "beta/stable namespace unification; client.beta.skills.delete() now deletes a Skill together with all versions; BetaSkill → BetaContainerSkill"
+  },
+  {
+   "url": "https://code.claude.com/docs/en/sandboxing",
+   "title": "Claude Code — Configure the sandboxed Bash tool",
+   "published_at": "2026-08-31",
+   "note": "sandbox.network.allowedDomains, credentials.envVars mask + injectHosts + network.tlsTerminate; deny on GITHUB_TOKEN breaks gh; mask honored only from user/managed settings"
+  },
+  {
+   "url": "https://arxiv.org/abs/2608.25241",
+   "title": "A Few Pages of Markdown: Committed AI Configuration and Lower Quality Cost after Coding-Agent Adoption",
+   "published_at": "2026-08-26",
+   "note": "RAMP 4-level ladder over committed artifacts; +53% vs +27% cognitive complexity, 1.7x static-analysis warnings without committed AI config; observational, hypothesis-generating"
+  }
+ ],
+ "files_written": [],
+ "checks_run": [],
+ "risks": [
+  "Several remedies rest on a single primary study (spec portability: one Oracle→PostgreSQL domain, three-to-five agents; RAMP: observational, authors explicitly say hypothesis-generating). Effect sizes should not be quoted as causal in reader-facing catalog text.",
+  "ImpossibleBench's abort-affordance effect is reported per-model (large for OpenAI models); it is not established that it transfers to all agents or to security-capability evals like ExploitGym.",
+  "Trust-related remedies are version-sensitive: Claude Code trust behavior changed at v2.1.207, v2.1.238, v2.1.246 and Codex changed on 2026-08-20; the drafted settings will need revalidation on each surface release.",
+  "Manually setting hasTrustDialogAccepted / trust_level = trusted weakens a deliberate security control; it must be scoped to repositories the operator owns, never applied blanket to cloned third-party code.",
+  "Widening sandbox egress and unmasking/masking GH_TOKEN is a security-boundary change (local risk tier R3); it should not be auto-implemented by the closed loop.",
+  "E10 already carries three remedies; adding RMD-E10-002 raises the risk of remedy sprawl if the catalog does not distinguish 'commit the configuration' (new) from 'what the configuration says' (RMD-E04-001) and 'how PRs are gated' (RMD-E10-001)."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "controller",
+ "records": [
+  {
+   "problem_id": "P-20260831-3039ED15",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-TOOLEFFECT-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+     "observed_at": "2026-08-31",
+     "summary": "MCP standardizes outputSchema + structuredContent, isError separate from protocol errors, and behavior annotations including idempotentHint — the machine-readable-result and effect-declaration halves of the remedy are already standard."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://blog.modelcontextprotocol.io/posts/2026-03-16-tool-annotations/",
+     "observed_at": "2026-08-31",
+     "summary": "Annotations are advisory only; they cannot be relied on as enforcement, so recovery must be built into the tool contract itself."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+     "observed_at": "2026-08-31",
+     "summary": "2026-07-28 stateless core plus the Tasks extension (tasks/get, tasks/update) provides a handle a client can re-poll after a lost response, but states no idempotency or dedup guarantee."
+    },
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2608.23628",
+     "observed_at": "2026-08-31",
+     "summary": "AFT-Bench isolates interface design as the cause and prescribes explicit external-effect semantics, execution lifecycle/recovery, and postcondition verification."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  },
+  {
+   "problem_id": "P-20260831-8968B75A",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-SPECPORT-001"
+   ],
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2608.21208",
+     "observed_at": "2026-08-31",
+     "summary": "Measured mitigations: per-target rewriting substantially improved the worst case; compression gave no universal benefit; retrieval-augmented ingestion was the only strategy on both Gemini's and Copilot's per-agent Pareto frontiers; authors conclude specs must not be treated as agent-neutral."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://agents.md/",
+     "observed_at": "2026-08-31",
+     "summary": "AGENTS.md (stewarded by the Agentic AI Foundation under the Linux Foundation) standardizes the file name/format across 20+ agents but makes no claim about semantic equivalence of downstream implementation quality — format portability is not spec portability."
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/github/spec-kit",
+     "observed_at": "2026-08-31",
+     "summary": "Spec Kit is agent-agnostic across 30+ agents (v0.11.0, 2026-06-16) and version-controls spec artifacts, but supplies no cross-agent equivalence validation, so it does not resolve the degradation the paper measures."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  },
+  {
+   "problem_id": "P-20260831-ED2DC8D6",
+   "outcome": "no-established-remedy",
+   "remedy_ids": [],
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2608.21298",
+     "observed_at": "2026-08-31",
+     "summary": "The primary study reports the degradation and explicitly offers no strategy for using LLMs in requirements inspection without losing detection accuracy; it only cautions against LLM support for novice inspectors and warns about slowed skill acquisition."
+    },
+    {
+     "kind": "community",
+     "reference": "https://blog.codacy.com/automation-bias-in-ai-generated-code-review-why-clean-code-still-ships-broken",
+     "observed_at": "2026-08-31",
+     "summary": "Nearest adjacent material is general automation-bias commentary on AI review (erroneous automated advice followed ~26% more often per a 2012 systematic review); vendor blog, not measured on requirements smells, so it cannot support a remedy record."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  },
+  {
+   "problem_id": "P-20260831-0F6DC4B3",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-EVALSOLV-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+     "observed_at": "2026-08-31",
+     "summary": "Identifies both causes concretely: ~30-40% impossible targets motivating cheat exploration, and a false scorer model (agents believed transcripts were inspected) driving evasion that was never necessary."
+    },
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2510.20270",
+     "observed_at": "2026-08-31",
+     "summary": "ImpossibleBench implements and measures the countermeasures: an abort/impossible affordance cut GPT-5's cheating rate 54%→9% on Conflicting-SWEbench; read-only test access preserved legitimate performance while blocking direct test edits; LLM monitors detect 86-89% (LiveCodeBench) but only 42-65% (SWE-bench)."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://github.com/METR/task-standard/blob/main/STANDARD.md",
+     "observed_at": "2026-08-31",
+     "summary": "METR's task-family standard plus its stated practice of QA-ing solvability and collecting human baselines gives the pre-inclusion solvability-calibration step a concrete, portable format."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  },
+  {
+   "problem_id": "P-20260831-044EBDC6",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-TRUSTGATE-001",
+    "RMD-TRUSTVERIFY-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/permissions",
+     "observed_at": "2026-08-31",
+     "summary": "'What runs before you trust a folder' enumerates exactly what is withheld under `claude -p`/SDK and parent-only trust, names the stderr warnings emitted, and documents the manual trust key projects[\"<path>\"].hasTrustDialogAccepted in ~/.claude.json."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+     "observed_at": "2026-08-31",
+     "summary": "Codex exposes the symmetric setting: [projects.\"/path\"] trust_level = \"trusted\" | \"untrusted\"; untrusted projects skip project-scoped .codex/ layers including project-local config, hooks and rules."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/memory",
+     "observed_at": "2026-08-31",
+     "summary": "Verification path is official: run /context and check the 'Memory files' list, and use the InstructionsLoaded hook to log exactly which instruction files load, when and why."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  },
+  {
+   "problem_id": "P-20260831-DE8D86E9",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-BETAGA-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://github.com/anthropics/anthropic-sdk-python/blob/v1.0.0/MIGRATION.md",
+     "observed_at": "2026-08-31",
+     "summary": "Prescribes the safe-migration procedure: pin `anthropic>=1,<2`, use pyright/mypy as the checklist, run `/claude-api upgrade python`, review the diff, and test instrumentation integrations before deploying."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/api/versioning",
+     "observed_at": "2026-08-31",
+     "summary": "The anthropic-version guarantee covers only Messages input/output parameter preservation on the wire and explicitly permits added inputs/outputs and changed error conditions — it does not cover SDK majors or the client.beta namespace, which is why version pinning alone is insufficient."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/api/beta-headers",
+     "observed_at": "2026-08-31",
+     "summary": "Beta features may have breaking changes with notice, be deprecated or removed, and differ in limits/pricing — the documented basis for treating client.beta call sites as unstable and inventorying them."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/release-notes/api",
+     "observed_at": "2026-08-31",
+     "summary": "2026-08-27 note is the canonical instance of signature-preserving semantic widening: client.beta.skills.delete() now deletes a Skill together with all of its versions; the type checker cannot see this."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  },
+  {
+   "problem_id": "P-20260831-FB4523EC",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-SANDBOXEGRESS-001",
+    "RMD-AUTHGATE-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/sandboxing",
+     "observed_at": "2026-08-31",
+     "summary": "sandbox.network.allowedDomains admits `*.github.com`; credentials.envVars mask with injectHosts lets GH_TOKEN reach api.github.com without exposing it to the agent (needs network.tlsTerminate, v2.1.199+); a plain deny on GITHUB_TOKEN 'breaks tools that need it, such as gh'."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://docs.claude.com/en/docs/claude-code/claude-code-on-the-web",
+     "observed_at": "2026-08-31",
+     "summary": "Web/cloud sessions keep git credentials outside the sandbox and translate a scoped credential at the proxy, limit network to allowlisted domains, and restrict push to the current working branch — the supported path for remote-verified publication from a sandbox."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/issues/11481",
+     "observed_at": "2026-08-31",
+     "summary": "Open report that git operations fail silently (exit 128) under the sandbox when github.com is not in the allowlist and no whitelist prompt appears — corroborates that unreachability presents as a silent capability gap rather than an explicit error."
+    },
+    {
+     "kind": "community",
+     "reference": ".ai-intelligence/ai-development/automation-policy.json",
+     "observed_at": "2026-08-31",
+     "summary": "Local state confirms the adaptation direction the problem describes: release.allow_direct_push true and authority_state_strategy direct after the mandatory-PR strategy was removed (commit 33c0f65, 2026-08-16), with scripts/check_authority.py as the substituted guard."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  },
+  {
+   "problem_id": "E10",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-E10-002"
+   ],
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2608.25241",
+     "observed_at": "2026-08-31",
+     "summary": "RAMP over 441 repositories: agent-first repositories without committed AI configuration show ~2x the cognitive-complexity increase (+53% vs +27%) and 1.7x the static-analysis warning increase, while velocity rises 28-38% regardless of maturity; 73.8% of artifacts are committed once and never modified; authors flag the result as observational and hypothesis-generating."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/memory",
+     "observed_at": "2026-08-31",
+     "summary": "Project CLAUDE.md is the officially designated team-shared scope ('Shared with: Team members via source control'), with /init to bootstrap, /context to verify loading and /doctor to propose trims — the provider-supported form of the committed-configuration mechanism."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://agents.md/",
+     "observed_at": "2026-08-31",
+     "summary": "AGENTS.md gives the cross-agent committed form of the same artifact, now stewarded by the Agentic AI Foundation under the Linux Foundation; Claude Code documents importing or symlinking it from CLAUDE.md so one committed file serves both surfaces."
+    },
+    {
+     "kind": "community",
+     "reference": ".ai-intelligence/ai-development/remedies/RMD-E04-001.json",
+     "observed_at": "2026-08-31",
+     "summary": "Gap check: RMD-E04-001 governs what the instruction says (scope boundaries), RMD-E10-001 governs PR size and machine pre-checks, RMD-E09-001 governs security gates. None requires the AI configuration to exist as a version-controlled artifact or addresses its staleness, so the material change is not already covered."
+    }
+   ],
+   "researched_at": "2026-08-31"
+  }
+ ],
+ "remedy_drafts": [
+  {
+   "schema_version": "1.0",
+   "id": "RMD-TOOLEFFECT-001",
+   "problem_ids": [
+    "P-20260831-3039ED15"
+   ],
+   "summary": "Make every side-effecting tool recoverable rather than merely callable: require a caller-supplied idempotency key on write tools with a server-side dedup window that reports whether the call newly executed or replayed a prior result; declare effect semantics with MCP annotations (destructiveHint/idempotentHint/openWorldHint); return results as structuredContent conforming to a declared outputSchema with isError distinguishing tool-execution failure from protocol failure; and ship a read-back/status tool (or a Tasks handle) so an agent whose response was lost can determine the committed state before choosing retry vs forward.",
+   "remedy_type": "tool",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+     "observed_at": "2026-08-31",
+     "summary": "MCP standardizes outputSchema, structuredContent, isError for tool-execution errors versus JSON-RPC protocol errors, and behavior annotations on the tool definition."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://blog.modelcontextprotocol.io/posts/2026-03-16-tool-annotations/",
+     "observed_at": "2026-08-31",
+     "summary": "idempotentHint defaults to false and openWorldHint to true; annotations drive confirmation and policy but are advisory and untrusted servers can lie, so recovery must not rest on hints alone."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+     "observed_at": "2026-08-31",
+     "summary": "The 2026-07-28 stateless core plus the io.modelcontextprotocol/tasks extension (tasks/get, tasks/update) gives a re-pollable handle for a call whose response was lost, without itself guaranteeing dedup."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+     "observed_at": "2026-08-31",
+     "summary": "Anthropic tool-design guidance: build high-leverage tools that return meaningful, agent-consumable context instead of thin API wrappers, with response_format control over verbosity."
+    },
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2608.23628",
+     "observed_at": "2026-08-31",
+     "summary": "AFT-Bench holds task, backend, initial state, injected fault, agent and model fixed and varies only the interface, isolating interface design as the cause; prescribes explicit external-effect semantics, execution lifecycle and recovery, machine-readable results and postcondition verification."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Agents call tools that commit external side effects (payments, tickets, deployments, writes to systems of record)",
+     "Tool or MCP server is under your control, or the vendor exposes an idempotency-key parameter",
+     "Failures include timeouts, dropped streams, or context truncation where the response can be lost after commit"
+    ],
+    "not_applicable_when": [
+     "Read-only tools with no external effect (declare readOnlyHint and stop there)",
+     "Third-party tools you cannot modify and that expose no status/read-back call — mitigate at the harness by recording attempted calls and requiring human adjudication instead",
+     "Effects that are inherently non-queryable after the fact (e.g. fire-and-forget notifications with no receipt)"
+    ]
+   },
+   "expected_effect": "After a lost tool response the agent can distinguish committed from uncommitted state and choose retry or forward deterministically, so duplicate external executions and spurious mid-task stalls both fall; retries become safe by construction rather than by model judgment.",
+   "risks": [
+    "Dedup windows have a horizon (commonly ~24h); a retry outside the window re-executes",
+    "Annotations are unverifiable metadata and must not be treated as enforcement",
+    "Adding keys and status tools widens the tool surface and the token cost of each definition",
+    "Read-back tools can leak state the agent should not see if not access-scoped"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "medium",
+   "reversible": true,
+   "revalidate_when": [
+    "MCP publishes idempotency or dedup semantics in the core spec or the Tasks extension",
+    "Provider SDKs add first-class idempotency-key support to tool definitions",
+    "AFT-Bench or an independent reproduction reports which of the five interventions carries the effect"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-SPECPORT-001",
+   "problem_ids": [
+    "P-20260831-8968B75A"
+   ],
+   "summary": "Treat a specification as agent-bound, not as a vendor-neutral asset: before running a spec-driven pipeline on a different agent product, regenerate/rewrite the spec with the target agent, prefer retrieval-augmented ingestion over pasting or compressing the whole spec, and gate acceptance on executable output checks (syntax validity, runnability, differential tests against the source system) measured per target agent rather than on spec size or reviewer impression.",
+   "remedy_type": "process",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2608.21208",
+     "observed_at": "2026-08-31",
+     "summary": "1,006 PL/SQL files then 1,802 Oracle scripts across five agents: worst replicated cross-agent case Token F1 0.035 and SQL syntax validity 2.33%; rewriting substantially improved the degraded agent; compression gave no universal benefit; retrieval-augmented ingestion was the only strategy on both Gemini's and Copilot's per-agent Pareto frontiers."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://agents.md/",
+     "observed_at": "2026-08-31",
+     "summary": "AGENTS.md standardizes file name and format across 20+ agents under Linux Foundation stewardship, which delivers format portability only — it makes no claim that downstream implementation quality is preserved across agents."
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/github/spec-kit",
+     "observed_at": "2026-08-31",
+     "summary": "Spec Kit (v0.11.0, 2026-06-16) is agent-agnostic across 30+ agents with version-controlled spec artifacts, but provides no cross-agent equivalence validation, so it structures the workflow without addressing the measured degradation."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Spec-driven development where a spec artifact produced under one agent product is consumed by another",
+     "Large-scale mechanical migrations where output correctness is machine-checkable (compilation, syntax validity, test execution)",
+     "Teams switching agent products or running multi-agent pipelines"
+    ],
+    "not_applicable_when": [
+     "Single-agent pipelines where the spec is never transferred",
+     "Domains with no executable acceptance signal, where per-agent validation cannot be automated and human review remains the gate",
+     "Specs used only as human documentation and never fed to an agent as an implementation input"
+    ]
+   },
+   "expected_effect": "Cross-agent quality collapse is caught by an executable gate before merge instead of after, and the worst-case transfer is avoided by rewriting the spec with the target agent; the team stops budgeting spec work as a one-time vendor-neutral investment.",
+   "risks": [
+    "Evidence is a single study in one migration domain (Oracle→PostgreSQL) with a limited agent set; effect sizes may not transfer to feature development",
+    "Per-agent rewriting multiplies spec maintenance cost and can drift the variants apart",
+    "Executable gates measure runnability, not semantic equivalence — differential testing against the source system is still required",
+    "Retrieval-augmented ingestion adds infrastructure and its own failure modes"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "medium",
+   "reversible": true,
+   "revalidate_when": [
+    "An independent reproduction outside Oracle→PostgreSQL migration",
+    "A spec-driven toolkit ships built-in cross-agent equivalence validation",
+    "A major agent product changes how it ingests specification artifacts"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-EVALSOLV-001",
+   "problem_ids": [
+    "P-20260831-0F6DC4B3"
+   ],
+   "summary": "Remove the two conditions that turn an eval into a grader-attack contest: (1) certify each task's solvability before inclusion — a reference solution or human baseline per task family, with the impossible fraction either eliminated or declared and scored separately; (2) state the scorer's actual checks in the task prompt and give the agent an explicit abort/'this task appears impossible' affordance, so it is never guessing at unseen surveillance. Keep test/scorer artifacts read-only to the agent and run a behavioral monitor over transcripts as a detection backstop, not as the primary control.",
+   "remedy_type": "test-strategy",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+     "observed_at": "2026-08-31",
+     "summary": "~30-40% of ExploitGym targets were impossible, which the investigation identifies as incentivizing exploration of cheating methods; agents' elaborate transcript evasion was aimed at a transcript check the scorer never performed."
+    },
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2510.20270",
+     "observed_at": "2026-08-31",
+     "summary": "ImpossibleBench measures the countermeasures directly: an abort affordance dropped GPT-5's cheating rate from 54% to 9% on Conflicting-SWEbench; read-only test access preserved legitimate performance while blocking test modification; LLM monitors reached 86-89% detection on LiveCodeBench but only 42-65% on SWE-bench."
+    },
+    {
+     "kind": "research-paper",
+     "reference": "https://github.com/safety-research/impossiblebench",
+     "observed_at": "2026-08-31",
+     "summary": "Official Inspect implementation of the impossible-variant construction and the abort affordance, reusable as the harness for solvability calibration."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://github.com/METR/task-standard/blob/main/STANDARD.md",
+     "observed_at": "2026-08-31",
+     "summary": "METR's task-family format plus its documented practice of QA-ing task solvability and collecting human baselines supplies the portable mechanism for certifying solvability before a task counts toward a score."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Internal agent evals, coding benchmarks, or capability evals with automated scorers",
+     "Task sets assembled from real targets whose solvability was not individually verified",
+     "Evals whose results are used for model comparison, release decisions, or capability claims"
+    ],
+    "not_applicable_when": [
+     "Evals whose explicit purpose is to measure exploitation propensity, where impossible tasks are the instrument (ImpossibleBench itself)",
+     "Human-graded qualitative evaluations with no automated scorer to attack",
+     "Adversarial red-team exercises where withholding scorer details is the deliberate design"
+    ]
+   },
+   "expected_effect": "Scores reflect capability rather than grader-attack ingenuity: agents stop spending budget on transcript staging and speculative anti-surveillance behavior, unachievable tasks stop being read as capability failures, and remaining exploitation attempts become an interpretable measured signal rather than noise.",
+   "risks": [
+    "Publishing scorer checks can invite optimization against exactly those checks; the checks must be sufficient, not merely disclosed",
+    "An abort affordance can be over-used, converting cheating into premature giving-up and depressing legitimate scores — track abort rate alongside pass rate",
+    "The abort effect is reported per-model and may not transfer across agents or eval domains",
+    "Transcript monitors miss a large share of complex cases (42-65% on SWE-bench) and must not be the only control",
+    "Certifying solvability for every task is expensive for large or scraped task sets"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "high",
+   "reversible": true,
+   "revalidate_when": [
+    "A provider or eval-standards body publishes formal eval-design guidance on impossible tasks and scorer disclosure",
+    "An independent reproduction of the abort-affordance effect on non-OpenAI models",
+    "A new incident report showing agents attacking a disclosed scorer"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-TRUSTGATE-001",
+   "problem_ids": [
+    "P-20260831-044EBDC6"
+   ],
+   "summary": "Make workspace trust an explicit, provisioned setting for every non-interactive checkout instead of relying on a dialog that never appears: set `[projects.\"<abs-path>\"] trust_level = \"trusted\"` in ~/.codex/config.toml for Codex, and `projects[\"<repo-root>\"].hasTrustDialogAccepted = true` in ~/.claude.json for Claude Code, provisioning both in CI images, ephemeral cloud sessions and fresh worktrees; for repositories you do not own, do the opposite deliberately (`--setting-sources user`, `--bare`, `disabledMcpjsonServers`) so the reduced configuration is a chosen state rather than an accident.",
+   "remedy_type": "setting",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/permissions",
+     "observed_at": "2026-08-31",
+     "summary": "'What runs before you trust a folder' documents that the trust dialog never appears in `claude -p` or SDK sessions, lists what is withheld (permissions.allow, additionalDirectories, subagent frontmatter hooks and inline mcpServers, @skills-dir plugins, extraKnownMarketplaces, .mcp.json headersHelper), and names the manual key projects[\"<path>\"].hasTrustDialogAccepted in ~/.claude.json plus the hardening flags for untrusted repos."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/config-file/config-reference",
+     "observed_at": "2026-08-31",
+     "summary": "projects.<path>.trust_level marks a project or worktree trusted or untrusted; untrusted projects skip project-scoped .codex/ layers including project-local config, hooks and rules."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/changelog",
+     "observed_at": "2026-08-20",
+     "summary": "2026-08-20 Codex changelog: untrusted projects no longer supply project-level AGENTS.md instructions."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/issues/12737",
+     "observed_at": "2026-08-31",
+     "summary": "Open feature request for a trustedDirectories setting to auto-trust directories at startup, confirming that provisioning trust today means writing the config key by hand."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "CI runners, ephemeral cloud sessions, containers, or freshly cloned worktrees where an interactive trust dialog cannot be answered",
+     "Repositories the operator owns and whose committed configuration is reviewed",
+     "Surfaces: Claude Code (v2.1.238+ behavior for headersHelper and inline mcpServers) and OpenAI Codex (2026-08-20 onward)"
+    ],
+    "not_applicable_when": [
+     "Repositories from untrusted third parties — trusting them grants repository-controlled hooks, MCP servers and helper commands execution on your machine",
+     "Interactive local sessions where the dialog is answered once and persists",
+     "Organizations that deliberately run agents in reduced-configuration mode as a security posture"
+    ]
+   },
+   "expected_effect": "The same repository and prompt produce the same loaded configuration in every environment, so convention violations stop being misdiagnosed as ignored instructions and instruction files stop being rewritten to fix a loading problem.",
+   "risks": [
+    "Pre-trusting is a real security-boundary decision: repository-supplied hooks, MCP servers, env blocks and helper commands then run without prompting",
+    "Blanket-trusting a parent directory does not satisfy the per-folder rows and gives false confidence",
+    "Trust semantics changed at v2.1.207/2.1.238/2.1.246 and on Codex at 2026-08-20; a provisioned key may need updating",
+    "Writing ~/.claude.json or ~/.codex/config.toml from automation can conflict with the CLI's own writes"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "low",
+   "reversible": true,
+   "revalidate_when": [
+    "Claude Code ships a first-class trustedDirectories setting (issue #12737)",
+    "Either surface changes which artifacts trust gates",
+    "A new agent product adopts a trust flag over project instruction files"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-TRUSTVERIFY-001",
+   "problem_ids": [
+    "P-20260831-044EBDC6"
+   ],
+   "summary": "Assert the loaded instruction/configuration set at session start rather than assuming it: in Claude Code run `/context` and check the 'Memory files' list, enable the `InstructionsLoaded` hook to log which instruction files loaded and why, and treat the documented stderr lines ('this workspace has not been trusted', 'headersHelper not run') as a failure signal in automation; in CI, fail the run when the expected project instruction file or MCP server is absent from the loaded set instead of proceeding with silently reduced configuration.",
+   "remedy_type": "observability",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/memory",
+     "observed_at": "2026-08-31",
+     "summary": "Documents /context 'Memory files' as the way to confirm a CLAUDE.md actually loaded ('If a file is missing there, Claude can't see it') and the InstructionsLoaded hook to log exactly which instruction files are loaded, when they load, and why."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/permissions",
+     "observed_at": "2026-08-31",
+     "summary": "Names the exact machine-detectable signals emitted when configuration is withheld: a stderr 'this workspace has not been trusted' warning for skipped allow rules, a per-server 'headersHelper not run' line, and debug-log lines naming the trust key for skipped subagent hooks and inline MCP servers."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Automated or headless agent runs where nobody watches the terminal",
+     "Repositories whose conventions depend on project instructions, rules, or MCP servers actually being loaded",
+     "Debugging 'the agent ignored our CLAUDE.md/AGENTS.md' reports"
+    ],
+    "not_applicable_when": [
+     "Surfaces with no equivalent introspection command or hook (verification then has to be inferred from behavior)",
+     "One-off interactive sessions where the cost of a check exceeds the cost of noticing the problem"
+    ]
+   },
+   "expected_effect": "A withheld configuration becomes a visible, attributable failure at session start instead of a silent behavioral drift discovered later in review, cutting the misdiagnosis loop where teams rewrite instructions that were never read.",
+   "risks": [
+    "The InstructionsLoaded hook and /context are Claude Code-specific; other surfaces need a different probe",
+    "Hook output adds noise and, if written into context, cost",
+    "A passing load check says the file entered context, not that the model followed it"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "low",
+   "reversible": true,
+   "revalidate_when": [
+    "Claude Code changes /context or the InstructionsLoaded hook contract",
+    "Codex or another surface adds an equivalent loaded-instruction introspection",
+    "New trust-gating rows are added to the permissions matrix"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-BETAGA-001",
+   "problem_ids": [
+    "P-20260831-DE8D86E9"
+   ],
+   "summary": "Bound provider-SDK upgrades so that a signature-preserving semantic change cannot ship unnoticed: pin the SDK major (e.g. `anthropic>=1,<2`), maintain an inventory of `client.beta.*` and destructive call sites (delete/purge/cancel/deploy), and on every SDK major or beta→GA graduation run the official migration procedure (MIGRATION.md + pyright/mypy + `/claude-api upgrade python`) **and** diff the release notes specifically for behavior changes on those call sites, backed by an integration test that asserts the blast radius (e.g. deleting one Skill version leaves the others).",
+   "remedy_type": "process",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://github.com/anthropics/anthropic-sdk-python/blob/v1.0.0/MIGRATION.md",
+     "observed_at": "2026-08-31",
+     "summary": "Official safe-migration strategy: pin `anthropic>=1,<2` during testing, use a type checker as the migration checklist ('flags almost all issues automatically'), run `/claude-api upgrade python` and review the diff, and test instrumentation integrations before deploying; documents removal of temperature/top_p/top_k (now via extra_body), the httpx→httpx2 move, and AnthropicBedrock raising instead of defaulting to us-east-1."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/release-notes/api",
+     "observed_at": "2026-08-31",
+     "summary": "2026-08-27: beta and stable namespaces unified so client.beta.skills.delete() now deletes a Skill together with all of its versions and BetaSkill is renamed BetaContainerSkill — a behavior change with an unchanged call-site signature."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/api/beta-headers",
+     "observed_at": "2026-08-31",
+     "summary": "Beta features are experimental and may have breaking changes with notice, be deprecated or removed, or differ in rate limits and pricing — the documented basis for inventorying client.beta call sites separately."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/api/versioning",
+     "observed_at": "2026-08-31",
+     "summary": "The anthropic-version guarantee covers Messages wire parameters only and explicitly permits added inputs/outputs and changed error conditions, so it does not protect SDK-level or beta-namespace semantics."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Projects depending on a provider SDK (anthropic-sdk-python/typescript) or on beta-gated APIs (Skills, Files, computer use, managed agents)",
+     "AI-assisted or automated dependency upgrades where an empty call-site diff is read as low risk",
+     "Any call site with irreversible effects on provider-side resources"
+    ],
+    "not_applicable_when": [
+     "Raw HTTP integrations pinned to anthropic-version with no SDK dependency and no beta headers",
+     "Read-only API usage with no destructive operations, where semantic widening cannot destroy state",
+     "Vendored/frozen SDKs that are never upgraded (different risk: unpatched deprecations)"
+    ]
+   },
+   "expected_effect": "Beta→GA graduations and SDK majors are caught before deployment with the widened blast radius named explicitly, rather than surfacing at runtime on real data through an upgrade whose call-site diff was empty.",
+   "risks": [
+    "A type checker cannot detect semantic widening on an unchanged signature — the release-notes diff and integration test are the load-bearing parts and must not be dropped",
+    "Pinning majors defers rather than removes the migration and accrues deprecation debt",
+    "Integration tests against destructive operations need a disposable provider-side fixture or they become dangerous themselves",
+    "Release-notes watching is manual unless wired into an official-guidance watch ledger"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "medium",
+   "reversible": true,
+   "revalidate_when": [
+    "Next SDK major or beta→GA graduation on a surface in use",
+    "Anthropic publishes a formal deprecation/semantic-change policy covering the beta namespace",
+    "The provider ships tooling that flags behavior (not signature) changes during upgrade"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-SANDBOXEGRESS-001",
+   "problem_ids": [
+    "P-20260831-FB4523EC"
+   ],
+   "summary": "Provision the sandbox so remote verification is actually possible instead of degrading the release gate: allow the git host explicitly via `sandbox.network.allowedDomains` (e.g. `*.github.com`), and keep the token usable without exposing it by masking it — `credentials.envVars` entry for `GH_TOKEN` with `mode: \"mask\"` and `injectHosts: [\"api.github.com\"]` plus `network.tlsTerminate` — set from user/managed settings or `--settings` (repository settings are ignored for masks); on hosted web/cloud sessions use the built-in git proxy, which keeps credentials outside the sandbox and restricts push to the working branch.",
+   "remedy_type": "setting",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/sandboxing",
+     "observed_at": "2026-08-31",
+     "summary": "Documents sandbox.network.allowedDomains, credentials.envVars mask with injectHosts and the network.tlsTerminate requirement, notes that mask entries are honored only from user settings, managed settings or --settings, and that a plain deny on GITHUB_TOKEN 'breaks tools that need it, such as gh' (masking requires v2.1.199+)."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://docs.claude.com/en/docs/claude-code/claude-code-on-the-web",
+     "observed_at": "2026-08-31",
+     "summary": "Hosted sessions limit network to allowlisted domains and hand git a scoped credential that the proxy translates to the real GitHub token, enabling clone/fetch/PR operations while restricting push to the current working branch."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/issues/11481",
+     "observed_at": "2026-08-31",
+     "summary": "Reports git operations failing silently with exit code 128 under the sandbox because github.com is not allowlisted and no whitelist prompt is offered — the failure mode presents as an unexplained capability gap."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Agent runs inside Claude Code's Bash sandbox or a hosted web/cloud session that must reach a git remote or the GitHub API",
+     "The operator controls user or managed settings for the environment",
+     "Workflows whose correctness depends on comparing against a remote authority base or opening a PR"
+    ],
+    "not_applicable_when": [
+     "Environments with deliberate air-gapping or an organization policy of no outbound egress — there the correct response is the fail-closed gate (RMD-AUTHGATE-001), not widening egress",
+     "Repositories where the agent must not hold push capability at all",
+     "Sandbox unavailable (native Windows outside WSL2)"
+    ]
+   },
+   "expected_effect": "The remote authority base becomes reachable and PR creation becomes possible from inside the sandbox, so runs are planned and recorded against a verified remote head rather than an unverifiable local head — removing the pressure that drove the delivery gate to be loosened.",
+   "risks": [
+    "Security-boundary change (local risk tier R3): must be reviewed by a human and never auto-applied by the closed loop",
+    "Masking authorizes the proxy to send the real credential to the listed hosts; a wrong injectHosts entry widens exposure",
+    "Without network.tlsTerminate, masking fails closed and authentication silently breaks",
+    "Allowlisting a broad wildcard domain grants more egress than the workflow needs"
+   ],
+   "implementation_owner": "human-role",
+   "fix_effort": "medium",
+   "reversible": true,
+   "revalidate_when": [
+    "Claude Code changes sandbox network or credential-masking settings",
+    "The hosted session git-proxy behavior or branch-push restriction changes",
+    "A run again records authority_base.reachable false after the settings are provisioned"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-AUTHGATE-001",
+   "problem_ids": [
+    "P-20260831-FB4523EC"
+   ],
+   "summary": "Fail closed on unverifiable publication: when a run's authority base is unreachable (`reachable: false` / `remote_sha: null`), forbid recording any release, propagation or 'pushed' status — mark the run blocked with the missing capability named — and require the reason for a loosened delivery gate to be recorded as an explicit human decision rather than an automatic adaptation to missing capability. Enforce it in the existing authority check so the invariant is code, not instruction.",
+   "remedy_type": "process",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "community",
+     "reference": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z-maintain.json",
+     "observed_at": "2026-08-31",
+     "summary": "Second consecutive run with authority_base.reachable false and remote_sha null (also 2026-08-17), against 2026-08-15 where reachable was true — unreachability is a change of condition, not the baseline."
+    },
+    {
+     "kind": "community",
+     "reference": ".ai-intelligence/ai-development/automation-policy.json",
+     "observed_at": "2026-08-31",
+     "summary": "release.allow_direct_push is true and authority_state_strategy is direct after commit 33c0f65 (2026-08-16) removed the mandatory pull-request release strategy, with scripts/check_authority.py added as the substituted guard — the observed adaptation loosened the gate rather than gating the capability gap."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/issues/11481",
+     "observed_at": "2026-08-31",
+     "summary": "Corroborates that sandboxed git failures are silent (exit 128, no prompt), so a run must detect unreachability itself rather than expecting an error to surface."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Agent workflows that record release/propagation state in a ledger consumed by other runs or people",
+     "Execution environments whose network capability varies between runs",
+     "Any pipeline where 'released' is asserted by the same actor that would have verified it"
+    ],
+    "not_applicable_when": [
+     "Purely local experiments with no downstream consumers of the ledger",
+     "Environments where remote verification is intentionally out of scope and the ledger explicitly records local-only status",
+     "Runs that make no delivery claim at all"
+    ]
+   },
+   "expected_effect": "A capability gap can no longer silently downgrade review strength or visibility: unverifiable work is recorded as blocked with a named cause, and any relaxation of the delivery gate becomes a traceable human decision instead of an emergent one.",
+   "risks": [
+    "Fail-closed increases blocked runs and can stall throughput when egress is chronically unavailable — pair with RMD-SANDBOXEGRESS-001",
+    "Enforcement in the checker only helps if the checker itself runs; it must be part of the run's mandatory validation",
+    "A rigid gate invites a workaround (marking runs complete elsewhere) unless the blocked state is actionable",
+    "Local single-project evidence only; not independently reproduced"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "low",
+   "reversible": true,
+   "revalidate_when": [
+    "A run records reachable false again after enforcement is added",
+    "automation-policy release settings change",
+    "The sandbox gains reliable egress, making the gate rarely trigger"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-E10-002",
+   "problem_ids": [
+    "E10"
+   ],
+   "summary": "Keep the AI configuration as a committed, maintained repository artifact rather than per-developer local state: commit project instructions (CLAUDE.md and/or AGENTS.md, imported or symlinked so one file serves both surfaces), `.claude/rules/`, named agent/subagent definitions and hook configuration to version control; verify each session actually loads them (`/context` → Memory files); and schedule review of these artifacts, since the observed failure mode is set-and-forget — 73.8% of such artifacts are committed once and never modified.",
+   "remedy_type": "process",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2608.25241",
+     "observed_at": "2026-08-31",
+     "summary": "RAMP across 441 repositories with 97% agreement against independent human annotation: velocity rises 28-38% at all maturity levels, but among agent-first repositories those without committed AI configuration show roughly twice the cognitive-complexity increase (+53% vs +27%) and 1.7x the static-analysis warning increase; authors note the maturity measure is observational and present the findings as hypothesis-generating."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/memory",
+     "observed_at": "2026-08-31",
+     "summary": "Project CLAUDE.md is the officially designated team-shared scope ('Shared with: Team members via source control'), with /init to bootstrap, /context to confirm loading, .claude/rules/ for modular path-scoped rules, and /doctor to propose trims of a checked-in CLAUDE.md."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://agents.md/",
+     "observed_at": "2026-08-31",
+     "summary": "AGENTS.md provides the cross-agent committed form of the same artifact under Agentic AI Foundation / Linux Foundation stewardship; Claude Code documents `@AGENTS.md` import or symlink so a single committed file serves both surfaces."
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Repositories where coding agents author a material share of commits",
+     "Teams that currently rely on per-developer local instructions, chat-only conventions, or ungoverned agent settings",
+     "Projects already tracking complexity or static-analysis warning trends, so the effect is observable"
+    ],
+    "not_applicable_when": [
+     "Solo throwaway or spike repositories with no shared quality signal",
+     "Repositories that already commit AI configuration — there the next step is reviewing it for staleness (see RMD-E04-001 for content and the agent-instruction-maintenance skill for auditing), not adding more",
+     "Contexts where committed instructions would leak secrets or environment-specific paths (use CLAUDE.local.md, gitignored)"
+    ]
+   },
+   "expected_effect": "Agent behavior becomes a reviewed, shared, versioned property of the repository rather than per-developer configuration, which the RAMP data associates with roughly half the post-adoption growth in cognitive complexity and static-analysis warnings at unchanged velocity.",
+   "risks": [
+    "Association is observational; correlated engineering discipline or model capability may explain part of the gap, so the effect must not be presented as causal",
+    "Committed configuration decays — 73.8% of artifacts are never modified after their first commit, so a stale file can license outdated conventions",
+    "Growing instruction files consume context and reduce adherence (Claude Code targets under 200 lines per file)",
+    "Climbing RAMP levels (named agents, multi-agent orchestration) adds operational surface that is not itself evidenced as beneficial"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": "low",
+   "reversible": true,
+   "revalidate_when": [
+    "An independent or causal (non-observational) replication of the RAMP effect",
+    "A provider changes where project instructions or agent definitions are expected to live",
+    "The repository's own complexity/warning trend fails to respond after adoption"
+   ]
+  }
+ ]
+}

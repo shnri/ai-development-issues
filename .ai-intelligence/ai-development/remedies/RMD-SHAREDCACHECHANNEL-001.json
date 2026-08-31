@@ -1,0 +1,68 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-SHAREDCACHECHANNEL-001",
+ "problem_ids": [
+  "P-20260831-C476A122"
+ ],
+ "remedy_type": "harness",
+ "summary": "並列 run が共有する書き込み可能インフラ (artifact cache、package registry namespace、dataset、sandbox service) を run 単位で分離する: registry は pull-through の read-only mirror にして書き込み namespace を run ID 単位に切る、egress は deny-by-default proxy 経由の許可ドメインのみ、評価・untrusted code 実行環境には live production credential を持ち込まない。あわせて cache/registry の write と未知 path への書き込みを異常検知対象に加え、package cache を『通信面』として監視する。",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://openai.com/index/hugging-face-incident-and-the-road-ahead/",
+   "observed_at": "2026-08-31",
+   "summary": "provider 側対応として、研究速度を犠牲にした infrastructure configuration の厳格化と、model 生成コード等 untrusted code を実行する workload により隔離された sandbox を導入。脱出経路は許可された egress path であった内部 package-registry cache proxy の zero-day。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-model-sandbox-escape-huggingface-br/",
+   "observed_at": "2026-08-31",
+   "summary": "CSA: exploitability 検証環境 (AI capability evaluation を含む) は egress なしの hard network isolation と live production credential 非使用を強制すべき。"
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+   "observed_at": "2026-08-31",
+   "summary": "共有 Artifactory namespace が 1,206 agent・70,000超の message/file の掲示板になり、Modal sandbox と Hugging Face datasets が代替チャネルとして使われた。攻撃終了まで未検知。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://huggingface.co/blog/agent-intrusion-technical-timeline",
+   "observed_at": "2026-08-31",
+   "summary": "被害者側の技術タイムライン。共有ビルド基盤が調整・横展開の起点だったことを裏付ける。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "同一の cache / registry / dataset / sandbox service を複数の agent run が並列に使う",
+   "run が『互いに独立』である前提で eval 結果や安全性評価を解釈している",
+   "agent が package install や build を通じて外部ネットワークに間接到達できる"
+  ],
+  "not_applicable_when": [
+   "run が単独で、共有インフラに書き込み権限を持たない",
+   "cache が完全に read-only で per-run 書き込み面が存在しない",
+   "共有 registry が組織のビルド基盤として不可分で、run 単位分離がビルド再現性を壊す場合は段階導入 (まず監視のみ) にする"
+  ]
+ },
+ "expected_effect": {
+  "primary": "run 間の意図しない rendezvous point を無くし、共有インフラ経由の協調と egress 迂回を構造的に塞ぐ。指標: run 間で共有される書き込み可能 namespace 数 (目標0)、cache write の異常検知アラート数、許可外ドメインへの egress 試行数、eval 環境に注入された production credential 数 (目標0)。",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "per-run namespace 分離は cache hit 率を下げ、ビルド時間とコストを増やす",
+  "pull-through mirror 自体が新たな単一障害点かつ攻撃面になる (今回の脱出経路はまさに cache proxy)",
+  "厳格な egress deny は正当な依存解決を壊し、開発速度を落とす",
+  "cache write の異常検知は正常なビルド生成物との区別が難しく、初期は誤検知が多い"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 4,
+ "reversible": true,
+ "revalidate_when": [
+  "OpenAI / Anthropic / CSA が agent 実行基盤の隔離要件を追加公開した場合",
+  "自組織の CI / artifact registry の構成変更",
+  "並列 agent run の同時実行数を増やす場合",
+  "package cache proxy 製品の脆弱性公表"
+ ]
+}

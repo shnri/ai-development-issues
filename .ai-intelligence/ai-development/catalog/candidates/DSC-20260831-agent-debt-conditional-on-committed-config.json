@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260831-agent-debt-conditional-on-committed-config",
+  "title": "Agent導入後の負債蓄積速度は、AI設定をRepositoryにCommitしているかで約2倍変わる",
+  "summary": "Coding agent導入によるCommit量増加(28-38%)は設定の有無に関わらず得られる一方、品質コストは分岐する。AI設定をVersion管理していないRepositoryではCognitive complexityが約53%増、静的解析警告が1.7倍に増えたのに対し、Commit済み設定があるRepositoryでは複雑度増加が約27%に留まった。つまりE10の「生成量に比例した負債蓄積」は無条件ではなく、AI設定のVersion管理という具体的な調整変数を持つ。441 Repositoryの観察研究であり因果ではない点に注意が必要。",
+  "proposed_category": "",
+  "problem_type": [
+    "technical-debt",
+    "ai-configuration",
+    "adoption-governance"
+  ],
+  "priority_lanes": [],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+  "evidence": [
+    {
+      "url": "https://arxiv.org/abs/2608.25241",
+      "title": "A Few Pages of Markdown: Committed AI Configuration and Lower Quality Cost after Coding-Agent Adoption",
+      "published_at": "2026-08-26",
+      "summary": "Introduces RAMP (Repository AI Maturity Profile), a four-level cumulative maturity model over version-controlled artifacts, across 441 repositories, validated against independent human annotation at 97% accuracy on held-out samples. Velocity rose 28-38% in commits at all maturity levels; cognitive complexity rose ~53% with static-analysis warnings 1.7x without committed AI configuration, versus ~27% with it."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research"
+    }
+  ],
+  "affected_scope": {
+    "artifacts": [
+      "repository AI configuration files",
+      "codebase complexity metrics"
+    ],
+    "activities": [
+      "coding-agent adoption",
+      "technical debt management"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "E10",
+  "notes": "Not a new problem: E10 already states that technical debt accumulates faster in proportion to AI generation volume. Material change is the quantified moderator - committed AI configuration roughly halves the complexity increase at equal velocity gain - which promotes 'commit your AI configuration' from D-category hygiene to a measured E10 mitigation and gives the catalog a concrete metric pair (cognitive complexity, static-analysis warning rate) for monitoring. Also relevant to D04/D12 as counter-evidence that configuration files are not merely instruction debt. Observational design, so association not causation."
+}

@@ -1,0 +1,77 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-BASHEDITPATH-001",
+ "problem_ids": [
+  "P-20260831-AE8A3EE7"
+ ],
+ "summary": "ロールバックとガードレールを『ツール名』ではなく『効果』に紐付ける: (1) checkpoint/rewind を復旧手段にせず、turn ごとの git snapshot (auto-commit / worktree / branch) を巻き戻し境界にする、(2) 書き込み禁止は sandbox.filesystem.denyWrite など OS レベルの path 規則で表現し、Edit/Write matcher に依存しない、(3) PreToolUse hook は Bash matcher も併記し (subcommand と $() は検査対象、先頭の VAR= は除去される点に注意)、FileChanged hook で保護対象 path の想定外変更を検知する。Anthropic 自身が『checkpoint は bash 変更を追跡しない/version control の代替ではない』と明記しているため、これは回避策ではなく前提設計。",
+ "remedy_type": "harness",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/checkpointing",
+   "observed_at": "2026-08-31",
+   "summary": "'Checkpointing does not track files modified by bash commands' / 'Only direct file edits made through Claude's file editing tools are tracked' / 'Not a replacement for version control'。subagent の編集も通常は復元されない。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/issues/87575",
+   "observed_at": "2026-08-31",
+   "summary": "v2.1.234 で報告、2026-08-31 時点で open。auto mode の bash 編集後に /rewind が成功表示のまま変更をディスク上に残す。"
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/issues/88041",
+   "observed_at": "2026-08-31",
+   "summary": "bashFirst system prompt が sed/heredoc/短いスクリプトでの編集を指示する文字列と feature gate を提示。2026-08-31 時点で open、maintainer 応答なし。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/sandboxing",
+   "observed_at": "2026-08-31",
+   "summary": "sandbox.filesystem の allowWrite/denyWrite は OS レベルで強制され、sandbox 内の全コマンドと子プロセスに適用される (経路非依存)。"
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/permission-modes",
+   "observed_at": "2026-08-31",
+   "summary": "acceptEdits は working directory 内の mkdir/touch/rm/rmdir/mv/cp/sed を自動承認する。shell 経由編集は仕様として許容されており、prompt 変更だけの問題ではない。"
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Claude Code auto mode / acceptEdits で長めの自律 run を回している (bashFirst 該当は v2.1.234 前後で確認)",
+   "組織の guardrail を Edit/Write などツール名 matcher で書いている",
+   "/rewind や checkpoint を実質的な巻き戻し手段として運用している",
+   "git 管理下のリポジトリで作業している"
+  ],
+  "not_applicable_when": [
+   "Bash tool を持たないセッション (--restricted や tools 限定)",
+   "git 管理外の作業ツリーで snapshot 境界を作れない場合",
+   "sandbox 非対応環境 (ネイティブ Windows。WSL2 内実行なら適用可)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "編集経路が Edit/Write から Bash に変わっても、巻き戻し可能性・書き込み禁止・監査が失効しない。指標: rewind 後に git status がクリーンでない run の割合 (目標0)、保護 path への想定外書き込み検知数、hook が Bash 経路の編集を捕捉した割合、harness 更新後の guardrail 回帰テスト pass 率。",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "turn ごとの auto-commit は履歴を汚し、コミット粒度の運用ルールと衝突する",
+  "denyWrite の設計を誤ると正当なビルド生成物の書き込みを壊す",
+  "PreToolUse の Bash matcher は文字列解釈に依存するため、それ自体が P-20260831-60EFB5BF の解釈乖離を抱える (単独の防御線にしない)",
+  "FileChanged は watch list ベースで、全 path の網羅的監視ではない",
+  "vendor が bashFirst prompt を撤回すると露出は下がるが、checkpoint の追跡ギャップは仕様として残る"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "claude-code issues #87575 / #88041 のクローズまたは bashFirst gate の変更",
+  "checkpointing が bash 変更を追跡するようになった場合",
+  "acceptEdits の自動承認コマンド一覧の変更",
+  "hooks の matcher 仕様 / FileChanged の watch 仕様変更",
+  "harness の major update ごと (ツール名依存の guardrail 全般の回帰確認)"
+ ]
+}

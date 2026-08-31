@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191641Z-0076-PROBLEM-EVIDENCE-ADDED",
+  "event_type": "problem-evidence-added",
+  "occurred_at": "2026-08-31T19:16:41Z",
+  "catalog_revision_before": 75,
+  "catalog_revision_after": 76,
+  "details": {
+    "candidate_id": "DSC-20260831-permission-check-toctou",
+    "decision": "duplicate",
+    "target_problem_id": "I16"
+  }
+}

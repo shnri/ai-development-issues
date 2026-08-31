@@ -1,0 +1,61 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-AUTHGATE-001",
+ "problem_ids": [
+  "P-20260831-FB4523EC"
+ ],
+ "summary": "Fail closed on unverifiable publication: when a run's authority base is unreachable (`reachable: false` / `remote_sha: null`), forbid recording any release, propagation or 'pushed' status — mark the run blocked with the missing capability named — and require the reason for a loosened delivery gate to be recorded as an explicit human decision rather than an automatic adaptation to missing capability. Enforce it in the existing authority check so the invariant is code, not instruction.",
+ "remedy_type": "process",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "community",
+   "reference": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z-maintain.json",
+   "observed_at": "2026-08-31",
+   "summary": "Second consecutive run with authority_base.reachable false and remote_sha null (also 2026-08-17), against 2026-08-15 where reachable was true — unreachability is a change of condition, not the baseline."
+  },
+  {
+   "kind": "community",
+   "reference": ".ai-intelligence/ai-development/automation-policy.json",
+   "observed_at": "2026-08-31",
+   "summary": "release.allow_direct_push is true and authority_state_strategy is direct after commit 33c0f65 (2026-08-16) removed the mandatory pull-request release strategy, with scripts/check_authority.py added as the substituted guard — the observed adaptation loosened the gate rather than gating the capability gap."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/issues/11481",
+   "observed_at": "2026-08-31",
+   "summary": "Corroborates that sandboxed git failures are silent (exit 128, no prompt), so a run must detect unreachability itself rather than expecting an error to surface."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Agent workflows that record release/propagation state in a ledger consumed by other runs or people",
+   "Execution environments whose network capability varies between runs",
+   "Any pipeline where 'released' is asserted by the same actor that would have verified it"
+  ],
+  "not_applicable_when": [
+   "Purely local experiments with no downstream consumers of the ledger",
+   "Environments where remote verification is intentionally out of scope and the ledger explicitly records local-only status",
+   "Runs that make no delivery claim at all"
+  ]
+ },
+ "expected_effect": {
+  "primary": "A capability gap can no longer silently downgrade review strength or visibility: unverifiable work is recorded as blocked with a named cause, and any relaxation of the delivery gate becomes a traceable human decision instead of an emergent one.",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "Fail-closed increases blocked runs and can stall throughput when egress is chronically unavailable — pair with RMD-SANDBOXEGRESS-001",
+  "Enforcement in the checker only helps if the checker itself runs; it must be part of the run's mandatory validation",
+  "A rigid gate invites a workaround (marking runs complete elsewhere) unless the blocked state is actionable",
+  "Local single-project evidence only; not independently reproduced"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 1,
+ "reversible": true,
+ "revalidate_when": [
+  "A run records reachable false again after enforcement is added",
+  "automation-policy release settings change",
+  "The sandbox gains reliable egress, making the gate rarely trigger"
+ ]
+}

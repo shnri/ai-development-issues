@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260831-standards-issued-prompt-templates-bypass-verification",
+  "title": "標準化団体が配布するPromptテンプレートが、検証工程なしにcompliance成果物を生成する経路になる",
+  "summary": "NIST SP 1353 ipd (2026-08-19) はCSF 2.0のポリシー適合レビューおよびCurrent/Target State Profileを生成するための構造化Promptテンプレートを公式に配布するが、AI生成成果物の検証方法論、hallucination対策、prompt injection対策を明示的にScope外としている。標準化団体の名前が付いたテンプレートは、通常なら要求されるレビュー工程を省略させる正当化として機能し、未検証の仮定がそのまま監査・統制成果物として確定する。設計書におけるA08と同じ機構だが、影響を受ける成果物がcompliance/監査証跡であるため、誤りの発見が監査時点まで遅延する点で影響範囲が異なる。",
+  "proposed_category": "要求・仕様・正解定義",
+  "problem_type": [
+    "governance-artifact",
+    "verification-gap",
+    "authority-bias"
+  ],
+  "priority_lanes": [
+    "security-and-governance"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-03 (standards-security-and-risk scout)",
+  "evidence": [
+    {
+      "url": "https://csrc.nist.gov/pubs/sp/1353/ipd",
+      "title": "NIST SP 1353 (Initial Public Draft): QuickStart Guide for Using AI for CSF Analysis and Reporting",
+      "published_at": "2026-08-19",
+      "summary": "三つのユースケース向けPromptテンプレートを提供する一方、AI best practicesは対象外と明記し、生成物の検証手順を定めていない。コメント期限は2026-10-15。"
+    },
+    {
+      "url": "https://www.nist.gov/news-events/news/2026/08/seeking-public-comment-using-artificial-intelligence-cybersecurity",
+      "title": "Seeking Public Comment! Using Artificial Intelligence for Cybersecurity Framework 2.0 Analysis and Reporting",
+      "published_at": "2026-08-19",
+      "summary": "NIST公式のドラフト公開告知。今回のwindow内で唯一のNIST/OWASP/MITRE一次公開物。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "standards-security-and-risk"
+    }
+  ],
+  "affected_scope": {
+    "artifacts": [
+      "compliance profile",
+      "security policy review",
+      "audit evidence"
+    ],
+    "roles": [
+      "security engineer",
+      "compliance owner"
+    ],
+    "lifecycle": [
+      "governance",
+      "audit"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "A08",
+  "notes": "A08(AI生成設計書が権威的に見え未確認の仮定が仕様化する)と機構は同一。新規problemではなく、A08の適用範囲をcompliance/監査成果物へ拡張し、『標準化団体が公式Promptを配布する』という新しい発生経路をmechanismへ追記する更新として提案する。I15(AI利用が監査証跡に残らない)は別問題(証跡の欠落)であり重複しない。"
+}

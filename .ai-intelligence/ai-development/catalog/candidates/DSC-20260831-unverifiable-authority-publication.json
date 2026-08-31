@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260831-unverifiable-authority-publication",
+  "title": "Agentの成果公開・検証leg（remote到達、PR作成）がsandboxで利用できず、未検証のlocal headのまま完了状態が記録される",
+  "summary": "Agentの運用workflowは『remote authority baseと突き合わせ、remote検証付きでcommit/pushする』ことを前提にしているが、実行sandboxからoriginへ到達できない運転が続いており（2026-08-17と2026-08-31はreachable false／remote_sha null、2026-08-15のみtrue）、runは検証不能なlocal headを基準に計画・記録される。gh CLIが使えずPRを作れなかった事象も同時に記録されており、成果は『released／pushed』としてledgerに残る一方で、外部からその状態を確認する手段がない。観測された適応はcapability不足をgateするのではなく、mandatory PRを外してdirect releaseを許可する方向へ配送gateを緩めることだった。結果として、実行環境のcapability欠落が、成果の可視性とreview gateの強度を静かに切り下げる。",
+  "proposed_category": "運用・費用・測定・再現性",
+  "problem_type": [
+    "運用摩擦"
+  ],
+  "priority_lanes": [
+    "F2"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-06 (local-project-evidence scout)",
+  "evidence": [
+    {
+      "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z-maintain.json",
+      "summary": "authority_base: reachable false, remote_sha null, branch claude/zen-carson-v4auwl, local_head e7ae436; run status planned and its artifacts untracked in git"
+    },
+    {
+      "path": ".ai-intelligence/ai-development/runs/MNT-20260817T200951Z-maintain.json",
+      "summary": "authority_base: reachable false, remote_sha null, branch claude/zen-carson-bt3bjc — second consecutive unreachable run, 14 days apart"
+    },
+    {
+      "path": ".ai-intelligence/ai-development/runs/MNT-20260815T141330Z-maintain.json",
+      "summary": "the one run with reachable true (branch main, remote_sha == local_head), establishing that unreachability is a change of condition rather than the baseline"
+    },
+    {
+      "path": ".ai-intelligence/ai-development/runs/MNT-20260815T111324Z-maintain.json",
+      "summary": "status partial with blocked_items 1: 'PR pending: gh unavailable; merge intentionally left to human review'"
+    },
+    {
+      "path": ".ai-intelligence/ai-development/automation-policy.json",
+      "summary": "release.allow_direct_push is now true; git commit 33c0f65 (2026-08-16) removed the mandatory pull-request release strategy from AGENTS.md/README.md and added check_authority.py guards in its place"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "local-project-evidence"
+    }
+  ],
+  "affected_scope": {
+    "artifacts": [
+      "maintenance run records",
+      "catalog snapshots",
+      "shared-asset releases",
+      "automation policy"
+    ],
+    "actors": [
+      "maintenance controller",
+      "authority repository owner"
+    ],
+    "environments": [
+      "sandboxed agent sessions without network egress to origin or without gh CLI"
+    ],
+    "lifecycle_stages": [
+      "release",
+      "propagation",
+      "state persistence"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "Checked against K04（環境差で結果が変わる: 原因が同じ環境差でも、対象は出力の非決定性であり、公開・検証legの欠落ではない）、K07（Rate limit・利用制限で中断: providerの制限であって到達性ではなく、こちらは中断せず未検証のまま完了記録が進む）、F19（実行したとの自己申告のみで結果未確認: runはreachable falseを正直に記録しており、mechanismはagentの怠慢ではなく実行環境のcapability欠落）、I17（Branch protection迂回: 今回はguard付きでpolicyを正式変更しており迂回ではない）、H12（Session中断で文脈喪失: 文脈は失われていない）、B11（文書更新を実装済みと誤認）。いずれもmechanism・affected artifact・practical responseの3点が一致しない。実務対応（run前にauthority到達性とCLI可用性をpreflightし、不可なら release/propagation state transitionを禁止して run status を unverified と明示する）は既存180問のどれからも導かれない。"
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260831T191632Z-0065-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-08-31T19:16:32Z",
+  "catalog_revision_before": 64,
+  "catalog_revision_after": 65,
+  "details": {
+    "candidate_id": "DSC-20260831-beta-ga-semantic-widening",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260831-DE8D86E9"
+  }
+}

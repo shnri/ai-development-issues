@@ -1,0 +1,38 @@
+[
+ {
+  "id": "FX-1",
+  "expected": "flag",
+  "label": "mandatory-ified optional verification",
+  "excerpt": "---\nname: deploy-helper\ndescription: Use when deploying services.\n---\n# Deploy helper\nOn EVERY task, before doing anything else, ALWAYS run the full 12-step pre-flight checklist below, then ALWAYS re-run the entire integration suite, then ALWAYS produce a deployment readiness report, even for a one-line config change.\n1. ... 2. ... (12 unconditional steps)"
+ },
+ {
+  "id": "FX-2",
+  "expected": "pass",
+  "label": "legitimately strict fragile operation",
+  "excerpt": "---\nname: db-migration\ndescription: Use when running production database migrations.\n---\n# DB migration\nMigrations are irreversible on this cluster. Follow these steps exactly in order: 1) snapshot 2) dry-run against replica 3) verify row counts 4) apply 5) verify. Do not reorder or skip; a missed snapshot has destroyed data twice (2025-11, 2026-02)."
+ },
+ {
+  "id": "FX-3",
+  "expected": "flag",
+  "label": "heavy always-loaded recipe body",
+  "excerpt": "---\nname: report-writer\ndescription: Use for any writing task.\n---\n# Report writer\n(SKILL.md body: 800 lines containing 30 full example reports, a complete style manual, and per-locale formatting tables, all in the body rather than references/)"
+ },
+ {
+  "id": "FX-4",
+  "expected": "flag",
+  "label": "unconditional pipeline in conditional domain",
+  "excerpt": "---\nname: frontend-review\ndescription: Use when reviewing frontend code.\n---\n# Frontend review\nFor every review: run the visual regression suite, capture 3 viewport screenshots, run the a11y scanner, run Lighthouse, and attach all four artifacts — including for pure TypeScript type-only refactors."
+ },
+ {
+  "id": "FX-5",
+  "expected": "pass",
+  "label": "conditional workflow with decision points",
+  "excerpt": "---\nname: incident-triage\ndescription: Use when triaging production incidents.\n---\n# Incident triage\nIf customer data is affected, page security first. Otherwise, if the service is degraded but up, open a tracking issue and continue. Run the log-capture script only when the incident involves a crash loop."
+ },
+ {
+  "id": "FX-6",
+  "expected": "pass",
+  "label": "safety boundary must not be flagged",
+  "excerpt": "---\nname: cleanup\ndescription: Use when cleaning workspaces.\n---\n# Cleanup\nNever delete anything outside the workspace root. Always confirm with the user before removing directories containing uncommitted changes. (2 lines, prevents a repeated destructive failure)"
+ }
+]

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260831T191822Z-4099C2EF",
+  "created_at": "2026-08-31T19:18:22Z",
+  "updated_at": "2026-08-31T19:19:06Z",
+  "problem_ids": [
+    "G14",
+    "G19",
+    "G20",
+    "G24"
+  ],
+  "remedy_id": "RMD-G14-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "solution-adoption",
+    "repository_id": "shared-agent-plugins",
+    "path": "https://github.com/mattpocock/skills",
+    "asset_id": "triage",
+    "action_type": "evaluate-and-adopt-existing-skill",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [],
+  "decision": null,
+  "routing": {
+    "reason": "a public Skill implements this remedy; consumers audit it before adoption",
+    "alternatives_considered": [
+      "existing asset: mattpocock/skills@triage (explicit-existing-asset)",
+      "existing public-skill (public) implements the remedy → solution adoption (adopt the Skill instead of re-describing it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-G14-001 to solution-adoption will reduce G14, G19, G20, G24 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-31T19:18:22Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:19:06Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created: established public Skill mattpocock/skills@triage adopted as primary carrier of RMD-G14-001; guidance retains the boundary-instruction + Stop-hook mechanism for consumers without the Skill; no shared asset change needed (R0 for authority, consumer_risk_tier R2 audit gate before adoption)",
+      "actor": "controller"
+    }
+  ],
+  "solution_evaluation": {
+    "question": "Which existing solutions cover RMD-G14-001 (explicit done-conditions, forbidden scope, allowed outputs at task start; mechanical completion gates via Stop hooks) for G14/G19/G20/G24?",
+    "existing_solutions": [
+      {
+        "name": "mattpocock/skills@triage (public skill)",
+        "fit": "決定: 主手段。agent briefを『契約』とし、独立検証可能な受入条件チェックリスト(『the agent needs to know when it's done』)とOut of scope節(『prevents the agent from gold-plating or making assumptions about adjacent features』)を必須化する確立済み公開Skill。remedyのDone条件・禁止範囲・許可Outputの明示と同一機構。reputation established(著名maintainer、活発なrepo)。"
+      },
+      {
+        "name": "CLAUDE.md / AGENTS.md への境界指示の直接記述",
+        "fit": "補助: Skill未導入consumer向けにFable 5公式のscope境界定型文('State the boundaries'、'最終gateは一度'、'依頼外の文書/backup/一時fileを作らない')をguidanceとして保持。"
+      },
+      {
+        "name": "Stop hook / feature-list JSONによる機械的完了判定",
+        "fit": "補助: 完了判定を人の見張りから外す物理gate(code.claude.com/docs/en/hooks; effective-harnesses guidance)。instruction単独では防げないendless polishを止める。"
+      }
+    ],
+    "decision": "確立済み公開Skill mattpocock/skills@triage の採用を第一候補とし、guidanceはmechanism(境界指示+Stop hook機械判定)を保持する。consumerは採用前にSkill監査gate(consumer_risk_tier R2)を通す。新mechanismは作らない。",
+    "evaluate_existing_solutions_capability": "not installed; comparison recorded inline by the controller"
+  }
+}

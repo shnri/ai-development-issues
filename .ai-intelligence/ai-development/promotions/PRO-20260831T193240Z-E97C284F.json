@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "id": "PRO-20260831T193240Z-E97C284F",
+  "work_item_id": "WRK-20260831T191822Z-E9C9E949",
+  "implementation_id": "IMP-20260831T193036Z-B6660DD7",
+  "evaluation_id": "EVL-20260831T193236Z-A212689E",
+  "created_at": "2026-08-31T19:32:40Z",
+  "risk_tier": "R1",
+  "gate": {
+    "reasons": [],
+    "release_strategy": "direct",
+    "scope_validation": {
+      "passed": true,
+      "changed_files": [
+        "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+        "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+      ],
+      "diff_stats": {
+        "files": 2,
+        "insertions": 5,
+        "deletions": 1
+      },
+      "binary_changes": [],
+      "reasons": []
+    },
+    "independent_roles": [
+      "candidate-author-subagent",
+      "evaluator-subagent",
+      "independent-reviewer-subagent"
+    ],
+    "self_update": false,
+    "change_kind": "deterministic"
+  },
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-owner-asset",
+    "risk_tier": "R1"
+  },
+  "decision": "promote",
+  "status": "applied",
+  "version_before": null,
+  "version_after": null
+}

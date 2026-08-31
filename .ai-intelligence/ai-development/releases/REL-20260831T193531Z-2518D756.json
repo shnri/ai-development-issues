@@ -1,0 +1,71 @@
+{
+ "schema_version": "1.0",
+ "id": "REL-20260831T193531Z-2518D756",
+ "promotion_id": "PRO-20260831T193442Z-0A4C456E",
+ "created_at": "2026-08-31T19:35:31Z",
+ "repository_id": "shared-agent-plugins",
+ "strategy": "direct",
+ "base_branch": "main",
+ "branch": "main",
+ "commit_sha": "c241353366a4af9173f6c993f98c956376889ee7",
+ "pull_request_url": null,
+ "status": "released",
+ "validation_commands": [
+  "npm ci",
+  "npm run check"
+ ],
+ "version_before": "0.2.1",
+ "version_after": "0.2.2",
+ "provenance": {
+  "problem_ids": [
+   "P-20260816-66F0FD78"
+  ],
+  "practice_ids": [],
+  "remedy_id": "RMD-SKILLEFF-001",
+  "work_item_id": "WRK-20260831T191822Z-E9C9E949",
+  "implementation_id": "IMP-20260831T193432Z-588A06A2",
+  "evaluation_id": "EVL-20260831T193442Z-CDA451F2",
+  "promotion_id": "PRO-20260831T193442Z-0A4C456E",
+  "changed_files": [
+   "CHANGELOG.md",
+   "docs/skill-index/inventory.json",
+   "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+   "plugins/agent-instruction-maintenance/plugin.json",
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+  ],
+  "implementation_files": [
+   "CHANGELOG.md",
+   "docs/skill-index/inventory.json",
+   "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json",
+   "plugins/agent-instruction-maintenance/plugin.json",
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md",
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md"
+  ],
+  "release_preparation_files": [],
+  "artifact_hashes": {
+   "CHANGELOG.md": "2658371f5aeef38cb38ee8e94fa209540e385437030c16cde37563c04fcdaa37",
+   "docs/skill-index/inventory.json": "cec83c5918789f36bbba69f3698ecda779c624fd0ca62db95ad74ea6152e527c",
+   "plugins/agent-instruction-maintenance/.codex-plugin/plugin.json": "bfe673adaaa497f06a257d77e4f5dcad1fad00e6dd0ebc052a93c8f38aa0f3e6",
+   "plugins/agent-instruction-maintenance/plugin.json": "f7aae123dd08a93c5bef3393890d8838e4dfad5d461cbd2539c614258b734387",
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/SKILL.md": "de2ca410902550ecdbfe9a00ebe03d236d58c0eba715200ec0c0e63e968b6d25",
+   "plugins/agent-instruction-maintenance/skills/maintain-agent-instructions/references/audit-criteria.md": "0a1eafb270c36881c074beec8fe11c4602c2ac3f5bd3eb253ee91fb10d53addd"
+  },
+  "plugin_releases": [
+   {
+    "root": "plugins/agent-instruction-maintenance",
+    "version_before": "0.2.1",
+    "version_after": "0.2.2",
+    "changelog": "repository changelog updated: CHANGELOG.md"
+   }
+  ]
+ },
+ "notes": [
+  "[main c241353] feat(agent-instruction-maintenance): add skill-efficiency audit signals (0.2.2)\n 6 files changed, 13 insertions(+), 4 deletions(-)",
+  "remote: access denied by the git proxy: shnri/shared-agent-plugins is not in this session's authorized repository set, so the proxy will not inject a credential for it. To fix, add the repository to the session's sources.\nfatal: unable to access 'https://github.com/shnri/shared-agent-plugins.git/': The requested URL returned error: 403",
+  "commit c241353366a4af9173f6c993f98c956376889ee7 is contained in main",
+  "push initially failed (git proxy 403: repository not in session's authorized set); repository added to session sources with push access and `git push origin main` re-run; remote verified 2026-08-31T19:38Z: origin/main == c241353366a4af9173f6c993f98c956376889ee7"
+ ],
+ "commit": "c241353366a4af9173f6c993f98c956376889ee7",
+ "remote_verified": true
+}

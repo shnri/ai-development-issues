@@ -1,0 +1,52 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260831-beta-ga-semantic-widening",
+ "title": "beta→GA昇格やSDK major更新で、呼び出し側を変更していないAPIの破壊範囲・必須引数が黙って変わる",
+ "summary": "When a provider graduates an API out of beta or ships an SDK major version, call sites that did not change can change meaning. On 2026-08-27 Anthropic unified the beta and stable SDK namespaces, and client.beta.skills.delete() went from deleting one Skill to deleting 'a Skill together with all of its versions'; BetaSkill was renamed BetaContainerSkill. On 2026-08-20 Python SDK v1.0 removed temperature, top_p and top_k from Messages methods and made AnthropicBedrock error rather than default to us-east-1. The diff at the call site is empty, so neither code review nor an AI-driven dependency upgrade sees anything to flag - the widened blast radius surfaces only at runtime, on real data.",
+ "proposed_category": "実装・コード生成",
+ "problem_type": [
+  "変動"
+ ],
+ "priority_lanes": [
+  "C1"
+ ],
+ "discovered_at": "2026-08-31T19:06:00Z",
+ "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+ "evidence": [
+  {
+   "url": "https://platform.claude.com/docs/en/release-notes/api",
+   "title": "Claude Platform release notes, 2026-08-27",
+   "published_at": "2026-08-27",
+   "summary": "'client.beta.files and client.beta.skills no longer send the files-api-2025-04-14 and skills-2025-10-02 beta headers and return the same shapes as client.files and client.skills. With this change, client.beta.skills.delete() deletes a Skill together with all of its versions, and the beta Messages type BetaSkill ... is renamed BetaContainerSkill.'"
+  },
+  {
+   "url": "https://platform.claude.com/docs/en/release-notes/api",
+   "title": "Claude Platform release notes, 2026-08-20 and 2026-08-19",
+   "published_at": "2026-08-20",
+   "summary": "Python SDK v1.0 removes temperature/top_p/top_k on Messages methods and the legacy Text Completions API; AnthropicBedrock raises instead of defaulting to us-east-1. Separately, computer use leaving beta means 'Upgrading an existing integration changes the request shape and tool handling'."
+  }
+ ],
+ "source_refs": [
+  {
+   "source_id": "official-model-and-agent-providers"
+  }
+ ],
+ "affected_scope": {
+  "tools": [
+   "anthropic-sdk-python",
+   "anthropic-sdk-typescript",
+   "Skills API",
+   "Files API",
+   "computer use toolset"
+  ],
+  "models": [
+   "claude-opus-5",
+   "claude-sonnet-5",
+   "claude-opus-4-8"
+  ]
+ },
+ "confidence": "medium",
+ "material_change": true,
+ "status": "candidate",
+ "notes": "Checked E08 (dependency/migration changes included carelessly by AI), C06 (stale API knowledge), I04 (destructive command from misinference). E08 is about the AI adding an unrequested upgrade; C06 is about the AI using outdated knowledge. Neither covers 'the same unchanged call now destroys more', which is invisible to diff-based review and is the specific hazard when an agent performs the upgrade. Lower confidence because the observed instance is single-vendor."
+}

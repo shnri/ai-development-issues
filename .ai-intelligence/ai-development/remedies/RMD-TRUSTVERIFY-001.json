@@ -1,0 +1,53 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-TRUSTVERIFY-001",
+ "problem_ids": [
+  "P-20260831-044EBDC6"
+ ],
+ "summary": "Assert the loaded instruction/configuration set at session start rather than assuming it: in Claude Code run `/context` and check the 'Memory files' list, enable the `InstructionsLoaded` hook to log which instruction files loaded and why, and treat the documented stderr lines ('this workspace has not been trusted', 'headersHelper not run') as a failure signal in automation; in CI, fail the run when the expected project instruction file or MCP server is absent from the loaded set instead of proceeding with silently reduced configuration.",
+ "remedy_type": "observability",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/memory",
+   "observed_at": "2026-08-31",
+   "summary": "Documents /context 'Memory files' as the way to confirm a CLAUDE.md actually loaded ('If a file is missing there, Claude can't see it') and the InstructionsLoaded hook to log exactly which instruction files are loaded, when they load, and why."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/permissions",
+   "observed_at": "2026-08-31",
+   "summary": "Names the exact machine-detectable signals emitted when configuration is withheld: a stderr 'this workspace has not been trusted' warning for skipped allow rules, a per-server 'headersHelper not run' line, and debug-log lines naming the trust key for skipped subagent hooks and inline MCP servers."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Automated or headless agent runs where nobody watches the terminal",
+   "Repositories whose conventions depend on project instructions, rules, or MCP servers actually being loaded",
+   "Debugging 'the agent ignored our CLAUDE.md/AGENTS.md' reports"
+  ],
+  "not_applicable_when": [
+   "Surfaces with no equivalent introspection command or hook (verification then has to be inferred from behavior)",
+   "One-off interactive sessions where the cost of a check exceeds the cost of noticing the problem"
+  ]
+ },
+ "expected_effect": {
+  "primary": "A withheld configuration becomes a visible, attributable failure at session start instead of a silent behavioral drift discovered later in review, cutting the misdiagnosis loop where teams rewrite instructions that were never read.",
+  "confidence": "official"
+ },
+ "risks": [
+  "The InstructionsLoaded hook and /context are Claude Code-specific; other surfaces need a different probe",
+  "Hook output adds noise and, if written into context, cost",
+  "A passing load check says the file entered context, not that the model followed it"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 1,
+ "reversible": true,
+ "revalidate_when": [
+  "Claude Code changes /context or the InstructionsLoaded hook contract",
+  "Codex or another surface adds an equivalent loaded-instruction introspection",
+  "New trust-gating rows are added to the permissions matrix"
+ ]
+}

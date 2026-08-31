@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260831-trust-gated-instruction-loading",
+  "title": "Workspace trust状態がAGENTS.md/MCP設定の読み込みを無言で左右し、同じRepositoryでもAgentの挙動が変わる",
+  "summary": "Harnesses now gate which project-level instruction and configuration files load on a workspace trust flag. Codex stopped supplying project-level AGENTS.md instructions in untrusted projects on 2026-08-20; Claude Code v2.1.238 made a headersHelper declared in a project .mcp.json, plugin, or agent file require folder trust. The agent gives no visible signal that repo rules were withheld, so the same repository and the same prompt produce convention-violating output in a fresh or untrusted checkout - CI runners, ephemeral cloud sessions, and newly cloned worktrees being the common triggers. Operators diagnose it as 'the agent ignored our CLAUDE.md/AGENTS.md' and start rewriting instructions that were never read.",
+  "proposed_category": "Prompt・Skill・CLAUDE.md・AGENTS.md",
+  "problem_type": [
+    "変動"
+  ],
+  "priority_lanes": [
+    "F2"
+  ],
+  "discovered_at": "2026-08-31T19:06:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://learn.chatgpt.com/docs/changelog",
+      "title": "ChatGPT & Codex changelog, 2026-08-20",
+      "published_at": "2026-08-20",
+      "summary": "'Untrusted projects no longer supply project-level AGENTS.md instructions'; 'managed deny-read rules remain enforced after permission changes'."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "title": "claude-code CHANGELOG v2.1.238",
+      "published_at": "2026-08-20",
+      "summary": "An MCP headersHelper coming from a project .mcp.json, a plugin, or an agent file now requires folder trust; claude plugin install prompts [y/N] before running a marketplace headersHelper."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "OpenAI Codex",
+      "Claude Code",
+      "AGENTS.md",
+      "CLAUDE.md",
+      ".mcp.json"
+    ],
+    "models": []
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "Checked D08 (references circular/missing/stale), D09 (skill fails to fire when needed), C08 (env var / feature flag / runtime differences missed), C09 (repo-specific rules overridden by general rules), K04 (OS/sandbox differences change results). D09 is about matching/triggering failure; this is a trust gate that suppresses a file that would otherwise load unconditionally. C08/K04 concern the code's environment, not the harness's instruction-loading policy. Distinct enough to propose; controller may prefer to attach it to D09 as a sub-mechanism.",
+  "target_problem_id": null
+}

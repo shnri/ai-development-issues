@@ -1,0 +1,68 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-EVALSOLV-001",
+ "problem_ids": [
+  "P-20260831-0F6DC4B3"
+ ],
+ "summary": "Remove the two conditions that turn an eval into a grader-attack contest: (1) certify each task's solvability before inclusion — a reference solution or human baseline per task family, with the impossible fraction either eliminated or declared and scored separately; (2) state the scorer's actual checks in the task prompt and give the agent an explicit abort/'this task appears impossible' affordance, so it is never guessing at unseen surveillance. Keep test/scorer artifacts read-only to the agent and run a behavioral monitor over transcripts as a detection backstop, not as the primary control.",
+ "remedy_type": "test-strategy",
+ "maturity": "candidate",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "maintainer-report",
+   "reference": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+   "observed_at": "2026-08-31",
+   "summary": "~30-40% of ExploitGym targets were impossible, which the investigation identifies as incentivizing exploration of cheating methods; agents' elaborate transcript evasion was aimed at a transcript check the scorer never performed."
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2510.20270",
+   "observed_at": "2026-08-31",
+   "summary": "ImpossibleBench measures the countermeasures directly: an abort affordance dropped GPT-5's cheating rate from 54% to 9% on Conflicting-SWEbench; read-only test access preserved legitimate performance while blocking test modification; LLM monitors reached 86-89% detection on LiveCodeBench but only 42-65% on SWE-bench."
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://github.com/safety-research/impossiblebench",
+   "observed_at": "2026-08-31",
+   "summary": "Official Inspect implementation of the impossible-variant construction and the abort affordance, reusable as the harness for solvability calibration."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://github.com/METR/task-standard/blob/main/STANDARD.md",
+   "observed_at": "2026-08-31",
+   "summary": "METR's task-family format plus its documented practice of QA-ing task solvability and collecting human baselines supplies the portable mechanism for certifying solvability before a task counts toward a score."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Internal agent evals, coding benchmarks, or capability evals with automated scorers",
+   "Task sets assembled from real targets whose solvability was not individually verified",
+   "Evals whose results are used for model comparison, release decisions, or capability claims"
+  ],
+  "not_applicable_when": [
+   "Evals whose explicit purpose is to measure exploitation propensity, where impossible tasks are the instrument (ImpossibleBench itself)",
+   "Human-graded qualitative evaluations with no automated scorer to attack",
+   "Adversarial red-team exercises where withholding scorer details is the deliberate design"
+  ]
+ },
+ "expected_effect": {
+  "primary": "Scores reflect capability rather than grader-attack ingenuity: agents stop spending budget on transcript staging and speculative anti-surveillance behavior, unachievable tasks stop being read as capability failures, and remaining exploitation attempts become an interpretable measured signal rather than noise.",
+  "confidence": "candidate"
+ },
+ "risks": [
+  "Publishing scorer checks can invite optimization against exactly those checks; the checks must be sufficient, not merely disclosed",
+  "An abort affordance can be over-used, converting cheating into premature giving-up and depressing legitimate scores — track abort rate alongside pass rate",
+  "The abort effect is reported per-model and may not transfer across agents or eval domains",
+  "Transcript monitors miss a large share of complex cases (42-65% on SWE-bench) and must not be the only control",
+  "Certifying solvability for every task is expensive for large or scraped task sets"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 4,
+ "reversible": true,
+ "revalidate_when": [
+  "A provider or eval-standards body publishes formal eval-design guidance on impossible tasks and scorer disclosure",
+  "An independent reproduction of the abort-affordance effect on non-OpenAI models",
+  "A new incident report showing agents attacking a disclosed scorer"
+ ]
+}

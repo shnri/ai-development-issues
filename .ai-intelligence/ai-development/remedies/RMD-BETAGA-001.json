@@ -1,0 +1,67 @@
+{
+ "schema_version": "1.0",
+ "id": "RMD-BETAGA-001",
+ "problem_ids": [
+  "P-20260831-DE8D86E9"
+ ],
+ "summary": "Bound provider-SDK upgrades so that a signature-preserving semantic change cannot ship unnoticed: pin the SDK major (e.g. `anthropic>=1,<2`), maintain an inventory of `client.beta.*` and destructive call sites (delete/purge/cancel/deploy), and on every SDK major or beta→GA graduation run the official migration procedure (MIGRATION.md + pyright/mypy + `/claude-api upgrade python`) **and** diff the release notes specifically for behavior changes on those call sites, backed by an integration test that asserts the blast radius (e.g. deleting one Skill version leaves the others).",
+ "remedy_type": "process",
+ "maturity": "official",
+ "status": "active",
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://github.com/anthropics/anthropic-sdk-python/blob/v1.0.0/MIGRATION.md",
+   "observed_at": "2026-08-31",
+   "summary": "Official safe-migration strategy: pin `anthropic>=1,<2` during testing, use a type checker as the migration checklist ('flags almost all issues automatically'), run `/claude-api upgrade python` and review the diff, and test instrumentation integrations before deploying; documents removal of temperature/top_p/top_k (now via extra_body), the httpx→httpx2 move, and AnthropicBedrock raising instead of defaulting to us-east-1."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://platform.claude.com/docs/en/release-notes/api",
+   "observed_at": "2026-08-31",
+   "summary": "2026-08-27: beta and stable namespaces unified so client.beta.skills.delete() now deletes a Skill together with all of its versions and BetaSkill is renamed BetaContainerSkill — a behavior change with an unchanged call-site signature."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://platform.claude.com/docs/en/api/beta-headers",
+   "observed_at": "2026-08-31",
+   "summary": "Beta features are experimental and may have breaking changes with notice, be deprecated or removed, or differ in rate limits and pricing — the documented basis for inventorying client.beta call sites separately."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://platform.claude.com/docs/en/api/versioning",
+   "observed_at": "2026-08-31",
+   "summary": "The anthropic-version guarantee covers Messages wire parameters only and explicitly permits added inputs/outputs and changed error conditions, so it does not protect SDK-level or beta-namespace semantics."
+  }
+ ],
+ "applicability": {
+  "conditions": [
+   "Projects depending on a provider SDK (anthropic-sdk-python/typescript) or on beta-gated APIs (Skills, Files, computer use, managed agents)",
+   "AI-assisted or automated dependency upgrades where an empty call-site diff is read as low risk",
+   "Any call site with irreversible effects on provider-side resources"
+  ],
+  "not_applicable_when": [
+   "Raw HTTP integrations pinned to anthropic-version with no SDK dependency and no beta headers",
+   "Read-only API usage with no destructive operations, where semantic widening cannot destroy state",
+   "Vendored/frozen SDKs that are never upgraded (different risk: unpatched deprecations)"
+  ]
+ },
+ "expected_effect": {
+  "primary": "Beta→GA graduations and SDK majors are caught before deployment with the widened blast radius named explicitly, rather than surfacing at runtime on real data through an upgrade whose call-site diff was empty.",
+  "confidence": "official"
+ },
+ "risks": [
+  "A type checker cannot detect semantic widening on an unchanged signature — the release-notes diff and integration test are the load-bearing parts and must not be dropped",
+  "Pinning majors defers rather than removes the migration and accrues deprecation debt",
+  "Integration tests against destructive operations need a disposable provider-side fixture or they become dangerous themselves",
+  "Release-notes watching is manual unless wired into an official-guidance watch ledger"
+ ],
+ "implementation_owner": "consumer-project",
+ "fix_effort": 3,
+ "reversible": true,
+ "revalidate_when": [
+  "Next SDK major or beta→GA graduation on a surface in use",
+  "Anthropic publishes a formal deprecation/semantic-change policy covering the beta namespace",
+  "The provider ships tooling that flags behavior (not signature) changes during upgrade"
+ ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "PRP-20260831T193625Z-7BA9185C",
+  "work_item_id": "WRK-20260831T191822Z-E9C9E949",
+  "release_id": "REL-20260831T193531Z-2518D756",
+  "created_at": "2026-08-31T19:36:25Z",
+  "problem_ids": [
+    "P-20260816-66F0FD78"
+  ],
+  "practice_ids": [],
+  "asset": {
+    "kind": "shared-release",
+    "repository_id": "shared-agent-plugins",
+    "version": "0.2.2",
+    "distribution": "git",
+    "commit_sha": "c241353366a4af9173f6c993f98c956376889ee7",
+    "pull_request_url": null
+  },
+  "consumer_actions": [],
+  "auto_update_consumers": false,
+  "status": "available",
+  "notes": []
+}

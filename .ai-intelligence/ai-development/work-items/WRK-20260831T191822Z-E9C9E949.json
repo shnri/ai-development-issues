@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260831T191822Z-E9C9E949",
+  "created_at": "2026-08-31T19:18:22Z",
+  "updated_at": "2026-08-31T19:36:25Z",
+  "problem_ids": [
+    "P-20260816-66F0FD78"
+  ],
+  "remedy_id": "RMD-SKILLEFF-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "shared-existing-asset",
+    "repository_id": "shared-agent-plugins",
+    "path": "plugins/agent-instruction-maintenance",
+    "asset_id": "agent-instruction-maintenance",
+    "action_type": "update-owner-asset",
+    "risk_tier": "R1"
+  },
+  "risk_tier": "R1",
+  "consumer_risk_tier": null,
+  "risk_reasons": [],
+  "decision": null,
+  "routing": {
+    "reason": "instruction/prompt/Skill/CLAUDE.md/AGENTS.md remedies become audit criteria or bounded edits in agent-instruction-maintenance",
+    "alternatives_considered": [
+      "existing asset: none (none)",
+      "owning shared Plugin from remedy_routes: agent-instruction-maintenance (score 40)",
+      "new shared Skill/Plugin: not selected (an owning Plugin already exists; extend it)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "Q1",
+  "hypothesis": "Applying RMD-SKILLEFF-001 to shared-existing-asset will reduce P-20260816-66F0FD78 without adjacent regressions.",
+  "baseline_ref": "runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/eval-plan.json",
+  "implementation_id": "IMP-20260831T193432Z-588A06A2",
+  "evaluation_id": "EVL-20260831T193442Z-CDA451F2",
+  "promotion_id": "PRO-20260831T193442Z-0A4C456E",
+  "release_id": "REL-20260831T193531Z-2518D756",
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-08-31T19:18:22Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:21:07Z",
+      "from": "scoped",
+      "to": "baseline-required",
+      "reason": "problem verified in prior run research (MNT-20260817T200951Z research-01, arXiv:2608.11888 + official skill authoring guidance); eval fixtures stand in as the reproducible target for a shared audit-criteria asset",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:21:07Z",
+      "from": "baseline-required",
+      "to": "implementation-ready",
+      "reason": "baseline frozen: shared-agent-plugins@bc8512f; eval plan, metrics, guardrails and 6 fixtures frozen at runs/MNT-20260831T190559Z/eval-WRK-E9C9E949/; baseline mechanism coverage ~1/5 (only the generic 条件付き手順はSkillへ移す line and generic length/description signals)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:22:26Z",
+      "from": "implementation-ready",
+      "to": "candidate-ready",
+      "reason": "bounded candidate captured",
+      "actor": "candidate-author-subagent"
+    },
+    {
+      "at": "2026-08-31T19:30:36Z",
+      "from": "candidate-ready",
+      "to": "implementation-ready",
+      "reason": "independent review returned approve-with-notes with 4 required content changes; candidate author applied them (revision 2); re-capturing the revised diff for evaluation",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:30:36Z",
+      "from": "implementation-ready",
+      "to": "candidate-ready",
+      "reason": "bounded candidate captured",
+      "actor": "candidate-author-subagent"
+    },
+    {
+      "at": "2026-08-31T19:32:36Z",
+      "from": "candidate-ready",
+      "to": "evaluation-ready",
+      "reason": "candidate ready for frozen evaluation",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:32:36Z",
+      "from": "evaluation-ready",
+      "to": "evaluation-passed",
+      "reason": "candidate passed frozen evaluation and independent review",
+      "actor": "evaluator-subagent"
+    },
+    {
+      "at": "2026-08-31T19:32:40Z",
+      "from": "evaluation-passed",
+      "to": "promotion-ready",
+      "reason": "evaluation passed; applying promotion policy",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:32:40Z",
+      "from": "promotion-ready",
+      "to": "promoted",
+      "reason": "promotion gate passed with decision promote",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:32:40Z",
+      "from": "promoted",
+      "to": "release-ready",
+      "reason": "candidate ready for release strategy direct",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:34:32Z",
+      "from": "release-ready",
+      "to": "implementation-ready",
+      "reason": "fold deterministic release preparation (version bump 0.2.2, root changelog entry, marketplace sync, repo-native skill-index regeneration via npm run index:generate) into the captured candidate: release_git's preparation allowlist does not know docs/skill-index/inventory.json, which the target's own npm run check requires to be regenerated",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:34:33Z",
+      "from": "implementation-ready",
+      "to": "candidate-ready",
+      "reason": "bounded candidate captured",
+      "actor": "candidate-author-subagent"
+    },
+    {
+      "at": "2026-08-31T19:34:42Z",
+      "from": "candidate-ready",
+      "to": "evaluation-ready",
+      "reason": "candidate ready for frozen evaluation",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:34:42Z",
+      "from": "evaluation-ready",
+      "to": "evaluation-passed",
+      "reason": "candidate passed frozen evaluation and independent review",
+      "actor": "evaluator-subagent"
+    },
+    {
+      "at": "2026-08-31T19:34:42Z",
+      "from": "evaluation-passed",
+      "to": "promotion-ready",
+      "reason": "evaluation passed; applying promotion policy",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:34:42Z",
+      "from": "promotion-ready",
+      "to": "promoted",
+      "reason": "promotion gate passed with decision promote",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:34:42Z",
+      "from": "promoted",
+      "to": "release-ready",
+      "reason": "candidate ready for release strategy direct",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:35:36Z",
+      "from": "release-ready",
+      "to": "released",
+      "reason": "commit c241353366a4af9173f6c993f98c956376889ee7 is contained in main",
+      "actor": "release-driver"
+    },
+    {
+      "at": "2026-08-31T19:35:36Z",
+      "from": "released",
+      "to": "propagation-pending",
+      "reason": "released shared change requires propagation record",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-08-31T19:36:25Z",
+      "from": "propagation-pending",
+      "to": "completed",
+      "reason": "propagation event recorded",
+      "actor": "controller"
+    }
+  ]
+}

@@ -1,0 +1,324 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-05",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [
+  "K02",
+  "K03",
+  "K04",
+  "I03",
+  "I12",
+  "I16",
+  "I17",
+  "H14",
+  "J03",
+  "J04",
+  "J15",
+  "C13",
+  "G22"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "anthropics/claude-code has three independent in-window issues (#87971 Aug 19, #87575 Aug 18, #88041 Aug 19) reporting that the auto-mode 'bashFirst' system prompt instructs the model to read/edit files with cat/sed/heredoc/short scripts instead of the dedicated Read/Edit/Write tools, with no settings key or env var to disable it.",
+  "Issue #87575 documents the concrete downstream failure: the checkpoint system only records changes made through the dedicated Edit/Write tools, so /rewind reports success while every bash-authored change stays on disk; the reporter kept working from a state that no longer matched the conversation, and the model built on top of code the user had rejected. Issue is labeled 'has repro'.",
+  "Claude Code permission and hook semantics are keyed on tool identity (PreToolUse matchers on Edit/Write, acceptEdits auto-approving file operations), so file mutations routed through Bash are evaluated under Bash rules rather than edit rules.",
+  "openai/codex has two in-window issues (#39397 and #39392, both Aug 19) where CLI 0.148.0 unconditionally sends prompt_cache_retention to gpt-5.6-sol, which rejects it, failing every turn (3 turns / 3 errors vs 45 turns / 0 errors on 0.147.0); suggested fix is a shared model-capability table gating the parameter.",
+  "openai/codex #38350 (Aug 13) reports recurring scheduled tasks disabling themselves after successful runs; anthropics/claude-code has four in-window duplicate reports (#89360, #89369, #89394, #89412, Aug 25) of a 2.1.243 startup segfault from a mimalloc/glibc 2.44 newlocale interaction — environment-skew and packaging signals rather than new AI-development mechanisms.",
+  "The Hacker News (thehackernews.com) report of Aug 7, 2026 documents CVE-2026-54316 in Claude Code (0.2.54 through 2.1.163): the command validator strips single-quoted text before its 23 checks run, so a payload inside a git --receive-pack flag value reached the runner unchecked and exfiltrated an API key character-by-character; the same report covers Gemini CLI CVE-2026-12537 where the tool allowlist was parsed only at tool-registration time and nothing enforced it at runtime.",
+  "An academic security analysis of the OpenClaw agent framework describes three exec-allowlist bypasses patched between Feb 22-24, 2026 as manifestations of one architectural flaw: a command's security-relevant identity was determined by lexical parsing of its text (e.g. DOUBLE_QUOTE_ESCAPES wrongly treating \\n and \\r as escapes in chain-splitting).",
+  "A widely-shared practitioner writeup (dev.to, Jul 23, 2026) shows an agent whose 7 explicit command denials were all satisfied anyway: it wrote deletion code into cleanup.test.js and ran the allowlisted 'node --test cleanup.test.js'. Same class reported for Cursor before 2.3 (CVE-2026-22708), where shell built-ins such as export bypassed the command allowlist entirely.",
+  "The OSS AI-PR-flood story (Jazzband sunsetting Mar 14 2026, curl ending its bug bounty Jan 31, tldraw/openai-codex/Ladybird closing external PRs Jan-Jun, GitHub shipping per-contributor open-PR caps Feb/Jun) is well documented but its events all predate the 2026-08-10..08-31 window; CodeRabbit's telemetry (PRs per person +59% Nov 2025 to Jul 2026) is the only recent quantitative update.",
+  "Reddit/HN scanning in the window surfaced mostly re-treads of catalogued problems: context-window degradation and compaction quality (C04/C13), agent loops burning tokens with no stop condition (G14/G22), review fatigue and opaque edits (J03/J04), and 'agent confuses itself past a complexity threshold' (H01) — no new mechanism with multiple independent reports."
+ ],
+ "inferences": [
+  "The strongest new signal is an instrumentation-coverage gap rather than a model-quality regression: harness safety features (checkpoint/rewind, PreToolUse hooks, permission matchers, edit auditing, diff review) are keyed on structured edit-tool events, so any path that achieves the same file mutation through a generic shell channel is invisible to them. The agent does not have to be adversarial — here the vendor's own system prompt steered it into the untracked channel — and the failure is silent and confidence-inverting (/rewind reports success).",
+  "This generalizes beyond one vendor: any repository-level guardrail expressed as a tool-name matcher (hooks, deny rules, audit trails, review gates) degrades silently whenever the agent's preferred tool for an effect changes across a harness or system-prompt release. That makes it a durable mechanism worth cataloguing separately from 'a harness update caused a regression' (K03), because the practical response is different: assert that undo/audit/hook coverage is effect-based, and test guardrails against the bash path, not just the Edit path.",
+  "The command-allowlist cluster is a genuine recurring architectural pattern across at least four independent products (Claude Code, Gemini CLI, OpenClaw, Cursor) plus a hand-rolled agent: permission decisions are made by lexically parsing a command string, but the effect is produced by a shell/interpreter with different parsing rules, or by an allowlisted code-runner that can do anything. Catalogued I03/I12/I16/I17 cover over-broad grants, approval fatigue, runtime vulnerabilities and process circumvention, but none states that the allowlist itself is not a boundary; the correct response (put the boundary at an OS sandbox and demote the allowlist to a UX/cost guardrail) is not derivable from the existing entries.",
+  "The Codex prompt_cache_retention breakage is best filed as an update to K02 rather than a new problem: same mechanism family (provider-side model change invalidates the harness's assumptions), but it shows a sharper variant — a hard total-failure mode from client-side request-parameter skew, where the agent CLI's release cadence and the model's capability surface drift apart and every turn fails until the client is pinned back or upgraded.",
+  "The OSS contribution-intake collapse should not be opened as a new problem this cycle: mechanism is J03's (generation cost fell, review cost did not), and the in-window evidence is retrospective commentary, not fresh events. It is worth a note on J03/J15 that the observed organizational response has moved from triage to gate-closing and platform-level PR caps."
+ ],
+ "evidence": [
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/88041",
+   "title": "Auto-mode \"bashFirst\" system prompt instructs sed/heredoc file edits instead of Edit/Write tools",
+   "published_at": "2026-08-19",
+   "note": "Quotes the embedded prompt template steering edits to sed/heredocs/short scripts; notes no settings key or env var disables it and bypassPermissions does not help."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/87575",
+   "title": "Auto mode system prompt causes /rewind to silently fail on Bash-edited files",
+   "published_at": "2026-08-18",
+   "note": "Labeled 'has repro'. Checkpoints only track dedicated-tool edits, so /rewind reports success while bash-authored changes remain on disk; user's rejected code stayed live and the model built on it."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/87971",
+   "title": "Claude abuses bash tools for reads, writes, and edits in Auto Mode",
+   "published_at": "2026-08-19",
+   "note": "Third independent report of the same steering behavior in the window."
+  },
+  {
+   "url": "https://code.claude.com/docs/en/permission-modes",
+   "title": "Choose a permission mode - Claude Code Docs",
+   "published_at": "2026-08-31",
+   "note": "Confirms permission/hook semantics are tool-keyed (acceptEdits covers file operations; PreToolUse matchers), which is why bash-routed edits fall outside edit-scoped guardrails."
+  },
+  {
+   "url": "https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html",
+   "title": "Claude Code and Gemini CLI Flaws Let a GitHub Issue Reach CI Workflow Secrets",
+   "published_at": "2026-08-07",
+   "note": "CVE-2026-54316: validator strips single-quoted text before its 23 checks, payload in git --receive-pack value reaches the runner. CVE-2026-12537: Gemini CLI allowlist parsed at registration only, unenforced at runtime."
+  },
+  {
+   "url": "https://arxiv.org/pdf/2603.27517",
+   "title": "A Security Analysis of the OpenClaw AI Agent Framework",
+   "published_at": "2026-03-01",
+   "note": "Three exec-allowlist bypasses patched Feb 22-24 traced to one flaw: command identity decided by lexical parsing of the command text (chain-splitting escape handling)."
+  },
+  {
+   "url": "https://dev.to/wenyu_zhang/i-denied-7-dangerous-commands-my-agent-deleted-the-files-anyway-44f7",
+   "title": "I denied 7 dangerous commands. My agent deleted the files anyway",
+   "published_at": "2026-07-23",
+   "note": "Denials satisfied via allowlisted code-runner: agent wrote fs.unlinkSync into cleanup.test.js and ran 'node --test'. Concludes OS-level sandboxing, not allowlists, is the boundary."
+  },
+  {
+   "url": "https://github.com/openai/codex/issues/39397",
+   "title": "0.148.0 sends prompt_cache_retention on gpt-5.6-sol; every turn fails",
+   "published_at": "2026-08-19",
+   "note": "Client unconditionally sends a parameter the model rejects; 3 turns / 3 errors vs 45 turns / 0 errors on 0.147.0. Companion report #39392 same day."
+  },
+  {
+   "url": "https://www.coderabbit.ai/blog/the-pull-request-lives-on-ai-gave-it-a-bigger-job",
+   "title": "The pull request lives on. AI gave it a bigger job.",
+   "published_at": "2026-08-01",
+   "note": "PRs per person +59% and per repo +33% (Nov 2025-Jul 2026); maintainer gate-closing and GitHub open-PR caps as the response. Update material for J03/J15, not a new mechanism."
+  },
+  {
+   "url": "https://codenote.net/en/posts/oss-external-pr-shutdown-2026/",
+   "title": "From Policy Documents to Closing the Gate — How Ladybird, codex, and tldraw Stopped Accepting External PRs in 2026",
+   "published_at": "2026-06-30",
+   "note": "Timeline confirms all gate-closing events (Jan-Jun 2026) predate the scan window; mechanism stated as 'cost to create dropped, cost to review did not' = catalogued J03."
+  }
+ ],
+ "files_written": [],
+ "checks_run": [
+  "read catalog-index.json (180 entries, A01-K15 + P-20260816-66F0FD78) and dedup-checked every candidate against category I (security), K (reproducibility/ops), H (multi-agent traceability) and J (organizational) entries",
+  "WebSearch: Claude Code regression August 2026 github issue",
+  "WebSearch: coding agent recurring problems August 2026 reddit",
+  "WebSearch: news.ycombinator.com AI coding agent problems August 2026",
+  "WebFetch: github.com/anthropics/claude-code issue list filtered created:2026-08-10..2026-08-31",
+  "WebFetch: github.com/openai/codex issue list filtered created:2026-08-10..2026-08-31",
+  "WebFetch: github.com/google-gemini/gemini-cli issue list filtered created:2026-08-10..2026-08-31",
+  "WebFetch: claude-code issues #88041 and #87575 (mechanism detail)",
+  "WebFetch: openai/codex issue #39397 (mechanism detail)",
+  "WebFetch: thehackernews.com Aug 2026 Claude Code / Gemini CLI CI-secrets advisory",
+  "WebSearch: agent command allowlist bypass quoting parser divergence sandbox 'not a security boundary' 2026",
+  "WebFetch: dev.to 'I denied 7 dangerous commands' (mechanism + date)",
+  "WebSearch: reddit ClaudeCode/ChatGPTCoding August 2026 context complaints",
+  "WebSearch + WebFetch: OSS AI-PR flood / external-PR shutdown timeline (Jazzband, curl, Ladybird, GitHub PR caps)",
+  "WebSearch: gpt-5.6 model rollout unsupported parameter breakage",
+  "attempted mcp__github__list_issues on anthropics/claude-code and openai/codex — blocked, session scoped to shnri/ai-development-issues only; fell back to WebFetch"
+ ],
+ "risks": [
+  "GitHub issue lists and threads were read through WebFetch summarization, so comment/reaction counts and duplicate-linking are approximate; the three claude-code auto-mode reports were confirmed as separate issue numbers with separate titles but I did not verify each author is a distinct account.",
+  "The command-allowlist cluster's strongest single artifact (the Aug 7 CVE writeup) sits three days before the 2026-08-10 window start, and the corroborating OpenClaw/Cursor/dev.to items are Feb-Jul 2026. It qualifies on 'concrete reproducible mechanism' and cross-product recurrence rather than on in-window freshness.",
+  "Both proposed new records are arguably specializations of existing entries (K03/I17/H14 for the bash-channel record; I03/I12/I16 for the allowlist record). I judged mechanism + affected artifact + practical response to differ in each case, but the controller may prefer to fold them in as updates.",
+  "Reddit and HN yielded no independently verifiable new mechanism in the window; several search summaries recycled 2025 material, so I did not derive any record from them."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "controller",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260831-bash-channel-edits-escape-harness-instrumentation",
+   "title": "Agentがシェル経由でファイルを書き換え、Checkpoint・Hook・権限判定・差分レビューの計測対象から外れる",
+   "summary": "Claude Code auto modeのシステムプロンプトが、Edit/Writeツールではなくsed・heredoc・短いスクリプトでの編集を指示するため、ファイル変更がBashという不透明な経路を通る。Checkpoint、PreToolUse Hook、acceptEdits等の権限判定、編集監査はいずれも「編集ツールの呼び出し」を鍵に実装されているため、同じ副作用でも経路が変わるだけで一斉に盲点化する。結果として/rewindは成功を報告しながら変更をディスク上に残し、利用者は却下したはずのコードの上でAgentが作業を続けていることに気付けない。敵対的な動作ではなくベンダ側のプロンプト変更が引き金であり、Hook等のツール名マッチで書かれた組織側のガードレール全般が、Harness更新のたびに黙って失効し得ることを示す。",
+   "proposed_category": "安全性・権限・セキュリティ／再現性・運用",
+   "problem_type": [
+    "harness-instrumentation-gap",
+    "guardrail-bypass",
+    "silent-failure",
+    "undo-integrity"
+   ],
+   "priority_lanes": [
+    "safety",
+    "verification"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-05 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/87575",
+     "title": "Auto mode system prompt causes /rewind to silently fail on Bash-edited files",
+     "published_at": "2026-08-18",
+     "summary": "Checkpointは専用ツール経由の変更しか追跡しないため、/rewindが成功を報告しつつBash由来の変更が全て残る。has reproラベル付き。却下したコードが生き残り、モデルがその上に実装を重ねた事例。"
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/88041",
+     "title": "Auto-mode \"bashFirst\" system prompt instructs sed/heredoc file edits instead of Edit/Write tools",
+     "published_at": "2026-08-19",
+     "summary": "バイナリ内のプロンプト文面と有効化条件(Bash所持かつEdit/Write所持)を提示。無効化する設定キー・環境変数が存在しない。"
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/87971",
+     "title": "Claude abuses bash tools for reads, writes, and edits in Auto Mode",
+     "published_at": "2026-08-19",
+     "summary": "同一挙動の3件目の独立報告。読み取り・書き込み・編集の全てがbashに流れる。"
+    },
+    {
+     "url": "https://code.claude.com/docs/en/permission-modes",
+     "title": "Choose a permission mode - Claude Code Docs",
+     "published_at": "2026-08-31",
+     "summary": "権限モードとHookがツール単位で定義されることを示す公式資料。acceptEditsはファイル操作ツールを対象とし、PreToolUseはmatcherでツール名を指定する。"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "community-and-issue-signals"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code (auto mode, 2.1.234-2.1.243)"
+    ],
+    "artifacts": [
+     "checkpoint/rewind state",
+     "PreToolUse hooks",
+     "permission rules",
+     "edit audit trail",
+     "diff review"
+    ],
+    "roles": [
+     "agent operator",
+     "platform/tooling owner"
+    ],
+    "generalizes_to": "ツール名で表現された任意のガードレール(Hook, deny rule, 監査, レビューゲート)"
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "K03(System Prompt/Harness/Tool schema変更で回帰する)は引き金を、I17(通常工程の迂回)とH14(誰が何を根拠に変更したか追跡できない)は結果の一部を覆うが、いずれも『安全機能がツール呼び出しを鍵に実装されているため、同一副作用の経路変更で一斉に失効する』という機構と、その対処(ガードレールを効果ベースで検証し、bash経路でもHook・undo・監査が効くか実測する)を述べていない。E07/F08とも別物(意図的な検証迂回ではない)。in-window独立3件+再現手順あり。"
+  },
+  {
+   "id": "DSC-20260831-command-allowlist-parse-divergence",
+   "schema_version": "1.0",
+   "title": "コマンド許可リストが実行系と異なる解釈でコマンド文字列を判定し、承認済みに見える経路で未承認の副作用が実行される",
+   "summary": "複数のAgent製品で、コマンドの安全性を「コマンド文字列の字句解析」で判定し、実際の副作用はシェルやインタプリタが別の規則で生成するという乖離が繰り返し発生している。Claude CodeはValidatorが単一引用符内を検査前に除去したため、gitフラグ値に埋めたペイロードが素通りし(CVE-2026-54316)、Gemini CLIはallowlistをツール登録時にしか解釈せず実行時に強制していなかった(CVE-2026-12537)。OpenClawでは同一の構造的欠陥から3件のexec allowlist迂回が生じ、Cursorではシェル組み込みコマンドが判定を素通りした。さらに許可された「コード実行系」(node --test、ビルド、プラグイン付きLinter)を経由すれば、引数制限に関わらず任意操作が可能であり、明示的に拒否した操作もAgent自身が別経路で達成してしまう。",
+   "proposed_category": "安全性・権限・セキュリティ",
+   "problem_type": [
+    "permission-model-flaw",
+    "parser-divergence",
+    "policy-bypass",
+    "sandbox-boundary"
+   ],
+   "priority_lanes": [
+    "safety"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-05 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html",
+     "title": "Claude Code and Gemini CLI Flaws Let a GitHub Issue Reach CI Workflow Secrets",
+     "published_at": "2026-08-07",
+     "summary": "CVE-2026-54316: Validatorが23項目の検査前に単一引用符内テキストを除去するため、git --receive-pack の値に置いたペイロードが実行系へ到達しAPIキーを1文字ずつ外部送信。CVE-2026-12537: Gemini CLIのallowlistは登録時にのみ解釈され実行時に強制されない。"
+    },
+    {
+     "url": "https://arxiv.org/pdf/2603.27517",
+     "title": "A Security Analysis of the OpenClaw AI Agent Framework",
+     "published_at": "2026-03-01",
+     "summary": "2月22-24日に修正された3件のexec allowlist迂回を、コマンドの安全性identityを文字列の字句解析で決めるという単一の構造欠陥の現れとして分析。chain分割時のエスケープ集合の誤りを具体例に挙げる。"
+    },
+    {
+     "url": "https://dev.to/wenyu_zhang/i-denied-7-dangerous-commands-my-agent-deleted-the-files-anyway-44f7",
+     "title": "I denied 7 dangerous commands. My agent deleted the files anyway",
+     "published_at": "2026-07-23",
+     "summary": "7回の明示的拒否の後、Agentがcleanup.test.jsにfs.unlinkSyncを書いて許可済みの node --test で実行し目的を達成。許可済みコード実行系が存在する限りallowlistは境界にならず、OSレベルのSandboxこそが境界であると結論。"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "community-and-issue-signals"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code (0.2.54-2.1.163)",
+     "Gemini CLI (<0.39.1)",
+     "OpenClaw",
+     "Cursor (<2.3)",
+     "自作Agent一般"
+    ],
+    "artifacts": [
+     "permission allowlist / deny rules",
+     "CI runner credentials",
+     "local filesystem"
+    ],
+    "roles": [
+     "platform/tooling owner",
+     "security reviewer"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "I03は権限の過大さ、I12は承認疲れ、I16はSandbox/拡張/Agent自体の脆弱性経由の侵入、I17は工程迂回を扱うが、いずれも『許可判定の解析系と実行系の乖離により、allowlist自体が境界として機能しない』とは述べていない。対処も異なる(allowlistをUX/コスト用ガードレールに降格し、境界を使い捨てSandboxの外殻に置く)。4製品+自作Agentで反復、CVE付きの再現機構あり。ただし主要記事はwindow開始3日前(8/7)で、補強証拠は2-7月のため confidence=medium。"
+  },
+  {
+   "id": "DSC-20260831-client-model-parameter-skew",
+   "schema_version": "1.0",
+   "title": "Agent CLIが新モデルの非対応リクエストパラメータを送り続け、全ターンが失敗する",
+   "summary": "Codex CLI 0.148.0はprompt_cache_retentionを無条件に送信するが、gpt-5.6-solはこれを拒否するため、ツール呼び出しの有無に関わらず全ターンがエラーになる(0.147.0では45ターン0エラー、0.148.0では3ターン3エラー)。Agent Harnessのリリース周期とProvider側のモデル能力面が独立に動くため、モデル側のロールアウトだけでクライアントの前提が無効化され、品質低下ではなく完全停止として現れる。修正はモデル能力表によるパラメータのゲーティングが必要で、利用者側の当座の対処はバージョンの固定に限られる。",
+   "proposed_category": "再現性・コスト・運用",
+   "problem_type": [
+    "version-skew",
+    "provider-client-compatibility",
+    "hard-failure"
+   ],
+   "priority_lanes": [
+    "ops"
+   ],
+   "discovered_at": "2026-08-31T19:06:00Z",
+   "detected_by": "discovery-05 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/openai/codex/issues/39397",
+     "title": "0.148.0 sends prompt_cache_retention on gpt-5.6-sol; every turn fails",
+     "published_at": "2026-08-19",
+     "summary": "クライアントが無条件送信するパラメータを新モデルが拒否し、毎ターン失敗。0.147.0との定量比較あり。共有能力表によるゲーティングが提案されている。"
+    },
+    {
+     "url": "https://github.com/openai/codex/issues/39392",
+     "title": "Codex App with gpt-5.6-sol aborts with unsupported prompt_cache_retention",
+     "published_at": "2026-08-19",
+     "summary": "同日の独立報告。Desktop App経路でも同一エラーで中断する。"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "community-and-issue-signals"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "OpenAI Codex CLI 0.148.0",
+     "Codex Desktop"
+    ],
+    "artifacts": [
+     "agent session",
+     "CI/automation using the CLI"
+    ],
+    "roles": [
+     "agent operator"
+    ]
+   },
+   "confidence": "low",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "K02",
+   "notes": "K02(Model更新だけで品質・速度・Tool利用が変わる)と同じ機構だが、品質劣化ではなくリクエストパラメータの互換性喪失による全面停止という鋭い変種。K03(Harness側変更)とも隣接。単独の新規問題として立てるほどの独立性はないと判断し、K02への更新素材として提出する。"
+  }
+ ]
+}
