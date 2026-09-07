@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-ATTRIBCONFIG-001",
+  "problem_ids": [
+    "P-20260907-F2CB0737"
+  ],
+  "summary": "attribution の混入は設定層で止める: settings.json の公式 `attribution` object — `attribution.commit` (commit trailer の変更/非表示)、`attribution.pr` (PR 説明の attribution 行の変更/非表示)、`attribution.sessionUrl` (cloud / Remote Control commit の claude.ai session link 省略) — を user または organization managed settings で設定する (旧 `includeCoAuthoredBy` は deprecated)。重要なのは層の選択: v2.1.260 の per-session 注入 reminder は『replaces any earlier attribution guidance』と明言して CLAUDE.md・memory・過去指示の opt-out を上書きするため (#92169)、instruction/memory 層での opt-out は既知の無効手段であり、設定 (harness が注入自体を止める層) でのみ確実に効く。公開 repo を扱う組織は managed settings で配布し、混入後の除去は git filter-branch / force-push を要して履歴書換えコストが大きいため事前設定を必須化する。",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/settings-reference",
+      "observed_at": "2026-09-07",
+      "summary": "attribution.commit / attribution.pr / attribution.sessionUrl を確認 (sessionUrl は 'Omit the claude.ai session link from cloud and Remote Control commits' と cloud 経路を明示的に被覆)。includeCoAuthoredBy は deprecated ('Use attribution instead')。user / project / local / managed の全 scope で設定可、settings precedence は managed が最上位。"
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/anthropics/claude-code/issues/92169",
+      "observed_at": "2026-09-07",
+      "summary": "v2.1.260 の注入 reminder ('replaces any earlier attribution guidance') が disabled-attribution 設定の instruction 層表現と persistent memory を上書きし、公開 branch の履歴書換え (filter-branch + force-push) を要した — instruction 層 opt-out の無効性の実例。"
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/anthropics/claude-code/issues/66504",
+      "observed_at": "2026-09-07",
+      "summary": "session URL の default-on 注入と onboarding 非開示 (2026-06-09 起票、HN front page 2026-08-30 209pt/240 comments)。既定が opt-out である限り新規ユーザーの混入は続くため、org managed settings での事前配布が実効策。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "Claude Code (CLI / desktop / cloud / Remote Control) で git commit・PR を作成させている",
+      "公開 repository、または attribution metadata を残したくない組織 repository",
+      "settings.json (user / project / managed) を管理できる"
+    ],
+    "not_applicable_when": [
+      "attribution・session link の記録を意図的に残したい運用 (トレーサビリティ目的; H14 系の要請)",
+      "settings を管理できない共有環境で、かつ managed 配布もない場合 (個別 user 設定を各自に依頼するしかない)",
+      "既に混入した過去履歴の除去そのもの (本 remedy は予防; 除去は履歴書換え作業で別途)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "commit trailer・PR attribution 行・session URL が生成時点で注入されなくなり、instruction 層の優先順位論争を経由しない。指標: 設定後に作成された commit / PR 中の attribution・session URL 混入件数 (0 目標)、対象 repo での filter-branch 等の事後除去作業件数、org 内の managed settings 配布カバレッジ。",
+    "confidence": "official"
+  },
+  "risks": [
+    "既定は依然 default-on (opt-out) であり、設定を持たない新メンバー・新マシンから混入が再発する — managed settings 配布か repo 側 pre-commit / CI check (trailer・session URL の grep) を併用",
+    "attribution 除去は由来追跡性 (どの commit が agent 由来か) を失わせ、監査要件のある組織では H14 系の要請と衝突する — 意図的な選択として記録する",
+    "settings が読まれない実行面 (第三者 CI 上の harness 等) では効かない可能性があり、混入検知の CI check が安全網になる"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "settings.json への数行追加 (org の場合 managed settings 配布)、任意で pre-commit / CI の混入検知 grep",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "policy"
+  ],
+  "known_failure_modes": [
+    "CLAUDE.md・memory・会話指示で opt-out する (注入 reminder が『replaces any earlier attribution guidance』で上書きし、無効)",
+    "deprecated な includeCoAuthoredBy のみ設定して sessionUrl 経路 (cloud / Remote Control) が残る",
+    "個人 user settings 頼みで、repo に参加する他メンバー・CI からの混入を見逃す"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "attribution 設定の key 名・既定値の変更 (settings-reference 監視)",
+    "#66504 / #92169 の provider 側対応 (default opt-in 化、onboarding 開示) が入った場合",
+    "cloud / Remote Control session が読む settings scope の変更"
+  ]
+}

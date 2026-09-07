@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-functional-pass-review-gate-gap",
+  "title": "機能テストPASSのみを受け入れ基準にすると、レビュー由来の受け入れ制約に違反するAgent Patchの約3分の1が合格扱いになる",
+  "summary": "SWE-Gate builds 303 repository-level repair instances from 75 Python projects, pairing functional tests with acceptance constraints derived from real pull-request reviews (style, architecture, and non-functional expectations reviewers actually enforce). Of 644 agent repairs that pass the functional tests, 221 (~34%) violate the review-derived constraints. The mechanism: agent pipelines and benchmarks that gate on functional test passage alone systematically accept patches human reviewers would reject, so auto-promotion/auto-merge on green tests and functional-only self-verification both overestimate patch acceptability. This is distinct from F18 (tests pass but build/runtime breaks — an execution gap) and K10 (benchmark-vs-repo performance gap): here the artifact is functionally correct yet unacceptable, and the gap is quantified at the gating layer (He et al., arXiv:2609.04167, 2026-09-03).",
+  "proposed_category": "testing-and-evaluation",
+  "problem_type": [
+    "failure-mode",
+    "evaluation-gap"
+  ],
+  "priority_lanes": [
+    "quality"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+  "evidence": [
+    {
+      "url": "https://arxiv.org/abs/2609.04167",
+      "title": "SWE-Gate: Passing Functional Tests Is Not Enough for Software Engineering Agents",
+      "published_at": "2026-09-03",
+      "summary": "303 repo-level instances from 75 Python projects with review-derived constraint tests: 221 of 644 functionally-passing agent repairs fail the review constraints, showing functional-only evaluation substantially overestimates real-world patch acceptability."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "coding-agents-general",
+      "swe-bench-style-eval-pipelines",
+      "ci-auto-merge-gates"
+    ],
+    "models": [
+      "general"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "target_problem_id": null
+}

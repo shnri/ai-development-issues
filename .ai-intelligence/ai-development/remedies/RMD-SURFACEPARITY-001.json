@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-SURFACEPARITY-001",
+  "problem_ids": [
+    "P-20260907-139DC981"
+  ],
+  "summary": "新しいAgent Surface（CLI・coding agent・app）を「統制未適用」とみなすallowlist運用にする: (1) 有効化前に、そのsurfaceでcontent exclusion・telemetry統制が実際に効くことを除外対象fileを使った実地テストとvendor文書・changelogの明示的な対応宣言で確認する（GitHubのexclusion docsは現在もIDE agent modeを非対応と明記しており、対応表は surface ごとに読む）。(2) 統制がGA化された修正版を最低versionとしてpinする（Copilot app/CLIのexclusion GAは2026-09-02、Claude Codeのraw API body logging修正はv2.1.253）。(3) 統制はrepository・project設定より上位で強制する — Claude Codeでは最上位precedenceのmanaged settings（managed-settings.json/MDM/claude.ai console）にtelemetry・logging・permission統制を置き、repoにcheck-inされたproject settingsが統制を再有効化できない構成にする。(4) exclusion変更の伝播（〜30分）とsurface別の抜けをaudit項目に含める。",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot",
+      "observed_at": "2026-09-07",
+      "summary": "repo/org/enterprise 3層のexclusion設定とREST API、伝播〜30分、検証は手動テスト。'Agent mode in Copilot Chat in IDEs does not support content exclusion'と現在も明記 — surface別の非対応が常に存在しうることの一次証拠。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
+      "observed_at": "2026-09-04",
+      "summary": "'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows'（GA 2026-09-02） — agentic surfaceが後追いでexclusionを実装したことを示し、GA版以降へのpinが修復条件になる。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-01",
+      "summary": "v2.1.253 'Fixed project settings enabling detailed tracing or raw API body logging without proper controls' — project設定経由の統制迂回が実在したことと最低versionの根拠。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/settings",
+      "observed_at": "2026-09-07",
+      "summary": "settings precedenceはmanaged settings（組織）が最上位で、command line・project local・shared project・userを上書き。統制をmanaged層に置けばrepo内設定では覆せない。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "content exclusion・telemetry統制・logging統制を組織policyとして設定している",
+      "新しいagent surface（CLI、coding agent、app、extension）を随時導入している",
+      "Copilotのrepo/org/enterprise exclusion APIまたはClaude Codeのmanaged settingsを運用できる管理権限がある"
+    ],
+    "not_applicable_when": [
+      "統制対象の機密コード・秘匿情報がそもそも存在しない個人・OSS環境",
+      "vendorが per-surface の対応状況を一切公表しないsurface（実地テストのみに頼ることになり、本remedyの文書確認部分が成立しない）",
+      "managed settings相当の中央強制機構がないツール（その場合はsurface自体を無効化するしかない）"
+    ]
+  },
+  "expected_effect": {
+    "primary": "「管理者はpolicyが効いていると信じているがagent surfaceは無視している」windowを、導入前検証と中央強制で構造的に閉じる",
+    "metrics": [
+      "有効化済みsurfaceのうちexclusion/telemetry統制を実地テストで確認済みの割合",
+      "統制修正版より古いversionで稼働するclient数",
+      "audit（除外fileをagent workflowへ与えるcanaryテスト）での漏えい検出件数"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "検証待ちの新surface導入が遅れ、shadow利用（個人アカウントでの未統制利用）へ流れる可能性",
+    "実地テストは負のテスト（漏れないことの証明）であり、網羅は原理的に不完全",
+    "content exclusionはsemantic検索等の一部機能で効かない既知の限界があり、exclusion自体を過信できない",
+    "vendor changelogの表現（'now honor'）からしか過去の非適用が分からず、遡及影響の評価が難しい"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "surface導入checklist整備＋canaryテスト用repo＋managed settings配布基盤（MDM等）",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "harness"
+  ],
+  "known_failure_modes": [
+    "IDEで検証してCLI/agentでは未検証のまま同一統制が効くと仮定する（本問題の再演）",
+    "managed settingsを配布せずuser/project settingsに統制を書く（precedenceで覆される）",
+    "GA changelogを見て旧versionのclientを放置する（fleetのversion追随が修復条件）"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "GitHub/AnthropicがexclusionまたはtelemetryのGA範囲・対応surface表を更新した場合",
+    "新しいagent surfaceのGA（同型のlag windowが再発しうる）",
+    "managed settings/precedence仕様の変更"
+  ]
+}

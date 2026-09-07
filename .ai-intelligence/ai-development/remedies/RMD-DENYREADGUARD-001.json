@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-DENYREADGUARD-001",
+  "problem_ids": [
+    "P-20260907-FE46C48C"
+  ],
+  "summary": "Read() deny rule 起因の読み取り専用 Bash 全面ブロックは Claude Code v2.1.260 で provider 修正 (revert) 済み: 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode'。対策は v2.1.260 以降 (実務上は 2.1.261+) への更新。2.1.257–2.1.259 に pin されている環境の暫定 workaround は、permissions の Read() deny rule を外し、読み取り秘匿を sandbox.filesystem.denyRead / sandbox.credentials (OS 強制・字句判定に依存しない) で表現すること。恒久運用則: revert は 2026-08-31 の false-allow 修正 (operand/option 値の被覆) の巻き戻しでもあるため、denial の実効性を deny rule 文字列に置かず OS 層へ置く (RMD-ALLOWLISTPARSE-001)。加えて harness 更新ごとに、auto mode での代表的 read-only コマンド (cd X && grep、rg stdin、grep -r --include) が無 prompt で通る canary 回帰を回し、fix↔revert の振動を検出する。",
+  "remedy_type": "provider-fix",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-07",
+      "summary": "v2.1.259 が regression 源: 'Fixed Bash Read() deny rules not covering files given as option values (--ignore-revs-file=.env, -f.env, @file), git diff/git grep file operands, or cd DIR && cat FILE compounds; grep -r/cp -r over a directory holding a denied file now asks'。v2.1.260 が revert: '...it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode'。v2.1.261–2.1.263 に再導入エントリなし (2026-09-07 時点)。"
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/anthropics/claude-code/issues/91650",
+      "observed_at": "2026-09-07",
+      "summary": "regression cluster (#91650 56+1, #91683 bypassPermissions, #91778 grep -r --include, #91848 予測が deny pattern を無視, #91751 rg stdin 誤分類; 2026-09-02..09-03) — revert 対象の挙動と一致。修正確認の canary はこれらの再現コマンドをそのまま使える。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-09-07",
+      "summary": "workaround/恒久側の受け皿: sandbox.filesystem.denyRead は OS が実 path で強制し ('allowRead: ~/ + denyRead: ~/**/.env' の specific-wins 規則)、sandbox.credentials deny/mask が secret を sandboxed command から遮断。deny rule 文字列判定と違い到達可能性の静的予測を必要としない。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "Claude Code 2.1.257–2.1.259 を使用中、または過去 pin している",
+      "settings に Read() deny rule を1つ以上持つ",
+      "auto mode・bypassPermissions・headless/CI・subagent で無人実行している"
+    ],
+    "not_applicable_when": [
+      "Read() deny rule を一切使っていない構成 (guard は arm されない)",
+      "常時対話で prompt 増を許容できる運用 (可用性問題が顕在化しない)",
+      "sandbox が使えないネイティブ Windows で OS 層 workaround に移せない場合 (バージョン更新のみが対策)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "v2.1.260+ で read-only Bash (cd+grep/rg/sed、rg stdin、grep -r --include) が auto mode・bypassPermissions・headless で prompt なしに戻り、subagent への承認要求連鎖が消える。指標: canary コマンド群の無 prompt 通過率 (auto mode で 100% 目標)、headless run の permission-prompt 起因失敗数、deny rule を settings から OS sandbox へ移した項目数。",
+    "confidence": "official"
+  },
+  "risks": [
+    "revert は false-deny を直すと同時に operand/option 値の false-allow を再導入した (P-20260831-60EFB5BF 側が再開)。deny rule で .env 等を守っているつもりの構成は v2.1.260+ で再び素通しになるため、sandbox denyRead / credentials への移行が必須",
+    "v2.1.257 由来の redirect / reader コマンド (tac、egrep、< file) への deny 適用は revert されておらず、reader を含む正当コマンドが引き続き拒否され得る",
+    "ベンダは被覆↔可用性の間で振動しており (fix 2.1.259 → revert 2.1.260)、将来の再導入で regression が再発し得る"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "バージョン更新 + canary 回帰 (代表 read-only コマンド数個を auto mode で流す script) の整備",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "process"
+  ],
+  "known_failure_modes": [
+    "2.1.257–2.1.259 に pin したまま deny rule を外さず、headless run が黙って止まる",
+    "v2.1.260+ に更新した後も Read() deny rule が operand 位置を守っていると誤信する (revert の裏面)",
+    "canary を対話 mode でだけ回し、headless/subagent 経路の regression を見逃す"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "Read() deny rule の Bash 引数適用が再導入された場合 (changelog の deny/Read 系エントリ監視)",
+    "issue cluster (#91650 等) の close/reopen 状態変化",
+    "permissions と sandbox の deny 規則統合など仕様変更"
+  ]
+}

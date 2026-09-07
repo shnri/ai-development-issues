@@ -1,0 +1,287 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-03",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [],
+ "work_item_id": null,
+ "facts": [
+  "GitHub search API is proxy-restricted in this session (403 'sessions are bound to their configured repositories'); scan performed via MCP github search_issues (query qualifiers honored), WebFetch of issue pages, HN Algolia API, and WebSearch. issue_read is repo-restricted; issue bodies fetched via WebFetch of github.com HTML.",
+  "anthropics/claude-code top new-issue cluster 2026-09-01..09-04: Read() deny rules cause over-broad static analysis of Bash compounds, prompting on read-only commands (cd+grep/rg/sed) even in auto mode / bypassPermissions / headless. >=10 independent issues in window: #91650 (56 +1), #91683 (26), #91776 (18), #91784 (13), #91853 (12), #91681 (9), #91848 (7), #91778 (7), #91837 (6), #91751 (4). #91650 pinpoints versions 2.1.257-2.1.259 and the resolver giving up when ';' appears even for absolute cd targets; #91848 reports the predicate ignores the deny rule's own patterns; #91751 shows rg-on-stdin misclassified as a search of '.'.",
+  "Fable 5.1 shipped 2026-09-01; multiple independent reports of drastically faster quota burn: claude-code #91289 ('100% of limit in 20 mins', 5 +1), #91623 ('Max 20x drained in ~22h; 5.1 emits 2x output per turn of Fable 5'), #91471 ('5 hour window exhausted in 30 minutes', 8 +1), #91318; press coverage (techbytes.app) says Anthropic reset 5-hour/weekly meters on Sep 1 and reports of a 20x Max 5-hour quota gone in 52 minutes from a single prompt, partly attributed to heavy cache activity; X trending topic 'Claude Fable 5.1 Hits Usage Limits in Minutes for Developers'.",
+  "Same-week parallel on openai/codex for GPT-6 Astra: #43230 ('ASTRA token burn drastically increased this morning', 2026-09-06), #43222 (weekly quota depletion disproportionate to local token telemetry), #43141 (usage limit reached in under an hour after a reset), #43398 (all higher models 'at capacity', only mini works, 2026-09-07). Recurring cross-product pattern: model update/rollout changes token-consumption profile while plan quotas stay fixed.",
+  "Attribution-injection recurrence: HN 2026-08-30 'Claude Session URL appended to commit messages and PR descriptions by default' (209 pts, 240 comments, links claude-code #66504, filed 2026-06-09: default-on, discovered only after git history polluted; opt-out setting undiscoverable); new in-window issue #92169 (2026-09-04, v2.1.260): injected session reminder saying it 'replaces any earlier attribution guidance' overrode the user's disabled-attribution setting and persistent-memory instruction, requiring git filter-branch + force-push to clean public history; supporting blog 'I am no longer letting Claude Code add itself as Co-author' (HN 2026-08-30, 22 pts, 44 comments).",
+  "embracethered.com 'Breaking Claude Code Opus 5 Auto Mode' (2026-08-31, 399 pts HN, 121 comments): prompt-injection defeat of auto-mode safeguards — corroborates existing catalog I01/I02 and P-20260831-60EFB5BF; no new mechanism beyond catalog, filed as fact only.",
+  "Claude Desktop surface silently auto-denies CLI-native tools, breaking subagent workflows: #92183 (10 +1, 2026-09-04, SendMessage disallowed so subagents cannot be messaged/resumed), #92016 (2026-09-04, auto-deny with desktop replacement covering only session-to-session), #91567 (Cowork Windows: mcp bash and web_fetch instantly denied in every session, no dialog). Supports existing K08 and provisional P-20260831-8968B75A (same-agent behavior diverging across product surfaces); 3 reports, kept as fact rather than new candidate.",
+  "openai/codex 2026-09-03 outage cluster (backend-api/codex/responses 404s: #42534, #42541, #42538, #42536, #42542; status.openai.com incident) is a transient service outage, not a recurring development-workflow problem. Many other top Codex issues in window concern the desktop 'Pet' overlay UX, out of scope.",
+  "Remedy-side signals in window: Spotify 'Portal' claims 90% Claude Code token-usage reduction (HN 2026-09-04, 274 pts) — relevant to G12/G13/C13 remedies; armature.tech measured 17k agent runs on which tools Claude/Codex/Cursor install (HN 2026-09-03, 296 pts) — evidence source for B02/E05-type divergence; trailofbits/coop isolated-VM environments for agents (2026-09-07) — remedy signal for I03/I16.",
+  "Lookback context (pre-window): HN 2026-08-22 'Anthropic appears to be A/B testing reduced effort levels in Claude Code' (216 pts) and 2026-08-29/31 posts on weekly-limit reductions (25% from Sep 14) — corroborate existing K02/K07/D14; no new mechanism."
+ ],
+ "inferences": [
+  "The deny-rule permission-guard cluster is a genuinely new mechanism class relative to the catalog: G17 covers chronic prompt fatigue and P-20260831-60EFB5BF covers false-ALLOW (checker interprets commands differently than the shell, letting side effects through); this cluster is the false-DENY dual — a conservative reachability over-approximation for file-access prediction that ignores the deny rule's own patterns and disables every auto-approval tier, making deny rules practically incompatible with autonomous/headless operation. Proposed as new candidate.",
+  "The Fable 5.1 / GPT-6 Astra quota-burn wave is materially K07 (rate limits interrupting work) amplified by K02 (model update changes behavior) and K06 (unpredictable token cost): the model update changed the consumption profile (output verbosity, cache accounting) with no quota re-calibration, so identical workflows went from sustainable to minutes-to-exhaustion overnight, across two vendors in the same week. Proposed as an update candidate on K07 (material_change=true) rather than a new problem.",
+  "The attribution-injection pattern is not represented in the catalog: H14 is the inverse (traceability missing), I06 covers secrets in prompts/logs, D03 covers instruction conflicts generally. The specific mechanism — harness-injected per-session directives that explicitly out-rank user configuration and write product metadata (session URLs) into public, hard-to-rewrite artifacts (git history, PRs) — is distinct and recurrent since June with a fresh in-window escalation (#92169 shows the override defeats explicit opt-out). Proposed as new candidate, medium confidence (community tier)."
+ ],
+ "evidence": [
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/91650",
+   "title": "[BUG] Bash cd-compound-read guard prompts on absolute cd targets whenever a Read() deny rule exists (Windows Git Bash, 2.1.257-2.1.259)",
+   "published_at": "2026-09-02",
+   "summary": "56 +1 / 10 comments. Resolver gives up when ';' appears in a compound even with absolute literal cd targets; prompts persist in headless mode and cascade through subagents; links write-side variant #86619."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/91683",
+   "title": "bypassPermissions mode now prompts on `cd DIR && grep` when a Read() deny rule is configured (regression in 2.1.259)",
+   "published_at": "2026-09-03",
+   "summary": "26 +1 / 7 comments. bypassPermissions no longer bypasses; part of a >=10-issue cluster (also #91776, #91784, #91853, #91681, #91848, #91778, #91837, #91751) filed 2026-09-01..09-04."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/91623",
+   "title": "Max 20x plan drained in ~22 hours after Fable 5.1; 5.1 emits 2x the output per turn of Fable 5",
+   "published_at": "2026-09-02",
+   "summary": "User measurement that Fable 5.1 doubles output tokens per turn versus Fable 5; sibling reports #91289 (limit gone in 20 min), #91471 (5h window in 30 min), #91318."
+  },
+  {
+   "url": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
+   "title": "Anthropic resets Claude Max limits for Fable 5.1",
+   "published_at": "2026-09-01",
+   "summary": "Anthropic reset 5-hour/weekly meters at Fable 5.1 launch; reports include a 20x Max 5-hour quota consumed in 52 minutes by a single prompt, attributed partly to heavy cache activity; Fable capped at 50% of the weekly pool."
+  },
+  {
+   "url": "https://github.com/openai/codex/issues/43230",
+   "title": "ASTRA Token burn just drastically increased this morning, what happened?!",
+   "published_at": "2026-09-06",
+   "summary": "Same-week Codex-side quota-burn reports for GPT-6 Astra: also #43222 (quota depletion disproportionate to local telemetry), #43141 (limit hit in under an hour post-reset), #43398 (models at capacity)."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/66504",
+   "title": "Claude Session URL appended to commit messages and PR descriptions by default",
+   "published_at": "2026-06-09",
+   "summary": "Front page of HN 2026-08-30 (209 pts, 240 comments): session URLs written into git history by default with no onboarding disclosure; opt-out (attribution.commit setting) undiscovered by most users."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/92169",
+   "title": "Attribution session reminder overrides the user's explicit no-attribution preference",
+   "published_at": "2026-09-04",
+   "summary": "v2.1.260: injected reminder stating it 'replaces any earlier attribution guidance' out-ranked disabled-attribution settings and persistent-memory instructions; public branch/PR polluted, required git filter-branch and force-push."
+  },
+  {
+   "url": "https://embracethered.com/blog/posts/2026/breaking-claude-code-opus-5-and-automode/",
+   "title": "Breaking Claude Code Opus 5 Auto Mode",
+   "published_at": "2026-08-31",
+   "summary": "399 pts / 121 comments on HN: prompt-injection bypass of auto-mode safeguards; corroborates existing I01/I02, no new catalog mechanism."
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/92183",
+   "title": "[BUG] Desktop app disallows SendMessage, so subagents cannot be messaged or resumed",
+   "published_at": "2026-09-04",
+   "summary": "With #92016 and #91567: host surface silently auto-denies CLI-native tools with no dialog; supports K08 / P-20260831-8968B75A."
+  },
+  {
+   "url": "https://engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90",
+   "title": "Portal by Spotify cut my Claude Code token usage by 90%",
+   "published_at": "2026-09-04",
+   "summary": "274 pts / 174 comments: remedy-side signal for context/token efficiency (G12/G13/C13)."
+  }
+ ],
+ "files_written": [
+  "handoff-discovery-03.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "All evidence is community tier (GitHub issues, HN, press): reaction counts and user measurements (e.g. '2x output per turn') are unverified; version attributions come from reporters, not vendor changelogs.",
+  "Quota-burn reports partly overlap deliberate vendor policy changes (limit resets, 50% Fable cap, announced Sep 14 reductions), so the K07 update should distinguish consumption-profile change from policy change during triage.",
+  "The deny-rule guard cluster may be fixed by a point release before promotion; verify against latest claude-code CHANGELOG at merge time."
+ ],
+ "recommended_action": "Merge 3 candidates: (1) new problem for deny-rule-driven false-deny permission over-approximation breaking autonomous operation (high confidence, 10+ independent reports, cross-reference G17/I12/P-20260831-60EFB5BF); (2) material-change update on K07 for model-update-driven quota exhaustion (Fable 5.1 + GPT-6 Astra, same week, two vendors); (3) new problem for harness-injected attribution/session-URL metadata overriding user opt-out and polluting public VCS history (medium confidence). Desktop tool auto-deny reports should be attached as supporting evidence to P-20260831-8968B75A / K08 rather than opened as a new problem.",
+ "next_gate": "merge_discovery_candidate",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-deny-rule-false-deny-permission-guard",
+   "title": "Read系deny ruleがコマンドのファイルアクセス予測を過大近似し、自動承認モードでも読み取り専用Bashを毎回ブロックして自律実行を破壊する",
+   "summary": "Claude Code 2.1.257-2.1.259 regression cluster (>=10 independent issues, 2026-09-01..09-04, top 56 +1): the mere presence of any Read() deny rule arms a conservative cd-compound/search guard that prompts on read-only Bash (cd+grep/rg/sed, rg on stdin, grep --include) even in auto mode, bypassPermissions, and headless runs; the predicate ignores the deny rule's own patterns and gives up on statically-resolvable absolute paths when ';' appears. Distinct from catalog G17 (chronic fatigue) and P-20260831-60EFB5BF (false-allow direction): this is the false-deny dual — over-approximated access prediction makes deny rules incompatible with autonomous operation and cascades approval requests through subagents. Key issues: anthropics/claude-code#91650, #91683, #91776, #91784, #91853, #91681, #91848, #91778, #91837, #91751.",
+   "proposed_category": "I/G: 権限判定の静的解析（deny-rule到達可能性の過大近似による可用性障害）",
+   "problem_type": [
+    "permission-model",
+    "static-analysis-overapproximation",
+    "automation-blocking",
+    "regression"
+   ],
+   "priority_lanes": [
+    "efficiency",
+    "safety-usability-tradeoff"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-03 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/91650",
+     "title": "[BUG] Bash cd-compound-read guard prompts on absolute cd targets whenever a Read() deny rule exists (2.1.257-2.1.259)",
+     "published_at": "2026-09-02",
+     "summary": "56 +1; resolver gives up on ';' in compounds even with absolute literal cd targets; persists headless; cascades through subagents."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/91683",
+     "title": "bypassPermissions mode now prompts on `cd DIR && grep` when a Read() deny rule is configured (regression in 2.1.259)",
+     "published_at": "2026-09-03",
+     "summary": "26 +1; bypassPermissions no longer bypasses when any Read() deny rule exists."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/91848",
+     "title": "Read() deny rule arms an unwhitelistable cd+relative-read prompt in bypassPermissions (2.1.257+), and the predicate ignores the rule's patterns",
+     "published_at": "2026-09-03",
+     "summary": "7 +1; guard fires regardless of whether the command could touch the denied patterns; prompt cannot be allowlisted away."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/91751",
+     "title": "[BUG] Regression in 2.1.259: rg reading stdin in a pipeline is treated as a search of '.' and prompts (auto mode bypassed) when a Read() deny rule covers a file under the cwd",
+     "published_at": "2026-09-03",
+     "summary": "Misclassification example: stdin-only rg treated as directory search of cwd."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/91778",
+     "title": "`grep -r` with `--include` filters falsely triggers `Read(.env)` deny prompt (v2.1.259) — breaks every recursive search",
+     "published_at": "2026-09-03",
+     "summary": "7 +1; include filters that cannot match the denied file still trigger the prompt, breaking all recursive search."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "community-and-issue-signals"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code CLI 2.1.257-2.1.260",
+     "headless/CI runs",
+     "subagents"
+    ],
+    "models": [
+     "harness-level (model-independent)"
+    ]
+   },
+   "confidence": "high",
+   "material_change": false,
+   "status": "candidate"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-model-update-quota-burn-spike",
+   "title": "Model更新でToken消費プロファイル（出力冗長度・Cache計上）が急変し、固定Plan Quotaが数分〜数時間で枯渇して長時間作業が成立しなくなる",
+   "summary": "UPDATE candidate targeting K07 (material change). In the same week two vendors' model rollouts drastically changed consumption profiles against unchanged plan quotas. Claude Fable 5.1 (shipped 2026-09-01): #91623 measures 2x output tokens per turn vs Fable 5 and a Max 20x plan drained in ~22h; #91289 hits 100% of limit in 20 min; #91471 exhausts a 5-hour window in 30 min; press (techbytes.app) reports a 20x Max 5-hour quota gone in 52 minutes from one prompt, partly via heavy cache accounting, and Anthropic resetting meters at launch. OpenAI GPT-6 Astra: codex#43230 (burn 'drastically increased'), #43222 (weekly quota depletion disproportionate to local token telemetry), #43141 (limit re-hit in under an hour after reset). Mechanism refines K07+K02+K06: quota interruption is no longer steady-state but step-changes at model updates with no re-calibration, invalidating workflows sized to the previous profile overnight.",
+   "proposed_category": "K: 運用・計測（Model更新起因のQuota枯渇）",
+   "problem_type": [
+    "cost-predictability",
+    "rate-limit",
+    "model-update-regression"
+   ],
+   "priority_lanes": [
+    "efficiency",
+    "reliability"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-03 (community-and-issue-signals scout)",
+   "record_type": "update",
+   "target_problem_id": "K07",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/91623",
+     "title": "Max 20x plan drained in ~22 hours after Fable 5.1; 5.1 emits 2x the output per turn of Fable 5",
+     "published_at": "2026-09-02",
+     "summary": "User-measured 2x output-per-turn increase; plan exhaustion in ~22h."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/91471",
+     "title": "[Bug] Rate limit consumed prematurely - 5 hour window exhausted in 30 minutes",
+     "published_at": "2026-09-02",
+     "summary": "8 +1; 5-hour window consumed in 30 minutes post-5.1; sibling #91289 (20 min), #91318."
+    },
+    {
+     "url": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
+     "title": "Anthropic resets Claude Max limits for Fable 5.1",
+     "published_at": "2026-09-01",
+     "summary": "Vendor reset meters at launch; reports of 20x Max 5h quota gone in 52 minutes from a single prompt; heavy cache activity cited; Fable capped at 50% of weekly pool."
+    },
+    {
+     "url": "https://github.com/openai/codex/issues/43230",
+     "title": "ASTRA Token burn just drastically increased this morning, what happened?!",
+     "published_at": "2026-09-06",
+     "summary": "Cross-vendor parallel for GPT-6 Astra; with #43222 (quota vs local telemetry mismatch) and #43141 (limit re-hit <1h after reset)."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "community-and-issue-signals"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code (Max/Pro plans)",
+     "OpenAI Codex (Pro plans)"
+    ],
+    "models": [
+     "claude-fable-5.1",
+     "gpt-6-astra"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": true,
+   "status": "candidate"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-harness-attribution-injection-overrides-optout",
+   "title": "Harness注入のAttribution指示がユーザー設定・記憶より優先され、Session URL等の内部メタデータが公開Git履歴・PRへ既定で書き込まれる",
+   "summary": "Recurring since June, escalated in-window. anthropics/claude-code#66504 (2026-06-09; HN front page 2026-08-30, 209 pts / 240 comments): session URLs appended to commit messages and PR descriptions by default with no onboarding disclosure; users discover it only after public git history is polluted; the opt-out setting goes undiscovered. New mechanism escalation #92169 (2026-09-04, v2.1.260): the per-session injected reminder states it 'replaces any earlier attribution guidance', causing the model to override the user's disabled-attribution setting AND persistent-memory instruction; cleanup required git filter-branch and force-push. Supporting: igupta.in blog + HN thread (2026-08-30, 44 comments) on removing Claude co-authorship. Mechanism: harness-injected per-session directives out-rank user configuration and write product/session metadata into public, append-only artifacts — not covered by H14 (inverse: missing traceability), I06 (secrets in logs), or D03 (generic instruction conflict, here the precedence order itself is inverted by design).",
+   "proposed_category": "D/I: Harness注入指示の優先順位と公開成果物へのメタデータ混入",
+   "problem_type": [
+    "instruction-precedence",
+    "metadata-leakage",
+    "user-consent"
+   ],
+   "priority_lanes": [
+    "governance",
+    "trust"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-03 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/66504",
+     "title": "Claude Session URL appended to commit messages and PR descriptions by default",
+     "published_at": "2026-06-09",
+     "summary": "Default-on session-URL injection into git history; no onboarding disclosure; HN front page 2026-08-30 (209 pts, 240 comments)."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/92169",
+     "title": "Attribution session reminder overrides the user's explicit no-attribution preference",
+     "published_at": "2026-09-04",
+     "summary": "v2.1.260 injected reminder ('replaces any earlier attribution guidance') defeats disabled-attribution settings and persistent memory; public branch/PR required history rewrite."
+    },
+    {
+     "url": "https://igupta.in/blog/why-i-am-no-longer-letting-claude-code-add-itself-as-coauthor/",
+     "title": "I am no longer letting Claude Code add itself as Co-author in my commits",
+     "published_at": "2026-08-30",
+     "summary": "HN thread (22 pts, 44 comments) on co-authorship/attribution defaults in commits; corroborates recurring community friction."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "community-and-issue-signals"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code CLI/desktop/remote (attribution injection)"
+    ],
+    "models": [
+     "harness-level (model-independent)"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate"
+  }
+ ]
+}

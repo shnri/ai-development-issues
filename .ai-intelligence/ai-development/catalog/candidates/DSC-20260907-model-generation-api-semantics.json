@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-model-generation-api-semantics",
+  "title": "APIパラメータ・会話再生の有効性がモデル世代単位で変わり、呼び出し側を変えないモデル切替・Fallback・文脈編集が400や無言のBlock破棄で壊れる",
+  "summary": "With Claude Fable 5.1 / Mythos 5.1 (2026-09-01), parameter validity and conversation-replay validity became model-generation-scoped: 'tool_choice types any and tool aren't supported and return a 400 error' (harnesses forcing tool use break on model upgrade with no caller change); 'Thinking blocks... are preserved only for the model that produced them or a newer one: earlier models can't read them, and the API drops one replayed to an earlier model' (silent content drop on model downgrade/fallback mid-conversation — the exact path overload fallbacks take); 'for new accounts created on or after August 31, 2026, replaying one after the system prompt, tools, or an earlier message changed returns a 400 error' (hard failure for harnesses that edit system prompts/tools mid-session, e.g. compaction, dynamic tool registration, turn-scoped instructions — and account-creation-date-conditional, so behavior differs across accounts running identical code). Related earlier instance: Opus 5 rejects thinking-disabled at effort xhigh/max (Claude Code itself shipped the client-side fix in v2.1.254). Mechanism: the same API version now enforces per-model-generation and per-account-cohort semantics, so mid-session model switching, fallback, and history/prompt mutation — standard coding-agent harness techniques — become version-skew failure surfaces. Adjacent to P-20260831-DE8D86E9 (beta→GA/SDK-major silent breakage) but the trigger is model selection, not API/SDK version; evaluate merge vs new at merge gate.",
+  "proposed_category": "K",
+  "problem_type": [
+    "breaking-change",
+    "silent-behavior-change"
+  ],
+  "priority_lanes": [
+    "reliability"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://platform.claude.com/docs/en/release-notes/overview",
+      "title": "Claude Platform release notes 2026-09-01 (Fable 5.1 / Mythos 5.1)",
+      "published_at": "2026-09-01",
+      "summary": "tool_choice any/tool → 400; thinking blocks unreadable by earlier models and dropped on downgrade replay; prefix-invariance 400 for accounts created ≥ 2026-08-31 when system/tools/messages changed before a replayed thinking block."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "title": "Claude Code v2.1.254",
+      "published_at": "2026-09-02",
+      "summary": "'Fixed Opus 5 requests failing when effort was xhigh/max with thinking disabled' — client-side fix for the same model-scoped parameter-validity divergence."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude API harnesses",
+      "Claude Code",
+      "Claude Agent SDK"
+    ],
+    "models": [
+      "claude-fable-5-1",
+      "claude-mythos-5-1",
+      "claude-opus-5"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

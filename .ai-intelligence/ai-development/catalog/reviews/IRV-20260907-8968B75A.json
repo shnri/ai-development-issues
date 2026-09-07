@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-8968B75A",
+  "problem_id": "P-20260831-8968B75A",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "watch",
+  "reason": "機構は測定されている（5製品横断、最悪Token F1 0.035）が、根拠は単一研究・単一ドメイン（Oracle→PostgreSQL移行）に限られ、RMD-SPECPORT-001自身が『効果量はfeature developmentへ転移しない可能性』を明記。仕様の非中立性という一般命題としては独立再現が未確認のため、activeではなくwatchで再現報告を待つ。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-SPECPORT-001"
+    },
+    {
+      "url": "https://arxiv.org/abs/2608.21208",
+      "title": "Specification Portability Across LLM Development Agents",
+      "summary": "Single study, one migration domain; measures degradation and mitigations but no independent replication yet."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [
+    "移行ドメイン外（feature development等）での独立再現の公表",
+    "spec-drivenツールキット（Spec Kit等）がcross-agent equivalence validationを追加した場合",
+    "consumer projectでのcross-agent spec転用による品質劣化の実測"
+  ],
+  "next_review_days": 45,
+  "reviewer": "inventory-01"
+}

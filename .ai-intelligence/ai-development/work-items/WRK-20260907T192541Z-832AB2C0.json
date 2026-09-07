@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260907T192541Z-832AB2C0",
+  "created_at": "2026-09-07T19:25:41Z",
+  "updated_at": "2026-09-07T19:28:00Z",
+  "problem_ids": [
+    "I03"
+  ],
+  "remedy_id": "RMD-I03-002",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [
+    "R3 operation markers: 権限(?:を|の)?(?:付与|変更|拡大|追加|許可|設定|与え), credential",
+    "R2 operation markers: 権限"
+  ],
+  "decision": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 3 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [
+      "credential"
+    ],
+    "owner_markers": [],
+    "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: consumer-project (implementation-owner-asset)",
+      "existing asset → update existing (R1, precedence 3)",
+      "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+      "re-scoped by controller: implementation_owner 'consumer-project' is a consumer-side role, not a shared asset; planner resolved it as asset_id via implementation-owner-asset because ROLE_OWNERS lacks 'consumer-project' (no such asset exists in shared-agent-plugins); setting/harness remedy with role owner routes to consumer-configuration guidance (precedence 2)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-I03-002 to shared-existing-asset will reduce I03 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-09-07T19:25:41Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action; R3 marker resolved by the decision ladder (policy-decidable)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-09-07T19:27:56Z",
+      "from": "scoped",
+      "to": "scoped",
+      "reason": "target re-scoped from mis-resolved shared-existing-asset 'consumer-project' to consumer-configuration guidance at authority tier R0 (consumer_risk_tier R2 per decision ladder)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-09-07T19:28:00Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ]
+}

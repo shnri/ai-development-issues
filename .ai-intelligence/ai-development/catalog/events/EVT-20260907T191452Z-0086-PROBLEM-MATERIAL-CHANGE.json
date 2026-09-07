@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T191452Z-0086-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-09-07T19:14:52Z",
+  "catalog_revision_before": 85,
+  "catalog_revision_after": 86,
+  "details": {
+    "candidate_id": "DSC-20260907-model-update-quota-burn-spike",
+    "decision": "update",
+    "target_problem_id": "K07"
+  }
+}

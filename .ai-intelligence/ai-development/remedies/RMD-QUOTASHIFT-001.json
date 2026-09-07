@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-QUOTASHIFT-001",
+  "problem_ids": [
+    "K07"
+  ],
+  "summary": "Model rollout（例: Fable 5.1）でtoken消費プロファイルが急変してもplan quotaを数分で失わないよう、(1) `/usage`のplan usage breakdownとbehavior flags（long context・cache missが直近使用量の10%以上で警告）、`Prompt cache (main)`行のmiss件数・likely cause（v2.1.251/v2.1.260+）で消費急増の原因をrollout当日に特定し、(2) `/effort`・`MAX_THINKING_TOKENS`・`/model`での小型model切替・`/clear`と部分委譲で消費側を即日調整し、(3) usage credits＋spend limit（`/usage-credits`）とauto-continue at usage-limit reset（v2.1.234+、`/rate-limit-options`、managed settingの`autoContinueAtUsageLimit`）で中断を回復可能な待機に変える。組織はspend limit・`modelPricing`・analytics/OTelでrollout前後の per-user 消費を比較し、異常をprovider（meter reset実績あり）へ報告する。",
+  "remedy_type": "observability",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-09-07",
+      "summary": "`/usage`のattribution・behavior flags（10%閾値）・Loops行、`Prompt cache (main)`のmiss/likely cause/warm状態、`/usage-credits`とspend limit、auto-continue at reset（v2.1.234+）と`autoContinueAtUsageLimit`、`/effort`・`MAX_THINKING_TOKENS`・model選択、`modelPricing`（v2.1.242+）、org spend report/Analytics API、OpenTelemetryが全setupで唯一のnear-real-time per-user計測と明記。"
+    },
+    {
+      "kind": "community",
+      "reference": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
+      "observed_at": "2026-09-01",
+      "summary": "Fable 5.1 rollout時にAnthropicがMax usage meterをreset、Fableを週次poolの50%にcap。20x Maxの5時間quotaが1 promptで52分で消えた報告、heavy cache activityが原因として言及 — cache挙動変化の監視が検知の要であることを裏付け。"
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/anthropics/claude-code/issues/91471",
+      "observed_at": "2026-09-02",
+      "summary": "5時間windowが30分で消費（rollout直後、姉妹issue #91289/#91318/#91623）。本remedyが対象とする観測事象。"
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/openai/codex/issues/43230",
+      "observed_at": "2026-09-06",
+      "summary": "GPT-6 Astraで同型のtoken burn急増報告 — 特定vendor固有でなくrollout一般のパターンであり、消費プロファイル監視はvendor横断で有効。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "固定quota（5時間/週次window）のsubscription planでClaude Code等のagent CLIを常用している",
+      "provider側のmodel rollout・default model変更・cache挙動変更を利用者側で止められない",
+      "Claude Code v2.1.234以降（auto-continue）、v2.1.251以降（cache統計）が使える"
+    ],
+    "not_applicable_when": [
+      "API従量課金のみで運用しquota窓が存在しない（spend limit側の管理は別remedy）",
+      "rollout自体を遅延・拒否できるenterprise固定model構成（プロファイル急変が起きにくい）",
+      "旧versionに固定されbehavior flags・cache統計が出ない環境（まず更新が必要）"
+    ]
+  },
+  "expected_effect": {
+    "primary": "rollout起因の消費急増を当日中に検知し、quota枯渇を「原因不明の作業停止」から「原因特定済みの調整＋回復可能な待機」に変える",
+    "metrics": [
+      "rollout後にquota枯渇へ至るまでの時間（検知・調整後に延伸するか）",
+      "behavior flags/cache-miss警告から調整実施までのリードタイム",
+      "usage-limit到達時にauto-continueで自動再開できたsessionの割合",
+      "rollout前後のper-user token消費比（OTel/analytics）"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "`/usage`の数値はローカル履歴由来の概算で他端末・claude.ai分を含まず、実quota消費と乖離しうる（#43222型のtelemetry mismatch）",
+    "usage creditsは超過分が従量課金になり、spend limit未設定だとコスト事故に変わる",
+    "auto-continueは無人で作業を再開するため、承認が必要な操作を含むtaskでは想定外の続行になりうる",
+    "effort/thinking削減は複雑taskの品質を下げうる（Fable系はthinking無効化不可）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "運用habit（/usageの定点確認）＋spend limit・managed setting設定。追加ツール不要",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "process"
+  ],
+  "known_failure_modes": [
+    "behavior flagsを見ずにusage creditsだけ有効化し、プロファイル異常を課金で吸収してしまう",
+    "rollout直後の観測をせずcache TTL切れ・長時間sessionなど平常要因と混同する",
+    "RMD-K07-001のcheckpointを怠り、auto-continue不可の環境で未commit作業を失う"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "usage limit policy・meter仕様の変更（週次pool配分、model family cap）",
+    "次のmajor model rollout（検知手順の実効性を実地確認）",
+    "/usage・cache統計・auto-continueの仕様変更"
+  ]
+}

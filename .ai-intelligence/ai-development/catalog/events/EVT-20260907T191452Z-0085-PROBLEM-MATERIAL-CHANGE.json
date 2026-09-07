@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T191452Z-0085-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-09-07T19:14:52Z",
+  "catalog_revision_before": 84,
+  "catalog_revision_after": 85,
+  "details": {
+    "candidate_id": "DSC-20260907-allowdeny-rule-parse-gaps",
+    "decision": "update",
+    "target_problem_id": "P-20260831-60EFB5BF"
+  }
+}

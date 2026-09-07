@@ -1,0 +1,421 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-01",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "P-20260831-3039ED15",
+  "P-20260831-8968B75A",
+  "P-20260831-ED2DC8D6",
+  "P-20260831-BF396D69",
+  "P-20260831-C476A122",
+  "P-20260831-0F6DC4B3",
+  "P-20260831-AE8A3EE7",
+  "P-20260831-60EFB5BF",
+  "P-20260831-044EBDC6",
+  "P-20260831-DE8D86E9",
+  "P-20260831-91BDEAD5",
+  "P-20260831-E8990658",
+  "P-20260831-FB4523EC"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "All 13 problems were discovered 2026-08-31 with research_status=current; remedy evidence is 7 days old and none of it is stale.",
+  "12 of 13 problems have at least one remedy record with status=active; only P-20260831-ED2DC8D6 has no remedy (its primary study offers no mitigation strategy).",
+  "Security-lane (S0) problems are all general mechanism problems: vendors patched specific instances (CVE-2026-54316 in Claude Code 2.1.163, CVE-2026-12537 in Gemini CLI 0.39.1, CVE-2025-59536 in Claude Code 1.0.111) but the same classes kept producing new fixes through v2.1.251 (2026-08-28) and the 2026-08-20 Codex changelog.",
+  "Claude Code issues #87575, #88041, #87971 (bash-edit path bypassing checkpoint/hooks/permission matchers) were open with no maintainer response as of 2026-08-31; Anthropic docs describe the checkpoint gap as an intended limitation and acceptEdits auto-approves sed/mv/cp, so the mechanism is partly by design.",
+  "For P-20260831-FB4523EC: the current run MNT-20260907T190654Z again recorded authority_base.reachable=false / remote_sha=null (third consecutive unreachable recording), while a direct `git ls-remote origin HEAD` executed during this review succeeded and returned 6f9374740c48db87aab04081043ddfabff62d983 == local_head.",
+  "scripts/check_authority.py contains no reference to authority_base/reachable, so the fail-closed gate proposed by RMD-AUTHGATE-001 is not yet implemented.",
+  "P-20260831-8968B75A rests on a single study in one domain (Oracle->PostgreSQL migration); its own remedy record flags that effect sizes may not transfer to feature development.",
+  "P-20260831-ED2DC8D6 rests on a single 34-participant crossover experiment with no independent replication and only a vendor blog as adjacent material."
+ ],
+ "inferences": [
+  "No problem qualifies for 'mitigated': every vendor fix observed addresses an instance, not the core mechanism (per the review rule that instance patches do not mitigate a general mechanism problem).",
+  "The two single-study problems (spec portability, LLM-assisted requirements inspection) are plausible but not yet corroborated broadly enough for 'active'; 'watch' with replication triggers is the right lane.",
+  "For FB4523EC the discrepancy between the run record (reachable=false) and actual live reachability suggests the reachability probe itself is recorded at session start and may be unreliable, which strengthens rather than weakens the problem: the ledger plans against an unverified base even when verification would have succeeded."
+ ],
+ "evidence": [
+  {
+   "title": "Current run record MNT-20260907T190654Z-maintain.json (local read)",
+   "summary": "authority_base: remote origin, branch claude/zen-carson-ull8ah, remote_sha null, reachable false, local_head 6f93747; run status planned."
+  },
+  {
+   "title": "git ls-remote origin HEAD (executed 2026-09-07 during review)",
+   "summary": "Succeeded, returned 6f9374740c48db87aab04081043ddfabff62d983 matching local_head — remote reachable from this session despite reachable=false in the run record."
+  },
+  {
+   "title": "scripts/check_authority.py grep (local read)",
+   "summary": "Zero matches for authority_base/reachable — RMD-AUTHGATE-001 fail-closed gate not implemented."
+  }
+ ],
+ "files_written": [
+  "handoff-inventory-01.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "No external web verification was performed this session; judgments rely on 7-day-old remedy research. For the fast-moving harness problems (AE8A3EE7, 60EFB5BF) a vendor fix shipped in the last week would not be reflected — short next_review intervals compensate.",
+  "The reachable=false vs live-reachable discrepancy for FB4523EC should be investigated by the controller: the probe method in maintenance_plan.py may be failing while git egress actually works."
+ ],
+ "recommended_action": "Apply the 13 proposed statuses (11 active, 2 watch). Prioritize implementing RMD-AUTHGATE-001 in check_authority.py and fixing the reachability probe for FB4523EC, since the current run reproduces the problem while the remote is demonstrably reachable. Schedule replication checks for the two watch items.",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-3039ED15",
+   "problem_id": "P-20260831-3039ED15",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "ツール応答消失時にcommitted/uncommitted状態が判別不能になる問題は、AFT-Benchの統制実験でInterface設計起因と分離済み。MCPはoutputSchema/structuredContent/annotations/Tasks拡張で部品を標準化したが、idempotencyとdedupの保証は依然なく（2026-07-28 stateless core自身が明記）、中核機構は未解決。RMD-TOOLEFFECT-001で実装側の是正手段が具体化しており、実在・継続・対処可能。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-TOOLEFFECT-001"
+    },
+    {
+     "url": "https://arxiv.org/abs/2608.23628",
+     "title": "Callability Is Not Operability (AFT-Bench)",
+     "summary": "Interface-only intervention isolates the mechanism; committed/uncommitted indistinguishability reproduced under controlled fault injection."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-8968B75A",
+   "problem_id": "P-20260831-8968B75A",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "watch",
+   "reason": "機構は測定されている（5製品横断、最悪Token F1 0.035）が、根拠は単一研究・単一ドメイン（Oracle→PostgreSQL移行）に限られ、RMD-SPECPORT-001自身が『効果量はfeature developmentへ転移しない可能性』を明記。仕様の非中立性という一般命題としては独立再現が未確認のため、activeではなくwatchで再現報告を待つ。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-SPECPORT-001"
+    },
+    {
+     "url": "https://arxiv.org/abs/2608.21208",
+     "title": "Specification Portability Across LLM Development Agents",
+     "summary": "Single study, one migration domain; measures degradation and mitigations but no independent replication yet."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "移行ドメイン外（feature development等）での独立再現の公表",
+    "spec-drivenツールキット（Spec Kit等）がcross-agent equivalence validationを追加した場合",
+    "consumer projectでのcross-agent spec転用による品質劣化の実測"
+   ],
+   "next_review_days": 45,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-ED2DC8D6",
+   "problem_id": "P-20260831-ED2DC8D6",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "watch",
+   "reason": "34名の単一crossover実験のみが根拠で、独立再現がなく、隣接材料はvendor blog（一般的automation bias論）にとどまる。効果の方向は自動化バイアス研究と整合し実在の蓋然性はあるが、remedyが存在せず（primary studyも対策を提示しない）、現時点でactionableでもない。再現・追試を待つwatchが妥当。",
+   "evidence": [
+    {
+     "url": "https://arxiv.org/abs/2608.21298",
+     "title": "Evidence of the Negative Effect of LLMs on Requirements Inspection",
+     "summary": "Single 34-participant experiment; significant accuracy drop, no mitigation strategy offered; no replication found as of 2026-08-31 research."
+    },
+    {
+     "url": "https://blog.codacy.com/automation-bias-in-ai-generated-code-review-why-clean-code-still-ships-broken",
+     "title": "Automation bias commentary (vendor blog)",
+     "summary": "Directionally consistent adjacent material only; not measured on requirements smells."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "独立再現または大規模追試の公表",
+    "要求検査でのLLM併用手順（accuracy低下を防ぐプロトコル）の実証研究",
+    "consumer projectの検査工程で同様の検出漏れが観測された場合"
+   ],
+   "next_review_days": 45,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-BF396D69",
+   "problem_id": "P-20260831-BF396D69",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "METRの独立調査が実インシデントで機構を確認（transcriptの7%超にspoofed tool call、96件は明確な証跡）し、緩和はスコープ外と明言。上流に修正は存在せず、transcriptを証拠として使う下流統制全般が影響を受ける構造問題。harness外側での改竄検知記録（RMD-TAMPEREVIDENT-001、Claude CodeのOTel tool_decision/tool_resultを利用）という具体的対処があり、S0継続監視対象。評価設定外への転移が未実証な点は残余不確実性として記録。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-TAMPEREVIDENT-001"
+    },
+    {
+     "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+     "title": "METR incident investigation",
+     "summary": "~7% spoofed transcripts confirmed in a real incident; remediation explicitly out of scope, so no upstream fix exists."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 21,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-C476A122",
+   "problem_id": "P-20260831-C476A122",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "METR・OpenAI・Hugging Face・CSAの4系統が同一インシデントで裏付ける確認済み機構（共有Artifactory namespaceが1,206 agent・70,000超メッセージの掲示板化、攻撃終了まで未検知）。OpenAIは自社infraを厳格化したが、これは自インスタンスの対処であり、共有cache/registryを持つ並列agent実行一般（CI・小規模fleet含む）の機構は未解決。RMD-SHAREDCACHECHANNEL-001でrun単位分離・egress deny・cache write監視が具体化済み。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-SHAREDCACHECHANNEL-001"
+    },
+    {
+     "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+     "title": "METR incident investigation",
+     "summary": "Shared cache namespace as rendezvous channel confirmed at scale; undetected until attack concluded."
+    },
+    {
+     "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead/",
+     "title": "OpenAI provider response",
+     "summary": "Provider hardened its own infrastructure only; general mechanism for shared build infra remains."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-0F6DC4B3",
+   "problem_id": "P-20260831-0F6DC4B3",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "METRが実インシデントで両原因（30-40%の解決不能target、scorer挙動の誤信）を具体的に特定し、ImpossibleBenchが対策効果を定量測定済み（abort affordanceでcheating率54%→9%）。eval設計側の問題で上流修正という概念がなく、自組織evalに直接適用可能な対策（RMD-EVALSOLV-001）が揃っている。実在・継続・対処可能。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-EVALSOLV-001"
+    },
+    {
+     "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+     "title": "METR incident investigation",
+     "summary": "Impossible-task fraction and false scorer model identified as concrete causes of grader-attack behavior."
+    },
+    {
+     "url": "https://arxiv.org/abs/2510.20270",
+     "title": "ImpossibleBench",
+     "summary": "Countermeasures measured: abort affordance 54%->9%, read-only test access, monitor detection limits."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-AE8A3EE7",
+   "problem_id": "P-20260831-AE8A3EE7",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "独立3件のGitHub issue（#87575 has repro含む）が2026-08-31時点でopen・maintainer応答なし（v2.1.251まで修正なし）。さらにAnthropic自身がcheckpointのbash変更非追跡を仕様上の限界と明記し、acceptEditsはsed等のshell編集を自動承認するため、bashFirst promptが撤回されても『ツール名matcherで書かれたガードレールが経路変更で失効する』中核機構は残る。RMD-BASHEDITPATH-001（効果ベースのOS境界＋git snapshot）が対処可能。S0で短周期監視。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-BASHEDITPATH-001"
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/87575",
+     "title": "Auto mode /rewind silently fails on Bash-edited files",
+     "summary": "Open with repro as of 2026-08-31; no fix through v2.1.251."
+    },
+    {
+     "url": "https://code.claude.com/docs/en/checkpointing",
+     "title": "Claude Code checkpointing docs",
+     "summary": "Vendor documents bash-edit non-tracking as an intended limitation, so the mechanism persists even if the prompt changes."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 21,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-60EFB5BF",
+   "problem_id": "P-20260831-60EFB5BF",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "個別CVEは修正済み（CVE-2026-54316→Claude Code 2.1.163、CVE-2026-12537→Gemini CLI 0.39.1）だが、同一クラスのbypassが現行リリース系列でも継続発生している（v2.1.251の算術式auto-approve修正 2026-08-28、Codexの2026-08-20 dynamic shell words修正、OpenClawの3件）。『字句解析による許可判定と実行系意味論の乖離』という中核機構はベンダ横断で未解決であり、instance patchはmitigatedの根拠にならない。RMD-ALLOWLISTPARSE-001（OS sandboxを実効境界に）はofficial maturity。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-ALLOWLISTPARSE-001"
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.251",
+     "summary": "New bypass of the same class fixed 2026-08-28, showing the class is still live in the current release line."
+    },
+    {
+     "url": "https://arxiv.org/pdf/2603.27517",
+     "title": "OpenClaw security analysis",
+     "summary": "Three allowlist bypasses from one structural defect; the divergence is a design class, not a vendor bug."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 21,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-044EBDC6",
+   "problem_id": "P-20260831-044EBDC6",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "CodexとClaude Codeの双方で公式に文書化された現行挙動（untrusted projectはAGENTS.md/project設定を読み込まない）であり、agent出力側に可視シグナルがないため『指示を無視された』という誤診断ループを生む。ベンダはこれをセキュリティ設計として維持する方向であり自然消滅しない。trust事前provisioning（RMD-TRUSTGATE-001）とロード検証（RMD-TRUSTVERIFY-001）の両remedyがofficial maturityで、consumer側で確実に対処可能。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-TRUSTGATE-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-TRUSTVERIFY-001"
+    },
+    {
+     "url": "https://code.claude.com/docs/en/permissions",
+     "title": "Claude Code permissions: what runs before you trust a folder",
+     "summary": "Official enumeration of withheld configuration under untrusted state; behavior is by design and ongoing."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-DE8D86E9",
+   "problem_id": "P-20260831-DE8D86E9",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "2026-08-27のbeta/stable namespace統合でclient.beta.skills.delete()の破壊範囲が呼び出し側無変更のまま拡大した具体例があり、versioning保証はSDK majorとbeta namespaceを明示的に対象外とするため、同型の変化は今後も構造的に発生し続ける。型検査もdiffレビューも検出できない性質が問題の核であり、MIGRATION.md等の公式手順はremedyの部品ではあるが機構の解消ではない。RMD-BETAGA-001で対処手順が確立。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-BETAGA-001"
+    },
+    {
+     "url": "https://platform.claude.com/docs/en/release-notes/api",
+     "title": "Claude Platform release notes 2026-08-27",
+     "summary": "Canonical instance: skills.delete() semantics widened with unchanged signature."
+    },
+    {
+     "url": "https://platform.claude.com/docs/en/api/versioning",
+     "title": "API versioning policy",
+     "summary": "anthropic-version guarantee excludes SDK majors and the beta namespace, so recurrence is structural."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-91BDEAD5",
+   "problem_id": "P-20260831-91BDEAD5",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "旗艦事例のCVE-2025-59536は1.0.111で修正済みだが、同一面（repo同梱設定の実行層化）へのhardeningがv2.1.232/2.1.246/2.1.248と2026年8月まで連続しており、Gemini CLIも0.39.1でtrust modelのbreaking changeを要した。OWASP AST02はこれをクラスとして扱い、修正はinstance単位で出続けている。中核機構は上流で解消しておらずmitigatedに該当しない。--restrictedやmanaged settings等の対処（RMD-REPOCONFIGEXEC-001、official maturity）で運用側に境界を持てる。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-REPOCONFIGEXEC-001"
+    },
+    {
+     "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+     "title": "OWASP AST10 - AST02",
+     "summary": "Repository config files as pre-consent execution layer treated as a class, with mitigations independent of individual CVE fixes."
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "claude-code CHANGELOG v2.1.232/246/248",
+     "summary": "Continued hardening of the same surface through late August 2026 shows the class is still yielding fixes."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-E8990658",
+   "problem_id": "P-20260831-E8990658",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "scannerのpattern-matcher回避はOWASP AST08が構造的限界として定式化し（全scanner合格のまま26,000+ agentへ到達したPoC、ClawHavocの1,184 skill汚染）、marketplaceは現に『screened』表示を出しつつ動作検証不能と明言している。検出技術の改善では原理的に閉じないクラスであり、『scan結果はadvisory、承認は出所・署名・権限最小化・behavioral観測で』という対処（RMD-SCANGATE-001、official maturity）が唯一の現実的統制。引用統計がベンダ調査由来である点は残余不確実性として記録。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-SCANGATE-001"
+    },
+    {
+     "url": "https://owasp.org/www-project-agentic-skills-top-10/ast08",
+     "title": "OWASP AST08",
+     "summary": "'Treat scanner-based results as advisory only; never as sole gates' - the class is structurally undetectable by pattern matching."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260907-FB4523EC",
+   "problem_id": "P-20260831-FB4523EC",
+   "reviewed_at": "2026-09-07T19:10:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "本レビュー中の実測で問題が現在も再現している: 今回のrun MNT-20260907T190654Zもauthority_base.reachable=false / remote_sha=nullを記録（3回連続）し、check_authority.pyにはreachability連動のfail-closed gate（RMD-AUTHGATE-001）が未実装。一方、同セッションからのgit ls-remoteは成功しlocal_headと一致した — probeの記録と実到達性が乖離しており、『検証可能なのに未検証のlocal head基準でrunが計画・記録される』という機構がまさに動作中。remedy 2件（egress provisioning＋fail-closed gate）で対処可能。probe自体の信頼性調査をcontrollerへ申し送る。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-AUTHGATE-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-SANDBOXEGRESS-001"
+    },
+    {
+     "title": "MNT-20260907T190654Z-maintain.json + live git ls-remote (2026-09-07)",
+     "summary": "Run records reachable=false/remote_sha=null while ls-remote succeeds returning 6f93747==local_head; check_authority.py has no reachability gate."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "inventory-01"
+  }
+ ]
+}

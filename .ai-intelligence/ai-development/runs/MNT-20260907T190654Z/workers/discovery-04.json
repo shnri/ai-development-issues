@@ -1,0 +1,133 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-04",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [],
+ "work_item_id": null,
+ "facts": [
+  "The path .ai-intelligence/ai-development/findings/ declared by the local-project-evidence discovery source does not exist in the repository and never has; only .ai-intelligence/ai-development/runs/ was scannable. This is the second consecutive run in which a local scout has recorded its absence (discovery-06 recorded it on 2026-08-31).",
+  "Despite that, catalog/sources.json still lists '.ai-intelligence/ai-development/findings' in local-project-evidence.paths as of 2026-09-07, and the same path is re-issued verbatim in the MNT-20260907T190654Z plan's discovery worker item for discovery-04.",
+  "local-project-evidence.last_scanned_at was advanced to 2026-08-31T19:16:58Z with last_result.candidate_count 1, i.e. the source was marked fully scanned even though one of its two declared paths was never readable. The missing-path condition survives only as free text inside last_result.notes.",
+  "All six discovery sources received near-identical last_scanned_at watermarks (2026-08-31T19:16:57Z or :58Z), and three of the six recorded sub-coverage failures in free-text notes only: local-project-evidence ('declared findings/ path does not exist'), primary-software-engineering-research ('arXiv cs.SE mid-window listing chunk returned HTTP 400; ACM/IEEE not yet indexed for the window'), standards-security-and-risk ('MITRE ATLAS August coverage unverified (JS-only site)').",
+  "The sources.json source schema carries no structured per-path or per-domain coverage field: only last_scanned_at, cadence_days, and a free-text last_result.notes. Cadence/due-source selection therefore reads the watermark alone.",
+  "authority_base.reachable is false with remote_sha null in MNT-20260907T190654Z (branch claude/zen-carson-ull8ah, local_head 6f93747), making this the third consecutive unreachable run after MNT-20260817T200951Z and MNT-20260831T190559Z.",
+  "MNT-20260907T190654Z is in-flight: status 'planned', results {}, catalog_revision_before 83, catalog_revision_after null; its run record, run dir and the r0083 snapshot are untracked in git.",
+  "Catalog state is internally consistent with the run records: catalog.json revision 83 / problem_count 193 matches the MNT-20260831T190559Z results.catalog_summary and the MNT-20260907T190654Z catalog_revision_before, and snapshot 20260907T190654Z-r0083-MNT-20260907T190654Z.json exists.",
+  "results.deferred in MNT-20260831T190559Z is empty ({research: [], inventory: []}) and results.blocked_items / results.rejected are 0; no worker in runs/MNT-20260831T190559Z/workers/ reports status other than 'complete' (6 discovery + 2 research handoffs).",
+  "No starvation counter exists anywhere under .ai-intelligence/; the only 'starv' matches are in MNT-20260817T200951Z-maintain.json and its plan.json.",
+  "Both plan.limits.token_budget_per_run and plan.limits.time_budget_minutes are null in MNT-20260907T190654Z as in every prior run, and no run record contains measured token or wall-clock actuals.",
+  "DEC-20260815T120045Z-7415E4AB is still status 'open' with owner null and decision null, 23 days after creation.",
+  "Two snapshot files share revision r0051: 20260815T141330Z-r0051-MNT-20260815T141330Z.json and 20260815T232146Z-r0051.json; both predate 2026-08-31 and are outside this scan's change window."
+ ],
+ "inferences": [
+  "The scanned-watermark bookkeeping is write-once-on-attempt rather than write-on-coverage: a source is stamped scanned when a worker finishes, not when its declared inputs were actually read. Because due-source selection consumes only last_scanned_at, an input that is missing or that failed to fetch is not merely missed once — it is guaranteed to stay missed, since nothing schedules a retry and nothing marks the source as partially covered.",
+  "The recurrence is proven by a full maintenance cycle elapsing without repair: discovery-06 reported the nonexistent findings/ path on 2026-08-31 both as an explicit risk and as a note persisted into sources.json, and the controller nonetheless re-issued the identical path list in the 2026-09-07 plan and advanced the watermark. A defect recorded into a free-text field is not routed to any repair path.",
+  "This is a general AI-development mechanism, not merely a quirk of this maintenance controller: any agent evidence-collection loop that tracks freshness with a per-source timestamp, and records fetch failures as prose rather than as structured coverage state, will silently overstate its own coverage and converge on a stable blind spot.",
+  "The practical response is not derivable from any of the 193 catalogued problems: advance the freshness watermark per declared input rather than per source, record fetch outcome as a structured status, and treat a missing or failed input as a due item on the next cycle instead of as a completed one.",
+  "The third consecutive authority_base.reachable false is confirming evidence for the already-catalogued P-20260831-FB4523EC rather than a new problem; it does strengthen that entry from 2-of-3 to 3-of-4 runs and is worth attaching as evidence.",
+  "Absence of token/time budgets and actuals again makes the 'unexplained time or token loss' query theme unevidenceable from local data; consistent with the prior scout, this stays covered by G22/K06/K11 and warrants no new entry.",
+  "The 23-day-old unowned decision package and the fixed per-run action caps remain oversight-bandwidth symptoms already carried by J03/J15/G14; the duplicate r0051 snapshot revision is the A03/A14 duplicated-counter mechanism and is out of window."
+ ],
+ "evidence": [
+  {
+   "path": ".ai-intelligence/ai-development/catalog/sources.json",
+   "summary": "local-project-evidence declares paths ['.ai-intelligence/ai-development/findings', '.ai-intelligence/ai-development/runs'] with last_scanned_at 2026-08-31T19:16:58Z and candidate_count 1; the nonexistent findings/ path is disclosed only inside last_result.notes. Two sibling sources record HTTP 400 / unverified-coverage failures in notes while carrying the same fully-scanned watermark."
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260907T190654Z-maintain.json",
+   "summary": "plan.discovery re-issues the nonexistent findings/ path to discovery-04 one week after it was reported missing; authority_base reachable false / remote_sha null on branch claude/zen-carson-ull8ah; status planned with empty results."
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/workers/discovery-06.json",
+   "summary": "Prior local scout's handoff: fact 1 and risk 2 both state the declared findings/ path has never existed and that the local-evidence channel may therefore be under-reporting; the finding was not converted into a catalog candidate or a repair item."
+  },
+  {
+   "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/metrics.json",
+   "summary": "Run metrics report sources_scanned 6 with no coverage qualifier, so a source with an unreadable declared input counts identically to a fully covered one."
+  },
+  {
+   "path": ".ai-intelligence/ai-development/catalog/maintenance-policy.json",
+   "summary": "Cadence policy exposes cadence_days and evidence_refresh_days keyed by evidence tier only; there is no per-input coverage or retry concept for a source whose fetch partially failed."
+  }
+ ],
+ "files_written": [
+  "scratchpad:handoff-discovery-04.json"
+ ],
+ "checks_run": [
+  "confirmed .ai-intelligence/ai-development/findings/ is absent (find over the whole repo for any 'finding' path)",
+  "enumerated runs/ (8 maintain records, 4 run dirs, 1 merge record) and diffed MNT-20260831T190559Z vs MNT-20260907T190654Z run records field by field",
+  "read all 8 worker handoffs in runs/MNT-20260831T190559Z/workers/ and checked every status, deferral and risk field",
+  "read runs/MNT-20260831T190559Z/metrics.json, plan.json, deferred, catalog_summary, limits and capacity blocks",
+  "read all six source definitions in catalog/sources.json and compared last_scanned_at watermarks against last_result.notes",
+  "cross-checked catalog.json revision/problem_count against both run records and the snapshots/ directory listing",
+  "grepped .ai-intelligence/ for starvation counters (only 2 pre-window matches)",
+  "listed catalog/candidates/ (34 files) to avoid re-raising the 27 DSC-20260831 candidates",
+  "deduplicated the candidate mechanism against all 193 ids+titles in scratchpad/catalog-titles.json via two keyword sweeps (scan/coverage/detection, then failure/partial/staleness) and reviewed the near-miss set A03, A14, B11, C01, D01, D08, F06, F15, G06, J13, K05, K11, P-20260831-FB4523EC individually",
+  "verified decisions/DEC-20260815T120045Z-7415E4AB is still open with no owner",
+  "checked git log and working-tree status to confirm which run artifacts are untracked"
+ ],
+ "risks": [
+  "The evidence is single-project: the mechanism is observed in this maintenance controller's own discovery loop over two cycles, not across independent tools. The controller should judge whether it generalizes to AI development at large before promoting it, as it did for P-20260831-FB4523EC.",
+  "C01 (necessary files cannot be retrieved, work proceeds on incomplete premises) and D08 (reference targets circular/missing/stale) are the nearest catalog neighbours; if the controller reads the mechanism as merely 'a missing input', it collapses into those. The distinguishing element is the freshness-watermark bookkeeping that converts a one-time miss into a permanent, self-concealing blind spot.",
+  "Because the findings/ path has never existed, it is possible it was aspirational rather than a regression; the problem is then the unreconciled declaration plus the success stamp, not a lost data feed.",
+  "The 2026-09-07 run artifacts are untracked and the run is still in-flight, so this scan's inputs may change before the run is committed."
+ ],
+ "recommended_action": "Promote one new discovery candidate (DSC-20260907-scan-watermark-advances-over-uncovered-inputs) covering freshness watermarks that advance over uncovered or failed inputs; separately attach the third consecutive authority_base.reachable=false observation from MNT-20260907T190654Z as new evidence on the existing P-20260831-FB4523EC rather than as a new problem. No other unmapped recurring failure, deferral or run/catalog inconsistency was found in the window.",
+ "next_gate": "merge_discovery_candidate",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-scan-watermark-advances-over-uncovered-inputs",
+   "title": "取得できなかった入力を含んだまま走査済みwatermarkだけが前進し、欠損が恒久的な死角として固定される",
+   "summary": "The maintenance controller's discovery loop stamps each source with a single last_scanned_at watermark when a worker finishes, not when the source's declared inputs were actually read. In catalog/sources.json the local-project-evidence source declares two paths, one of which ('.ai-intelligence/ai-development/findings') does not exist and never has, yet its watermark was advanced to 2026-08-31T19:16:58Z and it was counted among 'sources_scanned: 6' in runs/MNT-20260831T190559Z/metrics.json. The same shape appears in two sibling sources whose last_result.notes record an arXiv HTTP 400 with ACM/IEEE unindexed, and MITRE ATLAS coverage unverified, while carrying identical fully-scanned watermarks. Because due-source selection and maintenance-policy.json cadence read only the watermark, and because the failure is preserved solely as prose in last_result.notes with no structured per-input coverage field, nothing schedules a retry: the gap is not merely missed once but guaranteed to stay missed. The recurrence is demonstrated across a full cycle -- runs/MNT-20260831T190559Z/workers/discovery-06.json reported the nonexistent path as both a fact and a risk, and MNT-20260907T190654Z-maintain.json nonetheless re-issued the identical path list to discovery-04 and re-advanced the watermark. The self-concealing property is what distinguishes this from C01 and D08: coverage is overstated by the very record that is supposed to reveal it.",
+   "proposed_category": "運用・費用・測定・再現性",
+   "problem_type": [
+    "operations",
+    "observability",
+    "reproducibility"
+   ],
+   "priority_lanes": [],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-04 (local-project-evidence scout)",
+   "evidence": [
+    {
+     "path": ".ai-intelligence/ai-development/catalog/sources.json",
+     "summary": "local-project-evidence declares a '.ai-intelligence/ai-development/findings' path that does not exist, yet carries last_scanned_at 2026-08-31T19:16:58Z and candidate_count 1; primary-software-engineering-research notes 'arXiv cs.SE mid-window listing chunk returned HTTP 400; ACM/IEEE not yet indexed' and standards-security-and-risk notes 'MITRE ATLAS August coverage unverified (JS-only site)', both with the same fully-scanned watermark. No structured per-path or per-domain coverage field exists."
+    },
+    {
+     "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/workers/discovery-06.json",
+     "summary": "Prior local scout recorded the missing findings/ path as fact 1 and as risk 2 ('the local-evidence channel may be under-reporting'), but the observation was never converted into a repair item or a catalog candidate."
+    },
+    {
+     "path": ".ai-intelligence/ai-development/runs/MNT-20260907T190654Z-maintain.json",
+     "summary": "One cycle later, plan.discovery re-issues the identical two-path list including the nonexistent findings/ path to discovery-04, proving the defective declaration survives a full maintenance run."
+    },
+    {
+     "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/metrics.json",
+     "summary": "Reports 'sources_scanned: 6' with no coverage qualifier, so a source with an unreadable declared input is indistinguishable from a fully covered one in run-level metrics."
+    },
+    {
+     "path": ".ai-intelligence/ai-development/catalog/maintenance-policy.json",
+     "summary": "cadence_days and evidence_refresh_days are keyed by source and evidence tier only; the policy has no notion of a partially covered source, so a failed input cannot become due again."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "local-project-evidence"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "agent discovery and evidence-collection loops",
+     "scheduled repository and web scanners",
+     "maintenance controllers with per-source freshness tracking"
+    ],
+    "models": []
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate"
+  }
+ ]
+}

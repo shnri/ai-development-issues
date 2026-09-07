@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-MCPERRACT-001",
+  "problem_ids": [
+    "P-20260907-60990370"
+  ],
+  "summary": "MCP tool失敗後の回復判断を『error結果からの推測』に依存させない二層対策: (1) server側 — error結果（isError:true）に原因・対象・実行可能な修復手順・再実行の安全性を明示する。structuredContent＋outputSchemaで型付きerror payload（cause、retriable、retry_after等）を定義し、論文の六部actionability profile（失敗の観測可能性／具体的原因／修復対象／実行可能修復／安全なreplay制約）をerror設計のchecklistとして使う。(2) 契約側 — 再実行の安全性はper-errorではなくper-toolのToolAnnotations（idempotentHint: 同一引数の反復呼出しが追加効果を持たない[default false]、destructiveHint[default true]、readOnlyHint）で宣言し、client/agent harnessは『idempotentHint=trueかつreadOnly系のみ自動retry、destructive×非idempotentは人間確認かside-effect照会後』というreplay policyをtool契約から導出する。annotationsはspec上hintであり、信頼できないserverからのものを安全性の根拠にしてはならない。",
+  "remedy_type": "structural-decision",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2609.00072",
+      "observed_at": "2026-09-07",
+      "summary": "21 induced failures×10 serverの監査: typed fieldは失敗の発生（18/21）と広い方針（8/21）を伝えるが、具体的原因・実行可能修復・replay制約はほぼゼロ。六部actionability profileを提示 — server側error設計のchecklistとして再利用可能。単一著者・小標本。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "observed_at": "2026-09-07",
+      "summary": "spec 2025-06-18: tool execution errorはisError:true＋content、structuredContent＋outputSchemaで型付き結果を定義可能（server MUST conform、client SHOULD validate）。annotationsは信頼できないserverからはuntrustedとして扱うことをclientにMUSTで要求。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/main/schema/2025-06-18/schema.ts",
+      "observed_at": "2026-09-07",
+      "summary": "ToolAnnotations定義: idempotentHint『同一引数での反復呼出しは環境に追加効果なし』(default false)、destructiveHint(default true)、readOnlyHint(default false)、openWorldHint(default true)。全てhintで忠実性は保証されない。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "自作・自組織管理のMCP serverがあり、error結果の形式を変更できる",
+      "agent harness/clientがtool定義のannotationsを読みretry方針に反映できる",
+      "副作用のあるtool（書込・送信・課金操作）をagentが自律実行する"
+    ],
+    "not_applicable_when": [
+      "第三者MCP serverのみでerror形式に手を入れられない場合（client側のannotation-driven replay policyのみ適用可）",
+      "信頼できないserverのannotationsを安全性根拠にする構成（specがuntrusted扱いをMUSTで要求 — sandbox・確認prompt側で守る）",
+      "read-onlyで副作用のないtoolのみのserver（retryは常に安全でreplay判断問題が生じない）"
+    ]
+  },
+  "expected_effect": {
+    "primary": "失敗後のagent行動が『server毎のheuristic推測』から『tool契約＋型付きerror payloadに基づく決定』になり、重複副作用リスクのある盲目的retryと不必要な放棄の両方を減らす",
+    "metrics": [
+      "自組織serverのerror結果のうち原因・修復・replay可否を含む割合（六部profileでの充足数）",
+      "非idempotent toolへの自動retry件数（0が目標）",
+      "tool失敗後にsessionが正しく回復（修復して成功 or 安全に中止）した割合"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "根拠論文は単一著者・21件の小標本で独立再現がない",
+    "annotationsは自己申告のhintであり、誤宣言（非idempotentをidempotentと宣言）を検出する仕組みはない",
+    "error payloadへの詳細情報（内部path・query等）の記載が情報漏えい面を広げうる",
+    "clientのannotations活用度は実装依存で、宣言しても読まれない可能性がある"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "自組織serverのerror schema設計＋harnessのretry policy実装。protocol変更は不要（既存spec機能のみ）",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "tool",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "error messageの文字列を人間可読にしただけで型付きの原因・replay欄を持たない（agentのparse依存が残る）",
+    "annotationsのdefault（destructive=true, idempotent=false）を知らずに未宣言のまま、clientが全toolを危険側扱い/あるいは実装によっては楽観扱いする",
+    "信頼境界の外のserverのidempotentHintで自動retryを解禁する"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "MCP specがerror結果の構造（原因・retry情報）を標準化した場合（SEP動向）",
+    "actionability監査の大規模・独立再現の出現",
+    "主要client（Claude Code等）がannotation-driven retry policyを実装・変更した場合"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-LATEREQ-001",
+  "problem_ids": [
+    "P-20260907-E23B65A6"
+  ],
+  "summary": "要求の遅延出現によるRework（先行編集の約2倍の無効化）に対し、『予告』ではなく『実装前確定』で防ぐ: (1) spec-first workflow — GitHub Spec Kit（constitution→/specify→/plan→/tasks→/implement）等で要求をversion管理されたspecに確定してから実装を開始し、追加要求はspec改訂として差分影響を見てから実装に流す。(2) Claude Codeではplan modeを複雑taskの既定にし、実装前にapproachを承認する（公式cost文書が『初期方向の誤りによる高価なre-workを防ぐ』と明記）。(3) 実装は小さな検証可能増分＋git commit checkpointで進め、要求が途中出現した場合の無効化半径をcommit単位に限定する。注意: 論文の統制実験は「要求の事前予告のみ」では書き換え削減効果がないことを示しており、予告をpromptに足すだけの運用は本remedyに含めない。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2609.03028",
+      "observed_at": "2026-09-07",
+      "summary": "3,553実sessionで遅延要求後の無効化が約2倍、全段階で持続。統制実験で事前予告に効果なし — agentは予告された未発効制約のために作業を留保できない。論文自体は緩和策を提案しない（本remedyは既存workflow資産からの構成）。"
+    },
+    {
+      "kind": "community",
+      "reference": "https://github.com/github/spec-kit",
+      "observed_at": "2026-09-07",
+      "summary": "Spec Kit v1.0.0（MIT、~134k stars、30+ agent統合、GitHub Copilot/Claude Code/Cursor等）。仕様を単一の正とし、specify→plan→tasks→implementの順序を強制する公開toolkit。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/costs",
+      "observed_at": "2026-09-07",
+      "summary": "公式guidance: 複雑taskはplan modeで実装前にapproach承認（'preventing expensive re-work when the initial direction is wrong'）、Escape/rewindによる早期軌道修正、増分テスト。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "session途中で要求が追加される傾向のある対話的agent開発（機能追加・仕様調整を会話で進めるチーム）",
+      "specを書く時間を実装前に確保できるtask規模（数時間以上の実装）",
+      "git等でcheckpoint可能な環境"
+    ],
+    "not_applicable_when": [
+      "探索的prototyping — 要求が作ってみないと分からない性質の作業（specが先に書けない）",
+      "数分で終わるone-shot修正（spec工程のoverheadが本体を上回る）",
+      "要求変更の発生源が外部で完全に統制不能かつ高頻度な場合（無効化半径の限定=増分checkpointのみが有効）"
+    ]
+  },
+  "expected_effect": {
+    "primary": "要求を実装開始前にspecへ確定させることで遅延出現そのものを減らし、残る途中出現の無効化半径を増分commit単位に限定する",
+    "metrics": [
+      "session内の実装開始後要求追加ターン数",
+      "要求追加後に破棄された編集行数／commit数",
+      "spec改訂から再実装完了までの時間"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "spec-first適用が本問題の指標（無効化量）を改善するかは未計測 — 論文はworkflow介入を評価していない",
+    "spec工程のoverheadで小task の総コストが増える",
+    "specが古びると逆にA07型（cross-artifact不整合）の発生源になる",
+    "『予告だけして実装を続ける』運用への退化（論文が無効と示した形）"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "Spec Kit導入＋spec作成時間。plan mode・増分commitは追加費用なし",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "harness",
+    "structural-decision"
+  ],
+  "known_failure_modes": [
+    "upcoming requirementをpromptで予告して満足する（測定済みで効果なし）",
+    "spec承認後の追加要求を会話で直接実装に流し、spec改訂を省略する",
+    "大きな未commit編集を抱えたまま要求追加を受ける"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "spec-first workflowの遅延要求rework削減効果を測定した後続研究の出現",
+    "agent側が『予告された要求のための作業留保』を実装した場合（modelまたはharnessの改善）",
+    "Spec Kit相当の公式機能がClaude Code等に統合された場合"
+  ]
+}

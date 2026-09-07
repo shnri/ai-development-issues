@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-FB4523EC",
+  "problem_id": "P-20260831-FB4523EC",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "本レビュー中の実測で問題が現在も再現している: 今回のrun MNT-20260907T190654Zもauthority_base.reachable=false / remote_sha=nullを記録（3回連続）し、check_authority.pyにはreachability連動のfail-closed gate（RMD-AUTHGATE-001）が未実装。一方、同セッションからのgit ls-remoteは成功しlocal_headと一致した — probeの記録と実到達性が乖離しており、『検証可能なのに未検証のlocal head基準でrunが計画・記録される』という機構がまさに動作中。remedy 2件（egress provisioning＋fail-closed gate）で対処可能。probe自体の信頼性調査をcontrollerへ申し送る。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-AUTHGATE-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-SANDBOXEGRESS-001"
+    },
+    {
+      "title": "MNT-20260907T190654Z-maintain.json + live git ls-remote (2026-09-07)",
+      "summary": "Run records reachable=false/remote_sha=null while ls-remote succeeds returning 6f93747==local_head; check_authority.py has no reachability gate."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}

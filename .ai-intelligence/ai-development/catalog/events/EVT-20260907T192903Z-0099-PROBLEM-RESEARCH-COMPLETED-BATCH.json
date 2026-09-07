@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T192903Z-0099-PROBLEM-RESEARCH-COMPLETED-BATCH",
+  "event_type": "problem-research-completed-batch",
+  "occurred_at": "2026-09-07T19:29:03Z",
+  "catalog_revision_before": 98,
+  "catalog_revision_after": 99,
+  "details": {
+    "run_id": "MNT-20260907T190654Z",
+    "problem_ids": [
+      "P-20260907-B8D227AC"
+    ],
+    "outcomes": {
+      "P-20260907-B8D227AC": "remedy-found"
+    },
+    "remedy_ids": [
+      "RMD-ROLEOWNERGAP-001"
+    ],
+    "provider_fixed": [],
+    "conflicts_skipped": [],
+    "invalid_count": 0,
+    "researched_at": "2026-09-07T19:29:03Z"
+  }
+}

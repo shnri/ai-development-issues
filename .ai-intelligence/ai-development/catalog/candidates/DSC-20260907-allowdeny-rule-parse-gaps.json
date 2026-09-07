@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-allowdeny-rule-parse-gaps",
+  "title": "許可・拒否ルールの解釈系ギャップ追加事例：deny規則がオプション値を素通し、括弧パスがsandboxで無言に脱落、隠れたコマンド置換を自動承認",
+  "summary": "Material update to P-20260831-60EFB5BF (command allowlist interpreted differently from the execution engine). Claude Code shipped four fixes for the same mechanism in one week: v2.1.259 'Fixed Bash Read() deny rules not covering files given as option values or operands' (deny rules bypassed when a protected file appears as a command option value or operand rather than a recognized argument position); v2.1.260 'Fixed Edit/Write/Read rules with parentheses in path being dropped or ignored by sandbox' (rules silently discarded, so the sandbox enforced less than configured); v2.1.260 'Fixed one uncompilable file permission pattern failing all file edits; such rules now guard' (a single malformed pattern collapsed the whole rule set); v2.1.260 'Fixed Bash auto-approving zsh commands hiding command substitution in specific variable assignments' (auto-approval failed to see command substitution nested in variable assignments). Confirms the cataloged mechanism is broad — parsing gaps exist on both allow and deny sides, fail both open and closed, and were still being discovered in the 2026-09 window; the provider fixed these specific instances.",
+  "proposed_category": "I",
+  "problem_type": [
+    "security",
+    "permission-semantics-gap"
+  ],
+  "priority_lanes": [
+    "safety"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "title": "Claude Code v2.1.259 / v2.1.260",
+      "published_at": "2026-09-05",
+      "summary": "Read() deny-rule operand/option-value bypass; parenthesized path rules dropped by sandbox; uncompilable pattern failing all edits; zsh hidden command-substitution auto-approved."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code"
+    ],
+    "models": []
+  },
+  "confidence": "high",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "P-20260831-60EFB5BF"
+}

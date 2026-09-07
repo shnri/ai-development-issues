@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-044EBDC6",
+  "problem_id": "P-20260831-044EBDC6",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "CodexとClaude Codeの双方で公式に文書化された現行挙動（untrusted projectはAGENTS.md/project設定を読み込まない）であり、agent出力側に可視シグナルがないため『指示を無視された』という誤診断ループを生む。ベンダはこれをセキュリティ設計として維持する方向であり自然消滅しない。trust事前provisioning（RMD-TRUSTGATE-001）とロード検証（RMD-TRUSTVERIFY-001）の両remedyがofficial maturityで、consumer側で確実に対処可能。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-TRUSTGATE-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-TRUSTVERIFY-001"
+    },
+    {
+      "url": "https://code.claude.com/docs/en/permissions",
+      "title": "Claude Code permissions: what runs before you trust a folder",
+      "summary": "Official enumeration of withheld configuration under untrusted state; behavior is by design and ongoing."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}

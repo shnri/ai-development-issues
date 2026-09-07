@@ -1,0 +1,710 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "research-01",
+ "status": "complete",
+ "role": "researcher",
+ "problem_ids": [
+  "P-20260831-60EFB5BF",
+  "P-20260907-211DB41F",
+  "P-20260907-CD83ACE2",
+  "P-20260907-D8E5A2E2",
+  "P-20260907-FE46C48C",
+  "P-20260907-F2CB0737"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "Claude Code changelog (raw, fetched 2026-09-07, latest 2.1.263): v2.1.260 contains 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode' — the FE46C48C availability regression is provider-fixed by revert in v2.1.260.",
+  "The same v2.1.260 revert re-opens the false-allow direction for P-20260831-60EFB5BF: the 2.1.259 coverage of option values (--ignore-revs-file=.env), git operands, and cd DIR && cat FILE compounds is rolled back, so Bash Read() deny rules again do not see those operand positions in current releases.",
+  "Claude Code changelog as of 2026-09-07 no longer shows headers 2.1.253-2.1.256; the symlink-swap fix ('file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check') and the Opus 5 effort/thinking fix now appear in the 2.1.251/2.1.252 block. Catalog intake on 2026-09-01/02 recorded them as v2.1.253/v2.1.254. Any current version >= 2.1.257 safely includes both under either numbering.",
+  "Gemini CLI v0.58.0 (2026-09-01, geminicli.com changelog fetched 2026-09-07) confirms 'ensure consistent symlink evaluation in ignore path handling' to prevent path bypass; same release isolates Docker/container runtime sockets in macOS Seatbelt.",
+  "Codex CLI changelog (learn.chatgpt.com, fetched 2026-09-07, latest 0.153.4 dated 2026-09-04) confirms: 0.151.0 'Prevented stale Guardian classifications from authorizing actions after permission state changes' and 'Improved remote sandbox enforcement using the executor's actual home directory, operating system, and path conventions'; 0.152.0 preservation of 'user instructions, answers, and valid authorizations across history compaction'; 0.153.0 'Guardian review history survives compaction, restarts, and user-created forks while respecting rollback boundaries'.",
+  "Claude Code v2.1.261 contains 'Fixed Remote Control showing a stale permission mode when a phone, browser, or claude.ai app attaches to a terminal session or after the mode changes in the terminal' — the approval/permission-state staleness class (CD83ACE2) was still producing instances after the 2.1.257/2.1.258 fixes.",
+  "Claude Code settings reference (fetched 2026-09-07) documents an official `attribution` settings object: attribution.commit (change/hide commit trailer), attribution.pr (change/hide PR attribution line), attribution.sessionUrl (omit the claude.ai session link from cloud and Remote Control commits); legacy includeCoAuthoredBy is deprecated in favor of it; settable in user, project, local, and managed scopes.",
+  "Anthropic platform release notes 2026-09-01 and the Thinking doc (both fetched 2026-09-07) document official replacements for every model-generation-scoped breakage in D8E5A2E2: strict tool use / structured outputs replace tool_choice any|tool; the Preserved thinking page prescribes append-only message building with mid-conversation system messages, tool_addition/tool_removal blocks, per-message output_config, and server-side compaction as the sanctioned substitutes for prefix edits; the thinking-binding-controls-2026-08-01 beta header adds input_transformations (lists dropped blocks) and thinking.block_binding.prefix_mismatch_behavior ('error'|'drop_block'). The doc states: 'Later models will enforce it for all accounts, so make your integration append-only now.'",
+  "code.claude.com/docs/en/sandboxing re-verified 2026-09-07: OS enforces the filesystem/network boundary for every Bash command and child process; strict mode 'allowUnsandboxedCommands': false makes Claude Code ignore dangerouslyDisableSandbox; sandbox.filesystem.denyRead and sandbox.credentials deny/mask (v2.1.187+) current; macOS/Linux/WSL2 only, native Windows unsupported. RMD-ALLOWLISTPARSE-001's evidence base still holds and is strengthened by the v2.1.260 revert."
+ ],
+ "inferences": [
+  "P-20260831-60EFB5BF remains structurally open: the v2.1.260 revert shows the vendor explicitly trading deny-rule string coverage away for availability, which confirms RMD-ALLOWLISTPARSE-001's thesis that the OS sandbox, not lexical rule matching, must be the effective boundary. The remedy is re-verified and extended (evidence appended, last_verified_at 2026-09-07); no genuinely different remedy exists.",
+  "The FE46C48C fix (revert) and the 60EFB5BF gap are duals of one predicate: any fix that widens deny-rule reach over Bash arguments re-creates FE46C48C, and any revert re-creates the 60EFB5BF operand gap. Consumers should therefore express read-secrecy in sandbox.filesystem.denyRead / sandbox.credentials (OS layer) rather than Read() deny rules where autonomy matters.",
+  "For D8E5A2E2 the behavior is intentional API semantics, not a bug awaiting a provider patch, so the outcome is remedy-found (official migration guidance + beta controls), not provider-fixed; only the Opus-5 effort instance was a harness bug (fixed client-side, catalog v2.1.254).",
+  "For F2CB0737 the injected per-session reminder outranks instruction-layer opt-outs (issue #92169), so only the settings-layer `attribution` object (or managed settings) is an effective control; memory/CLAUDE.md opt-outs are a known failure mode, and the default remains opt-out."
+ ],
+ "evidence": [
+  {
+   "kind": "maintainer-report",
+   "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+   "observed_at": "2026-09-07",
+   "summary": "Latest 2.1.263. Verbatim entries confirmed locally (curl+grep): 2.1.260 revert of the 2.1.259 Read() deny-rule Bash-argument coverage; 2.1.260 parentheses-path and uncompilable-pattern rule fixes; 2.1.260 zsh REPORTTIME/REPORTMEMORY/DIRSTACKSIZE hidden-command-substitution fix; 2.1.257 redirect/reader-command deny coverage; 2.1.257/2.1.258 dispatch-mode and re-sent-approval fixes; 2.1.261 stale Remote Control permission mode fix; symlink-swap and Opus-5 effort fixes now homed in the 2.1.251/2.1.252 block."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://learn.chatgpt.com/docs/changelog",
+   "observed_at": "2026-09-07",
+   "summary": "Codex CLI 0.151.0/0.152.0/0.153.0 Guardian state-lifecycle fixes and executor-home sandbox enforcement confirmed; latest 0.153.4 (2026-09-04)."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://geminicli.com/docs/changelogs/latest/",
+   "observed_at": "2026-09-07",
+   "summary": "Gemini CLI v0.58.0 (2026-09-01): consistent symlink evaluation in ignore path handling to prevent path bypass."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/settings-reference",
+   "observed_at": "2026-09-07",
+   "summary": "attribution.commit / attribution.pr / attribution.sessionUrl settings; includeCoAuthoredBy deprecated; all four scopes including managed."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://platform.claude.com/docs/en/build-with-claude/thinking",
+   "observed_at": "2026-09-07",
+   "summary": "Preserved-thinking rules: model-scope check applies to every account; prefix check enforced by default for accounts created >= 2026-08-31 UTC; official append-only migration path and thinking-binding-controls-2026-08-01 beta (input_transformations, prefix_mismatch_behavior)."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://platform.claude.com/docs/en/release-notes/overview",
+   "observed_at": "2026-09-07",
+   "summary": "2026-09-01: tool_choice any/tool return 400 on Fable 5.1/Mythos 5.1 (auto/none unchanged); recommended replacements are strict tool use and structured outputs."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/sandboxing",
+   "observed_at": "2026-09-07",
+   "summary": "OS-enforced boundary, strict sandbox mode (allowUnsandboxedCommands:false ignores dangerouslyDisableSandbox), denyRead/allowRead precedence, sandbox.credentials deny/mask — all current; re-verification basis for RMD-ALLOWLISTPARSE-001."
+  }
+ ],
+ "files_written": [
+  "handoff-research-01.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Claude Code changelog version numbering shifted between catalog intake (v2.1.253/v2.1.254 on 2026-09-01/02) and today's changelog (entries homed under 2.1.251/2.1.252, headers 2.1.253-2.1.256 absent); remedy records state both and use >=2.1.257 as the unambiguous safe floor for the symlink fix.",
+  "The v2.1.260 revert means current Claude Code deliberately does NOT cover option-value/operand positions with Read() deny rules; recording FE46C48C as provider-fixed must not be read as the deny-rule mechanism being sound — the security burden moved to the OS sandbox layer (RMD-ALLOWLISTPARSE-001).",
+  "WebFetch summarizer attributed some changelog entries to wrong versions on first fetch; all load-bearing version claims were re-verified against the raw changelog with local grep.",
+  "Provider-fix remedies for CD83ACE2 rest on changelog claims; no independent reproduction that approval state now survives all lifecycle events (2.1.261's stale-Remote-Control-mode fix shows the class still had instances after the cited fixes)."
+ ],
+ "recommended_action": "Record all six research outcomes; append the three fresh evidence items to RMD-ALLOWLISTPARSE-001 (extended draft included, same id) and bump its last_verified_at to 2026-09-07; create the five new remedies; for P-20260831-60EFB5BF add a reopen/revalidate note that the v2.1.260 revert re-opened the operand-position deny gap.",
+ "next_gate": "record_research_batch",
+ "records": [
+  {
+   "problem_id": "P-20260831-60EFB5BF",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-ALLOWLISTPARSE-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.260: 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode' — the operand/option-value deny gap fixed in 2.1.259 is re-opened by design in current releases; the parse-gap class cannot be closed by string analysis without breaking availability."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.260 further instances fixed: Edit/Write/Read rules with parentheses in the path dropped as invalid or ignored by the Bash sandbox (left 'read-only' folders writable); one uncompilable file-rule pattern making every edit fail; zsh commands hiding a command substitution in REPORTTIME/REPORTMEMORY/DIRSTACKSIZE assignments auto-approved. v2.1.257: Read()/Edit() deny rules had not applied to < file redirects and reader commands (tac, egrep); ask-rules were skipped inside compound commands/subshells in auto mode."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/sandboxing",
+     "observed_at": "2026-09-07",
+     "summary": "Re-verified current: OS enforces the filesystem/network boundary for every Bash command and child process; strict sandbox mode (allowUnsandboxedCommands:false) removes the dangerouslyDisableSandbox escape hatch; sandbox.credentials deny/mask current. RMD-ALLOWLISTPARSE-001 remains the applicable remedy; no genuinely different remedy found."
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-211DB41F",
+   "outcome": "provider-fixed",
+   "remedy_ids": [
+    "RMD-SYMLINKTOCTOU-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "'Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check, which could read or write outside the approved location' — recorded at intake as v2.1.253 (2026-09-01), now homed in the 2.1.251/2.1.252 changelog block; any >=2.1.257 includes it. v2.1.257 fixed the sibling instance of plugins reading outside their directory via symlinked component paths."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://geminicli.com/docs/changelogs/latest/",
+     "observed_at": "2026-09-07",
+     "summary": "Gemini CLI v0.58.0 (2026-09-01): 'ensure consistent symlink evaluation in ignore path handling' to prevent path bypass."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/changelog",
+     "observed_at": "2026-09-07",
+     "summary": "Codex CLI 0.151.0 (2026-08-29): 'Improved remote sandbox enforcement using the executor's actual home directory, operating system, and path conventions' — policy/executor path-identity mismatch fixed."
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-CD83ACE2",
+   "outcome": "provider-fixed",
+   "remedy_ids": [
+    "RMD-APPROVALSTATE-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/changelog",
+     "observed_at": "2026-09-07",
+     "summary": "Codex CLI 0.151.0: stale Guardian classifications no longer authorize actions after permission state changes; 0.152.0: approval reviews preserve user instructions, answers, and valid authorizations across history compaction; 0.153.0: Guardian review history survives compaction, restarts, and user-created forks while respecting rollback boundaries. Latest 0.153.4 (2026-09-04)."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.257: dispatched sessions no longer override the target directory's defaultMode/agent permissionMode; v2.1.258: remote/scheduled sessions no longer fail after a re-sent permission approval could not be applied. Residual instance: v2.1.261 fixed Remote Control showing a stale permission mode after attach or mode change — the class was still live after the cited fixes."
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-D8E5A2E2",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-MODELSCOPEDAPI-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/release-notes/overview",
+     "observed_at": "2026-09-07",
+     "summary": "2026-09-01: tool_choice any/tool return 400 on Fable 5.1/Mythos 5.1; official replacements named: strict tool use and structured outputs."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/build-with-claude/thinking",
+     "observed_at": "2026-09-07",
+     "summary": "Preserved thinking: model-scope check applies to every account (drops are silent and unbilled); prefix check default-enforced for accounts created >= 2026-08-31 00:00 UTC and 'Later models will enforce it for all accounts, so make your integration append-only now'; official substitutes for each prefix edit (mid-conversation system messages, tool_addition/tool_removal, per-message output_config, server-side compaction/context editing); thinking-binding-controls-2026-08-01 beta adds input_transformations and prefix_mismatch_behavior ('error'|'drop_block')."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "Client-side precedent: 'Fixed Opus 5 requests failing with effort … is not supported when thinking is disabled when effort was xhigh/max; effort is now sent as high in that case' (intake v2.1.254, now in the 2.1.251/2.1.252 block) — harnesses must map parameters per model generation."
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-FE46C48C",
+   "outcome": "provider-fixed",
+   "remedy_ids": [
+    "RMD-DENYREADGUARD-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.260 verbatim: 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode.' The over-approximated guard armed by any Read() deny rule is removed as of v2.1.260; v2.1.261/2.1.263 show no re-introduction."
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/anthropics/claude-code/issues/91650",
+     "observed_at": "2026-09-07",
+     "summary": "Regression cluster (#91650, #91683, #91778, #91848, #91751; 2026-09-02..09-03) matches the reverted 2.1.259 change: cd-compound/search guard prompting in auto mode, bypassPermissions, and headless runs whenever any Read() deny rule existed."
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-F2CB0737",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-ATTRIBCONFIG-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/settings-reference",
+     "observed_at": "2026-09-07",
+     "summary": "Official `attribution` settings object: attribution.commit (change/hide commit trailer), attribution.pr (change/hide PR attribution line), attribution.sessionUrl (omit the claude.ai session link from cloud and Remote Control commits); includeCoAuthoredBy deprecated; configurable in user, project, local, and managed scopes."
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/anthropics/claude-code/issues/92169",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.260 per-session injected reminder ('replaces any earlier attribution guidance') defeats memory/instruction-layer opt-outs — confirms only the settings layer is an effective control; the settings key removes the injection rather than arguing with it."
+    }
+   ],
+   "researched_at": "2026-09-07"
+  }
+ ],
+ "remedy_drafts": [
+  {
+   "schema_version": "1.0",
+   "id": "RMD-ALLOWLISTPARSE-001",
+   "problem_ids": [
+    "P-20260831-60EFB5BF"
+   ],
+   "summary": "コマンド文字列の許可リストを『唯一の境界』にしない: 実効境界を OS レベルの sandbox (filesystem write 規則 + deny-by-default の network egress + credentials deny/mask + strict mode allowUnsandboxedCommands:false) に置き、allowlist/denylist は多層防御の一枚として扱う。あわせて『許可されたコード実行系』(node --test、build、plugin 付き linter、パッケージスクリプト) は任意実行と等価と見なして権限設計し、agent 実行環境から production credential を外す。パッチは CVE 単位で出続けるため、harness 更新のたびに bypass 回帰テストを回す。2026-09 の v2.1.260 revert (deny rule の引数適用を可用性理由で撤回) により、operand 位置の読み取り秘匿は Read() deny rule ではなく sandbox.filesystem.denyRead / sandbox.credentials で表現することが必須になった。",
+   "remedy_type": "harness",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/sandboxing",
+     "observed_at": "2026-09-07",
+     "summary": "再確認 (2026-09-07): 'the operating system enforces that boundary for every Bash command and its child processes'。allowRead/denyRead は specific-path-wins で重なりを解決、strict sandbox mode で dangerouslyDisableSandbox を無効化、sandbox.credentials deny/mask (v2.1.187+)、managed 配布時は developer 側から緩和不可。macOS/Linux/WSL2 のみ。"
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html",
+     "observed_at": "2026-08-31",
+     "summary": "CVE-2026-54316 は validator が検査前に単一引用符内を除去したため git flag 値のペイロードが素通り、Claude Code 2.1.163 で修正。CVE-2026-12537 は allowlist が tool 登録時のみ解釈され runtime で強制されず、Gemini CLI 0.39.1 / run-gemini-cli 0.1.22 で修正。"
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://adversa.ai/blog/claude-code-security-bypass-deny-rules-disabled/",
+     "observed_at": "2026-08-31",
+     "summary": "50個超の subcommand を連結すると deny rule 判定を丸ごとスキップ (bashPermissions.ts)。2026-04-01 公表、v2.1.90 (2026-04-06) で修正。"
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "observed_at": "2026-08-31",
+     "summary": "v2.1.251 (2026-08-28) 'Fixed Bash permission checks auto-approving commands that assign an arithmetic expression'。現行リリース系列でも同種 bypass が継続していることを示す。"
+    },
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/pdf/2603.27517",
+     "observed_at": "2026-08-31",
+     "summary": "OpenClaw で同一の構造的欠陥から3件の exec allowlist 迂回。ベンダ固有ではなく設計クラスの問題。"
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.260 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build ... and made cd … && grep prompt even in auto mode'。option 値・operand 位置の deny 適用は可用性理由で撤回され、文字列判定の被覆と可用性が両立しないことをベンダ自身が示した。字句解析を狭めれば false-allow、広げれば false-deny (P-20260907-FE46C48C) になる双対。"
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "新規インスタンス修正 (2026-09 系列): v2.1.260 で括弧を含むパスの Edit/Write/Read 規則が invalid として脱落し sandbox でも無視され『read-only』フォルダが書き込み可能だった問題、コンパイル不能な規則パターンで全編集が失敗する問題、zsh の REPORTTIME/REPORTMEMORY/DIRSTACKSIZE 代入に隠した command substitution の auto-approve を修正。v2.1.257 で < file リダイレクトと tac/egrep 等 reader への deny 不適用、compound/subshell 内での ask 規則スキップを修正。クラスは現行系列で継続発生中。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "permissions.allow / deny や allowedTools でコマンド安全性を判定している",
+     "agent が shell、パッケージマネージャ、テストランナー、linter を実行できる",
+     "macOS / Linux / WSL2 (Claude Code の built-in sandbox 動作環境)",
+     "CI や headless で agent を無人実行している"
+    ],
+    "not_applicable_when": [
+     "ネイティブ Windows で built-in sandbox が使えない (WSL2 内実行に移す)",
+     "sandbox.filesystem.disabled を true にしている構成 (書き込み境界が消えるため本 remedy の前提が崩れる)",
+     "そもそもコマンド実行系ツールを持たないセッション (--restricted など)"
+    ]
+   },
+   "expected_effect": {
+    "primary": "許可判定の解釈差が生じても副作用が OS 境界を越えない。指標: sandbox 外で実行されたコマンド数 (strict mode では0)、許可外ドメインへの egress 試行数、sandbox 内から読める credential file / env 数、harness 更新ごとの bypass 回帰テスト pass 率、既知 CVE 修正版へのバージョン追随ラグ。",
+    "confidence": "official"
+   },
+   "risks": [
+    "sandbox は escape hatch (dangerouslyDisableSandbox) を持つため、strict mode を明示しない限り迂回されうる",
+    "network 制限で正当な依存解決やツールが壊れ、excludedCommands での穴あけに流れやすい",
+    "sandbox proxy / cache proxy 自体が攻撃面になる (P-20260831-C476A122 参照)",
+    "OS 境界を信頼して allowlist の保守を止めると、sandbox 内での破壊操作 (作業ツリー削除等) は防げない",
+    "v2.1.260 revert 以降、Read() deny rule は operand 位置を被覆しないため、deny rule だけで秘匿している構成は再び素通しになる (sandbox denyRead / credentials へ移すこと)"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 3,
+   "reversible": true,
+   "cost": "sandbox 規則 (denyRead/denyWrite/credentials/network) の設計と、harness 更新ごとの bypass 回帰テスト運用",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "setting",
+    "process"
+   ],
+   "known_failure_modes": [
+    "Read() deny rule に読み取り秘匿を任せる (v2.1.260 revert で operand 位置は非被覆)",
+    "strict mode 未設定のまま sandbox を境界と信じる (escape hatch が残る)",
+    "instance patch (CVE 単位の修正) を根本解決と誤認して多層防御を解く"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "Claude Code / Gemini CLI / Codex の permission・sandbox 仕様変更",
+    "新たな allowlist bypass CVE の公表",
+    "sandbox の escape hatch や excludedCommands の既定変更",
+    "harness の major update ごと",
+    "Read() deny rule の Bash 引数適用が再導入された場合 (v2.1.260 revert の巻き戻し)"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-SYMLINKTOCTOU-001",
+   "problem_ids": [
+    "P-20260907-211DB41F"
+   ],
+   "summary": "symlink の check-time/use-time 乖離による権限迂回は3ベンダとも修正済み: Claude Code は『permission check 後に差し替えられた symlink を file tool が追って承認外の場所を読み書きできた』問題を修正 (catalog 採取時 v2.1.253、現行 changelog では 2.1.251/2.1.252 区画; v2.1.257 以降なら確実に包含。v2.1.257 では plugin component path の symlink 経由読み出しも修正)。Gemini CLI v0.58.0 は ignore path 処理の symlink 評価を一貫化、Codex CLI 0.151.0 は executor の実 home directory / OS / path 規約基準で remote sandbox を強制。対策は各 harness をこれらの版以上へ更新すること。残余 risk (同 class の再発、checker が字句 path で判定する別経路) には OS 層の sandbox denyRead/denyWrite を第二層として併用する — kernel が実 path を解決するため、文字列レベルの symlink 混同の影響を受けない。",
+   "remedy_type": "provider-fix",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "'Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check, which could read or write outside the approved location' (採取時 v2.1.253, 2026-09-01; 現行 changelog は 2.1.251/2.1.252 区画に収載)。v2.1.257: 'Fixed plugins being able to read files outside their own directory through a declared command, agent, skill, hooks or other component path that is a symlink' — 同 class の別経路も修正。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://geminicli.com/docs/changelogs/latest/",
+     "observed_at": "2026-09-07",
+     "summary": "Gemini CLI v0.58.0 (2026-09-01): 'ensure consistent symlink evaluation in ignore path handling' による path bypass 防止。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/changelog",
+     "observed_at": "2026-09-07",
+     "summary": "Codex CLI 0.151.0 (2026-08-29): 'Improved remote sandbox enforcement using the executor's actual home directory, operating system, and path conventions' — policy と executor の path identity 不一致を解消。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/sandboxing",
+     "observed_at": "2026-09-07",
+     "summary": "第二層: sandbox.filesystem.denyRead/denyWrite は OS が実 path で強制するため、check-time の字句判定と use-time の解決の乖離に依存しない。sandbox.credentials deny/mask で秘匿 file を blast radius の外へ。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Claude Code / Gemini CLI / Codex CLI を file 権限や ignore/除外 path 前提で運用している",
+     "作業 tree 内に信頼できない内容 (checkout した PR、生成物、依存物) が symlink を作り得る",
+     "harness のバージョンを consumer 側で更新できる"
+    ],
+    "not_applicable_when": [
+     "修正版へ更新できない固定環境 (その場合は sandbox denyRead/denyWrite を主境界にし、untrusted checkout を扱わない)",
+     "file tool を持たないセッション構成",
+     "symlink を作れない実行環境 (書き込み不可の read-only checkout のみ)"
+    ]
+   },
+   "expected_effect": {
+    "primary": "承認済み path 経由での保護対象 file への到達 (TOCTOU swap、ignore 迂回、home 解決不一致) が修正版では再現しない。指標: 各 harness の稼働バージョン >= 修正版 (Claude Code >=2.1.257 を安全下限、Gemini CLI >=0.58.0、Codex >=0.151.0) の充足率、symlink swap 再現テストの fail (=防御成功) 率、sandbox denyRead が実 path で強制されているかの検証。",
+    "confidence": "official"
+   },
+   "risks": [
+    "TOCTOU は class として残る: 修正は既知経路 (file tools / ignore / remote home) のみで、字句 path で判定する別 checker (hook、独自 tool、MCP server) は各自の検証が必要",
+    "Claude Code の changelog 版番号が採取時 (2.1.253) と現在 (2.1.251/2.1.252 区画) で食い違っており、『2.1.253 以上』を条件にした version gate は誤判定し得る (2.1.257 を下限にする)",
+    "ベンダ再現手順が公開されておらず、修正の完全性は changelog 記述に依存"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 1,
+   "reversible": true,
+   "cost": "harness バージョン更新と、CI での最低バージョン gate 追加のみ",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "harness",
+    "setting"
+   ],
+   "known_failure_modes": [
+    "修正版更新だけで安心し、独自 hook / MCP tool の字句 path 判定を放置する",
+    "version gate を 2.1.253 の文字列比較で書き、changelog 再編で誤 pass させる",
+    "sandbox.filesystem.disabled 構成で第二層が存在しないまま運用する"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "いずれかの harness で symlink / path-resolution 系の新規修正エントリが出た場合",
+    "Claude Code changelog の版再編が再発した場合 (version gate の再確認)",
+    "独自 tool / hook を追加して path 判定箇所が増えた場合"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-APPROVALSTATE-001",
+   "problem_ids": [
+    "P-20260907-CD83ACE2"
+   ],
+   "summary": "承認・レビュー状態の lifecycle 不整合は両ベンダが修正済み: Codex CLI 0.151.0 (2026-08-29) で権限変更後の stale Guardian classification による fail-open を停止、0.152.0 (2026-09-01) で自動承認レビューが user instructions・回答・有効な authorization を compaction 越しに保持、0.153.0 (2026-09-03) で Guardian review history が compaction・再起動・fork を生き延びる (rollback 境界は尊重)。Claude Code は v2.1.257 で dispatch 元 session の permission mode が対象 directory の defaultMode を上書きする問題、v2.1.258 で再送 permission approval が適用できず remote/scheduled session が失敗する問題を修正。対策は Codex >=0.153.0・Claude Code >=2.1.258 への更新。残余運用則: 権限 profile を変更したら既存 session の承認は失効したものとして session を再起動する / 長期 run・fork では承認履歴が消え得る前提で「どの承認 regime にいるか」を turn 冒頭に確認する (v2.1.261 でも stale permission mode 表示の修正が続いており class は完全収束していない)。",
+   "remedy_type": "provider-fix",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/changelog",
+     "observed_at": "2026-09-07",
+     "summary": "Codex CLI 0.151.0 'Prevented stale Guardian classifications from authorizing actions after permission state changes'; 0.152.0 'preservation of user instructions, answers, and valid authorizations across history compaction'; 0.153.0 'Guardian review history survives compaction, restarts, and user-created forks while respecting rollback boundaries'。最新 0.153.4 (2026-09-04)。"
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.257 'Fixed sessions dispatched from an agent view ... always starting in the original session's permission mode, overriding the target directory's defaultMode and the agent's permissionMode'; v2.1.258 'Fixed remote and scheduled sessions failing ... after a re-sent permission approval could not be applied'。残余: v2.1.261 'Fixed Remote Control showing a stale permission mode when a phone, browser, or claude.ai app attaches ... or after the mode changes in the terminal' — class は修正後も新 instance を出している。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Codex CLI の Guardian / 自動承認レビュー、または Claude Code の remote・scheduled・dispatch・fork 機能を使っている",
+     "session 途中で permission profile / mode を変更する運用がある",
+     "長時間 run で compaction・再起動・fork が起きる"
+    ],
+    "not_applicable_when": [
+     "承認を伴わない完全対話型・都度承認の短い session のみの運用",
+     "修正版 (Codex >=0.153.0 / Claude Code >=2.1.258) へ更新できない環境 — その場合は権限変更のたびに session を作り直す運用側 workaround に切り替える"
+    ]
+   },
+   "expected_effect": {
+    "primary": "権限変更後に古い承認が action を authorize する fail-open と、compaction・再起動・fork で有効な承認・レビュー履歴が消える fail-closed の両方向が修正版では解消。指標: 稼働バージョン充足率、権限変更後に旧承認で実行された action 数 (0 が期待値)、compaction/fork 後のレビュー履歴残存率、re-sent approval 起因の session 失敗数。",
+    "confidence": "official"
+   },
+   "risks": [
+    "v2.1.261 の stale permission mode 表示修正が示す通り、lifecycle × 承認状態の組合せは網羅されておらず新 instance が出続けている",
+    "changelog 記述のみが根拠で、承認状態が全 lifecycle event を生き延びることの独立再現はない",
+    "『承認が残る』方向の修正は自動化の中断 (再承認要求) を増やし、無人 run の設計に影響する"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 1,
+   "reversible": true,
+   "cost": "harness 更新と、権限変更時 session 再起動の運用ルール1行",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "process",
+    "observability"
+   ],
+   "known_failure_modes": [
+    "権限 profile 変更後も既存 session を使い続け、check 時点の承認 regime を確認しない",
+    "fork した session で親の承認履歴が引き継がれている / いないの想定を版を確認せず固定する",
+    "承認状態の監査を transcript にのみ依存する (harness 側記録との突合をしない)"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "Codex Guardian / Claude Code permission の状態管理仕様変更",
+    "compaction・fork・dispatch 系の新機能追加時",
+    "同 class の新規修正エントリ (stale approval / lost review) が changelog に出た場合"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-MODELSCOPEDAPI-001",
+   "problem_ids": [
+    "P-20260907-D8E5A2E2"
+   ],
+   "summary": "モデル世代 scope の API 契約に harness を合わせる公式移行を適用する: (1) tool_choice any/tool は Fable 5.1 / Mythos 5.1 で 400 になるため、tool 強制は strict tool use / structured outputs へ置換する。(2) 会話履歴は append-only に構築し、system・tools・過去 message の書換えは公式代替 — mid-conversation system messages、tool_addition/tool_removal blocks、per-message output_config、server-side compaction / context editing — へ移す (『Later models will enforce it for all accounts, so make your integration append-only now』)。(3) model 切替・fallback は『同 model か新しい方向』のみに制限し、旧 model への downgrade replay は thinking block が無言 drop される前提で設計する。(4) `thinking-binding-controls-2026-08-01` beta header で `input_transformations` により drop を可視化し、`thinking.block_binding.prefix_mismatch_behavior` を 'error' か 'drop_block' に明示して account 作成日 cohort 依存の挙動差を排除する。(5) harness を更新する (Claude Code は Opus 5 の effort×thinking 非互換を client 側で吸収済み、採取時 v2.1.254)。",
+   "remedy_type": "harness",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/release-notes/overview",
+     "observed_at": "2026-09-07",
+     "summary": "2026-09-01: 'On Claude Fable 5.1 and Claude Mythos 5.1, tool_choice types any and tool aren't supported and return a 400 error. auto and none are unchanged. To guarantee schema-conformant tool inputs, use strict tool use or structured outputs.'"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/build-with-claude/thinking",
+     "observed_at": "2026-09-07",
+     "summary": "Preserved thinking: model check は全 account に適用 (旧 model は新 model の block を読めず、API は該当 block を error なし・課金なしで drop)。prefix check は 2026-08-31 00:00 UTC 以降作成 account に既定強制、旧 account は prefix_mismatch_behavior 設定時のみ。『make your integration append-only now』。各 prefix 編集の公式代替 (mid-conversation system messages / tool_addition・tool_removal / per-message output_config / server-side compaction・context editing) と client-side compaction の可否パターンを列挙。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://platform.claude.com/docs/en/build-with-claude/preserved-thinking",
+     "observed_at": "2026-09-07",
+     "summary": "thinking-binding-controls-2026-08-01 beta: 全 response に input_transformations 配列 (drop された block を列挙)、thinking.block_binding.prefix_mismatch_behavior は 'error' | 'drop_block'。切替方向の規則 (Switching models mid-conversation) と prefix 検査 (Keeping the prefix unchanged) を規定。"
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "'Fixed Opus 5 requests failing with effort … is not supported when thinking is disabled when effort was xhigh/max; effort is now sent as high in that case' (採取時 v2.1.254) — model 世代ごとの parameter 写像を harness 側で持つ先行例。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Claude API を直接呼ぶ harness / agent で、mid-session の model 切替・overload fallback・履歴編集 (compaction、動的 tool 登録、system prompt 差し替え) のいずれかを行っている",
+     "tool_choice any / tool で tool 使用を強制している呼び出しがある",
+     "Fable 5.1 / Mythos 5.1 以降への移行を予定している、または既に混在運用している"
+    ],
+    "not_applicable_when": [
+     "単一 model 固定・単発 request のみで会話 replay をしない利用",
+     "公式 SDK / harness (Claude Code 等) が全 request を組み立て、自前で messages 配列を構築しない場合 (harness 更新のみで足りる)",
+     "thinking を一切使わず tool_choice auto/none のみの構成 (影響面がない)"
+    ]
+   },
+   "expected_effect": {
+    "primary": "model 切替・fallback・履歴編集が 400 や無言 drop に化ける version-skew 面を、公式代替 API と明示設定で決定的挙動 (error か既知の drop) に変える。指標: tool_choice any/tool の残存呼び出し数 (0 目標)、prefix 編集をする code path の残数、input_transformations で観測される意図しない drop 件数、旧 model への downgrade replay 発生数、account cohort によって挙動が分かれる構成の有無。",
+    "confidence": "official"
+   },
+   "risks": [
+    "beta header (thinking-binding-controls-2026-08-01) は仕様変更・廃止があり得る",
+    "prefix_mismatch_behavior: 'error' は fail-fast だが可用性を下げ、'drop_block' は静かな品質低下を許す — どちらを選んだかの記録が必要",
+    "strict tool use / structured outputs への置換は tool schema の厳格化を伴い、既存の緩い schema では変換工数が出る",
+    "fallback を『新しい方向のみ』に制限すると、新 model 障害時の逃げ先がなくなる (その場合は thinking block を明示的に捨てて旧 model へ落とす設計判断を記録する)"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 3,
+   "reversible": true,
+   "cost": "呼び出し側の tool_choice 置換、messages 構築の append-only 化、fallback 方向規則と beta header の導入・監視",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "process",
+    "observability"
+   ],
+   "known_failure_modes": [
+    "旧 account で問題なく動くことを根拠に新 account / 将来 model でも動くと想定する (cohort 依存・『later models will enforce it for all accounts』)",
+    "overload fallback が旧世代 model へ落ちる経路を残したまま thinking 継続を期待する (無言 drop)",
+    "compaction 実装が prefix を書き換えているのに server-side compaction へ移行しない"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "thinking-binding-controls beta の GA 化・仕様変更",
+    "次期 model 世代のリリース (prefix check の全 account 強制化を含む)",
+    "tool_choice / structured outputs の仕様変更",
+    "Claude Agent SDK / Claude Code が fallback 方向規則を内蔵した場合"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-DENYREADGUARD-001",
+   "problem_ids": [
+    "P-20260907-FE46C48C"
+   ],
+   "summary": "Read() deny rule 起因の読み取り専用 Bash 全面ブロックは Claude Code v2.1.260 で provider 修正 (revert) 済み: 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode'。対策は v2.1.260 以降 (実務上は 2.1.261+) への更新。2.1.257–2.1.259 に pin されている環境の暫定 workaround は、permissions の Read() deny rule を外し、読み取り秘匿を sandbox.filesystem.denyRead / sandbox.credentials (OS 強制・字句判定に依存しない) で表現すること。恒久運用則: revert は 2026-08-31 の false-allow 修正 (operand/option 値の被覆) の巻き戻しでもあるため、denial の実効性を deny rule 文字列に置かず OS 層へ置く (RMD-ALLOWLISTPARSE-001)。加えて harness 更新ごとに、auto mode での代表的 read-only コマンド (cd X && grep、rg stdin、grep -r --include) が無 prompt で通る canary 回帰を回し、fix↔revert の振動を検出する。",
+   "remedy_type": "provider-fix",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.259 が regression 源: 'Fixed Bash Read() deny rules not covering files given as option values (--ignore-revs-file=.env, -f.env, @file), git diff/git grep file operands, or cd DIR && cat FILE compounds; grep -r/cp -r over a directory holding a denied file now asks'。v2.1.260 が revert: '...it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode'。v2.1.261–2.1.263 に再導入エントリなし (2026-09-07 時点)。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/anthropics/claude-code/issues/91650",
+     "observed_at": "2026-09-07",
+     "summary": "regression cluster (#91650 56+1, #91683 bypassPermissions, #91778 grep -r --include, #91848 予測が deny pattern を無視, #91751 rg stdin 誤分類; 2026-09-02..09-03) — revert 対象の挙動と一致。修正確認の canary はこれらの再現コマンドをそのまま使える。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/sandboxing",
+     "observed_at": "2026-09-07",
+     "summary": "workaround/恒久側の受け皿: sandbox.filesystem.denyRead は OS が実 path で強制し ('allowRead: ~/ + denyRead: ~/**/.env' の specific-wins 規則)、sandbox.credentials deny/mask が secret を sandboxed command から遮断。deny rule 文字列判定と違い到達可能性の静的予測を必要としない。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Claude Code 2.1.257–2.1.259 を使用中、または過去 pin している",
+     "settings に Read() deny rule を1つ以上持つ",
+     "auto mode・bypassPermissions・headless/CI・subagent で無人実行している"
+    ],
+    "not_applicable_when": [
+     "Read() deny rule を一切使っていない構成 (guard は arm されない)",
+     "常時対話で prompt 増を許容できる運用 (可用性問題が顕在化しない)",
+     "sandbox が使えないネイティブ Windows で OS 層 workaround に移せない場合 (バージョン更新のみが対策)"
+    ]
+   },
+   "expected_effect": {
+    "primary": "v2.1.260+ で read-only Bash (cd+grep/rg/sed、rg stdin、grep -r --include) が auto mode・bypassPermissions・headless で prompt なしに戻り、subagent への承認要求連鎖が消える。指標: canary コマンド群の無 prompt 通過率 (auto mode で 100% 目標)、headless run の permission-prompt 起因失敗数、deny rule を settings から OS sandbox へ移した項目数。",
+    "confidence": "official"
+   },
+   "risks": [
+    "revert は false-deny を直すと同時に operand/option 値の false-allow を再導入した (P-20260831-60EFB5BF 側が再開)。deny rule で .env 等を守っているつもりの構成は v2.1.260+ で再び素通しになるため、sandbox denyRead / credentials への移行が必須",
+    "v2.1.257 由来の redirect / reader コマンド (tac、egrep、< file) への deny 適用は revert されておらず、reader を含む正当コマンドが引き続き拒否され得る",
+    "ベンダは被覆↔可用性の間で振動しており (fix 2.1.259 → revert 2.1.260)、将来の再導入で regression が再発し得る"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 1,
+   "reversible": true,
+   "cost": "バージョン更新 + canary 回帰 (代表 read-only コマンド数個を auto mode で流す script) の整備",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "setting",
+    "process"
+   ],
+   "known_failure_modes": [
+    "2.1.257–2.1.259 に pin したまま deny rule を外さず、headless run が黙って止まる",
+    "v2.1.260+ に更新した後も Read() deny rule が operand 位置を守っていると誤信する (revert の裏面)",
+    "canary を対話 mode でだけ回し、headless/subagent 経路の regression を見逃す"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "Read() deny rule の Bash 引数適用が再導入された場合 (changelog の deny/Read 系エントリ監視)",
+    "issue cluster (#91650 等) の close/reopen 状態変化",
+    "permissions と sandbox の deny 規則統合など仕様変更"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-ATTRIBCONFIG-001",
+   "problem_ids": [
+    "P-20260907-F2CB0737"
+   ],
+   "summary": "attribution の混入は設定層で止める: settings.json の公式 `attribution` object — `attribution.commit` (commit trailer の変更/非表示)、`attribution.pr` (PR 説明の attribution 行の変更/非表示)、`attribution.sessionUrl` (cloud / Remote Control commit の claude.ai session link 省略) — を user または organization managed settings で設定する (旧 `includeCoAuthoredBy` は deprecated)。重要なのは層の選択: v2.1.260 の per-session 注入 reminder は『replaces any earlier attribution guidance』と明言して CLAUDE.md・memory・過去指示の opt-out を上書きするため (#92169)、instruction/memory 層での opt-out は既知の無効手段であり、設定 (harness が注入自体を止める層) でのみ確実に効く。公開 repo を扱う組織は managed settings で配布し、混入後の除去は git filter-branch / force-push を要して履歴書換えコストが大きいため事前設定を必須化する。",
+   "remedy_type": "setting",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/settings-reference",
+     "observed_at": "2026-09-07",
+     "summary": "attribution.commit / attribution.pr / attribution.sessionUrl を確認 (sessionUrl は 'Omit the claude.ai session link from cloud and Remote Control commits' と cloud 経路を明示的に被覆)。includeCoAuthoredBy は deprecated ('Use attribution instead')。user / project / local / managed の全 scope で設定可、settings precedence は managed が最上位。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/anthropics/claude-code/issues/92169",
+     "observed_at": "2026-09-07",
+     "summary": "v2.1.260 の注入 reminder ('replaces any earlier attribution guidance') が disabled-attribution 設定の instruction 層表現と persistent memory を上書きし、公開 branch の履歴書換え (filter-branch + force-push) を要した — instruction 層 opt-out の無効性の実例。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/anthropics/claude-code/issues/66504",
+     "observed_at": "2026-09-07",
+     "summary": "session URL の default-on 注入と onboarding 非開示 (2026-06-09 起票、HN front page 2026-08-30 209pt/240 comments)。既定が opt-out である限り新規ユーザーの混入は続くため、org managed settings での事前配布が実効策。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "Claude Code (CLI / desktop / cloud / Remote Control) で git commit・PR を作成させている",
+     "公開 repository、または attribution metadata を残したくない組織 repository",
+     "settings.json (user / project / managed) を管理できる"
+    ],
+    "not_applicable_when": [
+     "attribution・session link の記録を意図的に残したい運用 (トレーサビリティ目的; H14 系の要請)",
+     "settings を管理できない共有環境で、かつ managed 配布もない場合 (個別 user 設定を各自に依頼するしかない)",
+     "既に混入した過去履歴の除去そのもの (本 remedy は予防; 除去は履歴書換え作業で別途)"
+    ]
+   },
+   "expected_effect": {
+    "primary": "commit trailer・PR attribution 行・session URL が生成時点で注入されなくなり、instruction 層の優先順位論争を経由しない。指標: 設定後に作成された commit / PR 中の attribution・session URL 混入件数 (0 目標)、対象 repo での filter-branch 等の事後除去作業件数、org 内の managed settings 配布カバレッジ。",
+    "confidence": "official"
+   },
+   "risks": [
+    "既定は依然 default-on (opt-out) であり、設定を持たない新メンバー・新マシンから混入が再発する — managed settings 配布か repo 側 pre-commit / CI check (trailer・session URL の grep) を併用",
+    "attribution 除去は由来追跡性 (どの commit が agent 由来か) を失わせ、監査要件のある組織では H14 系の要請と衝突する — 意図的な選択として記録する",
+    "settings が読まれない実行面 (第三者 CI 上の harness 等) では効かない可能性があり、混入検知の CI check が安全網になる"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 1,
+   "reversible": true,
+   "cost": "settings.json への数行追加 (org の場合 managed settings 配布)、任意で pre-commit / CI の混入検知 grep",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "process",
+    "policy"
+   ],
+   "known_failure_modes": [
+    "CLAUDE.md・memory・会話指示で opt-out する (注入 reminder が『replaces any earlier attribution guidance』で上書きし、無効)",
+    "deprecated な includeCoAuthoredBy のみ設定して sessionUrl 経路 (cloud / Remote Control) が残る",
+    "個人 user settings 頼みで、repo に参加する他メンバー・CI からの混入を見逃す"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "attribution 設定の key 名・既定値の変更 (settings-reference 監視)",
+    "#66504 / #92169 の provider 側対応 (default opt-in 化、onboarding 開示) が入った場合",
+    "cloud / Remote Control session が読む settings scope の変更"
+   ]
+  }
+ ]
+}

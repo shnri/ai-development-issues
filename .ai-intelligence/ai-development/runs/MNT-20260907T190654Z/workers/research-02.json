@@ -1,0 +1,736 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "research-02",
+ "status": "complete",
+ "role": "researcher",
+ "problem_ids": [
+  "K07",
+  "P-20260907-139DC981",
+  "P-20260907-E23B65A6",
+  "P-20260907-09AB323A",
+  "P-20260907-60990370",
+  "P-20260907-EACDFFF4"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "K07 existing remedies re-verified 2026-09-07: https://code.claude.com/docs/en/costs is live and consistent with RMD-K07-001/RMD-K05-001 claims (5-hour rolling + weekly windows, /usage-credits, model-family limits); doc has grown new rollout-shift-relevant features since 2026-08-15: /usage plan-usage breakdown with behavior flags (long context / cache misses flagged at >=10% of recent usage), Prompt cache (main) miss diagnostics with likely-cause (v2.1.251/v2.1.260+), auto-continue after usage-limit reset (v2.1.234+, /rate-limit-options, managed setting autoContinueAtUsageLimit), /effort and MAX_THINKING_TOKENS, modelPricing managed setting (v2.1.242+), org spend limits and per-user analytics.",
+  "K07 update context confirmed by prior evidence in the problem record: post-Fable-5.1 rollout, plan windows exhausted in minutes-to-hours (anthropics/claude-code#91623, #91471, 2026-09-02); Anthropic reset Max meters at launch and capped Fable at 50% of weekly pool (techbytes.app 2026-09-01); cross-vendor parallel openai/codex#43230 (2026-09-06). Provider partially mitigated (meter reset) but the mechanism (rollout changes token profile, fixed quota) remains.",
+  "P-20260907-139DC981: docs.github.com content-exclusion page (fetched 2026-09-07) still states 'Agent mode in Copilot Chat in IDEs does not support content exclusion' and does not document Copilot CLI/coding-agent coverage — per-surface enforcement lag is a documented, ongoing pattern, not a one-off. Claude Code settings doc (fetched 2026-09-07) confirms managed settings (managed-settings.json / MDM / claude.ai console) are precedence level 1, overriding project and user settings — the platform mechanism that closes the v2.1.253-class hole (project settings enabling raw API body logging).",
+  "P-20260907-E23B65A6: arXiv:2609.03028 (2026-09-02) proposes no mitigation; its controlled experiment shows advance disclosure of an upcoming requirement produced no detected reduction in overwriting. Existing ecosystem mitigation is spec/plan-first workflow: GitHub Spec Kit (github/spec-kit, MIT, ~134k stars, v1.0.0 reached 2026, 30+ agent integrations) makes requirements/spec/plan/tasks precede implementation; Claude Code official costs doc recommends plan mode for complex tasks explicitly 'preventing expensive re-work when the initial direction is wrong' (fetched 2026-09-07).",
+  "P-20260907-09AB323A: arXiv:2609.04167 (2026-09-03) releases SWE-Gate publicly (replication package with functional + constraint tests, non-compliant and gold patches) as the measurement instrument; it proposes no other mitigation. Existing platform remedies for the gating layer: GitHub Copilot code review with repository custom instructions / path-scoped *.instructions.md (unlimited length since 2026, reads REVIEW.md/CLAUDE.md/AGENTS.md; changelogs 2026-06-12 and 2026-07-17) lets teams codify review-derived constraints as an automated PR gate; Claude Code ships code-review and security-review skills.",
+  "P-20260907-60990370: arXiv:2609.00072 (2026-08-31) provides a six-part actionability profile; MCP spec 2025-06-18 already has the protocol surface for the missing information: tool execution errors via isError:true with content, structuredContent + outputSchema for typed error payloads, and ToolAnnotations (readOnlyHint default false; destructiveHint default true; idempotentHint 'calling the tool repeatedly with the same arguments will have no additional effect', default false; openWorldHint default true) that clients MUST treat as untrusted unless the server is trusted and that are explicitly hints, not guarantees (schema/2025-06-18/schema.ts, verified 2026-09-07). The spec does not require cause/repair/replay info in error results — that remains server-author practice.",
+  "P-20260907-EACDFFF4: verified locally 2026-09-07 that vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/record_source_scan.py sets source['last_scanned_at'] = scanned_at unconditionally on --apply (lines 42-44); the only failure channel is the free-text --notes string; there is no per-input coverage parameter. General pattern grounding: Kafka manual offset control commits position only after records are processed, so a failure before commit causes re-consumption (at-least-once) rather than silent loss — KafkaConsumer javadoc, verified 2026-09-07."
+ ],
+ "inferences": [
+  "K07 outcome is remedy-found (extension): RMD-K07-001/RMD-K05-001 remain valid (checkpoint/resume still the base layer), and a new remedy draft RMD-QUOTASHIFT-001 covers the newly-materialized aspect: detecting a rollout-induced consumption-profile shift early (usage breakdown, behavior flags, cache-miss cause) and bounding its blast radius (effort/model/thinking adjustments, usage credits with spend limit, auto-continue at reset, org caps). Provider meter resets are reactive and not under user control, so outcome is not provider-fixed.",
+  "P-20260907-139DC981 is a governance-process problem: no single vendor feature fixes per-surface enforcement lag; the workable remedy is admin-side — treat each new agent surface as unenforced until positively verified, pin minimum fixed versions, and use top-precedence managed settings so repository-checked config cannot re-enable sensitive telemetry. Maturity official (all components are shipped vendor mechanisms) but the verification discipline itself is process.",
+  "P-20260907-E23B65A6: because the paper shows announcement-only advance warning does not help, the remedy must structurally sequence requirement elicitation before implementation (spec-first) and bound rework via small verified increments — plausible but not validated against this paper's metric, hence maturity candidate / verdict candidate.",
+  "P-20260907-60990370: safe-replay decisions should be moved from per-error guessing to per-tool contracts (idempotentHint/destructiveHint) plus server-side actionable error payloads; single-author paper, no independent replication — candidate.",
+  "P-20260907-EACDFFF4: the bounded local fix mirrors commit-after-process semantics: acknowledge coverage per declared input and advance the watermark only for covered inputs, carrying failed/missing inputs forward as structurally due. Fully within this plugin's tooling; no external dependency."
+ ],
+ "evidence": [
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/costs",
+   "observed_at": "2026-09-07",
+   "summary": "K07: /usage plan-usage breakdown (attribution, behavior flags >=10%), Prompt cache miss diagnostics with likely-cause, /usage-credits + spend limits, auto-continue at usage-limit reset (v2.1.234+), /effort・MAX_THINKING_TOKENS, model selection, modelPricing・org spend caps・analytics APIs."
+  },
+  {
+   "kind": "community",
+   "reference": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
+   "observed_at": "2026-09-01",
+   "summary": "K07: Anthropic reset Max meters at Fable 5.1 launch; heavy cache activity cited; Fable capped at 50% of weekly pool — provider-side reactive mitigation exists but is not user-controllable."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://docs.github.com/en/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot",
+   "observed_at": "2026-09-07",
+   "summary": "P-139DC981: content-exclusion docs still state agent mode in Copilot Chat in IDEs does not support content exclusion; repo/org/enterprise config + REST API; ~30min propagation; verification is manual testing."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/settings",
+   "observed_at": "2026-09-07",
+   "summary": "P-139DC981: managed settings (managed-settings.json / MDM / claude.ai console) are precedence level 1 above CLI, project-local, shared-project and user settings — central enforcement channel for telemetry/logging controls."
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2609.03028",
+   "observed_at": "2026-09-07",
+   "summary": "P-E23B65A6: paper proposes no mitigation; advance warning of an upcoming requirement had no detected effect on overwriting — announcement-only mitigation is ruled out by the paper itself."
+  },
+  {
+   "kind": "community",
+   "reference": "https://github.com/github/spec-kit",
+   "observed_at": "2026-09-07",
+   "summary": "P-E23B65A6: Spec Kit (MIT, ~134k stars, v1.0.0) — constitution/specify/plan/tasks/implement workflow across 30+ coding agents; sequences requirement elicitation before implementation."
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2609.04167",
+   "observed_at": "2026-09-07",
+   "summary": "P-09AB323A: SWE-Gate replication package (code, data, constraint tests, gold/non-compliant patches) is public — usable directly to add a constraint-compliance axis to agent eval pipelines."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://docs.github.com/en/copilot/tutorials/customize-code-review",
+   "observed_at": "2026-09-07",
+   "summary": "P-09AB323A: Copilot code review consumes repo-wide and path-scoped custom instructions to enforce codified review criteria on PRs; 2026-06-12/2026-07-17 changelogs removed length limits and added org controls."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/main/schema/2025-06-18/schema.ts",
+   "observed_at": "2026-09-07",
+   "summary": "P-60990370: ToolAnnotations idempotentHint (default false) / destructiveHint (default true) / readOnlyHint / openWorldHint defined; annotations are hints, not guaranteed faithful; clients MUST treat as untrusted from untrusted servers."
+  },
+  {
+   "kind": "research-paper",
+   "reference": "https://arxiv.org/abs/2609.00072",
+   "observed_at": "2026-09-07",
+   "summary": "P-60990370: six-part actionability profile; 21 induced failures on 10 servers; typed fields expose failure (18/21) and broad policy (8/21) but no specific cause, executable repair, or replay constraint."
+  },
+  {
+   "kind": "local-code",
+   "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/record_source_scan.py",
+   "observed_at": "2026-09-07",
+   "summary": "P-EACDFFF4: --apply sets last_scanned_at unconditionally; no per-input coverage field; failures survive only as free-text notes."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://kafka.apache.org/39/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
+   "observed_at": "2026-09-07",
+   "summary": "P-EACDFFF4 grounding: commit position only after processing; failure before commit re-consumes from last committed offset (at-least-once) — the watermark-advance-after-coverage pattern."
+  }
+ ],
+ "files_written": [
+  "handoff-research-02.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "P-20260907-139DC981: prior non-enforcement on Copilot CLI/app is implied by GA changelog wording, not documented as an advisory; the remedy addresses the pattern regardless, but impact quantification is unavailable.",
+  "P-20260907-E23B65A6 and P-20260907-09AB323A remedies are candidate-maturity: the underlying tools are official/established, but no study yet measures their effect on the specific quantified gap (2x invalidation; 34% constraint-violating pass rate).",
+  "P-20260907-60990370 rests on a single-author audit (n=21, 10 servers); annotations are self-declared hints and unenforceable — clients must not treat idempotentHint as a safety guarantee from untrusted servers.",
+  "RMD-QUOTASHIFT-001 relies on Claude Code >= v2.1.234-2.1.260 features; older pinned versions lack behavior flags, cache-miss cause, and auto-continue.",
+  "RMD-COVERMARK-001 proposes a schema addition to sources.json (per-input coverage); consumers of sources.json (maintenance_plan.py due-selection, metrics) must be updated in the same work item or the field is dead weight."
+ ],
+ "recommended_action": "Record the six research outcomes and register the six remedy drafts; keep RMD-K05-001/RMD-K07-001 active for K07 with last_verified_at advanced to 2026-09-07 (costs-doc claims re-verified, no contradiction found). Convert RMD-COVERMARK-001 into a Work Item for the plugin maintainers (bounded change to record_source_scan.py + sources.json schema + due-selection), since it fixes this authority's own self-concealing coverage defect.",
+ "next_gate": "record_research_batch",
+ "records": [
+  {
+   "problem_id": "K07",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-K07-001",
+    "RMD-K05-001",
+    "RMD-QUOTASHIFT-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/costs",
+     "observed_at": "2026-09-07",
+     "summary": "RMD-K07-001/K05-001の主張（5時間+週次window、/usage-credits、model限度のfamily性）を再確認。加えてrollout起因の消費プロファイル急変への新機能（behavior flags、cache-miss原因表示、auto-continue at reset、/effort）を確認し、RMD-QUOTASHIFT-001として起草。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
+     "observed_at": "2026-09-01",
+     "summary": "Provider側はmeter resetとFableの週次pool 50% capで反応したが、恒久的・自動的な保護ではない。"
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-139DC981",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-SURFACEPARITY-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://docs.github.com/en/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot",
+     "observed_at": "2026-09-07",
+     "summary": "Content exclusion docsは現在もIDE Copilot Chat agent modeを非対応と明記 — per-surface enforcement lagは継続中のパターン。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/settings",
+     "observed_at": "2026-09-07",
+     "summary": "Managed settings（managed-settings.json/MDM/claude.ai console）が最上位precedenceで、project settingsによるtelemetry/logging有効化を上書きできる。"
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-E23B65A6",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-LATEREQ-001"
+   ],
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2609.03028",
+     "observed_at": "2026-09-07",
+     "summary": "論文自体は緩和策を提案せず、事前予告のみでは効果なしと示す。構造的なspec-first workflowが既存の候補remedy。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/github/spec-kit",
+     "observed_at": "2026-09-07",
+     "summary": "Spec Kit v1.0.0（MIT、~134k stars、30+ agent対応）が要求確定→plan→tasks→実装の順序を強制するworkflowを提供。"
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-09AB323A",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-REVIEWGATE-001"
+   ],
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2609.04167",
+     "observed_at": "2026-09-07",
+     "summary": "SWE-Gate replication package（constraint tests、gold/non-compliant patches）が公開されており、eval pipelineへ制約遵守軸を追加できる。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://docs.github.com/en/copilot/tutorials/customize-code-review",
+     "observed_at": "2026-09-07",
+     "summary": "Review由来の制約をcustom instructionsとして成文化しAI code reviewでPR gate化する公式機構が存在。"
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-60990370",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-MCPERRACT-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/main/schema/2025-06-18/schema.ts",
+     "observed_at": "2026-09-07",
+     "summary": "idempotentHint/destructiveHint/readOnlyHint/openWorldHintがspec標準で存在し、安全な再実行判断をper-error推測からper-tool契約へ移せる。"
+    },
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2609.00072",
+     "observed_at": "2026-09-07",
+     "summary": "六部actionability profileがserver author向けのerror設計checklistとして再利用可能。"
+    }
+   ],
+   "researched_at": "2026-09-07"
+  },
+  {
+   "problem_id": "P-20260907-EACDFFF4",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-COVERMARK-001"
+   ],
+   "evidence": [
+    {
+     "kind": "local-code",
+     "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/record_source_scan.py",
+     "observed_at": "2026-09-07",
+     "summary": "last_scanned_atの無条件更新と構造化coverage欄の欠如を実コードで確認。境界の明確なローカル修正で対処可能。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://kafka.apache.org/39/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
+     "observed_at": "2026-09-07",
+     "summary": "処理完了後にのみ位置をcommitするat-least-once patternが一般的裏付け。"
+    }
+   ],
+   "researched_at": "2026-09-07"
+  }
+ ],
+ "remedy_drafts": [
+  {
+   "schema_version": "1.0",
+   "id": "RMD-QUOTASHIFT-001",
+   "problem_ids": [
+    "K07"
+   ],
+   "summary": "Model rollout（例: Fable 5.1）でtoken消費プロファイルが急変してもplan quotaを数分で失わないよう、(1) `/usage`のplan usage breakdownとbehavior flags（long context・cache missが直近使用量の10%以上で警告）、`Prompt cache (main)`行のmiss件数・likely cause（v2.1.251/v2.1.260+）で消費急増の原因をrollout当日に特定し、(2) `/effort`・`MAX_THINKING_TOKENS`・`/model`での小型model切替・`/clear`と部分委譲で消費側を即日調整し、(3) usage credits＋spend limit（`/usage-credits`）とauto-continue at usage-limit reset（v2.1.234+、`/rate-limit-options`、managed settingの`autoContinueAtUsageLimit`）で中断を回復可能な待機に変える。組織はspend limit・`modelPricing`・analytics/OTelでrollout前後の per-user 消費を比較し、異常をprovider（meter reset実績あり）へ報告する。",
+   "remedy_type": "observability",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/costs",
+     "observed_at": "2026-09-07",
+     "summary": "`/usage`のattribution・behavior flags（10%閾値）・Loops行、`Prompt cache (main)`のmiss/likely cause/warm状態、`/usage-credits`とspend limit、auto-continue at reset（v2.1.234+）と`autoContinueAtUsageLimit`、`/effort`・`MAX_THINKING_TOKENS`・model選択、`modelPricing`（v2.1.242+）、org spend report/Analytics API、OpenTelemetryが全setupで唯一のnear-real-time per-user計測と明記。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
+     "observed_at": "2026-09-01",
+     "summary": "Fable 5.1 rollout時にAnthropicがMax usage meterをreset、Fableを週次poolの50%にcap。20x Maxの5時間quotaが1 promptで52分で消えた報告、heavy cache activityが原因として言及 — cache挙動変化の監視が検知の要であることを裏付け。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/anthropics/claude-code/issues/91471",
+     "observed_at": "2026-09-02",
+     "summary": "5時間windowが30分で消費（rollout直後、姉妹issue #91289/#91318/#91623）。本remedyが対象とする観測事象。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/openai/codex/issues/43230",
+     "observed_at": "2026-09-06",
+     "summary": "GPT-6 Astraで同型のtoken burn急増報告 — 特定vendor固有でなくrollout一般のパターンであり、消費プロファイル監視はvendor横断で有効。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "固定quota（5時間/週次window）のsubscription planでClaude Code等のagent CLIを常用している",
+     "provider側のmodel rollout・default model変更・cache挙動変更を利用者側で止められない",
+     "Claude Code v2.1.234以降（auto-continue）、v2.1.251以降（cache統計）が使える"
+    ],
+    "not_applicable_when": [
+     "API従量課金のみで運用しquota窓が存在しない（spend limit側の管理は別remedy）",
+     "rollout自体を遅延・拒否できるenterprise固定model構成（プロファイル急変が起きにくい）",
+     "旧versionに固定されbehavior flags・cache統計が出ない環境（まず更新が必要）"
+    ]
+   },
+   "expected_effect": {
+    "primary": "rollout起因の消費急増を当日中に検知し、quota枯渇を「原因不明の作業停止」から「原因特定済みの調整＋回復可能な待機」に変える",
+    "metrics": [
+     "rollout後にquota枯渇へ至るまでの時間（検知・調整後に延伸するか）",
+     "behavior flags/cache-miss警告から調整実施までのリードタイム",
+     "usage-limit到達時にauto-continueで自動再開できたsessionの割合",
+     "rollout前後のper-user token消費比（OTel/analytics）"
+    ],
+    "confidence": "medium"
+   },
+   "risks": [
+    "`/usage`の数値はローカル履歴由来の概算で他端末・claude.ai分を含まず、実quota消費と乖離しうる（#43222型のtelemetry mismatch）",
+    "usage creditsは超過分が従量課金になり、spend limit未設定だとコスト事故に変わる",
+    "auto-continueは無人で作業を再開するため、承認が必要な操作を含むtaskでは想定外の続行になりうる",
+    "effort/thinking削減は複雑taskの品質を下げうる（Fable系はthinking無効化不可）"
+   ],
+   "implementation_owner": "developer",
+   "fix_effort": 2,
+   "reversible": true,
+   "cost": "運用habit（/usageの定点確認）＋spend limit・managed setting設定。追加ツール不要",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "setting",
+    "process"
+   ],
+   "known_failure_modes": [
+    "behavior flagsを見ずにusage creditsだけ有効化し、プロファイル異常を課金で吸収してしまう",
+    "rollout直後の観測をせずcache TTL切れ・長時間sessionなど平常要因と混同する",
+    "RMD-K07-001のcheckpointを怠り、auto-continue不可の環境で未commit作業を失う"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "usage limit policy・meter仕様の変更（週次pool配分、model family cap）",
+    "次のmajor model rollout（検知手順の実効性を実地確認）",
+    "/usage・cache統計・auto-continueの仕様変更"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-SURFACEPARITY-001",
+   "problem_ids": [
+    "P-20260907-139DC981"
+   ],
+   "summary": "新しいAgent Surface（CLI・coding agent・app）を「統制未適用」とみなすallowlist運用にする: (1) 有効化前に、そのsurfaceでcontent exclusion・telemetry統制が実際に効くことを除外対象fileを使った実地テストとvendor文書・changelogの明示的な対応宣言で確認する（GitHubのexclusion docsは現在もIDE agent modeを非対応と明記しており、対応表は surface ごとに読む）。(2) 統制がGA化された修正版を最低versionとしてpinする（Copilot app/CLIのexclusion GAは2026-09-02、Claude Codeのraw API body logging修正はv2.1.253）。(3) 統制はrepository・project設定より上位で強制する — Claude Codeでは最上位precedenceのmanaged settings（managed-settings.json/MDM/claude.ai console）にtelemetry・logging・permission統制を置き、repoにcheck-inされたproject settingsが統制を再有効化できない構成にする。(4) exclusion変更の伝播（〜30分）とsurface別の抜けをaudit項目に含める。",
+   "remedy_type": "process",
+   "maturity": "official",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://docs.github.com/en/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot",
+     "observed_at": "2026-09-07",
+     "summary": "repo/org/enterprise 3層のexclusion設定とREST API、伝播〜30分、検証は手動テスト。'Agent mode in Copilot Chat in IDEs does not support content exclusion'と現在も明記 — surface別の非対応が常に存在しうることの一次証拠。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
+     "observed_at": "2026-09-04",
+     "summary": "'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows'（GA 2026-09-02） — agentic surfaceが後追いでexclusionを実装したことを示し、GA版以降へのpinが修復条件になる。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "observed_at": "2026-09-01",
+     "summary": "v2.1.253 'Fixed project settings enabling detailed tracing or raw API body logging without proper controls' — project設定経由の統制迂回が実在したことと最低versionの根拠。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/settings",
+     "observed_at": "2026-09-07",
+     "summary": "settings precedenceはmanaged settings（組織）が最上位で、command line・project local・shared project・userを上書き。統制をmanaged層に置けばrepo内設定では覆せない。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "content exclusion・telemetry統制・logging統制を組織policyとして設定している",
+     "新しいagent surface（CLI、coding agent、app、extension）を随時導入している",
+     "Copilotのrepo/org/enterprise exclusion APIまたはClaude Codeのmanaged settingsを運用できる管理権限がある"
+    ],
+    "not_applicable_when": [
+     "統制対象の機密コード・秘匿情報がそもそも存在しない個人・OSS環境",
+     "vendorが per-surface の対応状況を一切公表しないsurface（実地テストのみに頼ることになり、本remedyの文書確認部分が成立しない）",
+     "managed settings相当の中央強制機構がないツール（その場合はsurface自体を無効化するしかない）"
+    ]
+   },
+   "expected_effect": {
+    "primary": "「管理者はpolicyが効いていると信じているがagent surfaceは無視している」windowを、導入前検証と中央強制で構造的に閉じる",
+    "metrics": [
+     "有効化済みsurfaceのうちexclusion/telemetry統制を実地テストで確認済みの割合",
+     "統制修正版より古いversionで稼働するclient数",
+     "audit（除外fileをagent workflowへ与えるcanaryテスト）での漏えい検出件数"
+    ],
+    "confidence": "medium"
+   },
+   "risks": [
+    "検証待ちの新surface導入が遅れ、shadow利用（個人アカウントでの未統制利用）へ流れる可能性",
+    "実地テストは負のテスト（漏れないことの証明）であり、網羅は原理的に不完全",
+    "content exclusionはsemantic検索等の一部機能で効かない既知の限界があり、exclusion自体を過信できない",
+    "vendor changelogの表現（'now honor'）からしか過去の非適用が分からず、遡及影響の評価が難しい"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 3,
+   "reversible": true,
+   "cost": "surface導入checklist整備＋canaryテスト用repo＋managed settings配布基盤（MDM等）",
+   "verdict": "known-applicable",
+   "secondary_layers": [
+    "setting",
+    "harness"
+   ],
+   "known_failure_modes": [
+    "IDEで検証してCLI/agentでは未検証のまま同一統制が効くと仮定する（本問題の再演）",
+    "managed settingsを配布せずuser/project settingsに統制を書く（precedenceで覆される）",
+    "GA changelogを見て旧versionのclientを放置する（fleetのversion追随が修復条件）"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "GitHub/AnthropicがexclusionまたはtelemetryのGA範囲・対応surface表を更新した場合",
+    "新しいagent surfaceのGA（同型のlag windowが再発しうる）",
+    "managed settings/precedence仕様の変更"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-LATEREQ-001",
+   "problem_ids": [
+    "P-20260907-E23B65A6"
+   ],
+   "summary": "要求の遅延出現によるRework（先行編集の約2倍の無効化）に対し、『予告』ではなく『実装前確定』で防ぐ: (1) spec-first workflow — GitHub Spec Kit（constitution→/specify→/plan→/tasks→/implement）等で要求をversion管理されたspecに確定してから実装を開始し、追加要求はspec改訂として差分影響を見てから実装に流す。(2) Claude Codeではplan modeを複雑taskの既定にし、実装前にapproachを承認する（公式cost文書が『初期方向の誤りによる高価なre-workを防ぐ』と明記）。(3) 実装は小さな検証可能増分＋git commit checkpointで進め、要求が途中出現した場合の無効化半径をcommit単位に限定する。注意: 論文の統制実験は「要求の事前予告のみ」では書き換え削減効果がないことを示しており、予告をpromptに足すだけの運用は本remedyに含めない。",
+   "remedy_type": "process",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2609.03028",
+     "observed_at": "2026-09-07",
+     "summary": "3,553実sessionで遅延要求後の無効化が約2倍、全段階で持続。統制実験で事前予告に効果なし — agentは予告された未発効制約のために作業を留保できない。論文自体は緩和策を提案しない（本remedyは既存workflow資産からの構成）。"
+    },
+    {
+     "kind": "community",
+     "reference": "https://github.com/github/spec-kit",
+     "observed_at": "2026-09-07",
+     "summary": "Spec Kit v1.0.0（MIT、~134k stars、30+ agent統合、GitHub Copilot/Claude Code/Cursor等）。仕様を単一の正とし、specify→plan→tasks→implementの順序を強制する公開toolkit。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/costs",
+     "observed_at": "2026-09-07",
+     "summary": "公式guidance: 複雑taskはplan modeで実装前にapproach承認（'preventing expensive re-work when the initial direction is wrong'）、Escape/rewindによる早期軌道修正、増分テスト。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "session途中で要求が追加される傾向のある対話的agent開発（機能追加・仕様調整を会話で進めるチーム）",
+     "specを書く時間を実装前に確保できるtask規模（数時間以上の実装）",
+     "git等でcheckpoint可能な環境"
+    ],
+    "not_applicable_when": [
+     "探索的prototyping — 要求が作ってみないと分からない性質の作業（specが先に書けない）",
+     "数分で終わるone-shot修正（spec工程のoverheadが本体を上回る）",
+     "要求変更の発生源が外部で完全に統制不能かつ高頻度な場合（無効化半径の限定=増分checkpointのみが有効）"
+    ]
+   },
+   "expected_effect": {
+    "primary": "要求を実装開始前にspecへ確定させることで遅延出現そのものを減らし、残る途中出現の無効化半径を増分commit単位に限定する",
+    "metrics": [
+     "session内の実装開始後要求追加ターン数",
+     "要求追加後に破棄された編集行数／commit数",
+     "spec改訂から再実装完了までの時間"
+    ],
+    "confidence": "low"
+   },
+   "risks": [
+    "spec-first適用が本問題の指標（無効化量）を改善するかは未計測 — 論文はworkflow介入を評価していない",
+    "spec工程のoverheadで小task の総コストが増える",
+    "specが古びると逆にA07型（cross-artifact不整合）の発生源になる",
+    "『予告だけして実装を続ける』運用への退化（論文が無効と示した形）"
+   ],
+   "implementation_owner": "developer",
+   "fix_effort": 3,
+   "reversible": true,
+   "cost": "Spec Kit導入＋spec作成時間。plan mode・増分commitは追加費用なし",
+   "verdict": "candidate",
+   "secondary_layers": [
+    "harness",
+    "structural-decision"
+   ],
+   "known_failure_modes": [
+    "upcoming requirementをpromptで予告して満足する（測定済みで効果なし）",
+    "spec承認後の追加要求を会話で直接実装に流し、spec改訂を省略する",
+    "大きな未commit編集を抱えたまま要求追加を受ける"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "spec-first workflowの遅延要求rework削減効果を測定した後続研究の出現",
+    "agent側が『予告された要求のための作業留保』を実装した場合（modelまたはharnessの改善）",
+    "Spec Kit相当の公式機能がClaude Code等に統合された場合"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-REVIEWGATE-001",
+   "problem_ids": [
+    "P-20260907-09AB323A"
+   ],
+   "summary": "機能テストPASSを唯一のpromotion/merge条件にしない: (1) reviewerが実際に強制している受け入れ制約（style・architecture・非機能）を成文化し — Copilot code reviewなら`.github/copilot-instructions.md`とpath別`*.instructions.md`（文字数制限撤廃済、head branchから読込）、Claude Codeならcode-review/security-review skill — AI code reviewを機能テストと並列の必須gateにする。(2) 機械化可能な制約はlinter・architecture test（import-linter等）として決定的なCI checkに落とし、AI reviewは残余の判断に限定する。(3) agent評価pipelineの所有者は、公開されたSWE-Gate replication package（機能テスト＋review由来constraint tests＋gold/非準拠patch）でpipelineの『機能onlyギャップ』を測定し、auto-merge基準に制約軸を追加する。green機能テストのみでのauto-merge/auto-promotionは、測定上約34%の受け入れ不能patchを通す。",
+   "remedy_type": "test-strategy",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2609.04167",
+     "observed_at": "2026-09-07",
+     "summary": "644の機能テスト通過repairのうち221（~34%）がreview由来制約に違反。replication package（code・data・constraint tests・gold/非準拠patch）公開 — gating層の測定手段として直接利用可能。緩和策自体はbenchmark提供のみ。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://docs.github.com/en/copilot/tutorials/customize-code-review",
+     "observed_at": "2026-09-07",
+     "summary": "Copilot code reviewはrepo全体とpath scopedのcustom instructionsでcoding standards・review criteriaを強制でき、org運用管理・content exclusion対応・文字数制限撤廃（changelog 2026-06-12/2026-07-17）。review制約の成文化先として現行の公式機構。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://github.blog/changelog/2026-07-17-copilot-code-review-customization-and-configurability-improvements/",
+     "observed_at": "2026-07-17",
+     "summary": "custom instructionsをhead branchから読み検証を容易化、REVIEW.md/CLAUDE.md/AGENTS.mdも読込 — 制約定義の反復改善が可能。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "agentのpatchをテスト通過でauto-merge/auto-promoteするpipelineがある、または導入予定",
+     "reviewerの指摘が繰り返し同種（style・層違反・非機能）でありruleとして成文化可能",
+     "PR上でAI code reviewまたは決定的lint/architecture checkを必須化できるCI権限"
+    ],
+    "not_applicable_when": [
+     "全patchを人間reviewが必ず通る（gateの過大評価が事故に直結しない — それでもreviewer負荷削減には有効）",
+     "受け入れ制約が暗黙知のままで成文化の合意が取れていない（先に制約の抽出が必要）",
+     "使い捨てcode・spike（受け入れ制約自体が適用されない）"
+    ]
+   },
+   "expected_effect": {
+    "primary": "『機能的に正しいが受け入れ不能』なpatchがgreen testsだけで昇格する経路を塞ぎ、gateの判定を人間reviewerの受け入れ判断に近づける",
+    "metrics": [
+     "機能テスト通過patchのうち制約check違反で差し戻される割合（SWE-Gateの~34%が上限目安）",
+     "auto-merge後に人間reviewerがrevert/修正した件数",
+     "成文化済みreview制約の数と、AI review指摘のprecision"
+    ],
+    "confidence": "medium"
+   },
+   "risks": [
+    "AI code review自体が非決定的で、同じ制約でも見逃し・過剰指摘が出る（決定的checkに落とせるものはCIへ）",
+    "制約gateの追加でmerge throughputが下がり、gate迂回の圧力が生じる",
+    "SWE-GateはPython 75 repo由来で、他言語・他domainへの数値の外挿は未検証",
+    "instructions fileが肥大化するとreview品質がかえって低下する"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 3,
+   "reversible": true,
+   "cost": "review制約の成文化workshop＋AI review実行コスト（PRごと）＋architecture test整備",
+   "verdict": "candidate",
+   "secondary_layers": [
+    "process",
+    "tool"
+   ],
+   "known_failure_modes": [
+    "AI reviewをoptional commentにしてgateにしない（情報は出るが約34%ギャップは閉じない）",
+    "制約を成文化せず汎用promptでreviewさせる（reviewer固有の受け入れ基準が反映されない）",
+    "benchmark（SWE-Gate）のscoreだけ改善してCI gateへ反映しない"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "SWE-Gate型の制約遵守がSWE-bench系主要leaderboardへ採用された場合",
+    "Copilot code review / Claude Codeがreview制約のgate機能（required check連携）を変更した場合",
+    "制約gate導入の効果を測定した独立研究の出現"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-MCPERRACT-001",
+   "problem_ids": [
+    "P-20260907-60990370"
+   ],
+   "summary": "MCP tool失敗後の回復判断を『error結果からの推測』に依存させない二層対策: (1) server側 — error結果（isError:true）に原因・対象・実行可能な修復手順・再実行の安全性を明示する。structuredContent＋outputSchemaで型付きerror payload（cause、retriable、retry_after等）を定義し、論文の六部actionability profile（失敗の観測可能性／具体的原因／修復対象／実行可能修復／安全なreplay制約）をerror設計のchecklistとして使う。(2) 契約側 — 再実行の安全性はper-errorではなくper-toolのToolAnnotations（idempotentHint: 同一引数の反復呼出しが追加効果を持たない[default false]、destructiveHint[default true]、readOnlyHint）で宣言し、client/agent harnessは『idempotentHint=trueかつreadOnly系のみ自動retry、destructive×非idempotentは人間確認かside-effect照会後』というreplay policyをtool契約から導出する。annotationsはspec上hintであり、信頼できないserverからのものを安全性の根拠にしてはならない。",
+   "remedy_type": "structural-decision",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "research-paper",
+     "reference": "https://arxiv.org/abs/2609.00072",
+     "observed_at": "2026-09-07",
+     "summary": "21 induced failures×10 serverの監査: typed fieldは失敗の発生（18/21）と広い方針（8/21）を伝えるが、具体的原因・実行可能修復・replay制約はほぼゼロ。六部actionability profileを提示 — server側error設計のchecklistとして再利用可能。単一著者・小標本。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+     "observed_at": "2026-09-07",
+     "summary": "spec 2025-06-18: tool execution errorはisError:true＋content、structuredContent＋outputSchemaで型付き結果を定義可能（server MUST conform、client SHOULD validate）。annotationsは信頼できないserverからはuntrustedとして扱うことをclientにMUSTで要求。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/main/schema/2025-06-18/schema.ts",
+     "observed_at": "2026-09-07",
+     "summary": "ToolAnnotations定義: idempotentHint『同一引数での反復呼出しは環境に追加効果なし』(default false)、destructiveHint(default true)、readOnlyHint(default false)、openWorldHint(default true)。全てhintで忠実性は保証されない。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "自作・自組織管理のMCP serverがあり、error結果の形式を変更できる",
+     "agent harness/clientがtool定義のannotationsを読みretry方針に反映できる",
+     "副作用のあるtool（書込・送信・課金操作）をagentが自律実行する"
+    ],
+    "not_applicable_when": [
+     "第三者MCP serverのみでerror形式に手を入れられない場合（client側のannotation-driven replay policyのみ適用可）",
+     "信頼できないserverのannotationsを安全性根拠にする構成（specがuntrusted扱いをMUSTで要求 — sandbox・確認prompt側で守る）",
+     "read-onlyで副作用のないtoolのみのserver（retryは常に安全でreplay判断問題が生じない）"
+    ]
+   },
+   "expected_effect": {
+    "primary": "失敗後のagent行動が『server毎のheuristic推測』から『tool契約＋型付きerror payloadに基づく決定』になり、重複副作用リスクのある盲目的retryと不必要な放棄の両方を減らす",
+    "metrics": [
+     "自組織serverのerror結果のうち原因・修復・replay可否を含む割合（六部profileでの充足数）",
+     "非idempotent toolへの自動retry件数（0が目標）",
+     "tool失敗後にsessionが正しく回復（修復して成功 or 安全に中止）した割合"
+    ],
+    "confidence": "low"
+   },
+   "risks": [
+    "根拠論文は単一著者・21件の小標本で独立再現がない",
+    "annotationsは自己申告のhintであり、誤宣言（非idempotentをidempotentと宣言）を検出する仕組みはない",
+    "error payloadへの詳細情報（内部path・query等）の記載が情報漏えい面を広げうる",
+    "clientのannotations活用度は実装依存で、宣言しても読まれない可能性がある"
+   ],
+   "implementation_owner": "consumer-project",
+   "fix_effort": 3,
+   "reversible": true,
+   "cost": "自組織serverのerror schema設計＋harnessのretry policy実装。protocol変更は不要（既存spec機能のみ）",
+   "verdict": "candidate",
+   "secondary_layers": [
+    "tool",
+    "instruction"
+   ],
+   "known_failure_modes": [
+    "error messageの文字列を人間可読にしただけで型付きの原因・replay欄を持たない（agentのparse依存が残る）",
+    "annotationsのdefault（destructive=true, idempotent=false）を知らずに未宣言のまま、clientが全toolを危険側扱い/あるいは実装によっては楽観扱いする",
+    "信頼境界の外のserverのidempotentHintで自動retryを解禁する"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "MCP specがerror結果の構造（原因・retry情報）を標準化した場合（SEP動向）",
+    "actionability監査の大規模・独立再現の出現",
+    "主要client（Claude Code等）がannotation-driven retry policyを実装・変更した場合"
+   ]
+  },
+  {
+   "schema_version": "1.0",
+   "id": "RMD-COVERMARK-001",
+   "problem_ids": [
+    "P-20260907-EACDFFF4"
+   ],
+   "summary": "走査watermarkを『worker完了時刻』ではなく『入力の被覆確認』に紐付ける、境界の明確なtooling修正: (1) record_source_scan.pyに宣言入力ごとの被覆結果（--coverage input=covered|failed|missing など）を必須化し、全入力coveredの場合のみlast_scanned_atを前進させる。(2) 一部失敗時はsources.jsonに構造化フィールド（例: last_result.coverage[]とuncovered_inputs[]）を書き、due-source選定（maintenance_plan.py）がuncovered_inputsを持つsourceをcadenceに関係なく期限到来として再スケジュールする（carryover）。(3) 計画時に宣言path/URLの存在を検証し、存在しない宣言入力はwatermark前進の黙認対象ではなくsource定義の修正要求として表面化する。(4) run metricsはsources_scannedをsources_fully_covered / sources_partially_coveredに分割し、被覆過大表示を不可能にする。これはKafka consumerの『処理完了後にのみoffsetをcommitする』at-least-once patternの適用であり、失敗が黙って走査済みに変換される現在の挙動（commit-before-process相当）を逆転させる。",
+   "remedy_type": "tool",
+   "maturity": "candidate",
+   "status": "active",
+   "evidence": [
+    {
+     "kind": "local-code",
+     "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/record_source_scan.py",
+     "observed_at": "2026-09-07",
+     "summary": "--applyで`source['last_scanned_at'] = scanned_at`を無条件実行（42-44行）。失敗情報は自由記述--notesのみで、per-input被覆parameterは存在しない — 提案修正の挿入点は明確で局所的。"
+    },
+    {
+     "kind": "local-record",
+     "reference": ".ai-intelligence/ai-development/catalog/sources.json",
+     "observed_at": "2026-09-07",
+     "summary": "存在しない宣言path（findings/）とHTTP 400・未検証domainを持つ3 sourceが完全走査watermarkを保持 — 修正が解消すべき実データ。"
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://kafka.apache.org/39/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
+     "observed_at": "2026-09-07",
+     "summary": "一般pattern裏付け: 手動offset制御は処理完了後にのみ位置をcommitし、commit前失敗は再消費（at-least-once）になる。auto-commit（返却時点で消費済み扱い）は処理失敗分の黙認的損失を生む — 本defectと同型。"
+    }
+   ],
+   "applicability": {
+    "conditions": [
+     "本Authorityおよびai-development-improvement pluginのmaintenance discovery loop（sources.json＋record_source_scan.py＋maintenance_plan.py）",
+     "複数の宣言入力（path・URL・domain）を持つsourceのwatermark管理一般",
+     "shared-agent-plugins releaseとしてR0-R3 gateを通せる変更枠"
+    ],
+    "not_applicable_when": [
+     "単一入力sourceで失敗が即scan失敗として記録される場合（被覆分解の対象が単一で、carryoverのみで足りる）",
+     "watermarkを持たない一回性のscan",
+     "sources.json schemaを変更できないconsumer側からの適用（Authority/plugin側の変更が前提）"
+    ]
+   },
+   "expected_effect": {
+    "primary": "取得失敗・欠損入力が『黙って走査済み』に変換される経路を遮断し、欠損を次runで自動的に期限到来として再表面化させる（恒久的死角の解消）",
+    "metrics": [
+     "uncovered_inputsを持つsourceが次runで再スケジュールされる率（100%が目標）",
+     "存在しない宣言入力が計画時に検出されるまでのrun数（現状: 検出されない）",
+     "metricsのsources_fully_covered/partiallyの区別導入後の被覆過大表示件数（0が目標）"
+    ],
+    "confidence": "medium"
+   },
+   "risks": [
+    "sources.json schemaの変更は読み手（maintenance_plan.py・metrics集計・check_authority.py）との同時更新が必要で、片側だけ変えると新フィールドが死蔵または検証エラーになる",
+    "恒久的に取得不能な入力（閉鎖したURL等）がcarryoverで毎run期限到来し続ける — 明示的なretire操作（source定義修正）を出口として用意する必要がある",
+    "workerが--coverageを正しく申告しない場合は依然過大表示になる（申告の強制はgate側の検証に依存）"
+   ],
+   "implementation_owner": "ai-development-improvement plugin maintainers",
+   "fix_effort": 2,
+   "reversible": true,
+   "cost": "record_source_scan.py・sources.json schema・maintenance_plan.py due判定・metrics集計の局所修正＋既存3 sourceのwatermark是正。外部依存なし",
+   "verdict": "candidate",
+   "secondary_layers": [
+    "process",
+    "observability"
+   ],
+   "known_failure_modes": [
+    "coverageを任意parameterにして既定covered扱いにする（現状の黙認が形を変えて残る）",
+    "uncovered_inputsを記録するがdue判定が読まない（構造化しても再スケジュールされず死角が残る — 本問題の第二形態）",
+    "失敗入力を無期限にcarryoverし、source定義の修正（存在しないpathの削除）という根本対処を先送りする"
+   ],
+   "last_verified_at": "2026-09-07",
+   "revalidate_when": [
+    "record_source_scan.py / sources.json schemaの変更release後（修正の実効を次のmaintenance runで確認）",
+    "maintenance-policy.jsonにpartial-coverage cadenceが導入された場合",
+    "discovery workerの申告形式（handoff contract）変更時"
+   ]
+  }
+ ]
+}

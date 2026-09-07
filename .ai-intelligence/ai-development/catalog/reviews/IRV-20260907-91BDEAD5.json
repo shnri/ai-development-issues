@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-91BDEAD5",
+  "problem_id": "P-20260831-91BDEAD5",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "旗艦事例のCVE-2025-59536は1.0.111で修正済みだが、同一面（repo同梱設定の実行層化）へのhardeningがv2.1.232/2.1.246/2.1.248と2026年8月まで連続しており、Gemini CLIも0.39.1でtrust modelのbreaking changeを要した。OWASP AST02はこれをクラスとして扱い、修正はinstance単位で出続けている。中核機構は上流で解消しておらずmitigatedに該当しない。--restrictedやmanaged settings等の対処（RMD-REPOCONFIGEXEC-001、official maturity）で運用側に境界を持てる。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-REPOCONFIGEXEC-001"
+    },
+    {
+      "url": "https://owasp.org/www-project-agentic-skills-top-10/",
+      "title": "OWASP AST10 - AST02",
+      "summary": "Repository config files as pre-consent execution layer treated as a class, with mitigations independent of individual CVE fixes."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "title": "claude-code CHANGELOG v2.1.232/246/248",
+      "summary": "Continued hardening of the same surface through late August 2026 shows the class is still yielding fixes."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}

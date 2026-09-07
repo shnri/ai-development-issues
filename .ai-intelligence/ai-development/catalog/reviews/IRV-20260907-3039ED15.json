@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-3039ED15",
+  "problem_id": "P-20260831-3039ED15",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "ツール応答消失時にcommitted/uncommitted状態が判別不能になる問題は、AFT-Benchの統制実験でInterface設計起因と分離済み。MCPはoutputSchema/structuredContent/annotations/Tasks拡張で部品を標準化したが、idempotencyとdedupの保証は依然なく（2026-07-28 stateless core自身が明記）、中核機構は未解決。RMD-TOOLEFFECT-001で実装側の是正手段が具体化しており、実在・継続・対処可能。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-TOOLEFFECT-001"
+    },
+    {
+      "url": "https://arxiv.org/abs/2608.23628",
+      "title": "Callability Is Not Operability (AFT-Bench)",
+      "summary": "Interface-only intervention isolates the mechanism; committed/uncommitted indistinguishability reproduced under controlled fault injection."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}

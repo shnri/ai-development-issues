@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-late-requirement-invalidation",
+  "title": "Session途中で追加された要求が直前実装の約2倍規模の編集無効化を引き起こし、要求の事前予告でもReworkが削減されない",
+  "summary": "Mining of 3,553 real-world coding-agent sessions (SWE-chat) shows that when a user introduces a new requirement after implementation has begun, the requirement's arrival is followed by roughly twice as much invalidation of prior edits as matched non-requirement turns, and the rework burden persists at all session stages. A controlled experiment found that disclosing the upcoming requirement in advance produced no measurable reduction in code overwriting — agents implement eagerly and cannot hold back work for announced-but-inactive constraints. This makes late requirement emergence a quantified, structural driver of wasted agent work and code churn distinct from initial requirement ambiguity (A01) or cross-artifact propagation failure (A07): the failure is the agent's inability to structure work so that anticipated requirements do not invalidate it (Jiang et al., arXiv:2609.03028, 2026-09-02).",
+  "proposed_category": "requirements-and-specification",
+  "problem_type": [
+    "failure-mode",
+    "efficiency"
+  ],
+  "priority_lanes": [
+    "quality",
+    "cost"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+  "evidence": [
+    {
+      "url": "https://arxiv.org/abs/2609.03028",
+      "title": "Requirements After the First Edit: Mining Late Requirement Emergence and Rework in Real-World Coding-Agent Sessions",
+      "published_at": "2026-09-02",
+      "summary": "3,553 real coding-agent sessions: late-arriving requirements are followed by ~2x invalidation of prior edits vs matched non-requirement edits; advance warning of the requirement produced no measurable effect on overwriting in a controlled experiment."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "coding-agents-general",
+      "chat-based-agent-sessions"
+    ],
+    "models": [
+      "general"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "target_problem_id": null
+}

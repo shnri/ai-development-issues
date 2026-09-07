@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-ROLEOWNERGAP-001",
+  "problem_ids": [
+    "P-20260907-B8D227AC"
+  ],
+  "summary": "resolve_existing_asset の Role 判定を『列挙一致』から『実在確認』へ寄せる: (1) ROLE_OWNERS に 'consumer-project'・'consumer'・'consumer-projects'・'project' を追加し、(2) implementation_owner 経由 (explicit でない) の asset 解決は locate_shared_asset が実在する path を返した場合のみ採用し、実在しなければ role-owner-ignored と同じ 'none' に落とす fail-closed 化を行う。これで未知の Role 別名でも実在しない共有 Asset への誤 routing (誤った target・過大 Risk Tier・存在しない release 経路) が構造的に起きなくなる。回帰テストとして implementation_owner='consumer-project' の remedy が consumer-configuration/record-configuration-guidance (R0) に落ちることを追加する。",
+  "remedy_type": "tool",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-evidence",
+      "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/_planning.py",
+      "observed_at": "2026-09-07",
+      "summary": "ROLE_OWNERS 列挙に無い role 文字列が asset_id として返され、locate_shared_asset が None でも asset 扱いが維持される (how='implementation-owner-asset')。"
+    },
+    {
+      "kind": "local-evidence",
+      "reference": ".ai-intelligence/ai-development/work-items/WRK-20260907T192541Z-832AB2C0.json",
+      "observed_at": "2026-09-07",
+      "summary": "MNT-20260907T190654Z で 3 件の work item が shared-existing-asset asset_id='consumer-project' (実在せず path=null)・R2 として生成され、controller の再 scoping を要した。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "ai-development-improvement plugin の planner (plan_action.py / action_queue.py 経由の _planning.py) を使う authority repository"
+    ],
+    "not_applicable_when": [
+      "remedy が explicit な existing_asset / implementation_target.asset_id を持つ場合 (explicit 経路は実在しない指定をエラーとして報告すべきで、無言の fallback はしない)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "role 別名の追加漏れがあっても guidance 系 remedy が誤って shared-existing-asset target にならず、work item の target 種別・risk tier・release 経路が remedy の実態と一致する。指標: implementation-owner-asset 経路で asset_path=null のまま生成される work item 数が 0 になる。",
+    "confidence": "candidate"
+  },
+  "risks": [
+    "locate_shared_asset の実在確認が checkout 未取得時に false negative となり、正当な owner asset routing が guidance に落ちる可能性 (release 前の ensure_target_repo 実行順に依存)。fail-closed 側なので安全性は下がらない。"
+  ],
+  "implementation_owner": "ai-development-improvement-plugin",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": null,
+  "verdict": "recommended",
+  "secondary_layers": [
+    "planner 回帰テスト (tests/) への固定ケース追加"
+  ],
+  "known_failure_modes": [
+    "ROLE_OWNERS への列挙追加だけで済ませると次の未知別名で再発する (実在確認の fail-closed が本体)"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "shared-agent-plugins の planner 実装変更時",
+    "target-registry の shared-assets checkout 方式変更時"
+  ]
+}

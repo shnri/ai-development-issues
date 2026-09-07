@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-scan-watermark-advances-over-uncovered-inputs",
+  "title": "取得できなかった入力を含んだまま走査済みwatermarkだけが前進し、欠損が恒久的な死角として固定される",
+  "summary": "The maintenance controller's discovery loop stamps each source with a single last_scanned_at watermark when a worker finishes, not when the source's declared inputs were actually read. In catalog/sources.json the local-project-evidence source declares two paths, one of which ('.ai-intelligence/ai-development/findings') does not exist and never has, yet its watermark was advanced to 2026-08-31T19:16:58Z and it was counted among 'sources_scanned: 6' in runs/MNT-20260831T190559Z/metrics.json. The same shape appears in two sibling sources whose last_result.notes record an arXiv HTTP 400 with ACM/IEEE unindexed, and MITRE ATLAS coverage unverified, while carrying identical fully-scanned watermarks. Because due-source selection and maintenance-policy.json cadence read only the watermark, and because the failure is preserved solely as prose in last_result.notes with no structured per-input coverage field, nothing schedules a retry: the gap is not merely missed once but guaranteed to stay missed. The recurrence is demonstrated across a full cycle -- runs/MNT-20260831T190559Z/workers/discovery-06.json reported the nonexistent path as both a fact and a risk, and MNT-20260907T190654Z-maintain.json nonetheless re-issued the identical path list to discovery-04 and re-advanced the watermark. The self-concealing property is what distinguishes this from C01 and D08: coverage is overstated by the very record that is supposed to reveal it.",
+  "proposed_category": "運用・費用・測定・再現性",
+  "problem_type": [
+    "operations",
+    "observability",
+    "reproducibility"
+  ],
+  "priority_lanes": [],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-04 (local-project-evidence scout)",
+  "evidence": [
+    {
+      "path": ".ai-intelligence/ai-development/catalog/sources.json",
+      "summary": "local-project-evidence declares a '.ai-intelligence/ai-development/findings' path that does not exist, yet carries last_scanned_at 2026-08-31T19:16:58Z and candidate_count 1; primary-software-engineering-research notes 'arXiv cs.SE mid-window listing chunk returned HTTP 400; ACM/IEEE not yet indexed' and standards-security-and-risk notes 'MITRE ATLAS August coverage unverified (JS-only site)', both with the same fully-scanned watermark. No structured per-path or per-domain coverage field exists."
+    },
+    {
+      "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/workers/discovery-06.json",
+      "summary": "Prior local scout recorded the missing findings/ path as fact 1 and as risk 2 ('the local-evidence channel may be under-reporting'), but the observation was never converted into a repair item or a catalog candidate."
+    },
+    {
+      "path": ".ai-intelligence/ai-development/runs/MNT-20260907T190654Z-maintain.json",
+      "summary": "One cycle later, plan.discovery re-issues the identical two-path list including the nonexistent findings/ path to discovery-04, proving the defective declaration survives a full maintenance run."
+    },
+    {
+      "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/metrics.json",
+      "summary": "Reports 'sources_scanned: 6' with no coverage qualifier, so a source with an unreadable declared input is indistinguishable from a fully covered one in run-level metrics."
+    },
+    {
+      "path": ".ai-intelligence/ai-development/catalog/maintenance-policy.json",
+      "summary": "cadence_days and evidence_refresh_days are keyed by source and evidence tier only; the policy has no notion of a partially covered source, so a failed input cannot become due again."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "local-project-evidence"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "agent discovery and evidence-collection loops",
+      "scheduled repository and web scanners",
+      "maintenance controllers with per-source freshness tracking"
+    ],
+    "models": []
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

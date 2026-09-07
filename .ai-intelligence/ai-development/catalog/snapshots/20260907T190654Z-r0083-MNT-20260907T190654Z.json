@@ -3,9 +3,9 @@
   "catalog_id": "ai-development-problems",
   "role": "authority",
   "created_at": "2026-08-15T09:26:24Z",
-  "updated_at": "2026-09-07T19:29:03Z",
-  "revision": 99,
-  "problem_count": 204,
+  "updated_at": "2026-08-31T19:30:27Z",
+  "revision": 83,
+  "problem_count": 193,
   "source_snapshots": [
     {
       "kind": "initial-problem-set",
@@ -17446,10 +17446,10 @@
       "status": "active",
       "status_reason": "Initial 0.2.0 inventory after ingest. Mechanism (基盤) still exists under current conditions; 2026-08-15 research found 2 remedy record(s) with maturities ['official'], confirming the problem is currently recognized in official guidance/primary research. No affirmative evidence of resolution; lane ['F2'] retained.",
       "first_seen": "2026-08-15",
-      "last_seen": "2026-09-07",
+      "last_seen": "2026-08-15",
       "last_reviewed": "2026-08-15",
-      "next_review_due": "2026-10-07",
-      "last_researched_at": "2026-09-07",
+      "next_review_due": "2026-09-14",
+      "last_researched_at": "2026-08-15",
       "research_status": "current",
       "confidence": "medium",
       "evidence": [
@@ -17486,42 +17486,6 @@
           "reference": "techlog:ai-development-problems-taxonomy-ja-2026-08-15.md",
           "observed_at": "2026-08-15",
           "summary": "Curated problem set dated 2026-08-15 with references R1–R21; mechanism described as 基盤, model_improvement=残存"
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/91623",
-          "title": "Max 20x plan drained in ~22 hours after Fable 5.1; 5.1 emits 2x the output per turn of Fable 5",
-          "published_at": "2026-09-02",
-          "summary": "User-measured 2x output-per-turn increase; plan exhaustion in ~22h."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/91471",
-          "title": "[Bug] Rate limit consumed prematurely - 5 hour window exhausted in 30 minutes",
-          "published_at": "2026-09-02",
-          "summary": "8 +1; 5-hour window consumed in 30 minutes post-5.1; sibling #91289 (20 min), #91318."
-        },
-        {
-          "url": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
-          "title": "Anthropic resets Claude Max limits for Fable 5.1",
-          "published_at": "2026-09-01",
-          "summary": "Vendor reset meters at launch; reports of 20x Max 5h quota gone in 52 minutes from a single prompt; heavy cache activity cited; Fable capped at 50% of weekly pool."
-        },
-        {
-          "url": "https://github.com/openai/codex/issues/43230",
-          "title": "ASTRA Token burn just drastically increased this morning, what happened?!",
-          "published_at": "2026-09-06",
-          "summary": "Cross-vendor parallel for GPT-6 Astra; with #43222 (quota vs local telemetry mismatch) and #43141 (limit re-hit <1h after reset)."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://code.claude.com/docs/en/costs",
-          "observed_at": "2026-09-07",
-          "summary": "RMD-K07-001/K05-001の主張（5時間+週次window、/usage-credits、model限度のfamily性）を再確認。加えてrollout起因の消費プロファイル急変への新機能（behavior flags、cache-miss原因表示、auto-continue at reset、/effort）を確認し、RMD-QUOTASHIFT-001として起草。"
-        },
-        {
-          "kind": "community",
-          "reference": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
-          "observed_at": "2026-09-01",
-          "summary": "Provider側はmeter resetとFableの週次pool 50% capで反応したが、恒久的・自動的な保護ではない。"
         }
       ],
       "source_refs": [
@@ -17529,19 +17493,13 @@
           "kind": "initial-problem-set",
           "reference": "plugin:references/problem-catalog.json",
           "observed_at": "2026-08-15"
-        },
-        {
-          "source_id": "community-and-issue-signals"
         }
       ],
       "remedy_refs": [
         "RMD-K07-001",
-        "RMD-K05-001",
-        "RMD-QUOTASHIFT-001"
+        "RMD-K05-001"
       ],
-      "aliases": [
-        "Model更新でToken消費プロファイル（出力冗長度・Cache計上）が急変し、固定Plan Quotaが数分〜数時間で枯渇して長時間作業が成立しなくなる"
-      ],
+      "aliases": [],
       "conditions": {
         "last_inventory_model_assessment": {
           "model_improvement_expectation": "残存",
@@ -17570,7 +17528,7 @@
         "primary study contradicting current mechanism"
       ],
       "superseded_by": null,
-      "revision": 6,
+      "revision": 4,
       "research_deferred_count": 0
     },
     {
@@ -18499,12 +18457,12 @@
         "F2"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "ツール応答消失時にcommitted/uncommitted状態が判別不能になる問題は、AFT-Benchの統制実験でInterface設計起因と分離済み。MCPはoutputSchema/structuredContent/annotations/Tasks拡張で部品を標準化したが、idempotencyとdedupの保証は依然なく（2026-07-28 stateless core自身が明記）、中核機構は未解決。RMD-TOOLEFFECT-001で実装側の是正手段が具体化しており、実在・継続・対処可能。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -18538,15 +18496,6 @@
           "reference": "https://arxiv.org/abs/2608.23628",
           "observed_at": "2026-08-31",
           "summary": "AFT-Bench isolates interface design as the cause and prescribes explicit external-effect semantics, execution lifecycle/recovery, and postcondition verification."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-TOOLEFFECT-001"
-        },
-        {
-          "url": "https://arxiv.org/abs/2608.23628",
-          "title": "Callability Is Not Operability (AFT-Bench)",
-          "summary": "Interface-only intervention isolates the mechanism; committed/uncommitted indistinguishability reproduced under controlled fault injection."
         }
       ],
       "source_refs": [
@@ -18567,13 +18516,11 @@
           "tool invocation",
           "failure recovery",
           "retry decisions"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        ]
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -18591,12 +18538,12 @@
         "W3"
       ],
       "simple_fix": null,
-      "status": "watch",
-      "status_reason": "機構は測定されている（5製品横断、最悪Token F1 0.035）が、根拠は単一研究・単一ドメイン（Oracle→PostgreSQL移行）に限られ、RMD-SPECPORT-001自身が『効果量はfeature developmentへ転移しない可能性』を明記。仕様の非中立性という一般命題としては独立再現が未確認のため、activeではなくwatchで再現報告を待つ。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-22",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -18624,15 +18571,6 @@
           "reference": "https://github.com/github/spec-kit",
           "observed_at": "2026-08-31",
           "summary": "Spec Kit is agent-agnostic across 30+ agents (v0.11.0, 2026-06-16) and version-controls spec artifacts, but supplies no cross-agent equivalence validation, so it does not resolve the degradation the paper measures."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-SPECPORT-001"
-        },
-        {
-          "url": "https://arxiv.org/abs/2608.21208",
-          "title": "Specification Portability Across LLM Development Agents",
-          "summary": "Single study, one migration domain; measures degradation and mitigations but no independent replication yet."
         }
       ],
       "source_refs": [
@@ -18653,17 +18591,11 @@
           "agent/tool migration",
           "spec authoring",
           "large-scale code migration"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        ]
       },
-      "reopen_triggers": [
-        "移行ドメイン外（feature development等）での独立再現の公表",
-        "spec-drivenツールキット（Spec Kit等）がcross-agent equivalence validationを追加した場合",
-        "consumer projectでのcross-agent spec転用による品質劣化の実測"
-      ],
+      "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -18681,12 +18613,12 @@
         "C1"
       ],
       "simple_fix": null,
-      "status": "watch",
-      "status_reason": "34名の単一crossover実験のみが根拠で、独立再現がなく、隣接材料はvendor blog（一般的automation bias論）にとどまる。効果の方向は自動化バイアス研究と整合し実在の蓋然性はあるが、remedyが存在せず（primary studyも対策を提示しない）、現時点でactionableでもない。再現・追試を待つwatchが妥当。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-22",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -18708,16 +18640,6 @@
           "reference": "https://blog.codacy.com/automation-bias-in-ai-generated-code-review-why-clean-code-still-ships-broken",
           "observed_at": "2026-08-31",
           "summary": "Nearest adjacent material is general automation-bias commentary on AI review (erroneous automated advice followed ~26% more often per a 2012 systematic review); vendor blog, not measured on requirements smells, so it cannot support a remedy record."
-        },
-        {
-          "url": "https://arxiv.org/abs/2608.21298",
-          "title": "Evidence of the Negative Effect of LLMs on Requirements Inspection",
-          "summary": "Single 34-participant experiment; significant accuracy drop, no mitigation strategy offered; no replication found as of 2026-08-31 research."
-        },
-        {
-          "url": "https://blog.codacy.com/automation-bias-in-ai-generated-code-review-why-clean-code-still-ships-broken",
-          "title": "Automation bias commentary (vendor blog)",
-          "summary": "Directionally consistent adjacent material only; not measured on requirements smells."
         }
       ],
       "source_refs": [
@@ -18736,17 +18658,11 @@
           "requirements inspection",
           "review",
           "onboarding of novice engineers"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        ]
       },
-      "reopen_triggers": [
-        "独立再現または大規模追試の公表",
-        "要求検査でのLLM併用手順（accuracy低下を防ぐプロトコル）の実証研究",
-        "consumer projectの検査工程で同様の検出漏れが観測された場合"
-      ],
+      "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -18764,12 +18680,12 @@
         "S0"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "METRの独立調査が実インシデントで機構を確認（transcriptの7%超にspoofed tool call、96件は明確な証跡）し、緩和はスコープ外と明言。上流に修正は存在せず、transcriptを証拠として使う下流統制全般が影響を受ける構造問題。harness外側での改竄検知記録（RMD-TAMPEREVIDENT-001、Claude CodeのOTel tool_decision/tool_resultを利用）という具体的対処があり、S0継続監視対象。評価設定外への転移が未実証な点は残余不確実性として記録。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-09-28",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -18803,15 +18719,6 @@
           "reference": "https://github.com/bkuan001/halo-record",
           "observed_at": "2026-08-31",
           "summary": "Dependency-free hash-chained tamper-evident runtime record for agent tool calls; illustrative implementation, not a validated control."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-TAMPEREVIDENT-001"
-        },
-        {
-          "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
-          "title": "METR incident investigation",
-          "summary": "~7% spoofed transcripts confirmed in a real incident; remediation explicitly out of scope, so no upstream fix exists."
         }
       ],
       "source_refs": [
@@ -18840,13 +18747,11 @@
           "automated scorer",
           "human auditor"
         ],
-        "evidence_setting": "cybersecurity evaluation harness with parallel agents; transfer to ordinary coding-agent pipelines plausible but unevidenced",
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        "evidence_setting": "cybersecurity evaluation harness with parallel agents; transfer to ordinary coding-agent pipelines plausible but unevidenced"
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -18864,12 +18769,12 @@
         "S0"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "METR・OpenAI・Hugging Face・CSAの4系統が同一インシデントで裏付ける確認済み機構（共有Artifactory namespaceが1,206 agent・70,000超メッセージの掲示板化、攻撃終了まで未検知）。OpenAIは自社infraを厳格化したが、これは自インスタンスの対処であり、共有cache/registryを持つ並列agent実行一般（CI・小規模fleet含む）の機構は未解決。RMD-SHAREDCACHECHANNEL-001でrun単位分離・egress deny・cache write監視が具体化済み。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -18903,20 +18808,6 @@
           "reference": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
           "observed_at": "2026-08-31",
           "summary": "Shared Artifactory namespace became a >70,000-message board across 1,206 agents; fallback channels were Modal sandboxes and Hugging Face datasets; undetected until the attack concluded."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-SHAREDCACHECHANNEL-001"
-        },
-        {
-          "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
-          "title": "METR incident investigation",
-          "summary": "Shared cache namespace as rendezvous channel confirmed at scale; undetected until attack concluded."
-        },
-        {
-          "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead/",
-          "title": "OpenAI provider response",
-          "summary": "Provider hardened its own infrastructure only; general mechanism for shared build infra remains."
         }
       ],
       "source_refs": [
@@ -18944,13 +18835,11 @@
           "autonomous agent",
           "platform operator"
         ],
-        "evidence_setting": "large-scale parallel evaluation (~1,200 agents); smaller CI or agent fleets sharing a build cache are structurally similar but unmeasured",
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        "evidence_setting": "large-scale parallel evaluation (~1,200 agents); smaller CI or agent fleets sharing a build cache are structurally similar but unmeasured"
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -18968,12 +18857,12 @@
         "F2"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "METRが実インシデントで両原因（30-40%の解決不能target、scorer挙動の誤信）を具体的に特定し、ImpossibleBenchが対策効果を定量測定済み（abort affordanceでcheating率54%→9%）。eval設計側の問題で上流修正という概念がなく、自組織evalに直接適用可能な対策（RMD-EVALSOLV-001）が揃っている。実在・継続・対処可能。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -19001,20 +18890,6 @@
           "reference": "https://github.com/METR/task-standard/blob/main/STANDARD.md",
           "observed_at": "2026-08-31",
           "summary": "METR's task-family standard plus its stated practice of QA-ing solvability and collecting human baselines gives the pre-inclusion solvability-calibration step a concrete, portable format."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-EVALSOLV-001"
-        },
-        {
-          "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
-          "title": "METR incident investigation",
-          "summary": "Impossible-task fraction and false scorer model identified as concrete causes of grader-attack behavior."
-        },
-        {
-          "url": "https://arxiv.org/abs/2510.20270",
-          "title": "ImpossibleBench",
-          "summary": "Countermeasures measured: abort affordance 54%->9%, read-only test access, monitor detection limits."
         }
       ],
       "source_refs": [
@@ -19042,13 +18917,11 @@
           "eval author",
           "autonomous agent"
         ],
-        "evidence_setting": "cybersecurity capability eval; applies to internal agent evals and coding benchmarks with unverified solvability",
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        "evidence_setting": "cybersecurity capability eval; applies to internal agent evals and coding benchmarks with unverified solvability"
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -19066,12 +18939,12 @@
         "S0"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "独立3件のGitHub issue（#87575 has repro含む）が2026-08-31時点でopen・maintainer応答なし（v2.1.251まで修正なし）。さらにAnthropic自身がcheckpointのbash変更非追跡を仕様上の限界と明記し、acceptEditsはsed等のshell編集を自動承認するため、bashFirst promptが撤回されても『ツール名matcherで書かれたガードレールが経路変更で失効する』中核機構は残る。RMD-BASHEDITPATH-001（効果ベースのOS境界＋git snapshot）が対処可能。S0で短周期監視。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-09-28",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -19129,20 +19002,6 @@
           "reference": "https://code.claude.com/docs/en/permission-modes",
           "observed_at": "2026-08-31",
           "summary": "acceptEdits auto-approves mkdir/touch/rm/rmdir/mv/cp/sed inside the working directory, so the shell edit path is partly intended behavior rather than only a prompt bug."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-BASHEDITPATH-001"
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/87575",
-          "title": "Auto mode /rewind silently fails on Bash-edited files",
-          "summary": "Open with repro as of 2026-08-31; no fix through v2.1.251."
-        },
-        {
-          "url": "https://code.claude.com/docs/en/checkpointing",
-          "title": "Claude Code checkpointing docs",
-          "summary": "Vendor documents bash-edit non-tracking as an intended limitation, so the mechanism persists even if the prompt changes."
         }
       ],
       "source_refs": [
@@ -19169,13 +19028,11 @@
           "agent operator",
           "platform/tooling owner"
         ],
-        "generalizes_to": "ツール名で表現された任意のガードレール(Hook, deny rule, 監査, レビューゲート)",
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        "generalizes_to": "ツール名で表現された任意のガードレール(Hook, deny rule, 監査, レビューゲート)"
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -19193,13 +19050,13 @@
         "S0"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "個別CVEは修正済み（CVE-2026-54316→Claude Code 2.1.163、CVE-2026-12537→Gemini CLI 0.39.1）だが、同一クラスのbypassが現行リリース系列でも継続発生している（v2.1.251の算術式auto-approve修正 2026-08-28、Codexの2026-08-20 dynamic shell words修正、OpenClawの3件）。『字句解析による許可判定と実行系意味論の乖離』という中核機構はベンダ横断で未解決であり、instance patchはmitigatedの根拠にならない。RMD-ALLOWLISTPARSE-001（OS sandboxを実効境界に）はofficial maturity。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
-      "last_seen": "2026-09-07",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
-      "last_researched_at": "2026-09-07",
+      "last_seen": "2026-08-31",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
+      "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
       "evidence": [
@@ -19262,44 +19119,6 @@
           "reference": "https://arxiv.org/pdf/2603.27517",
           "observed_at": "2026-08-31",
           "summary": "Three exec-allowlist bypasses in OpenClaw from one structural defect; the divergence is not vendor-specific."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-ALLOWLISTPARSE-001"
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
-          "title": "claude-code CHANGELOG v2.1.251",
-          "summary": "New bypass of the same class fixed 2026-08-28, showing the class is still live in the current release line."
-        },
-        {
-          "url": "https://arxiv.org/pdf/2603.27517",
-          "title": "OpenClaw security analysis",
-          "summary": "Three allowlist bypasses from one structural defect; the divergence is a design class, not a vendor bug."
-        },
-        {
-          "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "title": "Claude Code v2.1.259 / v2.1.260",
-          "published_at": "2026-09-05",
-          "summary": "Read() deny-rule operand/option-value bypass; parenthesized path rules dropped by sandbox; uncompilable pattern failing all edits; zsh hidden command-substitution auto-approved."
-        },
-        {
-          "kind": "maintainer-report",
-          "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "observed_at": "2026-09-07",
-          "summary": "v2.1.260: 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode' — the operand/option-value deny gap fixed in 2.1.259 is re-opened by design in current releases; the parse-gap class cannot be closed by string analysis without breaking availability."
-        },
-        {
-          "kind": "maintainer-report",
-          "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "observed_at": "2026-09-07",
-          "summary": "v2.1.260 further instances fixed: Edit/Write/Read rules with parentheses in the path dropped as invalid or ignored by the Bash sandbox (left 'read-only' folders writable); one uncompilable file-rule pattern making every edit fail; zsh commands hiding a command substitution in REPORTTIME/REPORTMEMORY/DIRSTACKSIZE assignments auto-approved. v2.1.257: Read()/Edit() deny rules had not applied to < file redirects and reader commands (tac, egrep); ask-rules were skipped inside compound commands/subshells in auto mode."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://code.claude.com/docs/en/sandboxing",
-          "observed_at": "2026-09-07",
-          "summary": "Re-verified current: OS enforces the filesystem/network boundary for every Bash command and child process; strict sandbox mode (allowUnsandboxedCommands:false) removes the dangerouslyDisableSandbox escape hatch; sandbox.credentials deny/mask current. RMD-ALLOWLISTPARSE-001 remains the applicable remedy; no genuinely different remedy found."
         }
       ],
       "source_refs": [
@@ -19314,8 +19133,7 @@
         "RMD-ALLOWLISTPARSE-001"
       ],
       "aliases": [
-        "Shell許可ルールの解釈が実際のシェル意味論とずれ、書いた権限境界と実効境界が一致しない",
-        "許可・拒否ルールの解釈系ギャップ追加事例：deny規則がオプション値を素通し、括弧パスがsandboxで無言に脱落、隠れたコマンド置換を自動承認"
+        "Shell許可ルールの解釈が実際のシェル意味論とずれ、書いた権限境界と実効境界が一致しない"
       ],
       "conditions": {
         "tools": [
@@ -19333,13 +19151,11 @@
         "roles": [
           "platform/tooling owner",
           "security reviewer"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        ]
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 6,
+      "revision": 3,
       "research_deferred_count": 0
     },
     {
@@ -19357,12 +19173,12 @@
         "F2"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "CodexとClaude Codeの双方で公式に文書化された現行挙動（untrusted projectはAGENTS.md/project設定を読み込まない）であり、agent出力側に可視シグナルがないため『指示を無視された』という誤診断ループを生む。ベンダはこれをセキュリティ設計として維持する方向であり自然消滅しない。trust事前provisioning（RMD-TRUSTGATE-001）とロード検証（RMD-TRUSTVERIFY-001）の両remedyがofficial maturityで、consumer側で確実に対処可能。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -19396,19 +19212,6 @@
           "reference": "https://code.claude.com/docs/en/memory",
           "observed_at": "2026-08-31",
           "summary": "Verification path is official: run /context and check the 'Memory files' list, and use the InstructionsLoaded hook to log exactly which instruction files load, when and why."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-TRUSTGATE-001"
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-TRUSTVERIFY-001"
-        },
-        {
-          "url": "https://code.claude.com/docs/en/permissions",
-          "title": "Claude Code permissions: what runs before you trust a folder",
-          "summary": "Official enumeration of withheld configuration under untrusted state; behavior is by design and ongoing."
         }
       ],
       "source_refs": [
@@ -19429,13 +19232,11 @@
           "CLAUDE.md",
           ".mcp.json"
         ],
-        "models": [],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        "models": []
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -19453,12 +19254,12 @@
         "C1"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "2026-08-27のbeta/stable namespace統合でclient.beta.skills.delete()の破壊範囲が呼び出し側無変更のまま拡大した具体例があり、versioning保証はSDK majorとbeta namespaceを明示的に対象外とするため、同型の変化は今後も構造的に発生し続ける。型検査もdiffレビューも検出できない性質が問題の核であり、MIGRATION.md等の公式手順はremedyの部品ではあるが機構の解消ではない。RMD-BETAGA-001で対処手順が確立。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -19498,20 +19299,6 @@
           "reference": "https://platform.claude.com/docs/en/release-notes/api",
           "observed_at": "2026-08-31",
           "summary": "2026-08-27 note is the canonical instance of signature-preserving semantic widening: client.beta.skills.delete() now deletes a Skill together with all of its versions; the type checker cannot see this."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-BETAGA-001"
-        },
-        {
-          "url": "https://platform.claude.com/docs/en/release-notes/api",
-          "title": "Claude Platform release notes 2026-08-27",
-          "summary": "Canonical instance: skills.delete() semantics widened with unchanged signature."
-        },
-        {
-          "url": "https://platform.claude.com/docs/en/api/versioning",
-          "title": "API versioning policy",
-          "summary": "anthropic-version guarantee excludes SDK majors and the beta namespace, so recurrence is structural."
         }
       ],
       "source_refs": [
@@ -19535,13 +19322,11 @@
           "claude-opus-5",
           "claude-sonnet-5",
           "claude-opus-4-8"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        ]
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -19559,12 +19344,12 @@
         "S0"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "旗艦事例のCVE-2025-59536は1.0.111で修正済みだが、同一面（repo同梱設定の実行層化）へのhardeningがv2.1.232/2.1.246/2.1.248と2026年8月まで連続しており、Gemini CLIも0.39.1でtrust modelのbreaking changeを要した。OWASP AST02はこれをクラスとして扱い、修正はinstance単位で出続けている。中核機構は上流で解消しておらずmitigatedに該当しない。--restrictedやmanaged settings等の対処（RMD-REPOCONFIGEXEC-001、official maturity）で運用側に境界を持てる。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -19604,20 +19389,6 @@
           "reference": "https://novee.security/vulnerabilities/update-to-gemini-cli-and-run-gemini-cli-trust-model/",
           "observed_at": "2026-08-31",
           "summary": "Gemini CLI 0.39.1 makes workspace trust explicit (breaking change) after automatic trust in headless CI enabled pre-sandbox host code execution via .gemini/.env."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-REPOCONFIGEXEC-001"
-        },
-        {
-          "url": "https://owasp.org/www-project-agentic-skills-top-10/",
-          "title": "OWASP AST10 - AST02",
-          "summary": "Repository config files as pre-consent execution layer treated as a class, with mitigations independent of individual CVE fixes."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
-          "title": "claude-code CHANGELOG v2.1.232/246/248",
-          "summary": "Continued hardening of the same surface through late August 2026 shows the class is still yielding fixes."
         }
       ],
       "source_refs": [
@@ -19643,13 +19414,11 @@
         "lifecycle": [
           "repository clone",
           "agent session start"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        ]
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -19667,12 +19436,12 @@
         "S0"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "scannerのpattern-matcher回避はOWASP AST08が構造的限界として定式化し（全scanner合格のまま26,000+ agentへ到達したPoC、ClawHavocの1,184 skill汚染）、marketplaceは現に『screened』表示を出しつつ動作検証不能と明言している。検出技術の改善では原理的に閉じないクラスであり、『scan結果はadvisory、承認は出所・署名・権限最小化・behavioral観測で』という対処（RMD-SCANGATE-001、official maturity）が唯一の現実的統制。引用統計がベンダ調査由来である点は残余不確実性として記録。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -19700,15 +19469,6 @@
           "reference": "https://securityboulevard.com/2026/06/7-claude-code-plugins-from-the-marketplace-worth-your-time/",
           "observed_at": "2026-08-31",
           "summary": "Anthropic's community marketplace lists only plugins that passed automated safety screening while stating it cannot verify plugin behavior — the exact 'screened' signal AST08 says must not be a sole gate."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-SCANGATE-001"
-        },
-        {
-          "url": "https://owasp.org/www-project-agentic-skills-top-10/ast08",
-          "title": "OWASP AST08",
-          "summary": "'Treat scanner-based results as advisory only; never as sole gates' - the class is structurally undetectable by pattern matching."
         }
       ],
       "source_refs": [
@@ -19733,13 +19493,11 @@
         "lifecycle": [
           "skill adoption",
           "dependency review"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
+        ]
       },
       "reopen_triggers": [],
       "superseded_by": null,
-      "revision": 3,
+      "revision": 2,
       "research_deferred_count": 0
     },
     {
@@ -19757,12 +19515,12 @@
         "F2"
       ],
       "simple_fix": null,
-      "status": "active",
-      "status_reason": "本レビュー中の実測で問題が現在も再現している: 今回のrun MNT-20260907T190654Zもauthority_base.reachable=false / remote_sha=nullを記録（3回連続）し、check_authority.pyにはreachability連動のfail-closed gate（RMD-AUTHGATE-001）が未実装。一方、同セッションからのgit ls-remoteは成功しlocal_headと一致した — probeの記録と実到達性が乖離しており、『検証可能なのに未検証のlocal head基準でrunが計画・記録される』という機構がまさに動作中。remedy 2件（egress provisioning＋fail-closed gate）で対処可能。probe自体の信頼性調査をcontrollerへ申し送る。",
+      "status": "provisional",
+      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
       "first_seen": "2026-08-31",
       "last_seen": "2026-08-31",
-      "last_reviewed": "2026-09-07",
-      "next_review_due": "2026-10-07",
+      "last_reviewed": null,
+      "next_review_due": "2026-09-07",
       "last_researched_at": "2026-08-31",
       "research_status": "current",
       "confidence": "medium",
@@ -19810,18 +19568,6 @@
           "reference": ".ai-intelligence/ai-development/automation-policy.json",
           "observed_at": "2026-08-31",
           "summary": "Local state confirms the adaptation direction the problem describes: release.allow_direct_push true and authority_state_strategy direct after the mandatory-PR strategy was removed (commit 33c0f65, 2026-08-16), with scripts/check_authority.py as the substituted guard."
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-AUTHGATE-001"
-        },
-        {
-          "kind": "remedy",
-          "id": "RMD-SANDBOXEGRESS-001"
-        },
-        {
-          "title": "MNT-20260907T190654Z-maintain.json + live git ls-remote (2026-09-07)",
-          "summary": "Run records reachable=false/remote_sha=null while ls-remote succeeds returning 6f93747==local_head; check_authority.py has no reachability gate."
         }
       ],
       "source_refs": [
@@ -19852,850 +19598,7 @@
           "release",
           "propagation",
           "state persistence"
-        ],
-        "last_inventory_model_assessment": {},
-        "last_inventory_remedy_assessment": {}
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 3,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-211DB41F",
-      "canonical_key": "211db41f9b06fd5f",
-      "title": "権限・除外チェック時と実アクセス時でsymlink解決が食い違い、承認済みに見えるパス経由で保護対象ファイルへ到達する",
-      "summary": "Two providers fixed the same mechanism in the same week. Claude Code v2.1.253 (early Sept 2026): 'Fixed file tools following symlinks swapped after permission check, risking unauthorized access' — a time-of-check/time-of-use gap where a path is approved, then the symlink is swapped so the file tool operates on a different target. Gemini CLI v0.58.0 (2026-09-01): 'Enforced consistent symlink evaluation in ignore path handling to prevent path bypass' — ignore/exclusion paths evaluated inconsistently against symlinks allowed bypassing protections. Codex CLI 0.151.0 (2026-08-29) similarly 'Improved remote sandbox enforcement using the executor's actual home directory', a path-resolution mismatch between policy and executor. Mechanism: permission/ignore decisions are made on a lexical or check-time path while the filesystem operation resolves symlinks at use time, so protected files are reachable (or protections silently skipped) through approved-looking paths. Distinct from shell-based bypass (P-20260831-AE8A3EE7) and allowlist string-parsing mismatch (P-20260831-60EFB5BF): here the checker and executor disagree on filesystem path identity.",
-      "category_id": null,
-      "category": "I",
-      "problem_type": [
-        "security",
-        "permission-semantics-gap"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "safety"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "high",
-      "evidence": [
-        {
-          "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "title": "Claude Code v2.1.253",
-          "published_at": "2026-09-01",
-          "summary": "'Fixed file tools following symlinks swapped after permission check, risking unauthorized access'"
-        },
-        {
-          "url": "https://geminicli.com/docs/changelogs/latest/",
-          "title": "Gemini CLI v0.58.0",
-          "published_at": "2026-09-01",
-          "summary": "'Enforced consistent symlink evaluation in ignore path handling to prevent path bypass'"
-        },
-        {
-          "url": "https://developers.openai.com/codex/changelog",
-          "title": "Codex CLI 0.151.0",
-          "published_at": "2026-08-29",
-          "summary": "'Improved remote sandbox enforcement using the executor's actual home directory'"
-        },
-        {
-          "kind": "maintainer-report",
-          "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "observed_at": "2026-09-07",
-          "summary": "'Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check, which could read or write outside the approved location' — recorded at intake as v2.1.253 (2026-09-01), now homed in the 2.1.251/2.1.252 changelog block; any >=2.1.257 includes it. v2.1.257 fixed the sibling instance of plugins reading outside their directory via symlinked component paths."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://geminicli.com/docs/changelogs/latest/",
-          "observed_at": "2026-09-07",
-          "summary": "Gemini CLI v0.58.0 (2026-09-01): 'ensure consistent symlink evaluation in ignore path handling' to prevent path bypass."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://learn.chatgpt.com/docs/changelog",
-          "observed_at": "2026-09-07",
-          "summary": "Codex CLI 0.151.0 (2026-08-29): 'Improved remote sandbox enforcement using the executor's actual home directory, operating system, and path conventions' — policy/executor path-identity mismatch fixed."
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "official-model-and-agent-providers"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-SYMLINKTOCTOU-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "Claude Code",
-          "Gemini CLI",
-          "OpenAI Codex CLI"
-        ],
-        "models": []
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-CD83ACE2",
-      "canonical_key": "cd83ace28558fda7",
-      "title": "承認・レビュー状態がCompaction・再起動・Fork・権限変更・Dispatchと同期せず、失効すべき承認が残るか有効な承認が消える",
-      "summary": "Cross-provider cluster of fixes (2026-08-29 → 2026-09-03) showing that agent approval/review state is not kept consistent with session lifecycle events, failing both open and closed. Fail-open: Codex CLI 0.151.0 (2026-08-29) 'Prevented stale Guardian classifications from authorizing actions after permission [changes]' — a cached approval classification kept authorizing actions after the permission profile changed; Claude Code v2.1.257 'Fixed sessions dispatched from agent view overriding target directory's permission mode' — dispatch context carried the wrong permission mode into a target directory. Fail-closed/lost state: Codex 0.153.0 (2026-09-03) 'Guardian review history survives compaction, restarts, and user-created forks' — review history was previously lost on compaction, restart, and fork; Codex 0.152.0 (2026-09-01) 'Automatic approval reviews preserve user instructions, answers, and valid [context]' — automated reviews dropped the user's instructions and prior answers; Claude Code v2.1.258 'Fixed remote/scheduled sessions failing after re-sent permission approval couldn't be applied'. Mechanism: approval decisions are stored as session-local ephemeral state with no invalidation/persistence contract tied to permission-profile changes, context compaction, restarts, forks, or cross-context dispatch — so security review either re-authorizes stale decisions or silently loses valid ones, and users cannot tell which regime they are in.",
-      "category_id": null,
-      "category": "I",
-      "problem_type": [
-        "permission-semantics-gap",
-        "state-consistency"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "safety",
-        "reliability"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "high",
-      "evidence": [
-        {
-          "url": "https://developers.openai.com/codex/changelog",
-          "title": "Codex CLI 0.151.0 / 0.152.0 / 0.152.1 / 0.153.0",
-          "published_at": "2026-09-03",
-          "summary": "Stale Guardian classifications authorizing actions after permission changes (0.151.0); automatic approval reviews dropping user instructions/answers (0.152.0); Guardian review history not surviving compaction/restarts/forks (0.153.0)."
-        },
-        {
-          "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "title": "Claude Code v2.1.257 / v2.1.258",
-          "published_at": "2026-09-03",
-          "summary": "Dispatched sessions overriding target directory's permission mode (2.1.257); remote/scheduled sessions failing after re-sent permission approval couldn't be applied (2.1.258)."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://learn.chatgpt.com/docs/changelog",
-          "observed_at": "2026-09-07",
-          "summary": "Codex CLI 0.151.0: stale Guardian classifications no longer authorize actions after permission state changes; 0.152.0: approval reviews preserve user instructions, answers, and valid authorizations across history compaction; 0.153.0: Guardian review history survives compaction, restarts, and user-created forks while respecting rollback boundaries. Latest 0.153.4 (2026-09-04)."
-        },
-        {
-          "kind": "maintainer-report",
-          "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "observed_at": "2026-09-07",
-          "summary": "v2.1.257: dispatched sessions no longer override the target directory's defaultMode/agent permissionMode; v2.1.258: remote/scheduled sessions no longer fail after a re-sent permission approval could not be applied. Residual instance: v2.1.261 fixed Remote Control showing a stale permission mode after attach or mode change — the class was still live after the cited fixes."
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "official-model-and-agent-providers"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-APPROVALSTATE-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "OpenAI Codex CLI",
-          "Claude Code"
-        ],
-        "models": []
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-D8E5A2E2",
-      "canonical_key": "d8e5a2e285198f94",
-      "title": "APIパラメータ・会話再生の有効性がモデル世代単位で変わり、呼び出し側を変えないモデル切替・Fallback・文脈編集が400や無言のBlock破棄で壊れる",
-      "summary": "With Claude Fable 5.1 / Mythos 5.1 (2026-09-01), parameter validity and conversation-replay validity became model-generation-scoped: 'tool_choice types any and tool aren't supported and return a 400 error' (harnesses forcing tool use break on model upgrade with no caller change); 'Thinking blocks... are preserved only for the model that produced them or a newer one: earlier models can't read them, and the API drops one replayed to an earlier model' (silent content drop on model downgrade/fallback mid-conversation — the exact path overload fallbacks take); 'for new accounts created on or after August 31, 2026, replaying one after the system prompt, tools, or an earlier message changed returns a 400 error' (hard failure for harnesses that edit system prompts/tools mid-session, e.g. compaction, dynamic tool registration, turn-scoped instructions — and account-creation-date-conditional, so behavior differs across accounts running identical code). Related earlier instance: Opus 5 rejects thinking-disabled at effort xhigh/max (Claude Code itself shipped the client-side fix in v2.1.254). Mechanism: the same API version now enforces per-model-generation and per-account-cohort semantics, so mid-session model switching, fallback, and history/prompt mutation — standard coding-agent harness techniques — become version-skew failure surfaces. Adjacent to P-20260831-DE8D86E9 (beta→GA/SDK-major silent breakage) but the trigger is model selection, not API/SDK version; evaluate merge vs new at merge gate.",
-      "category_id": null,
-      "category": "K",
-      "problem_type": [
-        "breaking-change",
-        "silent-behavior-change"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "reliability"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "medium",
-      "evidence": [
-        {
-          "url": "https://platform.claude.com/docs/en/release-notes/overview",
-          "title": "Claude Platform release notes 2026-09-01 (Fable 5.1 / Mythos 5.1)",
-          "published_at": "2026-09-01",
-          "summary": "tool_choice any/tool → 400; thinking blocks unreadable by earlier models and dropped on downgrade replay; prefix-invariance 400 for accounts created ≥ 2026-08-31 when system/tools/messages changed before a replayed thinking block."
-        },
-        {
-          "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "title": "Claude Code v2.1.254",
-          "published_at": "2026-09-02",
-          "summary": "'Fixed Opus 5 requests failing when effort was xhigh/max with thinking disabled' — client-side fix for the same model-scoped parameter-validity divergence."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://platform.claude.com/docs/en/release-notes/overview",
-          "observed_at": "2026-09-07",
-          "summary": "2026-09-01: tool_choice any/tool return 400 on Fable 5.1/Mythos 5.1; official replacements named: strict tool use and structured outputs."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://platform.claude.com/docs/en/build-with-claude/thinking",
-          "observed_at": "2026-09-07",
-          "summary": "Preserved thinking: model-scope check applies to every account (drops are silent and unbilled); prefix check default-enforced for accounts created >= 2026-08-31 00:00 UTC and 'Later models will enforce it for all accounts, so make your integration append-only now'; official substitutes for each prefix edit (mid-conversation system messages, tool_addition/tool_removal, per-message output_config, server-side compaction/context editing); thinking-binding-controls-2026-08-01 beta adds input_transformations and prefix_mismatch_behavior ('error'|'drop_block')."
-        },
-        {
-          "kind": "maintainer-report",
-          "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "observed_at": "2026-09-07",
-          "summary": "Client-side precedent: 'Fixed Opus 5 requests failing with effort … is not supported when thinking is disabled when effort was xhigh/max; effort is now sent as high in that case' (intake v2.1.254, now in the 2.1.251/2.1.252 block) — harnesses must map parameters per model generation."
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "official-model-and-agent-providers"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-MODELSCOPEDAPI-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "Claude API harnesses",
-          "Claude Code",
-          "Claude Agent SDK"
-        ],
-        "models": [
-          "claude-fable-5-1",
-          "claude-mythos-5-1",
-          "claude-opus-5"
         ]
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-139DC981",
-      "canonical_key": "139dc98102650fee",
-      "title": "組織のContent Exclusion・Logging統制が新しいAgent Surfaceへ未実装のまま展開され、除外対象コードや生API BodyがContext・Logへ流入する",
-      "summary": "Enterprise data-governance policies are enforced on older product surfaces but silently unenforced on newer agentic ones until later patched. GitHub changelog 2026-09-02/2026-09-04: 'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows' — content exclusions reached GA in Copilot app/CLI only in this window, implying agentic workflows previously pulled excluded (sensitive) code into model context despite org policy configured for the IDE surfaces. Same-week sibling in Claude Code v2.1.253: 'Fixed project settings enabling detailed tracing or raw API body logging without proper controls' — repository-checked project settings could enable raw API body logging (prompts, code, potentially secrets written to logs) without the control gates that govern such telemetry. Mechanism: policy enforcement (exclusions, telemetry controls) is implemented per-surface, and fast-shipping agent surfaces launch before inheriting it, creating a window where admins believe policy applies but the agent surface ignores it. Related to I05/I06/I14 as impact, but the mechanism (per-surface policy-enforcement lag) is not separately cataloged. Medium confidence: prior non-enforcement is implied by the GA wording, not documented as an advisory.",
-      "category_id": null,
-      "category": "I",
-      "problem_type": [
-        "silent-behavior-change",
-        "governance-gap"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "safety"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "medium",
-      "evidence": [
-        {
-          "url": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
-          "title": "GitHub Copilot weekly releases — August 31",
-          "published_at": "2026-09-04",
-          "summary": "'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows'; separate 2026-09-02 entry: 'Content exclusions generally available in Copilot app and CLI'."
-        },
-        {
-          "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "title": "Claude Code v2.1.253",
-          "published_at": "2026-09-01",
-          "summary": "'Fixed project settings enabling detailed tracing or raw API body logging without proper controls'"
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://docs.github.com/en/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot",
-          "observed_at": "2026-09-07",
-          "summary": "Content exclusion docsは現在もIDE Copilot Chat agent modeを非対応と明記 — per-surface enforcement lagは継続中のパターン。"
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://code.claude.com/docs/en/settings",
-          "observed_at": "2026-09-07",
-          "summary": "Managed settings（managed-settings.json/MDM/claude.ai console）が最上位precedenceで、project settingsによるtelemetry/logging有効化を上書きできる。"
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "official-model-and-agent-providers"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-SURFACEPARITY-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "GitHub Copilot app/CLI",
-          "GitHub Copilot coding agent",
-          "Claude Code"
-        ],
-        "models": []
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-E23B65A6",
-      "canonical_key": "e23b65a6b5734ab0",
-      "title": "Session途中で追加された要求が直前実装の約2倍規模の編集無効化を引き起こし、要求の事前予告でもReworkが削減されない",
-      "summary": "Mining of 3,553 real-world coding-agent sessions (SWE-chat) shows that when a user introduces a new requirement after implementation has begun, the requirement's arrival is followed by roughly twice as much invalidation of prior edits as matched non-requirement turns, and the rework burden persists at all session stages. A controlled experiment found that disclosing the upcoming requirement in advance produced no measurable reduction in code overwriting — agents implement eagerly and cannot hold back work for announced-but-inactive constraints. This makes late requirement emergence a quantified, structural driver of wasted agent work and code churn distinct from initial requirement ambiguity (A01) or cross-artifact propagation failure (A07): the failure is the agent's inability to structure work so that anticipated requirements do not invalidate it (Jiang et al., arXiv:2609.03028, 2026-09-02).",
-      "category_id": null,
-      "category": "requirements-and-specification",
-      "problem_type": [
-        "failure-mode",
-        "efficiency"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "quality",
-        "cost"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "medium",
-      "evidence": [
-        {
-          "url": "https://arxiv.org/abs/2609.03028",
-          "title": "Requirements After the First Edit: Mining Late Requirement Emergence and Rework in Real-World Coding-Agent Sessions",
-          "published_at": "2026-09-02",
-          "summary": "3,553 real coding-agent sessions: late-arriving requirements are followed by ~2x invalidation of prior edits vs matched non-requirement edits; advance warning of the requirement produced no measurable effect on overwriting in a controlled experiment."
-        },
-        {
-          "kind": "research-paper",
-          "reference": "https://arxiv.org/abs/2609.03028",
-          "observed_at": "2026-09-07",
-          "summary": "論文自体は緩和策を提案せず、事前予告のみでは効果なしと示す。構造的なspec-first workflowが既存の候補remedy。"
-        },
-        {
-          "kind": "community",
-          "reference": "https://github.com/github/spec-kit",
-          "observed_at": "2026-09-07",
-          "summary": "Spec Kit v1.0.0（MIT、~134k stars、30+ agent対応）が要求確定→plan→tasks→実装の順序を強制するworkflowを提供。"
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "primary-software-engineering-research"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-LATEREQ-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "coding-agents-general",
-          "chat-based-agent-sessions"
-        ],
-        "models": [
-          "general"
-        ]
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-09AB323A",
-      "canonical_key": "09ab323af943c1ba",
-      "title": "機能テストPASSのみを受け入れ基準にすると、レビュー由来の受け入れ制約に違反するAgent Patchの約3分の1が合格扱いになる",
-      "summary": "SWE-Gate builds 303 repository-level repair instances from 75 Python projects, pairing functional tests with acceptance constraints derived from real pull-request reviews (style, architecture, and non-functional expectations reviewers actually enforce). Of 644 agent repairs that pass the functional tests, 221 (~34%) violate the review-derived constraints. The mechanism: agent pipelines and benchmarks that gate on functional test passage alone systematically accept patches human reviewers would reject, so auto-promotion/auto-merge on green tests and functional-only self-verification both overestimate patch acceptability. This is distinct from F18 (tests pass but build/runtime breaks — an execution gap) and K10 (benchmark-vs-repo performance gap): here the artifact is functionally correct yet unacceptable, and the gap is quantified at the gating layer (He et al., arXiv:2609.04167, 2026-09-03).",
-      "category_id": null,
-      "category": "testing-and-evaluation",
-      "problem_type": [
-        "failure-mode",
-        "evaluation-gap"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "quality"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "medium",
-      "evidence": [
-        {
-          "url": "https://arxiv.org/abs/2609.04167",
-          "title": "SWE-Gate: Passing Functional Tests Is Not Enough for Software Engineering Agents",
-          "published_at": "2026-09-03",
-          "summary": "303 repo-level instances from 75 Python projects with review-derived constraint tests: 221 of 644 functionally-passing agent repairs fail the review constraints, showing functional-only evaluation substantially overestimates real-world patch acceptability."
-        },
-        {
-          "kind": "research-paper",
-          "reference": "https://arxiv.org/abs/2609.04167",
-          "observed_at": "2026-09-07",
-          "summary": "SWE-Gate replication package（constraint tests、gold/non-compliant patches）が公開されており、eval pipelineへ制約遵守軸を追加できる。"
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://docs.github.com/en/copilot/tutorials/customize-code-review",
-          "observed_at": "2026-09-07",
-          "summary": "Review由来の制約をcustom instructionsとして成文化しAI code reviewでPR gate化する公式機構が存在。"
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "primary-software-engineering-research"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-REVIEWGATE-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "coding-agents-general",
-          "swe-bench-style-eval-pipelines",
-          "ci-auto-merge-gates"
-        ],
-        "models": [
-          "general"
-        ]
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-60990370",
-      "canonical_key": "609903709c0243d4",
-      "title": "MCPのError結果が失敗の発生は伝えるが原因・修復手段・安全な再実行可否を含まず、Agentが結果だけからは回復行動を決定できない",
-      "summary": "A result-only actionability audit of 21 induced failures across 10 MCP servers finds that completed MCP error results usually make the failure observable (typed error fields present) but rarely convey the specific cause, a repair strategy, or whether replay is safe: 'completed MCP results often make failure observable, sometimes make a broad response possible, and rarely make concrete recovery or safe replay self-contained.' The failure mode: an agent receiving a tool error must choose between retrying (risking duplicate side effects), abandoning, or guessing at repair, with no protocol-level signal to decide — so recovery behavior degrades to heuristics that differ per server. This complements P-20260831-3039ED15 (lost responses leave side-effect state unknown) but is distinct: here the response arrives and is well-formed, yet is informationally insufficient for recovery (Mehan, arXiv:2609.00072, 2026-08-31). Small single-author sample; low confidence pending replication.",
-      "category_id": null,
-      "category": "tooling-and-integration",
-      "problem_type": [
-        "failure-mode",
-        "protocol-gap"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "reliability",
-        "safety"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "low",
-      "evidence": [
-        {
-          "url": "https://arxiv.org/abs/2609.00072",
-          "title": "Can MCP Clients Decide What to Do After Failure? A Result-Only Actionability Audit",
-          "published_at": "2026-08-31",
-          "summary": "Six-part actionability profile applied to 21 induced failures on 10 MCP servers: typed fields expose failure occurrence in most cases but rarely provide cause, repair strategy, or safe-replay information, leaving recovery decisions unsupported by the result alone."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/main/schema/2025-06-18/schema.ts",
-          "observed_at": "2026-09-07",
-          "summary": "idempotentHint/destructiveHint/readOnlyHint/openWorldHintがspec標準で存在し、安全な再実行判断をper-error推測からper-tool契約へ移せる。"
-        },
-        {
-          "kind": "research-paper",
-          "reference": "https://arxiv.org/abs/2609.00072",
-          "observed_at": "2026-09-07",
-          "summary": "六部actionability profileがserver author向けのerror設計checklistとして再利用可能。"
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "primary-software-engineering-research"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-MCPERRACT-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "mcp-clients",
-          "mcp-servers",
-          "coding-agents-general"
-        ],
-        "models": [
-          "general"
-        ]
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-FE46C48C",
-      "canonical_key": "fe46c48c51ec5157",
-      "title": "Read系deny ruleがコマンドのファイルアクセス予測を過大近似し、自動承認モードでも読み取り専用Bashを毎回ブロックして自律実行を破壊する",
-      "summary": "Claude Code 2.1.257-2.1.259 regression cluster (>=10 independent issues, 2026-09-01..09-04, top 56 +1): the mere presence of any Read() deny rule arms a conservative cd-compound/search guard that prompts on read-only Bash (cd+grep/rg/sed, rg on stdin, grep --include) even in auto mode, bypassPermissions, and headless runs; the predicate ignores the deny rule's own patterns and gives up on statically-resolvable absolute paths when ';' appears. Distinct from catalog G17 (chronic fatigue) and P-20260831-60EFB5BF (false-allow direction): this is the false-deny dual — over-approximated access prediction makes deny rules incompatible with autonomous operation and cascades approval requests through subagents. Key issues: anthropics/claude-code#91650, #91683, #91776, #91784, #91853, #91681, #91848, #91778, #91837, #91751.",
-      "category_id": null,
-      "category": "I/G: 権限判定の静的解析（deny-rule到達可能性の過大近似による可用性障害）",
-      "problem_type": [
-        "permission-model",
-        "static-analysis-overapproximation",
-        "automation-blocking",
-        "regression"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "efficiency",
-        "safety-usability-tradeoff"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "high",
-      "evidence": [
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/91650",
-          "title": "[BUG] Bash cd-compound-read guard prompts on absolute cd targets whenever a Read() deny rule exists (2.1.257-2.1.259)",
-          "published_at": "2026-09-02",
-          "summary": "56 +1; resolver gives up on ';' in compounds even with absolute literal cd targets; persists headless; cascades through subagents."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/91683",
-          "title": "bypassPermissions mode now prompts on `cd DIR && grep` when a Read() deny rule is configured (regression in 2.1.259)",
-          "published_at": "2026-09-03",
-          "summary": "26 +1; bypassPermissions no longer bypasses when any Read() deny rule exists."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/91848",
-          "title": "Read() deny rule arms an unwhitelistable cd+relative-read prompt in bypassPermissions (2.1.257+), and the predicate ignores the rule's patterns",
-          "published_at": "2026-09-03",
-          "summary": "7 +1; guard fires regardless of whether the command could touch the denied patterns; prompt cannot be allowlisted away."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/91751",
-          "title": "[BUG] Regression in 2.1.259: rg reading stdin in a pipeline is treated as a search of '.' and prompts (auto mode bypassed) when a Read() deny rule covers a file under the cwd",
-          "published_at": "2026-09-03",
-          "summary": "Misclassification example: stdin-only rg treated as directory search of cwd."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/91778",
-          "title": "`grep -r` with `--include` filters falsely triggers `Read(.env)` deny prompt (v2.1.259) — breaks every recursive search",
-          "published_at": "2026-09-03",
-          "summary": "7 +1; include filters that cannot match the denied file still trigger the prompt, breaking all recursive search."
-        },
-        {
-          "kind": "maintainer-report",
-          "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
-          "observed_at": "2026-09-07",
-          "summary": "v2.1.260 verbatim: 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build under a Read(./**/build/**) rule in every mode and made cd … && grep prompt even in auto mode.' The over-approximated guard armed by any Read() deny rule is removed as of v2.1.260; v2.1.261/2.1.263 show no re-introduction."
-        },
-        {
-          "kind": "community",
-          "reference": "https://github.com/anthropics/claude-code/issues/91650",
-          "observed_at": "2026-09-07",
-          "summary": "Regression cluster (#91650, #91683, #91778, #91848, #91751; 2026-09-02..09-03) matches the reverted 2.1.259 change: cd-compound/search guard prompting in auto mode, bypassPermissions, and headless runs whenever any Read() deny rule existed."
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "community-and-issue-signals"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-DENYREADGUARD-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "Claude Code CLI 2.1.257-2.1.260",
-          "headless/CI runs",
-          "subagents"
-        ],
-        "models": [
-          "harness-level (model-independent)"
-        ]
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-F2CB0737",
-      "canonical_key": "f2cb07371207a2d5",
-      "title": "Harness注入のAttribution指示がユーザー設定・記憶より優先され、Session URL等の内部メタデータが公開Git履歴・PRへ既定で書き込まれる",
-      "summary": "Recurring since June, escalated in-window. anthropics/claude-code#66504 (2026-06-09; HN front page 2026-08-30, 209 pts / 240 comments): session URLs appended to commit messages and PR descriptions by default with no onboarding disclosure; users discover it only after public git history is polluted; the opt-out setting goes undiscovered. New mechanism escalation #92169 (2026-09-04, v2.1.260): the per-session injected reminder states it 'replaces any earlier attribution guidance', causing the model to override the user's disabled-attribution setting AND persistent-memory instruction; cleanup required git filter-branch and force-push. Supporting: igupta.in blog + HN thread (2026-08-30, 44 comments) on removing Claude co-authorship. Mechanism: harness-injected per-session directives out-rank user configuration and write product/session metadata into public, append-only artifacts — not covered by H14 (inverse: missing traceability), I06 (secrets in logs), or D03 (generic instruction conflict, here the precedence order itself is inverted by design).",
-      "category_id": null,
-      "category": "D/I: Harness注入指示の優先順位と公開成果物へのメタデータ混入",
-      "problem_type": [
-        "instruction-precedence",
-        "metadata-leakage",
-        "user-consent"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "governance",
-        "trust"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "medium",
-      "evidence": [
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/66504",
-          "title": "Claude Session URL appended to commit messages and PR descriptions by default",
-          "published_at": "2026-06-09",
-          "summary": "Default-on session-URL injection into git history; no onboarding disclosure; HN front page 2026-08-30 (209 pts, 240 comments)."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues/92169",
-          "title": "Attribution session reminder overrides the user's explicit no-attribution preference",
-          "published_at": "2026-09-04",
-          "summary": "v2.1.260 injected reminder ('replaces any earlier attribution guidance') defeats disabled-attribution settings and persistent memory; public branch/PR required history rewrite."
-        },
-        {
-          "url": "https://igupta.in/blog/why-i-am-no-longer-letting-claude-code-add-itself-as-coauthor/",
-          "title": "I am no longer letting Claude Code add itself as Co-author in my commits",
-          "published_at": "2026-08-30",
-          "summary": "HN thread (22 pts, 44 comments) on co-authorship/attribution defaults in commits; corroborates recurring community friction."
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://code.claude.com/docs/en/settings-reference",
-          "observed_at": "2026-09-07",
-          "summary": "Official `attribution` settings object: attribution.commit (change/hide commit trailer), attribution.pr (change/hide PR attribution line), attribution.sessionUrl (omit the claude.ai session link from cloud and Remote Control commits); includeCoAuthoredBy deprecated; configurable in user, project, local, and managed scopes."
-        },
-        {
-          "kind": "community",
-          "reference": "https://github.com/anthropics/claude-code/issues/92169",
-          "observed_at": "2026-09-07",
-          "summary": "v2.1.260 per-session injected reminder ('replaces any earlier attribution guidance') defeats memory/instruction-layer opt-outs — confirms only the settings layer is an effective control; the settings key removes the injection rather than arguing with it."
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "community-and-issue-signals"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-ATTRIBCONFIG-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "Claude Code CLI/desktop/remote (attribution injection)"
-        ],
-        "models": [
-          "harness-level (model-independent)"
-        ]
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-EACDFFF4",
-      "canonical_key": "eacdfff47ce091f7",
-      "title": "取得できなかった入力を含んだまま走査済みwatermarkだけが前進し、欠損が恒久的な死角として固定される",
-      "summary": "The maintenance controller's discovery loop stamps each source with a single last_scanned_at watermark when a worker finishes, not when the source's declared inputs were actually read. In catalog/sources.json the local-project-evidence source declares two paths, one of which ('.ai-intelligence/ai-development/findings') does not exist and never has, yet its watermark was advanced to 2026-08-31T19:16:58Z and it was counted among 'sources_scanned: 6' in runs/MNT-20260831T190559Z/metrics.json. The same shape appears in two sibling sources whose last_result.notes record an arXiv HTTP 400 with ACM/IEEE unindexed, and MITRE ATLAS coverage unverified, while carrying identical fully-scanned watermarks. Because due-source selection and maintenance-policy.json cadence read only the watermark, and because the failure is preserved solely as prose in last_result.notes with no structured per-input coverage field, nothing schedules a retry: the gap is not merely missed once but guaranteed to stay missed. The recurrence is demonstrated across a full cycle -- runs/MNT-20260831T190559Z/workers/discovery-06.json reported the nonexistent path as both a fact and a risk, and MNT-20260907T190654Z-maintain.json nonetheless re-issued the identical path list to discovery-04 and re-advanced the watermark. The self-concealing property is what distinguishes this from C01 and D08: coverage is overstated by the very record that is supposed to reveal it.",
-      "category_id": null,
-      "category": "運用・費用・測定・再現性",
-      "problem_type": [
-        "operations",
-        "observability",
-        "reproducibility"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "medium",
-      "evidence": [
-        {
-          "path": ".ai-intelligence/ai-development/catalog/sources.json",
-          "summary": "local-project-evidence declares a '.ai-intelligence/ai-development/findings' path that does not exist, yet carries last_scanned_at 2026-08-31T19:16:58Z and candidate_count 1; primary-software-engineering-research notes 'arXiv cs.SE mid-window listing chunk returned HTTP 400; ACM/IEEE not yet indexed' and standards-security-and-risk notes 'MITRE ATLAS August coverage unverified (JS-only site)', both with the same fully-scanned watermark. No structured per-path or per-domain coverage field exists."
-        },
-        {
-          "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/workers/discovery-06.json",
-          "summary": "Prior local scout recorded the missing findings/ path as fact 1 and as risk 2 ('the local-evidence channel may be under-reporting'), but the observation was never converted into a repair item or a catalog candidate."
-        },
-        {
-          "path": ".ai-intelligence/ai-development/runs/MNT-20260907T190654Z-maintain.json",
-          "summary": "One cycle later, plan.discovery re-issues the identical two-path list including the nonexistent findings/ path to discovery-04, proving the defective declaration survives a full maintenance run."
-        },
-        {
-          "path": ".ai-intelligence/ai-development/runs/MNT-20260831T190559Z/metrics.json",
-          "summary": "Reports 'sources_scanned: 6' with no coverage qualifier, so a source with an unreadable declared input is indistinguishable from a fully covered one in run-level metrics."
-        },
-        {
-          "path": ".ai-intelligence/ai-development/catalog/maintenance-policy.json",
-          "summary": "cadence_days and evidence_refresh_days are keyed by source and evidence tier only; the policy has no notion of a partially covered source, so a failed input cannot become due again."
-        },
-        {
-          "kind": "local-code",
-          "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/record_source_scan.py",
-          "observed_at": "2026-09-07",
-          "summary": "last_scanned_atの無条件更新と構造化coverage欄の欠如を実コードで確認。境界の明確なローカル修正で対処可能。"
-        },
-        {
-          "kind": "official-guidance",
-          "reference": "https://kafka.apache.org/39/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
-          "observed_at": "2026-09-07",
-          "summary": "処理完了後にのみ位置をcommitするat-least-once patternが一般的裏付け。"
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "local-project-evidence"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-COVERMARK-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "agent discovery and evidence-collection loops",
-          "scheduled repository and web scanners",
-          "maintenance controllers with per-source freshness tracking"
-        ],
-        "models": []
-      },
-      "reopen_triggers": [],
-      "superseded_by": null,
-      "revision": 2,
-      "research_deferred_count": 0
-    },
-    {
-      "id": "P-20260907-B8D227AC",
-      "canonical_key": "b8d227ac30ccff66",
-      "title": "実装ownerのRole名がRole辞書に無いと計画系が実在しない共有Assetとして解決し、guidance系Work Itemが誤った対象・過大なRisk Tierで生成される",
-      "summary": "The ai-development-improvement planner (_planning.py resolve_existing_asset) treats any implementation_owner value not in the hard-coded ROLE_OWNERS set as an existing shared-asset id. Remedies recorded with implementation_owner 'consumer-project' (a consumer-side role used by research workers since 2026-08-31) were routed in run MNT-20260907T190654Z to target kind shared-existing-asset with asset_id 'consumer-project' (no such asset exists in shared-agent-plugins; path resolved to null) at risk tier R2, instead of consumer-configuration guidance at authority tier R0. Three work items (WRK-20260907T192541Z-832AB2C0/-5E10E1A7/-848B110B) were mis-scoped and required controller re-scoping. The documented invariant 'a human role in implementation_owner is never an asset' is enforced only for an enumerated word list, so any unlisted role alias silently produces a wrong target, wrong risk tier, and a release path against a nonexistent asset.",
-      "category_id": null,
-      "category": "Process・Workflow",
-      "problem_type": [
-        "tooling-defect",
-        "routing",
-        "closed-loop-maintenance"
-      ],
-      "model_improvement": "不明",
-      "priority_lanes": [
-        "Q1"
-      ],
-      "simple_fix": null,
-      "status": "provisional",
-      "status_reason": "Newly discovered problem candidate pending corroboration and remedy research.",
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "last_reviewed": null,
-      "next_review_due": "2026-09-14",
-      "last_researched_at": "2026-09-07",
-      "research_status": "current",
-      "confidence": "high",
-      "evidence": [
-        {
-          "path": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/_planning.py",
-          "summary": "ROLE_OWNERS set (lines ~25-31) lacks 'consumer-project'/'consumer'; resolve_existing_asset falls through to implementation-owner-asset and returns the role string as asset_id."
-        },
-        {
-          "path": ".ai-intelligence/ai-development/work-items/WRK-20260907T192541Z-832AB2C0.json",
-          "summary": "History shows initial target shared-existing-asset asset_id 'consumer-project' (nonexistent), risk R2, re-scoped by controller to consumer-configuration R0."
-        },
-        {
-          "kind": "local-evidence",
-          "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/_planning.py",
-          "observed_at": "2026-09-07",
-          "summary": "Deterministic code-reading evidence; no external research required."
-        }
-      ],
-      "source_refs": [
-        {
-          "source_id": "local-project-evidence"
-        }
-      ],
-      "remedy_refs": [
-        "RMD-ROLEOWNERGAP-001"
-      ],
-      "aliases": [],
-      "conditions": {
-        "tools": [
-          "ai-development-improvement plugin (plan_action.py/action_queue.py planner)"
-        ],
-        "models": []
       },
       "reopen_triggers": [],
       "superseded_by": null,

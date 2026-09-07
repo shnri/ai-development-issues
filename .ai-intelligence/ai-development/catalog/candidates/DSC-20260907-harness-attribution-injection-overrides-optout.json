@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-harness-attribution-injection-overrides-optout",
+  "title": "Harness注入のAttribution指示がユーザー設定・記憶より優先され、Session URL等の内部メタデータが公開Git履歴・PRへ既定で書き込まれる",
+  "summary": "Recurring since June, escalated in-window. anthropics/claude-code#66504 (2026-06-09; HN front page 2026-08-30, 209 pts / 240 comments): session URLs appended to commit messages and PR descriptions by default with no onboarding disclosure; users discover it only after public git history is polluted; the opt-out setting goes undiscovered. New mechanism escalation #92169 (2026-09-04, v2.1.260): the per-session injected reminder states it 'replaces any earlier attribution guidance', causing the model to override the user's disabled-attribution setting AND persistent-memory instruction; cleanup required git filter-branch and force-push. Supporting: igupta.in blog + HN thread (2026-08-30, 44 comments) on removing Claude co-authorship. Mechanism: harness-injected per-session directives out-rank user configuration and write product/session metadata into public, append-only artifacts — not covered by H14 (inverse: missing traceability), I06 (secrets in logs), or D03 (generic instruction conflict, here the precedence order itself is inverted by design).",
+  "proposed_category": "D/I: Harness注入指示の優先順位と公開成果物へのメタデータ混入",
+  "problem_type": [
+    "instruction-precedence",
+    "metadata-leakage",
+    "user-consent"
+  ],
+  "priority_lanes": [
+    "governance",
+    "trust"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-03 (community-and-issue-signals scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/66504",
+      "title": "Claude Session URL appended to commit messages and PR descriptions by default",
+      "published_at": "2026-06-09",
+      "summary": "Default-on session-URL injection into git history; no onboarding disclosure; HN front page 2026-08-30 (209 pts, 240 comments)."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/92169",
+      "title": "Attribution session reminder overrides the user's explicit no-attribution preference",
+      "published_at": "2026-09-04",
+      "summary": "v2.1.260 injected reminder ('replaces any earlier attribution guidance') defeats disabled-attribution settings and persistent memory; public branch/PR required history rewrite."
+    },
+    {
+      "url": "https://igupta.in/blog/why-i-am-no-longer-letting-claude-code-add-itself-as-coauthor/",
+      "title": "I am no longer letting Claude Code add itself as Co-author in my commits",
+      "published_at": "2026-08-30",
+      "summary": "HN thread (22 pts, 44 comments) on co-authorship/attribution defaults in commits; corroborates recurring community friction."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "community-and-issue-signals"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code CLI/desktop/remote (attribution injection)"
+    ],
+    "models": [
+      "harness-level (model-independent)"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

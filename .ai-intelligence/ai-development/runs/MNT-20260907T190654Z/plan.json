@@ -1,0 +1,625 @@
+{
+  "schema_version": "1.0",
+  "plan_schema_version": "1.1",
+  "id": "MNT-20260907T190654Z",
+  "started_at": "2026-09-07T19:06:54Z",
+  "completed_at": null,
+  "mode": "maintain",
+  "plan_mode": "incremental",
+  "catalog_revision_before": 83,
+  "catalog_revision_after": null,
+  "authority_base": {
+    "remote": "origin",
+    "branch": "claude/zen-carson-ull8ah",
+    "remote_sha": null,
+    "local_head": "6f9374740c48db87aab04081043ddfabff62d983",
+    "recorded_at": "2026-09-07T19:06:54Z",
+    "reachable": false
+  },
+  "plan": {
+    "mode": "incremental",
+    "bootstrap_signals": {
+      "bootstrap_completed_at": null,
+      "problem_count": 193,
+      "never_reviewed": 13,
+      "never_researched": 0,
+      "never_reviewed_ratio": 0.067,
+      "never_researched_ratio": 0.0,
+      "threshold": 0.5
+    },
+    "execution": {
+      "max_parallel_workers": 8,
+      "max_items_per_worker": {
+        "inventory": 20,
+        "research": 10,
+        "discovery": 1
+      },
+      "max_waves_per_run": 3,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null,
+      "worker_max_turns": {
+        "inventory": 24,
+        "research": 20,
+        "discovery": 24
+      }
+    },
+    "capacity": {
+      "inventory": 480,
+      "research": 240,
+      "discovery": 24
+    },
+    "legacy_fixed_limits": false,
+    "inventory_problem_ids": [
+      "P-20260831-60EFB5BF",
+      "P-20260831-91BDEAD5",
+      "P-20260831-AE8A3EE7",
+      "P-20260831-BF396D69",
+      "P-20260831-C476A122",
+      "P-20260831-E8990658",
+      "P-20260831-DE8D86E9",
+      "P-20260831-ED2DC8D6",
+      "P-20260831-044EBDC6",
+      "P-20260831-0F6DC4B3",
+      "P-20260831-3039ED15",
+      "P-20260831-FB4523EC",
+      "P-20260831-8968B75A"
+    ],
+    "inventory_items": [
+      {
+        "id": "P-20260831-60EFB5BF",
+        "title": "コマンド許可リストが実行系と異なる解釈でコマンド文字列を判定し、承認済みに見える経路で未承認の副作用が実行される",
+        "status": "provisional",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-91BDEAD5",
+        "title": "Repository内のAgent設定ファイルが、承認前に実行される経路になる",
+        "status": "provisional",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-AE8A3EE7",
+        "title": "Agentがシェル経由でファイルを書き換え、Checkpoint・Hook・権限判定・差分レビューの計測対象から外れる",
+        "status": "provisional",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-BF396D69",
+        "title": "Agentが自らのTranscript・Tool Call記録を偽装し、監視Logが実行内容と乖離する",
+        "status": "provisional",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-C476A122",
+        "title": "共有Cache・Package Registry等のInfraが意図しないAgent間Channelとなり、並列実行のIsolationが崩れる",
+        "status": "provisional",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-E8990658",
+        "title": "Skill/Plugin scannerの合格判定が、機能しない承認ゲートを機能しているように見せる",
+        "status": "provisional",
+        "priority_lane": "S0",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-DE8D86E9",
+        "title": "beta→GA昇格やSDK major更新で、呼び出し側を変更していないAPIの破壊範囲・必須引数が黙って変わる",
+        "status": "provisional",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-ED2DC8D6",
+        "title": "LLMを検査支援に使うと、要求文書のSmell検出精度がかえって下がる",
+        "status": "provisional",
+        "priority_lane": "C1",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-044EBDC6",
+        "title": "Workspace trust状態がAGENTS.md/MCP設定の読み込みを無言で左右し、同じRepositoryでもAgentの挙動が変わる",
+        "status": "provisional",
+        "priority_lane": "F2",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-0F6DC4B3",
+        "title": "Eval中の解決不能TaskとScorer不透明性が、能力ではなくScorer攻略を測る挙動を誘発する",
+        "status": "provisional",
+        "priority_lane": "F2",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-3039ED15",
+        "title": "ツール応答の消失により、外部副作用が確定したか未確定かをAgentが判別できない",
+        "status": "provisional",
+        "priority_lane": "F2",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-FB4523EC",
+        "title": "Agentの成果公開・検証leg（remote到達、PR作成）がsandboxで利用できず、未検証のlocal headのまま完了状態が記録される",
+        "status": "provisional",
+        "priority_lane": "F2",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-8968B75A",
+        "title": "ある製品向けに書かれた仕様がAgent製品を跨ぐと成立せず、実装品質が製品依存で崩壊する",
+        "status": "provisional",
+        "priority_lane": "W3",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-07",
+        "research_status": "current",
+        "category_id": null
+      }
+    ],
+    "discovery_source_ids": [
+      "official-model-and-agent-providers",
+      "primary-software-engineering-research",
+      "community-and-issue-signals",
+      "local-project-evidence"
+    ],
+    "discovery_sources": [
+      {
+        "id": "official-model-and-agent-providers",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "openai.com",
+          "developers.openai.com",
+          "anthropic.com",
+          "docs.anthropic.com",
+          "google.com",
+          "github.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent release notes",
+          "model behavior changes",
+          "agent tools and permissions",
+          "skills plugins instructions"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-31T19:16:57Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "primary-software-engineering-research",
+        "kind": "web",
+        "evidence_tier": "research",
+        "domains": [
+          "arxiv.org",
+          "dl.acm.org",
+          "ieeexplore.ieee.org",
+          "openreview.net"
+        ],
+        "paths": [],
+        "query_themes": [
+          "AI-assisted software engineering failure modes",
+          "coding agent testing evaluation",
+          "multi-agent software development",
+          "specification drift AI coding"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-31T19:16:57Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "community-and-issue-signals",
+        "kind": "web",
+        "evidence_tier": "community",
+        "domains": [
+          "github.com",
+          "reddit.com",
+          "news.ycombinator.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent recurring issue",
+          "AI generated code workflow problem",
+          "Claude Code Codex agent regression"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-31T19:16:58Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "local-project-evidence",
+        "kind": "repository",
+        "evidence_tier": "local",
+        "domains": [],
+        "paths": [
+          ".ai-intelligence/ai-development/findings",
+          ".ai-intelligence/ai-development/runs"
+        ],
+        "query_themes": [
+          "unmapped recurring failure",
+          "unexplained time or token loss",
+          "new specification or test inconsistency"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-31T19:16:58Z",
+        "last_backfill_at": null,
+        "backfill": false
+      }
+    ],
+    "research_problem_ids": [],
+    "research_items": [],
+    "inventory": {
+      "workers": [
+        {
+          "group": "misc",
+          "item_ids": [
+            "P-20260831-60EFB5BF",
+            "P-20260831-91BDEAD5",
+            "P-20260831-AE8A3EE7",
+            "P-20260831-BF396D69",
+            "P-20260831-C476A122",
+            "P-20260831-E8990658",
+            "P-20260831-DE8D86E9",
+            "P-20260831-ED2DC8D6",
+            "P-20260831-044EBDC6",
+            "P-20260831-0F6DC4B3",
+            "P-20260831-3039ED15",
+            "P-20260831-FB4523EC",
+            "P-20260831-8968B75A"
+          ],
+          "items": [
+            {
+              "id": "P-20260831-60EFB5BF",
+              "title": "コマンド許可リストが実行系と異なる解釈でコマンド文字列を判定し、承認済みに見える経路で未承認の副作用が実行される",
+              "status": "provisional",
+              "priority_lane": "S0",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-91BDEAD5",
+              "title": "Repository内のAgent設定ファイルが、承認前に実行される経路になる",
+              "status": "provisional",
+              "priority_lane": "S0",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-AE8A3EE7",
+              "title": "Agentがシェル経由でファイルを書き換え、Checkpoint・Hook・権限判定・差分レビューの計測対象から外れる",
+              "status": "provisional",
+              "priority_lane": "S0",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-BF396D69",
+              "title": "Agentが自らのTranscript・Tool Call記録を偽装し、監視Logが実行内容と乖離する",
+              "status": "provisional",
+              "priority_lane": "S0",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-C476A122",
+              "title": "共有Cache・Package Registry等のInfraが意図しないAgent間Channelとなり、並列実行のIsolationが崩れる",
+              "status": "provisional",
+              "priority_lane": "S0",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-E8990658",
+              "title": "Skill/Plugin scannerの合格判定が、機能しない承認ゲートを機能しているように見せる",
+              "status": "provisional",
+              "priority_lane": "S0",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-DE8D86E9",
+              "title": "beta→GA昇格やSDK major更新で、呼び出し側を変更していないAPIの破壊範囲・必須引数が黙って変わる",
+              "status": "provisional",
+              "priority_lane": "C1",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-ED2DC8D6",
+              "title": "LLMを検査支援に使うと、要求文書のSmell検出精度がかえって下がる",
+              "status": "provisional",
+              "priority_lane": "C1",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-044EBDC6",
+              "title": "Workspace trust状態がAGENTS.md/MCP設定の読み込みを無言で左右し、同じRepositoryでもAgentの挙動が変わる",
+              "status": "provisional",
+              "priority_lane": "F2",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-0F6DC4B3",
+              "title": "Eval中の解決不能TaskとScorer不透明性が、能力ではなくScorer攻略を測る挙動を誘発する",
+              "status": "provisional",
+              "priority_lane": "F2",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-3039ED15",
+              "title": "ツール応答の消失により、外部副作用が確定したか未確定かをAgentが判別できない",
+              "status": "provisional",
+              "priority_lane": "F2",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-FB4523EC",
+              "title": "Agentの成果公開・検証leg（remote到達、PR作成）がsandboxで利用できず、未検証のlocal headのまま完了状態が記録される",
+              "status": "provisional",
+              "priority_lane": "F2",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-8968B75A",
+              "title": "ある製品向けに書かれた仕様がAgent製品を跨ぐと成立せず、実装品質が製品依存で崩壊する",
+              "status": "provisional",
+              "priority_lane": "W3",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-07",
+              "research_status": "current",
+              "category_id": null
+            }
+          ],
+          "worker_id": "inventory-01",
+          "wave": 1,
+          "max_turns": 24
+        }
+      ],
+      "deferred": [],
+      "total_due": 13
+    },
+    "discovery": {
+      "workers": [
+        {
+          "worker_id": "discovery-01",
+          "group": "official-model-and-agent-providers",
+          "item_ids": [
+            "official-model-and-agent-providers"
+          ],
+          "items": [
+            {
+              "id": "official-model-and-agent-providers",
+              "kind": "web",
+              "evidence_tier": "official",
+              "domains": [
+                "openai.com",
+                "developers.openai.com",
+                "anthropic.com",
+                "docs.anthropic.com",
+                "google.com",
+                "github.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent release notes",
+                "model behavior changes",
+                "agent tools and permissions",
+                "skills plugins instructions"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-31T19:16:57Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-02",
+          "group": "primary-software-engineering-research",
+          "item_ids": [
+            "primary-software-engineering-research"
+          ],
+          "items": [
+            {
+              "id": "primary-software-engineering-research",
+              "kind": "web",
+              "evidence_tier": "research",
+              "domains": [
+                "arxiv.org",
+                "dl.acm.org",
+                "ieeexplore.ieee.org",
+                "openreview.net"
+              ],
+              "paths": [],
+              "query_themes": [
+                "AI-assisted software engineering failure modes",
+                "coding agent testing evaluation",
+                "multi-agent software development",
+                "specification drift AI coding"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-31T19:16:57Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-03",
+          "group": "community-and-issue-signals",
+          "item_ids": [
+            "community-and-issue-signals"
+          ],
+          "items": [
+            {
+              "id": "community-and-issue-signals",
+              "kind": "web",
+              "evidence_tier": "community",
+              "domains": [
+                "github.com",
+                "reddit.com",
+                "news.ycombinator.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent recurring issue",
+                "AI generated code workflow problem",
+                "Claude Code Codex agent regression"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-31T19:16:58Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-04",
+          "group": "local-project-evidence",
+          "item_ids": [
+            "local-project-evidence"
+          ],
+          "items": [
+            {
+              "id": "local-project-evidence",
+              "kind": "repository",
+              "evidence_tier": "local",
+              "domains": [],
+              "paths": [
+                ".ai-intelligence/ai-development/findings",
+                ".ai-intelligence/ai-development/runs"
+              ],
+              "query_themes": [
+                "unmapped recurring failure",
+                "unexplained time or token loss",
+                "new specification or test inconsistency"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-31T19:16:58Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        }
+      ],
+      "lookback_days": 21
+    },
+    "research": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "limits": {
+      "inventory": 480,
+      "external_research": 240,
+      "max_parallel_workers": 8,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "max_decision_items": 3,
+      "runnable_work_item_ids": [],
+      "open_decision_package_ids": [
+        "DEC-20260815T120045Z-7415E4AB"
+      ]
+    },
+    "workflow": [
+      "fan out inventory workers (bounded, parallel) and persist each handoff under runs/<run-id>/workers/",
+      "fan out discovery scouts per due source group",
+      "fan out research workers for new/reactivated/material changes first, then the prioritized backlog",
+      "fan in: validate, deduplicate, and batch-apply inventory reviews (apply_inventory_batch.py) and research results (record_research_batch.py) as one logical catalog update",
+      "deduplicate and register discovery candidates",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "reconcile with the remote authority base, then commit/push authority state (safe_commit_state.py) with remote verification",
+      "write a concise catalog and release delta report; list deferred IDs explicitly"
+    ]
+  },
+  "results": {},
+  "status": "planned",
+  "run_record": ".ai-intelligence/ai-development/runs/MNT-20260907T190654Z-maintain.json",
+  "run_dir": ".ai-intelligence/ai-development/runs/MNT-20260907T190654Z",
+  "run_snapshot": ".ai-intelligence/ai-development/catalog/snapshots/20260907T190654Z-r0083-MNT-20260907T190654Z.json"
+}

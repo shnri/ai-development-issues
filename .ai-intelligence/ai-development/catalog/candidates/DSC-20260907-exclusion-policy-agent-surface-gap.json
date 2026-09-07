@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-exclusion-policy-agent-surface-gap",
+  "title": "組織のContent Exclusion・Logging統制が新しいAgent Surfaceへ未実装のまま展開され、除外対象コードや生API BodyがContext・Logへ流入する",
+  "summary": "Enterprise data-governance policies are enforced on older product surfaces but silently unenforced on newer agentic ones until later patched. GitHub changelog 2026-09-02/2026-09-04: 'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows' — content exclusions reached GA in Copilot app/CLI only in this window, implying agentic workflows previously pulled excluded (sensitive) code into model context despite org policy configured for the IDE surfaces. Same-week sibling in Claude Code v2.1.253: 'Fixed project settings enabling detailed tracing or raw API body logging without proper controls' — repository-checked project settings could enable raw API body logging (prompts, code, potentially secrets written to logs) without the control gates that govern such telemetry. Mechanism: policy enforcement (exclusions, telemetry controls) is implemented per-surface, and fast-shipping agent surfaces launch before inheriting it, creating a window where admins believe policy applies but the agent surface ignores it. Related to I05/I06/I14 as impact, but the mechanism (per-surface policy-enforcement lag) is not separately cataloged. Medium confidence: prior non-enforcement is implied by the GA wording, not documented as an advisory.",
+  "proposed_category": "I",
+  "problem_type": [
+    "silent-behavior-change",
+    "governance-gap"
+  ],
+  "priority_lanes": [
+    "safety"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
+      "title": "GitHub Copilot weekly releases — August 31",
+      "published_at": "2026-09-04",
+      "summary": "'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows'; separate 2026-09-02 entry: 'Content exclusions generally available in Copilot app and CLI'."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "title": "Claude Code v2.1.253",
+      "published_at": "2026-09-01",
+      "summary": "'Fixed project settings enabling detailed tracing or raw API body logging without proper controls'"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "GitHub Copilot app/CLI",
+      "GitHub Copilot coding agent",
+      "Claude Code"
+    ],
+    "models": []
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

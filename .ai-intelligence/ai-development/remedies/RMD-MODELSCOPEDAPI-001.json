@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-MODELSCOPEDAPI-001",
+  "problem_ids": [
+    "P-20260907-D8E5A2E2"
+  ],
+  "summary": "モデル世代 scope の API 契約に harness を合わせる公式移行を適用する: (1) tool_choice any/tool は Fable 5.1 / Mythos 5.1 で 400 になるため、tool 強制は strict tool use / structured outputs へ置換する。(2) 会話履歴は append-only に構築し、system・tools・過去 message の書換えは公式代替 — mid-conversation system messages、tool_addition/tool_removal blocks、per-message output_config、server-side compaction / context editing — へ移す (『Later models will enforce it for all accounts, so make your integration append-only now』)。(3) model 切替・fallback は『同 model か新しい方向』のみに制限し、旧 model への downgrade replay は thinking block が無言 drop される前提で設計する。(4) `thinking-binding-controls-2026-08-01` beta header で `input_transformations` により drop を可視化し、`thinking.block_binding.prefix_mismatch_behavior` を 'error' か 'drop_block' に明示して account 作成日 cohort 依存の挙動差を排除する。(5) harness を更新する (Claude Code は Opus 5 の effort×thinking 非互換を client 側で吸収済み、採取時 v2.1.254)。",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/release-notes/overview",
+      "observed_at": "2026-09-07",
+      "summary": "2026-09-01: 'On Claude Fable 5.1 and Claude Mythos 5.1, tool_choice types any and tool aren't supported and return a 400 error. auto and none are unchanged. To guarantee schema-conformant tool inputs, use strict tool use or structured outputs.'"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/thinking",
+      "observed_at": "2026-09-07",
+      "summary": "Preserved thinking: model check は全 account に適用 (旧 model は新 model の block を読めず、API は該当 block を error なし・課金なしで drop)。prefix check は 2026-08-31 00:00 UTC 以降作成 account に既定強制、旧 account は prefix_mismatch_behavior 設定時のみ。『make your integration append-only now』。各 prefix 編集の公式代替 (mid-conversation system messages / tool_addition・tool_removal / per-message output_config / server-side compaction・context editing) と client-side compaction の可否パターンを列挙。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/preserved-thinking",
+      "observed_at": "2026-09-07",
+      "summary": "thinking-binding-controls-2026-08-01 beta: 全 response に input_transformations 配列 (drop された block を列挙)、thinking.block_binding.prefix_mismatch_behavior は 'error' | 'drop_block'。切替方向の規則 (Switching models mid-conversation) と prefix 検査 (Keeping the prefix unchanged) を規定。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-07",
+      "summary": "'Fixed Opus 5 requests failing with effort … is not supported when thinking is disabled when effort was xhigh/max; effort is now sent as high in that case' (採取時 v2.1.254) — model 世代ごとの parameter 写像を harness 側で持つ先行例。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "Claude API を直接呼ぶ harness / agent で、mid-session の model 切替・overload fallback・履歴編集 (compaction、動的 tool 登録、system prompt 差し替え) のいずれかを行っている",
+      "tool_choice any / tool で tool 使用を強制している呼び出しがある",
+      "Fable 5.1 / Mythos 5.1 以降への移行を予定している、または既に混在運用している"
+    ],
+    "not_applicable_when": [
+      "単一 model 固定・単発 request のみで会話 replay をしない利用",
+      "公式 SDK / harness (Claude Code 等) が全 request を組み立て、自前で messages 配列を構築しない場合 (harness 更新のみで足りる)",
+      "thinking を一切使わず tool_choice auto/none のみの構成 (影響面がない)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "model 切替・fallback・履歴編集が 400 や無言 drop に化ける version-skew 面を、公式代替 API と明示設定で決定的挙動 (error か既知の drop) に変える。指標: tool_choice any/tool の残存呼び出し数 (0 目標)、prefix 編集をする code path の残数、input_transformations で観測される意図しない drop 件数、旧 model への downgrade replay 発生数、account cohort によって挙動が分かれる構成の有無。",
+    "confidence": "official"
+  },
+  "risks": [
+    "beta header (thinking-binding-controls-2026-08-01) は仕様変更・廃止があり得る",
+    "prefix_mismatch_behavior: 'error' は fail-fast だが可用性を下げ、'drop_block' は静かな品質低下を許す — どちらを選んだかの記録が必要",
+    "strict tool use / structured outputs への置換は tool schema の厳格化を伴い、既存の緩い schema では変換工数が出る",
+    "fallback を『新しい方向のみ』に制限すると、新 model 障害時の逃げ先がなくなる (その場合は thinking block を明示的に捨てて旧 model へ落とす設計判断を記録する)"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "呼び出し側の tool_choice 置換、messages 構築の append-only 化、fallback 方向規則と beta header の導入・監視",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "旧 account で問題なく動くことを根拠に新 account / 将来 model でも動くと想定する (cohort 依存・『later models will enforce it for all accounts』)",
+    "overload fallback が旧世代 model へ落ちる経路を残したまま thinking 継続を期待する (無言 drop)",
+    "compaction 実装が prefix を書き換えているのに server-side compaction へ移行しない"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "thinking-binding-controls beta の GA 化・仕様変更",
+    "次期 model 世代のリリース (prefix check の全 account 強制化を含む)",
+    "tool_choice / structured outputs の仕様変更",
+    "Claude Agent SDK / Claude Code が fallback 方向規則を内蔵した場合"
+  ]
+}

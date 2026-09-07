@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-COVERMARK-001",
+  "problem_ids": [
+    "P-20260907-EACDFFF4"
+  ],
+  "summary": "走査watermarkを『worker完了時刻』ではなく『入力の被覆確認』に紐付ける、境界の明確なtooling修正: (1) record_source_scan.pyに宣言入力ごとの被覆結果（--coverage input=covered|failed|missing など）を必須化し、全入力coveredの場合のみlast_scanned_atを前進させる。(2) 一部失敗時はsources.jsonに構造化フィールド（例: last_result.coverage[]とuncovered_inputs[]）を書き、due-source選定（maintenance_plan.py）がuncovered_inputsを持つsourceをcadenceに関係なく期限到来として再スケジュールする（carryover）。(3) 計画時に宣言path/URLの存在を検証し、存在しない宣言入力はwatermark前進の黙認対象ではなくsource定義の修正要求として表面化する。(4) run metricsはsources_scannedをsources_fully_covered / sources_partially_coveredに分割し、被覆過大表示を不可能にする。これはKafka consumerの『処理完了後にのみoffsetをcommitする』at-least-once patternの適用であり、失敗が黙って走査済みに変換される現在の挙動（commit-before-process相当）を逆転させる。",
+  "remedy_type": "tool",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "local-code",
+      "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/record_source_scan.py",
+      "observed_at": "2026-09-07",
+      "summary": "--applyで`source['last_scanned_at'] = scanned_at`を無条件実行（42-44行）。失敗情報は自由記述--notesのみで、per-input被覆parameterは存在しない — 提案修正の挿入点は明確で局所的。"
+    },
+    {
+      "kind": "local-record",
+      "reference": ".ai-intelligence/ai-development/catalog/sources.json",
+      "observed_at": "2026-09-07",
+      "summary": "存在しない宣言path（findings/）とHTTP 400・未検証domainを持つ3 sourceが完全走査watermarkを保持 — 修正が解消すべき実データ。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://kafka.apache.org/39/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
+      "observed_at": "2026-09-07",
+      "summary": "一般pattern裏付け: 手動offset制御は処理完了後にのみ位置をcommitし、commit前失敗は再消費（at-least-once）になる。auto-commit（返却時点で消費済み扱い）は処理失敗分の黙認的損失を生む — 本defectと同型。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "本Authorityおよびai-development-improvement pluginのmaintenance discovery loop（sources.json＋record_source_scan.py＋maintenance_plan.py）",
+      "複数の宣言入力（path・URL・domain）を持つsourceのwatermark管理一般",
+      "shared-agent-plugins releaseとしてR0-R3 gateを通せる変更枠"
+    ],
+    "not_applicable_when": [
+      "単一入力sourceで失敗が即scan失敗として記録される場合（被覆分解の対象が単一で、carryoverのみで足りる）",
+      "watermarkを持たない一回性のscan",
+      "sources.json schemaを変更できないconsumer側からの適用（Authority/plugin側の変更が前提）"
+    ]
+  },
+  "expected_effect": {
+    "primary": "取得失敗・欠損入力が『黙って走査済み』に変換される経路を遮断し、欠損を次runで自動的に期限到来として再表面化させる（恒久的死角の解消）",
+    "metrics": [
+      "uncovered_inputsを持つsourceが次runで再スケジュールされる率（100%が目標）",
+      "存在しない宣言入力が計画時に検出されるまでのrun数（現状: 検出されない）",
+      "metricsのsources_fully_covered/partiallyの区別導入後の被覆過大表示件数（0が目標）"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "sources.json schemaの変更は読み手（maintenance_plan.py・metrics集計・check_authority.py）との同時更新が必要で、片側だけ変えると新フィールドが死蔵または検証エラーになる",
+    "恒久的に取得不能な入力（閉鎖したURL等）がcarryoverで毎run期限到来し続ける — 明示的なretire操作（source定義修正）を出口として用意する必要がある",
+    "workerが--coverageを正しく申告しない場合は依然過大表示になる（申告の強制はgate側の検証に依存）"
+  ],
+  "implementation_owner": "ai-development-improvement plugin maintainers",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "record_source_scan.py・sources.json schema・maintenance_plan.py due判定・metrics集計の局所修正＋既存3 sourceのwatermark是正。外部依存なし",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "process",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "coverageを任意parameterにして既定covered扱いにする（現状の黙認が形を変えて残る）",
+    "uncovered_inputsを記録するがdue判定が読まない（構造化しても再スケジュールされず死角が残る — 本問題の第二形態）",
+    "失敗入力を無期限にcarryoverし、source定義の修正（存在しないpathの削除）という根本対処を先送りする"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "record_source_scan.py / sources.json schemaの変更release後（修正の実効を次のmaintenance runで確認）",
+    "maintenance-policy.jsonにpartial-coverage cadenceが導入された場合",
+    "discovery workerの申告形式（handoff contract）変更時"
+  ]
+}

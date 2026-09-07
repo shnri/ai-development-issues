@@ -1,75 +1,101 @@
 {
- "schema_version": "1.0",
- "id": "RMD-ALLOWLISTPARSE-001",
- "problem_ids": [
-  "P-20260831-60EFB5BF"
- ],
- "summary": "コマンド文字列の許可リストを『唯一の境界』にしない: 実効境界を OS レベルの sandbox (filesystem write 規則 + deny-by-default の network egress + credentials deny/mask + strict mode allowUnsandboxedCommands:false) に置き、allowlist/denylist は多層防御の一枚として扱う。あわせて『許可されたコード実行系』(node --test、build、plugin 付き linter、パッケージスクリプト) は任意実行と等価と見なして権限設計し、agent 実行環境から production credential を外す。パッチは CVE 単位で出続けるため、harness 更新のたびに bypass 回帰テストを回す。",
- "remedy_type": "harness",
- "maturity": "official",
- "status": "active",
- "evidence": [
-  {
-   "kind": "official-guidance",
-   "reference": "https://code.claude.com/docs/en/sandboxing",
-   "observed_at": "2026-08-31",
-   "summary": "'the operating system enforces that boundary for every Bash command and its child processes'。allowWrite/denyWrite/denyRead は OS レベル強制、strict sandbox mode で dangerouslyDisableSandbox を無効化、sandbox.credentials で deny/mask (v2.1.187+/v2.1.199+)。"
-  },
-  {
-   "kind": "maintainer-report",
-   "reference": "https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html",
-   "observed_at": "2026-08-31",
-   "summary": "CVE-2026-54316 は validator が検査前に単一引用符内を除去したため git flag 値のペイロードが素通り、Claude Code 2.1.163 で修正。CVE-2026-12537 は allowlist が tool 登録時のみ解釈され runtime で強制されず、Gemini CLI 0.39.1 / run-gemini-cli 0.1.22 で修正。"
-  },
-  {
-   "kind": "maintainer-report",
-   "reference": "https://adversa.ai/blog/claude-code-security-bypass-deny-rules-disabled/",
-   "observed_at": "2026-08-31",
-   "summary": "50個超の subcommand を連結すると deny rule 判定を丸ごとスキップ (bashPermissions.ts)。2026-04-01 公表、v2.1.90 (2026-04-06) で修正。"
-  },
-  {
-   "kind": "maintainer-report",
-   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
-   "observed_at": "2026-08-31",
-   "summary": "v2.1.251 (2026-08-28) 'Fixed Bash permission checks auto-approving commands that assign an arithmetic expression'。現行リリース系列でも同種 bypass が継続していることを示す。"
-  },
-  {
-   "kind": "research-paper",
-   "reference": "https://arxiv.org/pdf/2603.27517",
-   "observed_at": "2026-08-31",
-   "summary": "OpenClaw で同一の構造的欠陥から3件の exec allowlist 迂回。ベンダ固有ではなく設計クラスの問題。"
-  }
- ],
- "applicability": {
-  "conditions": [
-   "permissions.allow / deny や allowedTools でコマンド安全性を判定している",
-   "agent が shell、パッケージマネージャ、テストランナー、linter を実行できる",
-   "macOS / Linux / WSL2 (Claude Code の built-in sandbox 動作環境)",
-   "CI や headless で agent を無人実行している"
+  "schema_version": "1.0",
+  "id": "RMD-ALLOWLISTPARSE-001",
+  "problem_ids": [
+    "P-20260831-60EFB5BF"
   ],
-  "not_applicable_when": [
-   "ネイティブ Windows で built-in sandbox が使えない (WSL2 内実行に移す)",
-   "sandbox.filesystem.disabled を true にしている構成 (書き込み境界が消えるため本 remedy の前提が崩れる)",
-   "そもそもコマンド実行系ツールを持たないセッション (--restricted など)"
+  "summary": "コマンド文字列の許可リストを『唯一の境界』にしない: 実効境界を OS レベルの sandbox (filesystem write 規則 + deny-by-default の network egress + credentials deny/mask + strict mode allowUnsandboxedCommands:false) に置き、allowlist/denylist は多層防御の一枚として扱う。あわせて『許可されたコード実行系』(node --test、build、plugin 付き linter、パッケージスクリプト) は任意実行と等価と見なして権限設計し、agent 実行環境から production credential を外す。パッチは CVE 単位で出続けるため、harness 更新のたびに bypass 回帰テストを回す。2026-09 の v2.1.260 revert (deny rule の引数適用を可用性理由で撤回) により、operand 位置の読み取り秘匿は Read() deny rule ではなく sandbox.filesystem.denyRead / sandbox.credentials で表現することが必須になった。",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-09-07",
+      "summary": "再確認 (2026-09-07): 'the operating system enforces that boundary for every Bash command and its child processes'。allowRead/denyRead は specific-path-wins で重なりを解決、strict sandbox mode で dangerouslyDisableSandbox を無効化、sandbox.credentials deny/mask (v2.1.187+)、managed 配布時は developer 側から緩和不可。macOS/Linux/WSL2 のみ。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html",
+      "observed_at": "2026-08-31",
+      "summary": "CVE-2026-54316 は validator が検査前に単一引用符内を除去したため git flag 値のペイロードが素通り、Claude Code 2.1.163 で修正。CVE-2026-12537 は allowlist が tool 登録時のみ解釈され runtime で強制されず、Gemini CLI 0.39.1 / run-gemini-cli 0.1.22 で修正。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://adversa.ai/blog/claude-code-security-bypass-deny-rules-disabled/",
+      "observed_at": "2026-08-31",
+      "summary": "50個超の subcommand を連結すると deny rule 判定を丸ごとスキップ (bashPermissions.ts)。2026-04-01 公表、v2.1.90 (2026-04-06) で修正。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "observed_at": "2026-08-31",
+      "summary": "v2.1.251 (2026-08-28) 'Fixed Bash permission checks auto-approving commands that assign an arithmetic expression'。現行リリース系列でも同種 bypass が継続していることを示す。"
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/pdf/2603.27517",
+      "observed_at": "2026-08-31",
+      "summary": "OpenClaw で同一の構造的欠陥から3件の exec allowlist 迂回。ベンダ固有ではなく設計クラスの問題。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-07",
+      "summary": "v2.1.260 'Reverted the 2.1.259 change applying Read() deny rules to Bash arguments; it denied npm run build ... and made cd … && grep prompt even in auto mode'。option 値・operand 位置の deny 適用は可用性理由で撤回され、文字列判定の被覆と可用性が両立しないことをベンダ自身が示した。字句解析を狭めれば false-allow、広げれば false-deny (P-20260907-FE46C48C) になる双対。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-07",
+      "summary": "新規インスタンス修正 (2026-09 系列): v2.1.260 で括弧を含むパスの Edit/Write/Read 規則が invalid として脱落し sandbox でも無視され『read-only』フォルダが書き込み可能だった問題、コンパイル不能な規則パターンで全編集が失敗する問題、zsh の REPORTTIME/REPORTMEMORY/DIRSTACKSIZE 代入に隠した command substitution の auto-approve を修正。v2.1.257 で < file リダイレクトと tac/egrep 等 reader への deny 不適用、compound/subshell 内での ask 規則スキップを修正。クラスは現行系列で継続発生中。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "permissions.allow / deny や allowedTools でコマンド安全性を判定している",
+      "agent が shell、パッケージマネージャ、テストランナー、linter を実行できる",
+      "macOS / Linux / WSL2 (Claude Code の built-in sandbox 動作環境)",
+      "CI や headless で agent を無人実行している"
+    ],
+    "not_applicable_when": [
+      "ネイティブ Windows で built-in sandbox が使えない (WSL2 内実行に移す)",
+      "sandbox.filesystem.disabled を true にしている構成 (書き込み境界が消えるため本 remedy の前提が崩れる)",
+      "そもそもコマンド実行系ツールを持たないセッション (--restricted など)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "許可判定の解釈差が生じても副作用が OS 境界を越えない。指標: sandbox 外で実行されたコマンド数 (strict mode では0)、許可外ドメインへの egress 試行数、sandbox 内から読める credential file / env 数、harness 更新ごとの bypass 回帰テスト pass 率、既知 CVE 修正版へのバージョン追随ラグ。",
+    "confidence": "official"
+  },
+  "risks": [
+    "sandbox は escape hatch (dangerouslyDisableSandbox) を持つため、strict mode を明示しない限り迂回されうる",
+    "network 制限で正当な依存解決やツールが壊れ、excludedCommands での穴あけに流れやすい",
+    "sandbox proxy / cache proxy 自体が攻撃面になる (P-20260831-C476A122 参照)",
+    "OS 境界を信頼して allowlist の保守を止めると、sandbox 内での破壊操作 (作業ツリー削除等) は防げない",
+    "v2.1.260 revert 以降、Read() deny rule は operand 位置を被覆しないため、deny rule だけで秘匿している構成は再び素通しになる (sandbox denyRead / credentials へ移すこと)"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "sandbox 規則 (denyRead/denyWrite/credentials/network) の設計と、harness 更新ごとの bypass 回帰テスト運用",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "setting",
+    "process"
+  ],
+  "known_failure_modes": [
+    "Read() deny rule に読み取り秘匿を任せる (v2.1.260 revert で operand 位置は非被覆)",
+    "strict mode 未設定のまま sandbox を境界と信じる (escape hatch が残る)",
+    "instance patch (CVE 単位の修正) を根本解決と誤認して多層防御を解く"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "Claude Code / Gemini CLI / Codex の permission・sandbox 仕様変更",
+    "新たな allowlist bypass CVE の公表",
+    "sandbox の escape hatch や excludedCommands の既定変更",
+    "harness の major update ごと",
+    "Read() deny rule の Bash 引数適用が再導入された場合 (v2.1.260 revert の巻き戻し)"
   ]
- },
- "expected_effect": {
-  "primary": "許可判定の解釈差が生じても副作用が OS 境界を越えない。指標: sandbox 外で実行されたコマンド数 (strict mode では0)、許可外ドメインへの egress 試行数、sandbox 内から読める credential file / env 数、harness 更新ごとの bypass 回帰テスト pass 率、既知 CVE 修正版へのバージョン追随ラグ。",
-  "confidence": "official"
- },
- "risks": [
-  "sandbox は escape hatch (dangerouslyDisableSandbox) を持つため、strict mode を明示しない限り迂回されうる",
-  "network 制限で正当な依存解決やツールが壊れ、excludedCommands での穴あけに流れやすい",
-  "sandbox proxy / cache proxy 自体が攻撃面になる (P-20260831-C476A122 参照)",
-  "OS 境界を信頼して allowlist の保守を止めると、sandbox 内での破壊操作 (作業ツリー削除等) は防げない"
- ],
- "implementation_owner": "consumer-project",
- "fix_effort": 3,
- "reversible": true,
- "revalidate_when": [
-  "Claude Code / Gemini CLI / Codex の permission・sandbox 仕様変更",
-  "新たな allowlist bypass CVE の公表",
-  "sandbox の escape hatch や excludedCommands の既定変更",
-  "harness の major update ごと"
- ]
 }

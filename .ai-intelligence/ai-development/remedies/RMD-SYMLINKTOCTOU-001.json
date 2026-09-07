@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-SYMLINKTOCTOU-001",
+  "problem_ids": [
+    "P-20260907-211DB41F"
+  ],
+  "summary": "symlink の check-time/use-time 乖離による権限迂回は3ベンダとも修正済み: Claude Code は『permission check 後に差し替えられた symlink を file tool が追って承認外の場所を読み書きできた』問題を修正 (catalog 採取時 v2.1.253、現行 changelog では 2.1.251/2.1.252 区画; v2.1.257 以降なら確実に包含。v2.1.257 では plugin component path の symlink 経由読み出しも修正)。Gemini CLI v0.58.0 は ignore path 処理の symlink 評価を一貫化、Codex CLI 0.151.0 は executor の実 home directory / OS / path 規約基準で remote sandbox を強制。対策は各 harness をこれらの版以上へ更新すること。残余 risk (同 class の再発、checker が字句 path で判定する別経路) には OS 層の sandbox denyRead/denyWrite を第二層として併用する — kernel が実 path を解決するため、文字列レベルの symlink 混同の影響を受けない。",
+  "remedy_type": "provider-fix",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-07",
+      "summary": "'Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check, which could read or write outside the approved location' (採取時 v2.1.253, 2026-09-01; 現行 changelog は 2.1.251/2.1.252 区画に収載)。v2.1.257: 'Fixed plugins being able to read files outside their own directory through a declared command, agent, skill, hooks or other component path that is a symlink' — 同 class の別経路も修正。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://geminicli.com/docs/changelogs/latest/",
+      "observed_at": "2026-09-07",
+      "summary": "Gemini CLI v0.58.0 (2026-09-01): 'ensure consistent symlink evaluation in ignore path handling' による path bypass 防止。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/changelog",
+      "observed_at": "2026-09-07",
+      "summary": "Codex CLI 0.151.0 (2026-08-29): 'Improved remote sandbox enforcement using the executor's actual home directory, operating system, and path conventions' — policy と executor の path identity 不一致を解消。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-09-07",
+      "summary": "第二層: sandbox.filesystem.denyRead/denyWrite は OS が実 path で強制するため、check-time の字句判定と use-time の解決の乖離に依存しない。sandbox.credentials deny/mask で秘匿 file を blast radius の外へ。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "Claude Code / Gemini CLI / Codex CLI を file 権限や ignore/除外 path 前提で運用している",
+      "作業 tree 内に信頼できない内容 (checkout した PR、生成物、依存物) が symlink を作り得る",
+      "harness のバージョンを consumer 側で更新できる"
+    ],
+    "not_applicable_when": [
+      "修正版へ更新できない固定環境 (その場合は sandbox denyRead/denyWrite を主境界にし、untrusted checkout を扱わない)",
+      "file tool を持たないセッション構成",
+      "symlink を作れない実行環境 (書き込み不可の read-only checkout のみ)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "承認済み path 経由での保護対象 file への到達 (TOCTOU swap、ignore 迂回、home 解決不一致) が修正版では再現しない。指標: 各 harness の稼働バージョン >= 修正版 (Claude Code >=2.1.257 を安全下限、Gemini CLI >=0.58.0、Codex >=0.151.0) の充足率、symlink swap 再現テストの fail (=防御成功) 率、sandbox denyRead が実 path で強制されているかの検証。",
+    "confidence": "official"
+  },
+  "risks": [
+    "TOCTOU は class として残る: 修正は既知経路 (file tools / ignore / remote home) のみで、字句 path で判定する別 checker (hook、独自 tool、MCP server) は各自の検証が必要",
+    "Claude Code の changelog 版番号が採取時 (2.1.253) と現在 (2.1.251/2.1.252 区画) で食い違っており、『2.1.253 以上』を条件にした version gate は誤判定し得る (2.1.257 を下限にする)",
+    "ベンダ再現手順が公開されておらず、修正の完全性は changelog 記述に依存"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "harness バージョン更新と、CI での最低バージョン gate 追加のみ",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "harness",
+    "setting"
+  ],
+  "known_failure_modes": [
+    "修正版更新だけで安心し、独自 hook / MCP tool の字句 path 判定を放置する",
+    "version gate を 2.1.253 の文字列比較で書き、changelog 再編で誤 pass させる",
+    "sandbox.filesystem.disabled 構成で第二層が存在しないまま運用する"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "いずれかの harness で symlink / path-resolution 系の新規修正エントリが出た場合",
+    "Claude Code changelog の版再編が再発した場合 (version gate の再確認)",
+    "独自 tool / hook を追加して path 判定箇所が増えた場合"
+  ]
+}

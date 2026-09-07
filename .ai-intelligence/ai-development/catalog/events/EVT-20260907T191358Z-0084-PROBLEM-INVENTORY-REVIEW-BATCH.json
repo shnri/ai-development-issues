@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T191358Z-0084-PROBLEM-INVENTORY-REVIEW-BATCH",
+  "event_type": "problem-inventory-review-batch",
+  "occurred_at": "2026-09-07T19:13:58Z",
+  "catalog_revision_before": 83,
+  "catalog_revision_after": 84,
+  "details": {
+    "run_id": "MNT-20260907T190654Z",
+    "review_ids": [
+      "IRV-20260907-3039ED15",
+      "IRV-20260907-8968B75A",
+      "IRV-20260907-ED2DC8D6",
+      "IRV-20260907-BF396D69",
+      "IRV-20260907-C476A122",
+      "IRV-20260907-0F6DC4B3",
+      "IRV-20260907-AE8A3EE7",
+      "IRV-20260907-60EFB5BF",
+      "IRV-20260907-044EBDC6",
+      "IRV-20260907-DE8D86E9",
+      "IRV-20260907-91BDEAD5",
+      "IRV-20260907-E8990658",
+      "IRV-20260907-FB4523EC"
+    ],
+    "problem_ids": [
+      "P-20260831-044EBDC6",
+      "P-20260831-0F6DC4B3",
+      "P-20260831-3039ED15",
+      "P-20260831-60EFB5BF",
+      "P-20260831-8968B75A",
+      "P-20260831-91BDEAD5",
+      "P-20260831-AE8A3EE7",
+      "P-20260831-BF396D69",
+      "P-20260831-C476A122",
+      "P-20260831-DE8D86E9",
+      "P-20260831-E8990658",
+      "P-20260831-ED2DC8D6",
+      "P-20260831-FB4523EC"
+    ],
+    "count": 13,
+    "status_changes": [
+      "provisional->active",
+      "provisional->watch"
+    ],
+    "research_required": [],
+    "conflicts_skipped": [],
+    "invalid_count": 0,
+    "reviewed_at": "2026-09-07T19:13:58Z"
+  }
+}

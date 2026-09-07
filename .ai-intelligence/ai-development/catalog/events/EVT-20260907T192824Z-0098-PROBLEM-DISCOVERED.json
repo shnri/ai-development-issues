@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T192824Z-0098-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-09-07T19:28:24Z",
+  "catalog_revision_before": 97,
+  "catalog_revision_after": 98,
+  "details": {
+    "candidate_id": "DSC-20260907-role-owner-asset-misroute",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260907-B8D227AC"
+  }
+}

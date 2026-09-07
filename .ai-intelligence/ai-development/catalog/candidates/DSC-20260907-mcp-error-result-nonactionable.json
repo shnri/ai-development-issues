@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-mcp-error-result-nonactionable",
+  "title": "MCPのError結果が失敗の発生は伝えるが原因・修復手段・安全な再実行可否を含まず、Agentが結果だけからは回復行動を決定できない",
+  "summary": "A result-only actionability audit of 21 induced failures across 10 MCP servers finds that completed MCP error results usually make the failure observable (typed error fields present) but rarely convey the specific cause, a repair strategy, or whether replay is safe: 'completed MCP results often make failure observable, sometimes make a broad response possible, and rarely make concrete recovery or safe replay self-contained.' The failure mode: an agent receiving a tool error must choose between retrying (risking duplicate side effects), abandoning, or guessing at repair, with no protocol-level signal to decide — so recovery behavior degrades to heuristics that differ per server. This complements P-20260831-3039ED15 (lost responses leave side-effect state unknown) but is distinct: here the response arrives and is well-formed, yet is informationally insufficient for recovery (Mehan, arXiv:2609.00072, 2026-08-31). Small single-author sample; low confidence pending replication.",
+  "proposed_category": "tooling-and-integration",
+  "problem_type": [
+    "failure-mode",
+    "protocol-gap"
+  ],
+  "priority_lanes": [
+    "reliability",
+    "safety"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+  "evidence": [
+    {
+      "url": "https://arxiv.org/abs/2609.00072",
+      "title": "Can MCP Clients Decide What to Do After Failure? A Result-Only Actionability Audit",
+      "published_at": "2026-08-31",
+      "summary": "Six-part actionability profile applied to 21 induced failures on 10 MCP servers: typed fields expose failure occurrence in most cases but rarely provide cause, repair strategy, or safe-replay information, leaving recovery decisions unsupported by the result alone."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "mcp-clients",
+      "mcp-servers",
+      "coding-agents-general"
+    ],
+    "models": [
+      "general"
+    ]
+  },
+  "confidence": "low",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

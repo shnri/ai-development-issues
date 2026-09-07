@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "PRP-20260907T192800Z-CE9855EA",
+  "work_item_id": "WRK-20260907T192541Z-832AB2C0",
+  "release_id": null,
+  "created_at": "2026-09-07T19:28:00Z",
+  "problem_ids": [
+    "I03"
+  ],
+  "practice_ids": [],
+  "asset": {
+    "kind": "guidance",
+    "guidance_kind": "consumer-configuration",
+    "remedy_id": "RMD-I03-002",
+    "repository_id": null,
+    "version": null,
+    "distribution": "project-local",
+    "consumer_risk_tier": "R2",
+    "decision": {
+      "disposition": "policy-decidable",
+      "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+      "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part"
+    },
+    "note": "no shared asset was released; consumers apply the remedy guidance as a project change and audit the effect"
+  },
+  "consumer_actions": [],
+  "auto_update_consumers": false,
+  "status": "available",
+  "notes": []
+}

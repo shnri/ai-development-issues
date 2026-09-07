@@ -1,0 +1,27 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "research-03",
+ "status": "complete",
+ "role": "researcher",
+ "problem_ids": ["P-20260907-B8D227AC"],
+ "work_item_id": null,
+ "facts": [
+  "resolve_existing_asset (_planning.py) returns implementation_owner verbatim as asset_id when the value is not in ROLE_OWNERS, with how='implementation-owner-asset', even when locate_shared_asset finds no such asset (asset_path stays null).",
+  "In run MNT-20260907T190654Z three work items for remedies with implementation_owner='consumer-project' were created with target kind shared-existing-asset, asset_id 'consumer-project', path null, risk tier R2, and were re-scoped by the controller to consumer-configuration R0."
+ ],
+ "inferences": [
+  "Enumerated role lists cannot keep up with role aliases used by research workers; existence-checking the resolved asset (fail-closed to guidance routing) removes the class of failure."
+ ],
+ "evidence": [
+  {"kind": "local-evidence", "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/_planning.py", "observed_at": "2026-09-07", "summary": "ROLE_OWNERS enumeration and fall-through asset resolution."}
+ ],
+ "files_written": ["remedies/RMD-ROLEOWNERGAP-001.json"],
+ "checks_run": [],
+ "risks": [],
+ "recommended_action": "queue RMD-ROLEOWNERGAP-001 as an R1 bounded change to the shared-agent-plugins planner with a regression test in the next run",
+ "next_gate": "record_research_batch",
+ "records": [
+  {"problem_id": "P-20260907-B8D227AC", "outcome": "remedy-found", "remedy_ids": ["RMD-ROLEOWNERGAP-001"], "evidence": [{"kind": "local-evidence", "reference": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/_planning.py", "observed_at": "2026-09-07", "summary": "Deterministic code-reading evidence; no external research required."}], "researched_at": "2026-09-07"}
+ ],
+ "remedy_drafts": []
+}

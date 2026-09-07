@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-symlink-toctou-permission-bypass",
+  "title": "権限・除外チェック時と実アクセス時でsymlink解決が食い違い、承認済みに見えるパス経由で保護対象ファイルへ到達する",
+  "summary": "Two providers fixed the same mechanism in the same week. Claude Code v2.1.253 (early Sept 2026): 'Fixed file tools following symlinks swapped after permission check, risking unauthorized access' — a time-of-check/time-of-use gap where a path is approved, then the symlink is swapped so the file tool operates on a different target. Gemini CLI v0.58.0 (2026-09-01): 'Enforced consistent symlink evaluation in ignore path handling to prevent path bypass' — ignore/exclusion paths evaluated inconsistently against symlinks allowed bypassing protections. Codex CLI 0.151.0 (2026-08-29) similarly 'Improved remote sandbox enforcement using the executor's actual home directory', a path-resolution mismatch between policy and executor. Mechanism: permission/ignore decisions are made on a lexical or check-time path while the filesystem operation resolves symlinks at use time, so protected files are reachable (or protections silently skipped) through approved-looking paths. Distinct from shell-based bypass (P-20260831-AE8A3EE7) and allowlist string-parsing mismatch (P-20260831-60EFB5BF): here the checker and executor disagree on filesystem path identity.",
+  "proposed_category": "I",
+  "problem_type": [
+    "security",
+    "permission-semantics-gap"
+  ],
+  "priority_lanes": [
+    "safety"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "title": "Claude Code v2.1.253",
+      "published_at": "2026-09-01",
+      "summary": "'Fixed file tools following symlinks swapped after permission check, risking unauthorized access'"
+    },
+    {
+      "url": "https://geminicli.com/docs/changelogs/latest/",
+      "title": "Gemini CLI v0.58.0",
+      "published_at": "2026-09-01",
+      "summary": "'Enforced consistent symlink evaluation in ignore path handling to prevent path bypass'"
+    },
+    {
+      "url": "https://developers.openai.com/codex/changelog",
+      "title": "Codex CLI 0.151.0",
+      "published_at": "2026-08-29",
+      "summary": "'Improved remote sandbox enforcement using the executor's actual home directory'"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code",
+      "Gemini CLI",
+      "OpenAI Codex CLI"
+    ],
+    "models": []
+  },
+  "confidence": "high",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-ED2DC8D6",
+  "problem_id": "P-20260831-ED2DC8D6",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "watch",
+  "reason": "34名の単一crossover実験のみが根拠で、独立再現がなく、隣接材料はvendor blog（一般的automation bias論）にとどまる。効果の方向は自動化バイアス研究と整合し実在の蓋然性はあるが、remedyが存在せず（primary studyも対策を提示しない）、現時点でactionableでもない。再現・追試を待つwatchが妥当。",
+  "evidence": [
+    {
+      "url": "https://arxiv.org/abs/2608.21298",
+      "title": "Evidence of the Negative Effect of LLMs on Requirements Inspection",
+      "summary": "Single 34-participant experiment; significant accuracy drop, no mitigation strategy offered; no replication found as of 2026-08-31 research."
+    },
+    {
+      "url": "https://blog.codacy.com/automation-bias-in-ai-generated-code-review-why-clean-code-still-ships-broken",
+      "title": "Automation bias commentary (vendor blog)",
+      "summary": "Directionally consistent adjacent material only; not measured on requirements smells."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [
+    "独立再現または大規模追試の公表",
+    "要求検査でのLLM併用手順（accuracy低下を防ぐプロトコル）の実証研究",
+    "consumer projectの検査工程で同様の検出漏れが観測された場合"
+  ],
+  "next_review_days": 45,
+  "reviewer": "inventory-01"
+}

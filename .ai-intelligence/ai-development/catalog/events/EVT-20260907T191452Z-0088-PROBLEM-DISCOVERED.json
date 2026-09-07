@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T191452Z-0088-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-09-07T19:14:52Z",
+  "catalog_revision_before": 87,
+  "catalog_revision_after": 88,
+  "details": {
+    "candidate_id": "DSC-20260907-approval-state-lifecycle-desync",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260907-CD83ACE2"
+  }
+}

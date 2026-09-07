@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-APPROVALSTATE-001",
+  "problem_ids": [
+    "P-20260907-CD83ACE2"
+  ],
+  "summary": "承認・レビュー状態の lifecycle 不整合は両ベンダが修正済み: Codex CLI 0.151.0 (2026-08-29) で権限変更後の stale Guardian classification による fail-open を停止、0.152.0 (2026-09-01) で自動承認レビューが user instructions・回答・有効な authorization を compaction 越しに保持、0.153.0 (2026-09-03) で Guardian review history が compaction・再起動・fork を生き延びる (rollback 境界は尊重)。Claude Code は v2.1.257 で dispatch 元 session の permission mode が対象 directory の defaultMode を上書きする問題、v2.1.258 で再送 permission approval が適用できず remote/scheduled session が失敗する問題を修正。対策は Codex >=0.153.0・Claude Code >=2.1.258 への更新。残余運用則: 権限 profile を変更したら既存 session の承認は失効したものとして session を再起動する / 長期 run・fork では承認履歴が消え得る前提で「どの承認 regime にいるか」を turn 冒頭に確認する (v2.1.261 でも stale permission mode 表示の修正が続いており class は完全収束していない)。",
+  "remedy_type": "provider-fix",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/changelog",
+      "observed_at": "2026-09-07",
+      "summary": "Codex CLI 0.151.0 'Prevented stale Guardian classifications from authorizing actions after permission state changes'; 0.152.0 'preservation of user instructions, answers, and valid authorizations across history compaction'; 0.153.0 'Guardian review history survives compaction, restarts, and user-created forks while respecting rollback boundaries'。最新 0.153.4 (2026-09-04)。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-07",
+      "summary": "v2.1.257 'Fixed sessions dispatched from an agent view ... always starting in the original session's permission mode, overriding the target directory's defaultMode and the agent's permissionMode'; v2.1.258 'Fixed remote and scheduled sessions failing ... after a re-sent permission approval could not be applied'。残余: v2.1.261 'Fixed Remote Control showing a stale permission mode when a phone, browser, or claude.ai app attaches ... or after the mode changes in the terminal' — class は修正後も新 instance を出している。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "Codex CLI の Guardian / 自動承認レビュー、または Claude Code の remote・scheduled・dispatch・fork 機能を使っている",
+      "session 途中で permission profile / mode を変更する運用がある",
+      "長時間 run で compaction・再起動・fork が起きる"
+    ],
+    "not_applicable_when": [
+      "承認を伴わない完全対話型・都度承認の短い session のみの運用",
+      "修正版 (Codex >=0.153.0 / Claude Code >=2.1.258) へ更新できない環境 — その場合は権限変更のたびに session を作り直す運用側 workaround に切り替える"
+    ]
+  },
+  "expected_effect": {
+    "primary": "権限変更後に古い承認が action を authorize する fail-open と、compaction・再起動・fork で有効な承認・レビュー履歴が消える fail-closed の両方向が修正版では解消。指標: 稼働バージョン充足率、権限変更後に旧承認で実行された action 数 (0 が期待値)、compaction/fork 後のレビュー履歴残存率、re-sent approval 起因の session 失敗数。",
+    "confidence": "official"
+  },
+  "risks": [
+    "v2.1.261 の stale permission mode 表示修正が示す通り、lifecycle × 承認状態の組合せは網羅されておらず新 instance が出続けている",
+    "changelog 記述のみが根拠で、承認状態が全 lifecycle event を生き延びることの独立再現はない",
+    "『承認が残る』方向の修正は自動化の中断 (再承認要求) を増やし、無人 run の設計に影響する"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "harness 更新と、権限変更時 session 再起動の運用ルール1行",
+  "verdict": "known-applicable",
+  "secondary_layers": [
+    "process",
+    "observability"
+  ],
+  "known_failure_modes": [
+    "権限 profile 変更後も既存 session を使い続け、check 時点の承認 regime を確認しない",
+    "fork した session で親の承認履歴が引き継がれている / いないの想定を版を確認せず固定する",
+    "承認状態の監査を transcript にのみ依存する (harness 側記録との突合をしない)"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "Codex Guardian / Claude Code permission の状態管理仕様変更",
+    "compaction・fork・dispatch 系の新機能追加時",
+    "同 class の新規修正エントリ (stale approval / lost review) が changelog に出た場合"
+  ]
+}

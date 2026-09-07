@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-REVIEWGATE-001",
+  "problem_ids": [
+    "P-20260907-09AB323A"
+  ],
+  "summary": "機能テストPASSを唯一のpromotion/merge条件にしない: (1) reviewerが実際に強制している受け入れ制約（style・architecture・非機能）を成文化し — Copilot code reviewなら`.github/copilot-instructions.md`とpath別`*.instructions.md`（文字数制限撤廃済、head branchから読込）、Claude Codeならcode-review/security-review skill — AI code reviewを機能テストと並列の必須gateにする。(2) 機械化可能な制約はlinter・architecture test（import-linter等）として決定的なCI checkに落とし、AI reviewは残余の判断に限定する。(3) agent評価pipelineの所有者は、公開されたSWE-Gate replication package（機能テスト＋review由来constraint tests＋gold/非準拠patch）でpipelineの『機能onlyギャップ』を測定し、auto-merge基準に制約軸を追加する。green機能テストのみでのauto-merge/auto-promotionは、測定上約34%の受け入れ不能patchを通す。",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2609.04167",
+      "observed_at": "2026-09-07",
+      "summary": "644の機能テスト通過repairのうち221（~34%）がreview由来制約に違反。replication package（code・data・constraint tests・gold/非準拠patch）公開 — gating層の測定手段として直接利用可能。緩和策自体はbenchmark提供のみ。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/copilot/tutorials/customize-code-review",
+      "observed_at": "2026-09-07",
+      "summary": "Copilot code reviewはrepo全体とpath scopedのcustom instructionsでcoding standards・review criteriaを強制でき、org運用管理・content exclusion対応・文字数制限撤廃（changelog 2026-06-12/2026-07-17）。review制約の成文化先として現行の公式機構。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/changelog/2026-07-17-copilot-code-review-customization-and-configurability-improvements/",
+      "observed_at": "2026-07-17",
+      "summary": "custom instructionsをhead branchから読み検証を容易化、REVIEW.md/CLAUDE.md/AGENTS.mdも読込 — 制約定義の反復改善が可能。"
+    }
+  ],
+  "applicability": {
+    "conditions": [
+      "agentのpatchをテスト通過でauto-merge/auto-promoteするpipelineがある、または導入予定",
+      "reviewerの指摘が繰り返し同種（style・層違反・非機能）でありruleとして成文化可能",
+      "PR上でAI code reviewまたは決定的lint/architecture checkを必須化できるCI権限"
+    ],
+    "not_applicable_when": [
+      "全patchを人間reviewが必ず通る（gateの過大評価が事故に直結しない — それでもreviewer負荷削減には有効）",
+      "受け入れ制約が暗黙知のままで成文化の合意が取れていない（先に制約の抽出が必要）",
+      "使い捨てcode・spike（受け入れ制約自体が適用されない）"
+    ]
+  },
+  "expected_effect": {
+    "primary": "『機能的に正しいが受け入れ不能』なpatchがgreen testsだけで昇格する経路を塞ぎ、gateの判定を人間reviewerの受け入れ判断に近づける",
+    "metrics": [
+      "機能テスト通過patchのうち制約check違反で差し戻される割合（SWE-Gateの~34%が上限目安）",
+      "auto-merge後に人間reviewerがrevert/修正した件数",
+      "成文化済みreview制約の数と、AI review指摘のprecision"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "AI code review自体が非決定的で、同じ制約でも見逃し・過剰指摘が出る（決定的checkに落とせるものはCIへ）",
+    "制約gateの追加でmerge throughputが下がり、gate迂回の圧力が生じる",
+    "SWE-GateはPython 75 repo由来で、他言語・他domainへの数値の外挿は未検証",
+    "instructions fileが肥大化するとreview品質がかえって低下する"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "review制約の成文化workshop＋AI review実行コスト（PRごと）＋architecture test整備",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "process",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "AI reviewをoptional commentにしてgateにしない（情報は出るが約34%ギャップは閉じない）",
+    "制約を成文化せず汎用promptでreviewさせる（reviewer固有の受け入れ基準が反映されない）",
+    "benchmark（SWE-Gate）のscoreだけ改善してCI gateへ反映しない"
+  ],
+  "last_verified_at": "2026-09-07",
+  "revalidate_when": [
+    "SWE-Gate型の制約遵守がSWE-bench系主要leaderboardへ採用された場合",
+    "Copilot code review / Claude Codeがreview制約のgate機能（required check連携）を変更した場合",
+    "制約gate導入の効果を測定した独立研究の出現"
+  ]
+}

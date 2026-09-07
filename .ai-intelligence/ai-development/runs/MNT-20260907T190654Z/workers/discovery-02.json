@@ -1,0 +1,199 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-02",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [],
+ "work_item_id": null,
+ "facts": [
+  "Scan window 2026-08-31 to 2026-09-07 on arxiv cs.SE (listing pages for 2026-09 plus targeted searches); venues dl.acm.org/ieeexplore/openreview yielded no additional in-window items beyond arxiv preprints.",
+  "arXiv:2609.01271 (2026-09-01, Shayanfar/Gallaba/Hassan) profiles 5 agentic SE benchmarks and ~15,000 trajectories: benchmark category labels poorly reflect actual task demands, and curation artifacts (hint-lacking problem statements, inflated gold solutions) systematically shift agent solution scope; model families succeed by different scope strategies. Confirms and refines F15/F16/K10 (benchmark validity) without adding a distinct new failure mode.",
+  "arXiv:2609.01360 (EDGE) is a solution paper for multi-error attribution in multi-agent LLM traces via error dependency graphs; it models failed traces as multi-error propagation where earlier errors raise the likelihood of later ones. Confirms H09 (upstream error cascades) and K09 (attribution difficulty); no new problem.",
+  "arXiv:2609.04270 (2026-09-02, single-author controlled pilot on 100 olympiad math problems) found same-model self-review falsely rejected 35% of correct answers vs 2% for a cross-family reviewer, repaired only one third as often, and below a capability threshold reviewers became inert while doubling token cost. Relevant mechanism for F12/H13 but domain is math, not SE, and authors label it a pilot — logged as supporting evidence, not a candidate.",
+  "arXiv:2609.04208 (ESEM 2026 registered report, Coppola et al.) will compare agent-generated vs developer patches on 628k issues for technical-debt introduction — methodology only, no results yet; future evidence source for E10.",
+  "arXiv:2609.04711 (deployment experience report) reports that in a coding-agent-built public system 'the most consequential problems were not crashes but silent failures that produced plausible yet incomplete or incorrect outputs' — confirms E01/E11/F18.",
+  "arXiv:2609.00006 (Harness Engineering: anatomy of eleven coding agents) and 2609.01437 (HarnessDev) study harness architecture; descriptive, no new failure mode beyond existing K03 understanding."
+ ],
+ "inferences": [
+  "The 2026-09 crop concentrates on (1) requirements that arrive mid-session, (2) the gap between functional-test gating and human review acceptance, and (3) recoverability of tool-protocol failures — all pointing at verification/acceptance layers rather than raw generation quality.",
+  "SWE-Gate's 221/644 figure suggests any pipeline that auto-merges or auto-promotes agent patches on green functional tests is systematically accepting patches a human reviewer would reject; this is a gating-design problem, not a benchmark-only artifact.",
+  "The late-requirement study's null result for advance warning implies mitigation must target session/task structuring (deferring implementation, checkpointing) rather than prompt-level disclosure of upcoming requirements."
+ ],
+ "evidence": [
+  {
+   "url": "https://arxiv.org/abs/2609.03028",
+   "title": "Requirements After the First Edit: Mining Late Requirement Emergence and Rework in Real-World Coding-Agent Sessions",
+   "published_at": "2026-09-02",
+   "summary": "Mines 3,553 real SWE-chat coding-agent sessions: a requirement arriving after implementation has begun is followed by roughly 2x as much invalidation of prior edits as matched non-requirement edits, with the burden persisting across session stages; a controlled experiment shows advance warning of the future requirement produces no measurable reduction in code overwriting."
+  },
+  {
+   "url": "https://arxiv.org/abs/2609.04167",
+   "title": "SWE-Gate: Passing Functional Tests Is Not Enough for Software Engineering Agents",
+   "published_at": "2026-09-03",
+   "summary": "303 repository-level repair instances from 75 Python projects with review-derived acceptance constraints alongside functional tests: of 644 agent repairs that pass functional tests, 221 (~34%) violate the review constraints, showing functional-only gating substantially overestimates patch acceptability."
+  },
+  {
+   "url": "https://arxiv.org/abs/2609.00072",
+   "title": "Can MCP Clients Decide What to Do After Failure? A Result-Only Actionability Audit",
+   "published_at": "2026-08-31",
+   "summary": "Audits 21 induced failures across 10 MCP servers with a six-part actionability profile: typed result fields make failure observable in most cases but rarely convey specific cause, repair strategy, or whether replay is safe — completed MCP error results 'rarely make concrete recovery or safe replay self-contained'."
+  },
+  {
+   "url": "https://arxiv.org/abs/2609.01271",
+   "title": "What Does an Agentic Software Engineering Benchmark Measure? Profiling Task Demands and Agent Behaviour Beyond What Category Labels Reveal",
+   "published_at": "2026-09-01",
+   "summary": "SNC framework over 5 benchmarks and ~15,000 trajectories: category labels poorly reflect task demands; curation artifacts shift agent solution scope; success strategies differ by model family. Supporting evidence for existing benchmark-validity problems (F15/F16/K10)."
+  },
+  {
+   "url": "https://arxiv.org/abs/2609.04270",
+   "title": "Reviewer Capability Governs Rejection Targeting, Not Repair Skill: Evidence from LLM Execute-Review-Revise Pipelines",
+   "published_at": "2026-09-02",
+   "summary": "Controlled pilot: same-model self-review falsely rejects 35% of correct answers (vs 2% cross-family), repairs one third as often, and sub-threshold reviewers are inert while doubling cost. Supporting evidence for F12/H13; math domain, not promoted to candidate."
+  },
+  {
+   "url": "https://arxiv.org/abs/2609.01360",
+   "title": "EDGE: Error Dependency Graph-Guided Multi-Error Attribution in Multi-Agent LLM Systems",
+   "published_at": "2026-09-01",
+   "summary": "Solution work modeling failed multi-agent traces as multi-error propagation with dependency structure; confirms H09/K09."
+  }
+ ],
+ "files_written": [
+  "handoff-discovery-02.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "All three candidates are arxiv preprints (evidence_tier research, not yet peer-reviewed); 2609.00072 is single-author with a small sample (21 failures, 10 servers).",
+  "WebFetch summaries are model-condensed; abstracts were verified via arxiv abs pages but full-text details (exact experimental conditions) were not independently re-read."
+ ],
+ "recommended_action": "Merge the three candidate records into the discovery queue; attach the F12/F15/F16/K10/H09/K09 confirming papers as supplementary evidence to those existing problems during the next catalog refresh rather than as updates (no material change to understanding).",
+ "next_gate": "merge_discovery_candidate",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-late-requirement-invalidation",
+   "title": "Session途中で追加された要求が直前実装の約2倍規模の編集無効化を引き起こし、要求の事前予告でもReworkが削減されない",
+   "summary": "Mining of 3,553 real-world coding-agent sessions (SWE-chat) shows that when a user introduces a new requirement after implementation has begun, the requirement's arrival is followed by roughly twice as much invalidation of prior edits as matched non-requirement turns, and the rework burden persists at all session stages. A controlled experiment found that disclosing the upcoming requirement in advance produced no measurable reduction in code overwriting — agents implement eagerly and cannot hold back work for announced-but-inactive constraints. This makes late requirement emergence a quantified, structural driver of wasted agent work and code churn distinct from initial requirement ambiguity (A01) or cross-artifact propagation failure (A07): the failure is the agent's inability to structure work so that anticipated requirements do not invalidate it (Jiang et al., arXiv:2609.03028, 2026-09-02).",
+   "proposed_category": "requirements-and-specification",
+   "problem_type": [
+    "failure-mode",
+    "efficiency"
+   ],
+   "priority_lanes": [
+    "quality",
+    "cost"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+   "evidence": [
+    {
+     "url": "https://arxiv.org/abs/2609.03028",
+     "title": "Requirements After the First Edit: Mining Late Requirement Emergence and Rework in Real-World Coding-Agent Sessions",
+     "published_at": "2026-09-02",
+     "summary": "3,553 real coding-agent sessions: late-arriving requirements are followed by ~2x invalidation of prior edits vs matched non-requirement edits; advance warning of the requirement produced no measurable effect on overwriting in a controlled experiment."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "primary-software-engineering-research"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "coding-agents-general",
+     "chat-based-agent-sessions"
+    ],
+    "models": [
+     "general"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": true,
+   "status": "candidate"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-functional-pass-review-gate-gap",
+   "title": "機能テストPASSのみを受け入れ基準にすると、レビュー由来の受け入れ制約に違反するAgent Patchの約3分の1が合格扱いになる",
+   "summary": "SWE-Gate builds 303 repository-level repair instances from 75 Python projects, pairing functional tests with acceptance constraints derived from real pull-request reviews (style, architecture, and non-functional expectations reviewers actually enforce). Of 644 agent repairs that pass the functional tests, 221 (~34%) violate the review-derived constraints. The mechanism: agent pipelines and benchmarks that gate on functional test passage alone systematically accept patches human reviewers would reject, so auto-promotion/auto-merge on green tests and functional-only self-verification both overestimate patch acceptability. This is distinct from F18 (tests pass but build/runtime breaks — an execution gap) and K10 (benchmark-vs-repo performance gap): here the artifact is functionally correct yet unacceptable, and the gap is quantified at the gating layer (He et al., arXiv:2609.04167, 2026-09-03).",
+   "proposed_category": "testing-and-evaluation",
+   "problem_type": [
+    "failure-mode",
+    "evaluation-gap"
+   ],
+   "priority_lanes": [
+    "quality"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+   "evidence": [
+    {
+     "url": "https://arxiv.org/abs/2609.04167",
+     "title": "SWE-Gate: Passing Functional Tests Is Not Enough for Software Engineering Agents",
+     "published_at": "2026-09-03",
+     "summary": "303 repo-level instances from 75 Python projects with review-derived constraint tests: 221 of 644 functionally-passing agent repairs fail the review constraints, showing functional-only evaluation substantially overestimates real-world patch acceptability."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "primary-software-engineering-research"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "coding-agents-general",
+     "swe-bench-style-eval-pipelines",
+     "ci-auto-merge-gates"
+    ],
+    "models": [
+     "general"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": true,
+   "status": "candidate"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-mcp-error-result-nonactionable",
+   "title": "MCPのError結果が失敗の発生は伝えるが原因・修復手段・安全な再実行可否を含まず、Agentが結果だけからは回復行動を決定できない",
+   "summary": "A result-only actionability audit of 21 induced failures across 10 MCP servers finds that completed MCP error results usually make the failure observable (typed error fields present) but rarely convey the specific cause, a repair strategy, or whether replay is safe: 'completed MCP results often make failure observable, sometimes make a broad response possible, and rarely make concrete recovery or safe replay self-contained.' The failure mode: an agent receiving a tool error must choose between retrying (risking duplicate side effects), abandoning, or guessing at repair, with no protocol-level signal to decide — so recovery behavior degrades to heuristics that differ per server. This complements P-20260831-3039ED15 (lost responses leave side-effect state unknown) but is distinct: here the response arrives and is well-formed, yet is informationally insufficient for recovery (Mehan, arXiv:2609.00072, 2026-08-31). Small single-author sample; low confidence pending replication.",
+   "proposed_category": "tooling-and-integration",
+   "problem_type": [
+    "failure-mode",
+    "protocol-gap"
+   ],
+   "priority_lanes": [
+    "reliability",
+    "safety"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+   "evidence": [
+    {
+     "url": "https://arxiv.org/abs/2609.00072",
+     "title": "Can MCP Clients Decide What to Do After Failure? A Result-Only Actionability Audit",
+     "published_at": "2026-08-31",
+     "summary": "Six-part actionability profile applied to 21 induced failures on 10 MCP servers: typed fields expose failure occurrence in most cases but rarely provide cause, repair strategy, or safe-replay information, leaving recovery decisions unsupported by the result alone."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "primary-software-engineering-research"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "mcp-clients",
+     "mcp-servers",
+     "coding-agents-general"
+    ],
+    "models": [
+     "general"
+    ]
+   },
+   "confidence": "low",
+   "material_change": false,
+   "status": "candidate"
+  }
+ ]
+}

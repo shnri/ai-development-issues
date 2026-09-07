@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260907T192541Z-5E10E1A7",
+  "created_at": "2026-09-07T19:25:41Z",
+  "updated_at": "2026-09-07T19:28:00Z",
+  "problem_ids": [
+    "P-20260831-91BDEAD5"
+  ],
+  "remedy_id": "RMD-REPOCONFIGEXEC-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: \\bhooks?\\b"
+  ],
+  "decision": null,
+  "routing": {
+    "reason": "platform/tool configuration is applied per consumer; the authority records the guidance and propagates it",
+    "alternatives_considered": [
+      "existing asset: consumer-project (implementation-owner-asset)",
+      "existing asset → update existing (R1, precedence 3)",
+      "re-scoped by controller: implementation_owner 'consumer-project' is a consumer-side role, not a shared asset; planner resolved it as asset_id via implementation-owner-asset because ROLE_OWNERS lacks 'consumer-project' (no such asset exists in shared-agent-plugins); setting/harness remedy with role owner routes to consumer-configuration guidance (precedence 2)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "S0",
+  "hypothesis": "Applying RMD-REPOCONFIGEXEC-001 to shared-existing-asset will reduce P-20260831-91BDEAD5 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-09-07T19:25:41Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-09-07T19:27:56Z",
+      "from": "scoped",
+      "to": "scoped",
+      "reason": "target re-scoped from mis-resolved shared-existing-asset 'consumer-project' to consumer-configuration guidance at authority tier R0 (consumer_risk_tier R2 per decision ladder)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-09-07T19:28:00Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ]
+}

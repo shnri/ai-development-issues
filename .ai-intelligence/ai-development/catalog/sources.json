@@ -21,10 +21,10 @@
         "agent tools and permissions",
         "skills plugins instructions"
       ],
-      "last_scanned_at": "2026-08-31T19:16:57Z",
+      "last_scanned_at": "2026-09-07T19:15:10Z",
       "last_result": {
-        "candidate_count": 9,
-        "notes": "discovery-01: 3 new-problem candidates (permission-rule parser evasion merged into P-20260831-60EFB5BF; trust-gated instruction loading; beta/GA semantic widening), 6 updates/evidence (I16, I03, K03, D06, C06, K08). Gemini had no in-window agent-breaking change.",
+        "candidate_count": 5,
+        "notes": "",
         "lookback_days": 21
       }
     },
@@ -46,10 +46,10 @@
         "multi-agent software development",
         "specification drift AI coding"
       ],
-      "last_scanned_at": "2026-08-31T19:16:57Z",
+      "last_scanned_at": "2026-09-07T19:15:10Z",
       "last_result": {
-        "candidate_count": 5,
-        "notes": "discovery-02: 3 new problems accepted (tool-effect commit ambiguity, spec portability, LLM-assisted requirements inspection degradation), material updates to G06 and E10. arXiv cs.SE mid-window listing chunk returned HTTP 400; ACM/IEEE not yet indexed for the window.",
+        "candidate_count": 3,
+        "notes": "",
         "lookback_days": 21
       }
     },
@@ -114,13 +114,13 @@
         "AI generated code workflow problem",
         "Claude Code Codex agent regression"
       ],
-      "last_scanned_at": "2026-08-31T19:16:58Z",
+      "last_scanned_at": "2026-09-07T19:15:10Z",
       "constraints": [
         "Signals require corroboration before a problem becomes active."
       ],
       "last_result": {
         "candidate_count": 3,
-        "notes": "discovery-05: 2 new problems (bash-channel edits escaping harness instrumentation; command allowlist parse divergence), K02 evidence added. Reddit/HN yielded only re-treads of catalogued problems.",
+        "notes": "",
         "lookback_days": 21
       }
     },
@@ -139,10 +139,10 @@
         "unexplained time or token loss",
         "new specification or test inconsistency"
       ],
-      "last_scanned_at": "2026-08-31T19:16:58Z",
+      "last_scanned_at": "2026-09-07T19:15:10Z",
       "last_result": {
         "candidate_count": 1,
-        "notes": "discovery-06: 1 new problem (unverifiable authority publication leg in sandboxed runs). Note: declared findings/ path does not exist; other local signals deduplicated to A03/A14, G22/K06/K11, J15/J03/G14, B11/E11.",
+        "notes": "",
         "lookback_days": 21
       }
     }

@@ -1,0 +1,310 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-01",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [],
+ "work_item_id": null,
+ "facts": [
+  "2026-09-01: Claude Code changelog v2.1.253 (post v2.1.251): 'Fixed file tools following symlinks swapped after permission check, risking unauthorized access' — a TOCTOU symlink-swap vulnerability in file tools.",
+  "2026-09-01: Gemini CLI v0.58.0 stable release notes: 'Enforced consistent symlink evaluation in ignore path handling to prevent path bypass' and 'Isolated Docker and container runtime sockets and binaries in macOS Seatbelt to restrict unauthorized container execution access'.",
+  "Claude Code v2.1.259: 'Fixed Bash Read() deny rules not covering files given as option values or operands' — deny rules were bypassable by passing protected files as command options/operands.",
+  "Claude Code v2.1.260: 'Fixed Edit/Write/Read rules with parentheses in path being dropped or ignored by sandbox'; 'Fixed one uncompilable file permission pattern failing all file edits; such rules now guard'; 'Fixed Bash auto-approving zsh commands hiding command substitution in specific variable assignments'.",
+  "Codex CLI 0.151.0 (2026-08-29): 'Prevented stale Guardian classifications from authorizing actions after permission [changes]' — stale approval classifications could authorize actions after the permission profile changed.",
+  "Codex CLI 0.153.0 (2026-09-03): 'Guardian review history survives compaction, restarts, and user-created forks' — before this fix, approval/review history was lost across compaction, restart, and fork; also 'Full Access skips Guardian reviews for confirmation-only actions'.",
+  "Codex CLI 0.152.0 (2026-09-01): 'Automatic approval reviews preserve user instructions, answers, and valid [context]' — automatic approval reviews previously dropped user instructions and answers. 0.152.1 (2026-09-01): 'Guardian approval review now honors Node REPL policies provided through model [config]'.",
+  "Claude Code v2.1.257: 'Fixed sessions dispatched from agent view overriding target directory's permission mode'; v2.1.258: 'Fixed remote/scheduled sessions failing after re-sent permission approval couldn't be applied'.",
+  "Anthropic Claude Platform release notes 2026-09-01 (Claude Fable 5.1 / Mythos 5.1): 'tool_choice types any and tool aren't supported and return a 400 error'; 'Thinking blocks produced by Claude Fable 5.1 and Claude Mythos 5.1 are preserved only for the model that produced them or a newer one: earlier models can't read them, and the API drops one replayed to an earlier model'; 'for new accounts created on or after August 31, 2026, replaying one after the system prompt, tools, or an earlier message changed returns a 400 error'.",
+  "Claude Code v2.1.254: 'Fixed Opus 5 requests failing when effort was xhigh/max with thinking disabled' — harness-level breakage from the same model-generation parameter-validity divergence (platform docs: 'thinking: {\"type\": \"disabled\"} with effort xhigh or max returns a 400 error').",
+  "GitHub changelog 2026-09-02/2026-09-04: 'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows' (content exclusions moved to GA in Copilot app/CLI) — implying agentic surfaces previously did not enforce org content-exclusion policy.",
+  "Claude Code v2.1.253: 'Fixed project settings enabling detailed tracing or raw API body logging without proper controls' — repository-checked project settings could turn on raw API body logging; and 'Fixed plugin commands able to point outside plugin directory; such paths now rejected' (plugin path traversal).",
+  "Claude Code v2.1.259: 'Fixed concurrent sessions silently reverting each other's ~/.claude.json changes' — parallel sessions clobbered shared user config (related to existing P-20260831-C476A122 shared-infrastructure isolation family; noted as fact, not separate candidate).",
+  "Claude Code v2.1.255: 'Fixed prompt-cache miss roughly hourly in long sessions from tool definition re-rendering' — nondeterministic tool-definition rendering silently broke prompt caching and inflated cost (relates to K06; provider fixed).",
+  "Gemini CLI v0.59.0-preview.0 (2026-09-01): 'Prevented Server-Side Request Forgery (SSRF) in Model Context Protocol (MCP) OAuth metadata discovery and authentication' (fixed pre-stable; single provider; fact only).",
+  "Codex CLI 0.150.0 (2026-08-26, lookback context): 'Untrusted projects no longer supply project-level AGENTS.md instructions' — matches existing P-20260831-044EBDC6 (workspace trust gating AGENTS.md), already cataloged; no material change beyond the fix already in scope.",
+  "2026-09-01: Claude Fable 5.1 launched (Claude API/Bedrock/GCP/Foundry); 2026-09-04: GPT-6 Astra GA in GitHub Copilot and became Codex CLI bundled default (0.153.4); Gemini 3.8 Flash rolling out in Copilot — three concurrent default-model shifts in one week across coding-agent products (context for K02/D02/D14 monitoring, not a new problem)."
+ ],
+ "inferences": [
+  "Two providers independently shipped symlink-resolution fixes in the same week (Claude Code 2.1.253 TOCTOU symlink swap; Gemini CLI 0.58.0 ignore-path symlink bypass), indicating symlink-based divergence between permission/ignore-check-time path resolution and access-time resolution is a recurring cross-product mechanism, distinct from cataloged shell-bypass (P-20260831-AE8A3EE7) and allowlist-parsing (P-20260831-60EFB5BF) problems.",
+  "Codex Guardian fixes (0.151.0, 0.152.0, 0.153.0) plus Claude Code 2.1.257/2.1.258 form a cross-provider pattern: approval/review state is not kept consistent with session lifecycle events (compaction, restart, fork, permission-profile change, cross-context dispatch), failing both open (stale approvals authorize) and closed (valid approvals lost).",
+  "Anthropic's Fable/Mythos 5.1 changes make API parameter validity and conversation-replay validity model-generation-scoped (tool_choice 400s, thinking-block downgrade drops, prefix-invariance 400s), so harnesses that switch or fall back between models mid-session, or that edit system/tools mid-conversation, can break without any caller-side change — adjacent to but mechanically distinct from P-20260831-DE8D86E9 (beta→GA/SDK-major breakage)."
+ ],
+ "evidence": [
+  {
+   "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+   "title": "Claude Code CHANGELOG.md (v2.1.252–v2.1.263)",
+   "published_at": "2026-09-07",
+   "summary": "Post-2.1.251 entries: symlink TOCTOU fix, plugin path traversal fix, raw API body logging via project settings fix (2.1.253); Bash Read() deny-rule operand bypass and concurrent ~/.claude.json clobbering fixes (2.1.259); sandbox dropping parenthesized permission rules, fail-open uncompilable pattern, zsh hidden command-substitution auto-approve fixes (2.1.260); permission-mode override on dispatched sessions (2.1.257); re-sent permission approval failure (2.1.258); hourly prompt-cache miss (2.1.255)."
+  },
+  {
+   "url": "https://developers.openai.com/codex/changelog",
+   "title": "OpenAI Codex CLI changelog (0.150.0–0.153.4)",
+   "published_at": "2026-09-04",
+   "summary": "Guardian approval-system fixes: stale classifications authorizing actions after permission changes (0.151.0, 2026-08-29); automatic approval reviews dropping user instructions/answers (0.152.0, 2026-09-01); Node REPL policy honoring (0.152.1); review history not surviving compaction/restarts/forks, Full Access skipping Guardian for confirmation-only actions (0.153.0, 2026-09-03); GPT-6 Astra made bundled default (0.153.4, 2026-09-04)."
+  },
+  {
+   "url": "https://geminicli.com/docs/changelogs/latest/",
+   "title": "Gemini CLI v0.58.0 stable release notes",
+   "published_at": "2026-09-01",
+   "summary": "Security fixes: consistent symlink evaluation in ignore-path handling to prevent path bypass; isolation of Docker/container runtime sockets in macOS Seatbelt; (v0.59.0-preview.0 same day) SSRF prevention in MCP OAuth metadata discovery."
+  },
+  {
+   "url": "https://platform.claude.com/docs/en/release-notes/overview",
+   "title": "Claude Platform release notes (2026-08-27 – 2026-09-03)",
+   "published_at": "2026-09-01",
+   "summary": "Fable 5.1/Mythos 5.1: tool_choice any/tool return 400; thinking blocks readable only by producing-or-newer models and dropped on replay to earlier models; strict prefix-invariance validation (400 when system/tools/earlier messages changed before a replayed thinking block, new accounts ≥2026-08-31); Opus 5 thinking-disabled restricted to effort ≤ high; skills API beta graduation with delete-semantics change (2026-08-27)."
+  },
+  {
+   "url": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
+   "title": "GitHub Copilot weekly releases — August 31",
+   "published_at": "2026-09-04",
+   "summary": "'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows' (GA per 2026-09-02 entry); Claude Fable 5.1, GPT-6 Astra GA, Gemini 3.8 Flash rollout; Agent Merge public preview."
+  }
+ ],
+ "files_written": [
+  "handoff-discovery-01.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Changelog one-liners describe fixes without full advisories; pre-fix impact severity (exploitability, affected versions) is inferred from the fix wording.",
+  "Codex changelog entry texts were truncated at line ends in the fetched rendering (e.g. 'after permission [changes]'); bracketed completions are inferred.",
+  "Copilot 'content exclusions now honored' wording implies but does not explicitly document the prior non-enforcement window in agentic surfaces."
+ ],
+ "recommended_action": "Merge the two high-confidence cross-provider candidates (symlink TOCTOU path bypass; approval-state lifecycle desync) as new provisional problems; apply the material update to P-20260831-60EFB5BF with the 2.1.259/2.1.260 evidence; evaluate the model-generation API-semantics candidate against P-20260831-DE8D86E9 for merge-vs-new; treat the policy-enforcement-gap candidate as lower-confidence pending a second provider instance.",
+ "next_gate": "merge_discovery_candidate",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-symlink-toctou-permission-bypass",
+   "title": "権限・除外チェック時と実アクセス時でsymlink解決が食い違い、承認済みに見えるパス経由で保護対象ファイルへ到達する",
+   "summary": "Two providers fixed the same mechanism in the same week. Claude Code v2.1.253 (early Sept 2026): 'Fixed file tools following symlinks swapped after permission check, risking unauthorized access' — a time-of-check/time-of-use gap where a path is approved, then the symlink is swapped so the file tool operates on a different target. Gemini CLI v0.58.0 (2026-09-01): 'Enforced consistent symlink evaluation in ignore path handling to prevent path bypass' — ignore/exclusion paths evaluated inconsistently against symlinks allowed bypassing protections. Codex CLI 0.151.0 (2026-08-29) similarly 'Improved remote sandbox enforcement using the executor's actual home directory', a path-resolution mismatch between policy and executor. Mechanism: permission/ignore decisions are made on a lexical or check-time path while the filesystem operation resolves symlinks at use time, so protected files are reachable (or protections silently skipped) through approved-looking paths. Distinct from shell-based bypass (P-20260831-AE8A3EE7) and allowlist string-parsing mismatch (P-20260831-60EFB5BF): here the checker and executor disagree on filesystem path identity.",
+   "proposed_category": "I",
+   "problem_type": [
+    "security",
+    "permission-semantics-gap"
+   ],
+   "priority_lanes": [
+    "safety"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "title": "Claude Code v2.1.253",
+     "published_at": "2026-09-01",
+     "summary": "'Fixed file tools following symlinks swapped after permission check, risking unauthorized access'"
+    },
+    {
+     "url": "https://geminicli.com/docs/changelogs/latest/",
+     "title": "Gemini CLI v0.58.0",
+     "published_at": "2026-09-01",
+     "summary": "'Enforced consistent symlink evaluation in ignore path handling to prevent path bypass'"
+    },
+    {
+     "url": "https://developers.openai.com/codex/changelog",
+     "title": "Codex CLI 0.151.0",
+     "published_at": "2026-08-29",
+     "summary": "'Improved remote sandbox enforcement using the executor's actual home directory'"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code",
+     "Gemini CLI",
+     "OpenAI Codex CLI"
+    ],
+    "models": []
+   },
+   "confidence": "high",
+   "material_change": false,
+   "status": "candidate"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-approval-state-lifecycle-desync",
+   "title": "承認・レビュー状態がCompaction・再起動・Fork・権限変更・Dispatchと同期せず、失効すべき承認が残るか有効な承認が消える",
+   "summary": "Cross-provider cluster of fixes (2026-08-29 → 2026-09-03) showing that agent approval/review state is not kept consistent with session lifecycle events, failing both open and closed. Fail-open: Codex CLI 0.151.0 (2026-08-29) 'Prevented stale Guardian classifications from authorizing actions after permission [changes]' — a cached approval classification kept authorizing actions after the permission profile changed; Claude Code v2.1.257 'Fixed sessions dispatched from agent view overriding target directory's permission mode' — dispatch context carried the wrong permission mode into a target directory. Fail-closed/lost state: Codex 0.153.0 (2026-09-03) 'Guardian review history survives compaction, restarts, and user-created forks' — review history was previously lost on compaction, restart, and fork; Codex 0.152.0 (2026-09-01) 'Automatic approval reviews preserve user instructions, answers, and valid [context]' — automated reviews dropped the user's instructions and prior answers; Claude Code v2.1.258 'Fixed remote/scheduled sessions failing after re-sent permission approval couldn't be applied'. Mechanism: approval decisions are stored as session-local ephemeral state with no invalidation/persistence contract tied to permission-profile changes, context compaction, restarts, forks, or cross-context dispatch — so security review either re-authorizes stale decisions or silently loses valid ones, and users cannot tell which regime they are in.",
+   "proposed_category": "I",
+   "problem_type": [
+    "permission-semantics-gap",
+    "state-consistency"
+   ],
+   "priority_lanes": [
+    "safety",
+    "reliability"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://developers.openai.com/codex/changelog",
+     "title": "Codex CLI 0.151.0 / 0.152.0 / 0.152.1 / 0.153.0",
+     "published_at": "2026-09-03",
+     "summary": "Stale Guardian classifications authorizing actions after permission changes (0.151.0); automatic approval reviews dropping user instructions/answers (0.152.0); Guardian review history not surviving compaction/restarts/forks (0.153.0)."
+    },
+    {
+     "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "title": "Claude Code v2.1.257 / v2.1.258",
+     "published_at": "2026-09-03",
+     "summary": "Dispatched sessions overriding target directory's permission mode (2.1.257); remote/scheduled sessions failing after re-sent permission approval couldn't be applied (2.1.258)."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "OpenAI Codex CLI",
+     "Claude Code"
+    ],
+    "models": []
+   },
+   "confidence": "high",
+   "material_change": false,
+   "status": "candidate"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-allowdeny-rule-parse-gaps",
+   "title": "許可・拒否ルールの解釈系ギャップ追加事例：deny規則がオプション値を素通し、括弧パスがsandboxで無言に脱落、隠れたコマンド置換を自動承認",
+   "summary": "Material update to P-20260831-60EFB5BF (command allowlist interpreted differently from the execution engine). Claude Code shipped four fixes for the same mechanism in one week: v2.1.259 'Fixed Bash Read() deny rules not covering files given as option values or operands' (deny rules bypassed when a protected file appears as a command option value or operand rather than a recognized argument position); v2.1.260 'Fixed Edit/Write/Read rules with parentheses in path being dropped or ignored by sandbox' (rules silently discarded, so the sandbox enforced less than configured); v2.1.260 'Fixed one uncompilable file permission pattern failing all file edits; such rules now guard' (a single malformed pattern collapsed the whole rule set); v2.1.260 'Fixed Bash auto-approving zsh commands hiding command substitution in specific variable assignments' (auto-approval failed to see command substitution nested in variable assignments). Confirms the cataloged mechanism is broad — parsing gaps exist on both allow and deny sides, fail both open and closed, and were still being discovered in the 2026-09 window; the provider fixed these specific instances.",
+   "proposed_category": "I",
+   "problem_type": [
+    "security",
+    "permission-semantics-gap"
+   ],
+   "priority_lanes": [
+    "safety"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "title": "Claude Code v2.1.259 / v2.1.260",
+     "published_at": "2026-09-05",
+     "summary": "Read() deny-rule operand/option-value bypass; parenthesized path rules dropped by sandbox; uncompilable pattern failing all edits; zsh hidden command-substitution auto-approved."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude Code"
+    ],
+    "models": []
+   },
+   "confidence": "high",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "P-20260831-60EFB5BF"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-model-generation-api-semantics",
+   "title": "APIパラメータ・会話再生の有効性がモデル世代単位で変わり、呼び出し側を変えないモデル切替・Fallback・文脈編集が400や無言のBlock破棄で壊れる",
+   "summary": "With Claude Fable 5.1 / Mythos 5.1 (2026-09-01), parameter validity and conversation-replay validity became model-generation-scoped: 'tool_choice types any and tool aren't supported and return a 400 error' (harnesses forcing tool use break on model upgrade with no caller change); 'Thinking blocks... are preserved only for the model that produced them or a newer one: earlier models can't read them, and the API drops one replayed to an earlier model' (silent content drop on model downgrade/fallback mid-conversation — the exact path overload fallbacks take); 'for new accounts created on or after August 31, 2026, replaying one after the system prompt, tools, or an earlier message changed returns a 400 error' (hard failure for harnesses that edit system prompts/tools mid-session, e.g. compaction, dynamic tool registration, turn-scoped instructions — and account-creation-date-conditional, so behavior differs across accounts running identical code). Related earlier instance: Opus 5 rejects thinking-disabled at effort xhigh/max (Claude Code itself shipped the client-side fix in v2.1.254). Mechanism: the same API version now enforces per-model-generation and per-account-cohort semantics, so mid-session model switching, fallback, and history/prompt mutation — standard coding-agent harness techniques — become version-skew failure surfaces. Adjacent to P-20260831-DE8D86E9 (beta→GA/SDK-major silent breakage) but the trigger is model selection, not API/SDK version; evaluate merge vs new at merge gate.",
+   "proposed_category": "K",
+   "problem_type": [
+    "breaking-change",
+    "silent-behavior-change"
+   ],
+   "priority_lanes": [
+    "reliability"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://platform.claude.com/docs/en/release-notes/overview",
+     "title": "Claude Platform release notes 2026-09-01 (Fable 5.1 / Mythos 5.1)",
+     "published_at": "2026-09-01",
+     "summary": "tool_choice any/tool → 400; thinking blocks unreadable by earlier models and dropped on downgrade replay; prefix-invariance 400 for accounts created ≥ 2026-08-31 when system/tools/messages changed before a replayed thinking block."
+    },
+    {
+     "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "title": "Claude Code v2.1.254",
+     "published_at": "2026-09-02",
+     "summary": "'Fixed Opus 5 requests failing when effort was xhigh/max with thinking disabled' — client-side fix for the same model-scoped parameter-validity divergence."
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "Claude API harnesses",
+     "Claude Code",
+     "Claude Agent SDK"
+    ],
+    "models": [
+     "claude-fable-5-1",
+     "claude-mythos-5-1",
+     "claude-opus-5"
+    ]
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260907-exclusion-policy-agent-surface-gap",
+   "title": "組織のContent Exclusion・Logging統制が新しいAgent Surfaceへ未実装のまま展開され、除外対象コードや生API BodyがContext・Logへ流入する",
+   "summary": "Enterprise data-governance policies are enforced on older product surfaces but silently unenforced on newer agentic ones until later patched. GitHub changelog 2026-09-02/2026-09-04: 'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows' — content exclusions reached GA in Copilot app/CLI only in this window, implying agentic workflows previously pulled excluded (sensitive) code into model context despite org policy configured for the IDE surfaces. Same-week sibling in Claude Code v2.1.253: 'Fixed project settings enabling detailed tracing or raw API body logging without proper controls' — repository-checked project settings could enable raw API body logging (prompts, code, potentially secrets written to logs) without the control gates that govern such telemetry. Mechanism: policy enforcement (exclusions, telemetry controls) is implemented per-surface, and fast-shipping agent surfaces launch before inheriting it, creating a window where admins believe policy applies but the agent surface ignores it. Related to I05/I06/I14 as impact, but the mechanism (per-surface policy-enforcement lag) is not separately cataloged. Medium confidence: prior non-enforcement is implied by the GA wording, not documented as an advisory.",
+   "proposed_category": "I",
+   "problem_type": [
+    "silent-behavior-change",
+    "governance-gap"
+   ],
+   "priority_lanes": [
+    "safety"
+   ],
+   "discovered_at": "2026-09-07T19:10:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
+     "title": "GitHub Copilot weekly releases — August 31",
+     "published_at": "2026-09-04",
+     "summary": "'Copilot app and CLI now honor content exclusions, keeping sensitive code out of context across agentic workflows'; separate 2026-09-02 entry: 'Content exclusions generally available in Copilot app and CLI'."
+    },
+    {
+     "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+     "title": "Claude Code v2.1.253",
+     "published_at": "2026-09-01",
+     "summary": "'Fixed project settings enabling detailed tracing or raw API body logging without proper controls'"
+    }
+   ],
+   "source_refs": [
+    {
+     "source_id": "official-model-and-agent-providers"
+    }
+   ],
+   "affected_scope": {
+    "tools": [
+     "GitHub Copilot app/CLI",
+     "GitHub Copilot coding agent",
+     "Claude Code"
+    ],
+    "models": []
+   },
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate"
+  }
+ ]
+}

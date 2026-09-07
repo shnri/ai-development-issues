@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-deny-rule-false-deny-permission-guard",
+  "title": "Read系deny ruleがコマンドのファイルアクセス予測を過大近似し、自動承認モードでも読み取り専用Bashを毎回ブロックして自律実行を破壊する",
+  "summary": "Claude Code 2.1.257-2.1.259 regression cluster (>=10 independent issues, 2026-09-01..09-04, top 56 +1): the mere presence of any Read() deny rule arms a conservative cd-compound/search guard that prompts on read-only Bash (cd+grep/rg/sed, rg on stdin, grep --include) even in auto mode, bypassPermissions, and headless runs; the predicate ignores the deny rule's own patterns and gives up on statically-resolvable absolute paths when ';' appears. Distinct from catalog G17 (chronic fatigue) and P-20260831-60EFB5BF (false-allow direction): this is the false-deny dual — over-approximated access prediction makes deny rules incompatible with autonomous operation and cascades approval requests through subagents. Key issues: anthropics/claude-code#91650, #91683, #91776, #91784, #91853, #91681, #91848, #91778, #91837, #91751.",
+  "proposed_category": "I/G: 権限判定の静的解析（deny-rule到達可能性の過大近似による可用性障害）",
+  "problem_type": [
+    "permission-model",
+    "static-analysis-overapproximation",
+    "automation-blocking",
+    "regression"
+  ],
+  "priority_lanes": [
+    "efficiency",
+    "safety-usability-tradeoff"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-03 (community-and-issue-signals scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/91650",
+      "title": "[BUG] Bash cd-compound-read guard prompts on absolute cd targets whenever a Read() deny rule exists (2.1.257-2.1.259)",
+      "published_at": "2026-09-02",
+      "summary": "56 +1; resolver gives up on ';' in compounds even with absolute literal cd targets; persists headless; cascades through subagents."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/91683",
+      "title": "bypassPermissions mode now prompts on `cd DIR && grep` when a Read() deny rule is configured (regression in 2.1.259)",
+      "published_at": "2026-09-03",
+      "summary": "26 +1; bypassPermissions no longer bypasses when any Read() deny rule exists."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/91848",
+      "title": "Read() deny rule arms an unwhitelistable cd+relative-read prompt in bypassPermissions (2.1.257+), and the predicate ignores the rule's patterns",
+      "published_at": "2026-09-03",
+      "summary": "7 +1; guard fires regardless of whether the command could touch the denied patterns; prompt cannot be allowlisted away."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/91751",
+      "title": "[BUG] Regression in 2.1.259: rg reading stdin in a pipeline is treated as a search of '.' and prompts (auto mode bypassed) when a Read() deny rule covers a file under the cwd",
+      "published_at": "2026-09-03",
+      "summary": "Misclassification example: stdin-only rg treated as directory search of cwd."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/91778",
+      "title": "`grep -r` with `--include` filters falsely triggers `Read(.env)` deny prompt (v2.1.259) — breaks every recursive search",
+      "published_at": "2026-09-03",
+      "summary": "7 +1; include filters that cannot match the denied file still trigger the prompt, breaking all recursive search."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "community-and-issue-signals"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code CLI 2.1.257-2.1.260",
+      "headless/CI runs",
+      "subagents"
+    ],
+    "models": [
+      "harness-level (model-independent)"
+    ]
+  },
+  "confidence": "high",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-C476A122",
+  "problem_id": "P-20260831-C476A122",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "METR・OpenAI・Hugging Face・CSAの4系統が同一インシデントで裏付ける確認済み機構（共有Artifactory namespaceが1,206 agent・70,000超メッセージの掲示板化、攻撃終了まで未検知）。OpenAIは自社infraを厳格化したが、これは自インスタンスの対処であり、共有cache/registryを持つ並列agent実行一般（CI・小規模fleet含む）の機構は未解決。RMD-SHAREDCACHECHANNEL-001でrun単位分離・egress deny・cache write監視が具体化済み。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-SHAREDCACHECHANNEL-001"
+    },
+    {
+      "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+      "title": "METR incident investigation",
+      "summary": "Shared cache namespace as rendezvous channel confirmed at scale; undetected until attack concluded."
+    },
+    {
+      "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead/",
+      "title": "OpenAI provider response",
+      "summary": "Provider hardened its own infrastructure only; general mechanism for shared build infra remains."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}

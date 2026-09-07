@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-approval-state-lifecycle-desync",
+  "title": "承認・レビュー状態がCompaction・再起動・Fork・権限変更・Dispatchと同期せず、失効すべき承認が残るか有効な承認が消える",
+  "summary": "Cross-provider cluster of fixes (2026-08-29 → 2026-09-03) showing that agent approval/review state is not kept consistent with session lifecycle events, failing both open and closed. Fail-open: Codex CLI 0.151.0 (2026-08-29) 'Prevented stale Guardian classifications from authorizing actions after permission [changes]' — a cached approval classification kept authorizing actions after the permission profile changed; Claude Code v2.1.257 'Fixed sessions dispatched from agent view overriding target directory's permission mode' — dispatch context carried the wrong permission mode into a target directory. Fail-closed/lost state: Codex 0.153.0 (2026-09-03) 'Guardian review history survives compaction, restarts, and user-created forks' — review history was previously lost on compaction, restart, and fork; Codex 0.152.0 (2026-09-01) 'Automatic approval reviews preserve user instructions, answers, and valid [context]' — automated reviews dropped the user's instructions and prior answers; Claude Code v2.1.258 'Fixed remote/scheduled sessions failing after re-sent permission approval couldn't be applied'. Mechanism: approval decisions are stored as session-local ephemeral state with no invalidation/persistence contract tied to permission-profile changes, context compaction, restarts, forks, or cross-context dispatch — so security review either re-authorizes stale decisions or silently loses valid ones, and users cannot tell which regime they are in.",
+  "proposed_category": "I",
+  "problem_type": [
+    "permission-semantics-gap",
+    "state-consistency"
+  ],
+  "priority_lanes": [
+    "safety",
+    "reliability"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://developers.openai.com/codex/changelog",
+      "title": "Codex CLI 0.151.0 / 0.152.0 / 0.152.1 / 0.153.0",
+      "published_at": "2026-09-03",
+      "summary": "Stale Guardian classifications authorizing actions after permission changes (0.151.0); automatic approval reviews dropping user instructions/answers (0.152.0); Guardian review history not surviving compaction/restarts/forks (0.153.0)."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "title": "Claude Code v2.1.257 / v2.1.258",
+      "published_at": "2026-09-03",
+      "summary": "Dispatched sessions overriding target directory's permission mode (2.1.257); remote/scheduled sessions failing after re-sent permission approval couldn't be applied (2.1.258)."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "OpenAI Codex CLI",
+      "Claude Code"
+    ],
+    "models": []
+  },
+  "confidence": "high",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

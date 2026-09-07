@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T191452Z-0091-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-09-07T19:14:52Z",
+  "catalog_revision_before": 90,
+  "catalog_revision_after": 91,
+  "details": {
+    "candidate_id": "DSC-20260907-late-requirement-invalidation",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260907-E23B65A6"
+  }
+}

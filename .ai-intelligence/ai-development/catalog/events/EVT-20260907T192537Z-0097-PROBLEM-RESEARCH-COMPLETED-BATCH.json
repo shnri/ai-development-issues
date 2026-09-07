@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260907T192537Z-0097-PROBLEM-RESEARCH-COMPLETED-BATCH",
+  "event_type": "problem-research-completed-batch",
+  "occurred_at": "2026-09-07T19:25:37Z",
+  "catalog_revision_before": 96,
+  "catalog_revision_after": 97,
+  "details": {
+    "run_id": "MNT-20260907T190654Z",
+    "problem_ids": [
+      "K07",
+      "P-20260831-60EFB5BF",
+      "P-20260907-09AB323A",
+      "P-20260907-139DC981",
+      "P-20260907-211DB41F",
+      "P-20260907-60990370",
+      "P-20260907-CD83ACE2",
+      "P-20260907-D8E5A2E2",
+      "P-20260907-E23B65A6",
+      "P-20260907-EACDFFF4",
+      "P-20260907-F2CB0737",
+      "P-20260907-FE46C48C"
+    ],
+    "outcomes": {
+      "K07": "remedy-found",
+      "P-20260831-60EFB5BF": "remedy-found",
+      "P-20260907-09AB323A": "remedy-found",
+      "P-20260907-139DC981": "remedy-found",
+      "P-20260907-211DB41F": "provider-fixed",
+      "P-20260907-60990370": "remedy-found",
+      "P-20260907-CD83ACE2": "provider-fixed",
+      "P-20260907-D8E5A2E2": "remedy-found",
+      "P-20260907-E23B65A6": "remedy-found",
+      "P-20260907-EACDFFF4": "remedy-found",
+      "P-20260907-F2CB0737": "remedy-found",
+      "P-20260907-FE46C48C": "provider-fixed"
+    },
+    "remedy_ids": [
+      "RMD-ALLOWLISTPARSE-001",
+      "RMD-APPROVALSTATE-001",
+      "RMD-ATTRIBCONFIG-001",
+      "RMD-COVERMARK-001",
+      "RMD-DENYREADGUARD-001",
+      "RMD-K05-001",
+      "RMD-K07-001",
+      "RMD-LATEREQ-001",
+      "RMD-MCPERRACT-001",
+      "RMD-MODELSCOPEDAPI-001",
+      "RMD-QUOTASHIFT-001",
+      "RMD-REVIEWGATE-001",
+      "RMD-SURFACEPARITY-001",
+      "RMD-SYMLINKTOCTOU-001"
+    ],
+    "provider_fixed": [],
+    "conflicts_skipped": [],
+    "invalid_count": 0,
+    "researched_at": "2026-09-07T19:25:37Z"
+  }
+}

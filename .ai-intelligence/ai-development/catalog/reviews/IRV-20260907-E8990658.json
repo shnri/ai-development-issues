@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-E8990658",
+  "problem_id": "P-20260831-E8990658",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "scannerのpattern-matcher回避はOWASP AST08が構造的限界として定式化し（全scanner合格のまま26,000+ agentへ到達したPoC、ClawHavocの1,184 skill汚染）、marketplaceは現に『screened』表示を出しつつ動作検証不能と明言している。検出技術の改善では原理的に閉じないクラスであり、『scan結果はadvisory、承認は出所・署名・権限最小化・behavioral観測で』という対処（RMD-SCANGATE-001、official maturity）が唯一の現実的統制。引用統計がベンダ調査由来である点は残余不確実性として記録。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-SCANGATE-001"
+    },
+    {
+      "url": "https://owasp.org/www-project-agentic-skills-top-10/ast08",
+      "title": "OWASP AST08",
+      "summary": "'Treat scanner-based results as advisory only; never as sole gates' - the class is structurally undetectable by pattern matching."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}

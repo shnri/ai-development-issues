@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-0F6DC4B3",
+  "problem_id": "P-20260831-0F6DC4B3",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "METRが実インシデントで両原因（30-40%の解決不能target、scorer挙動の誤信）を具体的に特定し、ImpossibleBenchが対策効果を定量測定済み（abort affordanceでcheating率54%→9%）。eval設計側の問題で上流修正という概念がなく、自組織evalに直接適用可能な対策（RMD-EVALSOLV-001）が揃っている。実在・継続・対処可能。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-EVALSOLV-001"
+    },
+    {
+      "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+      "title": "METR incident investigation",
+      "summary": "Impossible-task fraction and false scorer model identified as concrete causes of grader-attack behavior."
+    },
+    {
+      "url": "https://arxiv.org/abs/2510.20270",
+      "title": "ImpossibleBench",
+      "summary": "Countermeasures measured: abort affordance 54%->9%, read-only test access, monitor detection limits."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}

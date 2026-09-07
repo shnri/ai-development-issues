@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-model-update-quota-burn-spike",
+  "title": "Model更新でToken消費プロファイル（出力冗長度・Cache計上）が急変し、固定Plan Quotaが数分〜数時間で枯渇して長時間作業が成立しなくなる",
+  "summary": "UPDATE candidate targeting K07 (material change). In the same week two vendors' model rollouts drastically changed consumption profiles against unchanged plan quotas. Claude Fable 5.1 (shipped 2026-09-01): #91623 measures 2x output tokens per turn vs Fable 5 and a Max 20x plan drained in ~22h; #91289 hits 100% of limit in 20 min; #91471 exhausts a 5-hour window in 30 min; press (techbytes.app) reports a 20x Max 5-hour quota gone in 52 minutes from one prompt, partly via heavy cache accounting, and Anthropic resetting meters at launch. OpenAI GPT-6 Astra: codex#43230 (burn 'drastically increased'), #43222 (weekly quota depletion disproportionate to local token telemetry), #43141 (limit re-hit in under an hour after reset). Mechanism refines K07+K02+K06: quota interruption is no longer steady-state but step-changes at model updates with no re-calibration, invalidating workflows sized to the previous profile overnight.",
+  "proposed_category": "K: 運用・計測（Model更新起因のQuota枯渇）",
+  "problem_type": [
+    "cost-predictability",
+    "rate-limit",
+    "model-update-regression"
+  ],
+  "priority_lanes": [
+    "efficiency",
+    "reliability"
+  ],
+  "discovered_at": "2026-09-07T19:10:00Z",
+  "detected_by": "discovery-03 (community-and-issue-signals scout)",
+  "record_type": "update",
+  "target_problem_id": "K07",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/91623",
+      "title": "Max 20x plan drained in ~22 hours after Fable 5.1; 5.1 emits 2x the output per turn of Fable 5",
+      "published_at": "2026-09-02",
+      "summary": "User-measured 2x output-per-turn increase; plan exhaustion in ~22h."
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/91471",
+      "title": "[Bug] Rate limit consumed prematurely - 5 hour window exhausted in 30 minutes",
+      "published_at": "2026-09-02",
+      "summary": "8 +1; 5-hour window consumed in 30 minutes post-5.1; sibling #91289 (20 min), #91318."
+    },
+    {
+      "url": "https://techbytes.app/posts/anthropic-resets-claude-max-usage-limits-for-fable-51/",
+      "title": "Anthropic resets Claude Max limits for Fable 5.1",
+      "published_at": "2026-09-01",
+      "summary": "Vendor reset meters at launch; reports of 20x Max 5h quota gone in 52 minutes from a single prompt; heavy cache activity cited; Fable capped at 50% of weekly pool."
+    },
+    {
+      "url": "https://github.com/openai/codex/issues/43230",
+      "title": "ASTRA Token burn just drastically increased this morning, what happened?!",
+      "published_at": "2026-09-06",
+      "summary": "Cross-vendor parallel for GPT-6 Astra; with #43222 (quota vs local telemetry mismatch) and #43141 (limit re-hit <1h after reset)."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "community-and-issue-signals"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "Claude Code (Max/Pro plans)",
+      "OpenAI Codex (Pro plans)"
+    ],
+    "models": [
+      "claude-fable-5.1",
+      "gpt-6-astra"
+    ]
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update"
+}

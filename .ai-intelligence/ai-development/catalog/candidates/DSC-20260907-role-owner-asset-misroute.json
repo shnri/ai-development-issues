@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260907-role-owner-asset-misroute",
+  "title": "実装ownerのRole名がRole辞書に無いと計画系が実在しない共有Assetとして解決し、guidance系Work Itemが誤った対象・過大なRisk Tierで生成される",
+  "summary": "The ai-development-improvement planner (_planning.py resolve_existing_asset) treats any implementation_owner value not in the hard-coded ROLE_OWNERS set as an existing shared-asset id. Remedies recorded with implementation_owner 'consumer-project' (a consumer-side role used by research workers since 2026-08-31) were routed in run MNT-20260907T190654Z to target kind shared-existing-asset with asset_id 'consumer-project' (no such asset exists in shared-agent-plugins; path resolved to null) at risk tier R2, instead of consumer-configuration guidance at authority tier R0. Three work items (WRK-20260907T192541Z-832AB2C0/-5E10E1A7/-848B110B) were mis-scoped and required controller re-scoping. The documented invariant 'a human role in implementation_owner is never an asset' is enforced only for an enumerated word list, so any unlisted role alias silently produces a wrong target, wrong risk tier, and a release path against a nonexistent asset.",
+  "proposed_category": "Process・Workflow",
+  "problem_type": [
+    "tooling-defect",
+    "routing",
+    "closed-loop-maintenance"
+  ],
+  "priority_lanes": [
+    "Q1"
+  ],
+  "discovered_at": "2026-09-07T19:28:30Z",
+  "detected_by": "controller (maintain run MNT-20260907T190654Z action-loop observation)",
+  "evidence": [
+    {
+      "path": "vendor/shared-agent-plugins/plugins/ai-development-improvement/skills/ai-development-improvement/scripts/_planning.py",
+      "summary": "ROLE_OWNERS set (lines ~25-31) lacks 'consumer-project'/'consumer'; resolve_existing_asset falls through to implementation-owner-asset and returns the role string as asset_id."
+    },
+    {
+      "path": ".ai-intelligence/ai-development/work-items/WRK-20260907T192541Z-832AB2C0.json",
+      "summary": "History shows initial target shared-existing-asset asset_id 'consumer-project' (nonexistent), risk R2, re-scoped by controller to consumer-configuration R0."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "local-project-evidence"
+    }
+  ],
+  "affected_scope": {
+    "tools": [
+      "ai-development-improvement plugin (plan_action.py/action_queue.py planner)"
+    ],
+    "models": []
+  },
+  "confidence": "high",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null
+}

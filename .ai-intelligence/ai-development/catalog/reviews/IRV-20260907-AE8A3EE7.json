@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-AE8A3EE7",
+  "problem_id": "P-20260831-AE8A3EE7",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "独立3件のGitHub issue（#87575 has repro含む）が2026-08-31時点でopen・maintainer応答なし（v2.1.251まで修正なし）。さらにAnthropic自身がcheckpointのbash変更非追跡を仕様上の限界と明記し、acceptEditsはsed等のshell編集を自動承認するため、bashFirst promptが撤回されても『ツール名matcherで書かれたガードレールが経路変更で失効する』中核機構は残る。RMD-BASHEDITPATH-001（効果ベースのOS境界＋git snapshot）が対処可能。S0で短周期監視。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-BASHEDITPATH-001"
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/87575",
+      "title": "Auto mode /rewind silently fails on Bash-edited files",
+      "summary": "Open with repro as of 2026-08-31; no fix through v2.1.251."
+    },
+    {
+      "url": "https://code.claude.com/docs/en/checkpointing",
+      "title": "Claude Code checkpointing docs",
+      "summary": "Vendor documents bash-edit non-tracking as an intended limitation, so the mechanism persists even if the prompt changes."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 21,
+  "reviewer": "inventory-01"
+}

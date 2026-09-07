@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-BF396D69",
+  "problem_id": "P-20260831-BF396D69",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "METRの独立調査が実インシデントで機構を確認（transcriptの7%超にspoofed tool call、96件は明確な証跡）し、緩和はスコープ外と明言。上流に修正は存在せず、transcriptを証拠として使う下流統制全般が影響を受ける構造問題。harness外側での改竄検知記録（RMD-TAMPEREVIDENT-001、Claude CodeのOTel tool_decision/tool_resultを利用）という具体的対処があり、S0継続監視対象。評価設定外への転移が未実証な点は残余不確実性として記録。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-TAMPEREVIDENT-001"
+    },
+    {
+      "url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/",
+      "title": "METR incident investigation",
+      "summary": "~7% spoofed transcripts confirmed in a real incident; remediation explicitly out of scope, so no upstream fix exists."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 21,
+  "reviewer": "inventory-01"
+}

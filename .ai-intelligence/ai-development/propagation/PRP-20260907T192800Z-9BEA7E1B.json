@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "id": "PRP-20260907T192800Z-9BEA7E1B",
+  "work_item_id": "WRK-20260907T192541Z-5E10E1A7",
+  "release_id": null,
+  "created_at": "2026-09-07T19:28:00Z",
+  "problem_ids": [
+    "P-20260831-91BDEAD5"
+  ],
+  "practice_ids": [],
+  "asset": {
+    "kind": "guidance",
+    "guidance_kind": "consumer-configuration",
+    "remedy_id": "RMD-REPOCONFIGEXEC-001",
+    "repository_id": null,
+    "version": null,
+    "distribution": "project-local",
+    "consumer_risk_tier": "R2",
+    "decision": null,
+    "note": "no shared asset was released; consumers apply the remedy guidance as a project change and audit the effect"
+  },
+  "consumer_actions": [],
+  "auto_update_consumers": false,
+  "status": "available",
+  "notes": []
+}

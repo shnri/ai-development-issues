@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260907-DE8D86E9",
+  "problem_id": "P-20260831-DE8D86E9",
+  "reviewed_at": "2026-09-07T19:10:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "2026-08-27のbeta/stable namespace統合でclient.beta.skills.delete()の破壊範囲が呼び出し側無変更のまま拡大した具体例があり、versioning保証はSDK majorとbeta namespaceを明示的に対象外とするため、同型の変化は今後も構造的に発生し続ける。型検査もdiffレビューも検出できない性質が問題の核であり、MIGRATION.md等の公式手順はremedyの部品ではあるが機構の解消ではない。RMD-BETAGA-001で対処手順が確立。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-BETAGA-001"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/release-notes/api",
+      "title": "Claude Platform release notes 2026-08-27",
+      "summary": "Canonical instance: skills.delete() semantics widened with unchanged signature."
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/api/versioning",
+      "title": "API versioning policy",
+      "summary": "anthropic-version guarantee excludes SDK majors and the beta namespace, so recurrence is structural."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "inventory-01"
+}
