@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-INSTRSIZE-001",
+  "problem_ids": [
+    "P-20260928-5AA04248"
+  ],
+  "summary": "Harnessの指示文書サイズ上限 (Codexはproject_doc_max_bytes既定32KiB) を超えた分は通知なく破棄されるため、(1) 生成/連結したAGENTS.mdのbyte数をCIで上限未満に検査して超過時はfailさせ、(2) 重要規則を先頭に置き、(3) 指示を階層ディレクトリのAGENTS.mdへ分割するか、必要に限り~/.codex/config.tomlのproject_doc_max_bytesを引き上げる。連結型generator (Ruler等) を使う場合は出力サイズ警告が無い前提でgate側に検査を置く。",
+  "remedy_type": "test-strategy",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/intellectronica/ruler/issues/791",
+      "observed_at": "2026-09-26",
+      "summary": "Ruler連結の50,837 bytesで6部中4部のみ可視、857KB出力ではモデル到達4.6%。警告なし。upstream(Ruler)側の修正は未確認(issueはopen、応答なし)。"
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-09-28",
+      "summary": "Codex公式docs: project_doc_max_bytes既定32KiB、Git rootからcwdへ連結し合計がlimitに達すると以降のfileを追加しない。推奨はlimit引き上げまたはnested directoryへの分割。truncation時の警告は文書上明記されていない。"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "CodexでAGENTS.mdを使い、単一または連結生成で32KiBに近づく/超える",
+      "Ruler等で複数の.mdを1つのAGENTS.mdへ生成している"
+    ],
+    "not_applicable_when": [
+      "他harnessで別のサイズ上限・読み込み方式 (未確認、各docsで確認要)",
+      "AGENTS.mdが常に十分小さい"
+    ]
+  },
+  "expected_effect": {
+    "primary": "末尾の規則が黙って脱落する事態をCI時点で検出/回避。指標: 生成AGENTS.mdのbyte数/limit比、limit超過でのCI fail、末尾規則がmodelに届いているかのcanary規則での確認。",
+    "adjacent_risks": [
+      "limit引き上げはcontext消費と規則の希釈を増やす",
+      "nested分割は作業ディレクトリ次第で読み込まれる規則が変わる"
+    ]
+  },
+  "implementation_owner": "consumer-project",
+  "fix_effort": 1,
+  "reversible": true,
+  "cost": "CIのbyte数チェック1本と指示文書の再構成",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "Ruler等のgeneratorの出力だけを見てeffective limitを確認しない",
+    "limit引き上げのみで放置し規則が肥大化し続ける"
+  ],
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "Codexが切り捨て時に警告を出すようになった/既定limitが変わった",
+    "Rulerがサイズ警告やproject_doc_max_bytes設定生成を実装した",
+    "他harnessで同種の黙示的サイズ上限が報告された"
+  ]
+}

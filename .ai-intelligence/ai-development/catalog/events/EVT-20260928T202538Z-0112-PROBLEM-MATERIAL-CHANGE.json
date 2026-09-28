@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202538Z-0112-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-09-28T20:25:38Z",
+  "catalog_revision_before": 111,
+  "catalog_revision_after": 112,
+  "details": {
+    "candidate_id": "DSC-20260928-owasp-2026-excessive-agency-rank3",
+    "decision": "update",
+    "target_problem_id": "I03"
+  }
+}

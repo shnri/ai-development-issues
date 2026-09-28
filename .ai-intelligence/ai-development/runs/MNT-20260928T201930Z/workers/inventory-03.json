@@ -1,0 +1,394 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-03",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "G24",
+  "I01",
+  "I02",
+  "I04",
+  "I05",
+  "I06",
+  "I07",
+  "I08",
+  "I09",
+  "I10",
+  "I11",
+  "I12",
+  "I13",
+  "I14",
+  "I15",
+  "I16",
+  "I17",
+  "I18"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "18 problems, all status=active, last reviewed 2026-08-15, due 2026-09-14 (overdue)",
+  "All evidence dated 2026-08-15; no conflicting evidence recorded"
+ ],
+ "inferences": [
+  "No concrete evidence to change any status; re-confirm active with fresh reviewed_at"
+ ],
+ "evidence": [
+  {
+   "title": "Catalog records",
+   "summary": "Reviewed inventory-03-problems.json only; no web search performed (evidence under 60 days old)."
+  }
+ ],
+ "files_written": [
+  "inventory-03.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Judged from recorded problem records only; remedy records, findings and prior reviews were not opened",
+  "No external verification of vendor changes since 2026-08-15"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-G24",
+   "problem_id": "G24",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "7 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['F2']; kinds ['external-problem-set', 'remedy-research']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I01",
+   "problem_id": "I01",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "4 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I02",
+   "problem_id": "I02",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "6 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I04",
+   "problem_id": "I04",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "4 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I05",
+   "problem_id": "I05",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "6 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I06",
+   "problem_id": "I06",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "4 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I07",
+   "problem_id": "I07",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "4 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['official-release-note', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I08",
+   "problem_id": "I08",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "3 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I09",
+   "problem_id": "I09",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "4 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I10",
+   "problem_id": "I10",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "5 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I11",
+   "problem_id": "I11",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "5 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0', 'F2']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I12",
+   "problem_id": "I12",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "4 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0', 'Q1']; kinds ['official-release-note', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I13",
+   "problem_id": "I13",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "3 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I14",
+   "problem_id": "I14",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "4 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I15",
+   "problem_id": "I15",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "5 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0', 'F2']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I16",
+   "problem_id": "I16",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "9 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['?', 'official-release-note', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I17",
+   "problem_id": "I17",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "6 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-I18",
+   "problem_id": "I18",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+   "evidence": [
+    {
+     "title": "Recorded evidence (2026-08-15)",
+     "summary": "3 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+  }
+ ]
+}

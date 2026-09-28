@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202538Z-0114-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-09-28T20:25:38Z",
+  "catalog_revision_before": 113,
+  "catalog_revision_after": 114,
+  "details": {
+    "candidate_id": "DSC-20260928-scoped-looking-preapproval-unpinned-mcp",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260928-0F54346C"
+  }
+}

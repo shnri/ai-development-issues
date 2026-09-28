@@ -1,0 +1,449 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-07",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "A01",
+  "A02",
+  "A03",
+  "A04",
+  "A05",
+  "A06",
+  "A07",
+  "A10",
+  "A11",
+  "A12",
+  "A14",
+  "A15",
+  "A09",
+  "A13"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "All 14 problems are active, category A (spec/requirements), last reviewed 2026-08-15, evidence dated 2026-08-15 (~44 days).",
+  "No conflicting or resolving evidence recorded."
+ ],
+ "inferences": [
+  "Mechanisms are structural/amplifying and vendor-independent; re-confirm active."
+ ],
+ "evidence": [
+  {
+   "title": "Recorded evidence",
+   "summary": "arXiv 2605.01604 and 2605.29442 plus remedy records; remedies mostly candidate maturity, not invalidated."
+  }
+ ],
+ "files_written": [
+  "inventory-07.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Judged from recorded evidence only; no web searches; remedy records not individually re-read."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A01",
+   "problem_id": "A01",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A01-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A01-002"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A11-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A02",
+   "problem_id": "A02",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A07-002"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A05-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A03",
+   "problem_id": "A03",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A07-002"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A05-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A04",
+   "problem_id": "A04",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A04-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A04-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A05",
+   "problem_id": "A05",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A05-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A05-002"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A01-003"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A06",
+   "problem_id": "A06",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A06-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A07-002"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A14-001"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A07",
+   "problem_id": "A07",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A07-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A07-002"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A05-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A10",
+   "problem_id": "A10",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A10-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A01-002"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A11-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A11",
+   "problem_id": "A11",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A11-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A11-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A12",
+   "problem_id": "A12",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A12-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A11-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A14",
+   "problem_id": "A14",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A14-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A13-001"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A15",
+   "problem_id": "A15",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。 remedyはdecision-required(signal)で人間裁定が必要なため短めに再review。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A15-001"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A09",
+   "problem_id": "A09",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A09-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A09-002"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-A13",
+   "problem_id": "A13",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "構造的・増幅型のメカニズムで特定のmodel/tool/surfaceに依存せず、解消・非再現の証拠がない。報告の不在は解決の証拠ではないため現状statusを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-A14-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-A13-001"
+    },
+    {
+     "title": "Recorded structural evidence",
+     "summary": "2026-08-15 research (arXiv 2605.01604 / 2605.29442, remedy research) shows mechanism is structural to agentic spec workflows; no vendor fix or non-reproduction evidence. Evidence ~44 days old, not fast-moving vendor behavior, so no web search."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-07"
+  }
+ ]
+}

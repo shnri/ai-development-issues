@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-scoped-looking-preapproval-unpinned-mcp",
+  "title": "Scope付きに見えるShell事前承認とVersion未固定のMCP宣言が、共有Agent設定を通じて任意実行・供給網露出になる",
+  "summary": "arXiv 2609.07360 (2026-09-07 v1, v3 09-25) は公開3,171 Repository(2,660 agent setup, 511 skill collection)を走査。MCP package宣言の9.8%がversion未固定、3.1%が'Bash(python:*)'等のScope付きに見えて実際は任意実行を許す許可、3.8%のSkillが導入者へshell権限を事前承認、と報告。Skillは作成物を宣言できないため導入時に静的解析で副作用を把握できない。未検証の検出器出力は有病率を過大評価(25.5%対検証後18.4%)。機構: 許可UIの見た目のScopeと実効Capabilityが乖離し、Lockfile不在の共有設定が供給網経路になる。",
+  "problem_type": [
+    "security",
+    "supply-chain",
+    "permission"
+  ],
+  "priority_lanes": [
+    "safety",
+    "foundation"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+  "evidence": [
+    {
+      "url": "https://arxiv.org/html/2609.07360v1",
+      "title": "Scanning the Harness: An Empirical Study of Supply-Chain Defects in AI Coding-Agent Configurations",
+      "published_at": "2026-09-07",
+      "summary": "3,171 repos; 9.8% unpinned MCP, 3.1% wildcard-exec permissions, 3.8% skill shell preapproval; raw 25.5% vs validated 18.4%."
+    }
+  ],
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "I07 (malicious skill/MCP) and P-E8990658 (scanner pass) and P-60EFB5BF (allowlist parsing) are adjacent, but the benign-default mechanism (scoped-looking wildcard grants, unpinned MCP, skills preapproving shell at install) with measured prevalence is not covered. Could alternatively be merged as update to I07/I03.",
+  "proposed_category": "I"
+}

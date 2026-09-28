@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202538Z-0104-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-09-28T20:25:38Z",
+  "catalog_revision_before": 103,
+  "catalog_revision_after": 104,
+  "details": {
+    "candidate_id": "DSC-20260928-auto-mode-denial-retry-loop",
+    "decision": "update",
+    "target_problem_id": "G06"
+  }
+}

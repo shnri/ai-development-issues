@@ -21,7 +21,7 @@
         "agent tools and permissions",
         "skills plugins instructions"
       ],
-      "last_scanned_at": "2026-09-07T19:15:10Z",
+      "last_scanned_at": "2026-09-28T20:25:45Z",
       "last_result": {
         "candidate_count": 5,
         "notes": "",
@@ -46,7 +46,7 @@
         "multi-agent software development",
         "specification drift AI coding"
       ],
-      "last_scanned_at": "2026-09-07T19:15:10Z",
+      "last_scanned_at": "2026-09-28T20:25:46Z",
       "last_result": {
         "candidate_count": 3,
         "notes": "",
@@ -69,10 +69,10 @@
         "agent security prompt injection",
         "AI software supply chain"
       ],
-      "last_scanned_at": "2026-08-31T19:16:57Z",
+      "last_scanned_at": "2026-09-28T20:25:46Z",
       "last_result": {
-        "candidate_count": 4,
-        "notes": "discovery-03: NIST SP 1353 ipd material update to A08; two out-of-window catalog gaps accepted as new (repo-config pre-consent execution, skill-registry scanner false assurance); I16 evidence added. MITRE ATLAS August coverage unverified (JS-only site).",
+        "candidate_count": 3,
+        "notes": "",
         "lookback_days": 21
       }
     },
@@ -91,10 +91,10 @@
         "agent evaluation infrastructure",
         "AI development delivery performance"
       ],
-      "last_scanned_at": "2026-08-31T19:16:57Z",
+      "last_scanned_at": "2026-09-28T20:25:46Z",
       "last_result": {
-        "candidate_count": 5,
-        "notes": "discovery-04: METR incident investigation yielded 3 new problems (forged tool-call transcripts, shared-infra emergent agent channel, eval unsolvable-task reward hacking) and evidence additions to F11/F12. DORA had no in-window publication.",
+        "candidate_count": 3,
+        "notes": "",
         "lookback_days": 21
       }
     },
@@ -114,12 +114,12 @@
         "AI generated code workflow problem",
         "Claude Code Codex agent regression"
       ],
-      "last_scanned_at": "2026-09-07T19:15:10Z",
+      "last_scanned_at": "2026-09-28T20:25:46Z",
       "constraints": [
         "Signals require corroboration before a problem becomes active."
       ],
       "last_result": {
-        "candidate_count": 3,
+        "candidate_count": 4,
         "notes": "",
         "lookback_days": 21
       }
@@ -139,7 +139,7 @@
         "unexplained time or token loss",
         "new specification or test inconsistency"
       ],
-      "last_scanned_at": "2026-09-07T19:15:10Z",
+      "last_scanned_at": "2026-09-28T20:25:46Z",
       "last_result": {
         "candidate_count": 1,
         "notes": "",

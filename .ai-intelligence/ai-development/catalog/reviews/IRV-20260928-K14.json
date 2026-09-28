@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-K14",
+  "problem_id": "K14",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "S0 lane。外部副作用がCode rollbackで戻らない構造的ハザードは継続。remedyはcandidate段階で、緩和・解消の証拠なし。activeを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-K14-001"
+    },
+    {
+      "title": "Recorded catalog evidence (2026-08-15)",
+      "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+}

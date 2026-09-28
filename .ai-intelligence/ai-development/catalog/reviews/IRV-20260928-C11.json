@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-C11",
+  "problem_id": "C11",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "2026-08-15のremedy research以降(約44日)、解消・緩和を示す具体的証拠なし。機構は現行条件で存続しており、無報告は解決を意味しないためactiveを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-C11-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-C07-001"
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 60,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-09"
+}

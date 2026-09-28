@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-AGENTCLOAK-001",
+  "problem_ids": [
+    "P-20260928-09CA0B06"
+  ],
+  "summary": "agent向けcloaking (UA/IP等でagent取得だけに別内容を返す) は、人間が同URLを目視しても検出できないため、検証を目視に依存しない: (1) 取得内容を命令ではなくuntrusted dataとして扱い、fetch系toolの結果からtool実行・設定変更・依存追加を直接誘発させない (permission gate、egress/domain allowlist、RMD-I04-001系の承認)。(2) 依存・API仕様・installコマンドはレジストリ、公式repo、versionピン、lockfile、署名など、内容が第三者のUA判定に依存しない一次ソースで確認する。(3) 重要な参照は二重取得 (agent UAとbrowser UA、別egress IP) して差分を比較し、乖離を警告する。(4) 生成・取得内容に対するguardrail (ATLAS AML.M0020) を併用する。ATLAS v2026.09は新技法AML.T0134と新mitigation AML.M0039 (AI Honeypots) を追加したが、cloakingを直接塞ぐ確立済みvendor機能は確認できていない。",
+  "remedy_type": "process",
+  "maturity": "signal",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "standards-report",
+      "reference": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+      "observed_at": "2026-09-28",
+      "summary": "ATLAS v2026.09 adds AML.T0134 AI Targeted Cloaking, new mitigation AML.M0039 AI Honeypots and updated AML.M0020 Generative AI Guardrails; release notes list no cloaking-specific mitigation."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/pdf/2509.00124",
+      "observed_at": "2026-09-28",
+      "summary": "'A Whole New World: Creating a Parallel-Poisoned Web Only AI-Agents Can See' (2025) demonstrates agent-only content via fingerprinting; proposed defenses (detection of content divergence, isolation, content-integrity verification) are future work, not evaluated as effective."
+    },
+    {
+      "kind": "community",
+      "reference": "https://jfrog.com/blog/parallel-poison-web-for-ai-agents/",
+      "observed_at": "2026-09-28",
+      "summary": "Vendor write-up of the same attack; illustrative, not a validated control."
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "agentが外部Web・docs・パッケージ説明・API docsをfetchして判断や実装に使う",
+      "人間のreviewがURLを開いて確認することに依存している"
+    ],
+    "not_applicable_when": [
+      "取得元が自組織管理のcontentのみ",
+      "fetch/browse toolを持たないセッション"
+    ]
+  },
+  "expected_effect": {
+    "primary": "cloakingで汚染された取得内容が、検証されないままcode・依存・設定へ流入しない。指標: 二重取得差分の検出件数、一次ソース確認を経た依存追加の割合、fetch由来actionの承認率。",
+    "adjacent_risks": [
+      "二重取得のコストと偽陽性 (personalization・A/Bテスト)",
+      "agent UAの偽装を隠す二重取得はcloakerに検知され得る"
+    ],
+    "confidence": "signal"
+  },
+  "risks": [
+    "cloaker がbrowser風UA・住宅IPを判別できる場合、二重取得でも差分が出ない",
+    "確立された定量評価が無い (confidence low)",
+    "AI Honeypotsは検知・観測用でありcloaking自体は防がない"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "vendorがagent fetchのUA/IP開示や取得内容の整合検証を機能化した場合",
+    "ATLASがAML.T0134に固有のmitigationを追加した場合",
+    "開発文脈での実インシデント報告が出た場合"
+  ]
+}

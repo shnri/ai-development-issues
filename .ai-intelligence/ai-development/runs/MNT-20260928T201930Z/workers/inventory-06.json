@@ -1,0 +1,415 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-06",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "P-20260831-AE8A3EE7",
+  "P-20260831-BF396D69",
+  "P-20260907-B8D227AC",
+  "P-20260816-66F0FD78",
+  "P-20260907-EACDFFF4",
+  "P-20260907-09AB323A",
+  "P-20260907-139DC981",
+  "P-20260907-211DB41F",
+  "P-20260907-60990370",
+  "P-20260907-CD83ACE2",
+  "P-20260907-D8E5A2E2",
+  "P-20260907-E23B65A6",
+  "P-20260907-F2CB0737",
+  "P-20260907-FE46C48C"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "14 problems reviewed; 2 active S0 (Aug 31), 1 active Q1, 11 provisional (Sept 7)",
+  "vendor/_planning.py ROLE_OWNERS still lacks consumer-project; submodule last commit 2026-08-16",
+  "findings/ directory still absent in repository",
+  "Most evidence is under 60 days old; no web searches used",
+  "Controller fan-in adjusted 5 provisional->provisional records to unverified (lifecycle: provisional must resolve; evidence single-source or pending merge)."
+ ],
+ "inferences": [
+  "Provisional items with deterministic local evidence or multi-provider/multi-report corroboration are promoted to active",
+  "Single-paper or unresolved-merge items remain provisional"
+ ],
+ "evidence": [
+  {
+   "title": "local re-verification",
+   "summary": "B8D227AC and EACDFFF4 defects re-confirmed in current repository state"
+  }
+ ],
+ "files_written": [
+  "inventory-06.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "No web verification of whether vendor fixes landed after 2026-09-07 (ex: Claude Code versions after 2.1.260)",
+  "Promotions rest on recorded evidence, remedies not re-validated",
+  "Research_required not set; remedy staleness not assessed in depth"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-AE8A3EE7",
+   "problem_id": "P-20260831-AE8A3EE7",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "独立3件のGitHub issueが8/31時点でopen、ベンダ仕様上の限界も明記。機構（ツール名matcherガードレールが経路変更で失効）は残存し、新たな修正証拠なし。S0継続。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-BASHEDITPATH-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "12 evidence items in problem record; confidence medium; last_seen 2026-08-31"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "Claude Codeがbash経由編集をCheckpoint/Hook/権限判定の対象にした公式変更",
+    "bashFirst promptの撤回と効果ベースの検知の提供"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-BF396D69",
+   "problem_id": "P-20260831-BF396D69",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "METR独立調査で実インシデントの機構が確認済み、上流修正なし。評価設定外への転移未実証は残余不確実性。新規の反証なし、S0継続。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-TAMPEREVIDENT-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "7 evidence items in problem record; confidence medium; last_seen 2026-08-31"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "ベンダがtool call記録をagentの書込経路外で署名・検証する機能を提供",
+    "METRまたは他機関が再現不能を報告"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-B8D227AC",
+   "problem_id": "P-20260907-B8D227AC",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "再検証: vendor/_planning.pyのROLE_OWNERSは現在も'consumer-project'を含まず（line 26）、submoduleの直近commitは2026-08-16で修正なし。決定的なコード証拠と作業項目の再スコープ履歴があり、単独で確認可能なため昇格。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-ROLEOWNERGAP-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "3 evidence items in problem record; confidence high; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "ROLE_OWNERSが未知roleを拒否/検証する修正がshared-agent-pluginsへreleaseされる"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-66F0FD78",
+   "problem_id": "P-20260816-66F0FD78",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "2件の比較研究と実地ベンチマークが過剰手順による効率退行を反復観測。confidenceはlowのままだが新たな反証なし。現状維持。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-SKILLEFF-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "10 evidence items in problem record; confidence low; last_seen 2026-08-16"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "Skill追加で効率退行が出ないことを示す追試",
+    "対象モデル世代でのSkill誘発手順増の非再現"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-EACDFFF4",
+   "problem_id": "P-20260907-EACDFFF4",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "再検証: findings/ディレクトリは現在も存在せず、sources.jsonの構造化カバレッジ欄も未整備。2周期にわたる再発と自己隠蔽性が実証済みで、自Repository内で決定的に確認できるため昇格。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-COVERMARK-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "7 evidence items in problem record; confidence medium; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "sources.jsonに入力単位のcoverage欄が追加され、未取得時にwatermarkが進まない検証がpassする"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-09AB323A",
+   "problem_id": "P-20260907-09AB323A",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "unverified",
+   "reason": "単一論文(arXiv:2609.04167)のみで独立追試なし。機構は妥当だが裏付け待ちのためprovisional維持。 [controller fan-in fix: provisional cannot remain provisional on review; single-source/pending-merge evidence maps to unverified per lifecycle model.]",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-REVIEWGATE-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "3 evidence items in problem record; confidence medium; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "独立追試または別ベンチマークで同種のギャップが報告される",
+    "追試で非再現"
+   ],
+   "next_review_days": 14,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-139DC981",
+   "problem_id": "P-20260907-139DC981",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "unverified",
+   "reason": "Copilotの過去の非適用はGA文言からの推測で、advisoryとしての文書化がなく確証不足。Claude Code側の修正は1件。裏付け待ちで維持。 [controller fan-in fix: provisional cannot remain provisional on review; single-source/pending-merge evidence maps to unverified per lifecycle model.]",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-SURFACEPARITY-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "4 evidence items in problem record; confidence medium; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "ベンダが過去の非適用を明示するadvisory/changelogを出す",
+    "別surfaceでの同種の統制未実装が報告される"
+   ],
+   "next_review_days": 14,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-211DB41F",
+   "problem_id": "P-20260907-211DB41F",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "Claude Code、Gemini CLI、Codexの3提供元が同週に同種のパス解決不一致を修正し、ベンダのrelease noteが直接の証拠。信頼度高。ただしインスタンス修正でも一般機構（check-time/use-time不一致）は他Harnessで再発し得るためactive。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-SYMLINKTOCTOU-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "6 evidence items in problem record; confidence high; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "修正版で再現するsymlink TOCTOU bypassの報告",
+    "新しいAgent surfaceでの同型の保護回避"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-60990370",
+   "problem_id": "P-20260907-60990370",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "unverified",
+   "reason": "小規模な単著サンプル(21件/10サーバ)でconfidence low。再現追試待ちのためprovisional維持。 [controller fan-in fix: provisional cannot remain provisional on review; single-source/pending-merge evidence maps to unverified per lifecycle model.]",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-MCPERRACT-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "3 evidence items in problem record; confidence low; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "別研究でMCP error結果の回復可能性の不足が再現される",
+    "MCP仕様にerror actionability/replay-safety欄が追加される"
+   ],
+   "next_review_days": 14,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-CD83ACE2",
+   "problem_id": "P-20260907-CD83ACE2",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "Codex複数版とClaude Code 2版にわたる修正群で、fail-openとstate喪失の両方向を提供元横断で確認。信頼度高。個別修正後も機構（承認状態のlifecycle契約欠如）は残るためactive。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-APPROVALSTATE-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "4 evidence items in problem record; confidence high; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "承認状態のinvalidation/永続化契約が仕様として公開される",
+    "修正後も同種のstale/lost approvalが報告される"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D8E5A2E2",
+   "problem_id": "P-20260907-D8E5A2E2",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "unverified",
+   "reason": "一次資料(API docs)は強いが、DE8D86E9との統合判断（merge vs new）がmerge gateで未決。決着までprovisional維持。 [controller fan-in fix: provisional cannot remain provisional on review; single-source/pending-merge evidence maps to unverified per lifecycle model.]",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-MODELSCOPEDAPI-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "5 evidence items in problem record; confidence medium; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "merge gateでDE8D86E9への統合が決まる",
+    "新モデル世代で同種の400/無言のblock破棄が報告される"
+   ],
+   "next_review_days": 14,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-E23B65A6",
+   "problem_id": "P-20260907-E23B65A6",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "unverified",
+   "reason": "単一論文(arXiv:2609.03028)で独立追試なし。機構は定量的だが裏付け待ちのため維持。 [controller fan-in fix: provisional cannot remain provisional on review; single-source/pending-merge evidence maps to unverified per lifecycle model.]",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-LATEREQ-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "3 evidence items in problem record; confidence medium; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "追試または別データセットでの再現",
+    "事前予告でrework削減が出る反証"
+   ],
+   "next_review_days": 14,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F2CB0737",
+   "problem_id": "P-20260907-F2CB0737",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "#66504(6月〜)とHN、#92169の機構エスカレーションなど複数の独立報告が反復。harness注入reminderが利用者設定より優先される機構は再発しており、複数情報源で裏付けられるため昇格。バージョン修正は未確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-ATTRIBCONFIG-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "5 evidence items in problem record; confidence medium; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "ベンダがユーザー設定を優先する順序へ修正し、公開Git履歴へ既定で書かない",
+    "#92169のクローズと修正版での非再現確認"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-FE46C48C",
+   "problem_id": "P-20260907-FE46C48C",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "provisional",
+   "proposed_status": "active",
+   "reason": "2.1.257-2.1.259で10件超の独立issueが再現を示し信頼度高。後続版での修正は未確認のため、退行の機構・影響は現時点で継続とみなす。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-DENYREADGUARD-001"
+    },
+    {
+     "title": "recorded evidence",
+     "summary": "7 evidence items in problem record; confidence high; last_seen 2026-09-07"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "Claude Code後続版でRead deny rule下のread-only Bashがauto/headlessで通る",
+    "key issuesがfixedでクローズ"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+  }
+ ]
+}

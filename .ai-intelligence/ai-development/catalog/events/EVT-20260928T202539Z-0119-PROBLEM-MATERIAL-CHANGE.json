@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202539Z-0119-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-09-28T20:25:39Z",
+  "catalog_revision_before": 118,
+  "catalog_revision_after": 119,
+  "details": {
+    "candidate_id": "DSC-20260928-symlink-write-judged-by-intree-path",
+    "decision": "update",
+    "target_problem_id": "P-20260907-211DB41F"
+  }
+}

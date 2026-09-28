@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-subagent-report-lost-on-compaction",
+  "title": "Compactionやheadless実行でSubagentの報告・メッセージが無言で失われる",
+  "summary": "Claude Code 2.1.281: 「background subagentへ送ったメッセージが無言で失われる」「完了したsubagentの報告が会話compactionで失われる」を修正。2.1.283: SDK sessionがdeferred tool callや完了済みtool resultを失う問題も修正。親Agentは欠落に気づかず後続判断を行う。",
+  "proposed_category": "H",
+  "problem_type": [
+    "context",
+    "handoff",
+    "data-loss"
+  ],
+  "priority_lanes": [
+    "foundation"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "title": "Claude Code CHANGELOG 2.1.281/2.1.283",
+      "published_at": "2026-09",
+      "summary": "Fixed messages sent to a background subagent being silently lost; finished subagent's report lost when compacted; SDK sessions losing a deferred tool call or finished tool result."
+    }
+  ],
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "C04",
+  "notes": "C04/H03(compaction・handoffで情報が落ちる)の具体的vendor修正evidence。P-20260831-3039ED15(tool応答消失)とも近い。"
+}

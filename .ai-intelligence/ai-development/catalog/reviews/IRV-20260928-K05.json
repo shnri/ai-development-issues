@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-K05",
+  "problem_id": "K05",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "過去成功Sessionの再現困難は残存。remedy群は有効で、一部candidate。解消証拠なし。activeを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-K04-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-K02-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-K07-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-K05-001"
+    },
+    {
+      "title": "Recorded catalog evidence (2026-08-15)",
+      "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+}

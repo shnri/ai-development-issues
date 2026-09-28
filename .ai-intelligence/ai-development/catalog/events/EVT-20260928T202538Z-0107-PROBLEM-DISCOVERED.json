@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202538Z-0107-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-09-28T20:25:38Z",
+  "catalog_revision_before": 106,
+  "catalog_revision_after": 107,
+  "details": {
+    "candidate_id": "DSC-20260928-fix-induced-regression-misattributed",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260928-605E99D3"
+  }
+}

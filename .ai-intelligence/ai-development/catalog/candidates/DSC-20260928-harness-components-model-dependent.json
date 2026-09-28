@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-harness-components-model-dependent",
+  "title": "Harness部品(計画・Action空間・Context管理)の効果が強さ・Context予算で反転し、旧Model向け構成が新Modelでは無駄になる",
+  "summary": "arXiv 2609.20804 (2026-09-17) は4 Model・176 matched settings(SWE-Bench Verified, Terminal-Bench 2.1)でablation。Planningは弱いModelでは精度を支えるが強いModelではCost削減のみで正確性は改善せず、定義済みToolは弱いbash能力のModelに有効だが強いModelはbash-onlyのほうが大幅に低コスト、回復可能なElision機構は複雑さを増すがModelはほぼ使わない。Context管理はwindow予算が厳しいほど効き、主効果はoverflow失敗の防止。",
+  "problem_type": [
+    "harness",
+    "model-regression",
+    "overhead"
+  ],
+  "priority_lanes": [
+    "foundation"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+  "evidence": [
+    {
+      "url": "https://arxiv.org/abs/2609.20804",
+      "title": "An Empirical Study of Harness Design for Coding Agents",
+      "published_at": "2026-09-17",
+      "summary": "Ablation of planning/action space/context management across 4 models; benefit depends on model strength and context budget."
+    }
+  ],
+  "confidence": "medium",
+  "material_change": false,
+  "status": "update",
+  "target_problem_id": "D02",
+  "notes": "Supports D02 (old-model workarounds counterproductive on new models) and P-20260816-66F0FD78 (excess procedure) with controlled quantitative evidence; no new mechanism.",
+  "proposed_category": "D"
+}

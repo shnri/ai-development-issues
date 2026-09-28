@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20260928T203106Z-A55D1565",
+  "created_at": "2026-09-28T20:31:06Z",
+  "updated_at": "2026-09-28T20:32:24Z",
+  "problem_ids": [
+    "P-20260831-DE8D86E9"
+  ],
+  "remedy_id": "RMD-BETAGA-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "consumer-configuration",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-configuration-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [
+    "R3 operation markers: destructive"
+  ],
+  "decision": {
+    "disposition": "policy-decidable",
+    "ladder": [
+      "existing policy / official guidance: sufficient — 4 official/standard evidence item(s), maturity official",
+      "owner preference: not required"
+    ],
+    "marker_tier": "R3",
+    "effective_tier": "R2",
+    "privileged_markers": [
+      "destructive"
+    ],
+    "owner_markers": [],
+    "execution_boundary": "controller prepares reversible configuration, guidance, hook/policy files, and branch changes; privileged steps (secret rotation/relocation, production or destructive operations, repository/organization settings) are executed by a human after review",
+    "rationale": "the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part",
+    "decided_by": "controller (decision ladder)"
+  },
+  "routing": {
+    "reason": "existing shared asset already owns this remedy",
+    "alternatives_considered": [
+      "existing asset: consumer-project (implementation-owner-asset)",
+      "existing asset → update existing (R1, precedence 3)",
+      "decision ladder: policy-decidable — the remedy is an established recommendation backed by primary guidance; the controller decides and prepares the reversible part"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "C1",
+  "hypothesis": "Applying RMD-BETAGA-001 to shared-existing-asset will reduce P-20260831-DE8D86E9 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-09-28T20:31:06Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action; R3 marker resolved by the decision ladder (policy-decidable)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-09-28T20:32:07Z",
+      "from": "scoped",
+      "to": "scoped",
+      "reason": "target re-scoped from mis-resolved shared-existing-asset (RMD-BETAGA-001 implementation_owner is a role/consumer, not an asset) to consumer-configuration guidance at authority tier R0 (consumer_risk_tier R2 per decision ladder)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-09-28T20:32:13Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ]
+}

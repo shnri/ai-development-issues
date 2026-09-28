@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202539Z-0118-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-09-28T20:25:39Z",
+  "catalog_revision_before": 117,
+  "catalog_revision_after": 118,
+  "details": {
+    "candidate_id": "DSC-20260928-subagent-report-lost-on-compaction",
+    "decision": "update",
+    "target_problem_id": "C04"
+  }
+}

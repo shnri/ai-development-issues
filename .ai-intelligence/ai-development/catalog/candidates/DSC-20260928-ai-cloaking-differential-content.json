@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-ai-cloaking-differential-content",
+  "title": "攻撃者がAgent/クローラーと人間で異なるコンテンツを出し分け(AI Targeted Cloaking)、人間のレビューでは見えない指示・情報をAgentへ供給する",
+  "summary": "MITRE ATLAS v2026.09 (2026-09-15) が新technique 'AI Targeted Cloaking' を追加。Web serverがUser-Agent等でAI Agent/取得系を判別し、人間には無害なページ、Agentには注入指示や偽情報を返すため、人間が同じURLを確認しても汚染を検出できない。Agentが取得するドキュメント・パッケージ説明・APIドキュメントに対する検証が人間の目視に依存する開発フローで成立する。",
+  "proposed_category": "I",
+  "problem_type": [
+    "indirect-prompt-injection",
+    "differential-content",
+    "web-retrieval"
+  ],
+  "priority_lanes": [
+    "safety",
+    "watch"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-03 (standards-security-and-risk scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+      "title": "MITRE ATLAS v2026.09 release",
+      "published_at": "2026-09-15",
+      "summary": "New techniques include AI Targeted Cloaking and Triggers in Multimodal Inputs (evasion tactic)."
+    }
+  ],
+  "confidence": "low",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "I01/I02はページ内の命令実行を扱うが、Agent向け出し分けにより人間の再確認が無効化される点は未カタログ。ATLAS項目名のみ確認し詳細本文は未取得のため信頼度low。C07(古い記事と公式情報の区別)とも異なる。"
+}

@@ -1,0 +1,180 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "research-03",
+ "status": "complete",
+ "role": "researcher",
+ "problem_ids": [
+  "D02",
+  "K02",
+  "P-20260831-FB4523EC",
+  "P-20260928-605E99D3",
+  "P-20260928-0F54346C"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "arXiv 2609.20804 (2026-09-17) fetched: harness component value depends on model strength and context budget",
+  "Claude Code #96179 open 2026-09-22, no vendor response visible",
+  "Claude Code #96463 open, self-introduced regression labelled pre-existing",
+  "arXiv 2609.07360 v3 2026-09-25 revised counts; broad exec grants 2.5% vs catalog 3.1% (v1)",
+  "Claude Code permissions doc: Bash(cmd:*) equals trailing wildcard; arg-constraining Bash rules fragile"
+ ],
+ "inferences": [
+  "Opus 4.6 regression reports are unconfirmed and treated as signal only",
+  "Catalog problem P-20260928-0F54346C evidence numbers (3.1%, 25.5% vs 18.4%) come from v1 and may be superseded by v3",
+  "Recorded reachability probe is unreliable; gate must verify independently"
+ ],
+ "evidence": [
+  {
+   "kind": "primary-paper",
+   "reference": "https://arxiv.org/abs/2609.20804",
+   "observed_at": "2026-09-28",
+   "summary": "Fan et al. 2026-09-17: planning is mainly a cost saver for stronger models, bash-only action space cheaper for strong models, context management value rises as budget shrinks; extends RMD-D02-001 to harness components. Preprint, 4 models."
+  },
+  {
+   "kind": "community",
+   "reference": "https://github.com/anthropics/claude-code/issues/96179",
+   "observed_at": "2026-09-28",
+   "summary": "Open, unconfirmed Opus 4.6 regression reports since ~2026-09-16 (date hallucination, base64 corruption; #96182 second report); no vendor response seen. RMD-K02-001 extended with canary evals."
+  },
+  {
+   "kind": "community",
+   "reference": "MNT-20260928T201930Z-maintain.json",
+   "observed_at": "2026-09-28",
+   "summary": "4th consecutive unreachable record; 09-07 live ls-remote diverged from recorded probe; RMD-AUTHGATE-001 extended with independent ls-remote verification and probe-unreliable blocked state."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/issues/96463",
+   "observed_at": "2026-09-28",
+   "summary": "Newly reachable fallback turned error into wrong-bytes-with-valid-checksum; test covered only list/marker; regression labelled pre-existing. Open, single first-hand account. Remedy is a candidate process."
+  },
+  {
+   "kind": "primary-paper",
+   "reference": "https://arxiv.org/abs/2609.07360",
+   "observed_at": "2026-09-28",
+   "summary": "3,171 repos; 9.8% unpinned MCP, 3.8% skill shell preapproval, 15.4% combined; v3 (2026-09-25) revised counts (broad exec grants 2.5%, not 3.1%)."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://code.claude.com/docs/en/permissions",
+   "observed_at": "2026-09-28",
+   "summary": "Bash(cmd:*) is a trailing wildcard; argument-constraining Bash rules are fragile, not a security boundary; allowManagedPermissionRulesOnly exists."
+  }
+ ],
+ "files_written": [
+  "drafts/research-03/RMD-D02-001.json",
+  "drafts/research-03/RMD-K02-001.json",
+  "drafts/research-03/RMD-AUTHGATE-001.json",
+  "drafts/research-03/RMD-REACHDELTA-001.json",
+  "drafts/research-03/RMD-AGENTCFGPIN-001.json"
+ ],
+ "checks_run": [
+  "json validity via python write"
+ ],
+ "risks": [
+  "New remedies RMD-REACHDELTA-001 and RMD-AGENTCFGPIN-001 rest on single sources (candidate maturity)",
+  "Related issues #96416/#96423/#96427 and arXiv v3 full text not read"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "record_research_batch",
+ "remedy_drafts": [
+  "RMD-D02-001.json",
+  "RMD-K02-001.json",
+  "RMD-AUTHGATE-001.json",
+  "RMD-REACHDELTA-001.json",
+  "RMD-AGENTCFGPIN-001.json"
+ ],
+ "records": [
+  {
+   "problem_id": "D02",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-D02-001",
+    "RMD-D14-001"
+   ],
+   "evidence": [
+    {
+     "kind": "primary-paper",
+     "reference": "https://arxiv.org/abs/2609.20804",
+     "observed_at": "2026-09-28",
+     "summary": "Fan et al. 2026-09-17: planning is mainly a cost saver for stronger models, bash-only action space cheaper for strong models, context management value rises as budget shrinks; extends RMD-D02-001 to harness components. Preprint, 4 models."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "K02",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-K02-001",
+    "RMD-K03-001",
+    "RMD-K01-001",
+    "RMD-K12-001"
+   ],
+   "evidence": [
+    {
+     "kind": "community",
+     "reference": "https://github.com/anthropics/claude-code/issues/96179",
+     "observed_at": "2026-09-28",
+     "summary": "Open, unconfirmed Opus 4.6 regression reports since ~2026-09-16 (date hallucination, base64 corruption; #96182 second report); no vendor response seen. RMD-K02-001 extended with canary evals."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "P-20260831-FB4523EC",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-SANDBOXEGRESS-001",
+    "RMD-AUTHGATE-001"
+   ],
+   "evidence": [
+    {
+     "kind": "community",
+     "reference": "MNT-20260928T201930Z-maintain.json",
+     "observed_at": "2026-09-28",
+     "summary": "4th consecutive unreachable record; 09-07 live ls-remote diverged from recorded probe; RMD-AUTHGATE-001 extended with independent ls-remote verification and probe-unreliable blocked state."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "P-20260928-605E99D3",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-REACHDELTA-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/issues/96463",
+     "observed_at": "2026-09-28",
+     "summary": "Newly reachable fallback turned error into wrong-bytes-with-valid-checksum; test covered only list/marker; regression labelled pre-existing. Open, single first-hand account. Remedy is a candidate process."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "P-20260928-0F54346C",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-AGENTCFGPIN-001"
+   ],
+   "evidence": [
+    {
+     "kind": "primary-paper",
+     "reference": "https://arxiv.org/abs/2609.07360",
+     "observed_at": "2026-09-28",
+     "summary": "3,171 repos; 9.8% unpinned MCP, 3.8% skill shell preapproval, 15.4% combined; v3 (2026-09-25) revised counts (broad exec grants 2.5%, not 3.1%)."
+    },
+    {
+     "kind": "official-guidance",
+     "reference": "https://code.claude.com/docs/en/permissions",
+     "observed_at": "2026-09-28",
+     "summary": "Bash(cmd:*) is a trailing wildcard; argument-constraining Bash rules are fragile, not a security boundary; allowManagedPermissionRulesOnly exists."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  }
+ ]
+}

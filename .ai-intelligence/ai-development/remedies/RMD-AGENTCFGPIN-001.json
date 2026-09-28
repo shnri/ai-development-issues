@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-AGENTCFGPIN-001",
+  "problem_ids": [
+    "P-20260928-0F54346C"
+  ],
+  "summary": "共有するAgent設定（settings.json permissions、.mcp.json、Skill/Plugin）を『見た目のScope』でなく実効Capabilityと固定Versionで審査する。(1) MCP serverはnpx/uvxの浮動tagでなくexact version（可能ならintegrity hash・lockfile・content hash）で固定し、更新は差分レビュー後のみ。(2) Bash許可はClaude Code公式docどおり、任意codeを実行できるinterpreter・package runner・shell（python/node/npx/bash/sh/env/xargs/find -exec等）へのprefix/wildcard許可（例 Bash(python:*)）を禁止し、正確なcommand文字列の完全一致またはscript名固定の許可に限る（公式docは引数を制約するBashパターンは脆弱でsecurity boundaryではないと明記）。実効的な封じ込めはsandboxのfilesystem/networkで行う。(3) Skillのallowed-tools等でshell権限を事前承認するものは導入時に拒否または要review。(4) 導入・PR時に設定lint/scan（wildcard exec許可、未固定MCP、skill preapprovalの検出）をCI化し、scanner出力は未検証だと過大に出る（同論文: 生25.5%対検証後18.4%）ため候補提示に留め、人間が実効Capabilityで判定。(5) 組織標準はmanaged settings（allowManagedPermissionRulesOnly等）に置きrepository側で上書き不能にする。",
+  "remedy_type": "setting",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "primary-paper",
+      "reference": "https://arxiv.org/abs/2609.07360",
+      "observed_at": "2026-09-28",
+      "summary": "'Scanning the Harness' (v1 2026-09-07, v3 2026-09-25 with revised exposure definitions and corrected counts), 3,171 public repos (2,660 setups, 511 skill collections): 9.8% of setups have unpinned MCP packages, 3.8% broad skill tool preapproval, combined exposure 15.4% (409 setups); the abstract-level page gives broad execution grants at 2.5% (the 3.1% in the catalog record appears to be the superseded v1 figure). Authors recommend pinning, reviewing execution preapproval, and pre-distribution conformance checks. Static analysis over public repos; prevalence is not exploit evidence."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/permissions",
+      "observed_at": "2026-09-28",
+      "summary": "Claude Code permissions doc: deny > ask > allow; Bash(cmd:*) is equivalent to a trailing wildcard so Bash(python *) allows any python invocation; Bash patterns that constrain arguments are fragile and Bash rules are not a security boundary around a program; allowManagedPermissionRulesOnly makes managed settings the sole source of permission rules."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/sandboxing",
+      "observed_at": "2026-08-31",
+      "summary": "OS-level sandbox filesystem/network restrictions and credential masking enforce containment independent of permission-rule strings (already recorded in RMD-SANDBOXEGRESS-001/RMD-SYMLINKTOCTOU-001)."
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "repositoryやteam共有のsettings/.mcp.json/Skillを他者やAgentが取り込む",
+      "MCP serverをnpx/uvx等でpackage名指定している",
+      "Bash許可にinterpreter/runnerのwildcardがある、またはSkillがshellを事前承認する"
+    ],
+    "not_applicable_when": [
+      "個人の使い捨て環境で共有設定を持たない",
+      "MCPもskillも使わず許可がread-only commandのみ"
+    ],
+    "controllable_layer": "setting",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic。Claude Codeの許可構文は公式doc準拠で他harnessは各docで確認"
+  },
+  "expected_effect": {
+    "primary": "許可の見た目と実効Capabilityの乖離、およびlockfile不在のMCP経由の供給網露出を減らす",
+    "metrics": [
+      "未固定MCP宣言数",
+      "interpreter/runnerへのwildcard Bash許可数",
+      "shell事前承認Skill数",
+      "CIでの設定lint通過率"
+    ],
+    "confidence": "medium"
+  },
+  "risks": [
+    "exact pinで更新が遅れ脆弱性修正を取り逃す。更新は定期の差分レビューで回す",
+    "完全一致許可は承認prompt増で摩擦が増え、承認疲れによる緩和圧力になる",
+    "lint/scanは偽陽性を含む（論文でも未検証出力は過大）",
+    "論文は公開repoの静的解析で実害の有病率ではない"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "設定lintのCI追加、MCP固定と更新手順の整備",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "process",
+    "tool"
+  ],
+  "known_failure_modes": [
+    "Bash(python:*)のようなScope付きに見える許可を安全と誤認する",
+    "MCPを@latestや無指定のまま共有する",
+    "scanner合格を導入承認と同一視する（RMD-SCANGATE-001参照）"
+  ],
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "arXiv 2609.07360の改訂版や検出tool公開で数値・定義が更新された場合",
+    "Claude Code/Codexの許可構文・managed settings・MCP pin機能が変わった場合",
+    "MCP registry/署名・lockfile標準が公式化された場合"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+ "schema_version": "1.0",
+ "id": "DSC-20260928-authority-base-probe-false-negative",
+ "title": "Remote到達性Probeの記録が実到達性と乖離し、検証可能なのに未検証のlocal head基準でRunが計画・記録され続ける",
+ "summary": "authority_base.reachable=false/remote_sha=nullが4回連続で記録された（2026-09-28のMNT-20260928T201930Zを含む）。2026-09-07のreview中に同一sessionからのgit ls-remoteは成功しlocal_headと一致しており、sandboxのegress不足ではなくprobe自体の偽陰性の可能性がある。Fail-closed gateが無いためRunは未検証baseのまま完了し、P-20260831-FB4523EC（成果公開・検証legが使えない）の原因診断が誤誘導される。",
+ "problem_type": [
+  "verification-gap",
+  "false-negative-probe"
+ ],
+ "priority_lanes": [
+  "foundation"
+ ],
+ "discovered_at": "2026-09-28T20:30:00Z",
+ "detected_by": "discovery-06 (local-project-evidence scout)",
+ "evidence": [
+  {
+   "title": "MNT-20260928T201930Z-maintain.json authority_base",
+   "published_at": "2026-09-28",
+   "summary": "remote=origin, remote_sha=null, reachable=false, local_head=8cf3153; 4th consecutive run (08-17, 08-31, 09-07, 09-28) recording unreachable remote base."
+  },
+  {
+   "title": "MNT-20260907T190654Z/workers/inventory-01.json (IRV-20260907-FB4523EC)",
+   "published_at": "2026-09-07",
+   "summary": "Reviewer observed live git ls-remote succeeding and matching local_head while the run recorded reachable=false: the probe record diverges from actual reachability; check_authority.py has no reachability gate (RMD-AUTHGATE-001 not implemented)."
+  }
+ ],
+ "confidence": "medium",
+ "material_change": true,
+ "status": "update",
+ "target_problem_id": "P-20260831-FB4523EC",
+ "notes": "Same problem as FB4523EC (unverified local head recorded as complete). New: 4th consecutive recurrence within window plus probe-vs-live discrepancy (probe reliability as distinct root cause). Not a new mechanism; recommend adding probe-reliability investigation to remedies. Other local run evidence (planner mis-route B8D227AC, remedy deferral by max_action_items cap) already cataloged or controller-internal. findings/ dir does not exist; only runs/ scanned. Root cause of the probe discrepancy not verified by scout."
+}

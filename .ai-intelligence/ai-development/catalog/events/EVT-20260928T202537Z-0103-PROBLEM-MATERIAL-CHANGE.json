@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202537Z-0103-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-09-28T20:25:37Z",
+  "catalog_revision_before": 102,
+  "catalog_revision_after": 103,
+  "details": {
+    "candidate_id": "DSC-20260928-authority-base-probe-false-negative",
+    "decision": "update",
+    "target_problem_id": "P-20260831-FB4523EC"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-model-exact-reproduction-degradation",
+  "title": "モデル更新後の疑い: 日付・base64等の厳密再現精度が低下し、Tool呼出しが壊れる",
+  "summary": "anthropics/claude-code#96179/#96182/#96178/#96270 (2026-09-16頃~): Opus 4.6でシステム文脈の日付を無視し学習時の年を書く、Gmail MCP添付でbase64が約1200文字で破損(約800文字でも不安定)。原因は利用者推測(量子化等)で、ベンダー回答は未確認。",
+  "problem_type": [
+    "モデル回帰",
+    "Tool引数破損"
+  ],
+  "priority_lanes": [
+    "watch"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-05 (community-and-issue-signals scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/96179",
+      "title": "Opus 4.6 regression since ~Sep 16: hallucinating dates and degraded accuracy",
+      "published_at": "2026-09-2x",
+      "summary": "date hallucination, base64 corruption via MCP"
+    },
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/96182",
+      "title": "Opus 4.6 regression since ~Sep 16 2026",
+      "summary": "precision loss reports"
+    }
+  ],
+  "confidence": "low",
+  "material_change": false,
+  "status": "update",
+  "target_problem_id": "K02",
+  "notes": "K02(Model更新で品質変化)への追加観測。複数の独立報告はあるが因果は未検証でwatch扱い。",
+  "proposed_category": "K"
+}

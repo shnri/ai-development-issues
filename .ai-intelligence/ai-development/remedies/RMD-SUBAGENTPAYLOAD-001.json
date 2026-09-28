@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-SUBAGENTPAYLOAD-001",
+  "problem_ids": [
+    "P-20260928-81CA7BDF"
+  ],
+  "summary": "CodexのMultiAgentV2 spawn_agentは子へのtaskをencrypted_contentで渡すため、非OpenAI Responses provider (custom provider) の子はtaskを復号できず空のAgentになる。回避策: (1) 当該custom model entryはmulti_agent_version:v1 (taskが平文user message) にする (community報告、公式docs未確認)、(2) 並列fan-outは別processのcodex exec -p <profile>で行う (issueで16.9秒で完了)、(3) 親側でspawn成功を完了とみなさず、子の初手にtask受領のcanary/echoを要求し、受領なし・timeoutを失敗として扱う。恒久解はOpenAI側の平文配送設定/修正待ち。",
+  "remedy_type": "harness",
+  "maturity": "candidate",
+  "status": "watch",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/openai/codex/issues/45233",
+      "observed_at": "2026-09-13",
+      "summary": "codex-cli 0.154.0、custom provider: 子3体全員がtask無しと報告、親は成功応答、wait_agentが300s/420s timeout。codex exec別processは16.9秒で完了。open、maintainer応答なし。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/openai/codex/issues/37237",
+      "observed_at": "2026-09-28",
+      "summary": "同mechanismの先行報告 (#33551, #34833, #36586, #37237) 。0.145-0.148系から継続する複数の独立報告で、原因はencrypted_contentを第三者Responses endpointが描画できないこと。検索結果スニペットに基づく (本文は未取得)。"
+    },
+    {
+      "kind": "community-report",
+      "reference": "https://github.com/openai/codex/issues/36586",
+      "observed_at": "2026-09-28",
+      "summary": "回避策: ~/.codex/models.jsonのcustom entryでmulti_agent_version v1にするとspawn初期入力が平文user messageで渡り、DeepSeek subagentが動作する (検索結果スニペット、未検証、community由来)。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/openai/codex/issues/46939",
+      "observed_at": "2026-09-21",
+      "summary": "平文配送を選ぶconfig option ([features.multi_agent_v2] message_delivery) の機能要望。open、公式応答なし。修正は未提供。"
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "Codex MultiAgentV2のspawn_agent/followup_taskを、OpenAI以外のResponses互換providerのmodelで子として使う"
+    ],
+    "not_applicable_when": [
+      "親子ともOpenAI provider",
+      "Multi-agentを使わない構成"
+    ]
+  },
+  "expected_effect": {
+    "primary": "子が空taskで待機しtimeoutする無音失敗を回避/早期検出。指標: 子のtask受領canary成功率、wait_agent timeout率、fan-outの完了時間。",
+    "adjacent_risks": [
+      "v1へ切り替えるとV2固有機能を失う",
+      "別process fan-outは親子間の会話・状態共有が無い",
+      "回避策はcommunity由来で版依存、0.154.0超では要再検証"
+    ]
+  },
+  "implementation_owner": "consumer-project",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "model設定の変更または別process起動の実装、canary検査",
+  "verdict": "known-applicable",
+  "known_failure_modes": [
+    "spawn成功の応答だけで子の稼働を信じる",
+    "timeoutを長くして待つだけにする"
+  ],
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "OpenAIが平文配送optionまたはcustom provider向け修正をreleaseした",
+    "Codexの新版 (0.154.0超) でissue #45233 / #46939が解決した",
+    "multi_agent_version v1がdeprecateされた"
+  ]
+}

@@ -1,0 +1,472 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-04",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "J10",
+  "J02",
+  "J03",
+  "J04",
+  "J05",
+  "J15",
+  "J16",
+  "J06",
+  "J01",
+  "J07",
+  "J08",
+  "J09",
+  "J11",
+  "J12",
+  "J13",
+  "J14",
+  "J17"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "17 category-J problems, all active, last reviewed 2026-08-15 (44 days ago)",
+  "Evidence is catalog-seed, remedy-research, external-problem-set; no contradicting evidence recorded",
+  "Referenced remedies: RMD-J01-001, J03-001, J07-001, J08-001, J10-001, J14-001"
+ ],
+ "inferences": [
+  "Mechanisms are organizational/structural and model-independent, so status stays active",
+  "Evidence under 60 days and not vendor-behavior-specific, so no web search was warranted"
+ ],
+ "evidence": [
+  {
+   "title": "Inventory basis",
+   "summary": "Judged from recorded problem records only; remedy files not individually re-read."
+  }
+ ],
+ "files_written": [
+  "inventory-04.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "No external search performed; evidence not independently refreshed",
+  "Remedy record contents not re-verified for staleness"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J10",
+   "problem_id": "J10",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J10-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J02",
+   "problem_id": "J02",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J01-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J03",
+   "problem_id": "J03",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J03-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J04",
+   "problem_id": "J04",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-J10-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 5 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J05",
+   "problem_id": "J05",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-J08-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 5 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J15",
+   "problem_id": "J15",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J03-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J16",
+   "problem_id": "J16",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J10-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-J01-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 5 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J06",
+   "problem_id": "J06",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J07-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-J03-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 5 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J01",
+   "problem_id": "J01",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J10-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-J01-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 5 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J07",
+   "problem_id": "J07",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J07-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 4 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J08",
+   "problem_id": "J08",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J08-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J09",
+   "problem_id": "J09",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J08-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J11",
+   "problem_id": "J11",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J08-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-J01-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 5 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J12",
+   "problem_id": "J12",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J07-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-J14-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 5 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J13",
+   "problem_id": "J13",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J07-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J14",
+   "problem_id": "J14",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J14-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-J17",
+   "problem_id": "J17",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-J14-001"
+    },
+    {
+     "title": "Recorded evidence 2026-08-15",
+     "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+  }
+ ]
+}

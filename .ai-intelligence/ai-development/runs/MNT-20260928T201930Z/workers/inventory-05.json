@@ -1,0 +1,399 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-05",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "K13",
+  "K14",
+  "K06",
+  "K01",
+  "K02",
+  "K04",
+  "K05",
+  "K08",
+  "K09",
+  "K10",
+  "K11",
+  "K12",
+  "K15"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "13件すべて現status=active、last_reviewed=2026-08-15、証拠は最大44日前",
+  "K02にはcodex issue #39397/#39392(2026-08-19)の新規instance証拠、K08にはAgent Plugins 1.0等(2026-08-12〜29)の動向が記録済み"
+ ],
+ "inferences": [
+  "いずれも構造的/横断的機序で、解消・非再現・mitigated根拠となる具体証拠はない",
+  "K02/K08はvendor動向が速いためnext_review_days=30"
+ ],
+ "evidence": [
+  {
+   "title": "Catalog records",
+   "summary": "problems.json記載の証拠とremedy参照のみで判断"
+  }
+ ],
+ "files_written": [
+  "inventory-05.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Web検索・remedy個別ファイルの精査は未実施（記録証拠のみで判断）",
+  "証拠が60日未満のため外部の最新動向は未確認"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K13",
+   "problem_id": "K13",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "S0 lane。Telemetry自体のPrivacy/機密リスクは構造的機序で、2026-08-15のOWASP 2026報告等の証拠が有効。証拠は44日前で60日未満、解消・非再現の証拠なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K13-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K11-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K05-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K14",
+   "problem_id": "K14",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "S0 lane。外部副作用がCode rollbackで戻らない構造的ハザードは継続。remedyはcandidate段階で、緩和・解消の証拠なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K14-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K06",
+   "problem_id": "K06",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "費用予測困難は運用摩擦として残存。official remedy(RMD-K06-001)は有効、解消証拠なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K06-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K01",
+   "problem_id": "K01",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "同一入力での結果変動はLLMの構造的性質で残存。remedyはofficial/validated、反証なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K01-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K11-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K02",
+   "problem_id": "K02",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "Model更新による変動は継続。2026-08-19のcodex issue #39397/#39392（gpt-5.6-solでprompt_cache_retention拒否）が新規事例として追加済み。vendor/model動向が速いため30日で再review。個別instanceの修正は一般機序を緩和しない。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K01-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K12-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K04",
+   "problem_id": "K04",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "OS/Sandbox等の環境差は基盤要因で残存。official remedyは有効、解消証拠なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K04-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K05",
+   "problem_id": "K05",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "過去成功Sessionの再現困難は残存。remedy群は有効で、一部candidate。解消証拠なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K04-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K07-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K05-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K08",
+   "problem_id": "K08",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "Provider/Agent製品ごとの形式分断は継続。Agent Plugins 1.0（2026-08-12）は共通化を進めるが、既存形式は移行不要でサポート継続、codex mcp-server廃止で別の分断も生じており、機序は未解消。標準化の普及が速いため30日で再review。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K08-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K09",
+   "problem_id": "K09",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "原因切り分けの困難は構造的で残存。remedyは有効、解消証拠なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K01-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K10",
+   "problem_id": "K10",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "Benchmarkと実務性能の乖離は構造的で残存。remedyは有効（一部candidate）、反証なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K01-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K12-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K11",
+   "problem_id": "K11",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "成功率のみでは探索Loop・浪費・危険操作が見えない基盤課題は残存。validated remedyは有効、反証なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K11-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-K06-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K12",
+   "problem_id": "K12",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "Coding時間短縮の負荷移転は増幅型で残存。remedyはcandidateのみで検証が薄いが、失効の兆候なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K12-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 60,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-K15",
+   "problem_id": "K15",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "導入前Baseline欠如は構造的で残存。remedyはcandidate。解消証拠なし。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-K12-001"
+    },
+    {
+     "title": "Recorded catalog evidence (2026-08-15)",
+     "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 60,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+  }
+ ]
+}

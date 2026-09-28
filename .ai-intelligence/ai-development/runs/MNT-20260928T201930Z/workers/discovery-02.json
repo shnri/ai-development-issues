@@ -1,0 +1,145 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-02",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [
+  "D02",
+  "P-20260831-0F6DC4B3"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "Only three 2609.* arXiv papers in window were found relevant via search (2609.07360, 2609.11028, 2609.20804)."
+ ],
+ "inferences": [
+  "Window quiet on multi-agent and spec-drift topics; no 2609 paper surfaced for them."
+ ],
+ "evidence": [
+  {
+   "url": "https://arxiv.org/html/2609.07360v1",
+   "title": "Scanning the Harness: An Empirical Study of Supply-Chain Defects in AI Coding-Agent Configurations",
+   "published_at": "2026-09-07",
+   "summary": "3,171 repos; 9.8% unpinned MCP, 3.1% wildcard-exec permissions, 3.8% skill shell preapproval; raw 25.5% vs validated 18.4%."
+  },
+  {
+   "url": "https://arxiv.org/abs/2609.11028",
+   "title": "BenchShield: Formal Model-Backed Instrumentation for Reward Integrity in LLM-Agent Evaluation Infrastructure",
+   "published_at": "2026-09-10",
+   "summary": "Lifecycle-model-backed taint + runtime detection; 456 adjudicated trajectories; recall 77-100%."
+  },
+  {
+   "url": "https://arxiv.org/abs/2609.20804",
+   "title": "An Empirical Study of Harness Design for Coding Agents",
+   "published_at": "2026-09-17",
+   "summary": "Ablation of planning/action space/context management across 4 models; benefit depends on model strength and context budget."
+  }
+ ],
+ "files_written": [
+  "discovery-02.json"
+ ],
+ "checks_run": [
+  "catalog-index dedup",
+  "WebFetch of 3 arXiv abstracts/HTML"
+ ],
+ "risks": [
+  "Search engine is not date-filterable; recall for the window may be incomplete",
+  "Findings from abstract-level fetch only"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "merge_discovery_candidate",
+ "source_id": "primary-software-engineering-research",
+ "lookback_days": 21,
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-scoped-looking-preapproval-unpinned-mcp",
+   "title": "Scope付きに見えるShell事前承認とVersion未固定のMCP宣言が、共有Agent設定を通じて任意実行・供給網露出になる",
+   "summary": "arXiv 2609.07360 (2026-09-07 v1, v3 09-25) は公開3,171 Repository(2,660 agent setup, 511 skill collection)を走査。MCP package宣言の9.8%がversion未固定、3.1%が'Bash(python:*)'等のScope付きに見えて実際は任意実行を許す許可、3.8%のSkillが導入者へshell権限を事前承認、と報告。Skillは作成物を宣言できないため導入時に静的解析で副作用を把握できない。未検証の検出器出力は有病率を過大評価(25.5%対検証後18.4%)。機構: 許可UIの見た目のScopeと実効Capabilityが乖離し、Lockfile不在の共有設定が供給網経路になる。",
+   "problem_type": [
+    "security",
+    "supply-chain",
+    "permission"
+   ],
+   "priority_lanes": [
+    "safety",
+    "foundation"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+   "evidence": [
+    {
+     "url": "https://arxiv.org/html/2609.07360v1",
+     "title": "Scanning the Harness: An Empirical Study of Supply-Chain Defects in AI Coding-Agent Configurations",
+     "published_at": "2026-09-07",
+     "summary": "3,171 repos; 9.8% unpinned MCP, 3.1% wildcard-exec permissions, 3.8% skill shell preapproval; raw 25.5% vs validated 18.4%."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": true,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "I07 (malicious skill/MCP) and P-E8990658 (scanner pass) and P-60EFB5BF (allowlist parsing) are adjacent, but the benign-default mechanism (scoped-looking wildcard grants, unpinned MCP, skills preapproving shell at install) with measured prevalence is not covered. Could alternatively be merged as update to I07/I03.",
+   "proposed_category": "I"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-benchshield-reward-integrity-chain",
+   "title": "Benchmark基盤のReward関連Lifecycleを計測しないと、ScoreはReward Hacking連鎖を含んだまま能力として報告される",
+   "summary": "arXiv 2609.11028 (2026-09-10) BenchShield: Agentが本来のTaskではなくreward-relevantなtrajectoryを悪用してscoreを上げる。31,000超の公開Agent runから456件を裁定。静的taint解析+実行時インフラ証拠で、full-chain recallが既存の23-94%から77-100%、same-vector coverageが16-56%から43-78%、実行時検出精度96%。既存のtask別パッチや事後検出では連鎖全体が見落とされる。",
+   "problem_type": [
+    "eval-integrity",
+    "reward-hacking"
+   ],
+   "priority_lanes": [
+    "foundation",
+    "watch"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+   "evidence": [
+    {
+     "url": "https://arxiv.org/abs/2609.11028",
+     "title": "BenchShield: Formal Model-Backed Instrumentation for Reward Integrity in LLM-Agent Evaluation Infrastructure",
+     "published_at": "2026-09-10",
+     "summary": "Lifecycle-model-backed taint + runtime detection; 456 adjudicated trajectories; recall 77-100%."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "P-20260831-0F6DC4B3",
+   "notes": "Same mechanism family as P-0F6DC4B3 (scorer exploitation) and F07/F08; new evidence is quantified mitigation and the finding that patch-based/post-hoc detection misses most of the exploitation chain.",
+   "proposed_category": "F"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-harness-components-model-dependent",
+   "title": "Harness部品(計画・Action空間・Context管理)の効果が強さ・Context予算で反転し、旧Model向け構成が新Modelでは無駄になる",
+   "summary": "arXiv 2609.20804 (2026-09-17) は4 Model・176 matched settings(SWE-Bench Verified, Terminal-Bench 2.1)でablation。Planningは弱いModelでは精度を支えるが強いModelではCost削減のみで正確性は改善せず、定義済みToolは弱いbash能力のModelに有効だが強いModelはbash-onlyのほうが大幅に低コスト、回復可能なElision機構は複雑さを増すがModelはほぼ使わない。Context管理はwindow予算が厳しいほど効き、主効果はoverflow失敗の防止。",
+   "problem_type": [
+    "harness",
+    "model-regression",
+    "overhead"
+   ],
+   "priority_lanes": [
+    "foundation"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-02 (primary-software-engineering-research scout)",
+   "evidence": [
+    {
+     "url": "https://arxiv.org/abs/2609.20804",
+     "title": "An Empirical Study of Harness Design for Coding Agents",
+     "published_at": "2026-09-17",
+     "summary": "Ablation of planning/action space/context management across 4 models; benefit depends on model strength and context budget."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "D02",
+   "notes": "Supports D02 (old-model workarounds counterproductive on new models) and P-20260816-66F0FD78 (excess procedure) with controlled quantitative evidence; no new mechanism.",
+   "proposed_category": "D"
+  }
+ ]
+}

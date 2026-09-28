@@ -1,0 +1,460 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-10",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "D03",
+  "D14",
+  "D16",
+  "D04",
+  "D05",
+  "D06",
+  "D07",
+  "D08",
+  "D13",
+  "D01",
+  "D09",
+  "D10",
+  "D11",
+  "D12",
+  "D15",
+  "D02"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "16 D-category problems, all active, last reviewed 2026-08-15 (44 days ago), evidence all from 2026-08-15"
+ ],
+ "inferences": [
+  "No concrete evidence for a status change; re-confirm active"
+ ],
+ "evidence": [
+  {
+   "title": "Recorded evidence age",
+   "summary": "All evidence dated 2026-08-15, under the 60-day web-search threshold"
+  }
+ ],
+ "files_written": [
+  "inventory-10.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "No web search done (evidence under 60 days); remedy record files not opened, judged from problem records only"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D03",
+   "problem_id": "D03",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['C1']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D05-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D14",
+   "problem_id": "D14",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['C1', 'F2']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D16-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D14-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D16",
+   "problem_id": "D16",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['C1']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D16-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D09-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D14-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D04",
+   "problem_id": "D04",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['Q1']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D12-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D04-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D05",
+   "problem_id": "D05",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['Q1']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D12-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D05-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D06",
+   "problem_id": "D06",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['Q1']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D08-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D04-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D07",
+   "problem_id": "D07",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['Q1']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D12-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D04-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D08",
+   "problem_id": "D08",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['Q1', 'F2']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D08-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D04-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D13",
+   "problem_id": "D13",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['Q1']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D12-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D05-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D04-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D01",
+   "problem_id": "D01",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['F2', 'W3']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D12-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D01-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D14-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D09",
+   "problem_id": "D09",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['F2']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D16-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D09-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D09-002"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D10",
+   "problem_id": "D10",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['F2']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D16-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D09-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D09-002"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D11",
+   "problem_id": "D11",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['F2']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D09-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D09-002"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D12",
+   "problem_id": "D12",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['F2']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D12-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D01-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D14-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D15",
+   "problem_id": "D15",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['F2']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D08-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D01-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-D02",
+   "problem_id": "D02",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['W3']。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-D02-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-D14-001"
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+  }
+ ]
+}

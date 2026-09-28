@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-subagent-payload-dropped-success",
+  "title": "Sub-agent起動が成功を返す一方でタスクpayloadが子に届かず、空のAgentが待機してTimeoutする",
+  "summary": "openai/codex#45233 (2026-09-13, codex-cli 0.154.0, 非OpenAI Responses provider): spawn_agentのtaskがencrypted_content化され子は復号不能。3子全員が「タスク無し」と報告し、parentには成功応答が返り、wait_agentが300s/420sでtimeout。codex execの別processなら16.9秒で完了。",
+  "problem_type": [
+    "Handoff欠落",
+    "silent no-op"
+  ],
+  "priority_lanes": [
+    "foundation"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-05 (community-and-issue-signals scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/openai/codex/issues/45233",
+      "title": "Sub-agent task payload still dropped for custom providers on codex-cli 0.154.0",
+      "published_at": "2026-09-13",
+      "summary": "empty envelope to children; parent sees success; timeouts"
+    }
+  ],
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "H03/C05はHandoff要約の情報欠落。本件は転送層でpayloadが失われ成功が返る点が別。P-20260831-3039ED15(応答消失)とは逆方向。",
+  "proposed_category": "H"
+}

@@ -50,6 +50,12 @@
       "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
       "observed_at": "2026-09-07",
       "summary": "新規インスタンス修正 (2026-09 系列): v2.1.260 で括弧を含むパスの Edit/Write/Read 規則が invalid として脱落し sandbox でも無視され『read-only』フォルダが書き込み可能だった問題、コンパイル不能な規則パターンで全編集が失敗する問題、zsh の REPORTTIME/REPORTMEMORY/DIRSTACKSIZE 代入に隠した command substitution の auto-approve を修正。v2.1.257 で < file リダイレクトと tac/egrep 等 reader への deny 不適用、compound/subshell 内での ask 規則スキップを修正。クラスは現行系列で継続発生中。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "observed_at": "2026-09-28",
+      "summary": "Claude Code 2.1.282 (per catalog evidence 2026-09): recursive rm whose target is only command-substitution output ran unprompted even under a Bash allow rule; now asks. Another instance of the lexical-vs-shell-expansion gap; reinforces that allowlists stay a defense-in-depth layer and the OS sandbox is the boundary. Not re-fetched by researcher."
     }
   ],
   "applicability": {
@@ -90,12 +96,13 @@
     "strict mode 未設定のまま sandbox を境界と信じる (escape hatch が残る)",
     "instance patch (CVE 単位の修正) を根本解決と誤認して多層防御を解く"
   ],
-  "last_verified_at": "2026-09-07",
+  "last_verified_at": "2026-09-28",
   "revalidate_when": [
     "Claude Code / Gemini CLI / Codex の permission・sandbox 仕様変更",
     "新たな allowlist bypass CVE の公表",
     "sandbox の escape hatch や excludedCommands の既定変更",
     "harness の major update ごと",
-    "Read() deny rule の Bash 引数適用が再導入された場合 (v2.1.260 revert の巻き戻し)"
+    "Read() deny rule の Bash 引数適用が再導入された場合 (v2.1.260 revert の巻き戻し)",
+    "changelogに新たなcommand substitution/expansion系のpermission bypass修正が出た場合 (2.1.282以降も継続確認)"
   ]
 }

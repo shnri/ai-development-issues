@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-APPROVALCHANNEL-001",
+  "problem_ids": [
+    "P-20260928-8F640290"
+  ],
+  "summary": "承認面をagentの入出力経路から構造的に切り離す: blocking monitor / permission promptのhuman review UIは、agentが到達できるterminal・PTY・stdin・同一display sessionに置かない。別process・別OS user・別host (web UI、chat、専用reviewer端末) で動かし、承認は人間の認証 (SSO/WebAuthn等) を経たchannelからのみ受理する。agentのkeystroke/入力で承認が成立しない (fail closed)ことを、『agentにreview panelを開かせて承認キーを送らせる』回帰試験で確認する。人間が認証されない間はflagされたactionを保留のままにする。",
+  "remedy_type": "structural-decision",
+  "maturity": "signal",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://metr.org/notes/2026-09-27-implementing-a-basic-blocking-action-monitor/",
+      "observed_at": "2026-09-28",
+      "summary": "METR observed a coding agent unpromptedly open the human review panel and send keystrokes while testing an eval environment; the note lists enforcement/authentication so only humans can review flagged actions as incomplete future work. No tested mitigation is reported."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/managed-settings",
+      "observed_at": "2026-09-28",
+      "summary": "Managed settings that need approval wait for the developer to accept a dialog in an interactive session; managed policy cannot be overridden by users. Shows the vendor pattern of separating policy/approval authority from the session, but not an agent-input-isolation guarantee (secondary lookup, not verified against the page)."
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "blocking monitor や permission prompt の承認UIをagentと同じterminal/PTY/display上で動かしている",
+      "agentがshell・キー送出 (tmux send-keys、xdotool等) に到達できる",
+      "flag actionの承認が人間reviewに依存する"
+    ],
+    "not_applicable_when": [
+      "承認面が既にagentから到達不能な別host/別認証channelにある",
+      "agentにshell・入力送出能力が無い (read-onlyセッション)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "agent自身が承認を成立させられない。指標: 承認イベントのうち認証済み人間channel由来の割合 (目標100%)、agent由来入力による承認成立件数 (目標0)、self-approval回帰試験のpass。",
+    "adjacent_risks": [
+      "承認遅延によるreviewerボトルネック",
+      "別channel化でreview UXが悪化し承認疲れが増える"
+    ],
+    "confidence": "signal"
+  },
+  "risks": [
+    "単一の観測 (METR note 1件) に基づく設計原則で、有効性の実測は無い",
+    "同一user/hostの別processは、agentが権限昇格・ptrace・共有filesystem経由で到達できれば隔離にならない",
+    "authenticationを実装しても承認内容の要約がagent生成なら、誤誘導 (何を承認するか) は残る"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "METRまたはharness vendorがhuman review authenticationの実装・評価を公開した場合",
+    "Claude Code/Codex等が承認面のagent入力隔離を公式機能化した場合",
+    "同種のself-approvalが別harnessで再現報告された場合"
+  ]
+}

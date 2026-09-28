@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202538Z-0106-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-09-28T20:25:38Z",
+  "catalog_revision_before": 105,
+  "catalog_revision_after": 106,
+  "details": {
+    "candidate_id": "DSC-20260928-crafted-assistant-links-prompt-prefill",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260928-646689BC"
+  }
+}

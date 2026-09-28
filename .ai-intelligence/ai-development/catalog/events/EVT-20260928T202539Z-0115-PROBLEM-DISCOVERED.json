@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20260928T202539Z-0115-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-09-28T20:25:39Z",
+  "catalog_revision_before": 114,
+  "catalog_revision_after": 115,
+  "details": {
+    "candidate_id": "DSC-20260928-silent-instruction-byte-cap",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20260928-5AA04248"
+  }
+}

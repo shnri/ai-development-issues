@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-K11",
+  "problem_id": "K11",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "成功率のみでは探索Loop・浪費・危険操作が見えない基盤課題は残存。validated remedyは有効、反証なし。activeを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-K11-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-K06-001"
+    },
+    {
+      "title": "Recorded catalog evidence (2026-08-15)",
+      "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+}

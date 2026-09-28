@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-D10",
+  "problem_id": "D10",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "記録済みEvidence（2026-08-15、約44日前）に反証や解決の根拠なし。機構は残存しており、報告がないことは解決の証明ではないためactiveを維持。lane ['F2']。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-D16-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-D09-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-D09-002"
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-10"
+}

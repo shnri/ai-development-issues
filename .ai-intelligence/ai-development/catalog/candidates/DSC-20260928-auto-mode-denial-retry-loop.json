@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-auto-mode-denial-retry-loop",
+  "title": "Auto modeで安全チェックが拒否した行為をAgentが繰り返し再試行する",
+  "summary": "Claude Code 2.1.284: 「safety checkが拒否した操作をauto modeが何度も再試行」「拒否が休みなく繰り返される」を修正し、一度だけdeny、再試行はbackoff、10回失敗で停止する仕様にした。拒否結果をAgentが回避行動のシグナルとして扱えず、Loopや承認疲れ・回避試行に繋がる機構。",
+  "proposed_category": "G",
+  "problem_type": [
+    "loop",
+    "permission"
+  ],
+  "priority_lanes": [
+    "quickwin",
+    "safety"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "title": "Claude Code CHANGELOG 2.1.284",
+      "published_at": "2026-09",
+      "summary": "Fixed auto mode retrying an action over and over when a safety check declined; retries back off and stop after ten failures."
+    }
+  ],
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "G06",
+  "notes": "G06(同じCommand failureを原因分析せず再実行)の権限拒否版としてvendor fixが確認された。I12/I17との関連も注記。"
+}

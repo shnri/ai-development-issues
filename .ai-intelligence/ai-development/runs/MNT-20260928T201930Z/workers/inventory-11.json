@@ -1,0 +1,668 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "inventory-11",
+ "status": "complete",
+ "role": "inventory-reviewer",
+ "problem_ids": [
+  "F01",
+  "F02",
+  "F03",
+  "F04",
+  "F05",
+  "F06",
+  "F07",
+  "F08",
+  "F09",
+  "F10",
+  "F11",
+  "F13",
+  "F18",
+  "F19",
+  "F21",
+  "F20",
+  "F12",
+  "F14",
+  "F15",
+  "F17"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "All 20 assigned problems are active, category F, last reviewed 2026-08-15, due 2026-09-14 (overdue).",
+  "Evidence is <60 days old; no local findings contradict it."
+ ],
+ "inferences": [
+  "No concrete evidence of resolution; re-confirm active for all.",
+  "F07/F08/F11/F12/F19 are agent-behavior amplification problems, so a 30-day cadence is used."
+ ],
+ "evidence": [
+  {
+   "title": "Recorded catalog evidence",
+   "summary": "Remedy research 2026-08-15 remains current; METR notes 2026-08 support F11/F12."
+  }
+ ],
+ "files_written": [
+  "inventory-11.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Review relied on recorded evidence only; remedy and finding files and the web were not checked.",
+  "F12's aliased evidence (AI-reported vulnerability triage) is only loosely related to the title."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "apply_inventory_batch",
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F01",
+   "problem_id": "F01",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F01-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F02",
+   "problem_id": "F02",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F02-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F03",
+   "problem_id": "F03",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F01-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F04",
+   "problem_id": "F04",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F01-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F05",
+   "problem_id": "F05",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F03-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F01-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F06",
+   "problem_id": "F06",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F03-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F07",
+   "problem_id": "F07",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F22-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F08-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F08",
+   "problem_id": "F08",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F08-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F09",
+   "problem_id": "F09",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F02-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F10",
+   "problem_id": "F10",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F02-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F11",
+   "problem_id": "F11",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F01-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F11-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F13",
+   "problem_id": "F13",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F13-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F18",
+   "problem_id": "F18",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F18-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F08-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F19",
+   "problem_id": "F19",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F22-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F18-001"
+    },
+    {
+     "kind": "remedy",
+     "id": "RMD-F08-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "provider fix or new guide for the assessed model",
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F21",
+   "problem_id": "F21",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F02-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F20",
+   "problem_id": "F20",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F03-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F12",
+   "problem_id": "F12",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F11-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 30,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F14",
+   "problem_id": "F14",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F13-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F15",
+   "problem_id": "F15",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F15-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "IRV-20260928-F17",
+   "problem_id": "F17",
+   "reviewed_at": "2026-09-28T20:30:00Z",
+   "previous_status": "active",
+   "proposed_status": "active",
+   "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+   "evidence": [
+    {
+     "kind": "remedy",
+     "id": "RMD-F13-001"
+    },
+    {
+     "title": "Recorded evidence age",
+     "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+   ],
+   "research_required": false,
+   "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+   ],
+   "next_review_days": 45,
+   "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+  }
+ ]
+}

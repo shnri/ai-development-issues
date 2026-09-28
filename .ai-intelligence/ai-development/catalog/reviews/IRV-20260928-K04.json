@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-K04",
+  "problem_id": "K04",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "OS/Sandbox等の環境差は基盤要因で残存。official remedyは有効、解消証拠なし。activeを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-K04-001"
+    },
+    {
+      "title": "Recorded catalog evidence (2026-08-15)",
+      "summary": "最新証拠は44日前（60日未満）。解消・非再現・vendor修正による機序緩和の証拠なし。Web検索は不要と判断。"
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-05"
+}

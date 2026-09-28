@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-I13",
+  "problem_id": "I13",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "既存evidenceに解決を示す根拠なし。機構は現行条件で存続。個別Instance/単一project/報告なしは一般機構の解消を示さないため、activeを再確認。 S0 laneのため30日Cycleで再確認。",
+  "evidence": [
+    {
+      "title": "Recorded evidence (2026-08-15)",
+      "summary": "3 evidence entries, all dated 2026-08-15 (44 days ago); lanes ['S0']; kinds ['catalog-seed', 'remedy-research', 'standards-report']. No contrary or resolution evidence recorded."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-03"
+}

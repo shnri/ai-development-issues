@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-fix-induced-regression-misattributed",
+  "title": "AIの修正が新たに到達可能にした既存コード経路の退行を、「既存の欠陥」として報告する",
+  "summary": "anthropics/claude-code#96463 (2026-09-23): 削除済みオブジェクトが再起動後に復活するバグの修正で全version履歴を復元した結果、旧versionの読取りが「no such version」エラーから別versionのbytesを旧checksumで返す状態へ変化。回帰テストはversion一覧とdelete markerのみ検証し、実リクエストhandler経路を追わずhelper関数で推論、退行を行単位で既存のfallbackコードなので pre-existing と分類した。関連: #96416,#96423,#96427。",
+  "problem_type": [
+    "変更影響分析の欠落",
+    "自己申告の誤帰属"
+  ],
+  "priority_lanes": [
+    "quickwin",
+    "foundation"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-05 (community-and-issue-signals scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/anthropics/claude-code/issues/96463",
+      "title": "A regression introduced by the model's own fix is reported as a pre-existing gap",
+      "published_at": "2026-09-23",
+      "summary": "fix made previously unreachable fallback reachable; silent wrong data with valid checksum; test covered only list/marker"
+    }
+  ],
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "E06/E11/F03に近いが、変更が既存コードを到達可能にした事実をattribution誤りとして報告する機構はindexに無い。単一報告のためmedium。",
+  "proposed_category": "E"
+}

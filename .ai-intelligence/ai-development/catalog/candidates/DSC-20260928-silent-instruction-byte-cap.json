@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-silent-instruction-byte-cap",
+  "title": "Harnessの指示文書サイズ上限が無警告で末尾を切り捨て、生成AGENTS.mdの後半規則がAgentに届かない",
+  "summary": "intellectronica/ruler#791 (2026-09-26): CodexはAGENTS.mdをproject_doc_max_bytes(既定32KiB)までしか読まず超過分を通知なく破棄。Rulerが.ruler/*.mdを連結した50,837 bytesでは6部中4部のみ可視、実構成857KB出力ではモデルに届くのは4.6%。生成ツールも警告しない。",
+  "problem_type": [
+    "指示欠落",
+    "silent truncation"
+  ],
+  "priority_lanes": [
+    "quickwin",
+    "foundation"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-05 (community-and-issue-signals scout)",
+  "evidence": [
+    {
+      "url": "https://github.com/intellectronica/ruler/issues/791",
+      "title": "Codex: no warning when generated AGENTS.md exceeds 32 KiB project_doc_max_bytes",
+      "published_at": "2026-09-26",
+      "summary": "tail silently dropped; 4.6% of 857KB reached model"
+    }
+  ],
+  "confidence": "medium",
+  "material_change": false,
+  "status": "accepted",
+  "target_problem_id": null,
+  "notes": "D04(肥大化で埋もれる)と近いが、こちらはharness側のhard capで無通知に消える機構。C01/D04の下位として統合も可。",
+  "proposed_category": "D"
+}

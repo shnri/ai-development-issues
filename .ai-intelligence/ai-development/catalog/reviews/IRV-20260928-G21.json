@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-G21",
+  "problem_id": "G21",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "記録済みEvidence(2026-08-15、約44日前)は構造的mechanismの継続を支持し、緩和・非再現の具体的証拠なし。無報告は解消の証明ではないため、activeを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-G05-001"
+    },
+    {
+      "kind": "remedy",
+      "id": "RMD-G04-001"
+    },
+    {
+      "title": "Recorded evidence 2026-08-15",
+      "summary": "Latest evidence (2026-08-15, ~44 days old) still supports the structural mechanism; no contradicting or non-reproduction evidence recorded."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-02"
+}

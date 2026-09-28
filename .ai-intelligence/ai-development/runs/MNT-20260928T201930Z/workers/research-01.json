@@ -1,0 +1,219 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "research-01",
+ "status": "complete",
+ "role": "researcher",
+ "problem_ids": [
+  "P-20260831-60EFB5BF",
+  "P-20260907-211DB41F",
+  "I07",
+  "G06",
+  "C04",
+  "P-20260928-5AA04248",
+  "P-20260928-81CA7BDF"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "I07/G06/C04 changelog evidence (2.1.281-2.1.284) is as recorded in the problem records; researcher did not re-fetch the changelog.",
+  "Codex docs: project_doc_max_bytes default 32KiB, no documented truncation warning (fetched 2026-09-28).",
+  "openai/codex#45233 open on 0.154.0 with no maintainer response; #46939 plaintext option request open."
+ ],
+ "inferences": [
+  "Sub-agent payload loss is a recurring cross-issue class (#33551,#34833,#36586,#37237,#45233), from encrypted_content unsupported by third-party Responses endpoints.",
+  "multi_agent_version v1 workaround is community-reported and unverified."
+ ],
+ "evidence": [
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-09-28",
+   "summary": "2.1.282: recursive rm with command-substitution-only target ran unprompted; fixed. Same class; existing remedy (OS sandbox as boundary) stands, evidence appended."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-09-28",
+   "summary": "2.1.284: symlinked-path writes judged by in-tree spelling; fixed. Remedy updated with raised version floor."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-09-28",
+   "summary": "2.1.282/2.1.283: repo/user/--add-dir skills and marketplace/npm plugins no longer pre-approve their own tools. A provider-side hardening; existing pre-install audit and pinning remedies still apply, no draft needed."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-09-28",
+   "summary": "2.1.284: auto mode retries now back off and stop after ten failures when a safety check declines. Partial harness-side limit for one path; existing remedies still apply (interactive limits and context-layer remedy unchanged)."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "observed_at": "2026-09-28",
+   "summary": "2.1.281/2.1.283: fixes for lost background subagent messages and subagent report lost on compaction. Provider fixes for specific paths; durable external state remedies still stand."
+  },
+  {
+   "kind": "official-guidance",
+   "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+   "observed_at": "2026-09-28",
+   "summary": "Codex docs: 32KiB default project_doc_max_bytes; stops adding files at the limit; recommends raising limit or nested splitting; no truncation warning documented."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/intellectronica/ruler/issues/791",
+   "observed_at": "2026-09-28",
+   "summary": "Ruler issue open, no fix."
+  },
+  {
+   "kind": "maintainer-report",
+   "reference": "https://github.com/openai/codex/issues/45233",
+   "observed_at": "2026-09-28",
+   "summary": "Open on 0.154.0; workarounds: codex exec -p separate process, multi_agent_version v1 (community); no official fix; #46939 feature request open."
+  }
+ ],
+ "files_written": [
+  "drafts/research-01/RMD-ALLOWLISTPARSE-001.json",
+  "drafts/research-01/RMD-SYMLINKTOCTOU-001.json",
+  "drafts/research-01/RMD-INSTRSIZE-001.json",
+  "drafts/research-01/RMD-SUBAGENTPAYLOAD-001.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Two updates only append evidence and adjust version floor; the catalog owner should diff against existing records.",
+  "SUBAGENTPAYLOAD workaround unverified."
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "record_research_batch",
+ "remedy_drafts": [
+  "RMD-ALLOWLISTPARSE-001.json",
+  "RMD-SYMLINKTOCTOU-001.json",
+  "RMD-INSTRSIZE-001.json",
+  "RMD-SUBAGENTPAYLOAD-001.json"
+ ],
+ "records": [
+  {
+   "problem_id": "P-20260831-60EFB5BF",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-ALLOWLISTPARSE-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "observed_at": "2026-09-28",
+     "summary": "2.1.282: recursive rm with command-substitution-only target ran unprompted; fixed. Same class; existing remedy (OS sandbox as boundary) stands, evidence appended."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "P-20260907-211DB41F",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-SYMLINKTOCTOU-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "observed_at": "2026-09-28",
+     "summary": "2.1.284: symlinked-path writes judged by in-tree spelling; fixed. Remedy updated with raised version floor."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "I07",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-I07-001",
+    "RMD-I16-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "observed_at": "2026-09-28",
+     "summary": "2.1.282/2.1.283: repo/user/--add-dir skills and marketplace/npm plugins no longer pre-approve their own tools. A provider-side hardening; existing pre-install audit and pinning remedies still apply, no draft needed."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "G06",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-G22-001",
+    "RMD-G05-001",
+    "RMD-G06-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "observed_at": "2026-09-28",
+     "summary": "2.1.284: auto mode retries now back off and stop after ten failures when a safety check declines. Partial harness-side limit for one path; existing remedies still apply (interactive limits and context-layer remedy unchanged)."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "C04",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-C03-001",
+    "RMD-C05-001",
+    "RMD-C03-002"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "observed_at": "2026-09-28",
+     "summary": "2.1.281/2.1.283: fixes for lost background subagent messages and subagent report lost on compaction. Provider fixes for specific paths; durable external state remedies still stand."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "P-20260928-5AA04248",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-INSTRSIZE-001"
+   ],
+   "evidence": [
+    {
+     "kind": "official-guidance",
+     "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+     "observed_at": "2026-09-28",
+     "summary": "Codex docs: 32KiB default project_doc_max_bytes; stops adding files at the limit; recommends raising limit or nested splitting; no truncation warning documented."
+    },
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/intellectronica/ruler/issues/791",
+     "observed_at": "2026-09-28",
+     "summary": "Ruler issue open, no fix."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  },
+  {
+   "problem_id": "P-20260928-81CA7BDF",
+   "outcome": "remedy-found",
+   "remedy_ids": [
+    "RMD-SUBAGENTPAYLOAD-001"
+   ],
+   "evidence": [
+    {
+     "kind": "maintainer-report",
+     "reference": "https://github.com/openai/codex/issues/45233",
+     "observed_at": "2026-09-28",
+     "summary": "Open on 0.154.0; workarounds: codex exec -p separate process, multi_agent_version v1 (community); no official fix; #46939 feature request open."
+    }
+   ],
+   "researched_at": "2026-09-28"
+  }
+ ]
+}

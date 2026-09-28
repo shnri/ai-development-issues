@@ -4,7 +4,7 @@
   "problem_ids": [
     "P-20260907-211DB41F"
   ],
-  "summary": "symlink の check-time/use-time 乖離による権限迂回は3ベンダとも修正済み: Claude Code は『permission check 後に差し替えられた symlink を file tool が追って承認外の場所を読み書きできた』問題を修正 (catalog 採取時 v2.1.253、現行 changelog では 2.1.251/2.1.252 区画; v2.1.257 以降なら確実に包含。v2.1.257 では plugin component path の symlink 経由読み出しも修正)。Gemini CLI v0.58.0 は ignore path 処理の symlink 評価を一貫化、Codex CLI 0.151.0 は executor の実 home directory / OS / path 規約基準で remote sandbox を強制。対策は各 harness をこれらの版以上へ更新すること。残余 risk (同 class の再発、checker が字句 path で判定する別経路) には OS 層の sandbox denyRead/denyWrite を第二層として併用する — kernel が実 path を解決するため、文字列レベルの symlink 混同の影響を受けない。",
+  "summary": "symlink の check-time/use-time 乖離による権限迂回は3ベンダとも修正済み: Claude Code は『permission check 後に差し替えられた symlink を file tool が追って承認外の場所を読み書きできた』問題を修正 (catalog 採取時 v2.1.253、現行 changelog では 2.1.251/2.1.252 区画; v2.1.257 以降なら確実に包含。v2.1.257 では plugin component path の symlink 経由読み出しも修正)。Gemini CLI v0.58.0 は ignore path 処理の symlink 評価を一貫化、Codex CLI 0.151.0 は executor の実 home directory / OS / path 規約基準で remote sandbox を強制。対策は各 harness をこれらの版以上へ更新すること。残余 risk (同 class の再発、checker が字句 path で判定する別経路) には OS 層の sandbox denyRead/denyWrite を第二層として併用する — kernel が実 path を解決するため、文字列レベルの symlink 混同の影響を受けない。 2026-09-28追記: Claude Code 2.1.284でsymlink経由の書き込みが字句上のin-tree pathで判定されていた問題も修正 (承認promptは実際の到達先を表示)。write経路を含める安全下限は2.1.284以上。",
   "remedy_type": "provider-fix",
   "maturity": "official",
   "status": "active",
@@ -32,6 +32,12 @@
       "reference": "https://code.claude.com/docs/en/sandboxing",
       "observed_at": "2026-09-07",
       "summary": "第二層: sandbox.filesystem.denyRead/denyWrite は OS が実 path で強制するため、check-time の字句判定と use-time の解決の乖離に依存しない。sandbox.credentials deny/mask で秘匿 file を blast radius の外へ。"
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "observed_at": "2026-09-28",
+      "summary": "Claude Code 2.1.284 (per catalog evidence 2026-09): writes through a symlinked path were judged by their in-tree spelling; fixed and the prompt now names the actual landing location. A further lexical-vs-resolved path instance after 2.1.257, so the safe lower bound should be raised to >=2.1.284 for write-path handling. Not re-fetched by researcher."
     }
   ],
   "applicability": {
@@ -53,7 +59,8 @@
   "risks": [
     "TOCTOU は class として残る: 修正は既知経路 (file tools / ignore / remote home) のみで、字句 path で判定する別 checker (hook、独自 tool、MCP server) は各自の検証が必要",
     "Claude Code の changelog 版番号が採取時 (2.1.253) と現在 (2.1.251/2.1.252 区画) で食い違っており、『2.1.253 以上』を条件にした version gate は誤判定し得る (2.1.257 を下限にする)",
-    "ベンダ再現手順が公開されておらず、修正の完全性は changelog 記述に依存"
+    "ベンダ再現手順が公開されておらず、修正の完全性は changelog 記述に依存",
+    "2.1.257以降でも同classの別経路 (symlink経由write判定) が2.1.284で見つかっており、version gateは継続的に引き上げが必要"
   ],
   "implementation_owner": "consumer-project",
   "fix_effort": 1,
@@ -69,7 +76,7 @@
     "version gate を 2.1.253 の文字列比較で書き、changelog 再編で誤 pass させる",
     "sandbox.filesystem.disabled 構成で第二層が存在しないまま運用する"
   ],
-  "last_verified_at": "2026-09-07",
+  "last_verified_at": "2026-09-28",
   "revalidate_when": [
     "いずれかの harness で symlink / path-resolution 系の新規修正エントリが出た場合",
     "Claude Code changelog の版再編が再発した場合 (version gate の再確認)",

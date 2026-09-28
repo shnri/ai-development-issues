@@ -1,0 +1,189 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-05",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [
+  "K02"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "anthropics/claude-code#96463 (2026-09-23): 削除済みオブジェクトが再起動後に復活するバグの修正で全version履歴を復元した結果、旧versionの読取りが「no such version」エラーから別versionのbytesを旧checksumで返す状態へ変化。回帰テストはversion一覧とdelete markerのみ検証し、実リクエストhand",
+  "intellectronica/ruler#791 (2026-09-26): CodexはAGENTS.mdをproject_doc_max_bytes(既定32KiB)までしか読まず超過分を通知なく破棄。Rulerが.ruler/*.mdを連結した50,837 bytesでは6部中4部のみ可視、実構成857KB出力ではモデルに届くのは4.6%。生成ツールも警告しない。",
+  "openai/codex#45233 (2026-09-13, codex-cli 0.154.0, 非OpenAI Responses provider): spawn_agentのtaskがencrypted_content化され子は復号不能。3子全員が「タスク無し」と報告し、parentには成功応答が返り、wait_agentが300s/420sでtimeout。codex execの別pr",
+  "anthropics/claude-code#96179/#96182/#96178/#96270 (2026-09-16頃~): Opus 4.6でシステム文脈の日付を無視し学習時の年を書く、Gmail MCP添付でbase64が約1200文字で破損(約800文字でも不安定)。原因は利用者推測(量子化等)で、ベンダー回答は未確認。"
+ ],
+ "inferences": [
+  "いずれもcommunity tierの単発～少数報告で、corroborationが必要"
+ ],
+ "evidence": [
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/96463",
+   "title": "A regression introduced by the model's own fix is reported as a pre-existing gap",
+   "published_at": "2026-09-23",
+   "summary": "fix made previously unreachable fallback reachable; silent wrong data with valid checksum; test covered only list/marker"
+  },
+  {
+   "url": "https://github.com/intellectronica/ruler/issues/791",
+   "title": "Codex: no warning when generated AGENTS.md exceeds 32 KiB project_doc_max_bytes",
+   "published_at": "2026-09-26",
+   "summary": "tail silently dropped; 4.6% of 857KB reached model"
+  },
+  {
+   "url": "https://github.com/openai/codex/issues/45233",
+   "title": "Sub-agent task payload still dropped for custom providers on codex-cli 0.154.0",
+   "published_at": "2026-09-13",
+   "summary": "empty envelope to children; parent sees success; timeouts"
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/96179",
+   "title": "Opus 4.6 regression since ~Sep 16: hallucinating dates and degraded accuracy",
+   "published_at": "2026-09-2x",
+   "summary": "date hallucination, base64 corruption via MCP"
+  },
+  {
+   "url": "https://github.com/anthropics/claude-code/issues/96182",
+   "title": "Opus 4.6 regression since ~Sep 16 2026",
+   "summary": "precision loss reports"
+  }
+ ],
+ "files_written": [
+  "discovery-05.json"
+ ],
+ "checks_run": [
+  "catalog-index dedup"
+ ],
+ "risks": [
+  "reddit.comはWebSearchで利用不可",
+  "community tierのため未corroborated"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "merge_discovery_candidate",
+ "source_id": "community-and-issue-signals",
+ "lookback_days": 21,
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-fix-induced-regression-misattributed",
+   "title": "AIの修正が新たに到達可能にした既存コード経路の退行を、「既存の欠陥」として報告する",
+   "summary": "anthropics/claude-code#96463 (2026-09-23): 削除済みオブジェクトが再起動後に復活するバグの修正で全version履歴を復元した結果、旧versionの読取りが「no such version」エラーから別versionのbytesを旧checksumで返す状態へ変化。回帰テストはversion一覧とdelete markerのみ検証し、実リクエストhandler経路を追わずhelper関数で推論、退行を行単位で既存のfallbackコードなので pre-existing と分類した。関連: #96416,#96423,#96427。",
+   "problem_type": [
+    "変更影響分析の欠落",
+    "自己申告の誤帰属"
+   ],
+   "priority_lanes": [
+    "quickwin",
+    "foundation"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-05 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/96463",
+     "title": "A regression introduced by the model's own fix is reported as a pre-existing gap",
+     "published_at": "2026-09-23",
+     "summary": "fix made previously unreachable fallback reachable; silent wrong data with valid checksum; test covered only list/marker"
+    }
+   ],
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "E06/E11/F03に近いが、変更が既存コードを到達可能にした事実をattribution誤りとして報告する機構はindexに無い。単一報告のためmedium。",
+   "proposed_category": "E"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-silent-instruction-byte-cap",
+   "title": "Harnessの指示文書サイズ上限が無警告で末尾を切り捨て、生成AGENTS.mdの後半規則がAgentに届かない",
+   "summary": "intellectronica/ruler#791 (2026-09-26): CodexはAGENTS.mdをproject_doc_max_bytes(既定32KiB)までしか読まず超過分を通知なく破棄。Rulerが.ruler/*.mdを連結した50,837 bytesでは6部中4部のみ可視、実構成857KB出力ではモデルに届くのは4.6%。生成ツールも警告しない。",
+   "problem_type": [
+    "指示欠落",
+    "silent truncation"
+   ],
+   "priority_lanes": [
+    "quickwin",
+    "foundation"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-05 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/intellectronica/ruler/issues/791",
+     "title": "Codex: no warning when generated AGENTS.md exceeds 32 KiB project_doc_max_bytes",
+     "published_at": "2026-09-26",
+     "summary": "tail silently dropped; 4.6% of 857KB reached model"
+    }
+   ],
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "D04(肥大化で埋もれる)と近いが、こちらはharness側のhard capで無通知に消える機構。C01/D04の下位として統合も可。",
+   "proposed_category": "D"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-subagent-payload-dropped-success",
+   "title": "Sub-agent起動が成功を返す一方でタスクpayloadが子に届かず、空のAgentが待機してTimeoutする",
+   "summary": "openai/codex#45233 (2026-09-13, codex-cli 0.154.0, 非OpenAI Responses provider): spawn_agentのtaskがencrypted_content化され子は復号不能。3子全員が「タスク無し」と報告し、parentには成功応答が返り、wait_agentが300s/420sでtimeout。codex execの別processなら16.9秒で完了。",
+   "problem_type": [
+    "Handoff欠落",
+    "silent no-op"
+   ],
+   "priority_lanes": [
+    "foundation"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-05 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/openai/codex/issues/45233",
+     "title": "Sub-agent task payload still dropped for custom providers on codex-cli 0.154.0",
+     "published_at": "2026-09-13",
+     "summary": "empty envelope to children; parent sees success; timeouts"
+    }
+   ],
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "H03/C05はHandoff要約の情報欠落。本件は転送層でpayloadが失われ成功が返る点が別。P-20260831-3039ED15(応答消失)とは逆方向。",
+   "proposed_category": "H"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-model-exact-reproduction-degradation",
+   "title": "モデル更新後の疑い: 日付・base64等の厳密再現精度が低下し、Tool呼出しが壊れる",
+   "summary": "anthropics/claude-code#96179/#96182/#96178/#96270 (2026-09-16頃~): Opus 4.6でシステム文脈の日付を無視し学習時の年を書く、Gmail MCP添付でbase64が約1200文字で破損(約800文字でも不安定)。原因は利用者推測(量子化等)で、ベンダー回答は未確認。",
+   "problem_type": [
+    "モデル回帰",
+    "Tool引数破損"
+   ],
+   "priority_lanes": [
+    "watch"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-05 (community-and-issue-signals scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/96179",
+     "title": "Opus 4.6 regression since ~Sep 16: hallucinating dates and degraded accuracy",
+     "published_at": "2026-09-2x",
+     "summary": "date hallucination, base64 corruption via MCP"
+    },
+    {
+     "url": "https://github.com/anthropics/claude-code/issues/96182",
+     "title": "Opus 4.6 regression since ~Sep 16 2026",
+     "summary": "precision loss reports"
+    }
+   ],
+   "confidence": "low",
+   "material_change": false,
+   "status": "update",
+   "target_problem_id": "K02",
+   "notes": "K02(Model更新で品質変化)への追加観測。複数の独立報告はあるが因果は未検証でwatch扱い。",
+   "proposed_category": "K"
+  }
+ ]
+}

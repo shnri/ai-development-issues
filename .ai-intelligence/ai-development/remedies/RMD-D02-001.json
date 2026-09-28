@@ -7,7 +7,7 @@
     "D13",
     "D04"
   ],
-  "summary": "新model（Fable 5等）へ移行する時は、旧model向けの過剰に規範的なSkill・列挙型指示・強調命令・show-your-thinking指示・短run前提timeout・context予算表示を棚卸しし、既定挙動が良ければ削除、残すものは短い意図ベース指示に置き換える。判断は移行前後のevalで行い、安全・権限規則は対象外。",
+  "summary": "新model（Fable 5等）へ移行する時は、旧model向けの過剰に規範的なSkill・列挙型指示・強調命令・show-your-thinking指示・短run前提timeout・context予算表示を棚卸しし、既定挙動が良ければ削除、残すものは短い意図ベース指示に置き換える。判断は移行前後のevalで行い、安全・権限規則は対象外。 【2026-09-28追記】棚卸し対象は指示文だけでなくharness部品（計画step・専用tool群対bashのAction空間・context圧縮/要約）も含める。査読前の実証研究(arXiv 2609.20804)では、計画は強いmodelでは精度でなく主にcost削減に働き、強いmodelはbash中心のAction空間で大幅に安価になり、context管理の価値はcontext予算が小さいほど大きい。よって除去/維持は推測でなく、model強度とcontext予算ごとのablation eval（RMD-D14-001）で決め、旧model・小context経路には残す。",
   "remedy_type": "instruction",
   "maturity": "official",
   "status": "active",
@@ -53,16 +53,24 @@
       "observed_at": "2026-08-15",
       "summary": "harness-stripping (public, reputation emerging): pass 1 read SKILL.md: when_to_use is 'auditing a harness after a model upgrade to see what workarounds are now obsolete', with a 6-step procedure - inventory components and the failure mode each was added to prevent, rank by suspicion, fix a baseline eval of 20-60 tasks, strip exactly one component, compare score/cost/latency against baseline, commit each strip separately.",
       "quality": "low"
+    },
+    {
+      "kind": "primary-paper",
+      "reference": "https://arxiv.org/abs/2609.20804",
+      "observed_at": "2026-09-28",
+      "summary": "Fan et al. 'An Empirical Study of Harness Design for Coding Agents' (2026-09-17; 4 models, SWE-Bench Verified / Terminal-Bench 2.1): planning shifts from an accuracy scaffold for weaker models to mainly a cost saver for stronger ones; bash-only action space is substantially cheaper for stronger models; context management value rises as the context budget shrinks. Harness components (not only prompt text) can become dead weight on stronger models, so the post-migration inventory should include harness scaffolding. Single preprint, not a Fable-5-specific result."
     }
   ],
   "applicability": {
     "applies_when": [
       "利用modelがFable 5/Mythos 5など新世代へ更新された",
-      "Skill/CLAUDE.mdに旧model時代のworkaround（列挙・強調・reasoning echo・context予算指示）が残る"
+      "Skill/CLAUDE.mdに旧model時代のworkaround（列挙・強調・reasoning echo・context予算指示）が残る",
+      "計画step・専用tool群・context圧縮など旧model向けharness部品が残る（強いmodelでは費用増のみの可能性）"
     ],
     "not_applicable_when": [
       "旧modelを併用し続ける経路（Opus 4.8 fallback等）がある場合はmodel別に分岐/条件付きに",
-      "安全・権限・データ保護規則"
+      "安全・権限・データ保護規則",
+      "小context予算・弱いmodel経路ではcontext管理・計画scaffoldが依然有効なため一律削除しない"
     ],
     "controllable_layer": "instruction",
     "surfaces": [
@@ -83,7 +91,8 @@
   },
   "risks": [
     "旧modelへのfallback経路で必要な指示まで削る",
-    "『新modelだから不要』の推測だけで削除する"
+    "『新modelだから不要』の推測だけで削除する",
+    "arXiv 2609.20804は査読前の単一研究で、評価対象4 modelとbenchmarkに依存する。自環境のablationで再確認する"
   ],
   "implementation_owner": "developer",
   "fix_effort": 2,
@@ -98,11 +107,12 @@
     "model進歩だけを理由に根拠なく削除",
     "重い恒久策（専用harness）を旧model問題のために作り込み新modelでも残す"
   ],
-  "last_verified_at": "2026-08-15",
+  "last_verified_at": "2026-09-28",
   "revalidate_when": [
     "次のmodel世代更新",
     "Fable 5 prompting guide改訂（ledgerで検知）",
-    "effort既定値変更"
+    "effort既定値変更",
+    "harness部品のablation研究や公式guideがmodel強度・context予算依存の結論を更新した場合"
   ],
   "created_at": "2026-08-15",
   "researched_by": "ai-development-improvement research 2026-08-15 (category D)",

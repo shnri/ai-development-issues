@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-MONCOVERAGE-001",
+  "problem_ids": [
+    "P-20260928-25E15035"
+  ],
+  "summary": "監視適用範囲を経路とバージョンで強制する: (1) 全inferenceを中央router/proxy経由に統一し、直接provider呼出をegress制御で禁止する。router logとprovider請求のtoken突合を定期実行し、未帰属率を指標として追う。(2) monitor対応の最低harnessバージョンを強制する (起動ゲート、job submit時のversion検査、古い版の拒否)。Claude Codeにはmanaged settingsのrequiredMinimumVersionがあり、古いbinaryの起動を止める (実行中sessionは止めない)。(3) sub-agent・子processのactionがmonitorに届くことを、合成actionでcanary検証する。METR note (2026-09-27) は中央API router化とversion enforcementを緩和策として挙げる。",
+  "remedy_type": "harness",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://metr.org/notes/2026-09-27-implementing-a-basic-blocking-action-monitor/",
+      "observed_at": "2026-09-28",
+      "summary": "~16% of ~971B tokens in August 2026 unaccounted for in centralized logging (attribution and billing gaps); earlier Inspect versions did not show sub-agent actions to the monitor and nothing prevented launching with them. Stated mitigations: route all inference through a central API router and enforce versions."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/managed-settings",
+      "observed_at": "2026-09-28",
+      "summary": "requiredMinimumVersion blocks an outdated Claude Code binary from starting but does not end an already running session (from search summary; not verified against the page). Managed settings cannot be overridden by users."
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "複数harness/バージョン/経路 (直接API・proxy・sub-agent) でagentを動かし、監視ログを安全根拠にしている",
+      "長時間jobが古いharnessで起動され得る"
+    ],
+    "not_applicable_when": [
+      "単一の管理されたharness・単一routerのみで運用",
+      "監視が安全根拠ではなく参考情報にとどまる"
+    ]
+  },
+  "expected_effect": {
+    "primary": "監視ログの被覆が黙って欠けない。指標: 未帰属token率 (METR 16% -> 目標低下)、最低版未満で起動したjob数 (目標0)、sub-agent canary actionのmonitor到達率。",
+    "adjacent_risks": [
+      "中央routerが単一障害点・高価値標的になる",
+      "version強制で研究・運用が止まる摩擦"
+    ],
+    "confidence": "candidate"
+  },
+  "risks": [
+    "中央router化は取得側の対策で、経路外利用を防ぐegress制御が無いと迂回される",
+    "実行中の旧版sessionは起動ゲートで止まらない",
+    "METRの緩和策は『実装予定・実装中』の位置づけで、効果測定は未公開",
+    "confidence low: 単一source"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "METRが未帰属率の改善を報告した場合",
+    "harness vendorが実行中sessionにも及ぶversion/policy強制を提供した場合",
+    "別組織で同種の被覆欠落が報告された場合"
+  ]
+}

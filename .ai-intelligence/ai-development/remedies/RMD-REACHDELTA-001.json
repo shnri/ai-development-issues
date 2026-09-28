@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-REACHDELTA-001",
+  "problem_ids": [
+    "P-20260928-605E99D3"
+  ],
+  "summary": "AIが修正を『完了』『既存の欠陥』と報告する前に、変更が新たに到達可能にした経路を機械的に洗い出して検証する。(1) 変更が状態・入力・戻り値の分布を変える箇所を起点に、実際のrequest/handler入口から呼び出しgraphを辿り（helper単体の推論で代替しない）、変更前は到達不能・エラーで終わっていたfallback/分岐が到達可能になっていないかを列挙する。(2) 影響を受ける各入口について変更前後の観測可能な挙動（エラー→データ返却など）を並べたbefore/after表を作り、回帰テストはlist/marker等の副次表面でなく実データ読取（checksum/内容一致を含む）まで通す。差分が『エラー→誤データ』方向なら最優先の回帰として扱う。(3) 帰属ルール: 行単位でpre-existingでも、当該変更が到達可能にしたコードの挙動は『本変更の結果』と報告し、『既存gap』分類は変更前のbaseでも同一入力で同じ挙動が再現することをbase checkoutで実行して示した場合に限る。(4) 完了報告のtemplateとreview checklistに『新たに到達可能になった経路』『変更前後の挙動差』『pre-existing主張の再現証拠』を必須項目として入れ、独立reviewer（別session/別model）が実行して確認する。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/anthropics/claude-code/issues/96463",
+      "observed_at": "2026-09-28",
+      "summary": "Issue filed 2026-09-23 (open, model-level bug report co-authored with Claude Code): restoring full version history made a previously unreachable fallback reachable, turning a clean 'no such version' error into another version's bytes under the old checksum. The regression test covered only version lists and delete markers; reasoning used a helper function instead of the request handler; the model labelled the regression 'pre-existing'. The issue itself recommends exercising every path whose inputs change, attributing newly reachable behavior to the change, and stating before/after behavior. Related #96416/#96423/#96427 not read. Single first-hand account; no maintainer response seen."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "observed_at": "2026-09-28",
+      "summary": "Anthropic eval guidance already recorded in RMD-K01-001/RMD-D14-001 stresses grading outcomes end to end and auditing transcripts; used here only as supporting context for testing observable behavior at the real entry point, not as evidence for the specific attribution rule (recorded evidence, not re-fetched)."
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "AIが既存codebaseのバグ修正・状態復元・永続化・キャッシュ・data migration系の変更を行う",
+      "変更が既存のfallback・default・error分岐への到達条件を変え得る",
+      "AIの自己申告（完了・pre-existing判定）を人間がそのまま受け入れる運用"
+    ],
+    "not_applicable_when": [
+      "到達経路が単純で変更が純粋に局所的な小修正",
+      "使い捨てのscript"
+    ],
+    "controllable_layer": "process",
+    "surfaces": [
+      "Claude Code",
+      "Codex",
+      "generic"
+    ],
+    "model_conditions": "model-agnostic。報告はClaude Code上の1事例"
+  },
+  "expected_effect": {
+    "primary": "『エラーが誤データに変わる』型の退行を、完了報告前に実handler経路の検証で検出し、誤帰属によるtriage遅延を防ぐ",
+    "metrics": [
+      "新規到達経路の列挙をPRに含む率",
+      "回帰テストが実データ読取を含む率",
+      "pre-existing判定に対する基準checkout再現証拠の添付率",
+      "独立reviewで見つかる自己導入退行の件数"
+    ],
+    "confidence": "low"
+  },
+  "risks": [
+    "到達可能性解析はAI自身の推論に依存し漏れる。独立reviewerと実行結果で補う",
+    "型/静的解析・coverage差分tool（変更行から到達するhandlerの列挙）を併用しないと手作業で重い",
+    "単一事例に基づく候補で有効性は未測定",
+    "checklistの形骸化"
+  ],
+  "implementation_owner": "developer",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "完了報告templateとreview checklistの追加、基準checkoutでの再現実行（数分〜）",
+  "verdict": "candidate",
+  "secondary_layers": [
+    "test-strategy",
+    "instruction"
+  ],
+  "known_failure_modes": [
+    "helper関数の推論だけでhandler経路を検証済みと見なす",
+    "テストが変更で直接触った表面（list/marker）だけを確認する",
+    "『コード行は既存』を理由にpre-existingと分類する"
+  ],
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "#96463への公式回答や関連修正(#96416/#96423/#96427)が出た場合",
+    "同型の自己導入退行の報告が追加された場合",
+    "変更影響分析を自動化するtool/Skillが公式に提供された場合"
+  ]
+}

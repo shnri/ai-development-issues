@@ -1,0 +1,142 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-03",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [
+  "I03"
+ ],
+ "work_item_id": null,
+ "facts": [
+  "MITRE ATLAS v2026.09 released 2026-09-15 with 11 new techniques incl. AI Targeted Cloaking, Crafted AI Assistant Links",
+  "OWASP 2026 LLM Top 10 announced 2026-09-01/02; Excessive Agency is #3; Agent Control Standard debuted",
+  "No NIST publication in the window found; NIST agent items (Feb-May 2026) are out of window"
+ ],
+ "inferences": [
+  "Cloaking and prefilled-link vectors are not covered by existing I-series mechanisms"
+ ],
+ "evidence": [
+  {
+   "url": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+   "title": "ATLAS v2026.09",
+   "published_at": "2026-09-15",
+   "summary": "new techniques/case studies"
+  },
+  {
+   "url": "https://genai.owasp.org/2026/09/01/owasp-genai-security-project-unveils-2026-top-10-for-llm-applications-new-agent-control-standard-and-sponsors-as-community-tops-30000-members/",
+   "title": "OWASP 2026 announcement",
+   "published_at": "2026-09-01",
+   "summary": "Top 10 2026, ACS"
+  }
+ ],
+ "files_written": [
+  "discovery-03.json"
+ ],
+ "checks_run": [
+  "WebSearch x6",
+  "WebFetch x2",
+  "catalog-index dedup"
+ ],
+ "risks": [
+  "ATLAS technique descriptions only from release summary, not technique pages",
+  "OWASP Top 10 entry list not verified"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "merge_discovery_candidate",
+ "source_id": "standards-security-and-risk",
+ "lookback_days": 21,
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-ai-cloaking-differential-content",
+   "title": "攻撃者がAgent/クローラーと人間で異なるコンテンツを出し分け(AI Targeted Cloaking)、人間のレビューでは見えない指示・情報をAgentへ供給する",
+   "summary": "MITRE ATLAS v2026.09 (2026-09-15) が新technique 'AI Targeted Cloaking' を追加。Web serverがUser-Agent等でAI Agent/取得系を判別し、人間には無害なページ、Agentには注入指示や偽情報を返すため、人間が同じURLを確認しても汚染を検出できない。Agentが取得するドキュメント・パッケージ説明・APIドキュメントに対する検証が人間の目視に依存する開発フローで成立する。",
+   "proposed_category": "I",
+   "problem_type": [
+    "indirect-prompt-injection",
+    "differential-content",
+    "web-retrieval"
+   ],
+   "priority_lanes": [
+    "safety",
+    "watch"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-03 (standards-security-and-risk scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+     "title": "MITRE ATLAS v2026.09 release",
+     "published_at": "2026-09-15",
+     "summary": "New techniques include AI Targeted Cloaking and Triggers in Multimodal Inputs (evasion tactic)."
+    }
+   ],
+   "confidence": "low",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "I01/I02はページ内の命令実行を扱うが、Agent向け出し分けにより人間の再確認が無効化される点は未カタログ。ATLAS項目名のみ確認し詳細本文は未取得のため信頼度low。C07(古い記事と公式情報の区別)とも異なる。"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-crafted-assistant-links-prompt-prefill",
+   "title": "AI Assistantを開くリンクがPromptを事前入力し、クリックだけで永続Memory・推奨を汚染する(Crafted AI Assistant Links)",
+   "summary": "MITRE ATLAS v2026.09 が供給網系technique 'Crafted AI Assistant Links' と新case study 'AI Recommendation Poisoning via Crafted AI Assistant Links' を追加。URLパラメータでAssistantへPromptを事前投入するリンクを埋め込み、ユーザーが開くだけで攻撃者の指示(推奨の偏り、Memory書込)が実行される。開発文脈ではREADME・Issue・ドキュメント内のdeep linkからAgentのMemory/推奨(依存選定等)が偏る恐れ。",
+   "proposed_category": "I",
+   "problem_type": [
+    "prompt-injection",
+    "memory-poisoning",
+    "deep-link"
+   ],
+   "priority_lanes": [
+    "safety",
+    "watch"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-03 (standards-security-and-risk scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+     "title": "MITRE ATLAS v2026.09 release",
+     "published_at": "2026-09-15",
+     "summary": "New technique Crafted AI Assistant Links; new case study AI Recommendation Poisoning via Crafted AI Assistant Links; new AI Agent Response Biasing."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": false,
+   "status": "candidate",
+   "target_problem_id": null,
+   "notes": "I01/I11/C11は隣接するが、『ユーザー起動リンクによるPrompt事前入力』という入口とRecommendation poisoningは別機構。開発Agentでの具体事例は未確認のため、開発固有の影響は推論。"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-owasp-2026-excessive-agency-rank3",
+   "title": "OWASP 2026 LLM Top 10でExcessive Agencyが3位へ上昇、実インシデントデータでAgent権限過大が裏付けられた",
+   "summary": "OWASP GenAI Security Project (2026-09-01/02) が2026 Top 10 for LLM Applicationsを公開。初めてコミュニティ順位を大量の実インシデントデータと突き合わせ、Excessive Agencyが3位に上昇。併せてAgent Control Standard(実行時強制の実践ガイド)を発表。I03(権限過大)への一次標準による外部裏付け・緩和策の参照先として追加価値。",
+   "proposed_category": "I",
+   "problem_type": [
+    "excessive-agency",
+    "standards"
+   ],
+   "priority_lanes": [
+    "safety",
+    "foundation"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-03 (standards-security-and-risk scout)",
+   "evidence": [
+    {
+     "url": "https://genai.owasp.org/2026/09/01/owasp-genai-security-project-unveils-2026-top-10-for-llm-applications-new-agent-control-standard-and-sponsors-as-community-tops-30000-members/",
+     "title": "OWASP GenAI Security Project unveils 2026 Top 10 for LLM Applications, Agent Control Standard",
+     "published_at": "2026-09-01",
+     "summary": "Excessive Agency moved to #3; ranking weighed against real incident data; Agent Control Standard offers runtime enforcement guidance."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "I03",
+   "notes": "既存I03の証拠追加。個別entry一覧は取得ページに記載なく、3位以外の変更は未確認。"
+  }
+ ]
+}

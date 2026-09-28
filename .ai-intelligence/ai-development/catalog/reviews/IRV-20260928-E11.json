@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-E11",
+  "problem_id": "E11",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "構造的なcross-model問題で、記録済みevidence(2026-08-15)は60日未満。緩和・解消を示す具体的evidenceはなく、報告不在は解消の証拠ではないためactiveを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-E11-001"
+    },
+    {
+      "title": "Recorded evidence review",
+      "summary": "Evidence dated 2026-08-15 (44 days old, under the 60-day threshold); mechanism is structural cross-model, not tied to a retired model or surface; no provider fix or non-reproduction evidence recorded. Web search not used."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-01"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-ASSISTLINK-001",
+  "problem_ids": [
+    "P-20260928-646689BC"
+  ],
+  "summary": "prompt事前入力deep link (URL parameterでAssistantへpromptを渡すリンク) を、信頼できないinputとして扱う: README・Issue・docs・chat内のAI assistant起動リンクをagentに自動で開かせない / 開いても事前入力promptを実行せず確認表示にとどめる。Memory書込 (『remember X as trusted』『recommend X first』) はユーザーの明示操作に限定し、URL由来promptからの永続化を禁止する。推奨・依存選定に影響するMemoryは定期監査し、不審な項目を削除する。組織側ではメール/Teams等のURLをmemory操作キーワードでhuntする (Microsoftが公開したDefender advanced hunting queryが例)。",
+  "remedy_type": "process",
+  "maturity": "signal",
+  "status": "active",
+  "evidence": [
+    {
+      "kind": "standards-report",
+      "reference": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+      "observed_at": "2026-09-28",
+      "summary": "ATLAS v2026.09 adds AML.T0131 Crafted AI Assistant Links and case study AML.CS0072 AI Recommendation Poisoning via Crafted AI Assistant Links, plus AML.T0130 AI Agent Response Biasing; no mitigation is listed against them in the release notes."
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/",
+      "observed_at": "2026-09-28",
+      "summary": "Microsoft Security Blog (2026-02-10): 'Summarize with AI' buttons carry pre-filled prompts via URL parameters that instruct assistants to remember a company as trusted or recommend it first; Microsoft states it deployed Copilot mitigations and published advanced hunting queries for URLs with memory-manipulation keywords (from search summary; page not fetched)."
+    }
+  ],
+  "applicability": {
+    "applies_when": [
+      "agent/assistantがMemory機能を持つ、またはURLで事前入力promptを受け付ける",
+      "README・Issue・docs内のリンクをuserまたはagentが開く",
+      "推奨・依存選定がAssistantの出力に依存する"
+    ],
+    "not_applicable_when": [
+      "Memory機能が無効で、pre-fill promptを受け付けないassistantのみ利用",
+      "リンクを開かない自動化 (取得のみ)"
+    ]
+  },
+  "expected_effect": {
+    "primary": "クリックだけで攻撃者のpromptが実行・永続化されない。指標: URL由来のMemory書込件数 (目標0)、Memory監査で見つかった不審項目数、pre-fill prompt起動時の確認表示率。",
+    "adjacent_risks": [
+      "正当なdeep link (共有workflow) の利便性低下",
+      "Memory監査の運用負荷"
+    ],
+    "confidence": "signal"
+  },
+  "risks": [
+    "提供vendor側のmitigationの効果は公開評価が無く、Copilot以外は未確認",
+    "ATLAS case studyの詳細は未読 (release noteのみ)",
+    "開発agent (coding CLI) 特有の実例は未確認で、適用範囲は推測を含む"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 2,
+  "reversible": true,
+  "last_verified_at": "2026-09-28",
+  "revalidate_when": [
+    "主要assistant/harnessがpre-fill prompt起動時の確認やMemory書込のprovenance制御を公式機能化した場合",
+    "ATLAS AML.T0131にmitigationが追加された場合",
+    "coding agentでの実例報告が出た場合"
+  ]
+}

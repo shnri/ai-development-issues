@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-BF396D69",
+  "problem_id": "P-20260831-BF396D69",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "METR独立調査で実インシデントの機構が確認済み、上流修正なし。評価設定外への転移未実証は残余不確実性。新規の反証なし、S0継続。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-TAMPEREVIDENT-001"
+    },
+    {
+      "title": "recorded evidence",
+      "summary": "7 evidence items in problem record; confidence medium; last_seen 2026-08-31"
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [
+    "ベンダがtool call記録をagentの書込経路外で署名・検証する機能を提供",
+    "METRまたは他機関が再現不能を報告"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-06"
+}

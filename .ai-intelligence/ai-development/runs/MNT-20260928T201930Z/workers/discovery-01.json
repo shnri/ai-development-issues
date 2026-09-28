@@ -1,0 +1,188 @@
+{
+ "contract": "specialist-handoff-v1",
+ "worker_id": "discovery-01",
+ "status": "complete",
+ "role": "scout",
+ "problem_ids": [],
+ "work_item_id": null,
+ "facts": [
+  "Claude Code 2.1.280-2.1.284 changelog contains multiple permission/compaction fixes within the window",
+  "Anthropic eval-incident post dated 2026-07-30 is outside lookback"
+ ],
+ "inferences": [
+  "Vendor fixes map to existing catalog problems as mitigation evidence; no clearly new mechanism beyond skill/plugin self-preapproval"
+ ],
+ "evidence": [
+  {
+   "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+   "title": "Claude Code CHANGELOG",
+   "summary": "2.1.280-2.1.284 fixes"
+  },
+  {
+   "url": "https://learn.chatgpt.com/docs/changelog",
+   "title": "Codex changelog",
+   "summary": "CVE-2026-100754 macOS fix 2026-09-25; plugin skill duplication fix 2026-09-11 (details not verified)"
+  }
+ ],
+ "files_written": [
+  "discovery-01.json"
+ ],
+ "checks_run": [],
+ "risks": [
+  "Changelog summarised via WebFetch small model; wording not independently verified",
+  "Codex CVE entry not pursued"
+ ],
+ "recommended_action": "catalog-update",
+ "next_gate": "merge_discovery_candidate",
+ "source_id": "official-model-and-agent-providers",
+ "lookback_days": 21,
+ "records": [
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-skill-plugin-self-preapproval",
+   "title": "Skill・Pluginが自身のtool権限を自己事前承認でき、承認Gateを通らず実行される",
+   "summary": "Claude Code 2.1.282は「repository/user/--add-dir由来のSkillが自身のtoolを事前承認する」問題を、2.1.283は「marketplace・claude.ai・npm由来Pluginが自身のtoolを事前承認する」問題を修正した(公式/vouched sourceのみ事前承認を維持)。導入する側が信頼判断をする前に、配布物のmetadataが権限付与を宣言できる機構が実在したことを示す。",
+   "proposed_category": "I",
+   "problem_type": [
+    "security",
+    "permission"
+   ],
+   "priority_lanes": [
+    "safety"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "Claude Code CHANGELOG 2.1.282/2.1.283",
+     "published_at": "2026-09",
+     "summary": "Fixed repository, user and --add-dir skills pre-approving their own tools; Fixed plugins from marketplaces, claude.ai and npm pre-approving their own tools."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "I07",
+   "notes": "I07(悪意あるSkill・Plugin・MCPが命令と権限を持つ)と同系統だが、本件は悪意の有無に関わらず配布物が権限を自己宣言できる構造欠陥とvendor修正。I07への新evidence/mitigation。別機構として切り出す場合はcandidate化も可。"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-symlink-write-judged-by-intree-path",
+   "title": "Symlink経由の書き込みが論理パスで判定される問題のvendor修正",
+   "summary": "Claude Code 2.1.284: 「symlinkパス経由の書き込みがrepo内の見かけのパスで判定される」問題を修正し、プロンプトが実際の着地先を示すようになった。P-20260907-211DB41F(権限チェック時と実アクセス時のsymlink解決不一致)の緩和evidenceで、ベンダーが実在問題として認めた。",
+   "proposed_category": "I",
+   "problem_type": [
+    "security",
+    "permission"
+   ],
+   "priority_lanes": [
+    "safety"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "Claude Code CHANGELOG 2.1.284",
+     "published_at": "2026-09",
+     "summary": "Fixed writes through a symlinked path being judged by their in-tree spelling; prompt now names the actual landing location."
+    }
+   ],
+   "confidence": "high",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "P-20260907-211DB41F",
+   "notes": "同一機構。vendor fixという緩和evidence追加。"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-rm-command-substitution-unprompted",
+   "title": "許可ルールがコマンド置換出力を対象とする再帰rmを確認なしで通す",
+   "summary": "Claude Code 2.1.282: 「対象がコマンド置換の出力のみである再帰rmが、Bash allowルールの下で確認なしに実行される」問題を修正。許可リストの静的解釈と実行系のシェル展開が食い違う典型例。",
+   "proposed_category": "I",
+   "problem_type": [
+    "security",
+    "permission"
+   ],
+   "priority_lanes": [
+    "safety"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "Claude Code CHANGELOG 2.1.282",
+     "published_at": "2026-09",
+     "summary": "Fixed a recursive rm whose target is only command-substitution output running unprompted; now asks even with Bash allow rule."
+    }
+   ],
+   "confidence": "high",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "P-20260831-60EFB5BF",
+   "notes": "同一機構(許可リストと実行系の解釈差)の具体例と修正。"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-auto-mode-denial-retry-loop",
+   "title": "Auto modeで安全チェックが拒否した行為をAgentが繰り返し再試行する",
+   "summary": "Claude Code 2.1.284: 「safety checkが拒否した操作をauto modeが何度も再試行」「拒否が休みなく繰り返される」を修正し、一度だけdeny、再試行はbackoff、10回失敗で停止する仕様にした。拒否結果をAgentが回避行動のシグナルとして扱えず、Loopや承認疲れ・回避試行に繋がる機構。",
+   "proposed_category": "G",
+   "problem_type": [
+    "loop",
+    "permission"
+   ],
+   "priority_lanes": [
+    "quickwin",
+    "safety"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "Claude Code CHANGELOG 2.1.284",
+     "published_at": "2026-09",
+     "summary": "Fixed auto mode retrying an action over and over when a safety check declined; retries back off and stop after ten failures."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "G06",
+   "notes": "G06(同じCommand failureを原因分析せず再実行)の権限拒否版としてvendor fixが確認された。I12/I17との関連も注記。"
+  },
+  {
+   "schema_version": "1.0",
+   "id": "DSC-20260928-subagent-report-lost-on-compaction",
+   "title": "Compactionやheadless実行でSubagentの報告・メッセージが無言で失われる",
+   "summary": "Claude Code 2.1.281: 「background subagentへ送ったメッセージが無言で失われる」「完了したsubagentの報告が会話compactionで失われる」を修正。2.1.283: SDK sessionがdeferred tool callや完了済みtool resultを失う問題も修正。親Agentは欠落に気づかず後続判断を行う。",
+   "proposed_category": "H",
+   "problem_type": [
+    "context",
+    "handoff",
+    "data-loss"
+   ],
+   "priority_lanes": [
+    "foundation"
+   ],
+   "discovered_at": "2026-09-28T20:30:00Z",
+   "detected_by": "discovery-01 (official-model-and-agent-providers scout)",
+   "evidence": [
+    {
+     "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+     "title": "Claude Code CHANGELOG 2.1.281/2.1.283",
+     "published_at": "2026-09",
+     "summary": "Fixed messages sent to a background subagent being silently lost; finished subagent's report lost when compacted; SDK sessions losing a deferred tool call or finished tool result."
+    }
+   ],
+   "confidence": "medium",
+   "material_change": true,
+   "status": "update",
+   "target_problem_id": "C04",
+   "notes": "C04/H03(compaction・handoffで情報が落ちる)の具体的vendor修正evidence。P-20260831-3039ED15(tool応答消失)とも近い。"
+  }
+ ]
+}

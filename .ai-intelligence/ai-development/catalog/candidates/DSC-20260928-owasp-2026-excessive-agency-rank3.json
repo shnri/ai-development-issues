@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20260928-owasp-2026-excessive-agency-rank3",
+  "title": "OWASP 2026 LLM Top 10でExcessive Agencyが3位へ上昇、実インシデントデータでAgent権限過大が裏付けられた",
+  "summary": "OWASP GenAI Security Project (2026-09-01/02) が2026 Top 10 for LLM Applicationsを公開。初めてコミュニティ順位を大量の実インシデントデータと突き合わせ、Excessive Agencyが3位に上昇。併せてAgent Control Standard(実行時強制の実践ガイド)を発表。I03(権限過大)への一次標準による外部裏付け・緩和策の参照先として追加価値。",
+  "proposed_category": "I",
+  "problem_type": [
+    "excessive-agency",
+    "standards"
+  ],
+  "priority_lanes": [
+    "safety",
+    "foundation"
+  ],
+  "discovered_at": "2026-09-28T20:30:00Z",
+  "detected_by": "discovery-03 (standards-security-and-risk scout)",
+  "evidence": [
+    {
+      "url": "https://genai.owasp.org/2026/09/01/owasp-genai-security-project-unveils-2026-top-10-for-llm-applications-new-agent-control-standard-and-sponsors-as-community-tops-30000-members/",
+      "title": "OWASP GenAI Security Project unveils 2026 Top 10 for LLM Applications, Agent Control Standard",
+      "published_at": "2026-09-01",
+      "summary": "Excessive Agency moved to #3; ranking weighed against real incident data; Agent Control Standard offers runtime enforcement guidance."
+    }
+  ],
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "I03",
+  "notes": "既存I03の証拠追加。個別entry一覧は取得ページに記載なく、3位以外の変更は未確認。"
+}

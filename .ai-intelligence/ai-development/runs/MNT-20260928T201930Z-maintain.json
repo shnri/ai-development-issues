@@ -1,0 +1,4658 @@
+{
+  "schema_version": "1.0",
+  "plan_schema_version": "1.1",
+  "id": "MNT-20260928T201930Z",
+  "started_at": "2026-09-28T20:19:30Z",
+  "completed_at": "2026-09-28T20:32:47Z",
+  "mode": "maintain",
+  "plan_mode": "incremental",
+  "catalog_revision_before": 99,
+  "catalog_revision_after": 120,
+  "authority_base": {
+    "remote": "origin",
+    "branch": "claude/zen-carson-44sf8v",
+    "remote_sha": null,
+    "local_head": "8cf3153699fee0e67f514131e80529eca8a8d361",
+    "recorded_at": "2026-09-28T20:19:30Z",
+    "reachable": false
+  },
+  "plan": {
+    "mode": "incremental",
+    "bootstrap_signals": {
+      "bootstrap_completed_at": null,
+      "problem_count": 204,
+      "never_reviewed": 11,
+      "never_researched": 0,
+      "never_reviewed_ratio": 0.054,
+      "never_researched_ratio": 0.0,
+      "threshold": 0.5
+    },
+    "execution": {
+      "max_parallel_workers": 8,
+      "max_items_per_worker": {
+        "inventory": 20,
+        "research": 10,
+        "discovery": 1
+      },
+      "max_waves_per_run": 3,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null,
+      "worker_max_turns": {
+        "inventory": 24,
+        "research": 20,
+        "discovery": 24
+      }
+    },
+    "capacity": {
+      "inventory": 480,
+      "research": 240,
+      "discovery": 24
+    },
+    "legacy_fixed_limits": false,
+    "inventory_problem_ids": [
+      "E08",
+      "E09",
+      "G17",
+      "I01",
+      "I02",
+      "I04",
+      "I05",
+      "I06",
+      "I07",
+      "I08",
+      "I09",
+      "I10",
+      "I11",
+      "I12",
+      "I13",
+      "I14",
+      "I15",
+      "I16",
+      "I17",
+      "I18",
+      "J10",
+      "K13",
+      "K14",
+      "P-20260831-AE8A3EE7",
+      "P-20260831-BF396D69",
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A10",
+      "A11",
+      "A12",
+      "A14",
+      "A15",
+      "B06",
+      "B08",
+      "B11",
+      "B12",
+      "C01",
+      "C06",
+      "C07",
+      "C08",
+      "C09",
+      "C12",
+      "D03",
+      "D14",
+      "D16",
+      "E01",
+      "E02",
+      "E03",
+      "E06",
+      "E11",
+      "E12",
+      "E13",
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11",
+      "F13",
+      "F18",
+      "F19",
+      "F21",
+      "H04",
+      "H06",
+      "H09",
+      "H10",
+      "H13",
+      "J02",
+      "J03",
+      "J04",
+      "J05",
+      "J15",
+      "J16",
+      "P-20260907-B8D227AC",
+      "B04",
+      "B05",
+      "C02",
+      "D04",
+      "D05",
+      "D06",
+      "D07",
+      "D08",
+      "D13",
+      "E04",
+      "E05",
+      "E07",
+      "F20",
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G07",
+      "G08",
+      "G09",
+      "G10",
+      "G11",
+      "G12",
+      "G13",
+      "G14",
+      "G16",
+      "G19",
+      "G20",
+      "G21",
+      "G23",
+      "J06",
+      "K06",
+      "P-20260816-66F0FD78",
+      "A09",
+      "A13",
+      "B01",
+      "B02",
+      "B03",
+      "B07",
+      "B09",
+      "B10",
+      "C03",
+      "C04",
+      "C05",
+      "C10",
+      "C11",
+      "C13",
+      "D01",
+      "D09",
+      "D10",
+      "D11",
+      "D12",
+      "D15",
+      "F12",
+      "F14",
+      "F15",
+      "F17",
+      "F22",
+      "G15",
+      "G24",
+      "H01",
+      "H02",
+      "H03",
+      "H05",
+      "H07",
+      "H08",
+      "H11",
+      "H12",
+      "H14",
+      "J01",
+      "J07",
+      "J08",
+      "J09",
+      "J11",
+      "J12",
+      "J13",
+      "J14",
+      "J17",
+      "K01",
+      "K02",
+      "K04",
+      "K05",
+      "K08",
+      "K09",
+      "K10",
+      "K11",
+      "K12",
+      "K15",
+      "P-20260907-EACDFFF4",
+      "D02",
+      "F16",
+      "P-20260907-09AB323A",
+      "P-20260907-139DC981",
+      "P-20260907-211DB41F",
+      "P-20260907-60990370",
+      "P-20260907-CD83ACE2",
+      "P-20260907-D8E5A2E2",
+      "P-20260907-E23B65A6",
+      "P-20260907-F2CB0737",
+      "P-20260907-FE46C48C"
+    ],
+    "inventory_items": [
+      {
+        "id": "E08",
+        "title": "Migration、Config、Dependency更新を不用意に含める",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E09",
+        "title": "Security上危険でも「動くコード」を採用する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "G17",
+        "title": "安全な読取操作にも毎回承認が必要でPermission fatigueになる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "I01",
+        "title": "README、Issue、Comment、Web、Log内の文を命令として実行する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I02",
+        "title": "Prompt InjectionでAgentの目的が乗っ取られる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I04",
+        "title": "誤推論から破壊的Command・Migration・Deployを実行する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I05",
+        "title": "Secret、Source、顧客Dataを外部へ送信する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I06",
+        "title": "Prompt、Trace、LogにSecretや個人情報が残る",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I07",
+        "title": "悪意あるSkill・Plugin・MCPが命令と権限を持つ",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I08",
+        "title": "AIが存在しないPackage名を提案し、攻撃者のPackageを取得する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I09",
+        "title": "Skill文書内のCode例・TemplateにPayloadが埋め込まれる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I10",
+        "title": "CI/CD AgentがIssue・PR・Commit内容から乗っ取られる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I11",
+        "title": "Agent間通信・Shared memoryが汚染される",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I12",
+        "title": "承認疲れで人間が内容を見ずに許可する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I13",
+        "title": "AI生成コードの出典・License・著作権リスクが不明",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I14",
+        "title": "Data residency、保持期間、学習利用条件に違反する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I15",
+        "title": "AI利用が監査証跡に残らず、後から説明できない",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I16",
+        "title": "Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I17",
+        "title": "AgentがBranch protectionや通常工程を迂回する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "I18",
+        "title": "AIが安全対策コードを「不要」と判断して削除する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "I"
+      },
+      {
+        "id": "J10",
+        "title": "「AIが書いた」で責任主体が曖昧になる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "K13",
+        "title": "AI利用Telemetry自体がPrivacy・機密リスクになる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K14",
+        "title": "外部Systemへの副作用があり、Code rollbackだけでは戻らない",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "P-20260831-AE8A3EE7",
+        "title": "Agentがシェル経由でファイルを書き換え、Checkpoint・Hook・権限判定・差分レビューの計測対象から外れる",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-09-07",
+        "next_review_due": "2026-09-28",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260831-BF396D69",
+        "title": "Agentが自らのTranscript・Tool Call記録を偽装し、監視Logが実行内容と乖離する",
+        "status": "active",
+        "priority_lane": "S0",
+        "last_reviewed": "2026-09-07",
+        "next_review_due": "2026-09-28",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "A01",
+        "title": "要求が曖昧なまま、AIが暗黙の前提を補って実装する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A02",
+        "title": "複数の設計書が互いに矛盾する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A03",
+        "title": "同じ仕様を複数文書に重複記載し、更新時に分岐する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A04",
+        "title": "設計書、Issue、コード、テスト、会話のどれが正本か不明",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A05",
+        "title": "各設計書は単体で正しいが、組み合わせると成立しない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A06",
+        "title": "古い設計書をAIが現行仕様として採用する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A07",
+        "title": "一つの要求変更が関連設計・API・DB・テストへ反映されない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A10",
+        "title": "非機能要件、運用条件、移行条件が機能仕様から抜ける",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A11",
+        "title": "仕様が狭すぎて正しい別解を不合格にする",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A12",
+        "title": "仕様が広すぎて未指定の挙動までテスト対象になる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A14",
+        "title": "仕様の作成時点・対象バージョン・出典が分からない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A15",
+        "title": "AIが作りやすい仕様へ問題設定自体が歪む",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "B06",
+        "title": "逆にHappy Pathだけで、運用・障害・移行設計がない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B08",
+        "title": "AIが既存の例外・負債を「標準パターン」と誤認して複製する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B11",
+        "title": "文書を更新しただけで実装済みと誤認する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B12",
+        "title": "既存互換性・移行順序を無視して理想設計へ置換する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "C01",
+        "title": "必要なファイル・設計書を取得できず、不完全な前提で進める",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C06",
+        "title": "外部API・Framework・CLIに古い知識を使う",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C07",
+        "title": "公式情報と古い記事・記憶の区別が付かない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C08",
+        "title": "環境変数、Feature Flag、Runtime差を見落とす",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C09",
+        "title": "Repository固有の暗黙ルールを一般則で上書きする",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C12",
+        "title": "Agentが存在しないPackage・API・Optionをもっともらしく提示する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "D03",
+        "title": "System、Project、Skill、User指示が矛盾する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D14",
+        "title": "Model／System Prompt更新だけで品質が回帰する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D16",
+        "title": "Skill改善が対象Evalへの過適合になる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "E01",
+        "title": "自然で読みやすいが意味的に誤ったコードを生成する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E02",
+        "title": "境界値、失敗経路、Concurrency、権限条件が抜ける",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E03",
+        "title": "見えているテストを満たすだけのHardcodeを入れる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E06",
+        "title": "既存機能の互換性を壊して新仕様だけを満たす",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E11",
+        "title": "実装途中なのに完了と報告する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E12",
+        "title": "Code commentや説明が実装とずれる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E13",
+        "title": "同じ誤解を複数Moduleへ一貫して展開してしまう",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "F01",
+        "title": "誤った実装を見たAIが、その誤りに整合するテストを書く",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F02",
+        "title": "設計書の矛盾によりテストの正解が一意に決まらない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F03",
+        "title": "Assertionが弱く、実行しただけでPASSする",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F04",
+        "title": "Happy Path中心で失敗・境界条件を検証しない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F05",
+        "title": "Mockが多すぎて実際の統合を検証しない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F06",
+        "title": "Coverageが高いことを品質と誤認する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F07",
+        "title": "Visible testへ過適合し、仕様外の抜け道を使う",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F08",
+        "title": "Agentがテスト・Verifier側を変更してPASSさせる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F09",
+        "title": "テストが実装詳細を強制し、正しい別解を拒否する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F10",
+        "title": "テストが仕様にない機能まで要求する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F11",
+        "title": "AI Reviewerも実装AIと同じ前提を誤る",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F13",
+        "title": "一度の成功を安定性と見なす",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F18",
+        "title": "Test PASSでもBuild・Runtime・UI・Integrationが壊れている",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F19",
+        "title": "「実行した」との自己申告だけで、実際の結果を確認しない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F21",
+        "title": "旧仕様向けテストが新仕様変更を妨げる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "H04",
+        "title": "Agentごとに仕様・Interfaceの解釈が異なる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H06",
+        "title": "Gitが検知できないSemantic conflictが起きる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H09",
+        "title": "上流Agentの誤解が下流Agentへ連鎖する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H10",
+        "title": "各担当は成功しても、統合時に全体が壊れる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H13",
+        "title": "Coder AgentとReviewer Agentが相互に同意するだけになる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "J02",
+        "title": "動くが人間が修正できないKnowledge／Epistemic Debtが増える",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J03",
+        "title": "AI生成量が人間の理解・レビュー速度を超える",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J04",
+        "title": "Reviewが品質保証ではなく形式的承認になる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J05",
+        "title": "AIを過信し、もっともらしい誤りを見逃す",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J15",
+        "title": "Human-in-the-loopが生成量に対してScaleしない",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J16",
+        "title": "Architecture OwnerやDomain Ownerの責任が弱まる",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "P-20260907-B8D227AC",
+        "title": "実装ownerのRole名がRole辞書に無いと計画系が実在しない共有Assetとして解決し、guidance系Work Itemが誤った対象・過大なRisk Tierで生成される",
+        "status": "provisional",
+        "priority_lane": "Q1",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "B04",
+        "title": "AIが小さな変更に過剰なLayer・Interfaceを追加する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B05",
+        "title": "将来拡張を過剰に先取りし、YAGNI違反になる",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "C02",
+        "title": "無関係なContextが重要な制約を押し流す",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "D04",
+        "title": "指示ファイルが肥大化し、重要事項が埋もれる",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D05",
+        "title": "LinterやFormatterが担う規則を指示にも重複記載する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D06",
+        "title": "特定作業だけの手順を常時Contextへ入れる",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D07",
+        "title": "初期構築手順が残り、通常作業でも毎回実行される",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D08",
+        "title": "参照先が循環・欠落・古い",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D13",
+        "title": "「必ず全テスト」など過剰な絶対規則が毎回の無駄を生む",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "E04",
+        "title": "依頼範囲外のRefactor・Cleanupを混ぜる",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E05",
+        "title": "不要なDependency・Framework・抽象化を追加する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "E07",
+        "title": "Temporary code、Debug出力、未使用Fileが残る",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "F20",
+        "title": "テストが大量生成され、重複・低価値ケースが増える",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "G01",
+        "title": "変更確認のたびに数分かかる全テストを実行する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G02",
+        "title": "毎回Lint・Typecheck・Build・全Testを一括実行する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G03",
+        "title": "変更と無関係なPackage・Workspaceまで確認する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G04",
+        "title": "同じFile・設計書・Logを何度も読み直す",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G05",
+        "title": "同じ検索を言い換えて延々繰り返す",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G07",
+        "title": "小さな作業にも長い計画・説明を生成する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G08",
+        "title": "独立していない作業までSubagentへ分割する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G09",
+        "title": "Subagentを増やしすぎ、統合コストが作業時間を上回る",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G10",
+        "title": "複数Agentが同じ調査・実装を重複して行う",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G11",
+        "title": "Routine作業にも常に高価なModelを使う",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G12",
+        "title": "Repository全体を最初から読み、Tokenと時間を消費する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G13",
+        "title": "大量のLogをContextへ保持し続ける",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G14",
+        "title": "完了条件がなく、改善・Refactorを続ける",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G16",
+        "title": "毎SessionでInstall・Build・初期調査をやり直す",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G19",
+        "title": "最終検証を変更なしで何度も繰り返す",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G20",
+        "title": "依頼外の文書・Backup・Temporary artifactを生成する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G21",
+        "title": "失敗時に全工程を最初からやり直す",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G23",
+        "title": "Flaky testを無条件で何度も再実行する",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "J06",
+        "title": "AIを信用できず、すべて再確認してVerification taxが増える",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "K06",
+        "title": "Token、推論時間、外部Tool費用が予測しにくい",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "P-20260816-66F0FD78",
+        "title": "Skillが過剰手順を誘発し、品質向上に見合わないToken・時間・Tool Callを増やす",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-16",
+        "next_review_due": "2026-09-16",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "A09",
+        "title": "仕様が過剰に詳細化され、人間もAIも全体を把握できない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "A13",
+        "title": "「なぜこの仕様か」が失われ、後から変更判断できない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "B01",
+        "title": "局所的には正しい変更が全体Architectureを崩す",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B02",
+        "title": "Agentごとに異なる設計原則を採用する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B03",
+        "title": "同じ目的の実装・抽象化・設定が重複して増える",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B07",
+        "title": "変更影響の追跡が文書・コード・テスト間で切れる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B09",
+        "title": "Design DecisionがChatだけに残り、Repositoryに残らない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "B10",
+        "title": "生成量増加によりArchitecture reviewが追いつかない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "B"
+      },
+      {
+        "id": "C03",
+        "title": "長いSessionで初期要求・禁止事項を忘れる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C04",
+        "title": "Context圧縮で判断理由・未完了事項が落ちる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C05",
+        "title": "Handoffで「伝言ゲーム」が起きる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C10",
+        "title": "複数Agentが異なる時点のRepositoryを見て作業する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C11",
+        "title": "長期Memoryに古い知識・誤った結論が残る",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "C13",
+        "title": "必要情報を追加するほどContextが増え、かえって精度が落ちる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "C"
+      },
+      {
+        "id": "D01",
+        "title": "Skill・Prompt・Agent設定が古くなる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D09",
+        "title": "Skillが必要な場面で発火しない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D10",
+        "title": "不要な場面でSkillが誤発火する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D11",
+        "title": "Skill同士が競合し、順番で結果が変わる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D12",
+        "title": "事故対策を追加し続け、Instruction Debtになる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "D15",
+        "title": "SkillのOwner、対応Model、Runtime、依存Versionが不明",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "F12",
+        "title": "AI Reviewerが過剰修正・False Positiveを増やす",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F14",
+        "title": "Flaky testを実装失敗・Model回帰と誤認する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F15",
+        "title": "Eval自体が古くなり、現在の実務を測らない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F17",
+        "title": "実行環境差・CPU競合・Timeoutを能力差と誤認する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "F22",
+        "title": "最終結果だけを見て、無駄な探索・危険な途中操作を見逃す",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "G15",
+        "title": "Context枯渇を恐れて未完のまま早期終了する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "G24",
+        "title": "Agentが終了を自己判断できず、人間が常時監視する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "H01",
+        "title": "長時間作業でContextの一貫性が崩れる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H02",
+        "title": "Sessionを跨ぐと途中状態・未完了点を誤認する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H03",
+        "title": "Handoff要約から例外・根拠・制約が消える",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H05",
+        "title": "並列変更で通常のMerge conflictが急増する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H07",
+        "title": "分割単位が悪く、複数Agentが同じModuleを横断する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H08",
+        "title": "調整Agentが情報・判断のボトルネックになる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H11",
+        "title": "Agent作業中に人間が同じ箇所を変更し、基準状態がずれる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H12",
+        "title": "Session中断・利用制限・Crashで文脈と作業を失う",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "H14",
+        "title": "どのAgentが何を根拠に変更したか追跡できない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "H"
+      },
+      {
+        "id": "J01",
+        "title": "コードを書いた人間が存在せず、設計理由を誰も説明できない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J07",
+        "title": "AI利用者本人の生産性実感と実測がずれる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J08",
+        "title": "コーディング・Debug・設計技能が衰える",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J09",
+        "title": "Juniorが試行錯誤・Reviewを通じて学ぶ機会が減る",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J11",
+        "title": "Reviewが担っていたTeam内の知識伝播が失われる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J12",
+        "title": "個人の生成速度向上がTeam全体のDelivery改善につながらない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J13",
+        "title": "LOC、PR数、Token量を生産性と誤認する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J14",
+        "title": "AI利用Skillの差でTeam内の品質がばらつく",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "J17",
+        "title": "AIが既存の悪い工程・組織習慣まで高速化する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "J"
+      },
+      {
+        "id": "K01",
+        "title": "同じ入力・Repositoryでも結果が毎回変わる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K02",
+        "title": "Model更新だけで品質・速度・Tool利用が変わる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K04",
+        "title": "OS、CPU、Memory、Network、Sandbox差で結果が変わる",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K05",
+        "title": "過去の成功Sessionを再現できない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K08",
+        "title": "ProviderやAgent製品ごとにSession・Skill形式が分断される",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K09",
+        "title": "Model、Prompt、Skill、Tool、Testのどれが原因か特定しにくい",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K10",
+        "title": "Benchmark性能と自Repositoryでの実務性能が一致しない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K11",
+        "title": "成功率だけでは、探索Loop・Token浪費・危険操作が見えない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K12",
+        "title": "Codingの時間短縮がReview・Test・Releaseへ負荷移転する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "K15",
+        "title": "AI導入前のBaselineがなく、改善か悪化か判断できない",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "P-20260907-EACDFFF4",
+        "title": "取得できなかった入力を含んだまま走査済みwatermarkだけが前進し、欠損が恒久的な死角として固定される",
+        "status": "provisional",
+        "priority_lane": "W3",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "D02",
+        "title": "旧モデル向けWorkaroundが新モデルでは逆効果になる",
+        "status": "active",
+        "priority_lane": "W3",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "D"
+      },
+      {
+        "id": "F16",
+        "title": "Benchmark汚染・飽和でModel比較が無意味になる",
+        "status": "active",
+        "priority_lane": "W3",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": "F"
+      },
+      {
+        "id": "P-20260907-09AB323A",
+        "title": "機能テストPASSのみを受け入れ基準にすると、レビュー由来の受け入れ制約に違反するAgent Patchの約3分の1が合格扱いになる",
+        "status": "provisional",
+        "priority_lane": "quality",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-139DC981",
+        "title": "組織のContent Exclusion・Logging統制が新しいAgent Surfaceへ未実装のまま展開され、除外対象コードや生API BodyがContext・Logへ流入する",
+        "status": "provisional",
+        "priority_lane": "safety",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-211DB41F",
+        "title": "権限・除外チェック時と実アクセス時でsymlink解決が食い違い、承認済みに見えるパス経由で保護対象ファイルへ到達する",
+        "status": "provisional",
+        "priority_lane": "safety",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-60990370",
+        "title": "MCPのError結果が失敗の発生は伝えるが原因・修復手段・安全な再実行可否を含まず、Agentが結果だけからは回復行動を決定できない",
+        "status": "provisional",
+        "priority_lane": "reliability",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-CD83ACE2",
+        "title": "承認・レビュー状態がCompaction・再起動・Fork・権限変更・Dispatchと同期せず、失効すべき承認が残るか有効な承認が消える",
+        "status": "provisional",
+        "priority_lane": "safety",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-D8E5A2E2",
+        "title": "APIパラメータ・会話再生の有効性がモデル世代単位で変わり、呼び出し側を変えないモデル切替・Fallback・文脈編集が400や無言のBlock破棄で壊れる",
+        "status": "provisional",
+        "priority_lane": "reliability",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-E23B65A6",
+        "title": "Session途中で追加された要求が直前実装の約2倍規模の編集無効化を引き起こし、要求の事前予告でもReworkが削減されない",
+        "status": "provisional",
+        "priority_lane": "quality",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-F2CB0737",
+        "title": "Harness注入のAttribution指示がユーザー設定・記憶より優先され、Session URL等の内部メタデータが公開Git履歴・PRへ既定で書き込まれる",
+        "status": "provisional",
+        "priority_lane": "governance",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-FE46C48C",
+        "title": "Read系deny ruleがコマンドのファイルアクセス予測を過大近似し、自動承認モードでも読み取り専用Bashを毎回ブロックして自律実行を破壊する",
+        "status": "provisional",
+        "priority_lane": "efficiency",
+        "last_reviewed": null,
+        "next_review_due": "2026-09-14",
+        "research_status": "current",
+        "category_id": null
+      }
+    ],
+    "discovery_source_ids": [
+      "official-model-and-agent-providers",
+      "primary-software-engineering-research",
+      "standards-security-and-risk",
+      "empirical-agent-engineering",
+      "community-and-issue-signals",
+      "local-project-evidence"
+    ],
+    "discovery_sources": [
+      {
+        "id": "official-model-and-agent-providers",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "openai.com",
+          "developers.openai.com",
+          "anthropic.com",
+          "docs.anthropic.com",
+          "google.com",
+          "github.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent release notes",
+          "model behavior changes",
+          "agent tools and permissions",
+          "skills plugins instructions"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-07T19:15:10Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "primary-software-engineering-research",
+        "kind": "web",
+        "evidence_tier": "research",
+        "domains": [
+          "arxiv.org",
+          "dl.acm.org",
+          "ieeexplore.ieee.org",
+          "openreview.net"
+        ],
+        "paths": [],
+        "query_themes": [
+          "AI-assisted software engineering failure modes",
+          "coding agent testing evaluation",
+          "multi-agent software development",
+          "specification drift AI coding"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-07T19:15:10Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "standards-security-and-risk",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "nist.gov",
+          "owasp.org",
+          "mitre.org"
+        ],
+        "paths": [],
+        "query_themes": [
+          "generative AI risk updates",
+          "agent security prompt injection",
+          "AI software supply chain"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-31T19:16:57Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "empirical-agent-engineering",
+        "kind": "web",
+        "evidence_tier": "empirical",
+        "domains": [
+          "metr.org",
+          "dora.dev"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent productivity empirical",
+          "agent evaluation infrastructure",
+          "AI development delivery performance"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-08-31T19:16:57Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "community-and-issue-signals",
+        "kind": "web",
+        "evidence_tier": "community",
+        "domains": [
+          "github.com",
+          "reddit.com",
+          "news.ycombinator.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent recurring issue",
+          "AI generated code workflow problem",
+          "Claude Code Codex agent regression"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-07T19:15:10Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "local-project-evidence",
+        "kind": "repository",
+        "evidence_tier": "local",
+        "domains": [],
+        "paths": [
+          ".ai-intelligence/ai-development/findings",
+          ".ai-intelligence/ai-development/runs"
+        ],
+        "query_themes": [
+          "unmapped recurring failure",
+          "unexplained time or token loss",
+          "new specification or test inconsistency"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-07T19:15:10Z",
+        "last_backfill_at": null,
+        "backfill": false
+      }
+    ],
+    "research_problem_ids": [],
+    "research_items": [],
+    "inventory": {
+      "workers": [
+        {
+          "group": "E",
+          "item_ids": [
+            "E08",
+            "E09",
+            "E01",
+            "E02",
+            "E03",
+            "E06",
+            "E11",
+            "E12",
+            "E13",
+            "E04",
+            "E05",
+            "E07"
+          ],
+          "items": [
+            {
+              "id": "E08",
+              "title": "Migration、Config、Dependency更新を不用意に含める",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E09",
+              "title": "Security上危険でも「動くコード」を採用する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E01",
+              "title": "自然で読みやすいが意味的に誤ったコードを生成する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E02",
+              "title": "境界値、失敗経路、Concurrency、権限条件が抜ける",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E03",
+              "title": "見えているテストを満たすだけのHardcodeを入れる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E06",
+              "title": "既存機能の互換性を壊して新仕様だけを満たす",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E11",
+              "title": "実装途中なのに完了と報告する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E12",
+              "title": "Code commentや説明が実装とずれる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E13",
+              "title": "同じ誤解を複数Moduleへ一貫して展開してしまう",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E04",
+              "title": "依頼範囲外のRefactor・Cleanupを混ぜる",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E05",
+              "title": "不要なDependency・Framework・抽象化を追加する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "E07",
+              "title": "Temporary code、Debug出力、未使用Fileが残る",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "E"
+            }
+          ],
+          "worker_id": "inventory-01",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "G",
+          "item_ids": [
+            "G17",
+            "G01",
+            "G02",
+            "G03",
+            "G04",
+            "G05",
+            "G07",
+            "G08",
+            "G09",
+            "G10",
+            "G11",
+            "G12",
+            "G13",
+            "G14",
+            "G16",
+            "G19",
+            "G20",
+            "G21",
+            "G23",
+            "G15"
+          ],
+          "items": [
+            {
+              "id": "G17",
+              "title": "安全な読取操作にも毎回承認が必要でPermission fatigueになる",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G01",
+              "title": "変更確認のたびに数分かかる全テストを実行する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G02",
+              "title": "毎回Lint・Typecheck・Build・全Testを一括実行する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G03",
+              "title": "変更と無関係なPackage・Workspaceまで確認する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G04",
+              "title": "同じFile・設計書・Logを何度も読み直す",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G05",
+              "title": "同じ検索を言い換えて延々繰り返す",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G07",
+              "title": "小さな作業にも長い計画・説明を生成する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G08",
+              "title": "独立していない作業までSubagentへ分割する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G09",
+              "title": "Subagentを増やしすぎ、統合コストが作業時間を上回る",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G10",
+              "title": "複数Agentが同じ調査・実装を重複して行う",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G11",
+              "title": "Routine作業にも常に高価なModelを使う",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G12",
+              "title": "Repository全体を最初から読み、Tokenと時間を消費する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G13",
+              "title": "大量のLogをContextへ保持し続ける",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G14",
+              "title": "完了条件がなく、改善・Refactorを続ける",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G16",
+              "title": "毎SessionでInstall・Build・初期調査をやり直す",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G19",
+              "title": "最終検証を変更なしで何度も繰り返す",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G20",
+              "title": "依頼外の文書・Backup・Temporary artifactを生成する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G21",
+              "title": "失敗時に全工程を最初からやり直す",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G23",
+              "title": "Flaky testを無条件で何度も再実行する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "G15",
+              "title": "Context枯渇を恐れて未完のまま早期終了する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            }
+          ],
+          "worker_id": "inventory-02",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "G+I",
+          "item_ids": [
+            "G24",
+            "I01",
+            "I02",
+            "I04",
+            "I05",
+            "I06",
+            "I07",
+            "I08",
+            "I09",
+            "I10",
+            "I11",
+            "I12",
+            "I13",
+            "I14",
+            "I15",
+            "I16",
+            "I17",
+            "I18"
+          ],
+          "items": [
+            {
+              "id": "G24",
+              "title": "Agentが終了を自己判断できず、人間が常時監視する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "I01",
+              "title": "README、Issue、Comment、Web、Log内の文を命令として実行する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I02",
+              "title": "Prompt InjectionでAgentの目的が乗っ取られる",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I04",
+              "title": "誤推論から破壊的Command・Migration・Deployを実行する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I05",
+              "title": "Secret、Source、顧客Dataを外部へ送信する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I06",
+              "title": "Prompt、Trace、LogにSecretや個人情報が残る",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I07",
+              "title": "悪意あるSkill・Plugin・MCPが命令と権限を持つ",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I08",
+              "title": "AIが存在しないPackage名を提案し、攻撃者のPackageを取得する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I09",
+              "title": "Skill文書内のCode例・TemplateにPayloadが埋め込まれる",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I10",
+              "title": "CI/CD AgentがIssue・PR・Commit内容から乗っ取られる",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I11",
+              "title": "Agent間通信・Shared memoryが汚染される",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I12",
+              "title": "承認疲れで人間が内容を見ずに許可する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I13",
+              "title": "AI生成コードの出典・License・著作権リスクが不明",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I14",
+              "title": "Data residency、保持期間、学習利用条件に違反する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I15",
+              "title": "AI利用が監査証跡に残らず、後から説明できない",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I16",
+              "title": "Sandbox・IDE拡張・Agent自体の脆弱性を経由して侵入される",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I17",
+              "title": "AgentがBranch protectionや通常工程を迂回する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            },
+            {
+              "id": "I18",
+              "title": "AIが安全対策コードを「不要」と判断して削除する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "I"
+            }
+          ],
+          "worker_id": "inventory-03",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "J",
+          "item_ids": [
+            "J10",
+            "J02",
+            "J03",
+            "J04",
+            "J05",
+            "J15",
+            "J16",
+            "J06",
+            "J01",
+            "J07",
+            "J08",
+            "J09",
+            "J11",
+            "J12",
+            "J13",
+            "J14",
+            "J17"
+          ],
+          "items": [
+            {
+              "id": "J10",
+              "title": "「AIが書いた」で責任主体が曖昧になる",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J02",
+              "title": "動くが人間が修正できないKnowledge／Epistemic Debtが増える",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J03",
+              "title": "AI生成量が人間の理解・レビュー速度を超える",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J04",
+              "title": "Reviewが品質保証ではなく形式的承認になる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J05",
+              "title": "AIを過信し、もっともらしい誤りを見逃す",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J15",
+              "title": "Human-in-the-loopが生成量に対してScaleしない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J16",
+              "title": "Architecture OwnerやDomain Ownerの責任が弱まる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J06",
+              "title": "AIを信用できず、すべて再確認してVerification taxが増える",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J01",
+              "title": "コードを書いた人間が存在せず、設計理由を誰も説明できない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J07",
+              "title": "AI利用者本人の生産性実感と実測がずれる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J08",
+              "title": "コーディング・Debug・設計技能が衰える",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J09",
+              "title": "Juniorが試行錯誤・Reviewを通じて学ぶ機会が減る",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J11",
+              "title": "Reviewが担っていたTeam内の知識伝播が失われる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J12",
+              "title": "個人の生成速度向上がTeam全体のDelivery改善につながらない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J13",
+              "title": "LOC、PR数、Token量を生産性と誤認する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J14",
+              "title": "AI利用Skillの差でTeam内の品質がばらつく",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            },
+            {
+              "id": "J17",
+              "title": "AIが既存の悪い工程・組織習慣まで高速化する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "J"
+            }
+          ],
+          "worker_id": "inventory-04",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "K",
+          "item_ids": [
+            "K13",
+            "K14",
+            "K06",
+            "K01",
+            "K02",
+            "K04",
+            "K05",
+            "K08",
+            "K09",
+            "K10",
+            "K11",
+            "K12",
+            "K15"
+          ],
+          "items": [
+            {
+              "id": "K13",
+              "title": "AI利用Telemetry自体がPrivacy・機密リスクになる",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K14",
+              "title": "外部Systemへの副作用があり、Code rollbackだけでは戻らない",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K06",
+              "title": "Token、推論時間、外部Tool費用が予測しにくい",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K01",
+              "title": "同じ入力・Repositoryでも結果が毎回変わる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K02",
+              "title": "Model更新だけで品質・速度・Tool利用が変わる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K04",
+              "title": "OS、CPU、Memory、Network、Sandbox差で結果が変わる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K05",
+              "title": "過去の成功Sessionを再現できない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K08",
+              "title": "ProviderやAgent製品ごとにSession・Skill形式が分断される",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K09",
+              "title": "Model、Prompt、Skill、Tool、Testのどれが原因か特定しにくい",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K10",
+              "title": "Benchmark性能と自Repositoryでの実務性能が一致しない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K11",
+              "title": "成功率だけでは、探索Loop・Token浪費・危険操作が見えない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K12",
+              "title": "Codingの時間短縮がReview・Test・Releaseへ負荷移転する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "K15",
+              "title": "AI導入前のBaselineがなく、改善か悪化か判断できない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "K"
+            }
+          ],
+          "worker_id": "inventory-05",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "misc",
+          "item_ids": [
+            "P-20260831-AE8A3EE7",
+            "P-20260831-BF396D69",
+            "P-20260907-B8D227AC",
+            "P-20260816-66F0FD78",
+            "P-20260907-EACDFFF4",
+            "P-20260907-09AB323A",
+            "P-20260907-139DC981",
+            "P-20260907-211DB41F",
+            "P-20260907-60990370",
+            "P-20260907-CD83ACE2",
+            "P-20260907-D8E5A2E2",
+            "P-20260907-E23B65A6",
+            "P-20260907-F2CB0737",
+            "P-20260907-FE46C48C"
+          ],
+          "items": [
+            {
+              "id": "P-20260831-AE8A3EE7",
+              "title": "Agentがシェル経由でファイルを書き換え、Checkpoint・Hook・権限判定・差分レビューの計測対象から外れる",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-09-07",
+              "next_review_due": "2026-09-28",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260831-BF396D69",
+              "title": "Agentが自らのTranscript・Tool Call記録を偽装し、監視Logが実行内容と乖離する",
+              "status": "active",
+              "priority_lane": "S0",
+              "last_reviewed": "2026-09-07",
+              "next_review_due": "2026-09-28",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-B8D227AC",
+              "title": "実装ownerのRole名がRole辞書に無いと計画系が実在しない共有Assetとして解決し、guidance系Work Itemが誤った対象・過大なRisk Tierで生成される",
+              "status": "provisional",
+              "priority_lane": "Q1",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260816-66F0FD78",
+              "title": "Skillが過剰手順を誘発し、品質向上に見合わないToken・時間・Tool Callを増やす",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-16",
+              "next_review_due": "2026-09-16",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-EACDFFF4",
+              "title": "取得できなかった入力を含んだまま走査済みwatermarkだけが前進し、欠損が恒久的な死角として固定される",
+              "status": "provisional",
+              "priority_lane": "W3",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-09AB323A",
+              "title": "機能テストPASSのみを受け入れ基準にすると、レビュー由来の受け入れ制約に違反するAgent Patchの約3分の1が合格扱いになる",
+              "status": "provisional",
+              "priority_lane": "quality",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-139DC981",
+              "title": "組織のContent Exclusion・Logging統制が新しいAgent Surfaceへ未実装のまま展開され、除外対象コードや生API BodyがContext・Logへ流入する",
+              "status": "provisional",
+              "priority_lane": "safety",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-211DB41F",
+              "title": "権限・除外チェック時と実アクセス時でsymlink解決が食い違い、承認済みに見えるパス経由で保護対象ファイルへ到達する",
+              "status": "provisional",
+              "priority_lane": "safety",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-60990370",
+              "title": "MCPのError結果が失敗の発生は伝えるが原因・修復手段・安全な再実行可否を含まず、Agentが結果だけからは回復行動を決定できない",
+              "status": "provisional",
+              "priority_lane": "reliability",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-CD83ACE2",
+              "title": "承認・レビュー状態がCompaction・再起動・Fork・権限変更・Dispatchと同期せず、失効すべき承認が残るか有効な承認が消える",
+              "status": "provisional",
+              "priority_lane": "safety",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-D8E5A2E2",
+              "title": "APIパラメータ・会話再生の有効性がモデル世代単位で変わり、呼び出し側を変えないモデル切替・Fallback・文脈編集が400や無言のBlock破棄で壊れる",
+              "status": "provisional",
+              "priority_lane": "reliability",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-E23B65A6",
+              "title": "Session途中で追加された要求が直前実装の約2倍規模の編集無効化を引き起こし、要求の事前予告でもReworkが削減されない",
+              "status": "provisional",
+              "priority_lane": "quality",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-F2CB0737",
+              "title": "Harness注入のAttribution指示がユーザー設定・記憶より優先され、Session URL等の内部メタデータが公開Git履歴・PRへ既定で書き込まれる",
+              "status": "provisional",
+              "priority_lane": "governance",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-FE46C48C",
+              "title": "Read系deny ruleがコマンドのファイルアクセス予測を過大近似し、自動承認モードでも読み取り専用Bashを毎回ブロックして自律実行を破壊する",
+              "status": "provisional",
+              "priority_lane": "efficiency",
+              "last_reviewed": null,
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": null
+            }
+          ],
+          "worker_id": "inventory-06",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "A",
+          "item_ids": [
+            "A01",
+            "A02",
+            "A03",
+            "A04",
+            "A05",
+            "A06",
+            "A07",
+            "A10",
+            "A11",
+            "A12",
+            "A14",
+            "A15",
+            "A09",
+            "A13"
+          ],
+          "items": [
+            {
+              "id": "A01",
+              "title": "要求が曖昧なまま、AIが暗黙の前提を補って実装する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A02",
+              "title": "複数の設計書が互いに矛盾する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A03",
+              "title": "同じ仕様を複数文書に重複記載し、更新時に分岐する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A04",
+              "title": "設計書、Issue、コード、テスト、会話のどれが正本か不明",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A05",
+              "title": "各設計書は単体で正しいが、組み合わせると成立しない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A06",
+              "title": "古い設計書をAIが現行仕様として採用する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A07",
+              "title": "一つの要求変更が関連設計・API・DB・テストへ反映されない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A10",
+              "title": "非機能要件、運用条件、移行条件が機能仕様から抜ける",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A11",
+              "title": "仕様が狭すぎて正しい別解を不合格にする",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A12",
+              "title": "仕様が広すぎて未指定の挙動までテスト対象になる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A14",
+              "title": "仕様の作成時点・対象バージョン・出典が分からない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A15",
+              "title": "AIが作りやすい仕様へ問題設定自体が歪む",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A09",
+              "title": "仕様が過剰に詳細化され、人間もAIも全体を把握できない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "A13",
+              "title": "「なぜこの仕様か」が失われ、後から変更判断できない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "A"
+            }
+          ],
+          "worker_id": "inventory-07",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "B",
+          "item_ids": [
+            "B06",
+            "B08",
+            "B11",
+            "B12",
+            "B04",
+            "B05",
+            "B01",
+            "B02",
+            "B03",
+            "B07",
+            "B09",
+            "B10"
+          ],
+          "items": [
+            {
+              "id": "B06",
+              "title": "逆にHappy Pathだけで、運用・障害・移行設計がない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B08",
+              "title": "AIが既存の例外・負債を「標準パターン」と誤認して複製する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B11",
+              "title": "文書を更新しただけで実装済みと誤認する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B12",
+              "title": "既存互換性・移行順序を無視して理想設計へ置換する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B04",
+              "title": "AIが小さな変更に過剰なLayer・Interfaceを追加する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B05",
+              "title": "将来拡張を過剰に先取りし、YAGNI違反になる",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B01",
+              "title": "局所的には正しい変更が全体Architectureを崩す",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B02",
+              "title": "Agentごとに異なる設計原則を採用する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B03",
+              "title": "同じ目的の実装・抽象化・設定が重複して増える",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B07",
+              "title": "変更影響の追跡が文書・コード・テスト間で切れる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B09",
+              "title": "Design DecisionがChatだけに残り、Repositoryに残らない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            },
+            {
+              "id": "B10",
+              "title": "生成量増加によりArchitecture reviewが追いつかない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "B"
+            }
+          ],
+          "worker_id": "inventory-08",
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "group": "C",
+          "item_ids": [
+            "C01",
+            "C06",
+            "C07",
+            "C08",
+            "C09",
+            "C12",
+            "C02",
+            "C03",
+            "C04",
+            "C05",
+            "C10",
+            "C11",
+            "C13"
+          ],
+          "items": [
+            {
+              "id": "C01",
+              "title": "必要なファイル・設計書を取得できず、不完全な前提で進める",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C06",
+              "title": "外部API・Framework・CLIに古い知識を使う",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C07",
+              "title": "公式情報と古い記事・記憶の区別が付かない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C08",
+              "title": "環境変数、Feature Flag、Runtime差を見落とす",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C09",
+              "title": "Repository固有の暗黙ルールを一般則で上書きする",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C12",
+              "title": "Agentが存在しないPackage・API・Optionをもっともらしく提示する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C02",
+              "title": "無関係なContextが重要な制約を押し流す",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C03",
+              "title": "長いSessionで初期要求・禁止事項を忘れる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C04",
+              "title": "Context圧縮で判断理由・未完了事項が落ちる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C05",
+              "title": "Handoffで「伝言ゲーム」が起きる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C10",
+              "title": "複数Agentが異なる時点のRepositoryを見て作業する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C11",
+              "title": "長期Memoryに古い知識・誤った結論が残る",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            },
+            {
+              "id": "C13",
+              "title": "必要情報を追加するほどContextが増え、かえって精度が落ちる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "C"
+            }
+          ],
+          "worker_id": "inventory-09",
+          "wave": 2,
+          "max_turns": 24
+        },
+        {
+          "group": "D",
+          "item_ids": [
+            "D03",
+            "D14",
+            "D16",
+            "D04",
+            "D05",
+            "D06",
+            "D07",
+            "D08",
+            "D13",
+            "D01",
+            "D09",
+            "D10",
+            "D11",
+            "D12",
+            "D15",
+            "D02"
+          ],
+          "items": [
+            {
+              "id": "D03",
+              "title": "System、Project、Skill、User指示が矛盾する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D14",
+              "title": "Model／System Prompt更新だけで品質が回帰する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D16",
+              "title": "Skill改善が対象Evalへの過適合になる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D04",
+              "title": "指示ファイルが肥大化し、重要事項が埋もれる",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D05",
+              "title": "LinterやFormatterが担う規則を指示にも重複記載する",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D06",
+              "title": "特定作業だけの手順を常時Contextへ入れる",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D07",
+              "title": "初期構築手順が残り、通常作業でも毎回実行される",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D08",
+              "title": "参照先が循環・欠落・古い",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D13",
+              "title": "「必ず全テスト」など過剰な絶対規則が毎回の無駄を生む",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D01",
+              "title": "Skill・Prompt・Agent設定が古くなる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D09",
+              "title": "Skillが必要な場面で発火しない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D10",
+              "title": "不要な場面でSkillが誤発火する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D11",
+              "title": "Skill同士が競合し、順番で結果が変わる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D12",
+              "title": "事故対策を追加し続け、Instruction Debtになる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D15",
+              "title": "SkillのOwner、対応Model、Runtime、依存Versionが不明",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            },
+            {
+              "id": "D02",
+              "title": "旧モデル向けWorkaroundが新モデルでは逆効果になる",
+              "status": "active",
+              "priority_lane": "W3",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "D"
+            }
+          ],
+          "worker_id": "inventory-10",
+          "wave": 2,
+          "max_turns": 24
+        },
+        {
+          "group": "F",
+          "item_ids": [
+            "F01",
+            "F02",
+            "F03",
+            "F04",
+            "F05",
+            "F06",
+            "F07",
+            "F08",
+            "F09",
+            "F10",
+            "F11",
+            "F13",
+            "F18",
+            "F19",
+            "F21",
+            "F20",
+            "F12",
+            "F14",
+            "F15",
+            "F17"
+          ],
+          "items": [
+            {
+              "id": "F01",
+              "title": "誤った実装を見たAIが、その誤りに整合するテストを書く",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F02",
+              "title": "設計書の矛盾によりテストの正解が一意に決まらない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F03",
+              "title": "Assertionが弱く、実行しただけでPASSする",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F04",
+              "title": "Happy Path中心で失敗・境界条件を検証しない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F05",
+              "title": "Mockが多すぎて実際の統合を検証しない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F06",
+              "title": "Coverageが高いことを品質と誤認する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F07",
+              "title": "Visible testへ過適合し、仕様外の抜け道を使う",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F08",
+              "title": "Agentがテスト・Verifier側を変更してPASSさせる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F09",
+              "title": "テストが実装詳細を強制し、正しい別解を拒否する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F10",
+              "title": "テストが仕様にない機能まで要求する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F11",
+              "title": "AI Reviewerも実装AIと同じ前提を誤る",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F13",
+              "title": "一度の成功を安定性と見なす",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F18",
+              "title": "Test PASSでもBuild・Runtime・UI・Integrationが壊れている",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F19",
+              "title": "「実行した」との自己申告だけで、実際の結果を確認しない",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F21",
+              "title": "旧仕様向けテストが新仕様変更を妨げる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F20",
+              "title": "テストが大量生成され、重複・低価値ケースが増える",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F12",
+              "title": "AI Reviewerが過剰修正・False Positiveを増やす",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F14",
+              "title": "Flaky testを実装失敗・Model回帰と誤認する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F15",
+              "title": "Eval自体が古くなり、現在の実務を測らない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F17",
+              "title": "実行環境差・CPU競合・Timeoutを能力差と誤認する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            }
+          ],
+          "worker_id": "inventory-11",
+          "wave": 2,
+          "max_turns": 24
+        },
+        {
+          "group": "F+H",
+          "item_ids": [
+            "F22",
+            "F16",
+            "H04",
+            "H06",
+            "H09",
+            "H10",
+            "H13",
+            "H01",
+            "H02",
+            "H03",
+            "H05",
+            "H07",
+            "H08",
+            "H11",
+            "H12",
+            "H14"
+          ],
+          "items": [
+            {
+              "id": "F22",
+              "title": "最終結果だけを見て、無駄な探索・危険な途中操作を見逃す",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "F16",
+              "title": "Benchmark汚染・飽和でModel比較が無意味になる",
+              "status": "active",
+              "priority_lane": "W3",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "F"
+            },
+            {
+              "id": "H04",
+              "title": "Agentごとに仕様・Interfaceの解釈が異なる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H06",
+              "title": "Gitが検知できないSemantic conflictが起きる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H09",
+              "title": "上流Agentの誤解が下流Agentへ連鎖する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H10",
+              "title": "各担当は成功しても、統合時に全体が壊れる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H13",
+              "title": "Coder AgentとReviewer Agentが相互に同意するだけになる",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H01",
+              "title": "長時間作業でContextの一貫性が崩れる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H02",
+              "title": "Sessionを跨ぐと途中状態・未完了点を誤認する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H03",
+              "title": "Handoff要約から例外・根拠・制約が消える",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H05",
+              "title": "並列変更で通常のMerge conflictが急増する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H07",
+              "title": "分割単位が悪く、複数Agentが同じModuleを横断する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H08",
+              "title": "調整Agentが情報・判断のボトルネックになる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H11",
+              "title": "Agent作業中に人間が同じ箇所を変更し、基準状態がずれる",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H12",
+              "title": "Session中断・利用制限・Crashで文脈と作業を失う",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            },
+            {
+              "id": "H14",
+              "title": "どのAgentが何を根拠に変更したか追跡できない",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-14",
+              "research_status": "current",
+              "category_id": "H"
+            }
+          ],
+          "worker_id": "inventory-12",
+          "wave": 2,
+          "max_turns": 24
+        }
+      ],
+      "deferred": [],
+      "total_due": 185
+    },
+    "discovery": {
+      "workers": [
+        {
+          "worker_id": "discovery-01",
+          "group": "official-model-and-agent-providers",
+          "item_ids": [
+            "official-model-and-agent-providers"
+          ],
+          "items": [
+            {
+              "id": "official-model-and-agent-providers",
+              "kind": "web",
+              "evidence_tier": "official",
+              "domains": [
+                "openai.com",
+                "developers.openai.com",
+                "anthropic.com",
+                "docs.anthropic.com",
+                "google.com",
+                "github.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent release notes",
+                "model behavior changes",
+                "agent tools and permissions",
+                "skills plugins instructions"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-07T19:15:10Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-02",
+          "group": "primary-software-engineering-research",
+          "item_ids": [
+            "primary-software-engineering-research"
+          ],
+          "items": [
+            {
+              "id": "primary-software-engineering-research",
+              "kind": "web",
+              "evidence_tier": "research",
+              "domains": [
+                "arxiv.org",
+                "dl.acm.org",
+                "ieeexplore.ieee.org",
+                "openreview.net"
+              ],
+              "paths": [],
+              "query_themes": [
+                "AI-assisted software engineering failure modes",
+                "coding agent testing evaluation",
+                "multi-agent software development",
+                "specification drift AI coding"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-07T19:15:10Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-03",
+          "group": "standards-security-and-risk",
+          "item_ids": [
+            "standards-security-and-risk"
+          ],
+          "items": [
+            {
+              "id": "standards-security-and-risk",
+              "kind": "web",
+              "evidence_tier": "official",
+              "domains": [
+                "nist.gov",
+                "owasp.org",
+                "mitre.org"
+              ],
+              "paths": [],
+              "query_themes": [
+                "generative AI risk updates",
+                "agent security prompt injection",
+                "AI software supply chain"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-31T19:16:57Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-04",
+          "group": "empirical-agent-engineering",
+          "item_ids": [
+            "empirical-agent-engineering"
+          ],
+          "items": [
+            {
+              "id": "empirical-agent-engineering",
+              "kind": "web",
+              "evidence_tier": "empirical",
+              "domains": [
+                "metr.org",
+                "dora.dev"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent productivity empirical",
+                "agent evaluation infrastructure",
+                "AI development delivery performance"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-08-31T19:16:57Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-05",
+          "group": "community-and-issue-signals",
+          "item_ids": [
+            "community-and-issue-signals"
+          ],
+          "items": [
+            {
+              "id": "community-and-issue-signals",
+              "kind": "web",
+              "evidence_tier": "community",
+              "domains": [
+                "github.com",
+                "reddit.com",
+                "news.ycombinator.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent recurring issue",
+                "AI generated code workflow problem",
+                "Claude Code Codex agent regression"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-07T19:15:10Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-06",
+          "group": "local-project-evidence",
+          "item_ids": [
+            "local-project-evidence"
+          ],
+          "items": [
+            {
+              "id": "local-project-evidence",
+              "kind": "repository",
+              "evidence_tier": "local",
+              "domains": [],
+              "paths": [
+                ".ai-intelligence/ai-development/findings",
+                ".ai-intelligence/ai-development/runs"
+              ],
+              "query_themes": [
+                "unmapped recurring failure",
+                "unexplained time or token loss",
+                "new specification or test inconsistency"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-07T19:15:10Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        }
+      ],
+      "lookback_days": 21
+    },
+    "research": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "limits": {
+      "inventory": 480,
+      "external_research": 240,
+      "max_parallel_workers": 8,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "max_decision_items": 3,
+      "runnable_work_item_ids": [],
+      "open_decision_package_ids": [
+        "DEC-20260815T120045Z-7415E4AB"
+      ]
+    },
+    "workflow": [
+      "fan out inventory workers (bounded, parallel) and persist each handoff under runs/<run-id>/workers/",
+      "fan out discovery scouts per due source group",
+      "fan out research workers for new/reactivated/material changes first, then the prioritized backlog",
+      "fan in: validate, deduplicate, and batch-apply inventory reviews (apply_inventory_batch.py) and research results (record_research_batch.py) as one logical catalog update",
+      "deduplicate and register discovery candidates",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "reconcile with the remote authority base, then commit/push authority state (safe_commit_state.py) with remote verification",
+      "write a concise catalog and release delta report; list deferred IDs explicitly"
+    ]
+  },
+  "results": {
+    "new": 8,
+    "reactivated": 0,
+    "inactive": 0,
+    "obsolete": 0,
+    "updated": 11,
+    "quick_wins": 0,
+    "work_items_created": 3,
+    "candidates": 0,
+    "promoted": 0,
+    "released": 0,
+    "propagated": 3,
+    "decision_required": 0,
+    "blocked_items": 0,
+    "rejected": 0,
+    "notes": "incremental run: 185 problems inventoried (179 active confirmed, 6 provisional->active, 5 provisional->unverified); 6 sources scanned (19 discovery records: 8 new, 11 updates); 19 problems researched (14 remedy drafts: 8 new remedies, 6 updates); 3 consumer-configuration guidance items completed with propagation (RMD-SCANGATE-001, RMD-K03-002, RMD-BETAGA-001); 4 eligible implementation items deferred by max_action_items_per_run=3; decision package DEC-20260815T120045Z-7415E4AB remains open awaiting owner",
+    "catalog_summary": {
+      "catalog_id": "ai-development-problems",
+      "revision": 120,
+      "updated_at": "2026-09-28T20:29:14Z",
+      "problem_count": 212,
+      "by_status": {
+        "active": 197,
+        "provisional": 8,
+        "unverified": 5,
+        "watch": 2
+      },
+      "by_research_status": {
+        "current": 212
+      }
+    },
+    "metrics": {},
+    "deferred": {
+      "research": [],
+      "inventory": []
+    },
+    "bootstrap_completed": false
+  },
+  "status": "completed",
+  "run_record": ".ai-intelligence/ai-development/runs/MNT-20260928T201930Z-maintain.json",
+  "run_dir": ".ai-intelligence/ai-development/runs/MNT-20260928T201930Z",
+  "run_snapshot": ".ai-intelligence/ai-development/catalog/snapshots/20260928T201930Z-r0099-MNT-20260928T201930Z.json"
+}

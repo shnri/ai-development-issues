@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-F08",
+  "problem_id": "F08",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "記録済みEvidence(2026-08-15のremedy research、一部2026-08-26/31の追加)は約44日前で、解消・緩和を示す新証拠はない。Mechanismは残存。activeを再確認。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-F08-001"
+    },
+    {
+      "title": "Recorded evidence age",
+      "summary": "Latest evidence 2026-08-15 (F11/F12: 2026-08-31); under 60 days; no contradicting evidence; no web search performed."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [
+    "major model or hosted-surface change",
+    "official provider guidance revision (watch-official-guidance ledger)",
+    "new model-behavior issue (detect-model-behavior-issues)",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-11"
+}

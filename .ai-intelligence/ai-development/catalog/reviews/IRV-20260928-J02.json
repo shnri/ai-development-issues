@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "id": "IRV-20260928-J02",
+  "problem_id": "J02",
+  "reviewed_at": "2026-09-28T20:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "人間・組織・責任に関わる構造的問題で特定model/toolに依存しない。記録済みevidenceは約44日前で古くなく、反証・provider fix・非再現の証拠もない。最近の報告がないことは解消の証明ではないため、activeを再確認する。",
+  "evidence": [
+    {
+      "kind": "remedy",
+      "id": "RMD-J01-001"
+    },
+    {
+      "title": "Recorded evidence 2026-08-15",
+      "summary": "Structural human/team/ownership mechanism; 3 evidence entries, all 44 days old, none contradicting; no vendor fix or non-reproduction evidence."
+    }
+  ],
+  "research_required": false,
+  "reopen_triggers": [],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20260928T201930Z/inventory-04"
+}
