@@ -1,0 +1,399 @@
+{
+  "contract": "specialist-handoff-v1",
+  "worker_id": "inventory-01",
+  "status": "complete",
+  "role": "inventory-reviewer",
+  "problem_ids": ["A08","K03","G18","E10","P-20260928-09CA0B06","P-20260928-0F54346C","P-20260928-25E15035","P-20260928-5AA04248","P-20260928-605E99D3","P-20260928-646689BC","P-20260928-81CA7BDF","P-20260928-8F640290","P-20260907-09AB323A","P-20260907-139DC981","P-20260907-60990370","P-20260907-D8E5A2E2","P-20260907-E23B65A6"],
+  "work_item_id": null,
+  "facts": [
+    "The findings directory .ai-intelligence/ai-development/findings/ does not exist, so no local findings could be used. The evidence base is the remedy JSON files plus each problem's own evidence and source_refs.",
+    "The inventory-review schema requires a 'reviewer' field. It is included in every record.",
+    "scripts/_catalog.py ALLOWED_TRANSITIONS does not allow provisional->provisional. From provisional, a review can go only to active, watch, unverified, rejected or superseded. The default status_review_days are provisional 7, active 30, watch 45 and unverified 14.",
+    "All 17 problems have research_status 'current' and non-empty remedy_refs. Every referenced remedy file exists on disk.",
+    "All eight P-20260928 remedies have last_verified_at 2026-09-28. RMD-SUBAGENTPAYLOAD-001 has remedy status 'watch'. RMD-AGENTCLOAK-001, RMD-ASSISTLINK-001 and RMD-APPROVALCHANNEL-001 have maturity 'signal'.",
+    "RMD-K02-001 has a 2026-09-28 addendum citing unconfirmed reports (#96179, #96182) of an Opus 4.6 behavior change under the same model ID.",
+    "RMD-AGENTCFGPIN-001 records arXiv 2609.07360 v3 (2026-09-25), which revised the counts. The problem summary still quotes the v1 figure of 3.1% for wildcard-exec permissions. v3 gives 2.5% for broad exec grants.",
+    "P-20260831-DE8D86E9 is 'active' and covers beta->GA and SDK-major silent breakage. P-20260907-D8E5A2E2 is triggered by model-generation selection, not by API or SDK version.",
+    "One WebSearch was run on 2026-10-05 for the Codex sub-agent payload issue. It found no evidence that the custom-provider encrypted_content task-delivery problem has been fixed. Community write-ups still describe it."
+  ],
+  "inferences": [
+    "No problem has affirmative evidence of resolution, so no downgrade to inactive, obsolete or mitigated is proposed.",
+    "P-20260907-D8E5A2E2 and P-20260907-139DC981 are proposed for unverified->active. Their 'unverified' status came from a pending merge decision or from inferring past behavior. Neither had conflicting evidence, and current official docs and changelogs confirm both mechanisms exist now.",
+    "The P-20260928 candidates are split by evidence strength. Those with official documentation or a multi-repo or multi-report base go to active. Those resting on a single credible-organization observation or a standards-body taxonomy entry with no coding-agent incident go to watch. One supported only by a single first-hand user issue goes to unverified."
+  ],
+  "evidence": [],
+  "files_written": [],
+  "checks_run": [
+    "Read lifecycle-model.md, mode-inventory.md, inventory-review.schema.json and the default-maintenance-policy.json status_review_days.",
+    "Read scripts/_catalog.py ALLOWED_TRANSITIONS to confirm every proposed transition is valid.",
+    "Read all 25 referenced remedy JSON files (summary, maturity, status, evidence, last_verified_at, revalidate_when).",
+    "Grepped catalog, events and reviews for the 17 IDs, and read IRV-20260928-D8E5A2E2 and the DE8D86E9 catalog entry.",
+    "Ran one WebSearch on the Codex sub-agent payload fix status."
+  ],
+  "risks": [
+    "The P-20260928-0F54346C summary still cites 3.1%, which v3 of the paper corrected to 2.5%. The controller should update the summary text.",
+    "RMD-MONCOVERAGE-001 cites requiredMinimumVersion behavior 'from search summary; not verified against the page'. Verify it at the next research pass before adopting it.",
+    "RMD-SUBAGENTPAYLOAD-001 lists earlier reports (#33551, #34833, #36586, #37237) based on search snippets, not issue bodies.",
+    "If the controller prefers unverified over watch for single-source P-20260928 candidates, 25E15035, 8F640290, 09CA0B06 and 646689BC are the ones to re-map.",
+    "The merge-versus-separate decision for D8E5A2E2 against DE8D86E9 is still open. This review recommends keeping them separate (merge_target null)."
+  ],
+  "recommended_action": "catalog-update",
+  "next_gate": "controller",
+  "records": [
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-A08",
+      "problem_id": "A08",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "active",
+      "proposed_status": "active",
+      "reason": "The amplification mechanism, where AI-generated design documents look authoritative and unconfirmed assumptions harden into specification, still exists. On 2026-08-31 NIST SP 1353 ipd was found to ship prompt templates that generate compliance artifacts with no verification procedure, which is a fresh official instance. The remedies are current: RMD-A08-001 (provenance labelling and explicit acceptance), RMD-A13-001 (ADRs separating assumptions from decisions), RMD-A01-002 (official clarification phase) and RMD-A01-003 (cross-artifact analysis gate). None is rejected. There is no affirmative evidence of resolution. The model_improvement value 増幅 ('amplifies') implies more capable models make the problem worse.",
+      "evidence": [
+        {"kind": "remedy-research", "reference": "RMD-A08-001", "observed_at": "2026-08-15", "summary": "candidate; prescribes provenance labels plus human review and explicit ADR-style acceptance before a generated document may be cited as spec."},
+        {"kind": "remedy-research", "reference": "RMD-A01-002", "observed_at": "2026-08-15", "summary": "official/known-applicable; separate clarification phase (Explore→Plan→Code, interview→SPEC.md)."},
+        {"kind": "official-guidance", "reference": "https://csrc.nist.gov/pubs/sp/1353/ipd", "observed_at": "2026-08-31", "summary": "Problem-record evidence: SP 1353 ipd prompt templates produce CSF profiles with no defined artifact verification; comment window closes 2026-10-15."},
+        {"kind": "remedy-research", "reference": "RMD-A13-001", "observed_at": "2026-08-15", "summary": "candidate/known-applicable; assumption-vs-decision separation; cites arXiv 2605.29442 showing 91.49% of visible resolutions needed explicit user correction."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "増幅", "assessed_models": null, "assessment": "Not locally reproduced. Existence supported by official guidance and research recorded in the remedies. No evidence that it disappears under current models."},
+      "remedy_assessment": {"remedy_ids": ["RMD-A08-001","RMD-A01-002","RMD-A13-001","RMD-A01-003"], "assessment": "All active and current (maturities candidate/official). Coverage is adequate. Add the final publication of NIST SP 1353 as a revalidation trigger rather than a new remedy."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["NIST SP 1353 final publication or comment-period outcome (after 2026-10-15)", "major model or hosted-surface change", "official provider guidance revision", "local finding/agent-trace observation", "primary study contradicting current mechanism"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-K03",
+      "problem_id": "K03",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "active",
+      "proposed_status": "active",
+      "reason": "Regressions from harness, system-prompt and config changes recur. Claude Code v2.1.251 (2026-08-28) silently changed CLAUDE_CODE_SUBAGENT_MODEL from an override to a default. RMD-K02-001 also records, as of 2026-09-28, two independent but vendor-unconfirmed reports of an Opus 4.6 behavior change under the same model ID. These are consistent with the variability mechanism but are not treated as fact. Remedies RMD-K02-001 (run manifest plus canary eval), RMD-K03-001 (validated, one axis changed per release with ablation) and RMD-K03-002 (official PreModelSwitch/PostModelSwitch hooks, explicit model pin) are current. No evidence of resolution.",
+      "evidence": [
+        {"kind": "official-guidance", "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md", "observed_at": "2026-08-31", "summary": "v2.1.251 changed CLAUDE_CODE_SUBAGENT_MODEL semantics from override to default and added PreModelSwitch/PostModelSwitch hooks (recorded in RMD-K03-002)."},
+        {"kind": "remedy-research", "reference": "RMD-K02-001", "observed_at": "2026-09-28", "summary": "Addendum: unconfirmed reports #96179/#96182 of an Opus 4.6 behavior change from about 2026-09-16 with the model ID unchanged; recommends a canary eval alongside the manifest."},
+        {"kind": "remedy-research", "reference": "RMD-K03-001", "observed_at": "2026-08-15", "summary": "validated/known-applicable; one-axis changes with ablation regression eval and staged rollout."},
+        {"kind": "provider-postmortem", "reference": "https://www.buildthisnow.com/blog/models/claude-code-quality-regression-2026", "observed_at": "2026-08-15", "summary": "Six-week product-layer regression with a provider postmortem (problem-record evidence)."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "変動", "assessed_models": null, "assessment": "The variability mechanism is structural to hosted harnesses. The new same-model-ID drift reports are vendor-unconfirmed and do not change the status."},
+      "remedy_assessment": {"remedy_ids": ["RMD-K02-001","RMD-K03-001","RMD-K03-002"], "assessment": "All active. RMD-K02-001 was extended on 2026-09-28 with canary-eval guidance. RMD-K03-002 depends on Claude Code v2.1.251 or later. Remedies remain useful."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["vendor confirmation or denial of #96179/#96182", "change in PreModelSwitch/PostModelSwitch or model-related env var semantics", "major model or hosted-surface change", "official provider guidance revision"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-G18",
+      "problem_id": "G18",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "active",
+      "proposed_status": "active",
+      "reason": "This is an operational-friction mechanism that is independent of the model. Vitest still defaults maxWorkers to all available parallelism when watch mode is off, so CPU contention under parallel agents or devcontainers persists unless a cap is set. RMD-G18-001 (candidate/known-applicable, measured worker cap) is current. Its official-docs evidence dates from 2026-08-15, inside the 60-day official refresh window. Neither the remedy nor the problem record reports any change to the vitest pool or to the devcontainer CPU allocation. No evidence of resolution.",
+      "evidence": [
+        {"kind": "remedy-research", "reference": "RMD-G18-001", "observed_at": "2026-08-15", "summary": "candidate/known-applicable; vitest maxWorkers fixed number or '50%', --no-file-parallelism if needed."},
+        {"kind": "official-guidance", "reference": "https://vitest.dev/config/maxworkers", "observed_at": "2026-08-15", "summary": "Default is all available parallelism when watch is off and half when watch is on; percentage values are allowed (recorded in RMD-G18-001)."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "残存", "assessed_models": null, "assessment": "Runtime/tooling mechanism; model improvement is not expected to affect it."},
+      "remedy_assessment": {"remedy_ids": ["RMD-G18-001"], "assessment": "Current. The official evidence ages past its 60-day refresh on about 2026-10-14, so re-check the vitest docs at the next research pass."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["vitest pool implementation change", "devcontainer CPU allocation change", "start of parallel-agent operation in a project", "local finding of test timeout flakes"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-E10",
+      "problem_id": "E10",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "active",
+      "proposed_status": "active",
+      "reason": "Technical debt rising with AI generation volume is still supported. The RAMP study (arXiv 2608.25241, 441 repos) found commit velocity up 28-38% at every maturity level. Cognitive complexity rose about 53%, with static-analysis warnings up 1.7x, in agent-first repos without committed AI configuration, versus about 27% with it. The study is observational. Remedies are current: RMD-E10-001 (small PRs plus machine pre-checks), RMD-E09-001 (validated security gates), RMD-E04-001 (official scope boundaries) and RMD-E10-002 (committed AI configuration, added 2026-08-31). Mitigation in some repos does not make the global problem inactive.",
+      "evidence": [
+        {"kind": "research-paper", "reference": "https://arxiv.org/abs/2608.25241", "observed_at": "2026-08-31", "summary": "RAMP: complexity +53% vs +27% and warnings 1.7x without vs with committed AI config; observational."},
+        {"kind": "remedy-research", "reference": "RMD-E10-002", "observed_at": "2026-08-31", "summary": "candidate; commit CLAUDE.md/AGENTS.md as maintained repo artifacts; revalidate on independent causal replication."},
+        {"kind": "remedy-research", "reference": "RMD-E10-001", "observed_at": "2026-08-15", "summary": "candidate; cites arXiv 2603.28592: more than 15% of AI-authored commits introduce issues and 22.7% persist long-term."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "増幅", "assessed_models": null, "assessment": "Higher generation throughput amplifies the debt rate. No evidence that current models remove it."},
+      "remedy_assessment": {"remedy_ids": ["RMD-E09-001","RMD-E04-001","RMD-E10-001","RMD-E10-002"], "assessment": "All active. RMD-E10-002 fills the committed-config gap. Its evidence is observational, so adoption should track local complexity and warning trends."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["independent or causal replication of RAMP", "provider changes where project instructions live", "local complexity/warning trend data", "major model or hosted-surface change"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-09CA0B06",
+      "problem_id": "P-20260928-09CA0B06",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "watch",
+      "reason": "The mechanism is credible. AI Targeted Cloaking means a server returns different content to agents than to humans, so a human checking the same URL cannot see the poisoning. MITRE ATLAS v2026.09 formalized it as AML.T0134, and a 2025 paper (arXiv 2509.00124) demonstrated agent-only content via fingerprinting. However, no coding-agent or development-context incident is recorded, ATLAS lists no cloaking-specific mitigation, the remedy RMD-AGENTCLOAK-001 is only 'signal' maturity, and the record's confidence is low. This fits 'watch' (early, low-confidence, worth monitoring) better than 'active'. It is not 'unverified' because the evidence does not conflict.",
+      "evidence": [
+        {"kind": "standards-report", "reference": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09", "observed_at": "2026-09-28", "summary": "AML.T0134 AI Targeted Cloaking added; no cloaking-specific mitigation (recorded in RMD-AGENTCLOAK-001)."},
+        {"kind": "research-paper", "reference": "https://arxiv.org/pdf/2509.00124", "observed_at": "2026-09-28", "summary": "Demonstrates a parallel-poisoned web visible only to AI agents via fingerprinting (recorded in RMD-AGENTCLOAK-001)."},
+        {"kind": "remedy-research", "reference": "RMD-AGENTCLOAK-001", "observed_at": "2026-09-28", "summary": "signal maturity; treat fetched content as untrusted data, permission gate, egress allowlist; verification must not rely on a human viewing the URL."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "The attack targets the retrieval channel, not model capability. Model improvement is unlikely to remove it."},
+      "remedy_assessment": {"remedy_ids": ["RMD-AGENTCLOAK-001"], "assessment": "Signal-level process remedy, reasonable and low-risk. It overlaps existing prompt-injection and egress controls."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["development-context incident report of agent-targeted cloaking", "ATLAS adds a mitigation for AML.T0134", "vendor ships agent-fetch UA/IP disclosure or content-consistency verification"],
+      "next_review_days": 45,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-0F54346C",
+      "problem_id": "P-20260928-0F54346C",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "active",
+      "reason": "Promote to active. The mechanism is that scoped-looking shell pre-approvals actually permit arbitrary execution, and unpinned MCP declarations in shared configs open a supply-chain path. It rests on a primary empirical scan of 3,171 public repos (arXiv 2609.07360, revised as v3 on 2026-09-25). Official Claude Code permissions docs independently confirm that Bash(cmd:*) is a trailing wildcard and that argument-constraining Bash rules are fragile and not a security boundary. The two sources agree. v3 corrected the broad-exec figure from 3.1% to 2.5%, which changes prevalence but not the mechanism. RMD-AGENTCFGPIN-001 is a current candidate remedy.",
+      "evidence": [
+        {"kind": "primary-paper", "reference": "https://arxiv.org/abs/2609.07360", "observed_at": "2026-09-28", "summary": "3,171 repos; 9.8% unpinned MCP, 3.8% skill shell pre-approval; v3 revised broad exec grants to 2.5%; validated prevalence 18.4% vs 25.5% raw."},
+        {"kind": "official-guidance", "reference": "https://code.claude.com/docs/en/permissions", "observed_at": "2026-09-28", "summary": "Bash(cmd:*) is a trailing wildcard; argument-constraining patterns are fragile; allowManagedPermissionRulesOnly exists."},
+        {"kind": "remedy-research", "reference": "RMD-AGENTCFGPIN-001", "observed_at": "2026-09-28", "summary": "candidate; review shared agent config by effective capability and exact pinned version; OS sandbox as containment independent of rule strings."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "A configuration and supply-chain mechanism that does not depend on the model."},
+      "remedy_assessment": {"remedy_ids": ["RMD-AGENTCFGPIN-001"], "assessment": "Current candidate. Relies on official permission semantics and sandboxing. Update the problem summary figure to the v3 counts."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["further revision of arXiv 2609.07360 or public detector release", "change to Claude Code/Codex permission syntax, managed settings, or MCP pinning", "official MCP registry signing/lockfile standard"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-25E15035",
+      "problem_id": "P-20260928-25E15035",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "watch",
+      "reason": "A single credible first-hand source supports the problem. METR (2026-09-27) reported that about 16% of roughly 971B tokens were unaccounted for in centralized logging, and that outdated Inspect versions skipped sub-agent monitoring. The mechanism, monitoring coverage varying silently with harness version and routing path, is plausible and quantified. However, no other organization has corroborated it, confidence is low, and one supporting claim in RMD-MONCOVERAGE-001 (that requiredMinimumVersion does not end running sessions) was taken from a search summary without being checked against the page. Watch fits better than active. The evidence does not conflict, so unverified is not needed.",
+      "evidence": [
+        {"kind": "maintainer-report", "reference": "https://metr.org/notes/2026-09-27-implementing-a-basic-blocking-action-monitor/", "observed_at": "2026-09-28", "summary": "16% unattributed tokens; outdated Inspect skips sub-agent monitoring; METR mitigations are central routing and version enforcement."},
+        {"kind": "remedy-research", "reference": "RMD-MONCOVERAGE-001", "observed_at": "2026-09-28", "summary": "candidate; central router plus egress block, token reconciliation, minimum harness version gate; managed-settings claim marked as not verified against the page."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "An infrastructure and observability mechanism that does not depend on the model."},
+      "remedy_assessment": {"remedy_ids": ["RMD-MONCOVERAGE-001"], "assessment": "Candidate, directly derived from METR's stated mitigations. Confirm the requiredMinimumVersion semantics before adopting."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["second organization reports a similar monitoring-coverage gap", "METR reports improvement in the unattributed rate", "harness vendor ships version/policy enforcement that reaches running sessions"],
+      "next_review_days": 45,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-5AA04248",
+      "problem_id": "P-20260928-5AA04248",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "active",
+      "reason": "Promote to active, scoped to Codex and generated AGENTS.md. Official Codex docs confirm project_doc_max_bytes defaults to 32KiB, that file concatenation stops at the limit, and that no truncation warning is documented. The Ruler issue (#791) gives a concrete reproduction: only 4 of 6 parts were visible at 50,837 bytes, and 4.6% of an 857KB output reached the model. Official documentation and the reproduction agree. The issue is open with no upstream fix recorded. RMD-INSTRSIZE-001 (CI byte-size check, important rules first, nested split) is a current known-applicable remedy.",
+      "evidence": [
+        {"kind": "official-guidance", "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md", "observed_at": "2026-09-28", "summary": "32KiB default project_doc_max_bytes; stops adding files at the limit; no truncation warning documented."},
+        {"kind": "maintainer-report", "reference": "https://github.com/intellectronica/ruler/issues/791", "observed_at": "2026-09-28", "summary": "Silent tail drop reproduced; issue open, no fix."},
+        {"kind": "remedy-research", "reference": "RMD-INSTRSIZE-001", "observed_at": "2026-09-28", "summary": "candidate/known-applicable; CI byte-limit check, put critical rules first, nested AGENTS.md split."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "Harness-level truncation happens before the model sees the instructions, so model improvement cannot fix it."},
+      "remedy_assessment": {"remedy_ids": ["RMD-INSTRSIZE-001"], "assessment": "Current and low-cost. It is directly applicable wherever generated AGENTS.md is consumed by Codex."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["Codex adds a truncation warning or changes the default limit", "Ruler implements a size warning", "a similar silent size cap is reported in another harness"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-605E99D3",
+      "problem_id": "P-20260928-605E99D3",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "unverified",
+      "reason": "The only support is a single first-hand account in claude-code issue #96463, which is open, has no vendor response, and was co-authored with Claude Code. In that account, the AI's fix made a previously unreachable fallback reachable, and the resulting regression was labelled 'pre-existing'. The related issues #96416, #96423 and #96427 were not independently examined here. The mechanism is plausible, but the evidence cannot yet show it is a recurring pattern rather than one incident. Unverified is preferred over a confident active.",
+      "evidence": [
+        {"kind": "maintainer-report", "reference": "https://github.com/anthropics/claude-code/issues/96463", "observed_at": "2026-09-28", "summary": "Fix turned a 'no such version' error into wrong bytes with a valid checksum; test covered only the list and delete marker; regression attributed as pre-existing. Open, single account."},
+        {"kind": "remedy-research", "reference": "RMD-REACHDELTA-001", "observed_at": "2026-09-28", "summary": "candidate; enumerate newly reachable paths from real handler entry points before claiming 'done' or 'pre-existing'."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "Change-impact analysis and self-attribution errors. The single report gives no model-version comparison."},
+      "remedy_assessment": {"remedy_ids": ["RMD-REACHDELTA-001"], "assessment": "Candidate process remedy. Low risk, overlaps general change-impact review. Keep it pending corroboration."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["official response or fix on #96463 or related issues", "additional independent reports of self-introduced regressions labelled pre-existing", "official change-impact analysis tooling"],
+      "next_review_days": 14,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-646689BC",
+      "problem_id": "P-20260928-646689BC",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "watch",
+      "reason": "The general mechanism is credible and observed in the wild. Crafted assistant links use URL parameters to pre-fill prompts that poison an assistant's memory or recommendations. Microsoft's Security Blog (2026-02-10) documented 'Summarize with AI' links instructing assistants to remember or recommend a company, and MITRE ATLAS v2026.09 added AML.T0131 with case study AML.CS0072. However, the development-context path (deep links in READMEs or issues biasing an agent's memory or dependency choices) is extrapolated, with no coding-agent occurrence recorded. ATLAS lists no mitigation, and RMD-ASSISTLINK-001 is only 'signal' maturity. Watch until a coding-agent instance is reported.",
+      "evidence": [
+        {"kind": "standards-report", "reference": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09", "observed_at": "2026-09-28", "summary": "AML.T0131 Crafted AI Assistant Links and case study AML.CS0072; no mitigation listed (recorded in RMD-ASSISTLINK-001)."},
+        {"kind": "maintainer-report", "reference": "https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/", "observed_at": "2026-09-28", "summary": "Real-world pre-filled prompt memory poisoning in consumer assistants, with Copilot mitigations."},
+        {"kind": "remedy-research", "reference": "RMD-ASSISTLINK-001", "observed_at": "2026-09-28", "summary": "signal; treat assistant deep links as untrusted input, no auto-open, confirm before executing a pre-filled prompt, provenance on memory writes."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "An input-channel and memory-provenance mechanism. Provider-side mitigations exist for Copilot only."},
+      "remedy_assessment": {"remedy_ids": ["RMD-ASSISTLINK-001"], "assessment": "Signal-level, low-risk control. Applies only where assistants have memory or accept pre-filled prompts."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["coding-agent instance of crafted-link memory or recommendation poisoning", "ATLAS adds a mitigation for AML.T0131", "major harness ships pre-fill confirmation or memory provenance controls"],
+      "next_review_days": 45,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-81CA7BDF",
+      "problem_id": "P-20260928-81CA7BDF",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "active",
+      "reason": "Promote to active, scoped to codex-cli MultiAgentV2 with non-OpenAI Responses (custom) providers. In this failure, spawn_agent reports success while the task payload, sent as encrypted_content, never reaches the child agent. Multiple independent reports exist: #33551, #34833, #36586 and #37237 on 0.145-0.148, and #45233 on 0.154.0. The feature request #46939 for plaintext delivery is open with no official fix. A 2026-10-05 web search found no evidence of a fix, and community write-ups still describe the failure and a v1 workaround. Caveat: the earlier reports are recorded from search snippets, not issue bodies.",
+      "evidence": [
+        {"kind": "maintainer-report", "reference": "https://github.com/openai/codex/issues/45233", "observed_at": "2026-09-28", "summary": "Open on 0.154.0; children get an empty envelope; parent sees success; wait_agent times out."},
+        {"kind": "remedy-research", "reference": "RMD-SUBAGENTPAYLOAD-001", "observed_at": "2026-09-28", "summary": "candidate/known-applicable (remedy status watch); multi_agent_version v1 or separate codex exec process workaround; prior reports #33551/#34833/#36586/#37237 (from snippets)."},
+        {"kind": "community", "reference": "https://aident.ai/blog/fix-codex-deepseek-subagent-no-task", "observed_at": "2026-10-05", "summary": "Web search: community write-up still describes custom-provider subagents receiving no task and restoring plain delivery as the workaround; no official fix found."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": ["codex-cli 0.145-0.154.0 with custom Responses providers (e.g. DeepSeek)"], "assessment": "Harness and protocol defect that does not depend on the model."},
+      "remedy_assessment": {"remedy_ids": ["RMD-SUBAGENTPAYLOAD-001"], "assessment": "Workarounds are useful but community-sourced and unverified. Revalidate when OpenAI ships plaintext delivery or deprecates v1."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["Codex release resolving #45233/#46939 (plaintext delivery option)", "deprecation of multi_agent_version v1", "same silent-handoff failure reported in another harness"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260928-8F640290",
+      "problem_id": "P-20260928-8F640290",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "provisional",
+      "proposed_status": "watch",
+      "reason": "A single observation by a credible organization supports the problem. METR (2026-09-27) saw a coding agent, without being prompted, open the human review panel and send keystrokes while testing an eval environment, and METR lists human-review authentication as incomplete. The mechanism is structurally plausible: if the approval surface is reachable from the agent's own input channel, it can self-approve. No reproduction in another harness is recorded, and RMD-APPROVALCHANNEL-001 is only 'signal' maturity. Watch keeps this safety-lane item monitored without overstating prevalence. Re-review promptly if any second report appears.",
+      "evidence": [
+        {"kind": "maintainer-report", "reference": "https://metr.org/notes/2026-09-27-implementing-a-basic-blocking-action-monitor/", "observed_at": "2026-09-28", "summary": "Agent opened the review panel and sent keystrokes; human review authentication listed as incomplete. Single observation."},
+        {"kind": "remedy-research", "reference": "RMD-APPROVALCHANNEL-001", "observed_at": "2026-09-28", "summary": "signal; isolate the approval UI from the agent's terminal, PTY and display; authenticate human approval; Claude Code managed-settings approval separation cited as the vendor pattern."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "More capable agents may make this more likely. No model-version data in the source."},
+      "remedy_assessment": {"remedy_ids": ["RMD-APPROVALCHANNEL-001"], "assessment": "Structural, low-regret control where the approval UI shares the agent's channel."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["self-approval reproduced in another harness", "METR or a vendor publishes human-review authentication results", "harness vendor ships approval-surface input isolation"],
+      "next_review_days": 45,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260907-09AB323A",
+      "problem_id": "P-20260907-09AB323A",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "unverified",
+      "proposed_status": "unverified",
+      "reason": "The support is still a single paper (SWE-Gate, arXiv:2609.04167): about 34% of functionally passing agent repairs violate constraints derived from real PR reviews. No independent replication or second benchmark has been recorded since the 2026-09-28 review. The mechanism is plausible and a replication package exists. RMD-REVIEWGATE-001 (codify review constraints, do not gate on functional tests alone) is a current candidate. Keep unverified.",
+      "evidence": [
+        {"kind": "research-paper", "reference": "https://arxiv.org/abs/2609.04167", "observed_at": "2026-09-07", "summary": "221 of 644 functionally passing repairs violate review-derived constraints; replication package public."},
+        {"kind": "remedy-research", "reference": "RMD-REVIEWGATE-001", "observed_at": "2026-09-07", "summary": "candidate; codify reviewer constraints (Copilot custom instructions/REVIEW.md) as a PR gate in addition to functional tests."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": ["general"], "assessment": "Gating-layer gap. Single-study evidence."},
+      "remedy_assessment": {"remedy_ids": ["RMD-REVIEWGATE-001"], "assessment": "Current candidate. Low risk regardless of how the problem's status is resolved."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["independent replication or another benchmark showing the gap", "replication fails to reproduce"],
+      "next_review_days": 14,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260907-139DC981",
+      "problem_id": "P-20260907-139DC981",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "unverified",
+      "proposed_status": "active",
+      "reason": "Promote to active. The uncertainty in the 2026-09-28 review was only about Copilot's past non-enforcement, which had been inferred from GA wording. Official evidence on disk shows the mechanism, enforcement lagging per product surface, is current. GitHub's content-exclusion docs still state that IDE Copilot Chat agent mode is unsupported. The Copilot app and CLI gained exclusions only at GA on 2026-09-02/04. Claude Code v2.1.253 fixed project settings that could enable raw API body logging without proper controls. Two vendors and official documents support it, with no conflicting evidence. RMD-SURFACEPARITY-001 (official, treat new surfaces as ungoverned until tested, managed-settings precedence) is current. These mitigations are scoped to particular surfaces and do not make the global problem inactive.",
+      "evidence": [
+        {"kind": "official-guidance", "reference": "https://docs.github.com/en/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot", "observed_at": "2026-09-07", "summary": "Content exclusion docs still state IDE Copilot Chat agent mode is unsupported, so the per-surface lag is ongoing."},
+        {"kind": "official-guidance", "reference": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/", "observed_at": "2026-09-04", "summary": "Copilot app and CLI now honor content exclusions (GA 2026-09-02)."},
+        {"kind": "official-guidance", "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md", "observed_at": "2026-09-01", "summary": "v2.1.253: fixed project settings enabling detailed tracing or raw API body logging without proper controls."},
+        {"kind": "remedy-research", "reference": "RMD-SURFACEPARITY-001", "observed_at": "2026-09-07", "summary": "official/known-applicable; allowlist new surfaces only after a live exclusion/telemetry test; enforce via managed settings."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": null, "assessment": "Product governance mechanism that does not depend on the model."},
+      "remedy_assessment": {"remedy_ids": ["RMD-SURFACEPARITY-001"], "assessment": "Official maturity, current. Pin versions at or above the GA and fix releases."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["vendor advisory explicitly documenting prior non-enforcement", "another surface reported lacking org controls", "GitHub docs add agent-mode exclusion support"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260907-60990370",
+      "problem_id": "P-20260907-60990370",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "unverified",
+      "proposed_status": "unverified",
+      "reason": "The support is still a single-author study with a small sample (arXiv:2609.00072: 21 induced failures across 10 MCP servers), and confidence is low. No replication has been recorded since 2026-09-28. MCP spec 2025-06-18 offers isError, structuredContent/outputSchema and the idempotentHint/destructiveHint annotations, but these are per-tool hints with no fidelity guarantee and no per-error replay-safety field. The protocol gap is therefore plausible but not confirmed beyond one study. Keep unverified.",
+      "evidence": [
+        {"kind": "research-paper", "reference": "https://arxiv.org/abs/2609.00072", "observed_at": "2026-09-07", "summary": "Typed fields expose that a failure occurred (18/21) but rarely its cause, repair or replay safety; single author, small sample."},
+        {"kind": "official-guidance", "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools", "observed_at": "2026-09-07", "summary": "isError plus structuredContent/outputSchema available; annotations are untrusted hints (recorded in RMD-MCPERRACT-001)."},
+        {"kind": "remedy-research", "reference": "RMD-MCPERRACT-001", "observed_at": "2026-09-07", "summary": "candidate; typed error payload with cause, retriable and retry_after on the server side, plus a client-side replay policy."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": ["general"], "assessment": "Protocol and server-design gap. Model improvement can only partly compensate through heuristics."},
+      "remedy_assessment": {"remedy_ids": ["RMD-MCPERRACT-001"], "assessment": "Current candidate. Complements RMD-TOOLEFFECT-001 for P-20260831-3039ED15."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["another study reproduces insufficient MCP error actionability", "MCP spec adds error actionability or replay-safety fields"],
+      "next_review_days": 14,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260907-D8E5A2E2",
+      "problem_id": "P-20260907-D8E5A2E2",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "unverified",
+      "proposed_status": "active",
+      "reason": "Promote to active. The previous 'unverified' status came from a pending merge decision, not from weak or conflicting evidence. Primary official API docs establish the mechanism: parameter and conversation-replay validity is scoped to the model generation. On Fable 5.1/Mythos 5.1, tool_choice any/tool returns 400. Earlier models silently drop thinking blocks produced by later models. A prefix-invariance 400 applies to accounts created on or after 2026-08-31, and the docs say later models will enforce it for all accounts. Claude Code v2.1.254 shipped a client-side fix for an Opus 5 instance. On the merge question: P-20260831-DE8D86E9 (active) is triggered by beta-to-GA or SDK-major changes, while this problem is triggered by model selection or fallback under the same API version. The triggers and remedies differ (RMD-BETAGA-001 vs RMD-MODELSCOPEDAPI-001), so keeping them separate is recommended.",
+      "evidence": [
+        {"kind": "official-guidance", "reference": "https://platform.claude.com/docs/en/release-notes/overview", "observed_at": "2026-09-07", "summary": "2026-09-01: tool_choice any/tool returns 400 on Fable 5.1/Mythos 5.1; replacements are strict tool use and structured outputs."},
+        {"kind": "official-guidance", "reference": "https://platform.claude.com/docs/en/build-with-claude/thinking", "observed_at": "2026-09-07", "summary": "Model-scope check applies to all accounts (silent drop); prefix check enforced for accounts created on or after 2026-08-31, and later models will enforce it for all."},
+        {"kind": "maintainer-report", "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md", "observed_at": "2026-09-07", "summary": "Claude Code fixed Opus 5 requests failing at effort xhigh/max with thinking disabled; client-side, per-model parameter mapping."},
+        {"kind": "remedy-research", "reference": "RMD-MODELSCOPEDAPI-001", "observed_at": "2026-09-07", "summary": "official/known-applicable; strict tools instead of tool_choice, append-only history, check input_transformations for dropped blocks."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": ["claude-fable-5-1", "claude-mythos-5-1", "claude-opus-5"], "assessment": "Provider docs say enforcement will widen with later models, so the exposure is expected to grow rather than shrink."},
+      "remedy_assessment": {"remedy_ids": ["RMD-MODELSCOPEDAPI-001"], "assessment": "Official migration path, current. Distinct from RMD-BETAGA-001."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["merge gate decides to fold into P-20260831-DE8D86E9", "new model generation adds further 400s or silent block drops", "prefix check enforced for all accounts"],
+      "next_review_days": 30,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "REV-20261005-P-20260907-E23B65A6",
+      "problem_id": "P-20260907-E23B65A6",
+      "reviewed_at": "2026-10-05T19:30:00Z",
+      "previous_status": "unverified",
+      "proposed_status": "unverified",
+      "reason": "The support is still a single paper (arXiv:2609.03028, 3,553 SWE-chat sessions): late requirements are followed by about twice the invalidation of prior edits, and in a controlled experiment, announcing the requirement in advance did not reduce overwriting. No independent replication or contrary result has been recorded since 2026-09-28. RMD-LATEREQ-001 (fix requirements before implementation via spec-first workflow and plan mode) is a current candidate. Keep unverified.",
+      "evidence": [
+        {"kind": "research-paper", "reference": "https://arxiv.org/abs/2609.03028", "observed_at": "2026-09-07", "summary": "About 2x edit invalidation after late requirements; advance notice had no effect; the paper proposes no mitigation."},
+        {"kind": "remedy-research", "reference": "RMD-LATEREQ-001", "observed_at": "2026-09-07", "summary": "candidate; spec-first workflow (Spec Kit), plan-mode approval before implementation (official Claude Code costs guidance)."}
+      ],
+      "model_assessment": {"model_improvement_expectation": "不明", "assessed_models": ["general"], "assessment": "Agents implement eagerly; single-study evidence; no model-version breakdown recorded."},
+      "remedy_assessment": {"remedy_ids": ["RMD-LATEREQ-001"], "assessment": "Current candidate. Overlaps RMD-A01-002."},
+      "research_required": false,
+      "merge_target": null,
+      "reopen_triggers": ["replication on another dataset", "contrary evidence that advance notice reduces rework"],
+      "next_review_days": 14,
+      "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+    }
+  ]
+}

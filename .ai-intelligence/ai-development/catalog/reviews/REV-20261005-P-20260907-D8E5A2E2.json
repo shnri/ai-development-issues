@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260907-D8E5A2E2",
+  "problem_id": "P-20260907-D8E5A2E2",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "unverified",
+  "proposed_status": "active",
+  "reason": "Promote to active. The previous 'unverified' status came from a pending merge decision, not from weak or conflicting evidence. Primary official API docs establish the mechanism: parameter and conversation-replay validity is scoped to the model generation. On Fable 5.1/Mythos 5.1, tool_choice any/tool returns 400. Earlier models silently drop thinking blocks produced by later models. A prefix-invariance 400 applies to accounts created on or after 2026-08-31, and the docs say later models will enforce it for all accounts. Claude Code v2.1.254 shipped a client-side fix for an Opus 5 instance. On the merge question: P-20260831-DE8D86E9 (active) is triggered by beta-to-GA or SDK-major changes, while this problem is triggered by model selection or fallback under the same API version. The triggers and remedies differ (RMD-BETAGA-001 vs RMD-MODELSCOPEDAPI-001), so keeping them separate is recommended.",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/release-notes/overview",
+      "observed_at": "2026-09-07",
+      "summary": "2026-09-01: tool_choice any/tool returns 400 on Fable 5.1/Mythos 5.1; replacements are strict tool use and structured outputs."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://platform.claude.com/docs/en/build-with-claude/thinking",
+      "observed_at": "2026-09-07",
+      "summary": "Model-scope check applies to all accounts (silent drop); prefix check enforced for accounts created on or after 2026-08-31, and later models will enforce it for all."
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-07",
+      "summary": "Claude Code fixed Opus 5 requests failing at effort xhigh/max with thinking disabled; client-side, per-model parameter mapping."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-MODELSCOPEDAPI-001",
+      "observed_at": "2026-09-07",
+      "summary": "official/known-applicable; strict tools instead of tool_choice, append-only history, check input_transformations for dropped blocks."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": [
+      "claude-fable-5-1",
+      "claude-mythos-5-1",
+      "claude-opus-5"
+    ],
+    "assessment": "Provider docs say enforcement will widen with later models, so the exposure is expected to grow rather than shrink."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-MODELSCOPEDAPI-001"
+    ],
+    "assessment": "Official migration path, current. Distinct from RMD-BETAGA-001."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "merge gate decides to fold into P-20260831-DE8D86E9",
+    "new model generation adds further 400s or silent block drops",
+    "prefix check enforced for all accounts"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

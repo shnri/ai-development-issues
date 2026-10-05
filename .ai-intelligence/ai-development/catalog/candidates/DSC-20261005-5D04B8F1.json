@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-5D04B8F1",
+  "title": "仕様の未指定箇所でAIが選んだ解釈をテストが固定せず、再生成・修正のたびに決定が無言で反転する",
+  "summary": "要求に未指定の選択点があると、AIは暗黙にどれか一つの解釈を選ぶ。しかし生成されたテストの約4割は、競合する解釈を区別できない。そのため後続の再生成や修正で解釈が反転してもテストは通り、文章レベルの照合でも検出されない。",
+  "proposed_category": "A",
+  "problem_type": [
+    "unpinned-underspecified-decision-drift"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:primary-software-engineering-research",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2610.03237",
+      "observed_at": "2026-10-02",
+      "summary": "3 Model・600 Test suiteの42.7%が、競合する解釈を区別するテストを持たない。提案するDecision pinは92.5%の決定点で分離入力を得て、703実装でBenchmark分類と96-97%一致した。Text-level reconciliationが見逃したSilent decision reversalも検出した。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research",
+      "url": "https://arxiv.org/abs/2610.03237"
+    }
+  ],
+  "affected_scope": {
+    "description": "AIによるコード・テスト同時生成、仕様が曖昧なTaskの反復再生成"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "A01(暗黙の前提を補う)、A13(理由の喪失)、F03(弱いAssertion)と隣接する。新しい点は、テストが解釈選択を固定しないことと、その結果として生じる無言の反転。単著のPreprint。",
+  "target_problem_id": null
+}

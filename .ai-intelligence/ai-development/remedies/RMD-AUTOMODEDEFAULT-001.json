@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-AUTOMODEDEFAULT-001",
+  "problem_ids": ["P-20261005-A8614F41"],
+  "summary": "人間承認を前提とする環境では、既定承認方式を version の既定値に委ねず明示設定で固定する: (1) Claude Code v2.1.283 以降は permission mode 未設定の interactive terminal / VS Code session が全 plan・全 provider で auto mode (classifier 判定) で始まるため、managed settings に permissions.defaultMode:\"default\" (Manual、alias manual) を置く。auto を選択肢からも外すなら permissions.disableAutoMode:\"disable\" を managed settings に置く (Shift+Tab から除去、--permission-mode auto も Manual で起動、v2.1.251 以降は実行中 session も admin 配布時に auto を離脱)。(2) VS Code 拡張は project の .claude/settings.json を開始 mode に読まないため、managed か ~/.claude/settings.json に置く。project settings の defaultMode:\"auto\" は無効化される仕様も把握する。(3) /status と実 session の mode 表示で着地を確認し、upgrade 直後の初回 session (feature flag 取得前) は別 mode で始まり得る点を監査に含める。(4) GitHub Copilot の assisted approvals (public preview) は公開情報で既定/無効化方法・管理 policy が確認できないため、導入前に個別に設定を確認する。",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {"kind": "official-guidance", "reference": "https://code.claude.com/docs/en/permission-modes", "observed_at": "2026-10-05", "summary": "'With Claude Code v2.1.283 or later, auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions' (全 plan・provider)。managed settings の permissions.defaultMode で組織の開始 mode を設定、'To remove auto mode so nobody can select it, set permissions.disableAutoMode to \"disable\"'。Bedrock/Agent Platform/Foundry でも auto は既定で利用可能。project の .claude/settings(.local).json の auto / bypassPermissions は無効。VS Code 拡張は project settings を開始 mode に読まない。upgrade 後初回 session は feature flag 前に別 mode で始まり得る。tool.check を扱う Mod が approve した action は classifier を経ない。"},
+    {"kind": "maintainer-report", "reference": "https://code.claude.com/docs/en/changelog", "observed_at": "2026-10-05", "summary": "2.1.284 で未設定時の interactive terminal / VS Code session を auto mode 開始に変更 ('permissions.defaultMode still overrides it')。"},
+    {"kind": "official-guidance", "reference": "https://github.blog/changelog/2026-09-25-github-copilot-weekly-releases-september-21/", "observed_at": "2026-10-05", "summary": "Copilot 'Assisted approvals, now in public preview for Copilot agent sessions, automatically approve low-risk tool calls'。既定有効か・無効化方法・enterprise policy は changelog に記載なし (2026-10-05 確認)。"}
+  ],
+  "applicability": {
+    "conditions": ["Claude Code v2.1.283 以上を interactive (terminal / VS Code) で使い、permissions.defaultMode を明示していない", "監査・責任分担・prompt injection 対策が人間の都度承認を前提としている", "managed settings を配布できる"],
+    "not_applicable_when": ["auto mode (classifier) を組織として評価・受容済みで、sandbox / container 等の多層防御を併用している", "cloud session など mode 選択肢が別管理の surface のみ", "Copilot assisted approvals (本 remedy の Claude Code 設定は効かない。Copilot 側設定の確認が別途必要)"]
+  },
+  "expected_effect": {
+    "primary": "version 更新による承認方式の無言切替を、明示設定で決定的にする。指標: managed settings で defaultMode/disableAutoMode を配布済みの machine 比率、/status で auto 開始が観測された session 数 (0 目標、統制対象環境)、upgrade 後初回 session の mode 監査結果。",
+    "confidence": "official"
+  },
+  "risks": ["Manual 固定は承認疲れによる盲目的承認を招きやすく、classifier より実効的安全性が下がる場合がある", "defaultMode は開始 mode のみで、利用者は session 中に auto へ切替可能 (完全排除は disableAutoMode が必要)", "Copilot 側は統制手段が未確認で、Claude Code と同水準の固定ができない可能性", "Mod が導入されると Manual でも ask 規則が Mod 承認で覆り得る (RMD-MODSELFAPPROVE-001 と併用)"],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 1,
+  "reversible": true,
+  "verdict": "known-applicable",
+  "secondary_layers": ["process"],
+  "known_failure_modes": ["project の .claude/settings.json に defaultMode を置き VS Code 拡張で効かない", "user settings にのみ置き、新規 machine / CI で既定 auto に戻る", "Copilot の挙動を Claude Code 設定で統制したと誤認する"],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": ["Claude Code の開始 mode 規則・disableAutoMode の意味変更", "Copilot assisted approvals の GA 化・既定値/管理 policy の公開", "auto mode classifier の評価対象範囲の変更"],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-02"
+}

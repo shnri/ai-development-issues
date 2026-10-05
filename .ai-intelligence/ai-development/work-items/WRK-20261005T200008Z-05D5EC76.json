@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "id": "WRK-20261005T200008Z-05D5EC76",
+  "created_at": "2026-10-05T20:00:08Z",
+  "updated_at": "2026-10-05T20:00:50Z",
+  "problem_ids": [
+    "P-20260831-044EBDC6"
+  ],
+  "remedy_id": "RMD-TRUSTVERIFY-001",
+  "source_run_id": null,
+  "state": "completed",
+  "track": "implementation",
+  "scope": "global",
+  "target": {
+    "kind": "knowledge-only",
+    "repository_id": null,
+    "path": null,
+    "asset_id": null,
+    "action_type": "record-guidance",
+    "risk_tier": "R0"
+  },
+  "risk_tier": "R0",
+  "consumer_risk_tier": "R2",
+  "risk_reasons": [
+    "R2 operation markers: \\bhooks?\\b"
+  ],
+  "decision": null,
+  "routing": {
+    "reason": "existing shared asset already owns this remedy",
+    "alternatives_considered": [
+      "existing asset: consumer-project (implementation-owner-asset)",
+      "existing asset → update existing (R1, precedence 3)",
+      "controller re-scope 2026-10-05: target re-scoped from mis-resolved shared-existing-asset (RMD-TRUSTVERIFY-001 implementation_owner 'consumer-project' is a role/consumer, not an asset) to knowledge-only guidance at authority tier R0 (consumer_risk_tier R2: observability/verification harness changes in consumer projects need independent review)"
+    ],
+    "new_asset_justification": null
+  },
+  "priority_lane": "F2",
+  "hypothesis": "Applying RMD-TRUSTVERIFY-001 to shared-existing-asset will reduce P-20260831-044EBDC6 without adjacent regressions.",
+  "baseline_ref": null,
+  "implementation_id": null,
+  "evaluation_id": null,
+  "promotion_id": null,
+  "release_id": null,
+  "decision_package_id": null,
+  "next_step": "none",
+  "blockers": [],
+  "history": [
+    {
+      "at": "2026-10-05T20:00:08Z",
+      "from": null,
+      "to": "scoped",
+      "reason": "remedy classified into an executable action",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-10-05T20:00:24Z",
+      "from": "scoped",
+      "to": "scoped",
+      "reason": "target re-scoped from mis-resolved shared-existing-asset (RMD-TRUSTVERIFY-001 implementation_owner 'consumer-project' is a role/consumer, not an asset) to knowledge-only guidance at authority tier R0 (consumer_risk_tier R2: observability/verification harness changes in consumer projects need independent review)",
+      "actor": "controller"
+    },
+    {
+      "at": "2026-10-05T20:00:33Z",
+      "from": "scoped",
+      "to": "completed",
+      "reason": "guidance recorded and propagation event created",
+      "actor": "controller"
+    }
+  ]
+}

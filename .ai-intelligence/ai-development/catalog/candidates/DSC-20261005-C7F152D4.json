@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-C7F152D4",
+  "title": "Coding AgentのSandbox脱出(Codex Heapjack/Overpatch)が正式Advisory・CVEなしで修正され、利用者が影響Versionを判別できない",
+  "summary": "Codex Desktopでは、Node REPLの共有V8 heapから検証Tokenを読み取ることで、最も厳しいread-only Sandboxでも承認なしでHostコマンドを実行できた(Heapjack)。Codex CLIでは、apply_patchとSymlinkの組み合わせでworkspace-writeの範囲を全Filesystemへ広げられた(Overpatch)。どちらも8月に修正済みだが、OpenAIは正式Advisory・CVEを出さず、9月の第三者公開で初めて周知された。悪意あるRepositoryを開いて質問するだけで成立するため、Sandbox modeの表示を信頼の根拠にはできない。",
+  "proposed_category": "I",
+  "problem_type": [
+    "sandbox-escape-silent-fix"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:official-model-and-agent-providers",
+  "evidence": [
+    {
+      "kind": "changelog",
+      "reference": "https://github.com/openai/codex/releases/tag/rust-v0.149.0",
+      "observed_at": "2026-08-20",
+      "summary": "Codex CLI 0.149.0: 'Prevent apply_patch from widening write permissions' (#39614), symlink hardening, 'Enforce filesystem permissions when loading AGENTS.md'. No advisory wording."
+    },
+    {
+      "kind": "official-announcement",
+      "reference": "https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-codex-sandbox-escapes-20260922-csa/",
+      "observed_at": "2026-09-22",
+      "summary": "CSA research note (third-party) on Heapjack (Desktop build 26.818.21641 fix) and Overpatch (CLI 0.149.0 fix); OpenAI issued no formal advisory, only spokesperson confirmation."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://github.com/openai/codex/releases/tag/rust-v0.149.0"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-codex-sandbox-escapes-20260922-csa/"
+    }
+  ],
+  "affected_scope": {
+    "description": "Codex Desktop before build 26.818.21641, Codex CLI < 0.149.0"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "I16",
+  "notes": "The official release-note evidence predates the window (2026-08-20). The in-window evidence is the CSA disclosure (2026-09-22), which is third-party, not official tier. The Overpatch symlink mechanism also bears on P-20260907-211DB41F. The material change is that a sandbox escape was fixed without an advisory or CVE, so users cannot map their exposure to a version."
+}

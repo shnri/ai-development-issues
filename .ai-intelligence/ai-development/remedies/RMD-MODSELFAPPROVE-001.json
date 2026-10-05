@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-MODSELFAPPROVE-001",
+  "problem_ids": ["P-20261005-7A049A83"],
+  "summary": "Claude Code v2.1.287 以降の Mod (既定有効・非sandbox・承認前に tool call を approve 可能) を、公式の managed settings 統制で閉じる: (1) managed settings の pluginConfigs.\"cc-plugin-sec-default@builtin\".options.allowManagedModsOnly:true で user 持込みの Mod (marketplace plugin・--plugin-dir・session 中に Claude が書いた Mod) を一切 load させない。(2) disableSideloadFlags:true で --plugin-dir/--plugin-url を拒否し、strictKnownMarketplaces 等の marketplace 制限を併用する。(3) API key・Bedrock・Agent Platform・Foundry 利用者は Team/Enterprise sign-in が無いため built-in guard が load されない — guard を有効にするには managed settings file / MDM を配布することが必須 (file/MDM 配布は全 provider で同様に効く)。(4) 秘匿・破壊系の禁止は ask 規則や非managed PreToolUse hook ではなく deny 規則と managed PreToolUse hook に置く (guard 下で Mod はこれらを覆せない) — ただし Mod 自身の $.fs/$.process 呼出は deny 規則の対象外なので、Mod を許可する場合は fail-closed (.catch) の policy mod を prependPlugins で先頭に置く。(5) 統制の着地は claude --debug の refusal 行と /status で確認する。",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {"kind": "official-guidance", "reference": "https://code.claude.com/docs/en/plugins/mods/admin", "observed_at": "2026-10-05", "summary": "既定: Mod は on、guard (sec-default@builtin) は『managed settings がある』か『Team/Enterprise sign-in』の時のみ load。API key / Bedrock / Agent Platform / Foundry は managed settings がある machine でのみ guard を得る。guard 下でも user の Mod は ask 規則や非managed PreToolUse hook がブロックした call を approve でき、'In auto mode, a call the mod approves runs without a classifier check'。deny 規則と managed PreToolUse hook は優先されるが Mod の $.fs/$.process 呼出には及ばない。統制: allowManagedModsOnly (managed のみ有効)、disableSideloadFlags、allowManagedHooksOnly、disableAllHooks、prependPlugins による policy mod。guard は fail closed、自作 policy mod の plugin.register は既定 fail open で .catch による fail-closed 化を公式に例示。worker が3回 crash すると org の policy mod を含む非built-in Mod が全て unload。CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=0 は v2.1.287 以降無視される。"},
+    {"kind": "official-guidance", "reference": "https://code.claude.com/docs/en/permission-modes", "observed_at": "2026-10-05", "summary": "auto mode の評価順で、tool.check を扱う Mod が approve した action は classifier を経ない旨を明記。"},
+    {"kind": "maintainer-report", "reference": "https://code.claude.com/docs/en/changelog", "observed_at": "2026-10-05", "summary": "2.1.287 'Added Claude Mods'; 2.1.289 で managed machine 上で入れ子 compound shell command の deny/ask 規則が user 導入 Mod の承認に対して保持されない問題を修正。"}
+  ],
+  "applicability": {
+    "conditions": ["Claude Code v2.1.287 以上 (CLI / Desktop Code tab / VS Code / claude -p / Agent SDK)", "組織として承認統制 (ask 規則・PreToolUse hook・auto mode classifier) に依存している", "managed settings (file / MDM / claude.ai console) を配布できる管理権限がある"],
+    "not_applicable_when": ["Claude Code v2.1.286 以下 (Mod 機構が無い)", "個人利用で自分が導入した Mod の挙動を自ら審査・受容している", "--safe-mode 起動のみで運用する環境 (installed Mod が load されない)"]
+  },
+  "expected_effect": {
+    "primary": "user 持込み Mod による承認バイパス経路を構造的に除去する。指標: managed settings 配布済み machine 比率 (特に API key / cloud provider 利用者)、debug log の refusal 確認率、tier user で load された Mod 数 (0 目標)、policy mod の fail-closed 化有無。",
+    "confidence": "official"
+  },
+  "risks": ["allowManagedModsOnly は org 承認の Mod も『managed enabledPlugins + absolute path の directory marketplace + 相対 path 掲載』の条件を満たさないと user 扱いで load されない (GitHub/npm 由来は常に user 扱い)", "claude.ai console 配布の managed settings は directory を machine に置けないため、org Mod の配置は MDM 等が別途必要", "disableAllHooks は managed hook まで止めるため、統制目的で使うと逆効果", "Mod の $.process.run 経由の通信は network policy の対象外。Mod を許す構成では sandbox 外の任意実行を受容することになる", "worker crash x3 や --safe-mode で policy mod 自体が外れる窓がある"],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 2,
+  "reversible": true,
+  "verdict": "known-applicable",
+  "secondary_layers": ["process", "harness"],
+  "known_failure_modes": ["CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=0 で Mod を止めたつもりになる (v2.1.287+ では無視)", "option を user/project settings に書く (managed 以外は無効)", "prependPlugins を設定して sec-default@builtin を列挙し忘れ guard が外れる", "API key / Bedrock 利用 machine に managed settings を配らず guard 不在のまま"],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": ["Mod の既定有効/guard load 条件の変更", "guard option の追加・意味変更 (allowModsToOverrideDenyRules 等)", "deny 規則の Mod $.fs/$.process への適用拡大", "API key / cloud provider 利用者への guard 適用条件の変更"],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-02"
+}

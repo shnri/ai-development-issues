@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-K03",
+  "problem_id": "K03",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "Regressions from harness, system-prompt and config changes recur. Claude Code v2.1.251 (2026-08-28) silently changed CLAUDE_CODE_SUBAGENT_MODEL from an override to a default. RMD-K02-001 also records, as of 2026-09-28, two independent but vendor-unconfirmed reports of an Opus 4.6 behavior change under the same model ID. These are consistent with the variability mechanism but are not treated as fact. Remedies RMD-K02-001 (run manifest plus canary eval), RMD-K03-001 (validated, one axis changed per release with ablation) and RMD-K03-002 (official PreModelSwitch/PostModelSwitch hooks, explicit model pin) are current. No evidence of resolution.",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "observed_at": "2026-08-31",
+      "summary": "v2.1.251 changed CLAUDE_CODE_SUBAGENT_MODEL semantics from override to default and added PreModelSwitch/PostModelSwitch hooks (recorded in RMD-K03-002)."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-K02-001",
+      "observed_at": "2026-09-28",
+      "summary": "Addendum: unconfirmed reports #96179/#96182 of an Opus 4.6 behavior change from about 2026-09-16 with the model ID unchanged; recommends a canary eval alongside the manifest."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-K03-001",
+      "observed_at": "2026-08-15",
+      "summary": "validated/known-applicable; one-axis changes with ablation regression eval and staged rollout."
+    },
+    {
+      "kind": "provider-postmortem",
+      "reference": "https://www.buildthisnow.com/blog/models/claude-code-quality-regression-2026",
+      "observed_at": "2026-08-15",
+      "summary": "Six-week product-layer regression with a provider postmortem (problem-record evidence)."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "変動",
+    "assessed_models": null,
+    "assessment": "The variability mechanism is structural to hosted harnesses. The new same-model-ID drift reports are vendor-unconfirmed and do not change the status."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-K02-001",
+      "RMD-K03-001",
+      "RMD-K03-002"
+    ],
+    "assessment": "All active. RMD-K02-001 was extended on 2026-09-28 with canary-eval guidance. RMD-K03-002 depends on Claude Code v2.1.251 or later. Remedies remain useful."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "vendor confirmation or denial of #96179/#96182",
+    "change in PreModelSwitch/PostModelSwitch or model-related env var semantics",
+    "major model or hosted-surface change",
+    "official provider guidance revision"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

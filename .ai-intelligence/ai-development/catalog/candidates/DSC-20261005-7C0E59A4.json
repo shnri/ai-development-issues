@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-7C0E59A4",
+  "title": "共通指示File(AGENTS.md)と製品固有指示File(CLAUDE.md)の排他的Fallbackにより、Project指示が警告なく読み込まれなくなる",
+  "summary": "Claude Code 2.1.277以降、既定modeではCLAUDE.mdが無い場合に限りAGENTS.mdを読み込む。そのため、/initによるCLAUDE.md生成、個人用CLAUDE.local.mdの存在、Feature flagが使えない環境(Bedrock/Vertex/offline)などをきっかけに、共有のAGENTS.md指示が丸ごと読み込まれなくなる。起動時に警告は出ず、/doctorの検査もAGENTS.mdを対象にしない。チーム共通のRepository規約がAgentに届かないまま作業が進む。",
+  "proposed_category": "D",
+  "problem_type": [
+    "instruction-file-precedence-silent-drop"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:community-and-issue-signals",
+  "evidence": [
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/97004",
+      "observed_at": "2026-09-25",
+      "summary": "AGENTS.md projectで/initを実行すると常にCLAUDE.mdが書かれ、その時点でAGENTS.mdの読み込みが無言で止まる(2.1.277で導入され、2.1.281でも再現)。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/96117",
+      "observed_at": "2026-09-22",
+      "summary": "Gitignoreされた個人用CLAUDE.local.mdが祖先Directoryにあるだけで、AGENTS.mdへのFallbackが無効になる。5回中5回再現し、警告は出ない(2.1.280)。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/96466",
+      "observed_at": "2026-09-23",
+      "summary": "AGENTS.mdを常に読み込むよう求める要望。Bedrock/Vertex/offlineなどFeature flagが使えないSessionではCLAUDE.mdしか読まれないこと、claude-md-and-agents-md optionが見つけにくいことを指摘。関連する#6235は5,183 upvote。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/97261",
+      "observed_at": "2026-09-25",
+      "summary": "/doctorのCLAUDE.md検査は、AGENTS.mdの内容を検査しない。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/96544",
+      "observed_at": "2026-09-24",
+      "summary": "どちらの指示Fileが読み込まれたかの通知が一貫しない(逆方向の苦情)。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/97004"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/96117"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/96466"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/97261"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/96544"
+    }
+  ],
+  "affected_scope": {
+    "description": "AGENTS.mdで複数のAgent製品向け指示を共通化しているRepository。特にClaude CodeとCodexなどを併用するTeam、Multi-repo workspace、Bedrock/Vertex経由の利用者。"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "既存のD03(指示の矛盾)、D08(参照の欠落)、K08(製品ごとの形式分断)、P-20260831-044EBDC6(Workspace trustによってAGENTS.mdの読み込みが変わる)と近い。ただし今回の機構は、File間の排他的優先順位と、それが警告なしに切り替わることにある。044EBDC6の拡張としてupdate扱いにするかはcontrollerが判断する。根拠はClaude Code 2.1.277の挙動変更を起点とする、同じ時期の複数の独立報告。",
+  "target_problem_id": null
+}

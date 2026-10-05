@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-APPROVALBIND-001",
+  "problem_ids": ["P-20260907-CD83ACE2"],
+  "summary": "承認と実行の束縛を明示する。承認時にprincipal・agent ID・session ID・tool・正規化済み引数・scope・有効期限を鍵付きcapability(Approval Token)へ束縛し、鍵はAgentに渡さない。実行直前のPreToolUse hook等の仲介点で全fieldの一致と期限内であることを検証し、不一致は拒否する。この仕組みはDelegation・Temporal launderingに有効だが、Scope・Argument launderingには効かない(dispatch fieldが変わらないため)。この2類型はtool境界の承認に頼らず、sandbox・OS/filesystem権限・network allowlistなど実行層の強制で抑える。",
+  "remedy_type": "harness",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {"kind": "paper", "reference": "https://arxiv.org/abs/2609.38983", "observed_at": "2026-10-05", "summary": "Approval Laundering 6類型(Scope/Argument/Temporal/Tool/Delegation/Semantic)を定義した。Approval TokenをClaude Code PreToolUseに実装し(各N=19-20、118対)、Delegationを解消、Temporalを有意に低減した(p<1e-5)。Argument(p=1)とScopeには無効で、tool呼出境界のみの束縛ではprocess一段下の違反を捕捉できないと限界を明記している。"}
+  ],
+  "applicability": {
+    "applies_when": [
+      "Claude Code hooks等、tool実行直前に検証処理を挟める仲介点がある",
+      "subagent・委譲・scheduled/remote実行など、承認者と実行者・実行時点が分離する運用"
+    ],
+    "not_applicable_when": [
+      "Scope/Argument launderingの防止だけが目的の場合(実行層sandboxを主対策にする)",
+      "仲介点を持たないharness"
+    ],
+    "controllable_layer": "harness",
+    "surfaces": ["Claude Code", "generic"],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "承認済みactionが別session・別Agent・期限後に流用されるDelegation/Temporal launderingを機械的に拒否する",
+    "metrics": ["token不一致による拒否件数", "期限切れtokenでの実行試行数", "委譲先での無承認実行件数(0が期待値)"],
+    "confidence": "medium"
+  },
+  "risks": [
+    "単一研究・小標本(N≈20/類型)、Claude Code単一仲介点での評価",
+    "Scope/Argument/Semantic launderingは残るため、tokenを導入したことで安全と誤認する危険",
+    "鍵管理と引数正規化の実装コスト、正当な再試行の摩擦"
+  ],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "cost": "PreToolUse hookと鍵保管の実装、引数正規化規則の設計",
+  "verdict": "candidate",
+  "secondary_layers": ["process", "observability"],
+  "known_failure_modes": [
+    "tokenをAgentが読めるcontextや環境変数に置く",
+    "引数を正規化せずに束縛し、等価だが異なる表記で回避される",
+    "Scope/Argument類型にもtokenで十分と見なす"
+  ],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": [
+    "harnessが承認-実行束縛を公式機能として提供した場合",
+    "Approval Laundering追試・Scope/Argument対策の評価公開",
+    "Claude Code hooks仕様変更"
+  ],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-03"
+}

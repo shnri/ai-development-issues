@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-B21F6D08",
+  "title": "親子Agent間の実行状態・完了通知が同期せず、Subagentの成果が失われるか、未完了なのに完了扱いになる",
+  "summary": "Background/teammate Subagentの状態は、親のRegistry・UI・完了通知の間で食い違う。その結果、完了したSubagentの報告が親に届かない、親が終了済みの子を待ち続ける、子のBackground処理が実行中なのに'completed'と通知される、といった現象が起きる。親は成果を受け取れず同じ作業をやり直したり、未完了の中間出力を最終結果として扱ったりする。Host側のReaperが実行中のShellを停止させることもある。Claude CodeとCodexの両方で、同じ期間に多数報告されている。",
+  "proposed_category": "H",
+  "problem_type": [
+    "subagent-lifecycle-status-desync"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:community-and-issue-signals",
+  "evidence": [
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/99259",
+      "observed_at": "2026-10-03",
+      "summary": "Background subagentは、自分のBackground Bashが実行中でもstatus completedを通知し、その後も複数回通知する(2.1.287/288)。T3 CodeのReaperが実行中のShellを停止させ、親は途中の待機文を結果として受け取る。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/98416",
+      "observed_at": "2026-09-29",
+      "summary": "呼び出し元がin-process teammateの場合、SubagentHandbackは呼び出し元が生きていても'no longer running'と判定する。報告3件がすべて失われ、enforce側のRetryも無駄に終わる。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/99651",
+      "observed_at": "2026-10-05",
+      "summary": "teammateが起動したsubagentのHandbackが'spawning agent no longer running'になり、報告が呼び出し元に届かない(#98416と同系統)。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/98802",
+      "observed_at": "2026-10-01",
+      "summary": "stall watchdogが子を停止させた後、待機中の親subagentが再開されず、Sessionが永久に待ち続ける。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/99522",
+      "observed_at": "2026-10-04",
+      "summary": "Background agentのLoopが24時間以上孤立したまま動き続け、UI・ListAgents・TaskStopの間で状態が一致しない。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/openai/codex/issues/46048",
+      "observed_at": "2026-09-16",
+      "summary": "Codex 0.154.0では、explorer subagentが完了しても親が'No agents completed yet'と判断し、同じ作業を自分でやり直す。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/openai/codex/issues/47949",
+      "observed_at": "2026-09-24",
+      "summary": "resumeしたsubagentが既に動いていないのに、main agentが待ち続ける。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/openai/codex/issues/45233",
+      "observed_at": "2026-09-13",
+      "summary": "custom providerでは、Sub-agentへのtask payloadが無言で破棄され何もしない(silent no-op)。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/99259"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/98416"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/99651"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/98802"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/99522"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/openai/codex/issues/46048"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/openai/codex/issues/47949"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/openai/codex/issues/45233"
+    }
+  ],
+  "affected_scope": {
+    "description": "Background/並列Subagent、Agent team、外部Host(T3 Codeなど)からのOrchestrationを使うMulti-agent workflow全般。"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "既存のH05〜H12、G10(重複作業)、G24(終了判定)、P-20260831-3039ED15(Tool応答の消失で副作用の確定状態が判別できない)と近いが、親子Agent間のLifecycle状態と完了通知の不整合という機構は既存項目にない。G10の重複作業は、この不整合から派生する症状の一つ。ほとんどが単一報告者のIssueで、本日2026-10-05の起票(#99749/#99713、Agent failureの自動報告とみられる)も含むため、独立性はcontrollerが確認すること。ただし2製品で同じ機構が別々に報告されている点は強いSignal。",
+  "target_problem_id": null
+}

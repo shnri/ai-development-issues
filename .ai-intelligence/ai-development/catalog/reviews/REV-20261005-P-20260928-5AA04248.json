@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260928-5AA04248",
+  "problem_id": "P-20260928-5AA04248",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "Promote to active, scoped to Codex and generated AGENTS.md. Official Codex docs confirm project_doc_max_bytes defaults to 32KiB, that file concatenation stops at the limit, and that no truncation warning is documented. The Ruler issue (#791) gives a concrete reproduction: only 4 of 6 parts were visible at 50,837 bytes, and 4.6% of an 857KB output reached the model. Official documentation and the reproduction agree. The issue is open with no upstream fix recorded. RMD-INSTRSIZE-001 (CI byte-size check, important rules first, nested split) is a current known-applicable remedy.",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+      "observed_at": "2026-09-28",
+      "summary": "32KiB default project_doc_max_bytes; stops adding files at the limit; no truncation warning documented."
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/intellectronica/ruler/issues/791",
+      "observed_at": "2026-09-28",
+      "summary": "Silent tail drop reproduced; issue open, no fix."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-INSTRSIZE-001",
+      "observed_at": "2026-09-28",
+      "summary": "candidate/known-applicable; CI byte-limit check, put critical rules first, nested AGENTS.md split."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": null,
+    "assessment": "Harness-level truncation happens before the model sees the instructions, so model improvement cannot fix it."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-INSTRSIZE-001"
+    ],
+    "assessment": "Current and low-cost. It is directly applicable wherever generated AGENTS.md is consumed by Codex."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "Codex adds a truncation warning or changes the default limit",
+    "Ruler implements a size warning",
+    "a similar silent size cap is reported in another harness"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

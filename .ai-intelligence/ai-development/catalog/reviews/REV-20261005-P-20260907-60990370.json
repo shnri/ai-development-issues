@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260907-60990370",
+  "problem_id": "P-20260907-60990370",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "unverified",
+  "proposed_status": "unverified",
+  "reason": "The support is still a single-author study with a small sample (arXiv:2609.00072: 21 induced failures across 10 MCP servers), and confidence is low. No replication has been recorded since 2026-09-28. MCP spec 2025-06-18 offers isError, structuredContent/outputSchema and the idempotentHint/destructiveHint annotations, but these are per-tool hints with no fidelity guarantee and no per-error replay-safety field. The protocol gap is therefore plausible but not confirmed beyond one study. Keep unverified.",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2609.00072",
+      "observed_at": "2026-09-07",
+      "summary": "Typed fields expose that a failure occurred (18/21) but rarely its cause, repair or replay safety; single author, small sample."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+      "observed_at": "2026-09-07",
+      "summary": "isError plus structuredContent/outputSchema available; annotations are untrusted hints (recorded in RMD-MCPERRACT-001)."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-MCPERRACT-001",
+      "observed_at": "2026-09-07",
+      "summary": "candidate; typed error payload with cause, retriable and retry_after on the server side, plus a client-side replay policy."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": [
+      "general"
+    ],
+    "assessment": "Protocol and server-design gap. Model improvement can only partly compensate through heuristics."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-MCPERRACT-001"
+    ],
+    "assessment": "Current candidate. Complements RMD-TOOLEFFECT-001 for P-20260831-3039ED15."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "another study reproduces insufficient MCP error actionability",
+    "MCP spec adds error actionability or replay-safety fields"
+  ],
+  "next_review_days": 14,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

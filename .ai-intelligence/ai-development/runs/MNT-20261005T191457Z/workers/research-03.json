@@ -1,0 +1,97 @@
+{
+  "contract": "specialist-handoff-v1",
+  "worker_id": "research-03",
+  "role": "researcher",
+  "status": "complete",
+  "recommended_action": "catalog-update",
+  "next_gate": "controller",
+  "problem_ids": ["P-20260907-CD83ACE2", "C12", "C02", "D01", "F12"],
+  "work_item_id": null,
+  "files_written": [],
+  "evidence": [],
+  "facts": [
+    "arXiv 2609.38983 'Approval Laundering' defines 6 classes (Scope, Argument, Temporal, Tool, Delegation, Semantic). Its Approval Token prototype binds principal, agent ID, session ID, tool, arguments, scope and expiry; tested at Claude Code's PreToolUse mediation point (N=19-20 per class, 118 paired runs); removed Delegation laundering, reduced Temporal (p<1e-5); no significant effect on Argument (p=1) or Scope. Binding at the tool-invocation boundary cannot catch violations one process level below.",
+    "RMD-APPROVALSTATE-001 (provider-fix, last_verified 2026-09-07) only covers approval state staying in sync across lifecycle events; it says nothing about binding an approval to the exact execution.",
+    "arXiv 2610.00622: taxonomy incorrect import path, missing import, hallucinated library, deprecated API, unused import; 84% of generated files had at least one; docs-grounding + import/execution validation pipeline cut errors 38.1-54.6% across 5 LLMs/300 tasks, correctness up to +16%.",
+    "RMD-C12-001 (registry check + typecheck/build/test gate) and RMD-C06-001 (version-pinned docs) are the same two mechanisms the 2610.00622 pipeline combines.",
+    "arXiv 2609.38269 (Zero2Repo): failing submissions passed 90-99% of hidden tests; failures from single omissions and low-frequency spec rules; no mitigation proposed. RMD-C01-001/RMD-C02-001 (context narrowing) only partly fit; RMD-C03-001 (durable requirement list) and RMD-A07-001 (requirement-to-test traceability) fit better.",
+    "OpenAI changelog: GPT-5.3-Codex-Spark deprecated 2026-09-14; GPT-5.5 retires from ChatGPT/ChatGPT Work/Codex 2026-10-14 (API unaffected); users must update workspace defaults, saved model settings, managed configurations, custom agents, scheduled tasks and scripts; post-deadline behavior undocumented; no model-usage audit feature documented.",
+    "Anthropic Model deprecations page: requests to retired models fail; >=60 days notice; Console Usage Export CSV by API key and model as audit; example claude-sonnet-4-5-20250929 deprecated 2026-09-30, retires 2026-11-30.",
+    "No existing remedy covers deadline-driven inventory/migration of pinned model identifiers (checked RMD-D01-001, RMD-D14-001, RMD-D12-001, RMD-BETAGA-001, RMD-MODELSCOPEDAPI-001; grep of 164 remedies for retire/deprecat/廃止).",
+    "arXiv 2609.37216 (CRJudgeBench): 1,199 instances from real PRs; general SOTA LLMs struggle to identify plausible-but-invalid review comments; evidence-gathering Sentinel (Qwen3-Coder-30B) reached 76.60%, +19.78pt over base.",
+    "RMD-F11-001 already requires a verify (disprove) step; the refinement is the disprove step must gather repository evidence, not judge plausibility with a second general LLM."
+  ],
+  "inferences": [
+    "P-20260907-CD83ACE2: lifecycle-sync provider fixes still hold; approval-execution binding is a separate consumer-implementable mechanism; drafted new RMD-APPROVALBIND-001 (candidate) plus an update to RMD-APPROVALSTATE-001 so the provider-fix record does not over-claim coverage.",
+    "C12: independent multi-model evidence strengthens RMD-C12-001/RMD-C06-001; drafted update to RMD-C12-001 with import-level failure modes added to the gate.",
+    "C02: outcome remedy-found with existing ids; recommend adding RMD-C03-001 and RMD-A07-001 to C02.remedy_refs; no new remedy drafted.",
+    "D01: drafted new RMD-MODELRETIRE-001 (official maturity); migration before deadline, no reliance on undocumented fallback; product-surface vs API retirement distinguished.",
+    "F12: drafted update to RMD-F11-001 (evidence entry, refined summary clause, new known_failure_mode)."
+  ],
+  "risks": [
+    "All arXiv evidence from abstract pages only. CRJudgeBench baseline is 'GLM-5.3' in the problem record but 'GLM-4' in the abstract as fetched today; check before citing the model name.",
+    "Approval Token result covers one harness mediation point with small N; generalising to Codex is an inference.",
+    "Post-deadline behavior for retired models in Codex/ChatGPT is undocumented; RMD-MODELRETIRE-001 treats it as unknown.",
+    "Third-party blogs naming replacement models were not confirmed against OpenAI primary sources and are left out."
+  ],
+  "checks_run": [
+    "read scratchpad research-03-items.json (5 problem records)",
+    "read remedies RMD-APPROVALSTATE-001, RMD-C12-001, RMD-D01-001, RMD-F11-001 in full; summaries of RMD-C01-001, RMD-C02-001, RMD-C06-001, RMD-D12-001, RMD-D14-001",
+    "grep of remedies/ (164 files) for retire/deprecat/廃止 and requirement/traceability/checklist coverage",
+    "WebFetch arxiv.org/abs/2609.38983, 2610.00622, 2609.38269, 2609.37216; learn.chatgpt.com/docs/changelog; platform.claude.com/docs/en/about-claude/model-deprecations",
+    "WebSearch x3 (Codex GPT-5.5 retirement; spec requirement checklist extraction; AI review comment validity verification)"
+  ],
+  "records": [
+    {
+      "problem_id": "P-20260907-CD83ACE2",
+      "outcome": "remedy-found",
+      "remedy_ids": ["RMD-APPROVALSTATE-001", "RMD-APPROVALBIND-001"],
+      "evidence": [
+        {"kind": "paper", "reference": "https://arxiv.org/abs/2609.38983", "observed_at": "2026-10-05", "summary": "Approval Token（principal・agent ID・session ID・tool・引数・scope・expiryを鍵付きcapabilityで束縛し、鍵はAgentに返さない）をClaude Code PreToolUseに実装し、6類型を各N=19-20、計118対で計測した。Delegation launderingは解消し、Temporalも有意に低減した(p<1e-5)。Argument(p=1)とScopeには効果がなかった。dispatch fieldが変わらない違反はtool境界の束縛では検出できない、と著者が限界を明記している。"},
+        {"kind": "official-guidance", "reference": "https://learn.chatgpt.com/docs/changelog", "observed_at": "2026-09-07", "summary": "Codex 0.151.0-0.153.0のlifecycle修正(既存)。"}
+      ]
+    },
+    {
+      "problem_id": "C12",
+      "outcome": "remedy-found",
+      "remedy_ids": ["RMD-C12-001", "RMD-C06-001"],
+      "evidence": [
+        {"kind": "paper", "reference": "https://arxiv.org/abs/2610.00622", "observed_at": "2026-10-05", "summary": "Library関連エラーを5類型(import path誤り・import欠落・幻覚library・非推奨API・未使用import)に分類し、生成fileの84%が1件以上を含んだ。task分析→公式docs grounding→生成→import/実行の自動検証からなるAgent型手法で、5 model・300 task(LangChain/AutoGen)のエラーを38.1-54.6%削減し、正答率を最大16%改善した。RMD-C12-001(実行検証gate)とRMD-C06-001(version一致docs参照)の組合せを独立に支持する。"}
+      ]
+    },
+    {
+      "problem_id": "C02",
+      "outcome": "remedy-found",
+      "remedy_ids": ["RMD-C02-001", "RMD-C01-001", "RMD-C03-001", "RMD-A07-001"],
+      "evidence": [
+        {"kind": "paper", "reference": "https://arxiv.org/abs/2609.38269", "observed_at": "2026-10-05", "summary": "Zero2Repoの失敗はhidden testの90-99%を通過しつつ、単一の省略または低頻度の仕様ruleに起因した。論文は緩和策を提示していない。既存のContext絞込remedy(RMD-C01/C02-001)は部分的にしか効かない。仕様ruleを耐久的な要件list(RMD-C03-001)と要件→test traceability(RMD-A07-001)へ落とす既存remedyの方が適合するため、C02.remedy_refsへの追加を推奨する。"},
+        {"kind": "paper", "reference": "https://arxiv.org/pdf/2602.07513", "observed_at": "2026-10-05", "summary": "SPECAは仕様中のMUST/SHOULD等の規範文を抽出し、ID付きchecklistに変換して監査する。仕様ruleの網羅的列挙という方向性の傍証だが、Zero2Repo型の省略を減らす効果の計測はない。"}
+      ]
+    },
+    {
+      "problem_id": "D01",
+      "outcome": "remedy-found",
+      "remedy_ids": ["RMD-MODELRETIRE-001", "RMD-D01-001", "RMD-D14-001", "RMD-D12-001"],
+      "evidence": [
+        {"kind": "official-guidance", "reference": "https://learn.chatgpt.com/docs/changelog", "observed_at": "2026-10-05", "summary": "GPT-5.3-Codex-Sparkは2026-09-14に廃止され、desktop app・Codex CLI・IDE拡張で利用不可になった。GPT-5.5は2026-10-14にChatGPT/ChatGPT Work/Codexから退役する(APIは対象外)。workspace既定値・保存済みmodel設定・managed config・custom agent・scheduled task・scriptの更新を要求している。期限後の挙動(fallbackかerrorか)と使用状況監査機能は記載がない。"},
+        {"kind": "official-guidance", "reference": "https://platform.claude.com/docs/en/about-claude/model-deprecations", "observed_at": "2026-10-05", "summary": "Anthropicは退役modelへのrequestが失敗すると明記し、60日以上前に通知する。退役日より十分前の代替model試験を推奨し、Console Usage ExportでAPI key×model別の使用状況CSVを取得する監査手順を示す(例: claude-sonnet-4-5-20250929は2026-11-30退役)。"}
+      ]
+    },
+    {
+      "problem_id": "F12",
+      "outcome": "remedy-found",
+      "remedy_ids": ["RMD-F11-001"],
+      "evidence": [
+        {"kind": "paper", "reference": "https://arxiv.org/abs/2609.37216", "observed_at": "2026-10-05", "summary": "CRJudgeBench(実PR由来1,199件、test 359件)では、汎用SOTA LLMはもっともらしいが無効なreview commentの識別に苦戦した。repository証拠を能動的に収集してから判定するSentinel(Qwen3-Coder-30B)は76.60%で、base比+19.78ptだった。反証stepは別LLMのもっともらしさ判定ではなく、code証拠の収集・実行に接地させる必要がある。"}
+      ]
+    }
+  ],
+  "controller_recommendations": [
+    "C02: add RMD-C03-001 and RMD-A07-001 to remedy_refs. No new remedy.",
+    "C12: optionally append the same arXiv 2610.00622 evidence entry to RMD-C06-001 and set its last_verified_at to 2026-10-05.",
+    "D01: add RMD-MODELRETIRE-001 to remedy_refs. The 2026-10-14 GPT-5.5 deadline is 9 days away; re-check the changelog for post-deadline behavior after 2026-10-14.",
+    "P-20260907-CD83ACE2: add RMD-APPROVALBIND-001 to remedy_refs.",
+    "For the RMD-C12-001 and RMD-F11-001 updates, merge field by field and keep the existing_asset objects from the current files; the drafts mark them UNCHANGED."
+  ],
+  "remedy_drafts_note": "Full remedy drafts (RMD-APPROVALBIND-001 new, RMD-APPROVALSTATE-001 update, RMD-C12-001 update, RMD-MODELRETIRE-001 new, RMD-F11-001 update) were delivered in the hand-back message and applied by the controller to remedies/ with field-by-field merges preserving existing_asset and provenance; see git diff of remedies/ in this run's commit for the exact content."
+}

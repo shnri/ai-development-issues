@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-9754B46A",
+  "title": "Shell構文の解釈差によるdeny/ask規則の取りこぼしが、環境変数Prefix・入れ子複合Command・Redirect・Symlink経由で再発",
+  "summary": "Claude Code v2.1.285〜v2.1.289で、権限判定が見るCommand文字列と実際の実行内容とのずれによる穴が、立て続けに修正された。主な修正は以下の4点。(1) 環境変数Prefixを付けたCommandがBash deny規則をすり抜けた。(2) 入れ子の複合Commandでdeny/ask規則が保持されなかった。(3) bypassPermissionsで、~やWildcardへのRedirect、またはScript内に書かれた危険なrmが確認なしで実行された。(4) Repositoryに含まれるSymlink経由でShellから保護対象外へ書き込めた。既知の『許可リストと実行系の解釈差』が、構文の別形態で繰り返し出現している。",
+  "proposed_category": "I",
+  "problem_type": [
+    "permission-parser-mismatch-recurrence"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:official-model-and-agent-providers",
+  "evidence": [
+    {
+      "kind": "changelog",
+      "reference": "https://code.claude.com/docs/en/changelog",
+      "observed_at": "2026-10-05",
+      "summary": "2.1.289: Fixed Bash deny rules missing commands behind environment variable prefixes; fixed deny/ask rules on nested compound shell commands. 2.1.288: sandbox auto-allow missing commands with variable prefixes; heredocs re-asking. 2.1.285: dangerous rm inside bash/sh scripts ran without prompt in bypassPermissions."
+    },
+    {
+      "kind": "changelog",
+      "reference": "https://dev.classmethod.jp/en/articles/20261002-cc-updates-v2-1-287/",
+      "observed_at": "2026-10-01",
+      "summary": "2.1.287: rm confirmation bypassed when output redirected to paths with ~ or wildcards fixed; shell writes via repo-committed symlinks to sensitive files/outside worktree now wait for confirmation; shell writes to files the file tool rejects now prompt."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://code.claude.com/docs/en/changelog"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://dev.classmethod.jp/en/articles/20261002-cc-updates-v2-1-287/"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://dev.classmethod.jp/en/articles/20260930-cc-updates-v2-1-285/"
+    }
+  ],
+  "affected_scope": {
+    "description": "Claude Code < 2.1.289 permission rules, sandbox auto-allow, bypassPermissions mode"
+  },
+  "confidence": "high",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "P-20260831-60EFB5BF",
+  "notes": "The symlink item also bears on P-20260907-211DB41F, and the shell-write-to-protected-file item on P-20260831-AE8A3EE7. Release dates for 2.1.288 and 2.1.289 are not confirmed; both are after 2.1.287 (2026-10-01) and therefore inside the window."
+}

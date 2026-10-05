@@ -1,0 +1,188 @@
+{
+  "contract": "specialist-handoff-v1",
+  "worker_id": "discovery-01",
+  "status": "complete",
+  "role": "scout",
+  "source_id": "official-model-and-agent-providers",
+  "lookback_days": 21,
+  "problem_ids": ["I07", "I12", "G17", "P-20260831-60EFB5BF", "P-20260907-211DB41F", "P-20260907-D8E5A2E2", "K02", "I16", "D01"],
+  "work_item_id": null,
+  "facts": [
+    "Claude Code docs say that with v2.1.283 or later, auto mode (classifier review instead of human approval) is the built-in starting permission mode for interactive terminal and VS Code sessions. On earlier versions it was the starting mode only on Pro, Max and Team plans. classmethod dates v2.1.284 to 2026-09-28.",
+    "Claude Code v2.1.287 (2026-10-01) added Claude Mods. These are in-process plugins, on by default. The docs say: 'Mods aren't sandboxed', a mod can 'approve a tool call before you're asked', and 'In auto mode, a call the mod approves runs without a classifier check'.",
+    "The mods admin doc says the built-in guard (sec-default) loads only when the machine has managed settings or the user is signed in on a Team or Enterprise plan. API-key, Bedrock, Vertex and Foundry users without managed settings get no guard. Deny rules do not apply to a mod's own $.fs / $.process calls.",
+    "The Claude Code changelog for v2.1.285 to v2.1.289 fixes several gaps between how permission checks parse shell commands and what the shell actually runs: Bash deny rules missed commands behind environment-variable prefixes; deny/ask rules on nested compound commands did not hold over mod approvals; dangerous rm inside bash/sh scripts or with ~ or wildcard redirects skipped confirmation in bypassPermissions; shell writes through repo-committed symlinks now need confirmation.",
+    "The Claude Sonnet 5.5 launch (2026-09-28) brings breaking API changes. tool_choice any/tool returns 400. thinking disabled returns 400 (use between_tools instead). Thinking blocks from Opus 5, Opus 5.5, Fable or Mythos are dropped silently with HTTP 200. Effort levels are recalibrated.",
+    "The Sonnet 5.5 migration guide says the model declines in more categories than Sonnet 5 (cyber, bio, frontier_llm, reasoning_extraction, general_harms); 'Benign work can also trigger' general_harms. Server-side fallback retries only cyber and frontier_llm declines on Sonnet 5.",
+    "The GitHub Changelog (2026-09-22 JetBrains entry, 2026-09-25 weekly releases) announced 'Assisted approvals' in public preview: they automatically approve low-risk tool calls and prompt only for higher-risk actions.",
+    "The OpenAI Codex changelog (2026-09-14) says GPT-5.3-Codex-Spark was deprecated on 2026-09-14, and GPT-5.5 retires from ChatGPT and Codex on 2026-10-14. The changelog does not say what happens to configurations left unchanged.",
+    "CSA published a research note on 2026-09-22 about two Codex sandbox escapes (Heapjack, Overpatch), fixed in August (Codex CLI 0.149.0). OpenAI published no formal advisory and no CVE."
+  ],
+  "inferences": [
+    "In the window, both Anthropic (Claude Code auto mode by default) and GitHub (Copilot assisted approvals) moved per-call approval from humans to model classifiers. Controls built on the assumption that a human approves each call can lapse silently.",
+    "Mods introduce a third party that can approve tool calls: neither the human nor the auto-mode classifier. Where the guard does not load (API key or cloud-provider auth without managed settings), there is no organizational backstop.",
+    "The repeated shell-parsing permission fixes show that P-20260831-60EFB5BF keeps recurring in new parsing forms (environment-variable prefixes, nested compound commands, heredocs, redirects)."
+  ],
+  "evidence": [],
+  "files_written": [],
+  "checks_run": [
+    "Deduplicated against existing-problems.json (212 ids)",
+    "WebSearch and WebFetch of code.claude.com, platform.claude.com, github.blog, learn.chatgpt.com (developers.openai.com redirect), github.com/openai/codex releases and geminicli.com changelog"
+  ],
+  "risks": [
+    "Exact release dates for Claude Code v2.1.288 and v2.1.289 are not confirmed. The official changelog page has no dates. v2.1.285 = 2026-09-30 and v2.1.287 = 2026-10-01 come from classmethod.",
+    "The Codex sandbox-escape fixes shipped in August. Only the public disclosure (CSA, 2026-09-22) falls in the window, and that source is not an official provider source. Confidence is set to medium.",
+    "Could not reach the GitHub API for anthropics/claude-code releases because repository access is not enabled for this session.",
+    "Gemini CLI v0.60.0 (2026-09-15) added envelope metadata provenance requirements for untrusted tool outputs. The signal was too thin to emit as a record."
+  ],
+  "recommended_action": "catalog-update",
+  "next_gate": "controller",
+  "records": [
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-6A59DBD3",
+      "title": "In-process拡張(Mod)がTool Callを自ら承認でき、ask規則・PreToolUse hook・Auto mode分類器を経ずに実行される",
+      "summary": "Claude Code v2.1.287で導入されたModは、Claude Codeのプロセス内で動くPluginで、既定で有効になっている。Sandboxの外で動き、Tool Callをユーザーへの確認前に承認・書き換えできる。そのため、ask規則やManaged以外のPreToolUse hookを無効化でき、Auto modeでは分類器の判定も経ずに実行される。保護用のGuardはManaged settingsがある環境かTeam/Enterprise署名時にしか読み込まれず、API key・Bedrock等の利用者には組織側の歯止めがない。",
+      "proposed_category": "I",
+      "problem_type": "extension-self-approval-bypass",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:official-model-and-agent-providers",
+      "evidence": [
+        {"kind": "docs", "reference": "https://code.claude.com/docs/en/plugins/mods/overview", "observed_at": "2026-10-05", "summary": "Mods require v2.1.287+ and are on by default; 'Mods aren't sandboxed'; can 'Act without asking you: approve a tool call before you're asked'; can approve calls an ask rule would prompt for or a user's PreToolUse hook blocked."},
+        {"kind": "docs", "reference": "https://code.claude.com/docs/en/plugins/mods/admin", "observed_at": "2026-10-05", "summary": "Guard loads only with managed settings or Team/Enterprise sign-in; 'In auto mode, a call the mod approves runs without a classifier check'; deny rules don't cover mod $.fs/$.process calls; policy-mod plugin.register check fails open by default; 3 worker crashes unload all non-built-in mods including the org policy mod."},
+        {"kind": "changelog", "reference": "https://code.claude.com/docs/en/changelog", "observed_at": "2026-10-01", "summary": "2.1.287 'Added Claude Mods: plugins may now modify deeper behavior'; fixed org-managed MCP server descriptions being rewritten by user-installed plugins; 2.1.289 fixed deny/ask rules on nested compound shell commands not holding over user-installed mod approvals on managed machines."}
+      ],
+      "source_refs": ["https://code.claude.com/docs/en/plugins/mods/overview", "https://code.claude.com/docs/en/plugins/mods/admin", "https://code.claude.com/docs/en/changelog", "https://dev.classmethod.jp/en/articles/20261002-cc-updates-v2-1-287/"],
+      "affected_scope": "Claude Code v2.1.287+ CLI / Desktop / VS Code / claude -p / Agent SDK; especially API-key and cloud-provider users without managed settings",
+      "confidence": "high",
+      "material_change": true,
+      "status": "candidate",
+      "notes": "Closest existing problems: I07 (malicious Skill/Plugin/MCP), P-20260928-8F640290 (agent approves via review UI), P-20260831-91BDEAD5. The new mechanism is that an installed extension can approve tool calls itself, skipping both the human and the classifier, and the safeguard depends on how the user authenticates. The bugs fixed within days (2.1.287, 2.1.289) show the precedence rules were already leaky at launch."
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-1E8D81B5",
+      "title": "Agentの既定承認方式が人間確認からModel分類器の自動承認へ切り替わり、明示設定のない環境で人間承認前提の統制が無言で失効する",
+      "summary": "Claude Codeはv2.1.283以降、権限モードが未設定のTerminal・VS Codeセッションを、全Plan・全ProviderでAuto modeとして開始するようになった。Auto modeでは分類器がTool Callを判定する。GitHub Copilotも、低リスクのTool Callを自動承認するAssisted approvalsを公開Previewとして提供し始めた。手動承認を前提とした監査・責任分担・Prompt Injection対策は、Version更新だけで分類器の誤判定に依存する形へ変わる。",
+      "proposed_category": "I",
+      "problem_type": "default-approval-shift-to-classifier",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:official-model-and-agent-providers",
+      "evidence": [
+        {"kind": "docs", "reference": "https://code.claude.com/docs/en/permission-modes", "observed_at": "2026-10-05", "summary": "'With Claude Code v2.1.283 or later, auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions. On earlier versions, it's the built-in starting permission mode only on Pro, Max, and Team plans.' Opt-out via permissions.defaultMode or managed disableAutoMode."},
+        {"kind": "changelog", "reference": "https://code.claude.com/docs/en/changelog", "observed_at": "2026-09-28", "summary": "2.1.284: Changed interactive terminal and VS Code sessions to start in auto mode when permission mode is unconfigured."},
+        {"kind": "changelog", "reference": "https://github.blog/changelog/2026-09-25-github-copilot-weekly-releases-september-21/", "observed_at": "2026-09-25", "summary": "'Assisted approvals, now in public preview for Copilot agent sessions, automatically approve low-risk tool calls while prompting you for higher-risk actions.'"},
+        {"kind": "changelog", "reference": "https://github.blog/changelog/2026-09-22-new-features-and-improvements-in-copilot-for-jetbrains/", "observed_at": "2026-09-22", "summary": "Copilot for JetBrains 1.18.0 adds AI-assisted tool approvals."}
+      ],
+      "source_refs": ["https://code.claude.com/docs/en/permission-modes", "https://code.claude.com/docs/en/changelog", "https://github.blog/changelog/2026-09-25-github-copilot-weekly-releases-september-21/", "https://github.blog/changelog/2026-09-22-new-features-and-improvements-in-copilot-for-jetbrains/", "https://dev.classmethod.jp/en/articles/20260929-cc-updates-v2-1-284/"],
+      "affected_scope": "Claude Code v2.1.283+ interactive sessions without permissions.defaultMode; Copilot agent sessions with assisted approvals enabled",
+      "confidence": "high",
+      "material_change": true,
+      "status": "candidate",
+      "notes": "Related to G17 (permission fatigue) and I12 (approval fatigue). Vendors present this as the fix for those problems, but it introduces a new failure mode: a version update silently changes the oversight posture, and classifier false negatives replace human review. It also interacts with record 6A59DBD3, because mod approvals skip the classifier. Consider merging into I12 if the controller prefers."
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-9754B46A",
+      "title": "Shell構文の解釈差によるdeny/ask規則の取りこぼしが、環境変数Prefix・入れ子複合Command・Redirect・Symlink経由で再発",
+      "summary": "Claude Code v2.1.285〜v2.1.289で、権限判定が見るCommand文字列と実際の実行内容とのずれによる穴が、立て続けに修正された。主な修正は以下の4点。(1) 環境変数Prefixを付けたCommandがBash deny規則をすり抜けた。(2) 入れ子の複合Commandでdeny/ask規則が保持されなかった。(3) bypassPermissionsで、~やWildcardへのRedirect、またはScript内に書かれた危険なrmが確認なしで実行された。(4) Repositoryに含まれるSymlink経由でShellから保護対象外へ書き込めた。既知の『許可リストと実行系の解釈差』が、構文の別形態で繰り返し出現している。",
+      "proposed_category": "I",
+      "problem_type": "permission-parser-mismatch-recurrence",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:official-model-and-agent-providers",
+      "evidence": [
+        {"kind": "changelog", "reference": "https://code.claude.com/docs/en/changelog", "observed_at": "2026-10-05", "summary": "2.1.289: Fixed Bash deny rules missing commands behind environment variable prefixes; fixed deny/ask rules on nested compound shell commands. 2.1.288: sandbox auto-allow missing commands with variable prefixes; heredocs re-asking. 2.1.285: dangerous rm inside bash/sh scripts ran without prompt in bypassPermissions."},
+        {"kind": "changelog", "reference": "https://dev.classmethod.jp/en/articles/20261002-cc-updates-v2-1-287/", "observed_at": "2026-10-01", "summary": "2.1.287: rm confirmation bypassed when output redirected to paths with ~ or wildcards fixed; shell writes via repo-committed symlinks to sensitive files/outside worktree now wait for confirmation; shell writes to files the file tool rejects now prompt."}
+      ],
+      "source_refs": ["https://code.claude.com/docs/en/changelog", "https://dev.classmethod.jp/en/articles/20261002-cc-updates-v2-1-287/", "https://dev.classmethod.jp/en/articles/20260930-cc-updates-v2-1-285/"],
+      "affected_scope": "Claude Code < 2.1.289 permission rules, sandbox auto-allow, bypassPermissions mode",
+      "confidence": "high",
+      "material_change": true,
+      "status": "update",
+      "target_problem_id": "P-20260831-60EFB5BF",
+      "notes": "The symlink item also bears on P-20260907-211DB41F, and the shell-write-to-protected-file item on P-20260831-AE8A3EE7. Release dates for 2.1.288 and 2.1.289 are not confirmed; both are after 2.1.287 (2026-10-01) and therefore inside the window."
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-46894870",
+      "title": "Claude Sonnet 5.5でForced tool use・thinking disabledが400となり、上位Modelのthinking blockは200のまま無言で破棄される",
+      "summary": "2026-09-28公開のClaude Sonnet 5.5では、Sonnet 5まで受け付けていた設定のうち2つが400エラーになる。tool_choice any/toolと、thinking disabledである。また、Opus 5 / Opus 5.5 / Fable / Mythosが生成したthinking blockは読めず、Requestは200を返したまま破棄される。Effort levelも再較正されたため、同じ値を指定しても思考量が変わる。Forced tool useで構造化出力を得るPipelineや、上位ModelからSonnetへ切り替えるFallback・Sub-agent構成は、Modelを差し替えるだけで失敗するか、推論文脈を黙って失う。",
+      "proposed_category": "K",
+      "problem_type": "model-generation-api-breakage",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:official-model-and-agent-providers",
+      "evidence": [
+        {"kind": "docs", "reference": "https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide", "observed_at": "2026-10-05", "summary": "'Claude Sonnet 5.5 rejects both [tool_choice any/tool] with a 400 error, including on the token counting endpoint'; 'On Claude Sonnet 5.5, disabled returns a 400'; 'The API drops blocks the model can't read. The request still returns 200'; effort levels recalibrated; with between_tools, per-message effort change returns 400."},
+        {"kind": "official-announcement", "reference": "https://www.anthropic.com/claude-sonnet-5-5", "observed_at": "2026-09-28", "summary": "Claude Sonnet 5.5 launch."}
+      ],
+      "source_refs": ["https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide", "https://platform.claude.com/docs/en/models/sonnet-5-5/whats-new-sonnet-5-5", "https://www.anthropic.com/claude-sonnet-5-5"],
+      "affected_scope": "Messages API callers switching to claude-sonnet-5-5, multi-model fallback and sub-agent setups mixing Opus 5.x and Sonnet 5.5",
+      "confidence": "high",
+      "material_change": true,
+      "status": "update",
+      "target_problem_id": "P-20260907-D8E5A2E2",
+      "notes": "This is a new model generation repeating the known pattern. Material new elements: forced tool use is removed outright, and dropping thinking blocks across model families is silent (HTTP 200)."
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-99EF1733",
+      "title": "新Modelで安全分類器の拒否カテゴリが拡大し、正当なセキュリティ・Coding作業が拒否されるか、一部カテゴリのみ旧Modelへ無言でFallbackする",
+      "summary": "Claude Sonnet 5.5は、Sonnet 5より多くのカテゴリ(cyber, bio, frontier_llm, reasoning_extraction, general_harms)で応答を拒否する。general_harmsについては、公式が『Benign work can also trigger』と明記している。Server-side fallbackが旧Model(Sonnet 5)で再試行するのはcyberとfrontier_llmだけで、他の拒否は再試行されない。セキュリティ修正、Exploit検証、自前Model開発を扱うCoding Agentでは、同じ作業の途中で拒否されたり、別Modelで実行されたりして、品質・再現性・課金が予測しにくくなる。",
+      "proposed_category": "K",
+      "problem_type": "safety-refusal-and-model-fallback",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:official-model-and-agent-providers",
+      "evidence": [
+        {"kind": "docs", "reference": "https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide", "observed_at": "2026-10-05", "summary": "'Claude Sonnet 5.5 declines in more categories than Claude Sonnet 5'; general_harms: 'Benign work can also trigger this category'; server-side fallback retries cyber and frontier_llm declines on Sonnet 5, not bio/reasoning_extraction/general_harms; real-time cyber safeguards new for code from Sonnet 4.6 and earlier."},
+        {"kind": "official-announcement", "reference": "https://www.anthropic.com/claude-sonnet-5-5-system-card", "observed_at": "2026-09-28", "summary": "Sonnet 5.5 system card; first Sonnet model launched with cyber safeguards and fallbacks."}
+      ],
+      "source_refs": ["https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide", "https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback", "https://www.anthropic.com/claude-sonnet-5-5-system-card"],
+      "affected_scope": "Coding agents on Claude Sonnet 5.5 doing security, vulnerability or ML-infrastructure work",
+      "confidence": "medium",
+      "material_change": true,
+      "status": "candidate",
+      "notes": "Closest existing problem is K02 (model updates change quality and tool use). The new mechanism is a category-dependent refusal that can trigger on benign work, plus a partial silent model swap. No direct quantitative evidence of how often benign coding work is refused, so confidence is medium."
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-C7F152D4",
+      "title": "Coding AgentのSandbox脱出(Codex Heapjack/Overpatch)が正式Advisory・CVEなしで修正され、利用者が影響Versionを判別できない",
+      "summary": "Codex Desktopでは、Node REPLの共有V8 heapから検証Tokenを読み取ることで、最も厳しいread-only Sandboxでも承認なしでHostコマンドを実行できた(Heapjack)。Codex CLIでは、apply_patchとSymlinkの組み合わせでworkspace-writeの範囲を全Filesystemへ広げられた(Overpatch)。どちらも8月に修正済みだが、OpenAIは正式Advisory・CVEを出さず、9月の第三者公開で初めて周知された。悪意あるRepositoryを開いて質問するだけで成立するため、Sandbox modeの表示を信頼の根拠にはできない。",
+      "proposed_category": "I",
+      "problem_type": "sandbox-escape-silent-fix",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:official-model-and-agent-providers",
+      "evidence": [
+        {"kind": "changelog", "reference": "https://github.com/openai/codex/releases/tag/rust-v0.149.0", "observed_at": "2026-08-20", "summary": "Codex CLI 0.149.0: 'Prevent apply_patch from widening write permissions' (#39614), symlink hardening, 'Enforce filesystem permissions when loading AGENTS.md'. No advisory wording."},
+        {"kind": "official-announcement", "reference": "https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-codex-sandbox-escapes-20260922-csa/", "observed_at": "2026-09-22", "summary": "CSA research note (third-party) on Heapjack (Desktop build 26.818.21641 fix) and Overpatch (CLI 0.149.0 fix); OpenAI issued no formal advisory, only spokesperson confirmation."}
+      ],
+      "source_refs": ["https://github.com/openai/codex/releases/tag/rust-v0.149.0", "https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-codex-sandbox-escapes-20260922-csa/"],
+      "affected_scope": "Codex Desktop before build 26.818.21641, Codex CLI < 0.149.0",
+      "confidence": "medium",
+      "material_change": true,
+      "status": "update",
+      "target_problem_id": "I16",
+      "notes": "The official release-note evidence predates the window (2026-08-20). The in-window evidence is the CSA disclosure (2026-09-22), which is third-party, not official tier. The Overpatch symlink mechanism also bears on P-20260907-211DB41F. The material change is that a sandbox escape was fixed without an advisory or CVE, so users cannot map their exposure to a version."
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-EC21FD0E",
+      "title": "Agent製品内のModel廃止で、Model名を固定したCustom agent・Scheduled task・Managed設定が期限後の挙動未定義のまま残る",
+      "summary": "OpenAIは2026-09-14にGPT-5.3-Codex-Sparkを廃止し、2026-10-14にはCodex/ChatGPTからGPT-5.5を引退させると告知した。告知では、Workspace既定値・保存設定・Managed設定・Custom agent・Scheduled task・Scriptの更新を利用者に求めている。一方、更新しなかった設定が期限後にエラーになるのか、別Modelへ切り替わるのかは書かれていない。API側は引退対象外のため、同じModel名がSurfaceによって使えたり使えなかったりし、無人の定期Agentが黙って停止したり別Modelで動いたりする恐れがある。",
+      "proposed_category": "D",
+      "problem_type": "pinned-model-retirement",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:official-model-and-agent-providers",
+      "evidence": [
+        {"kind": "changelog", "reference": "https://learn.chatgpt.com/docs/changelog", "observed_at": "2026-09-14", "summary": "'GPT-5.3-Codex-Spark was deprecated on September 14, 2026... update saved configurations, custom agents, and scripts'; 'On October 14, 2026, GPT-5.5 will retire from ChatGPT, ChatGPT Work, and Codex on all plans... This retirement does not apply to the OpenAI API... Update workspace defaults, saved model settings, managed configurations, custom agents, scheduled tasks, and scripts that still select gpt-5.5.'"}
+      ],
+      "source_refs": ["https://learn.chatgpt.com/docs/changelog", "https://developers.openai.com/codex/changelog"],
+      "affected_scope": "Codex CLI/IDE/desktop and ChatGPT users with configs, custom agents or scheduled tasks pinned to gpt-5.5 or gpt-5.3-codex-spark",
+      "confidence": "medium",
+      "material_change": true,
+      "status": "update",
+      "target_problem_id": "D01",
+      "notes": "Also relates to K02 and P-20260907-D8E5A2E2. The URL developers.openai.com/codex/changelog redirects (308) to learn.chatgpt.com/docs/changelog. Post-deadline behavior is undocumented; re-check after 2026-10-14."
+    }
+  ]
+}

@@ -5,7 +5,7 @@
     "F11",
     "F12"
   ],
-  "summary": "AI reviewerには実装Agentと異なる証拠源(実行結果・別context・別model・仕様書)を与え、findingは検証(disprove)stepと重大度付けを経てadvisoryにし、blockingは狭い高impact条件に限定する",
+  "summary": "AI reviewerには実装Agentと異なる証拠源(実行結果・別context・別model・仕様書)を与える。findingは検証(disprove)stepと重大度付けを経てadvisoryにし、blockingは狭い高impact条件に限定する。disprove stepは別LLMによるもっともらしさ判定ではなく、repository証拠の収集(該当codeの読取・grep・test実行)に接地させる",
   "remedy_type": "setting",
   "maturity": "candidate",
   "status": "active",
@@ -58,6 +58,13 @@
       "observed_at": "2026-08-15",
       "summary": "code-review (public, reputation established): read SKILL.md: step 4 spawns the Standards and Spec sub-agents with separate briefs and separate evidence (repo standards plus a smell baseline; the originating spec text), and step 5 forbids merging or reranking the two reports, so no single blocking verdict is produced and findings stay advisory.",
       "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2609.37216",
+      "observed_at": "2026-10-05",
+      "summary": "CRJudgeBench(実PR由来1,199件、test 359件)で、汎用SOTA LLMはもっともらしいが無効なreview commentの識別に苦戦した。repository証拠を能動収集してから判定するSentinel(Qwen3-Coder-30B、教師modelによるaction-level学習)は76.60%で、base比+19.78ptだった。disprove stepを証拠収集型にする根拠となる。抄録のみ確認。",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -80,14 +87,16 @@
     "metrics": [
       "reviewer指摘のincorrect率",
       "blocking指摘のうち人間が却下した比率",
-      "reviewerが独立実行した検証(test/build)の有無"
+      "reviewerが独立実行した検証(test/build)の有無",
+      "disprove stepで証拠付きで却下されたfinding比率"
     ],
     "confidence": "medium"
   },
   "risks": [
     "vendor報告のfalse positive率は自社codebase前提",
     "recall向上と過剰指摘はtrade-off",
-    "AI reviewを人間判断の完全代替にすると同じoracle問題を再生産"
+    "AI reviewを人間判断の完全代替にすると同じoracle問題を再生産",
+    "証拠収集型の検証でも正答率は約77%にとどまり、無効commentの一部は残る(CRJudgeBench)"
   ],
   "implementation_owner": "team-lead",
   "fix_effort": 2,
@@ -101,16 +110,18 @@
   "known_failure_modes": [
     "AI reviewを最終判断にする(local card)",
     "全指摘をblockingにする(F12悪化)",
-    "実装と同じcontext/prompt/前提をreviewerに渡す(F11)"
+    "実装と同じcontext/prompt/前提をreviewerに渡す(F11)",
+    "disprove stepを汎用LLMにcomment文面だけ見せて妥当性判定させる(code証拠を集めない)"
   ],
-  "last_verified_at": "2026-08-15",
+  "last_verified_at": "2026-10-05",
   "revalidate_when": [
     "reviewer product/tier更新",
     "model update",
-    "false positive率の局所測定結果"
+    "false positive率の局所測定結果",
+    "review comment妥当性判定benchmarkの追試・公開verifier登場"
   ],
   "created_at": "2026-08-15",
-  "researched_by": "ai-development-improvement research 2026-08-15 (category F)",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category F); evidence appended by MNT-20261005T191457Z research-03",
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",
     "merged_into_authority_at": "2026-08-15T10:33:31Z"

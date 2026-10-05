@@ -2,7 +2,8 @@
   "schema_version": "1.0",
   "id": "RMD-A07-001",
   "problem_ids": [
-    "A07"
+    "A07",
+    "C02"
   ],
   "summary": "Maintain explicit traceability links from requirement to design, API, schema, tests, and tasks (spec-kit style task tracing or a lightweight traceability matrix) and walk the links as a change-impact checklist on every requirement change.",
   "remedy_type": "process",
@@ -48,7 +49,7 @@
   "implementation_owner": "project-team",
   "fix_effort": 3,
   "reversible": true,
-  "last_verified_at": "2026-08-15",
+  "last_verified_at": "2026-10-05",
   "revalidate_when": [
     "spec-workflow-tooling-change",
     "agent-surface-change",
@@ -128,5 +129,8 @@
         "reader_facing": false
       }
     ]
-  }
+  },
+  "controller_notes": [
+    "C02 linked 2026-10-05 (MNT-20261005T191457Z): requirement-to-test traceability addresses low-frequency spec-rule omissions measured by Zero2Repo (arXiv 2609.38269)."
+  ]
 }

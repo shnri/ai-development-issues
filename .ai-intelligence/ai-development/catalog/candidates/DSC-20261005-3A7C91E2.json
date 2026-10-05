@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-3A7C91E2",
+  "title": "承認された行為と実際に実行される行為の束縛が切れ、Scope・引数・時点・Tool・委譲・意味のいずれかで承認が別の実行へ流用される(Approval Laundering)",
+  "summary": "AI Coding AgentのHarnessでは、人間が承認した内容と実際の実行が暗号的・構造的に結び付いていない。そのため、承認が別のScope・引数・時点・Tool・委譲先・意味の実行に流用される。論文はこれを6類型に体系化した。承認Tokenを導入するとDelegationとTemporalは抑止できたが、ScopeとArgumentは実行境界側の制約で防げなかった。",
+  "proposed_category": "I",
+  "problem_type": [
+    "approval-execution-binding-failure"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:primary-software-engineering-research",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2609.38983",
+      "observed_at": "2026-09-30",
+      "summary": "6類型(Scope/Argument/Temporal/Tool/Delegation/Semantic laundering)を各19-20試行で計測した。Approval TokenはDelegation launderingを解消し、Temporalにも有意な効果があった(p<1e-5)。Scope/Argument launderingには無効だった。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research",
+      "url": "https://arxiv.org/abs/2609.38983"
+    }
+  ],
+  "affected_scope": {
+    "description": "承認Gateを持つAI Coding-Agent Harness全般(CLI Agent、Sub-agent委譲、Tool承認UI)"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "P-20260907-CD83ACE2",
+  "notes": "Scope/Argument launderingはP-20260831-60EFB5BF(許可リストと実行系の解釈差)とも重なる。承認・実行Bindingの包括Taxonomyとして独立Candidate化する選択肢もある。単著のPreprint。"
+}

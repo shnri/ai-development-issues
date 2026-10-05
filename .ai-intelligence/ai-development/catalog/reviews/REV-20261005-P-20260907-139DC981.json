@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260907-139DC981",
+  "problem_id": "P-20260907-139DC981",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "unverified",
+  "proposed_status": "active",
+  "reason": "Promote to active. The uncertainty in the 2026-09-28 review was only about Copilot's past non-enforcement, which had been inferred from GA wording. Official evidence on disk shows the mechanism, enforcement lagging per product surface, is current. GitHub's content-exclusion docs still state that IDE Copilot Chat agent mode is unsupported. The Copilot app and CLI gained exclusions only at GA on 2026-09-02/04. Claude Code v2.1.253 fixed project settings that could enable raw API body logging without proper controls. Two vendors and official documents support it, with no conflicting evidence. RMD-SURFACEPARITY-001 (official, treat new surfaces as ungoverned until tested, managed-settings precedence) is current. These mitigations are scoped to particular surfaces and do not make the global problem inactive.",
+  "evidence": [
+    {
+      "kind": "official-guidance",
+      "reference": "https://docs.github.com/en/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot",
+      "observed_at": "2026-09-07",
+      "summary": "Content exclusion docs still state IDE Copilot Chat agent mode is unsupported, so the per-surface lag is ongoing."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://github.blog/changelog/2026-09-04-github-copilot-weekly-releases-august-31/",
+      "observed_at": "2026-09-04",
+      "summary": "Copilot app and CLI now honor content exclusions (GA 2026-09-02)."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
+      "observed_at": "2026-09-01",
+      "summary": "v2.1.253: fixed project settings enabling detailed tracing or raw API body logging without proper controls."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-SURFACEPARITY-001",
+      "observed_at": "2026-09-07",
+      "summary": "official/known-applicable; allowlist new surfaces only after a live exclusion/telemetry test; enforce via managed settings."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": null,
+    "assessment": "Product governance mechanism that does not depend on the model."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-SURFACEPARITY-001"
+    ],
+    "assessment": "Official maturity, current. Pin versions at or above the GA and fix releases."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "vendor advisory explicitly documenting prior non-enforcement",
+    "another surface reported lacking org controls",
+    "GitHub docs add agent-mode exclusion support"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

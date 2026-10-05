@@ -1,0 +1,44 @@
+{
+  "contract": "specialist-handoff-v1",
+  "worker_id": "discovery-04",
+  "role": "scout",
+  "source_id": "local-project-evidence",
+  "lookback_days": 21,
+  "status": "complete",
+  "problem_ids": [],
+  "work_item_id": null,
+  "facts": [
+    ".ai-intelligence/ai-development/findings/ still does not exist. This is the fourth consecutive local scout to report it (08-31, 09-07, 09-28, 10-05), so only runs/ could be scanned.",
+    "Runs inside the 2026-09-14..2026-10-05 window: MNT-20260928T201930Z (completed, catalog revision 99 to 120, 21 workers all status=complete), and MNT-20261005T191448Z and MNT-20261005T191457Z (both status=planned, empty workers/ directories).",
+    "authority_base.reachable=false appears again in MNT-20260928T201930Z, MNT-20261005T191448Z and MNT-20261005T191457Z (every run since 2026-08-17). Problem P-20260831-FB4523EC already covers this, and its alias covers the probe-vs-live discrepancy.",
+    "Several worker risk notes say coverage was incomplete (HTTP 400s, reddit unavailable, sites that only render with JS, searches that cannot filter by date). Problem P-20260907-EACDFFF4 (watermark advances over inputs that were not covered) already covers this.",
+    "In MNT-20260928T201930Z, 4 eligible implementation items were deferred because of the max_action_items_per_run=3 cap. This is a configured limit, not a failure.",
+    "MNT-20261005T191448Z and MNT-20261005T191457Z were planned 9 seconds apart against the same catalog revision 120. Their plans are identical except for the id, timestamps and paths, and each wrote its own snapshot. The scanned history has no other pair of overlapping runs: the five runs on 2026-08-15 ran one after another.",
+    "No time or token loss data is in the window: token_budget_per_run and time_budget_minutes are null, and results.metrics is empty. MNT-20260928T201930Z took 13m17s, similar to earlier runs.",
+    "No inconsistency between the specification and tests turned up in the run records or worker outputs in the window."
+  ],
+  "inferences": [
+    "The two runs planned at the same revision on 2026-10-05 may mean the controller can start a second run while another is already planned, with no lock. It has happened once, so there is no evidence yet that the mechanism recurs. If later runs show it again, re-check then.",
+    "Every recurring local signal in the window is already in the catalog (P-20260831-FB4523EC, P-20260907-EACDFFF4, P-20260907-B8D227AC)."
+  ],
+  "evidence": [
+    {"kind": "run-record", "reference": ".ai-intelligence/ai-development/runs/MNT-20260928T201930Z-maintain.json", "observed_at": "2026-09-28", "summary": "Completed incremental run; reachable=false; 4 implementation items deferred by the cap; no metrics recorded."},
+    {"kind": "run-record", "reference": ".ai-intelligence/ai-development/runs/MNT-20260928T201930Z/workers/discovery-06.json", "observed_at": "2026-09-28", "summary": "Previous local scout. findings/ missing. Its probe false-negative report was merged into P-20260831-FB4523EC."},
+    {"kind": "run-record", "reference": ".ai-intelligence/ai-development/runs/MNT-20261005T191448Z-maintain.json", "observed_at": "2026-10-05", "summary": "Planned run at revision 120, 9 seconds before MNT-20261005T191457Z, with an identical plan; seen once."}
+  ],
+  "files_written": [],
+  "checks_run": [
+    "ls findings/ (missing) and runs/",
+    "Read all *-maintain.json for timing, status, revisions and reachable",
+    "Read the status, risk notes and records of the MNT-20260928T201930Z workers",
+    "Diffed MNT-20261005T191448Z against MNT-20261005T191457Z",
+    "Deduplicated against existing-problems.json (212 entries) by searching for watermark, reachability, concurrency, probe and B8D227AC"
+  ],
+  "risks": [
+    "Because findings/ is missing, the only local evidence is the controller's own run records, so failures in project execution itself are not visible to this scout.",
+    "There is one possible concurrent or duplicate run on 2026-10-05; it should be watched in later runs."
+  ],
+  "recommended_action": "none",
+  "next_gate": "controller",
+  "records": []
+}

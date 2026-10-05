@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20261005T193426Z-0126-PROBLEM-MATERIAL-CHANGE",
+  "event_type": "problem-material-change",
+  "occurred_at": "2026-10-05T19:34:26Z",
+  "catalog_revision_before": 125,
+  "catalog_revision_after": 126,
+  "details": {
+    "candidate_id": "DSC-20261005-3A7C91E2",
+    "decision": "update",
+    "target_problem_id": "P-20260907-CD83ACE2"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-9E26C3A4",
+  "title": "長い仕様中の単一の低頻度ルールを見落とし、受け入れテストの9割以上を通しながら不合格になる",
+  "summary": "仕様からRepositoryを一から構築するBenchmarkでは、失敗した提出もHidden acceptance testの90-99%を通過していた。上位Agentの失敗の67-100%は、Subsystemの欠落ではなく、仕様中の単一の省略や低頻度ルールの見落としに起因した。高い通過率が完成と誤認されやすい。",
+  "proposed_category": "C",
+  "problem_type": [
+    "low-frequency-spec-rule-omission"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:primary-software-engineering-research",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2609.38269",
+      "observed_at": "2026-09-29",
+      "summary": "Zero2Repo(Python/TypeScript/Go/C++)では、最強Agentが11 Task中10を解いた。全ての失敗提出がHidden testの90-99%を通過した。上位2 Agentの失敗の67-100%は、単一の省略または仕様中の低頻度ルールに起因した。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research",
+      "url": "https://arxiv.org/abs/2609.38269"
+    }
+  ],
+  "affected_scope": {
+    "description": "仕様書駆動のGreenfield開発、長大仕様を入力とするAgent Task"
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "update",
+  "target_problem_id": "C02",
+  "notes": "F13(一度の成功を安定と見なす)、E11(未完で完了報告)にも根拠を提供する。"
+}

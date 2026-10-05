@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-REFUSALFALLBACK-001",
+  "problem_ids": ["P-20261005-A25FC732"],
+  "summary": "Sonnet 5.5 等の classifier refusal を『例外ではなく正常応答の一種』として harness で扱う公式手順: (1) stop_reason:\"refusal\" と stop_details.category を常に検査し、category 別に分岐する (cyber / bio / frontier_llm / reasoning_extraction / general_harms / null)。(2) fallback は fallbacks:\"default\" (beta header server-side-fallback-2026-07-01、Claude API のみ) に任せず、再現性が要る場合は最大3 model の明示 list で『qualified 済み model』に pin する。Bedrock / Agent Platform / Foundry / Batches では SDK の BetaRefusalFallbackMiddleware で client 側 fallback を行う。(3) 応答ごとに response.model を記録し、fallback で別 model が応答した turn を品質・課金・再現性の集計で区別する。(4) reasoning_extraction は fallback が無いため prompt で推論の出力本文への転記を求めない (thinking display:\"summarized\" を使う)。(5) 正当なセキュリティ作業は Cyber Verification Program に申請する。(6) bio / general_harms は server-side fallback 対象外で refusal が確定するため、該当業務は別 model への明示 fallback list か人手 escalation 経路を用意する。",
+  "remedy_type": "harness",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {"kind": "official-guidance", "reference": "https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide", "observed_at": "2026-10-05", "summary": "'Claude Sonnet 5.5 declines in more categories than Claude Sonnet 5'。server-side fallback は cyber / frontier_llm を Sonnet 5 で再試行し、bio / reasoning_extraction / general_harms は再試行しない。'For legitimate security work, apply to the Cyber Verification Program'。"},
+    {"kind": "official-guidance", "reference": "https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback", "observed_at": "2026-10-05", "summary": "refusal は error でなく stop_reason:\"refusal\" + stop_details.category。cyber / general_harms は 'Benign … work can also trigger'。fallbacks は 'default' か最大3 model の list、server-side は beta かつ Claude API のみ (Batches 不可、Bedrock/Google Cloud/Foundry 不可 → SDK middleware)。response は応答 model を示し、recommended_model は hint。出力前 refusal は bio / frontier_llm / reasoning_extraction のみ課金 (2026-09 時点)、rate limit は消費。reasoning_extraction は fallback 無しで prompt 変更を推奨。"}
+  ],
+  "applicability": {
+    "conditions": ["Claude Sonnet 5.5 / Opus 5.x / Fable 5.x を使う coding agent・API harness", "セキュリティ修正、脆弱性検証、ML 基盤・model 開発、life science を扱う", "応答の再現性・課金予測・model 単位の品質管理が必要"],
+    "not_applicable_when": ["refusal 対象 category に該当する業務が無い一般的な開発", "Claude Code 等の公式 harness に refusal 処理を任せ、自前で API を呼ばない (2.1.285 で refusal 時に同 tier の前 model へ1回 retry する client 処理あり)"]
+  },
+  "expected_effect": {
+    "primary": "refusal による無言の作業中断・別 model 実行を、検出可能かつ決定的な経路に変える。指標: category 別 refusal 率、fallback served 率と応答 model 分布、refusal で終端した task 数、Cyber Verification Program 適用後の cyber refusal 率。",
+    "confidence": "official"
+  },
+  "risks": ["fallback 先 model は能力・挙動が異なり、同一 task 内で品質が不連続になる", "server-side fallback は beta で仕様変更・廃止があり得る", "fallback list の全 model で request が有効である必要があり、新 model 専用 parameter を使うと up-front で reject される", "general_harms / bio の誤拒否には公式な迂回手段が無く、業務 escalation で吸収するしかない", "課金対象 category は Anthropic 側で変更され得る"],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 2,
+  "reversible": true,
+  "verdict": "known-applicable",
+  "secondary_layers": ["process", "observability"],
+  "known_failure_modes": ["stop_reason を見ず空 content を成功扱いする", "fallbacks:\"default\" で応答 model が turn ごとに変わることを集計で区別しない", "reasoning_extraction を retry で解決しようとする (fallback 無し)"],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": ["refusal category・課金対象 category の変更", "server-side fallback の GA 化・対応 platform 拡大", "新 model 世代での classifier 範囲変更", "Cyber Verification Program の対象・条件変更"],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-02"
+}

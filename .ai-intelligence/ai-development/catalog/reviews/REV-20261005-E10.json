@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-E10",
+  "problem_id": "E10",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "Technical debt rising with AI generation volume is still supported. The RAMP study (arXiv 2608.25241, 441 repos) found commit velocity up 28-38% at every maturity level. Cognitive complexity rose about 53%, with static-analysis warnings up 1.7x, in agent-first repos without committed AI configuration, versus about 27% with it. The study is observational. Remedies are current: RMD-E10-001 (small PRs plus machine pre-checks), RMD-E09-001 (validated security gates), RMD-E04-001 (official scope boundaries) and RMD-E10-002 (committed AI configuration, added 2026-08-31). Mitigation in some repos does not make the global problem inactive.",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2608.25241",
+      "observed_at": "2026-08-31",
+      "summary": "RAMP: complexity +53% vs +27% and warnings 1.7x without vs with committed AI config; observational."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-E10-002",
+      "observed_at": "2026-08-31",
+      "summary": "candidate; commit CLAUDE.md/AGENTS.md as maintained repo artifacts; revalidate on independent causal replication."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-E10-001",
+      "observed_at": "2026-08-15",
+      "summary": "candidate; cites arXiv 2603.28592: more than 15% of AI-authored commits introduce issues and 22.7% persist long-term."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "増幅",
+    "assessed_models": null,
+    "assessment": "Higher generation throughput amplifies the debt rate. No evidence that current models remove it."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-E09-001",
+      "RMD-E04-001",
+      "RMD-E10-001",
+      "RMD-E10-002"
+    ],
+    "assessment": "All active. RMD-E10-002 fills the committed-config gap. Its evidence is observational, so adoption should track local complexity and warning trends."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "independent or causal replication of RAMP",
+    "provider changes where project instructions live",
+    "local complexity/warning trend data",
+    "major model or hosted-surface change"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

@@ -56,6 +56,12 @@
       "reference": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
       "observed_at": "2026-09-28",
       "summary": "Claude Code 2.1.282 (per catalog evidence 2026-09): recursive rm whose target is only command-substitution output ran unprompted even under a Bash allow rule; now asks. Another instance of the lexical-vs-shell-expansion gap; reinforces that allowlists stay a defense-in-depth layer and the OS sandbox is the boundary. Not re-fetched by researcher."
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://code.claude.com/docs/en/changelog",
+      "observed_at": "2026-10-05",
+      "summary": "2.1.285-2.1.289 (最新 2.1.289, 2026-10-03) でも同クラスの instance 修正が継続: 2.1.289 で環境変数 prefix 付き command (例 TZ=\"$HOME\" rm -rf build) と bare 代入先行の command が sandbox auto-allow 下で Bash deny/ask 規則を素通りした問題、入れ子 compound command で deny/ask が効かない問題を修正。2.1.288 で BASHPID 算術代入の無確認許可を修正。2.1.286/2.1.287 で ~ や wildcard への redirect を伴う危険 rm の always-ask 喪失、bash -c/sh -c 内の危険 rm (bypassPermissions/allow 規則下)、repo commit 済み symlink 経由の sensitive file・worktree 外への shell write を修正 (後者は人の確認待ちに変更)。sandbox auto-allow 構成でも deny 規則の取りこぼしが起きていた点は、deny/ask 規則ではなく OS sandbox の filesystem/network 境界を実効境界とする本 remedy の前提を補強する。最低 version は 2.1.289 に更新。"
     }
   ],
   "applicability": {
@@ -80,7 +86,8 @@
     "network 制限で正当な依存解決やツールが壊れ、excludedCommands での穴あけに流れやすい",
     "sandbox proxy / cache proxy 自体が攻撃面になる (P-20260831-C476A122 参照)",
     "OS 境界を信頼して allowlist の保守を止めると、sandbox 内での破壊操作 (作業ツリー削除等) は防げない",
-    "v2.1.260 revert 以降、Read() deny rule は operand 位置を被覆しないため、deny rule だけで秘匿している構成は再び素通しになる (sandbox denyRead / credentials へ移すこと)"
+    "v2.1.260 revert 以降、Read() deny rule は operand 位置を被覆しないため、deny rule だけで秘匿している構成は再び素通しになる (sandbox denyRead / credentials へ移すこと)",
+    "sandbox auto-allow (autoAllowBashIfSandboxed) 構成では、2.1.289 未満で環境変数 prefix・bare 代入付き command が deny/ask 規則を素通りしていた。auto-allow を使う場合は deny 規則ではなく sandbox の denyRead/denyWrite/credentials に秘匿・保護対象を置き、2.1.289 以上へ追随すること"
   ],
   "implementation_owner": "consumer-project",
   "fix_effort": 3,
@@ -96,13 +103,15 @@
     "strict mode 未設定のまま sandbox を境界と信じる (escape hatch が残る)",
     "instance patch (CVE 単位の修正) を根本解決と誤認して多層防御を解く"
   ],
-  "last_verified_at": "2026-09-28",
+  "last_verified_at": "2026-10-05",
   "revalidate_when": [
     "Claude Code / Gemini CLI / Codex の permission・sandbox 仕様変更",
     "新たな allowlist bypass CVE の公表",
     "sandbox の escape hatch や excludedCommands の既定変更",
     "harness の major update ごと",
     "Read() deny rule の Bash 引数適用が再導入された場合 (v2.1.260 revert の巻き戻し)",
-    "changelogに新たなcommand substitution/expansion系のpermission bypass修正が出た場合 (2.1.282以降も継続確認)"
-  ]
+    "changelogに新たなcommand substitution/expansion系のpermission bypass修正が出た場合 (2.1.282以降も継続確認)",
+    "sandbox auto-allow 下での deny/ask 規則 bypass 修正が 2.1.289 以降も出た場合 (auto-allow 時の規則適用経路の再設計を示唆)"
+  ],
+  "researched_by": "; updated MNT-20261005T191457Z research-02 2026-10-05"
 }

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-G18",
+  "problem_id": "G18",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "This is an operational-friction mechanism that is independent of the model. Vitest still defaults maxWorkers to all available parallelism when watch mode is off, so CPU contention under parallel agents or devcontainers persists unless a cap is set. RMD-G18-001 (candidate/known-applicable, measured worker cap) is current. Its official-docs evidence dates from 2026-08-15, inside the 60-day official refresh window. Neither the remedy nor the problem record reports any change to the vitest pool or to the devcontainer CPU allocation. No evidence of resolution.",
+  "evidence": [
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-G18-001",
+      "observed_at": "2026-08-15",
+      "summary": "candidate/known-applicable; vitest maxWorkers fixed number or '50%', --no-file-parallelism if needed."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://vitest.dev/config/maxworkers",
+      "observed_at": "2026-08-15",
+      "summary": "Default is all available parallelism when watch is off and half when watch is on; percentage values are allowed (recorded in RMD-G18-001)."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "残存",
+    "assessed_models": null,
+    "assessment": "Runtime/tooling mechanism; model improvement is not expected to affect it."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-G18-001"
+    ],
+    "assessment": "Current. The official evidence ages past its 60-day refresh on about 2026-10-14, so re-check the vitest docs at the next research pass."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "vitest pool implementation change",
+    "devcontainer CPU allocation change",
+    "start of parallel-agent operation in a project",
+    "local finding of test timeout flakes"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

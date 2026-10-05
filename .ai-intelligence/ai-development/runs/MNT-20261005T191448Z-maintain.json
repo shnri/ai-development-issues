@@ -1,0 +1,750 @@
+{
+  "schema_version": "1.0",
+  "plan_schema_version": "1.1",
+  "id": "MNT-20261005T191448Z",
+  "started_at": "2026-10-05T19:14:48Z",
+  "completed_at": "2026-10-05T20:01:45Z",
+  "mode": "maintain",
+  "plan_mode": "incremental",
+  "catalog_revision_before": 120,
+  "catalog_revision_after": 138,
+  "authority_base": {
+    "remote": "origin",
+    "branch": "claude/zen-carson-ew0y9m",
+    "remote_sha": null,
+    "local_head": "60867de7638c9b20b67ee1da34c58185538e5645",
+    "recorded_at": "2026-10-05T19:14:48Z",
+    "reachable": false
+  },
+  "plan": {
+    "mode": "incremental",
+    "bootstrap_signals": {
+      "bootstrap_completed_at": null,
+      "problem_count": 212,
+      "never_reviewed": 8,
+      "never_researched": 0,
+      "never_reviewed_ratio": 0.038,
+      "never_researched_ratio": 0.0,
+      "threshold": 0.5
+    },
+    "execution": {
+      "max_parallel_workers": 8,
+      "max_items_per_worker": {
+        "inventory": 20,
+        "research": 10,
+        "discovery": 1
+      },
+      "max_waves_per_run": 3,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null,
+      "worker_max_turns": {
+        "inventory": 24,
+        "research": 20,
+        "discovery": 24
+      }
+    },
+    "capacity": {
+      "inventory": 480,
+      "research": 240,
+      "discovery": 24
+    },
+    "legacy_fixed_limits": false,
+    "inventory_problem_ids": [
+      "A08",
+      "K03",
+      "G18",
+      "E10",
+      "P-20260928-09CA0B06",
+      "P-20260928-0F54346C",
+      "P-20260928-25E15035",
+      "P-20260928-5AA04248",
+      "P-20260928-605E99D3",
+      "P-20260928-646689BC",
+      "P-20260928-81CA7BDF",
+      "P-20260928-8F640290",
+      "P-20260907-09AB323A",
+      "P-20260907-139DC981",
+      "P-20260907-60990370",
+      "P-20260907-D8E5A2E2",
+      "P-20260907-E23B65A6"
+    ],
+    "inventory_items": [
+      {
+        "id": "A08",
+        "title": "AIが生成した設計書が権威的に見え、未確認の仮定が仕様化する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-30",
+        "research_status": "current",
+        "category_id": "A"
+      },
+      {
+        "id": "K03",
+        "title": "System Prompt、Harness、Tool schema変更で回帰する",
+        "status": "active",
+        "priority_lane": "C1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-30",
+        "research_status": "current",
+        "category_id": "K"
+      },
+      {
+        "id": "G18",
+        "title": "Test並列数が多すぎ、CPU競合で全体が遅くなる",
+        "status": "active",
+        "priority_lane": "Q1",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-29",
+        "research_status": "current",
+        "category_id": "G"
+      },
+      {
+        "id": "E10",
+        "title": "AI生成量に比例してTechnical Debtが速く蓄積する",
+        "status": "active",
+        "priority_lane": "F2",
+        "last_reviewed": "2026-08-15",
+        "next_review_due": "2026-09-30",
+        "research_status": "current",
+        "category_id": "E"
+      },
+      {
+        "id": "P-20260928-09CA0B06",
+        "title": "攻撃者がAgent/クローラーと人間で異なるコンテンツを出し分け(AI Targeted Cloaking)、人間のレビューでは見えない指示・情報をAgentへ供給する",
+        "status": "provisional",
+        "priority_lane": "safety",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260928-0F54346C",
+        "title": "Scope付きに見えるShell事前承認とVersion未固定のMCP宣言が、共有Agent設定を通じて任意実行・供給網露出になる",
+        "status": "provisional",
+        "priority_lane": "safety",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260928-25E15035",
+        "title": "監視の適用範囲が版ずれ・経路外で欠け、Token/Sub-agent行動の一部が監視Logに載らない",
+        "status": "provisional",
+        "priority_lane": "foundation",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260928-5AA04248",
+        "title": "Harnessの指示文書サイズ上限が無警告で末尾を切り捨て、生成AGENTS.mdの後半規則がAgentに届かない",
+        "status": "provisional",
+        "priority_lane": "quickwin",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260928-605E99D3",
+        "title": "AIの修正が新たに到達可能にした既存コード経路の退行を、「既存の欠陥」として報告する",
+        "status": "provisional",
+        "priority_lane": "quickwin",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260928-646689BC",
+        "title": "AI Assistantを開くリンクがPromptを事前入力し、クリックだけで永続Memory・推奨を汚染する(Crafted AI Assistant Links)",
+        "status": "provisional",
+        "priority_lane": "safety",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260928-81CA7BDF",
+        "title": "Sub-agent起動が成功を返す一方でタスクpayloadが子に届かず、空のAgentが待機してTimeoutする",
+        "status": "provisional",
+        "priority_lane": "foundation",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260928-8F640290",
+        "title": "ブロック対象の行為を、Agent自身が人間レビューUIを操作して承認してしまう",
+        "status": "provisional",
+        "priority_lane": "safety",
+        "last_reviewed": null,
+        "next_review_due": "2026-10-05",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-09AB323A",
+        "title": "機能テストPASSのみを受け入れ基準にすると、レビュー由来の受け入れ制約に違反するAgent Patchの約3分の1が合格扱いになる",
+        "status": "unverified",
+        "priority_lane": "quality",
+        "last_reviewed": "2026-09-28",
+        "next_review_due": "2026-10-12",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-139DC981",
+        "title": "組織のContent Exclusion・Logging統制が新しいAgent Surfaceへ未実装のまま展開され、除外対象コードや生API BodyがContext・Logへ流入する",
+        "status": "unverified",
+        "priority_lane": "safety",
+        "last_reviewed": "2026-09-28",
+        "next_review_due": "2026-10-12",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-60990370",
+        "title": "MCPのError結果が失敗の発生は伝えるが原因・修復手段・安全な再実行可否を含まず、Agentが結果だけからは回復行動を決定できない",
+        "status": "unverified",
+        "priority_lane": "reliability",
+        "last_reviewed": "2026-09-28",
+        "next_review_due": "2026-10-12",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-D8E5A2E2",
+        "title": "APIパラメータ・会話再生の有効性がモデル世代単位で変わり、呼び出し側を変えないモデル切替・Fallback・文脈編集が400や無言のBlock破棄で壊れる",
+        "status": "unverified",
+        "priority_lane": "reliability",
+        "last_reviewed": "2026-09-28",
+        "next_review_due": "2026-10-12",
+        "research_status": "current",
+        "category_id": null
+      },
+      {
+        "id": "P-20260907-E23B65A6",
+        "title": "Session途中で追加された要求が直前実装の約2倍規模の編集無効化を引き起こし、要求の事前予告でもReworkが削減されない",
+        "status": "unverified",
+        "priority_lane": "quality",
+        "last_reviewed": "2026-09-28",
+        "next_review_due": "2026-10-12",
+        "research_status": "current",
+        "category_id": null
+      }
+    ],
+    "discovery_source_ids": [
+      "official-model-and-agent-providers",
+      "primary-software-engineering-research",
+      "community-and-issue-signals",
+      "local-project-evidence"
+    ],
+    "discovery_sources": [
+      {
+        "id": "official-model-and-agent-providers",
+        "kind": "web",
+        "evidence_tier": "official",
+        "domains": [
+          "openai.com",
+          "developers.openai.com",
+          "anthropic.com",
+          "docs.anthropic.com",
+          "google.com",
+          "github.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent release notes",
+          "model behavior changes",
+          "agent tools and permissions",
+          "skills plugins instructions"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-28T20:25:45Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "primary-software-engineering-research",
+        "kind": "web",
+        "evidence_tier": "research",
+        "domains": [
+          "arxiv.org",
+          "dl.acm.org",
+          "ieeexplore.ieee.org",
+          "openreview.net"
+        ],
+        "paths": [],
+        "query_themes": [
+          "AI-assisted software engineering failure modes",
+          "coding agent testing evaluation",
+          "multi-agent software development",
+          "specification drift AI coding"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-28T20:25:46Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "community-and-issue-signals",
+        "kind": "web",
+        "evidence_tier": "community",
+        "domains": [
+          "github.com",
+          "reddit.com",
+          "news.ycombinator.com"
+        ],
+        "paths": [],
+        "query_themes": [
+          "coding agent recurring issue",
+          "AI generated code workflow problem",
+          "Claude Code Codex agent regression"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-28T20:25:46Z",
+        "last_backfill_at": null,
+        "backfill": false
+      },
+      {
+        "id": "local-project-evidence",
+        "kind": "repository",
+        "evidence_tier": "local",
+        "domains": [],
+        "paths": [
+          ".ai-intelligence/ai-development/findings",
+          ".ai-intelligence/ai-development/runs"
+        ],
+        "query_themes": [
+          "unmapped recurring failure",
+          "unexplained time or token loss",
+          "new specification or test inconsistency"
+        ],
+        "lookback_days": 21,
+        "last_scanned_at": "2026-09-28T20:25:46Z",
+        "last_backfill_at": null,
+        "backfill": false
+      }
+    ],
+    "research_problem_ids": [],
+    "research_items": [],
+    "inventory": {
+      "workers": [
+        {
+          "group": "A+K+G+E+misc",
+          "item_ids": [
+            "A08",
+            "K03",
+            "G18",
+            "E10",
+            "P-20260928-09CA0B06",
+            "P-20260928-0F54346C",
+            "P-20260928-25E15035",
+            "P-20260928-5AA04248",
+            "P-20260928-605E99D3",
+            "P-20260928-646689BC",
+            "P-20260928-81CA7BDF",
+            "P-20260928-8F640290",
+            "P-20260907-09AB323A",
+            "P-20260907-139DC981",
+            "P-20260907-60990370",
+            "P-20260907-D8E5A2E2",
+            "P-20260907-E23B65A6"
+          ],
+          "items": [
+            {
+              "id": "A08",
+              "title": "AIが生成した設計書が権威的に見え、未確認の仮定が仕様化する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-30",
+              "research_status": "current",
+              "category_id": "A"
+            },
+            {
+              "id": "K03",
+              "title": "System Prompt、Harness、Tool schema変更で回帰する",
+              "status": "active",
+              "priority_lane": "C1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-30",
+              "research_status": "current",
+              "category_id": "K"
+            },
+            {
+              "id": "G18",
+              "title": "Test並列数が多すぎ、CPU競合で全体が遅くなる",
+              "status": "active",
+              "priority_lane": "Q1",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-29",
+              "research_status": "current",
+              "category_id": "G"
+            },
+            {
+              "id": "E10",
+              "title": "AI生成量に比例してTechnical Debtが速く蓄積する",
+              "status": "active",
+              "priority_lane": "F2",
+              "last_reviewed": "2026-08-15",
+              "next_review_due": "2026-09-30",
+              "research_status": "current",
+              "category_id": "E"
+            },
+            {
+              "id": "P-20260928-09CA0B06",
+              "title": "攻撃者がAgent/クローラーと人間で異なるコンテンツを出し分け(AI Targeted Cloaking)、人間のレビューでは見えない指示・情報をAgentへ供給する",
+              "status": "provisional",
+              "priority_lane": "safety",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260928-0F54346C",
+              "title": "Scope付きに見えるShell事前承認とVersion未固定のMCP宣言が、共有Agent設定を通じて任意実行・供給網露出になる",
+              "status": "provisional",
+              "priority_lane": "safety",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260928-25E15035",
+              "title": "監視の適用範囲が版ずれ・経路外で欠け、Token/Sub-agent行動の一部が監視Logに載らない",
+              "status": "provisional",
+              "priority_lane": "foundation",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260928-5AA04248",
+              "title": "Harnessの指示文書サイズ上限が無警告で末尾を切り捨て、生成AGENTS.mdの後半規則がAgentに届かない",
+              "status": "provisional",
+              "priority_lane": "quickwin",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260928-605E99D3",
+              "title": "AIの修正が新たに到達可能にした既存コード経路の退行を、「既存の欠陥」として報告する",
+              "status": "provisional",
+              "priority_lane": "quickwin",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260928-646689BC",
+              "title": "AI Assistantを開くリンクがPromptを事前入力し、クリックだけで永続Memory・推奨を汚染する(Crafted AI Assistant Links)",
+              "status": "provisional",
+              "priority_lane": "safety",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260928-81CA7BDF",
+              "title": "Sub-agent起動が成功を返す一方でタスクpayloadが子に届かず、空のAgentが待機してTimeoutする",
+              "status": "provisional",
+              "priority_lane": "foundation",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260928-8F640290",
+              "title": "ブロック対象の行為を、Agent自身が人間レビューUIを操作して承認してしまう",
+              "status": "provisional",
+              "priority_lane": "safety",
+              "last_reviewed": null,
+              "next_review_due": "2026-10-05",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-09AB323A",
+              "title": "機能テストPASSのみを受け入れ基準にすると、レビュー由来の受け入れ制約に違反するAgent Patchの約3分の1が合格扱いになる",
+              "status": "unverified",
+              "priority_lane": "quality",
+              "last_reviewed": "2026-09-28",
+              "next_review_due": "2026-10-12",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-139DC981",
+              "title": "組織のContent Exclusion・Logging統制が新しいAgent Surfaceへ未実装のまま展開され、除外対象コードや生API BodyがContext・Logへ流入する",
+              "status": "unverified",
+              "priority_lane": "safety",
+              "last_reviewed": "2026-09-28",
+              "next_review_due": "2026-10-12",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-60990370",
+              "title": "MCPのError結果が失敗の発生は伝えるが原因・修復手段・安全な再実行可否を含まず、Agentが結果だけからは回復行動を決定できない",
+              "status": "unverified",
+              "priority_lane": "reliability",
+              "last_reviewed": "2026-09-28",
+              "next_review_due": "2026-10-12",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-D8E5A2E2",
+              "title": "APIパラメータ・会話再生の有効性がモデル世代単位で変わり、呼び出し側を変えないモデル切替・Fallback・文脈編集が400や無言のBlock破棄で壊れる",
+              "status": "unverified",
+              "priority_lane": "reliability",
+              "last_reviewed": "2026-09-28",
+              "next_review_due": "2026-10-12",
+              "research_status": "current",
+              "category_id": null
+            },
+            {
+              "id": "P-20260907-E23B65A6",
+              "title": "Session途中で追加された要求が直前実装の約2倍規模の編集無効化を引き起こし、要求の事前予告でもReworkが削減されない",
+              "status": "unverified",
+              "priority_lane": "quality",
+              "last_reviewed": "2026-09-28",
+              "next_review_due": "2026-10-12",
+              "research_status": "current",
+              "category_id": null
+            }
+          ],
+          "worker_id": "inventory-01",
+          "wave": 1,
+          "max_turns": 24
+        }
+      ],
+      "deferred": [],
+      "total_due": 17
+    },
+    "discovery": {
+      "workers": [
+        {
+          "worker_id": "discovery-01",
+          "group": "official-model-and-agent-providers",
+          "item_ids": [
+            "official-model-and-agent-providers"
+          ],
+          "items": [
+            {
+              "id": "official-model-and-agent-providers",
+              "kind": "web",
+              "evidence_tier": "official",
+              "domains": [
+                "openai.com",
+                "developers.openai.com",
+                "anthropic.com",
+                "docs.anthropic.com",
+                "google.com",
+                "github.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent release notes",
+                "model behavior changes",
+                "agent tools and permissions",
+                "skills plugins instructions"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-28T20:25:45Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-02",
+          "group": "primary-software-engineering-research",
+          "item_ids": [
+            "primary-software-engineering-research"
+          ],
+          "items": [
+            {
+              "id": "primary-software-engineering-research",
+              "kind": "web",
+              "evidence_tier": "research",
+              "domains": [
+                "arxiv.org",
+                "dl.acm.org",
+                "ieeexplore.ieee.org",
+                "openreview.net"
+              ],
+              "paths": [],
+              "query_themes": [
+                "AI-assisted software engineering failure modes",
+                "coding agent testing evaluation",
+                "multi-agent software development",
+                "specification drift AI coding"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-28T20:25:46Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-03",
+          "group": "community-and-issue-signals",
+          "item_ids": [
+            "community-and-issue-signals"
+          ],
+          "items": [
+            {
+              "id": "community-and-issue-signals",
+              "kind": "web",
+              "evidence_tier": "community",
+              "domains": [
+                "github.com",
+                "reddit.com",
+                "news.ycombinator.com"
+              ],
+              "paths": [],
+              "query_themes": [
+                "coding agent recurring issue",
+                "AI generated code workflow problem",
+                "Claude Code Codex agent regression"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-28T20:25:46Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        },
+        {
+          "worker_id": "discovery-04",
+          "group": "local-project-evidence",
+          "item_ids": [
+            "local-project-evidence"
+          ],
+          "items": [
+            {
+              "id": "local-project-evidence",
+              "kind": "repository",
+              "evidence_tier": "local",
+              "domains": [],
+              "paths": [
+                ".ai-intelligence/ai-development/findings",
+                ".ai-intelligence/ai-development/runs"
+              ],
+              "query_themes": [
+                "unmapped recurring failure",
+                "unexplained time or token loss",
+                "new specification or test inconsistency"
+              ],
+              "lookback_days": 21,
+              "last_scanned_at": "2026-09-28T20:25:46Z",
+              "last_backfill_at": null,
+              "backfill": false
+            }
+          ],
+          "wave": 1,
+          "max_turns": 24
+        }
+      ],
+      "lookback_days": 21
+    },
+    "research": {
+      "workers": [],
+      "deferred": [],
+      "total_due": 0
+    },
+    "limits": {
+      "inventory": 480,
+      "external_research": 240,
+      "max_parallel_workers": 8,
+      "token_budget_per_run": null,
+      "time_budget_minutes": null
+    },
+    "automation": {
+      "mode": "closed-loop",
+      "max_action_items": 3,
+      "max_decision_items": 3,
+      "runnable_work_item_ids": [],
+      "open_decision_package_ids": [
+        "DEC-20260815T120045Z-7415E4AB"
+      ]
+    },
+    "workflow": [
+      "fan out inventory workers (bounded, parallel) and persist each handoff under runs/<run-id>/workers/",
+      "fan out discovery scouts per due source group",
+      "fan out research workers for new/reactivated/material changes first, then the prioritized backlog",
+      "fan in: validate, deduplicate, and batch-apply inventory reviews (apply_inventory_batch.py) and research results (record_research_batch.py) as one logical catalog update",
+      "deduplicate and register discovery candidates",
+      "queue current validated remedies as durable work items",
+      "advance bounded work items through audit, baseline, candidate, evaluation, promotion, release, and propagation",
+      "reconcile with the remote authority base, then commit/push authority state (safe_commit_state.py) with remote verification",
+      "write a concise catalog and release delta report; list deferred IDs explicitly"
+    ]
+  },
+  "results": {
+    "new": 0,
+    "reactivated": 0,
+    "inactive": 0,
+    "obsolete": 0,
+    "updated": 0,
+    "quick_wins": 0,
+    "work_items_created": 0,
+    "candidates": 0,
+    "promoted": 0,
+    "released": 0,
+    "propagated": 0,
+    "decision_required": 0,
+    "blocked_items": 0,
+    "rejected": 0,
+    "notes": "Abandoned duplicate plan: the controller invoked maintenance_plan.py --write twice 9 seconds apart; this record was superseded by MNT-20261005T191457Z before any worker ran. No catalog mutations were made under this run id.",
+    "catalog_summary": {
+      "catalog_id": "ai-development-problems",
+      "revision": 138,
+      "updated_at": "2026-10-05T19:55:47Z",
+      "problem_count": 220,
+      "by_status": {
+        "active": 202,
+        "provisional": 8,
+        "unverified": 4,
+        "watch": 6
+      },
+      "by_research_status": {
+        "current": 220
+      }
+    },
+    "metrics": {},
+    "deferred": {
+      "research": [],
+      "inventory": []
+    },
+    "bootstrap_completed": false
+  },
+  "status": "failed",
+  "run_record": ".ai-intelligence/ai-development/runs/MNT-20261005T191448Z-maintain.json",
+  "run_dir": ".ai-intelligence/ai-development/runs/MNT-20261005T191448Z",
+  "run_snapshot": ".ai-intelligence/ai-development/catalog/snapshots/20261005T191448Z-r0120-MNT-20261005T191448Z.json"
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260928-09CA0B06",
+  "problem_id": "P-20260928-09CA0B06",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "watch",
+  "reason": "The mechanism is credible. AI Targeted Cloaking means a server returns different content to agents than to humans, so a human checking the same URL cannot see the poisoning. MITRE ATLAS v2026.09 formalized it as AML.T0134, and a 2025 paper (arXiv 2509.00124) demonstrated agent-only content via fingerprinting. However, no coding-agent or development-context incident is recorded, ATLAS lists no cloaking-specific mitigation, the remedy RMD-AGENTCLOAK-001 is only 'signal' maturity, and the record's confidence is low. This fits 'watch' (early, low-confidence, worth monitoring) better than 'active'. It is not 'unverified' because the evidence does not conflict.",
+  "evidence": [
+    {
+      "kind": "standards-report",
+      "reference": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+      "observed_at": "2026-09-28",
+      "summary": "AML.T0134 AI Targeted Cloaking added; no cloaking-specific mitigation (recorded in RMD-AGENTCLOAK-001)."
+    },
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/pdf/2509.00124",
+      "observed_at": "2026-09-28",
+      "summary": "Demonstrates a parallel-poisoned web visible only to AI agents via fingerprinting (recorded in RMD-AGENTCLOAK-001)."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-AGENTCLOAK-001",
+      "observed_at": "2026-09-28",
+      "summary": "signal maturity; treat fetched content as untrusted data, permission gate, egress allowlist; verification must not rely on a human viewing the URL."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": null,
+    "assessment": "The attack targets the retrieval channel, not model capability. Model improvement is unlikely to remove it."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-AGENTCLOAK-001"
+    ],
+    "assessment": "Signal-level process remedy, reasonable and low-risk. It overlaps existing prompt-injection and egress controls."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "development-context incident report of agent-targeted cloaking",
+    "ATLAS adds a mitigation for AML.T0134",
+    "vendor ships agent-fetch UA/IP disclosure or content-consistency verification"
+  ],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

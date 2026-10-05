@@ -21,10 +21,10 @@
         "agent tools and permissions",
         "skills plugins instructions"
       ],
-      "last_scanned_at": "2026-09-28T20:25:45Z",
+      "last_scanned_at": "2026-10-05T19:35:18Z",
       "last_result": {
-        "candidate_count": 5,
-        "notes": "",
+        "candidate_count": 7,
+        "notes": "MNT-20261005T191457Z discovery-01: 3 new candidates, 4 material updates",
         "lookback_days": 21
       }
     },
@@ -46,10 +46,10 @@
         "multi-agent software development",
         "specification drift AI coding"
       ],
-      "last_scanned_at": "2026-09-28T20:25:46Z",
+      "last_scanned_at": "2026-10-05T19:35:18Z",
       "last_result": {
-        "candidate_count": 3,
-        "notes": "",
+        "candidate_count": 6,
+        "notes": "MNT-20261005T191457Z discovery-02: 2 new candidates, 4 material updates (arXiv window scan)",
         "lookback_days": 21
       }
     },
@@ -114,13 +114,13 @@
         "AI generated code workflow problem",
         "Claude Code Codex agent regression"
       ],
-      "last_scanned_at": "2026-09-28T20:25:46Z",
+      "last_scanned_at": "2026-10-05T19:35:18Z",
       "constraints": [
         "Signals require corroboration before a problem becomes active."
       ],
       "last_result": {
-        "candidate_count": 4,
-        "notes": "",
+        "candidate_count": 3,
+        "notes": "MNT-20261005T191457Z discovery-03: 3 new candidates; reddit blocked, HN thin - GitHub-issue weighted coverage",
         "lookback_days": 21
       }
     },
@@ -139,10 +139,10 @@
         "unexplained time or token loss",
         "new specification or test inconsistency"
       ],
-      "last_scanned_at": "2026-09-28T20:25:46Z",
+      "last_scanned_at": "2026-10-05T19:35:19Z",
       "last_result": {
-        "candidate_count": 1,
-        "notes": "",
+        "candidate_count": 0,
+        "notes": "MNT-20261005T191457Z discovery-04: no unmapped recurring signals; findings/ absent (4th consecutive run)",
         "lookback_days": 21
       }
     }

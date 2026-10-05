@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-E3915B6D",
+  "title": "LLM生成コードの大半がImport誤り・幻覚Library・非推奨APIなどLibrary関連エラーを含む",
+  "summary": "LangChainやAutoGenなど変化の速いPython Frameworkを対象とした300 Taskで、生成ファイルの84%に少なくとも1つのLibrary関連エラーがあった。誤ったImport path、Importの欠落、存在しないLibrary、非推奨APIの使用が多い。Agent型の修復で38-55%削減できたが、根本的には残る。",
+  "proposed_category": "C",
+  "problem_type": [
+    "library-api-misuse-in-generated-code"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:primary-software-engineering-research",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2610.00622",
+      "observed_at": "2026-09-30",
+      "summary": "生成ファイルの84%にLibrary関連エラーがあった。提案するAgent型手法は5 Modelでエラーを38.1-54.6%削減し、正答率を最大16%改善した。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research",
+      "url": "https://arxiv.org/abs/2610.00622"
+    }
+  ],
+  "affected_scope": {
+    "description": "変化の速いFramework(LLM・Agent Framework等)を使うコード生成"
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "update",
+  "target_problem_id": "C12",
+  "notes": "非推奨APIの使用はC06(古い知識)の根拠でもある。Controllerの判断で両方に紐付けてよい。"
+}

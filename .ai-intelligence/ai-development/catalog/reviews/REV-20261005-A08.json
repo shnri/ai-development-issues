@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-A08",
+  "problem_id": "A08",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "active",
+  "proposed_status": "active",
+  "reason": "The amplification mechanism, where AI-generated design documents look authoritative and unconfirmed assumptions harden into specification, still exists. On 2026-08-31 NIST SP 1353 ipd was found to ship prompt templates that generate compliance artifacts with no verification procedure, which is a fresh official instance. The remedies are current: RMD-A08-001 (provenance labelling and explicit acceptance), RMD-A13-001 (ADRs separating assumptions from decisions), RMD-A01-002 (official clarification phase) and RMD-A01-003 (cross-artifact analysis gate). None is rejected. There is no affirmative evidence of resolution. The model_improvement value 増幅 ('amplifies') implies more capable models make the problem worse.",
+  "evidence": [
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-A08-001",
+      "observed_at": "2026-08-15",
+      "summary": "candidate; prescribes provenance labels plus human review and explicit ADR-style acceptance before a generated document may be cited as spec."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-A01-002",
+      "observed_at": "2026-08-15",
+      "summary": "official/known-applicable; separate clarification phase (Explore→Plan→Code, interview→SPEC.md)."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://csrc.nist.gov/pubs/sp/1353/ipd",
+      "observed_at": "2026-08-31",
+      "summary": "Problem-record evidence: SP 1353 ipd prompt templates produce CSF profiles with no defined artifact verification; comment window closes 2026-10-15."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-A13-001",
+      "observed_at": "2026-08-15",
+      "summary": "candidate/known-applicable; assumption-vs-decision separation; cites arXiv 2605.29442 showing 91.49% of visible resolutions needed explicit user correction."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "増幅",
+    "assessed_models": null,
+    "assessment": "Not locally reproduced. Existence supported by official guidance and research recorded in the remedies. No evidence that it disappears under current models."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-A08-001",
+      "RMD-A01-002",
+      "RMD-A13-001",
+      "RMD-A01-003"
+    ],
+    "assessment": "All active and current (maturities candidate/official). Coverage is adequate. Add the final publication of NIST SP 1353 as a revalidation trigger rather than a new remedy."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "NIST SP 1353 final publication or comment-period outcome (after 2026-10-15)",
+    "major model or hosted-surface change",
+    "official provider guidance revision",
+    "local finding/agent-trace observation",
+    "primary study contradicting current mechanism"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

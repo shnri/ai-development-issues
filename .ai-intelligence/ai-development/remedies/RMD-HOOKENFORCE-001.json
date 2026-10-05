@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-HOOKENFORCE-001",
+  "problem_ids": ["P-20261005-CA32BAEC"],
+  "summary": "Hook を唯一の強制層にせず、surface ごとの実地 canary で発火を確認する運用に切り替える (provider 修正待ちの間の暫定策): (1) 秘匿 file の読取禁止・破壊 command 禁止など必須の統制は、Hook だけでなく managed settings の permissions.deny 規則と OS sandbox (sandbox.filesystem.denyRead / credentials、RMD-ALLOWLISTPARSE-001) にも重ねて表現する (managed-settings.json の hooks が読まれない #98376 でも permissions は読み込まれている)。(2) 使用する全 surface (terminal / Desktop Code tab / VS Code / Remote Control 各 slot / claude -p / Codex IDE 拡張) で、禁止操作を試す canary を定期実行し、block されること・audit log が出ることを確認する。debug log の 'Found N total hooks'、/status の Setting sources、claude doctor で着地を確認する。(3) version は canary PASS を確認した版に pin し、Codex IDE 拡張・Claude Code の自動更新後は canary を再実行する。(4) settings file 内に hooks 形の節を別 key 配下に置かない、Codex の Agent Plugins 形式 manifest の hook には依存しない。(5) 2.1.288 以上へ更新する (PreToolUse / PermissionRequest hook の matching 失敗・入力 serialize 失敗時に skip せず block する fail-closed 化)。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/98376", "observed_at": "2026-10-05", "summary": "managed-settings.json の hooks key のみが無視され ('Found 0 total hooks')、同 file の permissions は読み込まれる。同じ hook を user settings に移すと動作。2026-10-05 時点 open、maintainer 応答・workaround なし。"},
+    {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/95833", "observed_at": "2026-10-05", "summary": "Desktop Code tab で Bash/PowerShell matcher の PreToolUse hook が一切発火せず error も出ない (2.1.278, Windows)。PostToolUse 等は動作。2026-10-05 時点 open、maintainer 応答なし。"},
+    {"kind": "official-guidance", "reference": "https://code.claude.com/docs/en/managed-settings", "observed_at": "2026-10-05", "summary": "/status の Setting sources で選択された managed source を確認、claude doctor で drop された値を列挙。既定 'first-wins' では最上位 source 以外は警告なしに無視される (hook 未適用の別原因として要確認)。terminal・VS Code/JetBrains・Desktop Code tab・Agent SDK が managed source を読むと明記。"},
+    {"kind": "maintainer-report", "reference": "https://code.claude.com/docs/en/changelog", "observed_at": "2026-10-05", "summary": "2.1.288 'Fixed PreToolUse and PermissionRequest hooks being skipped when matching them failed or the tool's input could not be serialized to JSON; the call is now blocked' — skip の一部経路が fail-closed 化。surface 別・managed tier の未登録は未修正。"},
+    {"kind": "remedy", "reference": "RMD-SURFACEPARITY-001", "observed_at": "2026-10-05", "summary": "新 surface を統制未適用とみなし実地テストで確認する既存 remedy と同型。本 remedy は hook の登録・発火に適用。"}
+  ],
+  "applicability": {
+    "conditions": ["PreToolUse / PostToolUse hook を安全統制・監査・policy enforcement に使っている", "複数 surface (CLI / Desktop / IDE / Remote Control) や managed policy・plugin 配布を併用している", "Claude Code または Codex を利用"],
+    "not_applicable_when": ["hook を利便性目的 (format・通知) にのみ使い、統制に依存していない", "単一 surface・単一設定階層のみで運用し、canary で発火を確認済み"]
+  },
+  "expected_effect": {
+    "primary": "hook の無言未発火による統制失効を、多層化 (deny 規則・sandbox) と canary 検知で露出させる。指標: surface 別 canary PASS 率、hook 未発火を検知した件数と検知までの時間、hook のみに依存する統制項目の数 (0 目標)。",
+    "confidence": "medium"
+  },
+  "risks": ["provider 公式の workaround ではなく、issue 証拠と公式機能の組合せによる暫定策", "canary は検査時点の発火しか保証せず、session ごとの差異 (RC 追加 slot など) を取りこぼし得る", "deny 規則は解釈系 gap を持つ (RMD-ALLOWLISTPARSE-001)。audit log 用途の hook は代替層が無い"],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 2,
+  "reversible": true,
+  "verdict": "candidate",
+  "secondary_layers": ["setting", "observability"],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": ["#98376 / #95833 / #96496 等の修正 release", "Codex の Agent Plugins hook 対応・IDE 拡張更新での hook 消失修正", "hooks の登録状態を surface 横断で表示・警告する公式機能の追加"],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-02"
+}

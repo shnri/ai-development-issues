@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260928-0F54346C",
+  "problem_id": "P-20260928-0F54346C",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "Promote to active. The mechanism is that scoped-looking shell pre-approvals actually permit arbitrary execution, and unpinned MCP declarations in shared configs open a supply-chain path. It rests on a primary empirical scan of 3,171 public repos (arXiv 2609.07360, revised as v3 on 2026-09-25). Official Claude Code permissions docs independently confirm that Bash(cmd:*) is a trailing wildcard and that argument-constraining Bash rules are fragile and not a security boundary. The two sources agree. v3 corrected the broad-exec figure from 3.1% to 2.5%, which changes prevalence but not the mechanism. RMD-AGENTCFGPIN-001 is a current candidate remedy.",
+  "evidence": [
+    {
+      "kind": "primary-paper",
+      "reference": "https://arxiv.org/abs/2609.07360",
+      "observed_at": "2026-09-28",
+      "summary": "3,171 repos; 9.8% unpinned MCP, 3.8% skill shell pre-approval; v3 revised broad exec grants to 2.5%; validated prevalence 18.4% vs 25.5% raw."
+    },
+    {
+      "kind": "official-guidance",
+      "reference": "https://code.claude.com/docs/en/permissions",
+      "observed_at": "2026-09-28",
+      "summary": "Bash(cmd:*) is a trailing wildcard; argument-constraining patterns are fragile; allowManagedPermissionRulesOnly exists."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-AGENTCFGPIN-001",
+      "observed_at": "2026-09-28",
+      "summary": "candidate; review shared agent config by effective capability and exact pinned version; OS sandbox as containment independent of rule strings."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": null,
+    "assessment": "A configuration and supply-chain mechanism that does not depend on the model."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-AGENTCFGPIN-001"
+    ],
+    "assessment": "Current candidate. Relies on official permission semantics and sandboxing. Update the problem summary figure to the v3 counts."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "further revision of arXiv 2609.07360 or public detector release",
+    "change to Claude Code/Codex permission syntax, managed settings, or MCP pinning",
+    "official MCP registry signing/lockfile standard"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

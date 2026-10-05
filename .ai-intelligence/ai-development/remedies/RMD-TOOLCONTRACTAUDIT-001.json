@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-TOOLCONTRACTAUDIT-001",
+  "problem_ids": ["P-20261005-072994C2"],
+  "summary": "Tool-using Agent benchmark の score を能力・安全性の根拠に使う前に、tool を『実行可能な契約』として監査する: (1) 各 tool の公称 interface (docstring・schema・description) を契約として書き出し、実装との適合を静的解析と動的 probe で検査する (論文の tool-contract-conformance を利用可)。(2) 採点を tool の自己報告ではなく環境の実状態変化で確認する grader に改める、または状態検証を追加する。(3) 検出した tool 欠陥・evaluator 問題を benchmark version に紐付けて記録し、影響 task を除外または別集計する。(4) 静的解析は注入欠陥の多くを見逃す (33件中29件) ため、監査 PASS を『欠陥なし』とは扱わない。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {"kind": "research-paper", "reference": "https://arxiv.org/abs/2609.37315", "observed_at": "2026-10-05", "summary": "Bellibatlu, Wang, Zhang, 'Do Agent Benchmarks Do What They Say? An Executable-Contract Audit of Tool-Using Agent Environments' (2026-09-29)。4 benchmark で 7 tool 欠陥と 1 evaluator 問題、AgentDojo で 5 以上の tool が公称 interface と乖離。benchmark は実状態でなく tool 報告で採点。34 mutating tool を検査し静的解析は確認済み17箇所中14を検出、注入欠陥では33件中29件を見逃し。code・contract・data を https://github.com/rohithreddybc/tool-contract-conformance で公開。benchmark 側の修正状況は未記載。"},
+    {"kind": "remedy", "reference": "RMD-EVALSOLV-001", "observed_at": "2026-10-05", "summary": "既存の eval 健全性 remedy (task solvability 認証・scorer check の明示) と補完関係。本 remedy は tool 実装と grader の状態検証に焦点。"}
+  ],
+  "applicability": {
+    "conditions": ["AgentDojo 等の tool-using agent benchmark の score で model / agent を比較・選定・認定している", "自前 benchmark や eval 環境で mock tool を使っている"],
+    "not_applicable_when": ["実環境の状態を直接検査する eval のみを使う", "benchmark score を参考情報としてのみ扱い、意思決定に使わない"]
+  },
+  "expected_effect": {
+    "primary": "壊れた tool 環境で得た score が能力・安全性の認定に混入するのを防ぐ。指標: 監査済み tool 比率、契約違反 tool 数、状態検証 grader へ移行した task 比率、欠陥 task 除外前後の score 差。",
+    "confidence": "medium"
+  },
+  "risks": ["単一論文の手法で、benchmark maintainer による修正・追認は未確認", "静的解析の見逃し率が高く、監査の網羅性に限界がある", "benchmark を修正すると過去 score との比較可能性が失われる"],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "verdict": "candidate",
+  "secondary_layers": ["observability"],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": ["AgentDojo 等の maintainer が指摘欠陥を修正・version 更新した場合", "tool-contract-conformance の更新や独立再現の公表"],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-02"
+}

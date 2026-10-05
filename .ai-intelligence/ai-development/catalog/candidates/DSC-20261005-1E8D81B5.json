@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-1E8D81B5",
+  "title": "Agentの既定承認方式が人間確認からModel分類器の自動承認へ切り替わり、明示設定のない環境で人間承認前提の統制が無言で失効する",
+  "summary": "Claude Codeはv2.1.283以降、権限モードが未設定のTerminal・VS Codeセッションを、全Plan・全ProviderでAuto modeとして開始するようになった。Auto modeでは分類器がTool Callを判定する。GitHub Copilotも、低リスクのTool Callを自動承認するAssisted approvalsを公開Previewとして提供し始めた。手動承認を前提とした監査・責任分担・Prompt Injection対策は、Version更新だけで分類器の誤判定に依存する形へ変わる。",
+  "proposed_category": "I",
+  "problem_type": [
+    "default-approval-shift-to-classifier"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:official-model-and-agent-providers",
+  "evidence": [
+    {
+      "kind": "docs",
+      "reference": "https://code.claude.com/docs/en/permission-modes",
+      "observed_at": "2026-10-05",
+      "summary": "'With Claude Code v2.1.283 or later, auto mode is the built-in starting permission mode for interactive terminal and VS Code sessions. On earlier versions, it's the built-in starting permission mode only on Pro, Max, and Team plans.' Opt-out via permissions.defaultMode or managed disableAutoMode."
+    },
+    {
+      "kind": "changelog",
+      "reference": "https://code.claude.com/docs/en/changelog",
+      "observed_at": "2026-09-28",
+      "summary": "2.1.284: Changed interactive terminal and VS Code sessions to start in auto mode when permission mode is unconfigured."
+    },
+    {
+      "kind": "changelog",
+      "reference": "https://github.blog/changelog/2026-09-25-github-copilot-weekly-releases-september-21/",
+      "observed_at": "2026-09-25",
+      "summary": "'Assisted approvals, now in public preview for Copilot agent sessions, automatically approve low-risk tool calls while prompting you for higher-risk actions.'"
+    },
+    {
+      "kind": "changelog",
+      "reference": "https://github.blog/changelog/2026-09-22-new-features-and-improvements-in-copilot-for-jetbrains/",
+      "observed_at": "2026-09-22",
+      "summary": "Copilot for JetBrains 1.18.0 adds AI-assisted tool approvals."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://code.claude.com/docs/en/permission-modes"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://code.claude.com/docs/en/changelog"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://github.blog/changelog/2026-09-25-github-copilot-weekly-releases-september-21/"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://github.blog/changelog/2026-09-22-new-features-and-improvements-in-copilot-for-jetbrains/"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://dev.classmethod.jp/en/articles/20260929-cc-updates-v2-1-284/"
+    }
+  ],
+  "affected_scope": {
+    "description": "Claude Code v2.1.283+ interactive sessions without permissions.defaultMode; Copilot agent sessions with assisted approvals enabled"
+  },
+  "confidence": "high",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "Related to G17 (permission fatigue) and I12 (approval fatigue). Vendors present this as the fix for those problems, but it introduces a new failure mode: a version update silently changes the oversight posture, and classifier false negatives replace human review. It also interacts with record 6A59DBD3, because mod approvals skip the classifier. Consider merging into I12 if the controller prefers.",
+  "target_problem_id": null
+}

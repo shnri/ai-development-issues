@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-46894870",
+  "title": "Claude Sonnet 5.5でForced tool use・thinking disabledが400となり、上位Modelのthinking blockは200のまま無言で破棄される",
+  "summary": "2026-09-28公開のClaude Sonnet 5.5では、Sonnet 5まで受け付けていた設定のうち2つが400エラーになる。tool_choice any/toolと、thinking disabledである。また、Opus 5 / Opus 5.5 / Fable / Mythosが生成したthinking blockは読めず、Requestは200を返したまま破棄される。Effort levelも再較正されたため、同じ値を指定しても思考量が変わる。Forced tool useで構造化出力を得るPipelineや、上位ModelからSonnetへ切り替えるFallback・Sub-agent構成は、Modelを差し替えるだけで失敗するか、推論文脈を黙って失う。",
+  "proposed_category": "K",
+  "problem_type": [
+    "model-generation-api-breakage"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:official-model-and-agent-providers",
+  "evidence": [
+    {
+      "kind": "docs",
+      "reference": "https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide",
+      "observed_at": "2026-10-05",
+      "summary": "'Claude Sonnet 5.5 rejects both [tool_choice any/tool] with a 400 error, including on the token counting endpoint'; 'On Claude Sonnet 5.5, disabled returns a 400'; 'The API drops blocks the model can't read. The request still returns 200'; effort levels recalibrated; with between_tools, per-message effort change returns 400."
+    },
+    {
+      "kind": "official-announcement",
+      "reference": "https://www.anthropic.com/claude-sonnet-5-5",
+      "observed_at": "2026-09-28",
+      "summary": "Claude Sonnet 5.5 launch."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://platform.claude.com/docs/en/models/sonnet-5-5/whats-new-sonnet-5-5"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://www.anthropic.com/claude-sonnet-5-5"
+    }
+  ],
+  "affected_scope": {
+    "description": "Messages API callers switching to claude-sonnet-5-5, multi-model fallback and sub-agent setups mixing Opus 5.x and Sonnet 5.5"
+  },
+  "confidence": "high",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "P-20260907-D8E5A2E2",
+  "notes": "This is a new model generation repeating the known pattern. Material new elements: forced tool use is removed outright, and dropping thinking blocks across model families is silent (HTTP 200)."
+}

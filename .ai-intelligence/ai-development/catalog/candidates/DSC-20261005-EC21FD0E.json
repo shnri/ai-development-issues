@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-EC21FD0E",
+  "title": "Agent製品内のModel廃止で、Model名を固定したCustom agent・Scheduled task・Managed設定が期限後の挙動未定義のまま残る",
+  "summary": "OpenAIは2026-09-14にGPT-5.3-Codex-Sparkを廃止し、2026-10-14にはCodex/ChatGPTからGPT-5.5を引退させると告知した。告知では、Workspace既定値・保存設定・Managed設定・Custom agent・Scheduled task・Scriptの更新を利用者に求めている。一方、更新しなかった設定が期限後にエラーになるのか、別Modelへ切り替わるのかは書かれていない。API側は引退対象外のため、同じModel名がSurfaceによって使えたり使えなかったりし、無人の定期Agentが黙って停止したり別Modelで動いたりする恐れがある。",
+  "proposed_category": "D",
+  "problem_type": [
+    "pinned-model-retirement"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:official-model-and-agent-providers",
+  "evidence": [
+    {
+      "kind": "changelog",
+      "reference": "https://learn.chatgpt.com/docs/changelog",
+      "observed_at": "2026-09-14",
+      "summary": "'GPT-5.3-Codex-Spark was deprecated on September 14, 2026... update saved configurations, custom agents, and scripts'; 'On October 14, 2026, GPT-5.5 will retire from ChatGPT, ChatGPT Work, and Codex on all plans... This retirement does not apply to the OpenAI API... Update workspace defaults, saved model settings, managed configurations, custom agents, scheduled tasks, and scripts that still select gpt-5.5.'"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://learn.chatgpt.com/docs/changelog"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://developers.openai.com/codex/changelog"
+    }
+  ],
+  "affected_scope": {
+    "description": "Codex CLI/IDE/desktop and ChatGPT users with configs, custom agents or scheduled tasks pinned to gpt-5.5 or gpt-5.3-codex-spark"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "update",
+  "target_problem_id": "D01",
+  "notes": "Also relates to K02 and P-20260907-D8E5A2E2. The URL developers.openai.com/codex/changelog redirects (308) to learn.chatgpt.com/docs/changelog. Post-deadline behavior is undocumented; re-check after 2026-10-14."
+}

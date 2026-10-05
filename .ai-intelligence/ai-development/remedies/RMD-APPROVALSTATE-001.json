@@ -4,7 +4,7 @@
   "problem_ids": [
     "P-20260907-CD83ACE2"
   ],
-  "summary": "承認・レビュー状態の lifecycle 不整合は両ベンダが修正済み: Codex CLI 0.151.0 (2026-08-29) で権限変更後の stale Guardian classification による fail-open を停止、0.152.0 (2026-09-01) で自動承認レビューが user instructions・回答・有効な authorization を compaction 越しに保持、0.153.0 (2026-09-03) で Guardian review history が compaction・再起動・fork を生き延びる (rollback 境界は尊重)。Claude Code は v2.1.257 で dispatch 元 session の permission mode が対象 directory の defaultMode を上書きする問題、v2.1.258 で再送 permission approval が適用できず remote/scheduled session が失敗する問題を修正。対策は Codex >=0.153.0・Claude Code >=2.1.258 への更新。残余運用則: 権限 profile を変更したら既存 session の承認は失効したものとして session を再起動する / 長期 run・fork では承認履歴が消え得る前提で「どの承認 regime にいるか」を turn 冒頭に確認する (v2.1.261 でも stale permission mode 表示の修正が続いており class は完全収束していない)。",
+  "summary": "承認・レビュー状態のlifecycle不整合は両ベンダが修正済み: Codex CLI 0.151.0 (2026-08-29) で権限変更後の stale Guardian classification による fail-open を停止、0.152.0 (2026-09-01) で自動承認レビューが user instructions・回答・有効な authorization を compaction 越しに保持、0.153.0 (2026-09-03) で Guardian review history が compaction・再起動・fork を生き延びる (rollback 境界は尊重)。Claude Code は v2.1.257 で dispatch 元 session の permission mode が対象 directory の defaultMode を上書きする問題、v2.1.258 で再送 permission approval が適用できず remote/scheduled session が失敗する問題を修正。対策は Codex >=0.153.0・Claude Code >=2.1.258 への更新。残余運用則: 権限 profile を変更したら既存 session の承認は失効したものとして session を再起動する / 長期 run・fork では承認履歴が消え得る前提で「どの承認 regime にいるか」を turn 冒頭に確認する (v2.1.261 でも stale permission mode 表示の修正が続いており class は完全収束していない)。本remedyはlifecycle同期のみを対象とする。承認と実行の束縛(Approval Laundering)はRMD-APPROVALBIND-001と実行層sandboxで扱う。",
   "remedy_type": "provider-fix",
   "maturity": "official",
   "status": "active",
@@ -20,6 +20,12 @@
       "reference": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md",
       "observed_at": "2026-09-07",
       "summary": "v2.1.257 'Fixed sessions dispatched from an agent view ... always starting in the original session's permission mode, overriding the target directory's defaultMode and the agent's permissionMode'; v2.1.258 'Fixed remote and scheduled sessions failing ... after a re-sent permission approval could not be applied'。残余: v2.1.261 'Fixed Remote Control showing a stale permission mode when a phone, browser, or claude.ai app attaches ... or after the mode changes in the terminal' — class は修正後も新 instance を出している。"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2609.38983",
+      "observed_at": "2026-10-05",
+      "summary": "Approval Laundering 6類型の体系化により、承認状態がlifecycleと同期していても、承認されたactionと実際の実行の束縛が切れる別経路(Scope/Argument/Tool/Delegation/Semantic)があると示された。ベンダのlifecycle修正はTemporal類型の一部にしか対応しない。束縛対策はRMD-APPROVALBIND-001で扱う。"
     }
   ],
   "applicability": {
@@ -30,7 +36,8 @@
     ],
     "not_applicable_when": [
       "承認を伴わない完全対話型・都度承認の短い session のみの運用",
-      "修正版 (Codex >=0.153.0 / Claude Code >=2.1.258) へ更新できない環境 — その場合は権限変更のたびに session を作り直す運用側 workaround に切り替える"
+      "修正版 (Codex >=0.153.0 / Claude Code >=2.1.258) へ更新できない環境 — その場合は権限変更のたびに session を作り直す運用側 workaround に切り替える",
+      "承認内容と実行内容の乖離(Approval Laundering)そのものの防止 — RMD-APPROVALBIND-001と実行層sandboxを参照"
     ]
   },
   "expected_effect": {
@@ -40,7 +47,8 @@
   "risks": [
     "v2.1.261 の stale permission mode 表示修正が示す通り、lifecycle × 承認状態の組合せは網羅されておらず新 instance が出続けている",
     "changelog 記述のみが根拠で、承認状態が全 lifecycle event を生き延びることの独立再現はない",
-    "『承認が残る』方向の修正は自動化の中断 (再承認要求) を増やし、無人 run の設計に影響する"
+    "『承認が残る』方向の修正は自動化の中断 (再承認要求) を増やし、無人 run の設計に影響する",
+    "lifecycle修正を承認の安全性全般の解決と誤認する危険がある: Scope/Argument launderingはtool境界の承認束縛でも防げない(arXiv 2609.38983)"
   ],
   "implementation_owner": "consumer-project",
   "fix_effort": 1,
@@ -56,10 +64,12 @@
     "fork した session で親の承認履歴が引き継がれている / いないの想定を版を確認せず固定する",
     "承認状態の監査を transcript にのみ依存する (harness 側記録との突合をしない)"
   ],
-  "last_verified_at": "2026-09-07",
+  "last_verified_at": "2026-10-05",
   "revalidate_when": [
     "Codex Guardian / Claude Code permission の状態管理仕様変更",
     "compaction・fork・dispatch 系の新機能追加時",
-    "同 class の新規修正エントリ (stale approval / lost review) が changelog に出た場合"
-  ]
+    "同 class の新規修正エントリ (stale approval / lost review) が changelog に出た場合",
+    "harnessが承認-実行束縛(Approval Token相当)を公式提供した場合"
+  ],
+  "researched_by": "; updated MNT-20261005T191457Z research-03 2026-10-05"
 }

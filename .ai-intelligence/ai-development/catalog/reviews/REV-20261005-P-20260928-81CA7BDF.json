@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260928-81CA7BDF",
+  "problem_id": "P-20260928-81CA7BDF",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "active",
+  "reason": "Promote to active, scoped to codex-cli MultiAgentV2 with non-OpenAI Responses (custom) providers. In this failure, spawn_agent reports success while the task payload, sent as encrypted_content, never reaches the child agent. Multiple independent reports exist: #33551, #34833, #36586 and #37237 on 0.145-0.148, and #45233 on 0.154.0. The feature request #46939 for plaintext delivery is open with no official fix. A 2026-10-05 web search found no evidence of a fix, and community write-ups still describe the failure and a v1 workaround. Caveat: the earlier reports are recorded from search snippets, not issue bodies.",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/openai/codex/issues/45233",
+      "observed_at": "2026-09-28",
+      "summary": "Open on 0.154.0; children get an empty envelope; parent sees success; wait_agent times out."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-SUBAGENTPAYLOAD-001",
+      "observed_at": "2026-09-28",
+      "summary": "candidate/known-applicable (remedy status watch); multi_agent_version v1 or separate codex exec process workaround; prior reports #33551/#34833/#36586/#37237 (from snippets)."
+    },
+    {
+      "kind": "community",
+      "reference": "https://aident.ai/blog/fix-codex-deepseek-subagent-no-task",
+      "observed_at": "2026-10-05",
+      "summary": "Web search: community write-up still describes custom-provider subagents receiving no task and restoring plain delivery as the workaround; no official fix found."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": [
+      "codex-cli 0.145-0.154.0 with custom Responses providers (e.g. DeepSeek)"
+    ],
+    "assessment": "Harness and protocol defect that does not depend on the model."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-SUBAGENTPAYLOAD-001"
+    ],
+    "assessment": "Workarounds are useful but community-sourced and unverified. Revalidate when OpenAI ships plaintext delivery or deprecates v1."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "Codex release resolving #45233/#46939 (plaintext delivery option)",
+    "deprecation of multi_agent_version v1",
+    "same silent-handoff failure reported in another harness"
+  ],
+  "next_review_days": 30,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

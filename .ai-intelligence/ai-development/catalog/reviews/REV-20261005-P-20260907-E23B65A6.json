@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260907-E23B65A6",
+  "problem_id": "P-20260907-E23B65A6",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "unverified",
+  "proposed_status": "unverified",
+  "reason": "The support is still a single paper (arXiv:2609.03028, 3,553 SWE-chat sessions): late requirements are followed by about twice the invalidation of prior edits, and in a controlled experiment, announcing the requirement in advance did not reduce overwriting. No independent replication or contrary result has been recorded since 2026-09-28. RMD-LATEREQ-001 (fix requirements before implementation via spec-first workflow and plan mode) is a current candidate. Keep unverified.",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2609.03028",
+      "observed_at": "2026-09-07",
+      "summary": "About 2x edit invalidation after late requirements; advance notice had no effect; the paper proposes no mitigation."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-LATEREQ-001",
+      "observed_at": "2026-09-07",
+      "summary": "candidate; spec-first workflow (Spec Kit), plan-mode approval before implementation (official Claude Code costs guidance)."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": [
+      "general"
+    ],
+    "assessment": "Agents implement eagerly; single-study evidence; no model-version breakdown recorded."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-LATEREQ-001"
+    ],
+    "assessment": "Current candidate. Overlaps RMD-A01-002."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "replication on another dataset",
+    "contrary evidence that advance notice reduces rework"
+  ],
+  "next_review_days": 14,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

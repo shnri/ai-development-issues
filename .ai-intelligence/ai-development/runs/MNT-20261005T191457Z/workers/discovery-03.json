@@ -1,0 +1,129 @@
+{
+  "contract": "specialist-handoff-v1",
+  "worker_id": "discovery-03",
+  "role": "scout",
+  "source_id": "community-and-issue-signals",
+  "lookback_days": 21,
+  "status": "complete",
+  "problem_ids": [],
+  "work_item_id": null,
+  "facts": [
+    "reddit.com is blocked for the WebSearch user agent, and HN searches returned nothing usable for the window. All three records come from GitHub issues in anthropics/claude-code and openai/codex, read through WebFetch and semantic issue search.",
+    "Generic 'Claude ignores CLAUDE.md' and model-quality complaints (#99642, #98870, #98533, #97905) were dropped: they match existing D03/C03/K02 and nothing material changed."
+  ],
+  "inferences": [
+    "For record DSC-20261005-4E7A1C93, the controller should decide whether it is new or an update to P-20260907-139DC981.",
+    "For record DSC-20261005-7C0E59A4, the controller should decide whether it is an update to P-20260831-044EBDC6 or a new problem."
+  ],
+  "evidence": [],
+  "files_written": [],
+  "checks_run": [
+    "WebSearch/WebFetch over github.com issues (anthropics/claude-code, openai/codex) within 2026-09-14..2026-10-05",
+    "Deduplicated against existing-problems.json (212 entries)"
+  ],
+  "risks": [
+    "reddit.com unavailable and HN thin for the window, so community coverage is partial (GitHub-issue weighted).",
+    "Most cited issues are single-reporter; independence of reports needs controller confirmation."
+  ],
+  "recommended_action": "catalog-update",
+  "next_gate": "controller",
+  "records": [
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-4E7A1C93",
+      "title": "Hookで実装したGuardrailが、実行Surface・設定階層・Plugin形式・Update次第で無言のまま登録・発火されない",
+      "summary": "PreToolUse/PostToolUse HookでCommand遮断・機密File読取禁止・監査Logを実装しても、Desktop Code tab、追加のRemote Control session、managed-settings.json、MCP tool、Agent Plugins 1.0形式のPlugin、Extension updateの後など、特定の経路ではHookが一切登録・発火しない。その際、Errorも警告も出ない。Terminalでの動作確認ではPASSするため、組織は統制が効いていると誤認する。改ざん耐性のある唯一の層(managed policy)でHookが無視される事例もあり、Hookを前提とした安全設計が根本から崩れる。",
+      "proposed_category": "I",
+      "problem_type": "silent-guardrail-hook-non-enforcement",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:community-and-issue-signals",
+      "evidence": [
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/98376", "observed_at": "2026-09-30", "summary": "managed-settings.jsonのhooksキーだけが読み込まれない(permissionsは読み込まれる)。debug logは'Found 0 total hooks'。.aiignore相当の読取遮断Hookが無言で無効になる。labelはregression・area:security。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/95833", "observed_at": "2026-09-21", "summary": "Desktop appのCode tabで、Bash/PowerShell matcherのPreToolUse Hookが一度も発火しない。Errorは出ず、Commandがそのまま実行される(2.1.278)。#85904と同根とみられる。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/96496", "observed_at": "2026-09-23", "summary": "Desktop appと新しいRC session slotではHookが無言で発火しない。Terminalと最初のRC sessionでは動く。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/98744", "observed_at": "2026-10-01", "summary": "MCP toolに対してPostToolUse Hookが発火しなくなった。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/98662", "observed_at": "2026-10-01", "summary": "別のtop-level key配下にhooks形の節があると、そのFile内の全Hookが無言で停止する。"},
+        {"kind": "issue", "reference": "https://github.com/openai/codex/issues/47925", "observed_at": "2026-09-24", "summary": "Codex 0.156.1のloader.rsは、Agent Plugins形式のmanifestに対してHookを常に空で返す。DocumentにはHookを定義できると書かれており、実装と食い違っている。"},
+        {"kind": "issue", "reference": "https://github.com/openai/codex/issues/50566", "observed_at": "2026-10-03", "summary": "Codex VS Code extensionを26.917から26.930へ更新すると、設定済みのHookがすべて消え'No hooks Found'になる。"}
+      ],
+      "source_refs": [
+        "https://github.com/anthropics/claude-code/issues/98376",
+        "https://github.com/anthropics/claude-code/issues/95833",
+        "https://github.com/anthropics/claude-code/issues/96496",
+        "https://github.com/anthropics/claude-code/issues/98744",
+        "https://github.com/anthropics/claude-code/issues/98662",
+        "https://github.com/openai/codex/issues/47925",
+        "https://github.com/openai/codex/issues/50566"
+      ],
+      "affected_scope": "Hookを安全統制・監査・Policy enforcementに使う組織とRepositoryのうち、複数Surface(CLI/Desktop/IDE/Remote Control)、managed policy、Plugin配布を併用するもの。Claude CodeとCodexの両方で確認。",
+      "confidence": "medium",
+      "material_change": true,
+      "status": "candidate",
+      "notes": "近い既存項目にP-20260907-139DC981(組織統制が新しいAgent Surfaceへ未実装のまま展開される)がある。ただし139DC981はContent Exclusion・Loggingが対象で、今回はHook機構そのもの(Surface・設定階層・Plugin形式・Update)を扱う。139DC981への統合(status:update)か独立項目かはcontrollerが判断する。P-20260831-AE8A3EE7(Shell経由で計測対象から外れる)とは別の機構で、AgentがHookを迂回するのではなく、Hookが元から登録されていない。独立した報告が2製品で7件以上あるが、すべてcommunity tierで公式の確認はない。"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-B21F6D08",
+      "title": "親子Agent間の実行状態・完了通知が同期せず、Subagentの成果が失われるか、未完了なのに完了扱いになる",
+      "summary": "Background/teammate Subagentの状態は、親のRegistry・UI・完了通知の間で食い違う。その結果、完了したSubagentの報告が親に届かない、親が終了済みの子を待ち続ける、子のBackground処理が実行中なのに'completed'と通知される、といった現象が起きる。親は成果を受け取れず同じ作業をやり直したり、未完了の中間出力を最終結果として扱ったりする。Host側のReaperが実行中のShellを停止させることもある。Claude CodeとCodexの両方で、同じ期間に多数報告されている。",
+      "proposed_category": "H",
+      "problem_type": "subagent-lifecycle-status-desync",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:community-and-issue-signals",
+      "evidence": [
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/99259", "observed_at": "2026-10-03", "summary": "Background subagentは、自分のBackground Bashが実行中でもstatus completedを通知し、その後も複数回通知する(2.1.287/288)。T3 CodeのReaperが実行中のShellを停止させ、親は途中の待機文を結果として受け取る。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/98416", "observed_at": "2026-09-29", "summary": "呼び出し元がin-process teammateの場合、SubagentHandbackは呼び出し元が生きていても'no longer running'と判定する。報告3件がすべて失われ、enforce側のRetryも無駄に終わる。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/99651", "observed_at": "2026-10-05", "summary": "teammateが起動したsubagentのHandbackが'spawning agent no longer running'になり、報告が呼び出し元に届かない(#98416と同系統)。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/98802", "observed_at": "2026-10-01", "summary": "stall watchdogが子を停止させた後、待機中の親subagentが再開されず、Sessionが永久に待ち続ける。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/99522", "observed_at": "2026-10-04", "summary": "Background agentのLoopが24時間以上孤立したまま動き続け、UI・ListAgents・TaskStopの間で状態が一致しない。"},
+        {"kind": "issue", "reference": "https://github.com/openai/codex/issues/46048", "observed_at": "2026-09-16", "summary": "Codex 0.154.0では、explorer subagentが完了しても親が'No agents completed yet'と判断し、同じ作業を自分でやり直す。"},
+        {"kind": "issue", "reference": "https://github.com/openai/codex/issues/47949", "observed_at": "2026-09-24", "summary": "resumeしたsubagentが既に動いていないのに、main agentが待ち続ける。"},
+        {"kind": "issue", "reference": "https://github.com/openai/codex/issues/45233", "observed_at": "2026-09-13", "summary": "custom providerでは、Sub-agentへのtask payloadが無言で破棄され何もしない(silent no-op)。"}
+      ],
+      "source_refs": [
+        "https://github.com/anthropics/claude-code/issues/99259",
+        "https://github.com/anthropics/claude-code/issues/98416",
+        "https://github.com/anthropics/claude-code/issues/99651",
+        "https://github.com/anthropics/claude-code/issues/98802",
+        "https://github.com/anthropics/claude-code/issues/99522",
+        "https://github.com/openai/codex/issues/46048",
+        "https://github.com/openai/codex/issues/47949",
+        "https://github.com/openai/codex/issues/45233"
+      ],
+      "affected_scope": "Background/並列Subagent、Agent team、外部Host(T3 Codeなど)からのOrchestrationを使うMulti-agent workflow全般。",
+      "confidence": "medium",
+      "material_change": true,
+      "status": "candidate",
+      "notes": "既存のH05〜H12、G10(重複作業)、G24(終了判定)、P-20260831-3039ED15(Tool応答の消失で副作用の確定状態が判別できない)と近いが、親子Agent間のLifecycle状態と完了通知の不整合という機構は既存項目にない。G10の重複作業は、この不整合から派生する症状の一つ。ほとんどが単一報告者のIssueで、本日2026-10-05の起票(#99749/#99713、Agent failureの自動報告とみられる)も含むため、独立性はcontrollerが確認すること。ただし2製品で同じ機構が別々に報告されている点は強いSignal。"
+    },
+    {
+      "schema_version": "1.0",
+      "id": "DSC-20261005-7C0E59A4",
+      "title": "共通指示File(AGENTS.md)と製品固有指示File(CLAUDE.md)の排他的Fallbackにより、Project指示が警告なく読み込まれなくなる",
+      "summary": "Claude Code 2.1.277以降、既定modeではCLAUDE.mdが無い場合に限りAGENTS.mdを読み込む。そのため、/initによるCLAUDE.md生成、個人用CLAUDE.local.mdの存在、Feature flagが使えない環境(Bedrock/Vertex/offline)などをきっかけに、共有のAGENTS.md指示が丸ごと読み込まれなくなる。起動時に警告は出ず、/doctorの検査もAGENTS.mdを対象にしない。チーム共通のRepository規約がAgentに届かないまま作業が進む。",
+      "proposed_category": "D",
+      "problem_type": "instruction-file-precedence-silent-drop",
+      "discovered_at": "2026-10-05",
+      "detected_by": "discovery-scout:community-and-issue-signals",
+      "evidence": [
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/97004", "observed_at": "2026-09-25", "summary": "AGENTS.md projectで/initを実行すると常にCLAUDE.mdが書かれ、その時点でAGENTS.mdの読み込みが無言で止まる(2.1.277で導入され、2.1.281でも再現)。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/96117", "observed_at": "2026-09-22", "summary": "Gitignoreされた個人用CLAUDE.local.mdが祖先Directoryにあるだけで、AGENTS.mdへのFallbackが無効になる。5回中5回再現し、警告は出ない(2.1.280)。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/96466", "observed_at": "2026-09-23", "summary": "AGENTS.mdを常に読み込むよう求める要望。Bedrock/Vertex/offlineなどFeature flagが使えないSessionではCLAUDE.mdしか読まれないこと、claude-md-and-agents-md optionが見つけにくいことを指摘。関連する#6235は5,183 upvote。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/97261", "observed_at": "2026-09-25", "summary": "/doctorのCLAUDE.md検査は、AGENTS.mdの内容を検査しない。"},
+        {"kind": "issue", "reference": "https://github.com/anthropics/claude-code/issues/96544", "observed_at": "2026-09-24", "summary": "どちらの指示Fileが読み込まれたかの通知が一貫しない(逆方向の苦情)。"}
+      ],
+      "source_refs": [
+        "https://github.com/anthropics/claude-code/issues/97004",
+        "https://github.com/anthropics/claude-code/issues/96117",
+        "https://github.com/anthropics/claude-code/issues/96466",
+        "https://github.com/anthropics/claude-code/issues/97261",
+        "https://github.com/anthropics/claude-code/issues/96544"
+      ],
+      "affected_scope": "AGENTS.mdで複数のAgent製品向け指示を共通化しているRepository。特にClaude CodeとCodexなどを併用するTeam、Multi-repo workspace、Bedrock/Vertex経由の利用者。",
+      "confidence": "medium",
+      "material_change": true,
+      "status": "candidate",
+      "notes": "既存のD03(指示の矛盾)、D08(参照の欠落)、K08(製品ごとの形式分断)、P-20260831-044EBDC6(Workspace trustによってAGENTS.mdの読み込みが変わる)と近い。ただし今回の機構は、File間の排他的優先順位と、それが警告なしに切り替わることにある。044EBDC6の拡張としてupdate扱いにするかはcontrollerが判断する。根拠はClaude Code 2.1.277の挙動変更を起点とする、同じ時期の複数の独立報告。"
+    }
+  ]
+}

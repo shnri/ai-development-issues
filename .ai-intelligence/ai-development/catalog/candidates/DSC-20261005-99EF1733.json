@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-99EF1733",
+  "title": "新Modelで安全分類器の拒否カテゴリが拡大し、正当なセキュリティ・Coding作業が拒否されるか、一部カテゴリのみ旧Modelへ無言でFallbackする",
+  "summary": "Claude Sonnet 5.5は、Sonnet 5より多くのカテゴリ(cyber, bio, frontier_llm, reasoning_extraction, general_harms)で応答を拒否する。general_harmsについては、公式が『Benign work can also trigger』と明記している。Server-side fallbackが旧Model(Sonnet 5)で再試行するのはcyberとfrontier_llmだけで、他の拒否は再試行されない。セキュリティ修正、Exploit検証、自前Model開発を扱うCoding Agentでは、同じ作業の途中で拒否されたり、別Modelで実行されたりして、品質・再現性・課金が予測しにくくなる。",
+  "proposed_category": "K",
+  "problem_type": [
+    "safety-refusal-and-model-fallback"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:official-model-and-agent-providers",
+  "evidence": [
+    {
+      "kind": "docs",
+      "reference": "https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide",
+      "observed_at": "2026-10-05",
+      "summary": "'Claude Sonnet 5.5 declines in more categories than Claude Sonnet 5'; general_harms: 'Benign work can also trigger this category'; server-side fallback retries cyber and frontier_llm declines on Sonnet 5, not bio/reasoning_extraction/general_harms; real-time cyber safeguards new for code from Sonnet 4.6 and earlier."
+    },
+    {
+      "kind": "official-announcement",
+      "reference": "https://www.anthropic.com/claude-sonnet-5-5-system-card",
+      "observed_at": "2026-09-28",
+      "summary": "Sonnet 5.5 system card; first Sonnet model launched with cyber safeguards and fallbacks."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://www.anthropic.com/claude-sonnet-5-5-system-card"
+    }
+  ],
+  "affected_scope": {
+    "description": "Coding agents on Claude Sonnet 5.5 doing security, vulnerability or ML-infrastructure work"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "Closest existing problem is K02 (model updates change quality and tool use). The new mechanism is a category-dependent refusal that can trigger on benign work, plus a partial silent model swap. No direct quantitative evidence of how often benign coding work is refused, so confidence is medium.",
+  "target_problem_id": null
+}

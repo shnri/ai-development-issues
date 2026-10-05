@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260907-09AB323A",
+  "problem_id": "P-20260907-09AB323A",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "unverified",
+  "proposed_status": "unverified",
+  "reason": "The support is still a single paper (SWE-Gate, arXiv:2609.04167): about 34% of functionally passing agent repairs violate constraints derived from real PR reviews. No independent replication or second benchmark has been recorded since the 2026-09-28 review. The mechanism is plausible and a replication package exists. RMD-REVIEWGATE-001 (codify review constraints, do not gate on functional tests alone) is a current candidate. Keep unverified.",
+  "evidence": [
+    {
+      "kind": "research-paper",
+      "reference": "https://arxiv.org/abs/2609.04167",
+      "observed_at": "2026-09-07",
+      "summary": "221 of 644 functionally passing repairs violate review-derived constraints; replication package public."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-REVIEWGATE-001",
+      "observed_at": "2026-09-07",
+      "summary": "candidate; codify reviewer constraints (Copilot custom instructions/REVIEW.md) as a PR gate in addition to functional tests."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": [
+      "general"
+    ],
+    "assessment": "Gating-layer gap. Single-study evidence."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-REVIEWGATE-001"
+    ],
+    "assessment": "Current candidate. Low risk regardless of how the problem's status is resolved."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "independent replication or another benchmark showing the gap",
+    "replication fails to reproduce"
+  ],
+  "next_review_days": 14,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

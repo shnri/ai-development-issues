@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260928-646689BC",
+  "problem_id": "P-20260928-646689BC",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "watch",
+  "reason": "The general mechanism is credible and observed in the wild. Crafted assistant links use URL parameters to pre-fill prompts that poison an assistant's memory or recommendations. Microsoft's Security Blog (2026-02-10) documented 'Summarize with AI' links instructing assistants to remember or recommend a company, and MITRE ATLAS v2026.09 added AML.T0131 with case study AML.CS0072. However, the development-context path (deep links in READMEs or issues biasing an agent's memory or dependency choices) is extrapolated, with no coding-agent occurrence recorded. ATLAS lists no mitigation, and RMD-ASSISTLINK-001 is only 'signal' maturity. Watch until a coding-agent instance is reported.",
+  "evidence": [
+    {
+      "kind": "standards-report",
+      "reference": "https://github.com/mitre-atlas/atlas-data/releases/tag/v2026.09",
+      "observed_at": "2026-09-28",
+      "summary": "AML.T0131 Crafted AI Assistant Links and case study AML.CS0072; no mitigation listed (recorded in RMD-ASSISTLINK-001)."
+    },
+    {
+      "kind": "maintainer-report",
+      "reference": "https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/",
+      "observed_at": "2026-09-28",
+      "summary": "Real-world pre-filled prompt memory poisoning in consumer assistants, with Copilot mitigations."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-ASSISTLINK-001",
+      "observed_at": "2026-09-28",
+      "summary": "signal; treat assistant deep links as untrusted input, no auto-open, confirm before executing a pre-filled prompt, provenance on memory writes."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": null,
+    "assessment": "An input-channel and memory-provenance mechanism. Provider-side mitigations exist for Copilot only."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-ASSISTLINK-001"
+    ],
+    "assessment": "Signal-level, low-risk control. Applies only where assistants have memory or accept pre-filled prompts."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "coding-agent instance of crafted-link memory or recommendation poisoning",
+    "ATLAS adds a mitigation for AML.T0131",
+    "major harness ships pre-fill confirmation or memory provenance controls"
+  ],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

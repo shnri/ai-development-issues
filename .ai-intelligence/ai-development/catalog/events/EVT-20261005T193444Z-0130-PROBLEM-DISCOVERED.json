@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "id": "EVT-20261005T193444Z-0130-PROBLEM-DISCOVERED",
+  "event_type": "problem-discovered",
+  "occurred_at": "2026-10-05T19:34:44Z",
+  "catalog_revision_before": 129,
+  "catalog_revision_after": 130,
+  "details": {
+    "candidate_id": "DSC-20261005-6A59DBD3",
+    "decision": "new",
+    "target_problem_id": null,
+    "new_problem_id": "P-20261005-7A049A83"
+  }
+}

@@ -3,7 +3,8 @@
   "problem_ids": [
     "C03",
     "C04",
-    "C05"
+    "C05",
+    "C02"
   ],
   "summary": "要求・禁止事項・完了条件・判断理由・未完了事項をcontext外の耐久状態(progress file/feature list/.steering/git commit)へ置き、session開始時に再読、compaction前にcheckpointし、/compactにfocus指示を与える",
   "remedy_type": "process",
@@ -110,7 +111,7 @@
     "paths付rulesやnested CLAUDE.mdに重要規則を置く: compaction後に再読まで消える",
     "compaction要約に任せる: OpenAI compaction itemは不透明で細部が失われ得る"
   ],
-  "last_verified_at": "2026-08-15",
+  "last_verified_at": "2026-10-05",
   "revalidate_when": [
     "Claude Code compaction仕様変更",
     "Codex compaction修正のrelease",
@@ -163,5 +164,8 @@
         "reader_facing": true
       }
     ]
-  }
+  },
+  "controller_notes": [
+    "C02 linked 2026-10-05 (MNT-20261005T191457Z): Zero2Repo (arXiv 2609.38269) shows single low-frequency spec-rule omissions pass 90-99% of tests; durable requirement list applies."
+  ]
 }

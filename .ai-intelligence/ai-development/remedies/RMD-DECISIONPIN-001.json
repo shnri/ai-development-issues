@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-DECISIONPIN-001",
+  "problem_ids": ["P-20261005-23882916"],
+  "summary": "仕様の未指定箇所で AI が選んだ解釈を、実行可能な『decision pin』として記録しテストに固定する: (1) 要求中の未指定点を名前付きで列挙する。(2) その1点だけが異なる使い捨て実装を2つ生成し、実行結果が分かれる入力のみを分離入力として残す。(3) pin = {未指定点の名前, 分離入力, 選択した値} を回帰テストとして保存し、生成時の制約と検証の両方に使う。これにより再生成・修正で解釈が反転するとテストが落ちる。clarify-before-implement (RMD-A01-002) で人が決めた値を pin の選択値に使うと併用効果が高い。",
+  "remedy_type": "process",
+  "maturity": "candidate",
+  "status": "active",
+  "evidence": [
+    {"kind": "research-paper", "reference": "https://arxiv.org/abs/2610.03237", "observed_at": "2026-10-05", "summary": "Mitsui, 'Pinning Decisions Before Failure: Executable Records of Underspecified Choices in AI-Assisted Code Generation' (2026-10-02)。3 model・600 test suite の 42.7% が競合解釈を区別しない。decision pin は 92.5% の決定点で分離入力を得て、意図した決定を 85-90% で特定、703 実装で benchmark 分類と 96-97% 一致、生成制約として 210 生成すべてで遵守、text-level reconciliation が見逃す silent decision reversal を検出。code 公開は abstract で未確認。"}
+  ],
+  "applicability": {
+    "conditions": ["AI に code と test を同時生成させている", "仕様に曖昧点・未指定点が残る task を反復的に再生成・修正する", "実行可能な test harness がある"],
+    "not_applicable_when": ["仕様が形式的に完全で未指定点が無い", "実行不能な領域 (UI 見た目など) で分離入力を機械的に得られない"]
+  },
+  "expected_effect": {
+    "primary": "未指定点の暗黙解釈が再生成で無言反転する事象を test failure として顕在化させる。指標: 未指定点のうち pin 済み比率、pin による反転検出件数、分離入力が得られなかった決定点の比率。",
+    "confidence": "medium"
+  },
+  "risks": ["単一論文 (2026-10-02) の結果で、独立再現・実運用報告は未確認", "使い捨て実装2本の生成 cost が決定点数に比例して増える", "pin が誤った解釈を固定すると、修正時に意図的変更と区別が要る (pin 更新手順が必要)", "未指定点の列挙漏れは検出できない"],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 3,
+  "reversible": true,
+  "verdict": "candidate",
+  "secondary_layers": ["harness"],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": ["論文の code / tool 公開、または独立再現・実運用報告", "coding agent 製品が未指定点の記録・固定機能を内蔵した場合"],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-02"
+}

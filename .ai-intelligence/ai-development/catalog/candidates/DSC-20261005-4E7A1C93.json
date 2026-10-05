@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-4E7A1C93",
+  "title": "Hookで実装したGuardrailが、実行Surface・設定階層・Plugin形式・Update次第で無言のまま登録・発火されない",
+  "summary": "PreToolUse/PostToolUse HookでCommand遮断・機密File読取禁止・監査Logを実装しても、Desktop Code tab、追加のRemote Control session、managed-settings.json、MCP tool、Agent Plugins 1.0形式のPlugin、Extension updateの後など、特定の経路ではHookが一切登録・発火しない。その際、Errorも警告も出ない。Terminalでの動作確認ではPASSするため、組織は統制が効いていると誤認する。改ざん耐性のある唯一の層(managed policy)でHookが無視される事例もあり、Hookを前提とした安全設計が根本から崩れる。",
+  "proposed_category": "I",
+  "problem_type": [
+    "silent-guardrail-hook-non-enforcement"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:community-and-issue-signals",
+  "evidence": [
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/98376",
+      "observed_at": "2026-09-30",
+      "summary": "managed-settings.jsonのhooksキーだけが読み込まれない(permissionsは読み込まれる)。debug logは'Found 0 total hooks'。.aiignore相当の読取遮断Hookが無言で無効になる。labelはregression・area:security。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/95833",
+      "observed_at": "2026-09-21",
+      "summary": "Desktop appのCode tabで、Bash/PowerShell matcherのPreToolUse Hookが一度も発火しない。Errorは出ず、Commandがそのまま実行される(2.1.278)。#85904と同根とみられる。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/96496",
+      "observed_at": "2026-09-23",
+      "summary": "Desktop appと新しいRC session slotではHookが無言で発火しない。Terminalと最初のRC sessionでは動く。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/98744",
+      "observed_at": "2026-10-01",
+      "summary": "MCP toolに対してPostToolUse Hookが発火しなくなった。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/anthropics/claude-code/issues/98662",
+      "observed_at": "2026-10-01",
+      "summary": "別のtop-level key配下にhooks形の節があると、そのFile内の全Hookが無言で停止する。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/openai/codex/issues/47925",
+      "observed_at": "2026-09-24",
+      "summary": "Codex 0.156.1のloader.rsは、Agent Plugins形式のmanifestに対してHookを常に空で返す。DocumentにはHookを定義できると書かれており、実装と食い違っている。"
+    },
+    {
+      "kind": "issue",
+      "reference": "https://github.com/openai/codex/issues/50566",
+      "observed_at": "2026-10-03",
+      "summary": "Codex VS Code extensionを26.917から26.930へ更新すると、設定済みのHookがすべて消え'No hooks Found'になる。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/98376"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/95833"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/96496"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/98744"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/anthropics/claude-code/issues/98662"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/openai/codex/issues/47925"
+    },
+    {
+      "source_id": "community-and-issue-signals",
+      "url": "https://github.com/openai/codex/issues/50566"
+    }
+  ],
+  "affected_scope": {
+    "description": "Hookを安全統制・監査・Policy enforcementに使う組織とRepositoryのうち、複数Surface(CLI/Desktop/IDE/Remote Control)、managed policy、Plugin配布を併用するもの。Claude CodeとCodexの両方で確認。"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "近い既存項目にP-20260907-139DC981(組織統制が新しいAgent Surfaceへ未実装のまま展開される)がある。ただし139DC981はContent Exclusion・Loggingが対象で、今回はHook機構そのもの(Surface・設定階層・Plugin形式・Update)を扱う。139DC981への統合(status:update)か独立項目かはcontrollerが判断する。P-20260831-AE8A3EE7(Shell経由で計測対象から外れる)とは別の機構で、AgentがHookを迂回するのではなく、Hookが元から登録されていない。独立した報告が2製品で7件以上あるが、すべてcommunity tierで公式の確認はない。",
+  "target_problem_id": null
+}

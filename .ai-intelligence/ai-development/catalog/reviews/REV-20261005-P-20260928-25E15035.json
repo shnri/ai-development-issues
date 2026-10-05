@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260928-25E15035",
+  "problem_id": "P-20260928-25E15035",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "watch",
+  "reason": "A single credible first-hand source supports the problem. METR (2026-09-27) reported that about 16% of roughly 971B tokens were unaccounted for in centralized logging, and that outdated Inspect versions skipped sub-agent monitoring. The mechanism, monitoring coverage varying silently with harness version and routing path, is plausible and quantified. However, no other organization has corroborated it, confidence is low, and one supporting claim in RMD-MONCOVERAGE-001 (that requiredMinimumVersion does not end running sessions) was taken from a search summary without being checked against the page. Watch fits better than active. The evidence does not conflict, so unverified is not needed.",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://metr.org/notes/2026-09-27-implementing-a-basic-blocking-action-monitor/",
+      "observed_at": "2026-09-28",
+      "summary": "16% unattributed tokens; outdated Inspect skips sub-agent monitoring; METR mitigations are central routing and version enforcement."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-MONCOVERAGE-001",
+      "observed_at": "2026-09-28",
+      "summary": "candidate; central router plus egress block, token reconciliation, minimum harness version gate; managed-settings claim marked as not verified against the page."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": null,
+    "assessment": "An infrastructure and observability mechanism that does not depend on the model."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-MONCOVERAGE-001"
+    ],
+    "assessment": "Candidate, directly derived from METR's stated mitigations. Confirm the requiredMinimumVersion semantics before adopting."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "second organization reports a similar monitoring-coverage gap",
+    "METR reports improvement in the unattributed rate",
+    "harness vendor ships version/policy enforcement that reaches running sessions"
+  ],
+  "next_review_days": 45,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}

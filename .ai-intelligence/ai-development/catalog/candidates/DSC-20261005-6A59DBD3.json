@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-6A59DBD3",
+  "title": "In-process拡張(Mod)がTool Callを自ら承認でき、ask規則・PreToolUse hook・Auto mode分類器を経ずに実行される",
+  "summary": "Claude Code v2.1.287で導入されたModは、Claude Codeのプロセス内で動くPluginで、既定で有効になっている。Sandboxの外で動き、Tool Callをユーザーへの確認前に承認・書き換えできる。そのため、ask規則やManaged以外のPreToolUse hookを無効化でき、Auto modeでは分類器の判定も経ずに実行される。保護用のGuardはManaged settingsがある環境かTeam/Enterprise署名時にしか読み込まれず、API key・Bedrock等の利用者には組織側の歯止めがない。",
+  "proposed_category": "I",
+  "problem_type": [
+    "extension-self-approval-bypass"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:official-model-and-agent-providers",
+  "evidence": [
+    {
+      "kind": "docs",
+      "reference": "https://code.claude.com/docs/en/plugins/mods/overview",
+      "observed_at": "2026-10-05",
+      "summary": "Mods require v2.1.287+ and are on by default; 'Mods aren't sandboxed'; can 'Act without asking you: approve a tool call before you're asked'; can approve calls an ask rule would prompt for or a user's PreToolUse hook blocked."
+    },
+    {
+      "kind": "docs",
+      "reference": "https://code.claude.com/docs/en/plugins/mods/admin",
+      "observed_at": "2026-10-05",
+      "summary": "Guard loads only with managed settings or Team/Enterprise sign-in; 'In auto mode, a call the mod approves runs without a classifier check'; deny rules don't cover mod $.fs/$.process calls; policy-mod plugin.register check fails open by default; 3 worker crashes unload all non-built-in mods including the org policy mod."
+    },
+    {
+      "kind": "changelog",
+      "reference": "https://code.claude.com/docs/en/changelog",
+      "observed_at": "2026-10-01",
+      "summary": "2.1.287 'Added Claude Mods: plugins may now modify deeper behavior'; fixed org-managed MCP server descriptions being rewritten by user-installed plugins; 2.1.289 fixed deny/ask rules on nested compound shell commands not holding over user-installed mod approvals on managed machines."
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://code.claude.com/docs/en/plugins/mods/overview"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://code.claude.com/docs/en/plugins/mods/admin"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://code.claude.com/docs/en/changelog"
+    },
+    {
+      "source_id": "official-model-and-agent-providers",
+      "url": "https://dev.classmethod.jp/en/articles/20261002-cc-updates-v2-1-287/"
+    }
+  ],
+  "affected_scope": {
+    "description": "Claude Code v2.1.287+ CLI / Desktop / VS Code / claude -p / Agent SDK; especially API-key and cloud-provider users without managed settings"
+  },
+  "confidence": "high",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "Closest existing problems: I07 (malicious Skill/Plugin/MCP), P-20260928-8F640290 (agent approves via review UI), P-20260831-91BDEAD5. The new mechanism is that an installed extension can approve tool calls itself, skipping both the human and the classifier, and the safeguard depends on how the user authenticates. The bugs fixed within days (2.1.287, 2.1.289) show the precedence rules were already leaky at launch.",
+  "target_problem_id": null
+}

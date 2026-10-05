@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-MODELRETIRE-001",
+  "problem_ids": ["D01"],
+  "summary": "vendorのmodel廃止・退役告知を監視し、退役期限の前にmodel識別子の使用箇所を棚卸しして移行する。対象はrepository内の設定(.codex/config・custom agent定義・Skill/agent frontmatterのmodel指定・CI/script)と、製品側の保存設定(workspace既定値・managed config・scheduled task・保存済みmodel設定)。API使用はvendorの使用状況監査(Anthropic Console Usage Export等)で突合する。移行先modelで主要caseのregression(RMD-D14-001)を期限前に実行する。期限後の挙動(fallbackかerrorか)が文書化されていない製品面では、自動fallbackに依存せず期限前に移行を完了する。製品面(ChatGPT/Codex)とAPIで退役時期が異なることも区別する。",
+  "remedy_type": "process",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {"kind": "official-guidance", "reference": "https://learn.chatgpt.com/docs/changelog", "observed_at": "2026-10-05", "summary": "GPT-5.3-Codex-Sparkは2026-09-14に廃止され、desktop app・Codex CLI・IDE拡張で利用不可になった('update saved configurations, custom agents, and scripts')。GPT-5.5は2026-10-14にChatGPT/ChatGPT Work/Codex全planから退役し、APIは対象外。'Update workspace defaults, saved model settings, managed configurations, custom agents, scheduled tasks, and scripts that still select gpt-5.5'。期限後の挙動と使用状況監査機能は記載がない。", "quality": "high"},
+    {"kind": "official-guidance", "reference": "https://platform.claude.com/docs/en/about-claude/model-deprecations", "observed_at": "2026-10-05", "summary": "退役modelへのrequestは失敗する。60日以上前に通知し、退役日より十分前の代替model試験を推奨する。Console Usage ExportでAPI key×model別CSVを取得し、廃止model使用箇所を特定する監査手順を公式に示す(例: claude-sonnet-4-5-20250929は2026-11-30退役)。", "quality": "high"}
+  ],
+  "applicability": {
+    "applies_when": [
+      "custom agent・scheduled task・managed config・script・Skill frontmatterでmodel名を固定している",
+      "複数vendor・複数製品面(ChatGPT/Codex/API)でmodelを使う"
+    ],
+    "not_applicable_when": [
+      "常にvendor既定modelを使いmodel名を固定していない運用(その場合も既定変更によるregressionはRMD-D14-001で扱う)"
+    ],
+    "controllable_layer": "process",
+    "surfaces": ["Codex", "Claude Code", "generic"],
+    "model_conditions": "model-agnostic"
+  },
+  "expected_effect": {
+    "primary": "退役期限後に旧model名を指す設定が未定義挙動・失敗・無告知fallbackで動き続けることを防ぐ",
+    "metrics": ["退役告知済みmodel識別子の残存箇所数(期限時0が期待値)", "期限前regression実施率", "期限後に失敗したscheduled task/agent件数"],
+    "confidence": "medium"
+  },
+  "risks": [
+    "製品側の保存設定(workspace既定・scheduled task)はrepository grepで見えず、手動棚卸しが漏れやすい",
+    "vendorが期限後挙動を文書化していないため、移行漏れの影響範囲を事前に評価できない",
+    "移行先modelの挙動差によるregression(RMD-D14-001と併用が必要)"
+  ],
+  "implementation_owner": "team-lead",
+  "fix_effort": 2,
+  "reversible": true,
+  "cost": "model識別子grep+製品設定棚卸しを廃止告知ごとに数十分、移行先regression実行",
+  "verdict": "known-applicable",
+  "secondary_layers": ["observability", "test-strategy"],
+  "known_failure_modes": [
+    "repository内の設定だけ移行し、製品側のscheduled task・workspace既定を見落とす",
+    "API継続と製品面退役を混同し、どちらかを放置する",
+    "期限後の自動fallbackを前提に移行を後回しにする"
+  ],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": [
+    "OpenAI/Anthropicがmodel退役時の製品面挙動(fallback/error)を文書化した場合",
+    "Codex/ChatGPTにmodel使用状況監査機能が追加された場合",
+    "新たなmodel廃止・退役告知"
+  ],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-03"
+}

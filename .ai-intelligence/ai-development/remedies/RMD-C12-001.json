@@ -5,7 +5,7 @@
     "C06",
     "C08"
   ],
-  "summary": "存在しないpackage/API/optionを実環境で決定論的に検証する: install前registry検証、`npm run typecheck`/`build`/testでの実行検証、CLI `--help`や環境変数の実値確認をコード採用の前提gateにする",
+  "summary": "存在しないpackage/API/optionを実環境で決定論的に検証する: install前registry検証、`npm run typecheck`/`build`/testでの実行検証、CLI `--help`や環境変数の実値確認をコード採用の前提gateにする。gateではimport path誤り・import欠落・未使用import・非推奨API使用も検出対象に含め、version一致の公式docs参照(RMD-C06-001)と組み合わせる",
   "remedy_type": "test-strategy",
   "maturity": "validated",
   "status": "active",
@@ -30,6 +30,13 @@
       "observed_at": "2026-08-15",
       "summary": "read-the-damn-docs (public, reputation established): read SKILL.md (skills/read-the-damn-docs/SKILL.md) via raw.githubusercontent: the required 7-step workflow is identify the exact surface (package, version, provider, CLI, config) -> search the web for current official docs -> read the authoritative page -> extract options/imports/breaking changes/limits -> implement from those facts -> 'Verify with the smallest useful check: typecheck, tests, build, CLI dry run, API schema validation, or a local reproduction' -> name the docs consulted. Its dependency trigger requires 'npm view <pkg> version' (or the ecosystem equivalent) when adding or upgrading a package. That is the remedy's pre-install registry check plus its execution-verification gate in one skill.",
       "quality": "medium"
+    },
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2610.00622",
+      "observed_at": "2026-10-05",
+      "summary": "生成fileの84%がLibrary関連エラー(import path誤り・import欠落・幻覚library・非推奨API・未使用import)を含んだ。docs grounding→生成→import/実行の自動検証を組み合わせたAgent型手法で、5 model(GPT-5, DeepSeek-V3, Qwen3, Mistral, Llama 3)・300 taskのエラーを38.1-54.6%削減し、正答率を最大16%改善した。抄録のみ確認。",
+      "quality": "medium"
     }
   ],
   "applicability": {
@@ -53,13 +60,15 @@
     "metrics": [
       "hallucinated import/option件数",
       "install前拒否件数",
-      "self-debug後の成功率差"
+      "self-debug後の成功率差",
+      "import欠落・未使用・非推奨API検出件数"
     ],
     "confidence": "high"
   },
   "risks": [
     "新規正当packageの摩擦",
-    "検証commandの実行時間"
+    "検証commandの実行時間",
+    "動的import・実行時解決のlibraryは静的検査で取りこぼす"
   ],
   "implementation_owner": "developer",
   "fix_effort": 1,
@@ -72,18 +81,21 @@
   ],
   "known_failure_modes": [
     "名前のもっともらしさで承認(局所card)",
-    "lockfileだけ: 悪い解決を固定"
+    "lockfileだけ: 悪い解決を固定",
+    "importが通ることだけ確認し、非推奨API・未使用importを見逃す"
   ],
-  "last_verified_at": "2026-08-15",
+  "last_verified_at": "2026-10-05",
   "revalidate_when": [
     "registry security control変更",
-    "frontier modelのhallucination率追試"
+    "frontier modelのhallucination率追試",
+    "Library関連エラー率の新model追試"
   ],
   "created_at": "2026-08-15",
-  "researched_by": "ai-development-improvement research 2026-08-15 (category C)",
+  "researched_by": "ai-development-improvement research 2026-08-15 (category C); evidence appended by MNT-20261005T191457Z research-03",
   "schema_version": "1.0",
   "controller_notes": [
-    "2026-08-15 controller review: removed misplaced worktree evidence entry copied from RMD-C02-001."
+    "2026-08-15 controller review: removed misplaced worktree evidence entry copied from RMD-C02-001.",
+    "2026-10-05 research-03: appended arXiv 2610.00622 evidence; existing_asset/provenance unchanged."
   ],
   "provenance": {
     "origin": "techlog 0.1.0 research run 2026-08-15",

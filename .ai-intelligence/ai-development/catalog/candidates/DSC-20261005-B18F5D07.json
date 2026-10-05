@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-B18F5D07",
+  "title": "AI ReviewerがもっともらしいがRepository的に誤ったReview指摘を見分けられない",
+  "summary": "実PRと専門家検証済みの摂動から作った1,199件のBenchmarkで、汎用の最先端LLMは技術的に不正なReviewコメントを十分に識別できなかった。専用学習モデルでも正解率は76.6%に留まり、AI ReviewのFalse Positiveをさらに別のAIで濾過する構成にも限界がある。",
+  "proposed_category": "F",
+  "problem_type": [
+    "ai-review-false-positive-undetectable"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:primary-software-engineering-research",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2609.37216",
+      "observed_at": "2026-09-29",
+      "summary": "CRJudgeBenchは1,199件。Sentinelは76.60%で、GLM-5.3を6.13pt、Base modelを19.78pt上回った。汎用SOTA LLMはPlausible but invalidなReviewの検出に苦戦した。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research",
+      "url": "https://arxiv.org/abs/2609.37216"
+    }
+  ],
+  "affected_scope": {
+    "description": "AI Code Review、AI ReviewのTriage・Meta-review"
+  },
+  "confidence": "medium",
+  "material_change": false,
+  "status": "update",
+  "target_problem_id": "F12",
+  "notes": "F11(Reviewerが同じ前提を誤る)とも関連する。"
+}

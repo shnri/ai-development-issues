@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "id": "DSC-20261005-C47A2E96",
+  "title": "Agent BenchmarkのToolが公称Interfaceと乖離し、実状態ではなくTool報告で採点するため、壊れた環境で能力が認定される",
+  "summary": "Tool-using Agent BenchmarkのToolを実行可能な契約として監査すると、4 Benchmarkで7件のTool欠陥と1件の評価器問題が確認された。AgentDojoでは少なくとも5つのToolが公称Interfaceと異なる挙動を示した。Benchmarkは実際の状態変化ではなくToolの報告で採点するため、Toolの不具合がScoreに混入し、Certification gapが生じる。",
+  "proposed_category": "F",
+  "problem_type": [
+    "benchmark-tool-contract-divergence"
+  ],
+  "discovered_at": "2026-10-05",
+  "detected_by": "discovery-scout:primary-software-engineering-research",
+  "evidence": [
+    {
+      "kind": "paper",
+      "reference": "https://arxiv.org/abs/2609.37315",
+      "observed_at": "2026-09-29",
+      "summary": "4 Benchmarkで7 Tool欠陥と1 evaluator issueを確認した。AgentDojoの5つ以上のToolが公称Interfaceと乖離していた。34 mutating toolを検査し、静的解析は確認済み17箇所中14を検出した。注入欠陥では33件中29件が見逃された(clauseはあるがprobeが露出させない)。"
+    }
+  ],
+  "source_refs": [
+    {
+      "source_id": "primary-software-engineering-research",
+      "url": "https://arxiv.org/abs/2609.37315"
+    }
+  ],
+  "affected_scope": {
+    "description": "Tool-using Agent Benchmark(AgentDojo等)、それに基づくModel・Agentの能力・安全性比較"
+  },
+  "confidence": "medium",
+  "material_change": true,
+  "status": "accepted",
+  "notes": "隣接するのはP-20260831-0F6DC4B3(解決不能TaskとScorer不透明性)、F15、F16、F19。違いは、環境Tool自体の契約違反と、報告ベースの採点。Updateとして統合する判断もあり得る。",
+  "target_problem_id": null
+}

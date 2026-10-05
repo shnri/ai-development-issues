@@ -1,0 +1,81 @@
+{"contract":"specialist-handoff-v1","worker_id":"research-01","status":"complete","role":"researcher","problem_ids":["I16"],"work_item_id":null,
+"facts":[
+"CSA research note (2026-09-22): Heapjack (Codex Desktop, shared V8 heap -> validation token read -> unsandboxed command exec even in read-only mode) fixed in Desktop build 26.818.21641; Overpatch (Codex CLI, apply_patch + symlink widening workspace-write to full filesystem write / persistence) fixed in CLI 0.149.0. No CVE; OpenAI gave only an informal spokesperson confirmation ('we addressed both issues in August').",
+"CSA defender recommendations: 'Confirm that all Codex Desktop installations are running build 26.818.21641 or later and that all Codex CLI installations are running version 0.149.0 or later; treat any earlier version as vulnerable'; 'Run coding agents that process untrusted repository content inside an additional layer of host-level isolation, such as a disposable virtual machine or container with no access to production credentials'; audit for unexpected open/launchd activity; check .zshrc/.bashrc for appended commands; flag patches that reference paths outside the project, including symlinks and /tmp.",
+"Codex rust-v0.149.0 release notes list security-relevant changes without advisory wording: #39614 'Prevent apply_patch from widening write permissions', #39205 'Reject symbolic links in memory workspaces', #39653 'Enforce filesystem permissions when loading AGENTS.md', #39623 'Prevent protected-path rename bypasses in macOS Seatbelt', #39659 'Harden unsandboxed patch filesystem access', #39083 'Harden Windows sandbox provisioning against reparse points', and Linux sandbox capability drop / Bubblewrap IPC isolation. WebFetch reported the release date as 'August 20, 2024'; the item record has observed_at 2026-08-20 and the CSA note says August 2026, so 2024 is taken as a parsing error.",
+"Claude Code official managed-settings docs (code.claude.com/docs/en/managed-settings): requiredMinimumVersion 'blocks an outdated binary from starting and doesn't end a session that's already running'; it applies at the next session start; 'requiredMinimumVersion and requiredMaximumVersion fail open by design: an invalid value is dropped rather than enforced'.",
+"Codex managed requirements.toml (cloud-managed, MDM, or /etc/codex/requirements.toml) can lock allowed_sandbox_modes and approval policies. A third-party guide (codex.danielvaughan.com, 2026-07-16) says it does not enforce a minimum CLI version itself, and recommends a version-floor check in CI or the launcher. Not confirmed against official OpenAI docs.",
+"Existing RMD-I16-001 (official, last_verified 2026-08-15) already covers version tracking, advisory monitoring, a CVE version floor, and devcontainer isolation, but its monitoring trigger is advisory/CVE-based.",
+"Related remedy RMD-SYMLINKTOCTOU-001 (official, 2026-09-28) already lists Codex CLI 0.151.0 for symlink-class fixes and OS-layer denyRead/denyWrite as a second layer; it overlaps with the Overpatch class."
+],
+"inferences":[
+"The remedy mechanism (pin and update versions, monitor the vendor, add isolation layers) is unchanged. The new aspect is that advisory/CVE-only monitoring misses silent fixes. RMD-I16-001 therefore needs an update, not a new remedy ID.",
+"Without a CVE, users cannot map exposure to a version. The practical answer is to watch release notes and changelogs as security sources, and to raise the minimum version whenever an unlabeled sandbox or permission hardening fix appears.",
+"The sandbox should be recorded as one layer, not the boundary: a disposable VM or container with no production credentials is the independent second layer CSA recommends.",
+"RMD-I07-001 (Skill/Plugin/MCP audit) and RMD-I10-001 (CI workflow hardening plus agent version pin) stay valid as adjacent remedies and do not need updates for this change."
+],
+"evidence":[],"files_written":[],
+"checks_run":[
+"Read research-01-items.json (I16 record, revision 9) and RMD-I16-001/I07-001/I10-001; scanned RMD-SYMLINKTOCTOU-001, RMD-SANDBOXEGRESS-001, RMD-AGENTCFGPIN-001, RMD-TRUSTVERIFY-001 summaries",
+"WebFetch: CSA Codex sandbox-escape note; GitHub openai/codex rust-v0.149.0 release; code.claude.com settings and managed-settings (grep for requiredMinimumVersion); learn.chatgpt.com/docs/security.md (no relevant content)",
+"WebSearch x4: Codex security policy/requirements; Claude Code minimumVersion/defense in depth; Codex requirements.toml minimum version (x2)"
+],
+"risks":[
+"Codex version-floor enforcement rests on a third-party guide, not confirmed in official OpenAI docs; mark the Codex half as guidance-derived.",
+"Claude Code requiredMinimumVersion fails open on invalid values and does not stop sessions already running.",
+"Release-note monitoring depends on wording heuristics; silent fixes with no security wording can still be missed.",
+"The WebFetch date for rust-v0.149.0 ('August 20, 2024') conflicts with the item record (2026-08-20); confirm before relying on that date."
+],
+"recommended_action":"catalog-update","next_gate":"controller",
+"records":[{"problem_id":"I16","outcome":"remedy-found","remedy_ids":["RMD-I16-001","RMD-I07-001","RMD-I10-001"],"evidence":[
+{"kind":"field-report","reference":"https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-codex-sandbox-escapes-20260922-csa/","observed_at":"2026-09-22","summary":"Heapjack (Desktop 26.818.21641) / Overpatch (CLI 0.149.0) fixed without CVE; recommends treating earlier versions as vulnerable plus host-level VM/container isolation without production credentials."},
+{"kind":"changelog","reference":"https://github.com/openai/codex/releases/tag/rust-v0.149.0","observed_at":"2026-08-20","summary":"#39614 apply_patch write-permission widening fix and other sandbox hardening, with no advisory wording."},
+{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/managed-settings","observed_at":"2026-10-05","summary":"requiredMinimumVersion blocks outdated binaries at next session start; fails open on invalid values; does not end running sessions."}
+]}],
+"remedy_drafts":[{
+"schema_version":"1.0",
+"id":"RMD-I16-001",
+"problem_ids":["I16","I07"],
+"summary":"Agent本体（Desktop app含む）・IDE拡張・sandbox runtime・Skillの版を追跡し、security advisoryに加えてvendorのrelease note/changelogも監視対象にして修正版へ速やかに更新する。CVE/advisoryなしで修正されるsandbox脱出（2026-08 Codex Heapjack/Overpatch）があるため、changelogにsandbox・permission・symlink・apply_patch等のhardening記述が出た版を『それ未満は脆弱』とみなす下限に引き上げる。下限はClaude Codeでは managed settings の requiredMinimumVersion で強制する（次回起動から有効、無効値はfail open、実行中sessionは止めない）。Codexは requirements.toml で版下限を強制できないとの第三者報告があるため、launcher/CI/MDMで版checkを行う（Codex CLI 0.149.0以上・Desktop 26.818.21641以上）。既知CVE（CVE-2025-59536 8.7、CVE-2026-21852、Read /proc問題→2.1.128）も下限に固定する。sandboxは一層とみなし、untrusted repositoryを扱うAgentはproduction credentialを持たない使い捨てVM/devcontainerで二重に隔離する",
+"remedy_type":"dependency",
+"maturity":"official",
+"status":"active",
+"evidence":[
+{"kind":"field-report","reference":"https://labs.cloudsecurityalliance.org/research/csa-research-note-skill-md-agent-context-poisoning-20260506/","observed_at":"2026-05-06","summary":"CVE-2025-59536（Claude Code project fileでpre-auth command exec、CVSS 8.7）、CVE-2026-21852（設定fileでAPI key流出）、Unicode Tag injectionは2026-02-10までに修正","quality":"medium"},
+{"kind":"postmortem","reference":"https://www.microsoft.com/en-us/security/blog/2026/06/05/securing-ci-cd-in-agentic-world-claude-code-github-action-case/","observed_at":"2026-06-05","summary":"Read tool /proc/self/environ露出、2.1.128で修正（2026-05-05）","quality":"high"},
+{"kind":"paper","reference":"https://arxiv.org/abs/2607.05743","observed_at":"2026-07-07","summary":"39論文のSoK: 4件のpatched CVEがproduction agent harnessに直接影響、TOCTOU/MCP脅威、denylistの現実的回避への再評価が未解決","quality":"medium"},
+{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/security","observed_at":"2026-08-15","summary":"HackerOne報告経路、devcontainer推奨、WebDAV警告、VS Code security","quality":"high"},
+{"kind":"field-report","reference":"consumer-record:techlog:docs/architecture.md","observed_at":"2026-08-11","summary":"TechLogはClaude Code native installer + SkillSpector 2.8.2をpin","quality":"medium"},
+{"kind":"existing-skill","reference":"consumer:techlog:vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance","observed_at":"2026-08-15","summary":"watch-official-guidance (consumer-local, reputation unknown): read vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance/SKILL.md: scripts/watch.mjs conditionally fetches registered official sources, hashes sections, stores content-addressed snapshots, and emits observations that are then classified into a ledger — the advisory-monitoring half of this remedy, provided Claude Code and Codex security/release pages are registered as sources.","quality":"low"},
+{"kind":"changelog","reference":"https://github.com/openai/codex/releases/tag/rust-v0.149.0","observed_at":"2026-08-20","summary":"Codex CLI 0.149.0: #39614 'Prevent apply_patch from widening write permissions'、#39205 memory workspaceのsymlink拒否、#39653 AGENTS.md読込時のfilesystem permission強制、#39623 macOS Seatbelt protected-path rename bypass防止など。advisory文言なし＝changelog監視でしか検知できない","quality":"high"},
+{"kind":"field-report","reference":"https://labs.cloudsecurityalliance.org/research/csa-research-note-openai-codex-sandbox-escapes-20260922-csa/","observed_at":"2026-09-22","summary":"Heapjack（Desktop V8 heapからvalidation token取得→read-onlyでも無承認で非sandbox実行、Desktop 26.818.21641で修正）、Overpatch（apply_patch+symlinkでworkspace-writeを全filesystem書込へ拡大、CLI 0.149.0で修正）。CVE/advisoryなし、OpenAIは口頭確認のみ。推奨: それ未満の版を脆弱とみなす、production credentialなしの使い捨てVM/containerで追加隔離、shell起動file改変・想定外open/launchd活動の監査","quality":"medium"},
+{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/managed-settings","observed_at":"2026-10-05","summary":"requiredMinimumVersionは古いbinaryの起動を阻止（次回session開始から有効、実行中sessionは終了させない）。requiredMinimumVersion/requiredMaximumVersionは無効値を捨てるfail-open設計","quality":"high"},
+{"kind":"field-report","reference":"https://codex.danielvaughan.com/2026/07/16/codex-cli-version-as-security-boundary-fleet-governance-backslash-12-fixes-version-floor-mdm-requirements-toml/","observed_at":"2026-07-16","summary":"第三者解説: Codexのrequirements.tomlはCLI最小版を直接強制しない（起動済みbinaryが読むため）。CI/launcherで版下限checkを推奨。公式docでは未確認","quality":"low"}
+],
+"applicability":{
+"applies_when":["Claude Code/Codex（CLI・Desktop）/IDE拡張/sandbox-runtimeを常用","untrusted repositoryや外部contentをAgentに処理させる"],
+"not_applicable_when":[],
+"controllable_layer":"process",
+"surfaces":["Claude Code","Codex","generic"],
+"model_conditions":"model-agnostic"
+},
+"expected_effect":{
+"primary":"既知脆弱性（advisoryなしのsilent fixを含む）の露出期間短縮と、sandbox脱出時の被害局所化",
+"metrics":["修正版までの更新遅延日数","advisory監視の有無","release note/changelog監視の有無","強制下限版の設定有無（requiredMinimumVersion/CI版check）","untrusted repo処理時のVM/container隔離率"],
+"confidence":"high"
+},
+"risks":["自動更新は動作変化を伴う（挙動regression）","denylist型防御の回避（SoK指摘）","changelog記述が曖昧なsilent fixは監視でも見落とす","requiredMinimumVersionは無効値でfail openし、実行中sessionは止めない","Codexは版下限をnativeに強制できない（第三者報告）"],
+"implementation_owner":"platform",
+"fix_effort":1,
+"reversible":true,
+"cost":"版確認と更新、changelog監視source登録、下限版設定",
+"verdict":"known-applicable",
+"secondary_layers":["setting","harness"],
+"known_failure_modes":["固定版のまま長期放置","'sandboxがあるから'と更新を怠る","CVE/advisory feedのみ監視しsilent fixを見逃す","下限版をcheckせず古いDesktop/CLIが残存"],
+"last_verified_at":"2026-10-05",
+"revalidate_when":["新CVE/advisory","Claude Code/Codex major更新","changelogにsandbox/permission/symlink/apply_patch hardening記述","第三者によるadvisoryなしsandbox脱出の開示","Codexが公式に版下限強制機能を提供"],
+"created_at":"2026-08-15",
+"researched_by":"ai-development-improvement research 2026-08-15 (category I); updated MNT-20261005T191457Z research-01 2026-10-05",
+"provenance":{"origin":"techlog 0.1.0 research run 2026-08-15","merged_into_authority_at":"2026-08-15T10:33:31Z"},
+"existing_asset":{"kind":"installed-skill","asset_id":"watch-official-guidance","source":"consumer:techlog","path":"vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance","availability":"consumer-local","matched_on":["recurring deterministic observation of authoritative provider sources","detect and classify revisions that can change a security or operational decision","cover deprecations, limits, and lifecycle notices","keep a provenance-preserving ledger of what changed and when"],"confirmed_by":"read vendor/shared-agent-plugins/plugins/official-guidance-operations/skills/watch-official-guidance/SKILL.md: scripts/watch.mjs conditionally fetches registered official sources, hashes sections, stores content-addressed snapshots, and emits observations that are then classified into a ledger — the advisory-monitoring half of this remedy, provided Claude Code and Codex security/release pages are registered as sources.","reputation":{"verdict":"unknown","evidence":["org-private shared plugin (shnri/shared-agent-plugins)"],"checked_at":"2026-08-15"},"reader_facing":false,"verified_at":"2026-08-15","verified_by":"existing-skill research 2026-08-15 (ai-development-improvement 0.7.1 lookup + reputation pass, Opus workers)","alternates":[{"kind":"shared-plugin","asset_id":"watch-official-guidance","availability":"org-private","why_not_primary":"Same Skill in the shared checkout (plugins/official-guidance-operations/skills/watch-official-guidance); TechLog consumes it through the submodule, so the installed copy is the one in use.","reputation":{"verdict":"unknown","evidence":["org-private shared plugin (shnri/shared-agent-plugins)"],"checked_at":"2026-08-15"},"reader_facing":false},{"kind":"public-skill","asset_id":"cve-tracking-system","availability":"public","public_url":"https://github.com/dengineproblem/agents-monorepo","why_not_primary":"Generic CVE triage and patch-management expertise (NVD/MITRE, CVSS scoring) with no notion of tracking agent, IDE-extension, sandbox-runtime, or Skill versions; 4-star repo and partly Russian-language content.","reader_facing":false}]}
+}]}

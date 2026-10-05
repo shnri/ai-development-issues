@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "id": "RMD-AGENTSMDLOAD-001",
+  "problem_ids": ["P-20261005-206E5CAC"],
+  "summary": "AGENTS.md を共通指示とする repository では、Claude Code の既定 (claude-md-or-agents-md: CLAUDE.md / CLAUDE.local.md が作業 directory か祖先にあると AGENTS.md を読まない排他 fallback) に依存しない: (1) 最も堅牢なのは CLAUDE.md に @AGENTS.md import を置く方法 (v2.1.277 未満・agents-md plugin 無効・upgrade 直後初回 session など AGENTS.md を直接読めない session でも効き、二重読込は起きない)。(2) あるいは pluginConfigs.\"agents-md@builtin\".options.instructionFiles を \"claude-md-and-agents-md\" に設定する — project / local settings では無視されるため ~/.claude/settings.json か managed settings に置く。(3) Bedrock / telemetry 無効環境は v2.1.281 以上へ更新する (それ未満は CLAUDE.md のみ)。(4) /init 実行後・CLAUDE.local.md 追加後は session 冒頭の 'AGENTS.md loaded' 行や /memory で読込 file を確認する。",
+  "remedy_type": "setting",
+  "maturity": "official",
+  "status": "active",
+  "evidence": [
+    {"kind": "official-guidance", "reference": "https://code.claude.com/docs/en/memory", "observed_at": "2026-10-05", "summary": "既定 claude-md-or-agents-md では 'Claude reads AGENTS.md only when you have no CLAUDE.md in your working directory or above it'、CLAUDE.local.md も count する。値: claude-md-or-agents-md (既定) / claude-md-and-agents-md / claude-md / managed-only。設定は pluginConfigs.\"agents-md@builtin\".options.instructionFiles、'Claude Code ignores it in project and local settings files'。AGENTS.md 直読は v2.1.277+、v2.1.281 未満では Bedrock・telemetry 無効 session が CLAUDE.md のみ。'@AGENTS.md' import は二重読込なしで全 session に有効。読込時に 'no CLAUDE.md found; AGENTS.md loaded: …' を表示。/doctor の prompt audit は AGENTS.md も対象と記載 (#97261 の指摘は docs 上は解消済みに見えるが実装未検証)。"}
+  ],
+  "applicability": {
+    "conditions": ["AGENTS.md で複数 agent 製品向け指示を共通化している", "Claude Code v2.1.277 以上、または Bedrock / Vertex / offline 等で feature flag を取得できない session がある", "/init や CLAUDE.local.md を使う開発者がいる"],
+    "not_applicable_when": ["CLAUDE.md のみで指示を管理し AGENTS.md を使わない", "既に CLAUDE.md が @AGENTS.md を import している (本 remedy 適用済み)"]
+  },
+  "expected_effect": {
+    "primary": "共有 AGENTS.md 指示の無言脱落を、import か明示設定で決定的に防ぐ。指標: AGENTS.md を持つ repo のうち CLAUDE.md import または instructionFiles 設定済みの比率、session 冒頭で AGENTS.md 読込を確認できた比率。",
+    "confidence": "official"
+  },
+  "risks": ["instructionFiles は user / managed にしか置けず、repo 単位で強制できない (repo 単位の強制は @AGENTS.md import のみ)", "claude-md-and-agents-md では CLAUDE.md と AGENTS.md が矛盾した場合の解釈が model 依存", "AGENTS.md 経由で読んだ場合 InstructionsLoaded hook が発火しない・--add-dir 先の AGENTS.md は読まれない差異がある"],
+  "implementation_owner": "consumer-project",
+  "fix_effort": 1,
+  "reversible": true,
+  "verdict": "known-applicable",
+  "secondary_layers": ["process"],
+  "known_failure_modes": ["instructionFiles を project settings に書き無効のまま運用する", "/init 後に AGENTS.md が読まれなくなったことに気づかない", "upgrade 直後の初回 session で AGENTS.md 未読のまま作業する"],
+  "last_verified_at": "2026-10-05",
+  "revalidate_when": ["Claude Code の instructionFiles 既定値の変更 (#96466 等の要望反映)", "/init が AGENTS.md project で CLAUDE.md を作る挙動の修正 (#97004)", "agents-md built-in plugin の仕様変更"],
+  "created_at": "2026-10-05",
+  "researched_by": "maintenance run MNT-20261005T191457Z research-02"
+}

@@ -1,0 +1,53 @@
+{
+  "contract": "specialist-handoff-v1",
+  "worker_id": "research-02",
+  "role": "researcher",
+  "status": "complete",
+  "recommended_action": "catalog-update",
+  "next_gate": "controller",
+  "problem_ids": ["P-20260831-60EFB5BF","P-20260907-D8E5A2E2","P-20261005-7A049A83","P-20261005-A8614F41","P-20261005-A25FC732","P-20261005-23882916","P-20261005-072994C2","P-20261005-CA32BAEC","P-20261005-5F91A74E","P-20261005-206E5CAC"],
+  "work_item_id": null,
+  "files_written": [],
+  "evidence": [],
+  "facts": [
+    "The latest Claude Code changelog version is 2.1.289 (2026-10-03). Versions 2.1.285-2.1.289 keep fixing individual Bash deny/ask parse gaps: env-var prefix and bare assignment under sandbox auto-allow, nested compound commands, BASHPID arithmetic, rm with a ~ or wildcard redirect, rm inside bash -c, and writes through repo-committed symlinks.",
+    "Sonnet 5.5 migration guide: tool_choice any/tool returns 400, including on the token counting endpoint. thinking disabled returns 400; the replacement is between_tools, which itself returns 400 at xhigh/max, with extra fields, or with a mid-conversation effort change. On Bedrock, strict tool use and structured outputs are not available for Sonnet 5.5.",
+    "Sonnet 5.5 server-side fallback (fallbacks:'default', beta header server-side-fallback-2026-07-01, Claude API only) retries only cyber and frontier_llm refusals on Sonnet 5. bio, reasoning_extraction and general_harms are not retried. The official route for legitimate security work is the Cyber Verification Program; SDK BetaRefusalFallbackMiddleware does client-side retry on Bedrock/Google Cloud/Foundry.",
+    "Mods admin doc: sec-default@builtin guard loads only with managed settings or Team/Enterprise sign-in. Controls: allowManagedModsOnly (managed settings only), disableSideloadFlags, allowManagedHooksOnly, disableAllHooks, policy mod in prependPlugins. A policy mod's plugin.register check fails open without a .catch handler. CLAUDE_CODE_ENABLE_FUNCTION_HOOKS is ignored from v2.1.287.",
+    "Permission-modes doc: from v2.1.283, auto is the built-in starting mode for interactive terminal and VS Code sessions on every plan and provider; permissions.defaultMode in managed settings overrides; permissions.disableAutoMode:'disable' removes auto entirely. VS Code extension does not read project settings for the starting mode.",
+    "Memory doc: under claude-md-or-agents-md (default), AGENTS.md is read only when no CLAUDE.md/.claude/CLAUDE.md/CLAUDE.local.md exists in the working directory or above. instructionFiles under pluginConfigs.agents-md@builtin is ignored in project/local settings. @AGENTS.md import inside CLAUDE.md works in every session. Before 2.1.281, Bedrock and telemetry-off sessions read CLAUDE.md only.",
+    "Issues #98376, #95833, #99259 and #98416 were open with no maintainer response or workaround when fetched on 2026-10-05.",
+    "arXiv 2609.37315 releases code/contracts/data at github.com/rohithreddybc/tool-contract-conformance. arXiv 2610.03237 (decision pins) does not say whether code is released."
+  ],
+  "inferences": [
+    "RMD-ALLOWLISTPARSE-001 still covers P-20260831-60EFB5BF; the 2.1.289 fixes under sandbox auto-allow strengthen treating the OS sandbox as the boundary; minimum version moves to 2.1.289.",
+    "RMD-MODELSCOPEDAPI-001 still covers P-20260907-D8E5A2E2; the update adds the Bedrock caveat and the disabled->between_tools mapping.",
+    "P-20261005-5F91A74E has no provider fix and no documented workaround; artifact-based handoff (RMD-H03-001) and parent-side output checking are only generic mitigations, so no new draft.",
+    "RMD-HOOKENFORCE-001 is a candidate stopgap built from official features plus issue evidence, not a provider fix.",
+    "Copilot assisted approvals controls (default state, disable, enterprise policy) are not documented in the cited changelog; the A8614F41 remedy is official for Claude Code only."
+  ],
+  "risks": [
+    "The changelog was read through a summarizing fetch that attributed some changes to several versions at once; check individual fix version numbers against the raw CHANGELOG.md before publishing.",
+    "GitHub issue states come from WebFetch page summaries (API 403, repository not attached to the worker session).",
+    "RMD-DECISIONPIN-001 and RMD-TOOLCONTRACTAUDIT-001 each rest on a single paper published within the last week; maturity stays candidate.",
+    "The memory doc says the /doctor audit covers AGENTS.md, which may contradict #97261; not tested in a running client."
+  ],
+  "checks_run": [
+    "Read research-02-items.json (10 records) and RMD-ALLOWLISTPARSE-001, RMD-MODELSCOPEDAPI-001, RMD-SURFACEPARITY-001; scanned RMD-H03-001, RMD-SUBAGENTPAYLOAD-001, RMD-EVALSOLV-001, RMD-A01-*, RMD-INSTRSIZE-001",
+    "WebFetch code.claude.com mods/admin, permission-modes, memory, managed-settings, changelog; platform.claude.com refusals-and-fallback, sonnet-5-5 migration-guide; github.blog Copilot changelog; arxiv 2609.37315, 2610.03237; GitHub issues #98376 #95833 #99259 #98416",
+    "gh api calls for issue states failed with 403 (repository not enabled for that worker session)"
+  ],
+  "records": [
+    {"problem_id":"P-20260831-60EFB5BF","outcome":"remedy-found","remedy_ids":["RMD-ALLOWLISTPARSE-001"],"evidence":[{"kind":"changelog","reference":"https://code.claude.com/docs/en/changelog","observed_at":"2026-10-05","summary":"2.1.285-2.1.289 instance fixes; latest 2.1.289 (2026-10-03)"},{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/sandboxing","observed_at":"2026-10-05","summary":"OS sandbox as enforced boundary (existing remedy basis)"}]},
+    {"problem_id":"P-20260907-D8E5A2E2","outcome":"remedy-found","remedy_ids":["RMD-MODELSCOPEDAPI-001"],"evidence":[{"kind":"official-guidance","reference":"https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide","observed_at":"2026-10-05","summary":"Sonnet 5.5 contract changes; Bedrock caveat; /claude-api migrate skill"}]},
+    {"problem_id":"P-20261005-7A049A83","outcome":"remedy-found","remedy_ids":["RMD-MODSELFAPPROVE-001"],"evidence":[{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/plugins/mods/admin","observed_at":"2026-10-05","summary":"allowManagedModsOnly, disableSideloadFlags, policy mod fail-closed guidance"},{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/permission-modes","observed_at":"2026-10-05","summary":"mod-approved calls skip the auto-mode classifier"}]},
+    {"problem_id":"P-20261005-A8614F41","outcome":"remedy-found","remedy_ids":["RMD-AUTOMODEDEFAULT-001"],"evidence":[{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/permission-modes","observed_at":"2026-10-05","summary":"defaultMode / disableAutoMode managed settings"},{"kind":"changelog","reference":"https://github.blog/changelog/2026-09-25-github-copilot-weekly-releases-september-21/","observed_at":"2026-10-05","summary":"Copilot assisted approvals controls not documented"}]},
+    {"problem_id":"P-20261005-A25FC732","outcome":"remedy-found","remedy_ids":["RMD-REFUSALFALLBACK-001"],"evidence":[{"kind":"official-guidance","reference":"https://platform.claude.com/docs/en/models/sonnet-5-5/migration-guide","observed_at":"2026-10-05","summary":"refusal categories, fallback scope, Cyber Verification Program"},{"kind":"official-guidance","reference":"https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback","observed_at":"2026-10-05","summary":"stop_reason refusal handling, fallbacks list, SDK middleware"}]},
+    {"problem_id":"P-20261005-23882916","outcome":"remedy-found","remedy_ids":["RMD-DECISIONPIN-001"],"evidence":[{"kind":"paper","reference":"https://arxiv.org/abs/2610.03237","observed_at":"2026-10-05","summary":"decision-pin method and measurements"}]},
+    {"problem_id":"P-20261005-072994C2","outcome":"remedy-found","remedy_ids":["RMD-TOOLCONTRACTAUDIT-001"],"evidence":[{"kind":"paper","reference":"https://arxiv.org/abs/2609.37315","observed_at":"2026-10-05","summary":"executable-contract audit method"},{"kind":"repository","reference":"https://github.com/rohithreddybc/tool-contract-conformance","observed_at":"2026-10-05","summary":"released code, contracts and data"}]},
+    {"problem_id":"P-20261005-CA32BAEC","outcome":"remedy-found","remedy_ids":["RMD-HOOKENFORCE-001"],"evidence":[{"kind":"issue","reference":"https://github.com/anthropics/claude-code/issues/98376","observed_at":"2026-10-05","summary":"managed hooks not loaded; open, no maintainer response"},{"kind":"issue","reference":"https://github.com/anthropics/claude-code/issues/95833","observed_at":"2026-10-05","summary":"Desktop Code tab PreToolUse never fires; open"},{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/managed-settings","observed_at":"2026-10-05","summary":"/status Setting sources, claude doctor"},{"kind":"changelog","reference":"https://code.claude.com/docs/en/changelog","observed_at":"2026-10-05","summary":"2.1.288 hook-skip fail-closed fix"}]},
+    {"problem_id":"P-20261005-5F91A74E","outcome":"no-established-remedy","remedy_ids":[],"evidence":[{"kind":"issue","reference":"https://github.com/anthropics/claude-code/issues/99259","observed_at":"2026-10-05","summary":"open, 2.1.287/288, no maintainer workaround"},{"kind":"issue","reference":"https://github.com/anthropics/claude-code/issues/98416","observed_at":"2026-10-05","summary":"open, 2.1.282-2.1.285, no workaround"},{"kind":"changelog","reference":"https://code.claude.com/docs/en/changelog","observed_at":"2026-10-05","summary":"2.1.285-2.1.288 adjacent subagent/background fixes; none addresses false completion or handback-to-teammate; partial generic mitigation via existing RMD-H03-001"}]},
+    {"problem_id":"P-20261005-206E5CAC","outcome":"remedy-found","remedy_ids":["RMD-AGENTSMDLOAD-001"],"evidence":[{"kind":"official-guidance","reference":"https://code.claude.com/docs/en/memory","observed_at":"2026-10-05","summary":"@AGENTS.md import; instructionFiles claude-md-and-agents-md (user/managed settings only); v2.1.281 Bedrock fix"}]}
+  ],
+  "remedy_drafts_note": "7 new remedies (RMD-MODSELFAPPROVE-001, RMD-AUTOMODEDEFAULT-001, RMD-REFUSALFALLBACK-001, RMD-DECISIONPIN-001, RMD-TOOLCONTRACTAUDIT-001, RMD-HOOKENFORCE-001, RMD-AGENTSMDLOAD-001) and full updates to RMD-ALLOWLISTPARSE-001 / RMD-MODELSCOPEDAPI-001 were delivered in the hand-back and applied by the controller to remedies/ (updates merged preserving current-only fields); see this run's commit diff for exact content."
+}

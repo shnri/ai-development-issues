@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "id": "REV-20261005-P-20260928-605E99D3",
+  "problem_id": "P-20260928-605E99D3",
+  "reviewed_at": "2026-10-05T19:30:00Z",
+  "previous_status": "provisional",
+  "proposed_status": "unverified",
+  "reason": "The only support is a single first-hand account in claude-code issue #96463, which is open, has no vendor response, and was co-authored with Claude Code. In that account, the AI's fix made a previously unreachable fallback reachable, and the resulting regression was labelled 'pre-existing'. The related issues #96416, #96423 and #96427 were not independently examined here. The mechanism is plausible, but the evidence cannot yet show it is a recurring pattern rather than one incident. Unverified is preferred over a confident active.",
+  "evidence": [
+    {
+      "kind": "maintainer-report",
+      "reference": "https://github.com/anthropics/claude-code/issues/96463",
+      "observed_at": "2026-09-28",
+      "summary": "Fix turned a 'no such version' error into wrong bytes with a valid checksum; test covered only the list and delete marker; regression attributed as pre-existing. Open, single account."
+    },
+    {
+      "kind": "remedy-research",
+      "reference": "RMD-REACHDELTA-001",
+      "observed_at": "2026-09-28",
+      "summary": "candidate; enumerate newly reachable paths from real handler entry points before claiming 'done' or 'pre-existing'."
+    }
+  ],
+  "model_assessment": {
+    "model_improvement_expectation": "不明",
+    "assessed_models": null,
+    "assessment": "Change-impact analysis and self-attribution errors. The single report gives no model-version comparison."
+  },
+  "remedy_assessment": {
+    "remedy_ids": [
+      "RMD-REACHDELTA-001"
+    ],
+    "assessment": "Candidate process remedy. Low risk, overlaps general change-impact review. Keep it pending corroboration."
+  },
+  "research_required": false,
+  "merge_target": null,
+  "reopen_triggers": [
+    "official response or fix on #96463 or related issues",
+    "additional independent reports of self-introduced regressions labelled pre-existing",
+    "official change-impact analysis tooling"
+  ],
+  "next_review_days": 14,
+  "reviewer": "maintain-run-MNT-20261005T191457Z/inventory-01"
+}
